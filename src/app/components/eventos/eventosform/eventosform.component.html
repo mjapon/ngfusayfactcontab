@@ -1,0 +1,127 @@
+<br>
+<div class="row">
+  <div class="col">
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+      <div class="card">
+        <div class="card-header">
+          <h5>Editar/Registrar Evento </h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-2">
+              <label> <span class="required">*</span> Día: </label>
+            </div>
+            <div class="col-md-6">
+              <p-calendar formControlName="ev_fecha" [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+            </div>
+            <div class="col-md-3">
+              <p-message severity="warn" text="La fecha del evento es requerido"
+                         *ngIf="submited&&!f.ev_fecha.valid"></p-message>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <label> <span class="required">*</span> Tipo: </label>
+            </div>
+            <div class="col-md-6">
+              <p-dropdown [options]="tiposserv" formControlName="ev_tipo" placeholder="Seleccione el tipo"
+                          optionLabel="tiev_nombre" [showClear]="true"></p-dropdown>
+            </div>
+            <div class="col-md-3">
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <label> <span class="required">*</span> Hora Inicio: </label>
+            </div>
+            <div class="col-md-6">
+              <p-calendar formControlName="ev_horainicio" [timeOnly]="true"></p-calendar>
+            </div>
+            <div class="col-md-3">
+              <p-message severity="warn" text="La hora de inicio del evento es requerido"
+                         *ngIf="submited&&!f.ev_horainicio.valid"></p-message>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <label> Hora Fin: </label>
+            </div>
+            <div class="col-md-6">
+              <p-calendar formControlName="ev_horafin" [timeOnly]="true"></p-calendar>
+            </div>
+            <div class="col-md-3">
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <label> <span class="required">*</span> Lugar: </label>
+            </div>
+            <div class="col-md-6">
+              <p-dropdown [options]="lugares" formControlName="ev_lugar" placeholder="Seleccione el lugar"
+                          optionLabel="lugc_nombre" [showClear]="true"></p-dropdown>
+            </div>
+            <div class="col-md-3">
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <label> <span class="required">*</span> Precio Normal: </label>
+            </div>
+            <div class="col-md-6">
+              <input type="number" class="form form-control" formControlName="ev_precionormal">
+            </div>
+            <div class="col-md-3">
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <label> <span class="required">*</span> Precio Especial: </label>
+            </div>
+            <div class="col-md-6">
+              <input type="number" class="form form-control" formControlName="ev_precioespecial">
+            </div>
+            <div class="col-md-3">
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <label> <span class="required">*</span> Detalle: </label>
+            </div>
+            <div class="col-md-6">
+              <textarea pInputTextarea autocomplete="off" formControlName="ev_nota" rows="5" cols="60" autoResize="autoResize"></textarea>
+            </div>
+            <div class="col-md-3">
+
+            </div>
+          </div>
+
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col">
+              <!--<input type="submit" class="btn btn-outline-primary" value="Guardar"/>-->
+              <button type="submit" class="btn btn-outline-primary">
+                <i class="fa fa-save"></i>
+                Guardar
+              </button>
+              <span class="espacio"></span>
+              <button class="btn btn-outline-secondary" (click)="cancelar()">
+                <i class="fa fa-times"></i>
+                Cancelar</button>
+            </div>
+            <div class="col"></div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+

@@ -1,0 +1,19 @@
+<app-fusaynavbar *ngIf="!isLogged"></app-fusaynavbar>
+<app-loggednavbar *ngIf="isLogged"></app-loggednavbar>
+
+<!--<div class="wrapper">-->
+<div class="{{isLogged?'container-fluid':'container'}}" style="display: flex; flex-wrap: nowrap;">
+  <nav id="sidebar" *ngIf="isLogged">
+    <p-panelMenu [model]="menuApp" *ngIf="isLogged" [style]="{'width':'245px'}"></p-panelMenu>
+  </nav>
+  <!-- Page Content  -->
+  <div style="width: 100%; padding-left: 10px">
+      <p-toast position="top-right"></p-toast>
+      <p-breadcrumb [model]="migasApp" *ngIf="isLogged"></p-breadcrumb>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+<!--</div>-->
+
+<app-fusayfooter></app-fusayfooter>
+

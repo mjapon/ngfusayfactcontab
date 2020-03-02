@@ -1,0 +1,25 @@
+.centrado{
+  text-align: center;
+}
+
+.fuente{
+  font-size: 18px;
+}
+
+
+.mj> ul {
+  list-style: none;
+  padding: 0;
+}
+.mj>ul> li {
+  padding-left: 1.3em;
+}
+.mj>ul> li:before {
+  content: "\f00c"; /* FontAwesome Unicode */
+  font-family: FontAwesome;
+  display: inline-block;
+  margin-left: -1.3em; /* same as padding-left set on li */
+  width: 1.3em; /* same as padding-left set on li */
+}
+
+

@@ -1,0 +1,22 @@
+<br>
+<div>
+  <h2 class="card-title textofusay">{{nombreMiembro}}</h2>
+  <hr>
+  <div class="row">
+    <div class="col-md-4">
+      <figure class="figure">
+        <img class="figure-img img-fluid rounded" src="assets/personas/{{fotoMiembro}}" alt="...">
+        <figcaption class="figure-caption">{{cargoMiembro}} Fundación Salud y Vida Nueva.</figcaption>
+      </figure>
+    </div>
+    <div class="col-md-8">
+      <div [innerHTML]="detalleMiembro" class="text-justify"></div>
+      <div>
+      <!--
+      <button class="btn btn-outline-primary" (click)="registrar()">Guardar</button>
+      -->
+      <button class="btn btn-outline-primary" (click)="regresar()">Regresar</button>
+      </div>
+    </div>
+  </div>
+</div>

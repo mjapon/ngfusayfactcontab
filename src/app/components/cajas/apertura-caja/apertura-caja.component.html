@@ -1,0 +1,70 @@
+<br>
+<div class="row">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h2>Apertura de caja</h2>
+      </div>
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col">
+            <span>Fecha de apertura:</span>
+          </div>
+          <div class="col">
+            <b>{{form.dia}}</b>
+          </div>
+          <div class="col">
+            <b><i>{{form.diastr}}</i></b>
+          </div>
+        </div>
+        <br>
+        <br>
+
+        <p-table [value]="detcajas">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Caja</th>
+              <th>Monto</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData>
+            <tr>
+              <td>
+                {{rowData.tipcj_nombre}}
+              </td>
+              <td pEditableColumn>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="number" [(ngModel)]="rowData.dcj_saldoini" required>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.dcj_saldoini}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <br>
+        <div class="row">
+          <div class="col">
+            <textarea class="form-control" id="validationTextarea" placeholder="Ingrese aqui la observación" maxlength="2000"
+                      [(ngModel)] = "form.cj_obsaper"
+                      required></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-primary" (click)="guardar()">Guardar </button>
+        &nbsp;&nbsp;
+        <button class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="col-md-4">
+
+  </div>
+</div>

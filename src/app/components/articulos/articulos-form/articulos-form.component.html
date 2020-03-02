@@ -1,0 +1,153 @@
+<p>
+  {{editing ? 'Editar' : 'Crear'}} artículo/servicio</p>
+<hr>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="artForm" (ngSubmit)="procesaForm()">
+
+        <div class="row">
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label>Tipo:</label>
+                  <br>
+                  <p-selectButton [options]="tiposArt" formControlName="art_tipo" [disabled]="editing"
+                                  [(ngModel)]="tipoArtSel"></p-selectButton>
+                </div>
+
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label>Graba Iva:</label>
+                  <br>
+                  <p-selectButton [options]="ivas" formControlName="art_iva" [(ngModel)]="tipoIvaSel"></p-selectButton>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="codbarraInput">Código Barra:</label>
+              <br>
+              <input type="text" class="form-control" id="codbarraInput" aria-describedby="Codigo de barra"
+                     autocomplete="off"
+                     [disableControl]="editing"
+                     placeholder="Ingrese el codigo de barra del articulo" name="art_codbar"
+                     formControlName="art_codbar" [ngClass]="{'is-invalid':submited && f.art_codbar.errors}">
+            </div>
+
+            <div class="form-group">
+              <label for="nombreInput">Nombre:</label>
+              <br>
+              <input type="text" class="form-control" id="nombreInput" aria-describedby="emailHelp"
+                     autocomplete="off"
+                     placeholder="Ingrese el nombre del articulo" name="art_nombre" formControlName="art_nombre"
+                     [ngClass]="{'is-invalid':submited && f.art_nombre.errors}">
+            </div>
+
+            <div class="form-group">
+              <label for="precioVentaInput">Precio Venta:</label>
+              <br>
+              <input type="text"
+                     autocomplete="off"
+                     class="form-control" id="precioVentaInput" aria-describedby="emailHelp"
+                     [disableControl]="editing"
+                     placeholder="Precio de venta" name="art_precio" formControlName="art_precio"
+                     [ngClass]="{'is-invalid':submited && f.art_precio.errors}">
+            </div>
+
+            <div class="form-group">
+              <label for="precioMinimoInput">Precio Mínimo:</label>
+              <br>
+              <input type="text"
+                     autocomplete="off"
+                     class="form-control" id="precioMinimoInput" aria-describedby="emailHelp"
+                     [disableControl]="editing"
+                     placeholder="Precio de venta mínimo" name="art_precio" formControlName="art_preciomin"
+                     [ngClass]="{'is-invalid':submited && f.art_preciomin.errors}">
+            </div>
+
+            <div class="form-group">
+              <label for="precioCompraInput">Precio Compra:</label>
+              <br>
+              <input type="text"
+                     autocomplete="off"
+                     class="form-control" id="precioCompraInput" aria-describedby="emailHelp"
+                     [disableControl]="editing"
+                     placeholder="Precio de compra" name="art_precio" formControlName="art_preciocompra"
+                     [ngClass]="{'is-invalid':submited && f.art_preciocompra.errors}">
+            </div>
+
+            <div class="form-group">
+              <label for="artInvInput">Inventario:</label>
+              <br>
+              <input type="text"
+                     autocomplete="off"
+                     class="form-control" id="artInvInput" aria-describedby="emailHelp"
+                     [disableControl]="editing"
+                     placeholder="Inventario del producto" name="art_inv" formControlName="art_inv"
+                     [ngClass]="{'is-invalid':submited && f.art_inv.errors}">
+            </div>
+
+
+          </div>
+          <div class="col">
+
+            <div class="form-group">
+              <label for="cat_id">Categoría:</label>
+              <br>
+              <p-dropdown [options]="categorias" formControlName="cat_id" optionLabel="cat_name"
+                          inputId="cat_id"></p-dropdown>
+            </div>
+
+            <div class="form-group">
+              <label for="prov_id">Proveedor:</label>
+              <br>
+              <p-dropdown [options]="proveedores" formControlName="prov_id" optionLabel="ref_nombres"
+                          inputId="prov_id"></p-dropdown>
+            </div>
+
+            <div class="form-group">
+              <label for="caja_id">Caja:</label>
+              <br>
+              <p-dropdown [options]="tiposcaja" formControlName="caja_id" optionLabel="tipcj_nombre"
+                          inputId="caja_id"></p-dropdown>
+            </div>
+
+            <div class="form-group" *ngIf="f.art_tipo.value==='B'">
+              <label for="art_feccadu">Fecha de caducidad:</label>
+              <br>
+              <p-calendar formControlName="art_feccadu" [showIcon]="true" [locale]="es" inputId="art_feccadu"
+                          [monthNavigator]="true" [yearNavigator]="true" [minDate]="minimumDate" yearRange="2019:2050"
+                          dateFormat="dd/mm/yy"></p-calendar>
+              <br>
+            </div>
+
+            <div class="form-group">
+              <label for="art_nota">Nota:</label>
+              <br>
+              <textarea class="form-control" formControlName="art_nota" name="art_nota" id="art_nota" rows="5"></textarea>
+              <br>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col">
+           <button type="submit" value="Guardar" class="btn btn-outline-primary">
+             <i class="pi pi-check"></i>
+             Guardar</button>
+            <span style="padding: 0px 20px"></span>
+            <button type="button" value="Cancelar" class="btn btn-outline-secondary" (click)="cancelar()">
+              <i class="pi pi-times"></i>
+              Cancelar</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+    <div class="col-sm-2"></div>
+  </div>
+</div>

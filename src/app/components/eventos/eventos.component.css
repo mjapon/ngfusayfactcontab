@@ -1,0 +1,7 @@
+.trunc{
+  width:250px;
+  height: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

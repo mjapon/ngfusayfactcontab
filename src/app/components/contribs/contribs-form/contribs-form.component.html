@@ -1,0 +1,145 @@
+<!--<app-page-header>
+  Editar/Crear contribuyente
+</app-page-header>-->
+<div class="row">
+
+  <div class="col-md-3">
+
+  </div>
+  <div class="col-md-9">
+    <div class="card m-3">
+      <h5 class="card-header">Editar/Crear contribuyente</h5>
+      <div class="card-body">
+        <form [formGroup]="contribForm" (ngSubmit)="onSubmit()">
+
+          <div class="row">
+            <div class="col-md-3">
+              <label> <span class="required">*</span> RUC:</label>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <p-inputMask formControlName="cnt_ruc" mask="9999999999999" styleClass="form-control" (keyup.enter)="buscarContrib()"></p-inputMask>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <p-message severity="warn" text="RUC es requerido" *ngIf="submitted&&!f.cnt_ruc.valid"></p-message>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-3">
+              <label><span class="required">*</span>Razón Social:</label>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="text" formControlName="cnt_razonsocial" class="form-control"/>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <p-message severity="warn" text="La razón social es requerido" *ngIf="submitted&&!f.cnt_razonsocial.valid&&f.cnt_razonsocial.errors.required"></p-message>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-3">
+              <label>Nombre comercial:</label>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="text" formControlName="cnt_nombrecomercial" class="form-control"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-3">
+              <label>Telf:</label>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="text" formControlName="cnt_telf" class="form-control"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-3">
+              <label>Email:</label>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="text" formControlName="cnt_email" class="form-control"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-3">
+              <label><span class="required">*</span>Dirección Matriz:</label>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="text" formControlName="cnt_dirmatriz" class="form-control"/>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <p-message severity="warn" text="La dirección es requerida" *ngIf="submitted&&!f.cnt_dirmatriz.valid&&f.cnt_dirmatriz.errors.required"></p-message>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-3">
+              <label><span class="required">*</span>Clase:</label>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <select type="text" formControlName="cnt_clase" class="form-control">
+                  <option *ngFor="let tipo of tiposContribList; let i = index" [value]="tipo.cls_id">
+                    {{tipo.cls_nombre}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <p-message severity="warn" text="El tipo de contribuyente es requerido" *ngIf="submitted&&!f.cnt_clase.valid&&f.cnt_clase.errors.required"></p-message>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-3">
+              <label>Nro Contribuyente Especial:</label>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="text" formControlName="cnt_nrocntespecial" class="form-control"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-3">
+              <label>Obligado a llevar contabilidad</label>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <p-checkbox [formControl]="f.cnt_oblcontab" binary="true"></p-checkbox>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-9">
+              <div class="text-center">
+                <button class="btn btn-primary mr-1" type="button" (click)="onSubmit()">Guardar</button>
+                <button class="btn btn-secondary" type="reset" (click)="onReset()">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

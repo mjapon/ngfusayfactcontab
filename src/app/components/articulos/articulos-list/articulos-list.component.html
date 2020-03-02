@@ -1,0 +1,60 @@
+<h1>Productos y Servicios</h1>
+<hr>
+<div class="row">
+  <div class="col-8">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" id="buscaInput" (keyup)="doFilter($event)" [(ngModel)]="filtro"  placeholder="Buscar artículo por codigo de barra o por nombre">
+      <div class="input-group-append">
+        <button class="btn btn-outline-primary" type="button" id="buttonSearh" (click)="listar()" title="Buscar producto o servicio">
+          <i class="pi pi-search"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="btn-group" role="group" aria-label="Botones de accion">
+      <button type="button" class="btn btn-outline-primary" (click)="listar()" title="Actualiza listado de productos y servicios">
+        <i class="pi pi-refresh"></i>
+      </button>
+      <button type="button" class="btn btn-outline-primary" (click)="goToForm()" title="Registrar un nuevo producto o servicio">
+        <i class="pi pi-plus-circle"></i>
+        Crear
+      </button>
+    </div>
+  </div>
+</div>
+
+<br>
+<p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedArt">
+  <ng-template pTemplate="caption">
+    Listado de productos y servicios ({{items.length}})
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th *ngFor="let item of cols" [pSortableColumn]="item.field" [ngSwitch]="item.field">
+        {{item.label}}
+        <p-sortIcon [field]="item.field"></p-sortIcon>
+      </th>
+      <th style="width:4em"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData>
+    <tr>
+      <td *ngFor="let item of cols">
+        {{rowData[item['field']]}}
+      </td>
+      <td>
+        <button class="btn btn-sm btn-outline-dark" (click)="selectArt(rowData)">
+          <i class="pi pi-pencil"></i>
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="cols.length+1">
+        <span  class="text-muted">No hay registros</span>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

@@ -1,0 +1,75 @@
+<h1>Referentes</h1>
+<hr>
+<div class="row">
+  <div class="col-2">
+    <span>Tipo:</span>
+  </div>
+  <div class="col-6">
+    <p-selectButton [options]="tiposRef" [(ngModel)]="selectedType" (click)="listar()"></p-selectButton>
+  </div>
+  <div class="col-4">
+    <button class="btn btn-outline-primary" (click)="listar()">
+      <i class="pi pi-plus-circle"></i>
+      Buscar
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-8">
+    <input type="text" class="form-control" id="buscaInput" (keyup)="doFilter($event)" [(ngModel)]="filtro"  placeholder="Buscar artículo por nombre, cedula o ruc">
+  </div>
+  <div class="col-4">
+    <button class="btn btn-outline-primary" (click)="goToForm()">
+      <i class="pi pi-plus-circle"></i>
+      Nuevo
+    </button>
+  </div>
+</div>
+<br>
+<p-table [value]="items" [paginator]="true" [rows]="10">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>CI/RUC</th>
+      <th>Nombres</th>
+      <th>Apellidos</th>
+      <th>Dirección</th>
+      <th>Teléfono</th>
+      <th>Email</th>
+      <th>Móvil</th>
+      <th style="width:4em"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData>
+    <tr>
+      <td>
+        {{rowData.ref_ci}}
+      </td>
+      <td>
+        {{rowData.ref_nombres}}
+      </td>
+      <td>
+        {{rowData.ref_apellidos}}
+      </td>
+      <td>
+        {{rowData.ref_dir}}
+      </td>
+      <td>
+        {{rowData.ref_telf}}
+      </td>
+      <td>
+        {{rowData.ref_email}}
+      </td>
+      <td>
+        {{rowData.ref_movil}}
+      </td>
+      <td>
+        <button class="btn btn-sm btn-outline-dark" (click)="selectItem(rowData)">
+          <i class="pi pi-pencil"></i>
+        </button>
+      </td>
+    </tr>
+
+  </ng-template>
+
+
+</p-table>

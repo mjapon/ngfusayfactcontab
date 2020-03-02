@@ -1,0 +1,52 @@
+<br>
+<!--<h5>Próximos eventos</h5>-->
+<div fxLayout="row wrap" fxLayoutGap="32px" fxLayoutAlign="flex-start">
+  <div fxFlex="1 0 auto">
+    <h5 class="fuente">Próximos eventos</h5>
+  </div>
+  <div fxFlex="1 0 auto">
+    <div *ngIf="isLogged">
+      <button class="btn btn-outline-primary pull-right" (click)="goToForm()">
+        <i class="fa fa-plus-circle"></i> Crear
+      </button>
+    </div>
+  </div>
+</div>
+<hr/>
+
+<div class="row">
+  <div class="col-lg-4 col-sm-6 mb-4" *ngFor="let item of eventoslist">
+    <div class="text-center position-relative px-4 py-5 rounded-lg shadow">
+      <img src="assets/eventos/{{item.ev_img?item.ev_img:item.tiev_img}}" class="img-fluid rounded"
+           alt="feature-image" (click)="showDetallesEvent(item)" style="cursor: pointer">
+      <h5 class="pt-5 pb-3 text-capitalize card-title font-italic fuente">{{item.tiev_nombre}}</h5>
+      <p class="mb-4 textofusay fuente">{{item.ev_fecha}} </p>
+      <!--<p>{{item.ev_horainicio}}-{{item.ev_horafin}}</p>-->
+      <p class="mb-4 ">
+        {{item.notaelip}}
+      </p>
+      <a class="btn btn-outline-primary fuente" (click)="showDetallesEvent(item)">Detalles</a>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="eventoslist.length==0">
+  <div class="col">
+    <div class="card border-success" >
+      <div class="card-body">
+        <h2 class="fuente text-muted"> No hay eventos registrados por el momento </h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--
+<div class="row">
+  <div class="col-md-3">
+    <button class="btn btn-outline-primary" (click)="goToForm()"> Crear evento </button>
+  </div>
+</div>
+-->
+
+
