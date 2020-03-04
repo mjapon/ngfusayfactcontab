@@ -1,3 +1,21 @@
 .justificado{
   text-align: justify;
 }
+
+
+.bd-title {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-weight: 300;
+  font-size: 3rem;
+}
+
+.textoblog{
+  font-size: 18px;
+}
+
+.center-vert{
+  margin-top: auto;
+  margin-bottom: auto;
+
+}
