@@ -1,6 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 // Codigo agregado para la logica de Firebase
 //import { AngularFireModule } from '@angular/fire'; // Firebase config
 //import { AngularFirestoreModule } from '@angular/fire/firestore'; // For Cloud Firestore
@@ -73,7 +74,7 @@ import { LoggedHomeComponent } from './components/logged/logged-home/logged-home
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {BlogComponent} from './components/blogs/blog/blog.component';
 import {BlogsComponent} from './components/blogs/blogs.component';
-
+import { AppfooterComponent } from './components/shared/appfooter/appfooter.component';
 
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -111,7 +112,8 @@ import {BlogsComponent} from './components/blogs/blogs.component';
     LoggednavbarComponent,
     LoggedHomeComponent,
     BlogComponent,
-    BlogsComponent
+    BlogsComponent,
+    AppfooterComponent
   ],
   imports: [
     BrowserModule,
