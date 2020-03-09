@@ -75,6 +75,8 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {BlogComponent} from './components/blogs/blog/blog.component';
 import {BlogsComponent} from './components/blogs/blogs.component';
 import { AppfooterComponent } from './components/shared/appfooter/appfooter.component';
+import {TicketComponent} from "./components/tickets/ticket/ticket.component";
+import {TicketformComponent} from "./components/tickets/ticketform/ticketform.component";
 
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -113,7 +115,9 @@ import { AppfooterComponent } from './components/shared/appfooter/appfooter.comp
     LoggedHomeComponent,
     BlogComponent,
     BlogsComponent,
-    AppfooterComponent
+    AppfooterComponent,
+    TicketComponent,
+      TicketformComponent
   ],
   imports: [
     BrowserModule,

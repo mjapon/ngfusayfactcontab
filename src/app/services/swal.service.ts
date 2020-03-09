@@ -46,19 +46,19 @@ export class SwalService {
     });
   }
 
-  fireToastSuccess(summary: string, detail: string) {
+  fireToastSuccess(summary: string, detail?: string) {
     this.fireToast('success', summary, detail);
   }
 
-  fireToastInfo(summary: string, detail: string) {
+  fireToastInfo(summary: string, detail?: string) {
     this.fireToast('info', summary, detail);
   }
 
-  fireToastWarn(summary: string, detail: string) {
+  fireToastWarn(summary: string, detail?: string) {
     this.fireToast('warn', summary, detail);
   }
 
-  fireToastError(summary: string, detail: string) {
+  fireToastError(summary: string, detail?: string) {
     this.fireToast('error', summary, detail);
   }
 }

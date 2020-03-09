@@ -589,3 +589,7 @@ footer .copyright {
   font-size: 2px;
   background: linear-gradient(80deg, #007348 0%, #9BCB8B 100%)
 }
+
+.hand{
+  cursor: pointer;
+}

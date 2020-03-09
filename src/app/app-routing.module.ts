@@ -20,6 +20,8 @@ import {Congreso2020Component} from './components/blog/congreso2020/congreso2020
 import {LoggedHomeComponent} from './components/logged/logged-home/logged-home.component';
 import {BlogsComponent} from './components/blogs/blogs.component';
 import {BlogComponent} from './components/blogs/blog/blog.component';
+import {TicketComponent} from './components/tickets/ticket/ticket.component';
+import {TicketformComponent} from './components/tickets/ticketform/ticketform.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -44,6 +46,8 @@ const routes: Routes = [
     component: ReferentesFormComponent
   },
   {path: 'sender', component: SenderComponentComponent},
+  {path: 'tickets', component: TicketComponent},
+  {path: 'ticket/form', component: TicketformComponent},
   {path: '**', component: HomeComponent}
 ];
 

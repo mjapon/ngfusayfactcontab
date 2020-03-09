@@ -21,7 +21,7 @@ export class LocalStorageService {
   }
 
   public getAuthToken(): string {
-    return this.getItem('authtoken');
+    return this.getItem('auToken');
   }
 
 }

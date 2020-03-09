@@ -5,62 +5,85 @@ import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class FautService extends BaseService {
-  private bssource = new BehaviorSubject('empty');
-  public source = this.bssource.asObservable();
+    private bssource = new BehaviorSubject('empty');
+    public source = this.bssource.asObservable();
 
-  constructor(private http: HttpClient,
-              private localStorageService: LocalStorageService) {
-    super('/tfuser', localStorageService);
-  }
+    constructor(private http: HttpClient,
+                private localStorageService: LocalStorageService) {
+        super('/tfuser', localStorageService);
+    }
 
-  autenticar(empresa: string, username: string, password: string): Observable<any> {
-    const endpoint = this.urlEndPoint;
-    const form = {
-      empresa,
-      username,
-      password
-    };
-    const httpOptions = this.getHttpOptions({accion: 'auth'});
-    return this.doPost(this.http, endpoint, httpOptions, form);
-  }
+    autenticar(empresa: string, username: string, password: string): Observable<any> {
+        const endpoint = this.urlEndPoint;
+        const form = {
+            empresa,
+            username,
+            password
+        };
+        const httpOptions = this.getHttpOptions({accion: 'auth'});
+        return this.doPost(this.http, endpoint, httpOptions, form);
+    }
 
-  isAuthenticated(): boolean {
-    return this.localStorageService.getItem('fIsLogged') != null;
-  }
+    isAuthenticated(): boolean {
+        return this.localStorageService.getItem('fIsLogged') != null;
+    }
 
-  setAsAuthenticated(userinfo: any, token: any, menu: any) {
-    this.localStorageService.setItem('fIsLogged', 'true');
-    this.localStorageService.setItem('infoUserFLogged', JSON.stringify(userinfo));
-    this.localStorageService.setItem('menuApp', JSON.stringify(menu));
-    this.localStorageService.setItem('auToken', token);
-  }
+    setAsAuthenticated(userinfo: any, token: any, menu: any, seccion: any) {
+        this.localStorageService.setItem('fIsLogged', 'true');
+        this.localStorageService.setItem('infoUserFLogged', JSON.stringify(userinfo));
+        this.localStorageService.setItem('menuApp', JSON.stringify(menu));
+        this.localStorageService.setItem('auToken', token);
+        this.localStorageService.setItem('seccion', JSON.stringify(seccion));
+    }
 
-  clearInfoAuthenticated() {
-    this.localStorageService.removeItem('fIsLogged');
-    this.localStorageService.removeItem('infoUserFLogged');
-    this.localStorageService.removeItem('auToken');
-    this.localStorageService.removeItem('menuApp');
-  }
+    setSecciones(secciones: any) {
+        this.localStorageService.setItem('secciones', JSON.stringify(secciones));
+    }
 
-  getUserInfoSaved(): any {
-    const infoUser: string = this.localStorageService.getItem('infoUserFLogged');
-    return JSON.parse(infoUser);
-  }
+    getSecciones(): any {
+        const infoSecciones: string = this.localStorageService.getItem('secciones');
+        return JSON.parse(infoSecciones);
+    }
 
-  getMenuApp() {
-    const infoUser: string = this.localStorageService.getItem('menuApp');
-    return JSON.parse(infoUser);
-  }
+    updateToken(token: any, seccion: any) {
+        this.localStorageService.setItem('auToken', token);
+        this.localStorageService.setItem('seccion', JSON.stringify(seccion));
+    }
 
-  getAuToken() {
-    const auToken: string = this.localStorageService.getItem('auToken');
-    return auToken;
-  }
+    clearInfoAuthenticated() {
+        this.localStorageService.removeItem('fIsLogged');
+        this.localStorageService.removeItem('infoUserFLogged');
+        this.localStorageService.removeItem('auToken');
+        this.localStorageService.removeItem('menuApp');
+        this.localStorageService.removeItem('seccion');
+        this.localStorageService.removeItem('secciones');
+    }
 
-  publishMessage(message: string) {
-    this.bssource.next(message);
-  }
+    getUserInfoSaved(): any {
+        const infoUser: string = this.localStorageService.getItem('infoUserFLogged');
+        return JSON.parse(infoUser);
+    }
+
+    getSeccionInfoSaved(): any {
+        const infoSeccion: string = this.localStorageService.getItem('seccion');
+        return JSON.parse(infoSeccion);
+    }
+
+
+    getMenuApp() {
+        const infoUser: string = this.localStorageService.getItem('menuApp');
+        return JSON.parse(infoUser);
+    }
+
+    getAuToken() {
+        const auToken: string = this.localStorageService.getItem('auToken');
+        return auToken;
+    }
+
+    publishMessage(message: string) {
+        this.bssource.next(message);
+    }
 }

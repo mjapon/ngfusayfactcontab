@@ -1,1 +1,16 @@
-<p>logged-home works!</p>
+<div class="card border-primary">
+    <div class="card-body">
+        <div class="text-center">
+            <h1>Bienvenid@</h1>
+            <h3>Sección actual:</h3>
+        </div>
+        <div>
+            <ul class="list-group list-group-flush">
+                    <li class="list-group-item hand list-group-item-action {{item.ic_marca?'list-group-item-success':''}}" *ngFor="let item of secciones" (click)="cambiarSeccion(item)"> <i class="fa  {{item.sec_id==seccion.sec_id?'fa-check':''}}"></i>
+                        {{item.sec_nombre}} </li>
+
+            </ul>
+        </div>
+    </div>
+
+</div>

@@ -69,6 +69,9 @@ export class LoginComponent implements OnInit {
 
           const menu = response.menu;
 
+          console.log('Valor de token que llega es:');
+          console.log(response.token);
+
           this.localStorageService.setItem('globalMenu', menu);
           this.localStorageService.setItem('authtoken', response.token);
           this.localStorageService.setItem('islogged', 'true');

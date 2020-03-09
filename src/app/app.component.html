@@ -3,13 +3,16 @@
 
 <!--<div class="wrapper">-->
 <div class="{{isLogged?'container-fluid':'container'}}" style="display: flex; flex-wrap: nowrap;">
-  <nav id="sidebar" *ngIf="isLogged">
-    <p-panelMenu [model]="menuApp" *ngIf="isLogged" [style]="{'width':'245px'}"></p-panelMenu>
+  <nav id="sidebar" *ngIf="isLogged"  class="sidebar shadow-sm">
+    <p-panelMenu [model]="menuApp" *ngIf="isLogged" [style]="{'width':'230px'}"></p-panelMenu>
   </nav>
   <!-- Page Content  -->
   <div style="width: 100%; padding-left: 10px">
       <p-toast position="top-right"></p-toast>
+      <!--
       <p-breadcrumb [model]="migasApp" *ngIf="isLogged"></p-breadcrumb>
+      -->
+      <br>
       <router-outlet></router-outlet>
     </div>
   </div>

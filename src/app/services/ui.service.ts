@@ -10,7 +10,7 @@ export class UiService {
   constructor() {
   }
 
-  setFocusById(elId: string, timeout: number) {
+  setFocusById(elId: string, timeout?: number) {
     if (timeout) {
       setTimeout(() => {
         $('#' + elId).focus();
