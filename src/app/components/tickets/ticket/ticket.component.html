@@ -1,0 +1,66 @@
+<div class="row align-items-end">
+    <div class="col-md-4">
+        <h1>Tickets</h1>
+    </div>
+    <div class="col">
+        <div class="btn-group pull-right" role="group" aria-label="Default button group">
+            <button type="button" class="btn btn-outline-success" [disabled]="!enableBtns" (click)="anular()">Anular</button>
+            <button type="button" class="btn btn-outline-success" [disabled]="!enableBtns" (click)="imprimir()">Imprimir</button>
+            <button type="button" class="btn btn-outline-success" (click)="nuevo()">Crear</button>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col">
+        <p-calendar showButtonBar="true" [(ngModel)]="dia" (onSelect)="loadGrid()" [showIcon]="true" [locale]="es"
+                    dateFormat="dd/mm/yy"></p-calendar>
+    </div>
+</div>
+
+<button class="btn btn-outline-primary" (click)="generatePdf()">Open PDF</button>
+
+<button class="btn btn-outline-primary" (click)="genjspdf()">Open  jsPDF</button>
+
+<br>
+<!--Formulario de creacion de registro -->
+<p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
+         (onRowSelect)="onRowSelect($event)"
+         (onRowUnselect)="onUnRowSelect($event)">
+    <ng-template pTemplate="header">
+        <tr>
+            <th *ngFor="let item of cols" [pSortableColumn]="item.field" [ngSwitch]="item.field">
+                {{item.label}}
+                <p-sortIcon [field]="item.field"></p-sortIcon>
+            </th>
+            <!--
+            <th style="width:4em"></th>
+            -->
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+        <tr [pSelectableRow]="rowData">
+            <td *ngFor="let item of cols">
+                {{rowData[item['field']]}}
+            </td>
+            <!--
+            <td>
+                <button class="btn btn-sm btn-outline-dark" (click)="selectItem(rowData)">
+                    <i class="pi pi-pencil"></i>
+                </button>
+            </td>
+            -->
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+            <td [attr.colspan]="cols.length+1">
+                <span class="text-muted">No hay registros</span>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+
+
+
