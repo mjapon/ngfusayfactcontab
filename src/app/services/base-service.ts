@@ -6,8 +6,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 
 export class BaseService {
-  private baseUrlEndPoint = 'http://157.230.129.131:6543/api';
-  //private baseUrlEndPoint = 'http://localhost:6543/api';
+  //private baseUrlEndPoint = 'http://157.230.129.131:6543/api';
+  private baseUrlEndPoint = 'http://localhost:6543/api';
   protected urlEndPoint: string;
 
   constructor(urlPath: string, protected localStrgServ: LocalStorageService) {
