@@ -4,14 +4,12 @@ import {TicketService} from "../../../services/ticket.service";
 import {parse} from "date-fns";
 import {DateFormatPipe} from "../../../pipes/date-format.pipe";
 import {SwalService} from "../../../services/swal.service";
-import {PdfMakeWrapper} from "pdfmake-wrapper";
-
+/*import {PdfMakeWrapper} from "pdfmake-wrapper";
 import * as jsPDF from 'jspdf';
-
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
+*/
 
 @Component({
     selector: 'app-ticket',
@@ -52,13 +50,7 @@ export class TicketComponent implements OnInit {
         };
 
         this.ticketService.getFormListado().subscribe(res => {
-            console.log("respuesta desde el servidor");
-            console.log(res);
             this.dia = parse(res.dia, 'd/M/yyyy', new Date());
-
-            console.log("Valor de dia es:");
-            console.log(this.dia);
-
             this.loadGrid();
         });
     }
@@ -73,11 +65,7 @@ export class TicketComponent implements OnInit {
 
     loadGrid() {
         const diaStr = this.dateFormatPipe.transform(this.dia);
-        console.log("valor de diaStr es:");
-        console.log(diaStr);
         this.ticketService.listar(diaStr).subscribe(res => {
-            console.log("Respuest ejecutar load grid es:");
-            console.log(res);
             this.cols = res.res.cols;
             this.items = res.res.data;
         });
@@ -114,27 +102,20 @@ export class TicketComponent implements OnInit {
                 }
             );
         }
-
     }
 
+    /*
     generatePdf() {
-
         const pdf: PdfMakeWrapper = new PdfMakeWrapper();
-
         pdf.add("Hola mundo");
         pdf.create().print();
-
     }
 
     genjspdf() {
-
         let doc = new jsPDF({format: [310.96, 303.02]});
         doc.setFont("helvetica");
         doc.setFontSize(10);
         //let doc = new jsPDF({format: 'a4'});
-
-
-// Empty square
         doc.rect(5, 10, 40, 20);
         doc.text(15, 15, 'Ticket Nro');
 
@@ -151,43 +132,20 @@ export class TicketComponent implements OnInit {
         doc.rect(10, 74, 5, 5);
         doc.rect(10, 81, 5, 5);
 
+        doc.text(20, 60, 'CONSULTA YACHACK');
+        doc.text(20, 67, 'LIMPIA');
+        doc.text(20, 74, 'CEREMONIA');
+        doc.text(20, 81, 'TEMAZCAL');
+        doc.text(20, 88, 'CONSULTA MEDICA');
+
         doc.text(10, 91, 'Codigo P.');
         doc.rect(10, 93, 23, 11);
 
         doc.text(55, 91, 'Valor:');
         doc.rect(70, 92, 23, 13);
 
-
-// Filled square
-        //doc.rect(40, 20, 10, 10, 'F');
-
-// Empty red square
-        //doc.setDrawColor(255, 0, 0);
-        //doc.rect(60, 20, 10, 10);
-
-// Filled square with red borders
-        //doc.setDrawColor(255, 0, 0);
-        //doc.rect(80, 20, 10, 10, 'FD');
-
-// Filled red square
-        //doc.setDrawColor(0);
-        //doc.setFillColor(255, 0, 0);
-        //doc.rect(100, 20, 10, 10, 'F');
-
-        // Filled red square with black borders
-        //doc.setDrawColor(0);
-        //doc.setFillColor(255, 0, 0);
-        //doc.rect(120, 20, 10, 10, 'FD');
-
-// Black sqaure with rounded corners
-        //doc.setDrawColor(0);
-        //doc.setFillColor(255, 255, 255);
-        //doc.roundedRect(140, 20, 10, 10, 3, 3, 'FD');
-        //doc.save();
-        //doc.autoPrint();
-        //doc.output("dataurlnewwindow");
-
         window.open(doc.output('bloburl'), '_blank', "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=500,height=700");
     }
+    */
 
 }
