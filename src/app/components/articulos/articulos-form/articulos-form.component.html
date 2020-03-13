@@ -1,7 +1,11 @@
-<p>
-  {{editing ? 'Editar' : 'Crear'}} artículo/servicio</p>
-<hr>
 <div class="container">
+  <div class="row">
+    <div class="col">
+      <h3>
+        {{editing ? 'Editar' : 'Crear'}} artículo/servicio</h3>
+      <hr>
+    </div>
+  </div>
   <div class="row">
     <div class="col">
       <form [formGroup]="artForm" (ngSubmit)="procesaForm()">
@@ -13,7 +17,7 @@
                 <div class="form-group">
                   <label>Tipo:</label>
                   <br>
-                  <p-selectButton [options]="tiposArt" formControlName="art_tipo" [disabled]="editing"
+                  <p-selectButton [options]="tiposArt" formControlName="tipic_id" [disabled]="editing"
                                   [(ngModel)]="tipoArtSel"></p-selectButton>
                 </div>
 
@@ -22,7 +26,7 @@
                 <div class="form-group">
                   <label>Graba Iva:</label>
                   <br>
-                  <p-selectButton [options]="ivas" formControlName="art_iva" [(ngModel)]="tipoIvaSel"></p-selectButton>
+                  <p-selectButton [options]="ivas" formControlName="ic_grabaiva" [(ngModel)]="tipoIvaSel"></p-selectButton>
                 </div>
               </div>
             </div>
@@ -33,8 +37,8 @@
               <input type="text" class="form-control" id="codbarraInput" aria-describedby="Codigo de barra"
                      autocomplete="off"
                      [disableControl]="editing"
-                     placeholder="Ingrese el codigo de barra del articulo" name="art_codbar"
-                     formControlName="art_codbar" [ngClass]="{'is-invalid':submited && f.art_codbar.errors}">
+                     placeholder="Ingrese el codigo de barra del articulo" name="ic_code"
+                     formControlName="ic_code" [ngClass]="{'is-invalid':submited && f.ic_code.errors}">
             </div>
 
             <div class="form-group">
@@ -42,8 +46,8 @@
               <br>
               <input type="text" class="form-control" id="nombreInput" aria-describedby="emailHelp"
                      autocomplete="off"
-                     placeholder="Ingrese el nombre del articulo" name="art_nombre" formControlName="art_nombre"
-                     [ngClass]="{'is-invalid':submited && f.art_nombre.errors}">
+                     placeholder="Ingrese el nombre del articulo" name="ic_nombre" formControlName="ic_nombre"
+                     [ngClass]="{'is-invalid':submited && f.ic_nombre.errors}">
             </div>
 
             <div class="form-group">
@@ -53,10 +57,11 @@
                      autocomplete="off"
                      class="form-control" id="precioVentaInput" aria-describedby="emailHelp"
                      [disableControl]="editing"
-                     placeholder="Precio de venta" name="art_precio" formControlName="art_precio"
-                     [ngClass]="{'is-invalid':submited && f.art_precio.errors}">
+                     placeholder="Precio de venta" name="icpre_precioventa" formControlName="icpre_precioventa"
+                     [ngClass]="{'is-invalid':submited && f.icpre_precioventa.errors}">
             </div>
 
+            <!--
             <div class="form-group">
               <label for="precioMinimoInput">Precio Mínimo:</label>
               <br>
@@ -67,67 +72,59 @@
                      placeholder="Precio de venta mínimo" name="art_precio" formControlName="art_preciomin"
                      [ngClass]="{'is-invalid':submited && f.art_preciomin.errors}">
             </div>
+            -->
 
-            <div class="form-group">
+            <div class="form-group" *ngIf="f.tipic_id && f.tipic_id.value===1">
               <label for="precioCompraInput">Precio Compra:</label>
               <br>
               <input type="text"
                      autocomplete="off"
                      class="form-control" id="precioCompraInput" aria-describedby="emailHelp"
                      [disableControl]="editing"
-                     placeholder="Precio de compra" name="art_precio" formControlName="art_preciocompra"
-                     [ngClass]="{'is-invalid':submited && f.art_preciocompra.errors}">
+                     placeholder="Precio de compra" name="icpre_preciocompra" formControlName="icpre_preciocompra"
+                     [ngClass]="{'is-invalid':submited && f.icpre_preciocompra.errors}">
             </div>
 
-            <div class="form-group">
-              <label for="artInvInput">Inventario:</label>
+            <div class="form-group" *ngIf="f.tipic_id && f.tipic_id.value===1">
+              <label for="icm_existencias">Inventario:</label>
               <br>
               <input type="text"
                      autocomplete="off"
-                     class="form-control" id="artInvInput" aria-describedby="emailHelp"
+                     class="form-control" id="icm_existencias" aria-describedby="emailHelp"
                      [disableControl]="editing"
-                     placeholder="Inventario del producto" name="art_inv" formControlName="art_inv"
-                     [ngClass]="{'is-invalid':submited && f.art_inv.errors}">
+                     placeholder="Inventario del producto" name="icm_existencias" formControlName="icm_existencias"
+                     [ngClass]="{'is-invalid':submited && f.icm_existencias.errors}">
             </div>
-
 
           </div>
           <div class="col">
-
             <div class="form-group">
-              <label for="cat_id">Categoría:</label>
+              <label for="catic_id">Categoría:</label>
               <br>
-              <p-dropdown [options]="categorias" formControlName="cat_id" optionLabel="cat_name"
-                          inputId="cat_id"></p-dropdown>
+              <p-dropdown [options]="categorias" formControlName="catic_id" optionLabel="catic_nombre"
+                          inputId="catic_id"></p-dropdown>
             </div>
 
             <div class="form-group">
-              <label for="prov_id">Proveedor:</label>
+              <label for="icm_proveedor">Proveedor:</label>
               <br>
-              <p-dropdown [options]="proveedores" formControlName="prov_id" optionLabel="ref_nombres"
-                          inputId="prov_id"></p-dropdown>
+              <p-dropdown [options]="proveedores" formControlName="icm_proveedor" optionLabel="per_nombres"
+                          inputId="icm_proveedor"></p-dropdown>
             </div>
 
-            <div class="form-group">
-              <label for="caja_id">Caja:</label>
+            <div class="form-group" *ngIf="f.tipic_id && f.tipic_id.value===1">
+              <label for="icm_fechacaducidad">Fecha de caducidad:</label>
               <br>
-              <p-dropdown [options]="tiposcaja" formControlName="caja_id" optionLabel="tipcj_nombre"
-                          inputId="caja_id"></p-dropdown>
-            </div>
-
-            <div class="form-group" *ngIf="f.art_tipo.value==='B'">
-              <label for="art_feccadu">Fecha de caducidad:</label>
-              <br>
-              <p-calendar formControlName="art_feccadu" [showIcon]="true" [locale]="es" inputId="art_feccadu"
+              <p-calendar formControlName="icm_fechacaducidad" [showIcon]="true" [locale]="es" inputId="icm_fechacaducidad"
                           [monthNavigator]="true" [yearNavigator]="true" [minDate]="minimumDate" yearRange="2019:2050"
                           dateFormat="dd/mm/yy"></p-calendar>
               <br>
             </div>
 
             <div class="form-group">
-              <label for="art_nota">Nota:</label>
+              <label for="ic_nota">Nota:</label>
               <br>
-              <textarea class="form-control" formControlName="art_nota" name="art_nota" id="art_nota" rows="5"></textarea>
+              <textarea class="form-control" formControlName="ic_nota" name="ic_nota" id="ic_nota" rows="5"></textarea>
               <br>
             </div>
           </div>

@@ -25,14 +25,13 @@ export class ArticulosListComponent implements OnInit {
 
     ngOnInit() {
         this.items = new Array<any>();
+        this.cols = new Array<any>();
         this.filtro = '';
         this.listar();
         this.domService.setFocus('buscaInput');
     }
 
     doFilter(ev: any) {
-        console.log('filterring-->');
-        console.log(ev);
         this.listar();
     }
 
@@ -43,8 +42,6 @@ export class ArticulosListComponent implements OnInit {
                     const grid = response.data;
                     this.items = grid.data;
                     this.cols = grid.cols;
-                    console.log('Valor de grid es:');
-                    console.log(grid);
                 }
             });
     }

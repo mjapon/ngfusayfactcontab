@@ -12,6 +12,8 @@ import {ArrayutilService} from '../../../services/arrayutil.service';
 import {DateFormatPipe} from '../../../pipes/date-format.pipe';
 import {DomService} from '../../../services/dom.service';
 import {PersonaService} from '../../../services/persona.service';
+import {FechasService} from '../../../services/fechas.service';
+import {parse} from 'date-fns';
 
 @Component({
     selector: 'app-articulos-form',
@@ -24,8 +26,6 @@ export class ArticulosFormComponent implements OnInit {
 
     categorias: Array<any> = [];
     proveedores: Array<any> = [];
-    tiposcaja: Array<any> = [];
-    unidades: Array<any> = [];
 
     tiposArt: SelectItem[];
     ivas: SelectItem[];
@@ -34,17 +34,11 @@ export class ArticulosFormComponent implements OnInit {
 
     defaultCat: any;
     defaultProv: any;
-    defaultTipCaja: any;
-    defaultUnidad: any;
 
     es: any;
     artId: number;
     artFromDb: any;
     editing: boolean;
-
-    formic: any;
-    formdatosprod: any;
-    form: any;
 
     minimumDate = new Date();
 
@@ -60,13 +54,14 @@ export class ArticulosFormComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private dateFormatPipe: DateFormatPipe,
+        private fechasService: FechasService,
         private messageService: MessageService,
         private domService: DomService,
         private personaService: PersonaService
     ) {
         this.tiposArt = [
-            {label: 'Bien', value: 'B'},
-            {label: 'Servicio', value: 'S'}
+            {label: 'Bien', value: 1},
+            {label: 'Servicio', value: 2}
         ];
         this.ivas = [
             {label: 'Si', value: true},
@@ -81,50 +76,17 @@ export class ArticulosFormComponent implements OnInit {
     ngOnInit() {
         this.es = {
             firstDayOfWeek: 1,
-            dayNames: [
-                'domingo',
-                'lunes',
-                'martes',
-                'miércoles',
-                'jueves',
-                'viernes',
-                'sábado'
-            ],
-            dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
-            dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-            monthNames: [
-                'enero',
-                'febrero',
-                'marzo',
-                'abril',
-                'mayo',
-                'junio',
-                'julio',
-                'agosto',
-                'septiembre',
-                'octubre',
-                'noviembre',
-                'diciembre'
-            ],
-            monthNamesShort: [
-                'ene',
-                'feb',
-                'mar',
-                'abr',
-                'may',
-                'jun',
-                'jul',
-                'ago',
-                'sep',
-                'oct',
-                'nov',
-                'dic'
-            ],
+            dayNames: this.fechasService.dayNames,
+            dayNamesShort: this.fechasService.dayNamesShort,
+            dayNamesMin: this.fechasService.dayNamesMin,
+            monthNames: this.fechasService.monthNames,
+            monthNamesShort: this.fechasService.monthNamesShort,
             today: 'Hoy',
             clear: 'Borrar'
         };
         this.artFromDb = null;
         this.editing = false;
+        this.proveedores = new Array<any>();
 
         this.route.paramMap.subscribe(params => {
             this.buildDefForm();
@@ -136,11 +98,11 @@ export class ArticulosFormComponent implements OnInit {
     }
 
     catIsDefault(element, index, array) {
-        return element.cat_id === -1;
+        return element.catic_id === -1;
     }
 
     provIsDefault(element, index, array) {
-        return element.ref_id === -2;
+        return element.per_id === -2;
     }
 
     tipCjIsDefault(element, index, array) {
@@ -159,20 +121,8 @@ export class ArticulosFormComponent implements OnInit {
         return this.arrayUtil.getFirstResult(this.proveedores, this.provIsDefault);
     }
 
-    getTipCajaDefault(): any {
-        return this.arrayUtil.getFirstResult(this.tiposcaja, this.tipCjIsDefault);
-    }
-
-    getUnidadDefault(): any {
-        return this.arrayUtil.getFirstResult(this.unidades, this.unidIsDefault);
-    }
-
     loadArrays() {
         this.personaService.listarProveedores().subscribe(res => {
-
-          console.log("Valor de res:");
-          console.log(res);
-
             if (res.status === 200) {
                 this.proveedores = res.items;
                 this.defaultProv = this.getProvDefault();
@@ -182,145 +132,89 @@ export class ArticulosFormComponent implements OnInit {
                     this.categorias = res2.items;
                     this.defaultCat = this.getCatDefault();
                 }
-                this.tipoCajaService.listarActivos().subscribe(res3 => {
-                    if (res3.status === 200) {
-                        this.tiposcaja = res3.items;
-                        this.defaultTipCaja = this.getTipCajaDefault();
-                    }
-                    this.unidadesService.listar().subscribe(res4 => {
-                        if (res4.status === 200) {
-                            this.unidades = res4.items;
-                            this.defaultUnidad = this.getUnidadDefault();
-                        }
-
-                        if (this.artId > 0) {
-                            this.artService.getByCod(this.artId).subscribe(response1 => {
-                                if (response1.status === 200) {
-                                    this.artFromDb = response1.art;
-                                    this.buildForm(this.artFromDb);
-                                }
-                            });
-                        } else {
-                            this.artService.getForm().subscribe((response2: any) => {
-                                let form: any;
-                                if (response2.status === 200) {
-                                    form = response2.form;
-                                    this.buildForm(form);
-                                }
-                            });
+                if (this.artId > 0) {
+                    this.artService.getByCod(this.artId).subscribe(response1 => {
+                        if (response1.status === 200) {
+                            this.artFromDb = response1.art;
+                            this.buildForm(this.artFromDb);
                         }
                     });
-                });
+                } else {
+                    this.artService.getForm().subscribe((response2: any) => {
+                        let form: any;
+                        if (response2.status === 200) {
+                            //form = response2.form;
+                            //this.buildForm(form);
+                        }
+                    });
+                }
             });
         });
     }
 
     buildForm(form: any) {
-
-        /*
-        let tipcaj = this.defaultTipCaja;
         let prov = this.defaultProv;
-        let unid = this.defaultUnidad;
         let cat = this.defaultCat;
         if (this.editing) {
-          const provid = form.prov_id;
-          const cajaid = form.caja_id;
-          const catid = form.cat_id;
-          const uniid = form.unid_id;
-          const dbcat = this.arrayUtil.getFirstResult(
-            this.categorias,
-            (el, idx, array) => {
-              return el.cat_id === catid;
+            const provid = form.icm_proveedor;
+            const catid = form.catic_id;
+            const dbcat = this.arrayUtil.getFirstResult(
+                this.categorias,
+                (el, idx, array) => {
+                    return el.catic_id === catid;
+                }
+            );
+            const dbprov = this.arrayUtil.getFirstResult(
+                this.proveedores,
+                (el, idx, array) => {
+                    return el.per_id === provid;
+                }
+            );
+            if (dbcat != null) {
+                cat = dbcat;
             }
-          );
-          const dbprov = this.arrayUtil.getFirstResult(
-            this.proveedores,
-            (el, idx, array) => {
-              return el.ref_id === provid;
+            if (dbprov != null) {
+                prov = dbprov;
             }
-          );
-          const dbtipcaj = this.arrayUtil.getFirstResult(
-            this.tiposcaja,
-            (el, idx, array) => {
-              return el.tipcj_id === cajaid;
-            }
-          );
-          const dbunid = this.arrayUtil.getFirstResult(
-            this.unidades,
-            (el, idx, array) => {
-              return el.uni_id === uniid;
-            }
-          );
-          if (dbcat != null) {
-            cat = dbcat;
-          }
-          if (dbprov != null) {
-            prov = dbprov;
-          }
-          if (dbtipcaj != null) {
-            tipcaj = dbtipcaj;
-          }
-          if (dbunid != null) {
-            unid = dbunid;
-          }
         }
 
-        const art_feccadu = form.art_feccadu;
+        const icm_fechacaducidad = form.icm_fechacaducidad;
         let artFeccaduParsed = null;
-        if (form.art_feccadu && form.art_feccadu.length > 0) {
-          artFeccaduParsed = parse(art_feccadu, 'dd/MM/yyyy HH:mm', new Date());
+        if (form.icm_fechacaducidad && form.icm_fechacaducidad.length > 0) {
+            artFeccaduParsed = parse(icm_fechacaducidad, 'dd/MM/yyyy HH:mm', new Date());
         }
         this.artForm = this.fb.group({
-          art_codbar: [form.art_codbar, Validators.required],
-          art_feccadu: [artFeccaduParsed],
-          art_inv: [form.art_inv],
-          art_iva: [form.art_iva, Validators.required],
-          art_nombre: [form.art_nombre, Validators.required],
-          art_nota: [form.art_nota],
-          art_precio: [form.art_precio, Validators.required],
-          art_preciocompra: [form.art_preciocompra, Validators.required],
-          art_preciomin: [form.art_preciomin],
-          art_tipo: [form.art_tipo, Validators.required],
-          caja_id: [tipcaj],
-          cat_id: [cat, Validators.required],
-          prov_id: [prov, Validators.required],
-          unid_id: [unid, Validators.required]
+            ic_code: [form.ic_code, Validators.required],
+            icm_fechacaducidad: [artFeccaduParsed],
+            icm_existencias: [form.icm_existencias],
+            ic_grabaiva: [form.ic_grabaiva, Validators.required],
+            ic_nombre: [form.ic_nombre, Validators.required],
+            ic_nota: [form.ic_nota],
+            icpre_precioventa: [form.icpre_precioventa, Validators.required],
+            icpre_preciocompra: [form.icpre_preciocompra, Validators.required],
+            tipic_id: [form.tipic_id, Validators.required],
+            catic_id: [cat, Validators.required],
+            icm_proveedor: [prov, Validators.required]
         });
-        */
     }
 
     buildDefForm() {
         this.artForm = this.fb.group({
-            art_codbar: ['', Validators.required],
-            art_feccadu: [null],
-            art_inv: [0],
-            art_iva: [false, Validators.required],
-            art_nombre: ['', Validators.required],
-            art_nota: [''],
-            art_precio: [0.0, Validators.required],
-            art_preciocompra: [0.0, Validators.required],
-            art_preciomin: [0.0],
-            art_tipo: ['B', Validators.required],
-            caja_id: [1],
-            cat_id: [-1, Validators.required],
-            prov_id: [-2, Validators.required],
-            unid_id: [-1, Validators.required]
+            ic_code: ['', Validators.required],
+            icm_fechacaducidad: [new Date()],
+            icm_existencias: [0],
+            ic_grabaiva: [false, Validators.required],
+            ic_nombre: ['', Validators.required],
+            ic_nota: [''],
+            icpre_precioventa: [0.0, Validators.required],
+            icpre_preciocompra: [0.0, Validators.required],
+            tipic_id: [1, Validators.required],
+            catic_id: [-1, Validators.required],
+            icm_proveedor: [-2, Validators.required]
         });
 
-        this.form = this.fb.group({
-            ic_nombre: '',
-            ic_code: '',
-            tipic_id: 1,
-            ic_nota: '',
-            catic_id: 1,
-            dprod_grabaiva: true,
-            dprod_grabaimpserv: false,
-            dprod_preciocompra: 0.0,
-            dprod_precioventa: 0.0,
-            dprod_existencias: 0,
-            dprod_proveedor: -2,
-            dprod_modcontab: 0
-        });
+        console.log("valor de artform es:");
+        console.log(this.artForm);
     }
 
     getFormToPost() {
@@ -330,18 +224,14 @@ export class ArticulosFormComponent implements OnInit {
             formToPost[prop] = formvalue[prop];
         }
 
-        const provsel = formToPost.prov_id;
-        const cajasel = formToPost.caja_id;
-        const catsel = formToPost.cat_id;
-        const unidsel = formToPost.unid_id;
+        const provsel = formToPost.icm_proveedor;
+        const catsel = formToPost.catic_id;
 
-        const fechaTrans = this.dateFormatPipe.transform(formToPost.art_feccadu);
-        formToPost.prov_id = provsel.ref_id;
-        formToPost.caja_id = cajasel.tipcj_id;
-        formToPost.cat_id = catsel.cat_id;
-        formToPost.unid_id = unidsel.uni_id;
-        formToPost.art_id = this.artId;
-        formvalue.art_feccadu = fechaTrans;
+        const fechaTrans = this.dateFormatPipe.transform(formToPost.icm_fechacaducidad);
+        formToPost.prov_id = provsel.per_id;
+        formToPost.catic_id = catsel.catic_id;
+        formToPost.ic_id = this.artId;
+        formvalue.icm_fechacaducidad = fechaTrans;
 
         return formToPost;
     }
