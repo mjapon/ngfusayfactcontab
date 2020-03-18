@@ -76,14 +76,15 @@ export class ArticulosFormComponent implements OnInit {
     ngOnInit() {
         this.es = {
             firstDayOfWeek: 1,
-            dayNames: this.fechasService.dayNames,
-            dayNamesShort: this.fechasService.dayNamesShort,
-            dayNamesMin: this.fechasService.dayNamesMin,
-            monthNames: this.fechasService.monthNames,
-            monthNamesShort: this.fechasService.monthNamesShort,
+            dayNames: this.fechasService.getDayNames(),
+            dayNamesShort: this.fechasService.getDayNamesShort(),
+            dayNamesMin: this.fechasService.getDayNamesMin(),
+            monthNames: this.fechasService.getMonthNames(),
+            monthNamesShort: this.fechasService.getMonthNamesShort(),
             today: 'Hoy',
             clear: 'Borrar'
         };
+
         this.artFromDb = null;
         this.editing = false;
         this.proveedores = new Array<any>();
@@ -136,13 +137,17 @@ export class ArticulosFormComponent implements OnInit {
                     this.artService.getByCod(this.artId).subscribe(response1 => {
                         if (response1.status === 200) {
                             this.artFromDb = response1.art;
-                            this.buildForm(this.artFromDb);
+                            console.log("valor de artFromDb es :");
+                            console.log(this.artFromDb);
+                            //this.buildForm(this.artFromDb);
                         }
                     });
                 } else {
                     this.artService.getForm().subscribe((response2: any) => {
                         let form: any;
                         if (response2.status === 200) {
+                            console.log("Valor de response2 form es:");
+                            console.log(response2.form);
                             //form = response2.form;
                             //this.buildForm(form);
                         }
@@ -178,43 +183,45 @@ export class ArticulosFormComponent implements OnInit {
             }
         }
 
-        const icm_fechacaducidad = form.icm_fechacaducidad;
+        const icdp_fechacaducidad = form.icdp_fechacaducidad;
         let artFeccaduParsed = null;
-        if (form.icm_fechacaducidad && form.icm_fechacaducidad.length > 0) {
-            artFeccaduParsed = parse(icm_fechacaducidad, 'dd/MM/yyyy HH:mm', new Date());
+        if (form.icdp_fechacaducidad && form.icdp_fechacaducidad.length > 0) {
+            artFeccaduParsed = parse(icdp_fechacaducidad, 'dd/MM/yyyy HH:mm', new Date());
         }
         this.artForm = this.fb.group({
             ic_code: [form.ic_code, Validators.required],
-            icm_fechacaducidad: [artFeccaduParsed],
-            icm_existencias: [form.icm_existencias],
-            ic_grabaiva: [form.ic_grabaiva, Validators.required],
+            icdp_fechacaducidad: [artFeccaduParsed],
+            icdp_grabaiva: [form.ic_grabaiva, Validators.required],
             ic_nombre: [form.ic_nombre, Validators.required],
             ic_nota: [form.ic_nota],
-            icpre_precioventa: [form.icpre_precioventa, Validators.required],
-            icpre_preciocompra: [form.icpre_preciocompra, Validators.required],
+            icdp_precioventa: [form.icpre_precioventa, Validators.required],
+            icdp_preciocompra: [form.icpre_preciocompra, Validators.required],
             tipic_id: [form.tipic_id, Validators.required],
             catic_id: [cat, Validators.required],
-            icm_proveedor: [prov, Validators.required]
+            icdp_proveedor: [prov, Validators.required]
         });
     }
 
     buildDefForm() {
+
+        let tipoSel = this.tiposArt[0];
+        let ivaSel = this.ivas[0];
+
         this.artForm = this.fb.group({
             ic_code: ['', Validators.required],
-            icm_fechacaducidad: [new Date()],
-            icm_existencias: [0],
-            ic_grabaiva: [false, Validators.required],
+            icdp_fechacaducidad: [null],
+            icdp_grabaiva: [ivaSel, Validators.required],
             ic_nombre: ['', Validators.required],
             ic_nota: [''],
-            icpre_precioventa: [0.0, Validators.required],
-            icpre_preciocompra: [0.0, Validators.required],
-            tipic_id: [1, Validators.required],
+            icdp_precioventa: [0.0, Validators.required],
+            icdp_preciocompra: [0.0, Validators.required],
+            tipic_id: [tipoSel, Validators.required],
             catic_id: [-1, Validators.required],
-            icm_proveedor: [-2, Validators.required]
+            icdp_proveedor: [-2, Validators.required]
         });
 
-        console.log("valor de artform es:");
-        console.log(this.artForm);
+        this.tipoArtSel = tipoSel;
+        this.tipoIvaSel = ivaSel;
     }
 
     getFormToPost() {

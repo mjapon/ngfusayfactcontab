@@ -4,9 +4,15 @@
     </div>
     <div class="col">
         <div class="btn-group pull-right" role="group" aria-label="Default button group">
-            <button type="button" class="btn btn-outline-success" [disabled]="!enableBtns" (click)="anular()">Anular</button>
-            <button type="button" class="btn btn-outline-success" [disabled]="!enableBtns" (click)="imprimir()">Imprimir</button>
-            <button type="button" class="btn btn-outline-success" (click)="nuevo()">Crear</button>
+            <button type="button" class="btn btn-outline-success" [disabled]="!enableBtns" (click)="anular()">
+                <i class="fa fa-remove"></i>
+                Anular</button>
+            <button type="button" class="btn btn-outline-success" [disabled]="!enableBtns" (click)="imprimir()">
+                <i class="fa fa-print"></i>
+                Imprimir</button>
+            <button type="button" class="btn btn-outline-success" (click)="nuevo()">
+                <i class="fa fa-plus-circle"></i>
+                Crear</button>
         </div>
     </div>
 </div>
@@ -17,10 +23,6 @@
                     dateFormat="dd/mm/yy"></p-calendar>
     </div>
 </div>
-<!--
-<button class="btn btn-outline-primary" (click)="generatePdf()">Open PDF</button>
-<button class="btn btn-outline-primary" (click)="genjspdf()">Open  jsPDF</button>
--->
 <br>
 <!--Formulario de creacion de registro -->
 <p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
@@ -32,9 +34,6 @@
                 {{item.label}}
                 <p-sortIcon [field]="item.field"></p-sortIcon>
             </th>
-            <!--
-            <th style="width:4em"></th>
-            -->
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData>

@@ -14,9 +14,10 @@ export class ArticulosListComponent implements OnInit {
     filtro: string;
     items: Array<any>;
     cols: Array<any>;
-    selectedArt: any;
+    selectedItem: any;
 
     faEdit = faEdit;
+    enableBtns: boolean;
 
     constructor(private artsService: ArticuloService,
                 private domService: DomService,
@@ -29,6 +30,14 @@ export class ArticulosListComponent implements OnInit {
         this.filtro = '';
         this.listar();
         this.domService.setFocus('buscaInput');
+    }
+
+    onRowSelect(event) {
+        this.enableBtns = true;
+    }
+
+    onUnRowSelect(event) {
+        this.enableBtns = false;
     }
 
     doFilter(ev: any) {
@@ -46,9 +55,8 @@ export class ArticulosListComponent implements OnInit {
             });
     }
 
-    selectArt(item: any) {
-        this.selectedArt = item;
-        this.router.navigate(['mercaderiaForm', item.art_id]);
+    editar() {
+        this.router.navigate(['mercaderiaForm', this.selectedItem.ic_id]);
     }
 
     goToForm() {

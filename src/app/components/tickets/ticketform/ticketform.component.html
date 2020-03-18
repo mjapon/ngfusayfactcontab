@@ -4,12 +4,12 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-4">
                         <h3>Nuevo Ticket</h3>
                     </div>
                     <div class="col">
                         <div class="row">
-                            <div class="col-2">
+                            <div class="col-1">
                                 <span>#</span>
                             </div>
                             <div class="col-10">
@@ -17,7 +17,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-5">
                         <i class="fa fa-calendar"></i>
                         <span> {{form.dia_str}} </span>
                     </div>
@@ -85,6 +85,15 @@
                             </ul>
                         </div>
                         <br>
+
+                        <button type="button" class="btn btn-outline-success btn-block" (click)="guardar()" >
+                            <i class="fa fa-save"></i>
+                            Guardar</button>
+                        <button type="button" class="btn btn-outline-secondary btn-block" (click)="cancelar()">
+                            <i class="fa fa-times"></i>
+                            Cancelar</button>
+
+                        <!--
                         <div class="row">
                             <div class="col">
                                 <button class="btn btn-lg btn-secondary " (click)="cancelar()">
@@ -97,6 +106,7 @@
                                     Guardar</button>
                             </div>
                         </div>
+                        -->
                     </div>
                 </div>
             </div>
