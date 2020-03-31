@@ -38,6 +38,19 @@ export class ArticuloService extends BaseService {
         );
     }
 
+    getNextCodbar(): Observable<any> {
+        const endopoint = this.urlEndPoint;
+        const httpOptions = this.getHttpOptionsToken({accion: 'seccodbarra'});
+        return this.doGet(this.http, endopoint, httpOptions);
+    }
+
+    existeCodbar(codbar: string): Observable<any> {
+        const endopoint = this.urlEndPoint;
+        const httpOptions = this.getHttpOptionsToken({accion: 'verifcodbar', codbar: codbar});
+        return this.doGet(this.http, endopoint, httpOptions);
+    }
+
+
     guardarArticulo(form: any): Observable<any> {
         const endpoint = this.urlEndPoint + '/' + form.ic_id;
         const httpOptions = this.getHttpOptionsToken({});

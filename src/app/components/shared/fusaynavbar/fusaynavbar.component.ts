@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SwalService} from '../../../services/swal.service';
 import {Router} from '@angular/router';
 import {SeccionService} from "../../../services/seccion.service";
+import {LocalStorageService} from "../../../services/local-storage.service";
 
 declare var $: any;
 
@@ -23,15 +24,9 @@ export class FusaynavbarComponent implements OnInit {
                 private formBuilder: FormBuilder,
                 private swalService: SwalService,
                 private seccionService: SeccionService,
+                private localStorageService: LocalStorageService,
                 private router: Router) {
         this.initLoginForm();
-        $('#modalLogin').on('show.bs.modal', () => {
-            console.log('fusaynavbar show.bs.modal------------------>');
-            setTimeout(() => {
-                console.log('fusaynavbar timeout show.bs.modal---------->');
-                $('.auxusername').focus();
-            }, 500);
-        });
     }
 
     get f() {
@@ -48,11 +43,24 @@ export class FusaynavbarComponent implements OnInit {
                 this.isLogged = true;
             }
         });
+
+        $('#modalLogin').on('show.bs.modal', () => {
+            setTimeout(() => {
+                $('.auxusername').focus();
+            }, 500);
+        });
     }
 
     initLoginForm() {
+        //Verificar si existe registrado en el localstorage elcodigo de la emrpesa
+        let globalCodEmpresa = this.localStorageService.getItem('GLOBAL_COD_EMPRESA');
+        let codEmpresa = '';
+        if (globalCodEmpresa) {
+            codEmpresa = globalCodEmpresa;
+        }
+
         this.loginForm = this.formBuilder.group({
-            empresa: ['', Validators.required],
+            empresa: [codEmpresa, Validators.required],
             username: ['', Validators.required],
             password: ['', Validators.required]
         });
@@ -65,9 +73,7 @@ export class FusaynavbarComponent implements OnInit {
     }
 
     logout() {
-        console.log('logout->');
         this.fautService.clearInfoAuthenticated();
-        console.log('infoautenticated terminado--->');
         this.fautService.publishMessage('logout');
     }
 
@@ -85,19 +91,13 @@ export class FusaynavbarComponent implements OnInit {
         this.fautService.autenticar(form['empresa'], form['username'], form['password']).subscribe(
             res => {
                 if (res.autenticado) {
+                    this.localStorageService.setItem('GLOBAL_COD_EMPRESA', form['empresa']);
                     this.fautService.publishMessage('login');
-                    console.log('Userinfo------------>');
-                    console.log(res.userinfo);
-                    console.log(res.token);
-                    console.log(res.menu);
                     this.fautService.setAsAuthenticated(res.userinfo, res.token, res.menu, res.seccion);
                     this.swalService.fireToastSuccess('', 'Bienvenido: ' + res.userinfo.per_nombres);
                     $('#modalLogin').modal('hide');
                     this.router.navigate(['lghome']);
-
                     this.seccionService.listar().subscribe(ressec => {
-                        console.log("Valor de ressecc es:");
-                        console.log(ressec);
                         if (ressec.status === 200) {
                             this.secciones = ressec.items;
                             this.fautService.setSecciones(this.secciones);

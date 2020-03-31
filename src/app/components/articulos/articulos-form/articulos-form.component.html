@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h3>{{editing ? 'Editar' : 'Crear'}} Producto o Servicio</h3>
+            <h4>{{editing ? 'Editar' : 'Crear'}} Producto o Servicio</h4>
             <hr>
         </div>
     </div>
@@ -16,16 +16,18 @@
                                 <div class="form-group">
                                     <label>Tipo:</label>
                                     <br>
+                                    <!--<span class="text-primary" *ngIf="editing"> <i>{{artFromDb.tipic_nombre}}</i>  </span>-->
                                     <p-selectButton [options]="tiposArt" formControlName="tipic_id"
-                                                    optionLabel="label"></p-selectButton>
+                                                    optionLabel="label"
+                                                    (onChange)="onTipoArtChange($event)"></p-selectButton>
                                 </div>
-
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label>Graba Iva:</label>
                                     <br>
                                     <p-selectButton [options]="ivas" formControlName="icdp_grabaiva"
+                                                    (onChange)="onTipoIvaChange($event)"
                                                     optionLabel="label"></p-selectButton>
                                 </div>
                             </div>
@@ -33,41 +35,130 @@
 
                         <div class="form-group">
                             <label for="codbarraInput">
-                              <span class="required">*</span>Código: <span class="hand badge badge-secondary" title="Seleccione esta opción si desea que el sistema genere el código para el producto o servicio"> Automático </span>
+                                <span class="required">*</span>Código: <span *ngIf="!editing"
+                                    class="hand badge {{artCodAutomatic?'badge-primary':'badge-secondary'}} "
+                                    (click)="generarCodigoBarra()"
+                                    title="Seleccione esta opción si desea que el sistema genere el código para el producto o servicio"> Automático </span>
                             </label>
                             <br>
                             <input type="text" class="form-control" id="codbarraInput"
                                    aria-describedby="Código de barra"
+                                   maxlength="80"
                                    autocomplete="off"
-                                   [disableControl]="editing"
-                                   placeholder="Ingrese el código de barra del artículo" name="ic_code"
+                                   (keydown.enter)="onEnterCodBarra($event)"
+                                   placeholder="Ingrese el código del producto o servicio" name="ic_code"
                                    formControlName="ic_code" [ngClass]="{'is-invalid':submited && f.ic_code.errors}">
                         </div>
 
                         <div class="form-group">
                             <label for="nombreInput">
-                              <span class="required">*</span>Nombre:</label>
+                                <span class="required">*</span>Nombre:</label>
                             <br>
                             <input type="text" class="form-control" id="nombreInput" aria-describedby="emailHelp"
                                    autocomplete="off"
+                                   maxlength="150"
+                                   (keydown.enter)="onEnterNombre($event)"
                                    (keyup)="$event.target.value=$event.target.value.toUpperCase()"
-                                   placeholder="Ingrese el nombre del articulo" name="ic_nombre"
+                                   placeholder="Ingrese el nombre del producto o servicio" name="ic_nombre"
                                    formControlName="ic_nombre"
                                    [ngClass]="{'is-invalid':submited && f.ic_nombre.errors}">
                         </div>
 
+                        <div class="row" *ngIf="f.tipic_id && f.tipic_id.value.value===1">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="precioCompraInput">
+                                        <span class="required">*</span>
+                                        Precio Compra <span class="badge badge-light"
+                                                            *ngIf="f.icdp_grabaiva && f.icdp_grabaiva.value.value">(Sin Iva)</span>:</label>
+                                    <br>
+                                    <input type="text"
+                                           maxlength="10"
+                                           autocomplete="off"
+                                           class="form-control" id="precioCompraInput" aria-describedby="emailHelp"
+                                           [pattern]="numbersPattern"
+                                           placeholder="Precio de compra" name="icdp_preciocompra"
+                                           (keyup)="onKeyupPrecioCompra($event)"
+                                           (keydown.enter)="onEnterPrecioCompra($event)"
+                                           formControlName="icdp_preciocompra"
+                                           [ngClass]="{'is-invalid':(submited && f.icdp_preciocompra.errors)||f.icdp_preciocompra.errors?.pattern}">
+                                    <div *ngIf="f.icdp_preciocompra.errors?.pattern">
+                                        <small class="text-danger">Valor incorrecto</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" *ngIf="f.icdp_grabaiva && f.icdp_grabaiva.value.value">
+                                <div class="form-group">
+                                    <label for="precioCompraInput">
+                                        <span class="required">*</span>
+                                        Precio Compra <span class="badge badge-light"> (Con Iva) </span> :</label>
+                                    <br>
+                                    <input type="text"
+                                           maxlength="10"
+                                           autocomplete="off"
+                                           class="form-control" id="precioCompraIvaInput" aria-describedby="emailHelp"
+                                           placeholder="Precio de compra con iva" name="icdp_preciocompra_iva"
+                                           formControlName="icdp_preciocompra_iva">
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div class="form-group">
                             <label for="precioVentaInput">
-                              <span class="required">*</span>Precio Venta: <span *ngIf="f.tipic_id && f.tipic_id.value.value===1" class="hand badge badge-info" title="Muestra el asitente para establecimiento de precios de un producto">Asistente de precios</span>
+                                <span class="required">*</span>Precio Venta: <span
+                                    *ngIf="f.tipic_id && f.tipic_id.value.value===1" (click)="toggleAsistentePrecios()"
+                                    class="hand badge {{isShowAsistPre?'badge-primary':'badge-secondary'}}"
+                                    title="Muestra el asitente para establecimiento de precios de un producto">Asistente de precios</span>
                             </label>
                             <br>
                             <input type="text"
+                                   maxlength="10"
                                    autocomplete="off"
                                    class="form-control" id="precioVentaInput" aria-describedby="emailHelp"
-                                   [disableControl]="editing"
                                    placeholder="Precio de venta" name="icdp_precioventa"
+                                   (keydown.enter)="onEnterPrecioVenta($event)"
                                    formControlName="icdp_precioventa"
-                                   [ngClass]="{'is-invalid':submited && f.icdp_precioventa.errors}">
+                                   [pattern]="numbersPattern"
+                                   [ngClass]="{'is-invalid':(submited && f.icdp_precioventa.errors)||(f.icdp_precioventa.errors?.pattern)}">
+                            <div *ngIf="f.icdp_precioventa.errors?.pattern">
+                                <small class="text-danger">Valor incorrecto</small>
+                            </div>
+                        </div>
+
+                        <div class="card border-primary" *ngIf="isShowAsistPre">
+                            <small>
+                                Este asistente calcula el precio de venta, incrementando el precio de compra
+                                en el porcentaje ingresado.
+                            </small>
+                            <table class="table table-borderless table-sm">
+                                <thead>
+                                <tr>
+                                    <th scope="col"><small>% Incremento </small></th>
+                                    <th scope="col"><small>Utilidad </small></th>
+                                    <th scope="col"><small>Precio Venta Sugerido </small></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="text" (keyup)="onKeyupPorcentajeIncr($event)" autocomplete="false"
+                                               formControlName="asist_pre_porc" id="porcIncAsistPre"
+                                               class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" formControlName="asist_pre_util"
+                                               class="form-control form-control-sm">
+                                    </td>
+                                    <td>
+                                        <input type="text" formControlName="asist_pre_prevsug"
+                                               class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <span class="hand badge badge-primary" (click)="toggleAsistentePrecios()"
+                                  title="Cierra el asistente de precios">Cerrar</span>
                         </div>
                         <!--
                         <div class="form-group">
@@ -81,27 +172,15 @@
                                  [ngClass]="{'is-invalid':submited && f.art_preciomin.errors}">
                         </div>
                         -->
-                        <div class="form-group" *ngIf="f.tipic_id && f.tipic_id.value.value===1">
-                            <label for="precioCompraInput">Precio Compra:</label>
-                            <br>
-                            <input type="text"
-                                   autocomplete="off"
-                                   class="form-control" id="precioCompraInput" aria-describedby="emailHelp"
-                                   [disableControl]="editing"
-                                   placeholder="Precio de compra" name="icdp_preciocompra"
-                                   formControlName="icdp_preciocompra"
-                                   [ngClass]="{'is-invalid':submited && f.icdp_preciocompra.errors}">
-                        </div>
 
                         <div class="form-group">
                             <label for="ic_nota">Observación:</label>
                             <br>
-                            <textarea class="form-control" formControlName="ic_nota" name="ic_nota" id="ic_nota"
+                            <textarea pInputTextarea maxlength="1000" class="form-control" formControlName="ic_nota"
+                                      name="ic_nota" id="ic_nota"
                                       rows="5"></textarea>
                             <br>
                         </div>
-
-
                     </div>
                     <div class="col-md-4">
 
@@ -109,6 +188,7 @@
                             <label for="catic_id">Categoría:</label>
                             <br>
                             <p-dropdown [options]="categorias" id="catic_id" formControlName="catic_id"
+                                        filter="true"
                                         optionLabel="catic_nombre"
                                         inputId="catic_id"></p-dropdown>
                         </div>
@@ -117,46 +197,49 @@
                             <label for="icdp_proveedor">Proveedor:</label>
                             <br>
                             <p-dropdown [options]="proveedores" id="icdp_proveedor" formControlName="icdp_proveedor"
-                                        optionLabel="per_nombres"
+                                        optionLabel="per_nombres" filter="true"
                                         inputId="icdp_proveedor"></p-dropdown>
                         </div>
 
                         <div class="form-group" *ngIf="f.tipic_id && f.tipic_id.value.value===1">
                             <label for="icdp_fechacaducidad">Fecha de caducidad:</label>
                             <br>
-                            <p-calendar formControlName="icdp_fechacaducidad" id="icdp_fechacaducidad" [showIcon]="true"
+                            <p-calendar formControlName="icdp_fechacaducidad" id="icdp_fechacaducidad"
+                                        [showIcon]="true"
                                         [locale]="es" inputId="icdp_fechacaducidad"
                                         [monthNavigator]="true" [yearNavigator]="true" [minDate]="minimumDate"
                                         yearRange="2019:2050"
                                         dateFormat="dd/mm/yy"></p-calendar>
                             <br>
                         </div>
-                      <br>
-                      <button type="button" class="btn btn-outline-success  btn-block" (click)="procesaForm()">
-                        <i class="fa fa-save"></i>
-                        Guardar</button>
-                      <button type="button" class="btn btn-outline-secondary  btn-block" (click)="cancelar()">
-                        <i class="fa fa-times"></i>
-                        Cancelar</button>
+                        <br>
+                        <button type="button" class="btn btn-outline-success  btn-block" (click)="procesaForm()">
+                            <i class="fa fa-save"></i>
+                            Guardar
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary  btn-block" (click)="cancelar()">
+                            <i class="fa fa-times"></i>
+                            Cancelar
+                        </button>
 
-                     <!--
-                      <br>
-                      <div class="row">
-                        <div class="col">
-                          <div class="text-center">
-                            <button type="submit" value="Guardar" class="btn btn-success" (click)="procesaForm()">
-                              <i class="pi pi-check"></i>
-                              Guardar
-                            </button>
-                            <br>
-                            <button type="button" value="Cancelar" class="btn btn-secondary" (click)="cancelar()">
-                              <i class="pi pi-times"></i>
-                              Cancelar
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      -->
+                        <!--
+                         <br>
+                         <div class="row">
+                           <div class="col">
+                             <div class="text-center">
+                               <button type="submit" value="Guardar" class="btn btn-success" (click)="procesaForm()">
+                                 <i class="pi pi-check"></i>
+                                 Guardar
+                               </button>
+                               <br>
+                               <button type="button" value="Cancelar" class="btn btn-secondary" (click)="cancelar()">
+                                 <i class="pi pi-times"></i>
+                                 Cancelar
+                               </button>
+                             </div>
+                           </div>
+                         </div>
+                         -->
                     </div>
                 </div>
             </form>
