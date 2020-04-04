@@ -33,8 +33,10 @@
 </div>
 <br>
 <p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
+         [(contextMenuSelection)]="selectedItem"
          (onRowSelect)="onRowSelect($event)"
-         (onRowUnselect)="onUnRowSelect($event)">
+         (onRowUnselect)="onUnRowSelect($event)"
+         [contextMenu]="cm">
   <ng-template pTemplate="caption">
     Listado de productos y servicios ({{items.length}})
   </ng-template>
@@ -47,7 +49,7 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData>
-    <tr [pSelectableRow]="rowData">
+    <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
       <td *ngFor="let item of cols">
         {{rowData[item['field']]}}
       </td>
@@ -67,4 +69,9 @@
       </td>
     </tr>
   </ng-template>
+
+
+
 </p-table>
+
+<p-contextMenu #cm [model]="itemsCtxMenu"></p-contextMenu>

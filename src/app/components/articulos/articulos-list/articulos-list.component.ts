@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ArticuloService} from '../../../services/articulo.service';
 import {Router} from '@angular/router';
-import {faEdit} from '@fortawesome/free-solid-svg-icons';
 import {DomService} from '../../../services/dom.service';
+import {MenuItem} from "primeng/api";
+import {SwalService} from "../../../services/swal.service";
 
 @Component({
     selector: 'app-articulos-list',
@@ -15,12 +16,14 @@ export class ArticulosListComponent implements OnInit {
     items: Array<any>;
     cols: Array<any>;
     selectedItem: any;
-
-    faEdit = faEdit;
+    selectedCtxItem: any;
     enableBtns: boolean;
+
+    itemsCtxMenu: MenuItem[];
 
     constructor(private artsService: ArticuloService,
                 private domService: DomService,
+                private swalService: SwalService,
                 private router: Router) {
     }
 
@@ -30,6 +33,13 @@ export class ArticulosListComponent implements OnInit {
         this.filtro = '';
         this.listar();
         this.domService.setFocus('buscaInput');
+
+        this.itemsCtxMenu = [
+            {label: 'Editar', icon: 'pi pi-pencil', command: (event) => this.editItem(this.selectedItem)},
+            {label: 'Ver detalles', icon: 'pi pi-view', command: (event) => this.viewItem(this.selectedItem)},
+            {label: 'Eliminar', icon: 'pi pi-times', command: (event) => this.deleteItem(this.selectedItem)}
+        ];
+
     }
 
     onRowSelect(event) {
@@ -42,6 +52,33 @@ export class ArticulosListComponent implements OnInit {
 
     doFilter(ev: any) {
         this.listar();
+    }
+
+    editItem(rowItem: any) {
+        this.selectedItem = rowItem;
+        this.editar();
+    }
+
+    viewItem(rowItem: any) {
+        this.selectedItem = rowItem;
+        this.router.navigate(['mercaderiaView', this.selectedItem.ic_id]);
+    }
+
+    deleteItem(rowItem: any) {
+        let msg = '¿Seguro que desea eliminar este registro?';
+
+        this.swalService.fireDialog(msg).then(confirm => {
+            if (confirm.value) {
+                this.artsService.anularArticulo(rowItem.ic_id).subscribe(res => {
+                    if (res.status === 200) {
+                        if (res.status === 200) {
+                            this.swalService.fireToastSuccess(res.msg);
+                            this.listar();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     listar() {

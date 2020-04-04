@@ -22,6 +22,7 @@ import {BlogsComponent} from './components/blogs/blogs.component';
 import {BlogComponent} from './components/blogs/blog/blog.component';
 import {TicketComponent} from './components/tickets/ticket/ticket.component';
 import {TicketformComponent} from './components/tickets/ticketform/ticketform.component';
+import {ArticulosViewComponent} from "./components/articulos/articulos-view/articulos-view.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -31,6 +32,7 @@ const routes: Routes = [
   {path: 'cierreCaja', component: CierreCajaComponent},
   {path: 'mercaderia', component: ArticulosListComponent},
   {path: 'mercaderiaForm/:art_id', component: ArticulosFormComponent},
+  {path: 'mercaderiaView/:art_id', component: ArticulosViewComponent},
   {path: 'contribs', component: ContribsListComponent},
   {path: 'contribs/:cnt_id', component: ContribsFormComponent},
   {path: 'directiva/:tipo', component: MiembrodirectivaComponent},

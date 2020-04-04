@@ -1,0 +1,128 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h4> {{artFromDb.ic_nombre}} </h4>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+
+            <div class="card border-primary">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <svg class="bd-placeholder-img img-thumbnail" width="200" height="200"
+                                 xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"
+                                 focusable="false"
+                                 role="img"
+                                 aria-label="A generic square placeholder image with a white border around it, making it resemble a photograph taken with an old instant camera: 200x200">
+                                <title>A generic square placeholder image with a white border around it, making it
+                                    resemble a
+                                    photograph taken with an old instant camera</title>
+                                <rect width="100%" height="100%" fill="#868e96"></rect>
+                                <text x="50%" y="50%" fill="#dee2e6" dy=".3em">200x200</text>
+                            </svg>
+
+                            <button type="button" class="btn btn-outline-primary  btn-block" (click)="retornar()">
+                                Retornar
+                            </button>
+
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-4">
+                                    <span class="font-weight-lighter">Nombre:</span>
+                                </div>
+                                <div class="col">
+                                    {{artFromDb.ic_nombre}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <span class="font-weight-lighter">Código:</span>
+                                </div>
+                                <div class="col">
+                                    {{artFromDb.ic_code}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <span class="font-weight-lighter">Tipo:</span>
+                                </div>
+                                <div class="col">
+                                    {{artFromDb.tipic_nombre}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <span class="font-weight-lighter">Fecha de creación:</span>
+                                </div>
+                                <div class="col">
+                                    {{artFromDb.ic_fechacrea}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <span class="font-weight-lighter">Categoría:</span>
+                                </div>
+                                <div class="col">
+                                    {{artFromDb.catic_nombre}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <span class="font-weight-lighter">Graba Iva:</span>
+                                </div>
+                                <div class="col">
+                                    {{artFromDb.icdp_grabaiva}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <span class="font-weight-lighter">Precio de compra(Sin Iva):</span>
+                                </div>
+                                <div class="col">
+                                    {{artFromDb.icdp_preciocompra}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <span class="font-weight-lighter">Precio de compra (Con Iva):</span>
+                                </div>
+                                <div class="col">
+                                    {{artFromDb.icdp_preciocompra_iva}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <span class="font-weight-lighter">Precio de venta (Con Iva):</span>
+                                </div>
+                                <div class="col">
+                                    {{artFromDb.icdp_precioventa}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <span class="font-weight-lighter">Proveedor:</span>
+                                </div>
+                                <div class="col">
+                                    {{artFromDb.proveedor}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <span class="font-weight-lighter">Nota:</span>
+                                </div>
+                                <div class="col">
+                                    {{artFromDb.ic_nota}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

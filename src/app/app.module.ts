@@ -28,15 +28,15 @@ import {SelectButtonModule} from 'primeng/selectbutton';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {SidebarModule} from 'primeng/sidebar';
 import {
-  CarouselModule,
-  CheckboxModule,
-  EditorModule,
-  InputMaskModule,
-  MegaMenuModule,
-  MessageModule,
-  MessageService,
-  SplitButtonModule,
-  ToolbarModule
+    CarouselModule,
+    CheckboxModule, ContextMenuModule,
+    EditorModule,
+    InputMaskModule,
+    MegaMenuModule,
+    MessageModule,
+    MessageService,
+    SplitButtonModule,
+    ToolbarModule
 } from 'primeng/primeng';
 import {ContribsFormComponent} from './components/contribs/contribs-form/contribs-form.component';
 import {PageHeaderComponent} from './components/shared/page-header/page-header.component';
@@ -77,6 +77,7 @@ import {BlogsComponent} from './components/blogs/blogs.component';
 import { AppfooterComponent } from './components/shared/appfooter/appfooter.component';
 import {TicketComponent} from "./components/tickets/ticket/ticket.component";
 import {TicketformComponent} from "./components/tickets/ticketform/ticketform.component";
+import { ArticulosViewComponent } from './components/articulos/articulos-view/articulos-view.component';
 
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -117,41 +118,43 @@ import {TicketformComponent} from "./components/tickets/ticketform/ticketform.co
     BlogsComponent,
     AppfooterComponent,
     TicketComponent,
-      TicketformComponent
+      TicketformComponent,
+      ArticulosViewComponent
   ],
-  imports: [
-    BrowserModule,
-    // Imports agregados
-    //AngularFireModule.initializeApp(environment.firebaseConfig), // Import firebase
-    //AngularFirestoreModule, // Import firestore
-    FlexLayoutModule,
-    BrowserAnimationsModule,
-    FontAwesomeModule,
-    AppRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    FormsModule,
-    PanelMenuModule,
-    TableModule,
-    MenubarModule,
-    SelectButtonModule,
-    ToolbarModule,
-    SplitButtonModule,
-    InputMaskModule,
-    MessageModule,
-    CheckboxModule,
-    ToastModule,
-    DropdownModule,
-    CalendarModule,
-    MegaMenuModule,
-    AngularFontAwesomeModule,
-    GalleriaModule,
-    CarouselModule,
-    EditorModule,
-    NgbModule,
-    BreadcrumbModule,
-    SidebarModule
-  ],
+    imports: [
+        BrowserModule,
+        // Imports agregados
+        //AngularFireModule.initializeApp(environment.firebaseConfig), // Import firebase
+        //AngularFirestoreModule, // Import firestore
+        FlexLayoutModule,
+        BrowserAnimationsModule,
+        FontAwesomeModule,
+        AppRoutingModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        FormsModule,
+        PanelMenuModule,
+        TableModule,
+        MenubarModule,
+        SelectButtonModule,
+        ToolbarModule,
+        SplitButtonModule,
+        InputMaskModule,
+        MessageModule,
+        CheckboxModule,
+        ToastModule,
+        DropdownModule,
+        CalendarModule,
+        MegaMenuModule,
+        AngularFontAwesomeModule,
+        GalleriaModule,
+        CarouselModule,
+        EditorModule,
+        NgbModule,
+        BreadcrumbModule,
+        SidebarModule,
+        ContextMenuModule
+    ],
   providers: [
     ContribuyenteService,
     AuthService,

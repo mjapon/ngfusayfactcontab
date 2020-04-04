@@ -62,6 +62,17 @@ export class ArticuloService extends BaseService {
         );
     }
 
+    anularArticulo(artId: any): Observable<any> {
+        const endpoint = this.urlEndPoint + '/' + artId;
+        const httpOptions = this.getHttpOptionsToken({'accion': 'del'});
+        return this.http.post(endpoint, {}, httpOptions).pipe(
+            map((response: any) => {
+                return response;
+            }),
+            catchError(this.fnProcesaError)
+        );
+    }
+
     listar(pfiltro: string): Observable<any> {
         const endopoint = this.urlEndPoint;
         const httpOptions = this.getHttpOptionsToken({
