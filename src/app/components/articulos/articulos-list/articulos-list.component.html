@@ -19,15 +19,29 @@
     </div>
   </div>
   <div class="col">
+    <p-dropdown [options]="sections" optionLabel="sec_nombre" [(ngModel)]="selectedSection" (onChange)="listar()"></p-dropdown>
+  </div>
+  <div class="col">
     <div class="btn-group pull-right" role="group" aria-label="Default button group">
       <button type="button" class="btn btn-outline-success" (click)="listar()" title="Actualiza listado de productos y servicios">
         <i class="fa fa-search"></i>
-        Listar</button>
+        </button>
       <button type="button" class="btn btn-outline-success" [disabled]="!enableBtns" (click)="editar()" title="Muestra el detalle completo del producto o servicio">
-        Detalles</button>
+        <i class="fa fa-pencil"></i>
+        </button>
       <button type="button" class="btn btn-outline-success" (click)="goToForm()" title="Registrar un nuevo producto o servicio">
         <i class="fa fa-plus-circle"></i>
-        Crear</button>
+        </button>
+
+      <div class="btn-group" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-outline-success" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-ellipsis-v"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
+          <a class="dropdown-item hand" (click)="eliminar()"> <i class="fa fa-trash"></i> Borrar</a>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -36,7 +50,7 @@
          [(contextMenuSelection)]="selectedItem"
          (onRowSelect)="onRowSelect($event)"
          (onRowUnselect)="onUnRowSelect($event)"
-         [contextMenu]="cm">
+         [contextMenu]="cm" tableStyleClass="fusay-table">
   <ng-template pTemplate="caption">
     Listado de productos y servicios ({{items.length}})
   </ng-template>
@@ -46,6 +60,7 @@
         {{item.label}}
         <p-sortIcon [field]="item.field"></p-sortIcon>
       </th>
+      <th width="11%"></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData>
@@ -53,13 +68,10 @@
       <td *ngFor="let item of cols">
         {{rowData[item['field']]}}
       </td>
-      <!--
       <td>
-        <button class="btn btn-sm btn-outline-dark" (click)="selectArt(rowData)">
-          <i class="pi pi-pencil"></i>
-        </button>
+        <button pButton type="button" class="ui-button-secondary" icon="pi pi-eye" (click)="viewItem(rowData)" title="Ver detalles del producto o servicio"></button>
+        <button pButton type="button" class="ui-button-secondary" icon="pi pi-pencil" (click)="editItem(rowData)" title="Editar este producto o servicio"></button>
       </td>
-      -->
     </tr>
   </ng-template>
   <ng-template pTemplate="emptymessage" let-columns>

@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {DomService} from '../../../services/dom.service';
 import {MenuItem} from "primeng/api";
 import {SwalService} from "../../../services/swal.service";
+import {SeccionService} from "../../../services/seccion.service";
 
 @Component({
     selector: 'app-articulos-list',
@@ -20,10 +21,13 @@ export class ArticulosListComponent implements OnInit {
     enableBtns: boolean;
 
     itemsCtxMenu: MenuItem[];
+    sections: Array<any>;
+    selectedSection: any;
 
     constructor(private artsService: ArticuloService,
                 private domService: DomService,
                 private swalService: SwalService,
+                private seccionService: SeccionService,
                 private router: Router) {
     }
 
@@ -31,7 +35,6 @@ export class ArticulosListComponent implements OnInit {
         this.items = new Array<any>();
         this.cols = new Array<any>();
         this.filtro = '';
-        this.listar();
         this.domService.setFocus('buscaInput');
 
         this.itemsCtxMenu = [
@@ -40,6 +43,13 @@ export class ArticulosListComponent implements OnInit {
             {label: 'Eliminar', icon: 'pi pi-times', command: (event) => this.deleteItem(this.selectedItem)}
         ];
 
+        this.seccionService.listar().subscribe(res => {
+            if (res.status === 200) {
+                this.sections = res.items;
+                this.selectedSection = this.sections[0];
+                this.listar();
+            }
+        });
     }
 
     onRowSelect(event) {
@@ -82,7 +92,8 @@ export class ArticulosListComponent implements OnInit {
     }
 
     listar() {
-        this.artsService.listar(this.filtro)
+        let sec_id = this.selectedSection.sec_id;
+        this.artsService.listar(this.filtro, sec_id)
             .subscribe(response => {
                 if (response.status === 200) {
                     const grid = response.data;
@@ -90,6 +101,10 @@ export class ArticulosListComponent implements OnInit {
                     this.cols = grid.cols;
                 }
             });
+    }
+
+    eliminar() {
+        this.deleteItem(this.selectedItem);
     }
 
     editar() {

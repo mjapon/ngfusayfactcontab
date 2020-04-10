@@ -15,6 +15,7 @@ import {PersonaService} from '../../../services/persona.service';
 import {FechasService} from '../../../services/fechas.service';
 import {parse} from 'date-fns';
 import {LocalStorageService} from '../../../services/local-storage.service';
+import {ArticulostockService} from '../../../services/articulostock.service';
 
 @Component({
     selector: 'app-articulos-form',
@@ -27,6 +28,7 @@ export class ArticulosFormComponent implements OnInit {
 
     categorias: Array<any> = [];
     proveedores: Array<any> = [];
+    stock: Array<any> = [];
 
     tiposArt: SelectItem[];
     ivas: SelectItem[];
@@ -49,6 +51,7 @@ export class ArticulosFormComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private artService: ArticuloService,
+        private artStockService: ArticulostockService,
         private refsService: ReferenteService,
         private catsService: CategoriasService,
         private tipoCajaService: TipoCajaService,
@@ -101,7 +104,9 @@ export class ArticulosFormComponent implements OnInit {
             this.buildDefForm();
             this.artId = parseInt(params.get('art_id'), 10);
             this.editing = this.artId > 0;
-            this.domService.setFocus('codbarraInput');
+            setTimeout(() => {
+                this.domService.setFocus('codbarraInput');
+            }, 100);
             this.loadArrays();
         });
 
@@ -133,6 +138,13 @@ export class ArticulosFormComponent implements OnInit {
                             this.buildForm(this.artFromDb);
                         }
                     });
+
+                    this.artStockService.getForm(this.artId).subscribe(resStock => {
+                        if (resStock.status === 200) {
+                            this.stock = resStock.form_secs;
+                        }
+                    });
+
                 } else {
                     this.artService.getForm().subscribe((resNewArt: any) => {
                         if (resNewArt.status === 200) {
@@ -294,6 +306,15 @@ export class ArticulosFormComponent implements OnInit {
         formToPost.icdp_grabaiva = tipoiva.value;
         formToPost.icdp_proveedor = provsel.per_id;
         return formToPost;
+    }
+
+    guardarStock() {
+        this.artStockService.guardar(this.stock).subscribe(res => {
+            if (res.status === 200) {
+                this.swalService.fireToastSuccess(res.msg);
+                this.cancelar();
+            }
+        });
     }
 
     procesaForm() {

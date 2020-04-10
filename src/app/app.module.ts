@@ -36,7 +36,8 @@ import {
     MessageModule,
     MessageService,
     SplitButtonModule,
-    ToolbarModule
+    ToolbarModule,
+    TabViewModule
 } from 'primeng/primeng';
 import {ContribsFormComponent} from './components/contribs/contribs-form/contribs-form.component';
 import {PageHeaderComponent} from './components/shared/page-header/page-header.component';
@@ -153,7 +154,8 @@ import { ArticulosViewComponent } from './components/articulos/articulos-view/ar
         NgbModule,
         BreadcrumbModule,
         SidebarModule,
-        ContextMenuModule
+        ContextMenuModule,
+        TabViewModule
     ],
   providers: [
     ContribuyenteService,

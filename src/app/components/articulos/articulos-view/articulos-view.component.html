@@ -5,10 +5,8 @@
             <hr>
         </div>
     </div>
-
     <div class="row">
         <div class="col">
-
             <div class="card border-primary">
                 <div class="card-body">
                     <div class="row">
@@ -24,10 +22,6 @@
                                 <rect width="100%" height="100%" fill="#868e96"></rect>
                                 <text x="50%" y="50%" fill="#dee2e6" dy=".3em">200x200</text>
                             </svg>
-
-                            <button type="button" class="btn btn-outline-primary  btn-block" (click)="retornar()">
-                                Retornar
-                            </button>
 
                         </div>
                         <div class="col">
@@ -76,19 +70,19 @@
                                     <span class="font-weight-lighter">Graba Iva:</span>
                                 </div>
                                 <div class="col">
-                                    {{artFromDb.icdp_grabaiva}}
+                                    {{artFromDb.icdp_grabaiva?'Si':'No'}}
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-4">
+                            <div class="row" *ngIf="artFromDb.tipic_id===1">
+                                <div class="col-5">
                                     <span class="font-weight-lighter">Precio de compra(Sin Iva):</span>
                                 </div>
                                 <div class="col">
                                     {{artFromDb.icdp_preciocompra}}
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-4">
+                            <div class="row" *ngIf="artFromDb.tipic_id===1">
+                                <div class="col-5">
                                     <span class="font-weight-lighter">Precio de compra (Con Iva):</span>
                                 </div>
                                 <div class="col">
@@ -96,7 +90,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-5">
                                     <span class="font-weight-lighter">Precio de venta (Con Iva):</span>
                                 </div>
                                 <div class="col">
@@ -112,13 +106,24 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-3">
                                     <span class="font-weight-lighter">Nota:</span>
                                 </div>
                                 <div class="col">
                                     {{artFromDb.ic_nota}}
                                 </div>
                             </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-outline-success  btn-block" (click)="retornar()">
+                                        Retornar
+                                    </button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
