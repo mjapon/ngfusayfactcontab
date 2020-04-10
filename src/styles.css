@@ -593,3 +593,9 @@ footer .copyright {
 .hand{
   cursor: pointer;
 }
+
+.fusay-table{
+  font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+}
