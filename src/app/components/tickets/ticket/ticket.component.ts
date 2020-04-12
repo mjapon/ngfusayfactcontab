@@ -4,6 +4,7 @@ import {TicketService} from "../../../services/ticket.service";
 import {parse} from "date-fns";
 import {DateFormatPipe} from "../../../pipes/date-format.pipe";
 import {SwalService} from "../../../services/swal.service";
+
 /*import {PdfMakeWrapper} from "pdfmake-wrapper";
 import * as jsPDF from 'jspdf';
 import pdfMake from 'pdfmake/build/pdfmake';
@@ -82,14 +83,12 @@ export class TicketComponent implements OnInit {
 
     imprimir() {
         if (this.selectedItem) {
-            console.log(this.selectedItem);
             this.ticketService.imprimir(this.selectedItem.tk_id);
         }
     }
 
     anular() {
         if (this.selectedItem) {
-            console.log(this.selectedItem.tk_id);
             this.swalService.fireDialog('¿Confirma que desea anular este ticket?', '').then(confirm => {
                     if (confirm.value) {
                         this.ticketService.anular(this.selectedItem.tk_id).subscribe(res => {

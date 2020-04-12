@@ -6,77 +6,77 @@ import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 
 @Component({
-  selector: 'app-start',
-  templateUrl: './start.component.html',
-  styleUrls: ['./start.component.css']
+    selector: 'app-start',
+    templateUrl: './start.component.html',
+    styleUrls: ['./start.component.css']
 })
 export class StartComponent implements OnInit {
-  images: any[];
-  cars: any[];
-  responsiveOptions;
-  tituloDetProd = '';
-  detalleDetProd = '';
-  modalOptions: NgbModalOptions;
-  servicios: any[];
-  directiva: any[];
-  banners: any[];
-  serviciosel: any;
+    images: any[];
+    cars: any[];
+    responsiveOptions;
+    tituloDetProd = '';
+    detalleDetProd = '';
+    modalOptions: NgbModalOptions;
+    servicios: any[];
+    directiva: any[];
+    banners: any[];
+    serviciosel: any;
 
-  constructor(
-    private router: Router,
-    private autService: AuthService,
-    private modalService: NgbModal
-  ) {
-    this.responsiveOptions = [
-      {
-        breakpoint: '1024px',
-        numVisible: 3,
-        numScroll: 3
-      },
-      {
-        breakpoint: '768px',
-        numVisible: 2,
-        numScroll: 2
-      },
-      {
-        breakpoint: '560px',
-        numVisible: 1,
-        numScroll: 1
-      }
-    ];
+    constructor(
+        private router: Router,
+        private autService: AuthService,
+        private modalService: NgbModal
+    ) {
+        this.responsiveOptions = [
+            {
+                breakpoint: '1024px',
+                numVisible: 3,
+                numScroll: 3
+            },
+            {
+                breakpoint: '768px',
+                numVisible: 2,
+                numScroll: 2
+            },
+            {
+                breakpoint: '560px',
+                numVisible: 1,
+                numScroll: 1
+            }
+        ];
 
-    this.cars = [
-      {brand: 'Medicina Ancestral', year: '2019', color: 'blanco'},
-      {brand: 'Medicina Tradicional', year: '2019', color: 'blanco'},
-      {brand: 'Tres', year: '2019', color: 'blanco'},
-      {brand: 'Cuatro', year: '2019', color: 'blanco'}
-    ];
+        this.cars = [
+            {brand: 'Medicina Ancestral', year: '2019', color: 'blanco'},
+            {brand: 'Medicina Tradicional', year: '2019', color: 'blanco'},
+            {brand: 'Tres', year: '2019', color: 'blanco'},
+            {brand: 'Cuatro', year: '2019', color: 'blanco'}
+        ];
 
-    this.modalOptions = {
-      backdrop: 'static',
-      backdropClass: 'customBackdrop'
-    };
-    this.loadInfoServicios();
-    this.loadInfoDirectiva();
-    this.loadBanners();
-    this.serviciosel = {};
-  }
+        this.modalOptions = {
+            backdrop: 'static',
+            backdropClass: 'customBackdrop'
+        };
+        this.loadInfoServicios();
+        this.loadInfoDirectiva();
+        this.loadBanners();
+        this.serviciosel = {};
+    }
 
-  getIndexOfItem(item: any) {
-    return this.banners.indexOf(item);
-  }
+    getIndexOfItem(item: any) {
+        return this.banners.indexOf(item);
+    }
 
-  goToEvento(){
-    this.router.navigate(['congreso2020']);
-  }
+    goToEvento() {
+        this.router.navigate(['congreso2020']);
+    }
 
-  loadInfoServicios() {
-    this.servicios = Array<any>();
-    this.servicios.push({
-      nombre: 'Medicina Ancestral',
-      img: 'medancestral_prod.jpg',
-      shortDet: 'Rituales de sanación con medicina ancestral',
-      longDet: `<p>
+    loadInfoServicios() {
+        this.servicios = Array<any>();
+        this.servicios.push({
+            nombre: 'Medicina Ancestral',
+            img: 'medancestral_prod.jpg',
+            shortDet: 'Rituales de sanación con medicina ancestral',
+            longDet: `<p>
       El principal objetivo de nuestra Fundación, entro entros; es recuperar los conocimientos ancestrales
       de nuestros antepasados en el tema de sanación de nuestro cuerpo, revalorizando los conocimientos
       de nuestros mayores, yachacs, parteras, sanadores que se están perdiendo.
@@ -84,12 +84,12 @@ export class StartComponent implements OnInit {
       rituales de curación con medicinas de poder (ahuacolla, ayahauasca, tabaco) y sanación tales como limpias
       con huevo, cuy entre otros; aportando asi al bienestar del ser humano y por ende de la sociedad en conjunto.
       </p>`
-    });
-    this.servicios.push({
-      nombre: 'Medicina Tradicional',
-      img: 'medtrad_prod.jpeg',
-      shortDet: 'Atención en medicina convencional',
-      longDet: `<p>
+        });
+        this.servicios.push({
+            nombre: 'Medicina Tradicional',
+            img: 'medtrad_prod.jpeg',
+            shortDet: 'Atención en medicina convencional',
+            longDet: `<p>
       La Medicina Tradicional u occidental tambien está presente en nuestra Fundación
       mediante la aplicacion de farmacos que son recetados por el médico de la Fundación
       luego de una evaluacion del mismo al paciente, en los casos para los que se requiere,
@@ -97,12 +97,12 @@ export class StartComponent implements OnInit {
       al ser humano. En este sentido la Fundación
       ofrece el servicio de Consulta Externa, aplicación de sueros entre otros.
       </p>`
-    });
-    this.servicios.push({
-      nombre: 'Kambo',
-      img: 'kambo_prod.jpeg',
-      shortDet: 'Terapias de curación usando la medicina del Kambó',
-      longDet: `<p>
+        });
+        this.servicios.push({
+            nombre: 'Kambo',
+            img: 'kambo_prod.jpeg',
+            shortDet: 'Terapias de curación usando la medicina del Kambó',
+            longDet: `<p>
       El Kambó, es la secreción cutanea que se obtiene de la rana Phyllomedusa bicolor,
       un anfibio anuro arbóreo que habita en la cuencas del Amazonas y el Orinoco en América del Sur.
       </p>
@@ -129,12 +129,12 @@ export class StartComponent implements OnInit {
       Debido a la presencia de estos péptidos, el Kambo es uno de los antibióticos y anestésicos naturales más fuertes encontrados en el mundo y
       uno de los medios naturales más fuertes, además de despertar y potenciar fuertemente nuestro sistema inmunológico
       </p>`
-    });
-    this.servicios.push({
-      nombre: 'Terapias Alternativas',
-      img: 'terapiasal_prod.jpeg',
-      shortDet: 'Acupuntura, Sintergetica, Masaje Tuina, Terapia Ortomolecular',
-      longDet: `<p>
+        });
+        this.servicios.push({
+            nombre: 'Terapias Alternativas',
+            img: 'terapiasal_prod.jpeg',
+            shortDet: 'Acupuntura, Sintergetica, Masaje Tuina, Terapia Ortomolecular',
+            longDet: `<p>
       Las Terapias Alternativas, también llamadas Terapias Naturales, son el conjunto de técnicas y metodologías orientadas a ayudar a la persona
       a que aprenda a recuperar su estado natural de salud.
       En este sentido, se presentan, principalmente, antes como un acompañamiento a la persona para ayudarla a comprender su proceso de sanación,
@@ -144,13 +144,13 @@ export class StartComponent implements OnInit {
       <p>Las Terapias Alternativas proponen una visión global del individuo en la que todos los elementos -físico, intelectual, emocional, espiritual, social, afectivo…- de su vida están relacionados. Un movimiento en cualesquiera de estas áreas tiene repercusión en los demás aspectos, tanto para mejorar la salud como para empeorarla.</p>
       <p>La persona es la responsable última de su estado de salud así como de su proceso de sanación. El terapeuta no cura al paciente sino que, bien al contrario, ayuda a la persona para que ella misma tome las riendas de su vida.</p>
       </ul>`
-    });
-    this.servicios.push({
-      nombre: 'Temascal',
-      img: 'temascal_prod.jpg',
-      shortDet:
-        'Adéntrate al vientre de la madre tierra en nuestros temascales',
-      longDet: `<p>
+        });
+        this.servicios.push({
+            nombre: 'Temascal',
+            img: 'temascal_prod.jpg',
+            shortDet:
+                'Adéntrate al vientre de la madre tierra en nuestros temascales',
+            longDet: `<p>
       El temazcal es un baño de vapor utilizado ampliamente en Mesoamérica desde los tiempos prehispánicos; se utiliza con fines terapéuticos, higiénicos y rituales, siempre conservando la cosmovisión indígena.
       </p>
       <p>
@@ -177,12 +177,12 @@ export class StartComponent implements OnInit {
       - El cedro para agradecer y bendecir todo lo que tenemos.
       - La salvia para escoger solo aquello que necesitamos.
       </p>`
-    });
-    this.servicios.push({
-      nombre: 'Rumihawa',
-      img: 'rumi1_prod.jpg',
-      shortDet: 'Disfruta de platos típicos de la localidad en el Rumihawa',
-      longDet: `<p>
+        });
+        this.servicios.push({
+            nombre: 'Rumihawa',
+            img: 'rumi1_prod.jpg',
+            shortDet: 'Disfruta de platos típicos de la localidad en el Rumihawa',
+            longDet: `<p>
       Rumihawa, es el restaurante que la Fundación pone a dispocision de toda la ciudadanía
       en ella se ofrecen platos típicos de la localidad como es:
       </p>
@@ -194,110 +194,106 @@ export class StartComponent implements OnInit {
       <li>Queso y quesillo</li>
       <li>Mote</li>
       </ul>`
-    });
-  }
-
-  loadBanners() {
-    this.banners = new Array<any>();
-    this.banners.push({
-      img: '3_m.png'
-    });
-    this.banners.push({
-      img: '4_m.png'
-    });
-    this.banners.push({
-      img: '5_m.png'
-    });
-    this.banners.push({
-      img: '1_m.png'
-    });
-  }
-
-  loadInfoDirectiva() {
-    this.directiva = Array<any>();
-    this.directiva.push({
-      nombre: 'Msc. Angel Rodrigo Japón Gualán',
-      img: 'presid.jpg',
-      shortDet: 'Presidente',
-      longDet: 'Detalle presidente'
-    });
-
-    this.directiva.push({
-      nombre: 'Prof. María Delfina Gualán Lozano',
-      img: 'mamadelfina.jpg',
-      shortDet: 'Tesorera',
-      longDet: 'Detalle tesorera'
-    });
-
-    this.directiva.push({
-      nombre: 'Ing. Manuel Efraín Japón Gualán',
-      img: 'manuel.jpeg',
-      shortDet: 'Secretario',
-      longDet: 'Detalle secretario'
-    });
-
-    this.directiva.push({
-      nombre: 'Msc. Angel Polibio Japón Gualán',
-      img: 'polibio.jpeg',
-      shortDet: 'Fiscalizador',
-      longDet: 'Detalle Fiscalizador'
-    });
-
-    this.directiva.push({
-      nombre: 'Sr. Lauro Quishpe',
-      img: 'lauro.jpeg',
-      shortDet: 'Primer Vocal',
-      longDet: 'Detalle Primer Vocal'
-    });
-  }
-
-  ngOnInit() {
-    console.log('Start componente-->');
-    console.log('usuario logueado:');
-    console.log(this.autService.isAuthenticated());
-
-    this.images = [];
-    this.images.push({
-      source: 'assets/banners/1_m.png',
-      alt: 'Description for Image 1',
-      title: 'Title 1'
-    });
-    this.images.push({
-      source: 'assets/banners/5_m.png',
-      alt: 'Description for Image 1',
-      title: 'Title 1'
-    });
-    this.images.push({
-      source: 'assets/banners/3_m.png',
-      alt: 'Description for Image 1',
-      title: 'Title 1'
-    });
-    this.images.push({
-      source: 'assets/banners/4_m.png',
-      alt: 'Description for Image 1',
-      title: 'Title 1'
-    });
-
-    /*
-    if (this.autService.isAuthenticated()) {
-      this.router.navigate(['home']);
-    } else {
-      this.router.navigate(['login']);
+        });
     }
-    */
 
-    //this.goToEvento();
-  }
+    loadBanners() {
+        this.banners = new Array<any>();
+        this.banners.push({
+            img: '3_m.png'
+        });
+        this.banners.push({
+            img: '4_m.png'
+        });
+        this.banners.push({
+            img: '5_m.png'
+        });
+        this.banners.push({
+            img: '1_m.png'
+        });
+    }
 
-  showDetallesProd(item: any) {
-    this.serviciosel = item;
-    this.tituloDetProd = item.nombre;
-    this.detalleDetProd = item.longDet;
-    $('#modalDetalleProd').modal();
-  }
+    loadInfoDirectiva() {
+        this.directiva = Array<any>();
+        this.directiva.push({
+            nombre: 'Msc. Angel Rodrigo Japón Gualán',
+            img: 'presid.jpg',
+            shortDet: 'Presidente',
+            longDet: 'Detalle presidente'
+        });
 
-  showDetallesDirectiva(item: any) {
-    //alert('show detalles para:' + item.nombre);
-    this.router.navigate(['directiva', item.shortDet]);
-  }
+        this.directiva.push({
+            nombre: 'Prof. María Delfina Gualán Lozano',
+            img: 'mamadelfina.jpg',
+            shortDet: 'Tesorera',
+            longDet: 'Detalle tesorera'
+        });
+
+        this.directiva.push({
+            nombre: 'Ing. Manuel Efraín Japón Gualán',
+            img: 'manuel.jpeg',
+            shortDet: 'Secretario',
+            longDet: 'Detalle secretario'
+        });
+
+        this.directiva.push({
+            nombre: 'Msc. Angel Polibio Japón Gualán',
+            img: 'polibio.jpeg',
+            shortDet: 'Fiscalizador',
+            longDet: 'Detalle Fiscalizador'
+        });
+
+        this.directiva.push({
+            nombre: 'Sr. Lauro Quishpe',
+            img: 'lauro.jpeg',
+            shortDet: 'Primer Vocal',
+            longDet: 'Detalle Primer Vocal'
+        });
+    }
+
+    ngOnInit() {
+        this.images = [];
+        this.images.push({
+            source: 'assets/banners/1_m.png',
+            alt: 'Description for Image 1',
+            title: 'Title 1'
+        });
+        this.images.push({
+            source: 'assets/banners/5_m.png',
+            alt: 'Description for Image 1',
+            title: 'Title 1'
+        });
+        this.images.push({
+            source: 'assets/banners/3_m.png',
+            alt: 'Description for Image 1',
+            title: 'Title 1'
+        });
+        this.images.push({
+            source: 'assets/banners/4_m.png',
+            alt: 'Description for Image 1',
+            title: 'Title 1'
+        });
+
+        /*
+        if (this.autService.isAuthenticated()) {
+          this.router.navigate(['home']);
+        } else {
+          this.router.navigate(['login']);
+        }
+        */
+
+        //this.goToEvento();
+    }
+
+    showDetallesProd(item: any) {
+        this.serviciosel = item;
+        this.tituloDetProd = item.nombre;
+        this.detalleDetProd = item.longDet;
+        $('#modalDetalleProd').modal();
+    }
+
+    showDetallesDirectiva(item: any) {
+        //alert('show detalles para:' + item.nombre);
+        this.router.navigate(['directiva', item.shortDet]);
+    }
 }

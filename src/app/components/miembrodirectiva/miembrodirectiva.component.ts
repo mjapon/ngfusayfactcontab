@@ -1,67 +1,62 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MbmDirFusayService } from 'src/app/services/mbm-dir-fusay.service';
-import { MbroDir } from 'src/app/model/mbrodir';
-import { DocumentReference } from '@angular/fire/firestore';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MbmDirFusayService} from 'src/app/services/mbm-dir-fusay.service';
+import {MbroDir} from 'src/app/model/mbrodir';
+import {DocumentReference} from '@angular/fire/firestore';
 
 @Component({
-  selector: 'app-miembrodirectiva',
-  templateUrl: './miembrodirectiva.component.html',
-  styleUrls: ['./miembrodirectiva.component.css']
+    selector: 'app-miembrodirectiva',
+    templateUrl: './miembrodirectiva.component.html',
+    styleUrls: ['./miembrodirectiva.component.css']
 })
 export class MiembrodirectivaComponent implements OnInit {
-  tipo: string;
-  datosMiembro: any;
-  detalleMiembro: string;
-  fotoMiembro: string;
-  cargoMiembro: string;
-  nombreMiembro: string;
+    tipo: string;
+    datosMiembro: any;
+    detalleMiembro: string;
+    fotoMiembro: string;
+    cargoMiembro: string;
+    nombreMiembro: string;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private directivaService: MbmDirFusayService
-  ) {
-    this.detalleMiembro = '<i>Defina detalle</i>';
-    this.fotoMiembro = 'hombre_empty.jpeg';
-    this.cargoMiembro = 'cargo';
-    this.nombreMiembro = 'nombre';
-  }
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private directivaService: MbmDirFusayService
+    ) {
+        this.detalleMiembro = '<i>Defina detalle</i>';
+        this.fotoMiembro = 'hombre_empty.jpeg';
+        this.cargoMiembro = 'cargo';
+        this.nombreMiembro = 'nombre';
+    }
 
-  ngOnInit() {
-    this.tipo = '';
-    this.route.paramMap.subscribe(params => {
-      this.tipo = params.get('tipo');
-      console.log('tipo que llega es:', this.tipo);
-      this.loadDatosMiembro();
-    });
-  }
+    ngOnInit() {
+        this.tipo = '';
+        this.route.paramMap.subscribe(params => {
+            this.tipo = params.get('tipo');
+            this.loadDatosMiembro();
+        });
+    }
 
-  loadDatosMiembro() {
-    this.datosMiembro = {};
-    this.directivaService.findByTipo(this.tipo).subscribe(res => {
-      console.log('Valor de respueta es');
-      console.log(res);
-      if (res.status === 200) {
-        this.datosMiembro = res.item;
-        if (this.datosMiembro) {
-          this.detalleMiembro = this.datosMiembro.longdet;
-          this.cargoMiembro = this.datosMiembro.tipo;
-          this.fotoMiembro = this.datosMiembro.img;
-          this.nombreMiembro = this.datosMiembro.nombre;
-        }
-        console.log('Valor de datos miembro es:');
-        console.log(this.datosMiembro);
-      }
-    });
-  }
+    loadDatosMiembro() {
+        this.datosMiembro = {};
+        this.directivaService.findByTipo(this.tipo).subscribe(res => {
+            if (res.status === 200) {
+                this.datosMiembro = res.item;
+                if (this.datosMiembro) {
+                    this.detalleMiembro = this.datosMiembro.longdet;
+                    this.cargoMiembro = this.datosMiembro.tipo;
+                    this.fotoMiembro = this.datosMiembro.img;
+                    this.nombreMiembro = this.datosMiembro.nombre;
+                }
+            }
+        });
+    }
 
-  registrar() {
-    const pres: MbroDir = {
-      tipo: 'Presidente',
-      nombre: 'Msc. Angel Rodrigo Japón Gualán',
-      img: 'presid.jpg',
-      longDet: `<p class="card-text textofusay text-justify">
+    registrar() {
+        const pres: MbroDir = {
+            tipo: 'Presidente',
+            nombre: 'Msc. Angel Rodrigo Japón Gualán',
+            img: 'presid.jpg',
+            longDet: `<p class="card-text textofusay text-justify">
     Indígena del pueblo saraguro. Nacionalidad Quichua. Temazcalero y Taita de la medicina andina.
 
     Candidato a Doctor en Ciencias de la Educación por la Universidad Nacional de la Plata, Argentina.
@@ -111,64 +106,49 @@ export class MiembrodirectivaComponent implements OnInit {
     </a>
     <br>
   </p>`,
-      shortDet: ''
-    };
+            shortDet: ''
+        };
 
-    const tesorera: MbroDir = {
-      nombre: 'Prof. María Delfina Gualán Lozano',
-      img: 'mamadelfina.jpg',
-      tipo: 'Tesorera',
-      longDet: 'Detalle tesorera',
-      shortDet: ''
-    };
+        const tesorera: MbroDir = {
+            nombre: 'Prof. María Delfina Gualán Lozano',
+            img: 'mamadelfina.jpg',
+            tipo: 'Tesorera',
+            longDet: 'Detalle tesorera',
+            shortDet: ''
+        };
 
-    const secretario: MbroDir = {
-      nombre: 'Ing. Manuel Efraín Japón Gualán',
-      img: 'manuel.jpeg',
-      tipo: 'Secretario',
-      longDet: 'Detalle secretario',
-      shortDet: ''
-    };
+        const secretario: MbroDir = {
+            nombre: 'Ing. Manuel Efraín Japón Gualán',
+            img: 'manuel.jpeg',
+            tipo: 'Secretario',
+            longDet: 'Detalle secretario',
+            shortDet: ''
+        };
 
-    const fiscalizador: MbroDir = {
-      nombre: 'Msc. Angel Polibio Japón Gualán',
-      img: 'polibio.jpeg',
-      tipo: 'Fiscalizador',
-      longDet: 'Detalle Fiscalizador',
-      shortDet: ''
-    };
+        const fiscalizador: MbroDir = {
+            nombre: 'Msc. Angel Polibio Japón Gualán',
+            img: 'polibio.jpeg',
+            tipo: 'Fiscalizador',
+            longDet: 'Detalle Fiscalizador',
+            shortDet: ''
+        };
 
-    const primerVocal: MbroDir = {
-      nombre: 'Sr. Lauro Quishpe',
-      img: 'lauro.jpeg',
-      tipo: 'Primer Vocal',
-      longDet: 'Detalle Primer Vocal',
-      shortDet: ''
-    };
+        const primerVocal: MbroDir = {
+            nombre: 'Sr. Lauro Quishpe',
+            img: 'lauro.jpeg',
+            tipo: 'Primer Vocal',
+            longDet: 'Detalle Primer Vocal',
+            shortDet: ''
+        };
 
-    /*
-    this.directivaService.save(pres).then(response => this.handleSuccessfulSaveTodo(response, pres))
-    .catch(err => console.error(err));
-    */
+        alert('Registrado');
+    }
 
-    /*
-    this.directivaService.save(tesorera);
-    this.directivaService.save(secretario);
-    this.directivaService.save(fiscalizador);
-    this.directivaService.save(primerVocal);
-    */
+    regresar() {
+        this.router.navigate(['home']);
+    }
 
-    alert('Registrado');
-  }
+    handleSuccessfulSaveTodo(response: DocumentReference, todo: MbroDir) {
 
-  regresar() {
-    this.router.navigate(['home']);
-  }
-
-  handleSuccessfulSaveTodo(response: DocumentReference, todo: MbroDir) {
-    // Enviar la información al todo-list
-    console.log('guardado exitoso respuesta desde el servidor:');
-    console.log(response);
-    // this.activeModal.dismiss({ todo: todo, id: response.id });
-  }
+    }
 }

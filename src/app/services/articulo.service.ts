@@ -50,7 +50,6 @@ export class ArticuloService extends BaseService {
         return this.doGet(this.http, endopoint, httpOptions);
     }
 
-
     guardarArticulo(form: any): Observable<any> {
         const endpoint = this.urlEndPoint + '/' + form.ic_id;
         const httpOptions = this.getHttpOptionsToken({});
@@ -60,6 +59,12 @@ export class ArticuloService extends BaseService {
             }),
             catchError(this.fnProcesaError)
         );
+    }
+
+    actualizaBarcode(icId: number, newbarcode: string) {
+        const endpoint = this.urlEndPoint + '/' + icId;
+        const httpOptions = this.getHttpOptionsToken({accion: 'updatecode'});
+        return this.doPost(this.http, endpoint, httpOptions, {'new_ic_code': newbarcode});
     }
 
     anularArticulo(artId: any): Observable<any> {

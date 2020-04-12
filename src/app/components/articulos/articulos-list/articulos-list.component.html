@@ -26,11 +26,11 @@
     </div>
     <div class="col">
         <div class="btn-group pull-right" role="group" aria-label="Default button group">
+            <!--
             <button type="button" class="btn btn-outline-success" (click)="listar()"
                     title="Actualiza listado de productos y servicios">
                 <i class="fa fa-search"></i>
             </button>
-            <!--
             <button type="button" class="btn btn-outline-success" [disabled]="!enableBtns" (click)="editar()"
                     title="Muestra el detalle completo del producto o servicio">
                 <i class="fa fa-pencil"></i>
@@ -56,7 +56,7 @@
     </div>
 </div>
 <br>
-<p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
+<p-table [value]="items" [paginator]="true" [rows]="30" selectionMode="single" [(selection)]="selectedItem"
          [(contextMenuSelection)]="selectedItem"
          [resizableColumns]="true"
          (onRowSelect)="onRowSelect($event)"

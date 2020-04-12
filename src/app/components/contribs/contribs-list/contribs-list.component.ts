@@ -1,51 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import { ContribuyenteService } from '../../../services/contribuyente.service';
-import { ContribListResponse } from '../../../model/contribs';
-import { MenuItem } from 'primeng/api';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ContribuyenteService} from '../../../services/contribuyente.service';
+import {ContribListResponse} from '../../../model/contribs';
+import {MenuItem} from 'primeng/api';
+import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-contribs-list',
-  templateUrl: './contribs-list.component.html',
-  styles: []
+    selector: 'app-contribs-list',
+    templateUrl: './contribs-list.component.html',
+    styles: []
 })
 export class ContribsListComponent implements OnInit {
-  items: Array<any>;
-  cols: Array<any>;
-  pSelectableRow: any;
-  menu: MenuItem[];
+    items: Array<any>;
+    cols: Array<any>;
+    pSelectableRow: any;
+    menu: MenuItem[];
 
-  constructor(
-    private contribServ: ContribuyenteService,
-    private router: Router
-  ) {}
+    constructor(
+        private contribServ: ContribuyenteService,
+        private router: Router
+    ) {
+    }
 
-  ngOnInit() {
-    console.log('Ng on Init contribs');
-    this.listar();
+    ngOnInit() {
+        this.listar();
+        this.menu = [
+            {
+                label: 'Crear',
+                icon: 'pi pi-fw pi-plus'
+            },
+            {
+                label: 'Editar',
+                icon: 'pi pi-fw pi-pencil'
+            }
+        ];
+    }
 
-    this.menu = [
-      {
-        label: 'Crear',
-        icon: 'pi pi-fw pi-plus'
-      },
-      {
-        label: 'Editar',
-        icon: 'pi pi-fw pi-pencil'
-      }
-    ];
-  }
+    listar() {
+        this.contribServ.listar().subscribe((response: ContribListResponse) => {
+            this.items = response.items;
+            this.cols = response.cols;
+        });
+    }
 
-  listar() {
-    this.contribServ.listar().subscribe((response: ContribListResponse) => {
-      console.log('respuesta al ejecutar listar por agencia');
-      console.log(response);
-      this.items = response.items;
-      this.cols = response.cols;
-    });
-  }
-
-  goToNew() {
-    this.router.navigate(['/contribs', '5']);
-  }
+    goToNew() {
+        this.router.navigate(['/contribs', '5']);
+    }
 }

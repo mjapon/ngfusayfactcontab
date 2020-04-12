@@ -34,14 +34,9 @@ export class LoggedHomeComponent implements OnInit {
     loadSeciones() {
         this.secciones = this.fautService.getSecciones();
         this.seccion = this.fautService.getSeccionInfoSaved();
-        console.log(this.secciones);
-        console.log(this.fautService.getSecciones());
-
     }
 
     cambiarSeccion(seccion) {
-        console.log("valor de seccion es");
-        console.log(seccion);
         this.seccionService.setSeccion(seccion.sec_id).subscribe(res => {
             if (res.status === 200) {
                 this.swalService.fireToastSuccess('Nueva sección seleccionada');

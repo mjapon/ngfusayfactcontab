@@ -49,7 +49,6 @@ export class TicketformComponent implements OnInit {
         if (this.formcli.per_ciruc && this.formcli.per_ciruc.trim().length > 4) {
             this.personaService.buscarPorCi(this.formcli.per_ciruc).subscribe(res => {
                 if (res.status === 200) {
-                    console.log(res.persona);
                     this.formcli.per_id = res.persona.per_id;
                     this.formcli.per_nombres = res.persona.per_nombres;
                     this.formcli.per_apellidos = res.persona.per_apellidos;

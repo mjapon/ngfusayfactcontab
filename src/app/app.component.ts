@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from './services/auth.service';
 import {LocalStorageService} from './services/local-storage.service';
-import {ActivatedRoute, Router, NavigationEnd} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import {FautService} from './services/faut.service';
 
 declare let gtag: Function;
@@ -41,8 +41,6 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log('App component on init-->');
-
         this.isLogged = this.fautService.isAuthenticated();
         this.fautService.source.subscribe(msg => {
             if (msg === 'logout') {
@@ -80,20 +78,7 @@ export class AppComponent implements OnInit {
                     }
                 ];
             }
-
         });
-
-        /*
-        this.authService.currentMessage.subscribe(message => {
-          console.log("Listening authService.currentMessage---->");
-          this.isLogged = false;
-          if ('true' === message) {
-            this.isLogged = true;
-          }
-        });
-        this.isLogged = this.authService.isAuthenticated();
-         */
-
 
         this.router.events.subscribe((evt) => {
             if (!(evt instanceof NavigationEnd)) {
@@ -101,12 +86,9 @@ export class AppComponent implements OnInit {
             }
             window.scrollTo(0, 0);
         });
-
     }
 
     toggleShowMenu() {
         this.showMenu = !this.showMenu;
     }
-
-
 }

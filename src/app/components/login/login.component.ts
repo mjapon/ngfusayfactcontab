@@ -7,83 +7,70 @@ import {LocalStorageService} from '../../services/local-storage.service';
 import {MessageService} from 'primeng/api';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html'
+    selector: 'app-login',
+    templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
-  angForm: FormGroup;
-  submited: boolean;
+    angForm: FormGroup;
+    submited: boolean;
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private swalService: SwalService,
-    private router: Router,
-    private localStorageService: LocalStorageService,
-    private messageService: MessageService
-  ) {
-    this.createForm();
-  }
-
-  get f() {
-    return this.angForm.controls;
-  }
-
-  ngOnInit() {
-    console.log('Se App module ngoninit--->');
-  }
-
-  createForm() {
-    this.angForm = this.fb.group({
-      empresa: ['', Validators.required],
-      usuario: ['', Validators.required],
-      clave: ['', Validators.required]
-    });
-  }
-
-  onclickSubmit() {
-    this.submited = true;
-    const formvalue: any = this.angForm.value;
-    if (this.angForm.invalid) {
-      return;
+    constructor(
+        private fb: FormBuilder,
+        private authService: AuthService,
+        private swalService: SwalService,
+        private router: Router,
+        private localStorageService: LocalStorageService,
+        private messageService: MessageService
+    ) {
+        this.createForm();
     }
 
-    this.authService
-      .autenticar(formvalue.empresa, formvalue.usuario, formvalue.clave)
-      .subscribe((response: any) => {
-        if (response.estado === 200) {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Éxito',
-            detail: response.msg
-          });
+    get f() {
+        return this.angForm.controls;
+    }
 
-          /*
-          let userDataSesion: UserDataSession = {
-            token: response.token,
-            emp_codigo: response.emp_codigo,
-            emp_esquema: response.emp_esquema,
-            user_id: response.user_id
-          };
-          */
+    ngOnInit() {
 
-          const menu = response.menu;
+    }
 
-          console.log('Valor de token que llega es:');
-          console.log(response.token);
+    createForm() {
+        this.angForm = this.fb.group({
+            empresa: ['', Validators.required],
+            usuario: ['', Validators.required],
+            clave: ['', Validators.required]
+        });
+    }
 
-          this.localStorageService.setItem('globalMenu', menu);
-          this.localStorageService.setItem('authtoken', response.token);
-          this.localStorageService.setItem('islogged', 'true');
-          this.localStorageService.setItem('tdvCodigo', response.tdv_codigo);
-
-          this.authService.changeMessage('true');
-          this.router.navigate(['home']);
-        } else if (response.estado === 400) {
-          this.swalService.fireWarning(response.msg, 'Bad');
-        } else {
-          this.swalService.fireError('Error al procesar petición', 'HOO!');
+    onclickSubmit() {
+        this.submited = true;
+        const formvalue: any = this.angForm.value;
+        if (this.angForm.invalid) {
+            return;
         }
-      });
-  }
+
+        this.authService
+            .autenticar(formvalue.empresa, formvalue.usuario, formvalue.clave)
+            .subscribe((response: any) => {
+                if (response.estado === 200) {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Éxito',
+                        detail: response.msg
+                    });
+
+                    const menu = response.menu;
+                    this.localStorageService.setItem('globalMenu', menu);
+                    this.localStorageService.setItem('authtoken', response.token);
+                    this.localStorageService.setItem('islogged', 'true');
+                    this.localStorageService.setItem('tdvCodigo', response.tdv_codigo);
+
+                    this.authService.changeMessage('true');
+                    this.router.navigate(['home']);
+                } else if (response.estado === 400) {
+                    this.swalService.fireWarning(response.msg, 'Bad');
+                } else {
+                    this.swalService.fireError('Error al procesar petición', 'HOO!');
+                }
+            });
+    }
 }

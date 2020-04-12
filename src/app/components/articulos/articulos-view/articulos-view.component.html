@@ -27,15 +27,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-2">
-                            <svg class="bd-placeholder-img img-thumbnail" width="200" height="200"
-                                 xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"
-                                 focusable="false"
-                                 role="img"
-                                 aria-label="Vista previa del producto o servicio">
-                                <title>Vista previa del producto</title>
-                                <rect width="100%" height="100%" fill="#868e96"></rect>
-                                <text x="50%" y="50%" fill="#dee2e6" dy=".3em">200x200</text>
-                            </svg>
+                            <img src="assets/imgs/producto.png" alt="Imagen del producto o servicio" class="img-thumbnail">
                         </div>
                         <div class="col">
                             <div class="card border-secondary">
@@ -43,7 +35,14 @@
                                     Datos del producto o servicio
                                 </div>
                                 <div class="card-body">
-
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <span class="font-weight-lighter">Tipo:</span>
+                                        </div>
+                                        <div class="col">
+                                            {{artFromDb.tipic_nombre}}
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-3">
                                             <span class="font-weight-lighter">Nombre:</span>
@@ -62,26 +61,10 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-3">
-                                            <span class="font-weight-lighter">Tipo:</span>
-                                        </div>
-                                        <div class="col">
-                                            {{artFromDb.tipic_nombre}}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3">
                                             <span class="font-weight-lighter">Fecha de ingreso:</span>
                                         </div>
                                         <div class="col">
                                             {{artFromDb.ic_fechacrea}}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <span class="font-weight-lighter">Categoría:</span>
-                                        </div>
-                                        <div class="col">
-                                            {{artFromDb.catic_nombre}}
                                         </div>
                                     </div>
                                     <div class="row">
@@ -92,7 +75,14 @@
                                             {{artFromDb.icdp_grabaiva?'Si':'No'}}
                                         </div>
                                     </div>
-
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <span class="font-weight-lighter">Categoría:</span>
+                                        </div>
+                                        <div class="col">
+                                            {{artFromDb.catic_nombre}}
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-3">
                                             <span class="font-weight-lighter">Proveedor:</span>
@@ -172,6 +162,7 @@
         </div>
     </div>
 
+    <!--
     <br>
     <div class="row">
         <div class="col-9">
@@ -194,5 +185,6 @@
             </div>
         </div>
     </div>
+    -->
 
 </div>

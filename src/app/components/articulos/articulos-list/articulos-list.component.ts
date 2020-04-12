@@ -17,7 +17,6 @@ export class ArticulosListComponent implements OnInit {
     items: Array<any>;
     cols: Array<any>;
     selectedItem: any;
-    selectedCtxItem: any;
     enableBtns: boolean;
 
     itemsCtxMenu: MenuItem[];
@@ -38,8 +37,8 @@ export class ArticulosListComponent implements OnInit {
         this.domService.setFocus('buscaInput');
         this.itemsCtxMenu = [
             {label: 'Ver detalles', icon: 'fa fa-eye', command: (event) => this.viewItem(this.selectedItem)},
-            {label: 'Editar', icon: 'pi pi-pencil', command: (event) => this.editItem(this.selectedItem)},
-            {label: 'Eliminar', icon: 'pi pi-times', command: (event) => this.deleteItem(this.selectedItem)}
+            {label: 'Editar', icon: 'fa fa-pencil', command: (event) => this.editItem(this.selectedItem)},
+            {label: 'Eliminar', icon: 'fa fa-trash', command: (event) => this.deleteItem(this.selectedItem)}
         ];
         this.seccionService.listar().subscribe(res => {
             if (res.status === 200) {

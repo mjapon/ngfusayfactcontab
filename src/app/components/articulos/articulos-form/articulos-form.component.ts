@@ -51,6 +51,7 @@ export class ArticulosFormComponent implements OnInit {
     minimumDate = new Date();
     nombreNuevaCatg: string;
     activeTabIndex: number;
+    nuevoBarcode: string;
 
     constructor(
         private fb: FormBuilder,
@@ -82,6 +83,7 @@ export class ArticulosFormComponent implements OnInit {
         this.artCodAutomatic = false;
         this.isShowAsistPre = false;
         this.activeTabIndex = 0;
+        this.nuevoBarcode = "";
     }
 
     get f() {
@@ -127,6 +129,11 @@ export class ArticulosFormComponent implements OnInit {
             }, 500);
         });
 
+        $('#modalEditBarcode').on('show.bs.modal', () => {
+            setTimeout(() => {
+                $('.auxNuevoBarcode').focus();
+            }, 500);
+        });
     }
 
     getCatDefault(): any {
@@ -363,7 +370,7 @@ export class ArticulosFormComponent implements OnInit {
                 this.artService.guardarArticulo(formtoPost).subscribe(res => {
                     if (res.status === 200) {
                         this.swalService.fireToastSuccess(res.msg);
-                        if (formtoPost.tipic_id === 1) {
+                        if (formtoPost.tipic_id === 1 && !this.editing) {
                             this.localStrgServ.setItem('insertStock', 'true');
                             this.router.navigate(['mercaderiaForm', res.ic_id]);
                         } else {
@@ -522,6 +529,10 @@ export class ArticulosFormComponent implements OnInit {
         $('#modalCreaCateg').modal();
     }
 
+    showModalEditBarcode() {
+        $('#modalEditBarcode').modal();
+    }
+
     guardaCreaCatg() {
         if (this.nombreNuevaCatg.trim().length > 0) {
             this.catsService.crear(this.nombreNuevaCatg).subscribe(res => {
@@ -533,6 +544,20 @@ export class ArticulosFormComponent implements OnInit {
             });
         } else {
             this.swalService.fireWarning('Debe ingresar el nombre de la categoría');
+        }
+    }
+
+    guardaNuevoBarcode() {
+        if (this.nuevoBarcode.trim().length > 0) {
+            this.artService.actualizaBarcode(this.artId, this.nuevoBarcode.trim()).subscribe(res => {
+                if (res.status === 200) {
+                    $('#modalEditBarcode').modal('hide');
+                    this.swalService.fireToastSuccess(res.msg);
+                    this.artForm.controls.ic_code.setValue(this.nuevoBarcode.trim());
+                }
+            });
+        } else {
+            this.swalService.fireWarning('Debe ingresar el nuevo código de barra');
         }
     }
 }

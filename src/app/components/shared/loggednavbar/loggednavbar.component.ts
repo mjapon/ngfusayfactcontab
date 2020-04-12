@@ -33,12 +33,9 @@ export class LoggednavbarComponent implements OnInit {
     }
 
     logout() {
-        console.log('logout->');
         this.fautService.clearInfoAuthenticated();
-        console.log('infoautenticated terminado--->');
         this.fautService.publishMessage('logout');
         this.router.navigate(['/']);
-
     }
 
 }
