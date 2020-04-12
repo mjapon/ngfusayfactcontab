@@ -2,15 +2,21 @@
     <div class="row">
         <div class="col">
             <h4>{{editing ? 'Editar '+ artFromDb.ic_nombre : 'Crear Producto o Servicio'}} </h4>
-            <hr>
+        </div>
+        <div class="col-3">
+            <div class="btn-group pull-right" role="group" aria-label="Default button group">
+                <button type="button" class="btn btn-outline-success" (click)="cancelar()"
+                        title="Retornar a listado de productos y servicios">
+                    <i class="fa fa-arrow-left"></i>
+                </button>
+            </div>
         </div>
     </div>
+    <hr>
     <div class="row">
         <div class="col">
-
-            <p-tabView>
+            <p-tabView [activeIndex]="activeTabIndex">
                 <p-tabPanel header="Detalles">
-
                     <form [formGroup]="artForm" (ngSubmit)="procesaForm()">
                         <div class="row">
                             <div class="col-md-8">
@@ -195,7 +201,9 @@
                             <div class="col-md-4">
 
                                 <div class="form-group">
-                                    <label for="catic_id">Categoría:</label>
+                                    <label for="catic_id">Categoría:
+                                        <span class="btn btn-sm btn-outline-secondary hand" title="Crear categoría" (click)="showModalCreaCateg()"> <i class="fa fa-plus-circle"></i> </span>
+                                    </label>
                                     <br>
                                     <p-dropdown [options]="categorias" id="catic_id" formControlName="catic_id"
                                                 filter="true"
@@ -204,7 +212,11 @@
                                 </div>
 
                                 <div class="form-group" *ngIf="f.tipic_id && f.tipic_id.value.value===1">
-                                    <label for="icdp_proveedor">Proveedor:</label>
+                                    <label for="icdp_proveedor">Proveedor:
+                                        <!--
+                                        <span class="btn btn-sm btn-outline-secondary hand" title="Agregar proveedor"> <i class="fa fa-plus-circle"></i> </span>
+                                        -->
+                                    </label>
                                     <br>
                                     <p-dropdown [options]="proveedores" id="icdp_proveedor"
                                                 formControlName="icdp_proveedor"
@@ -294,8 +306,37 @@
                 </p-tabPanel>
             </p-tabView>
         </div>
-        <!--
-        <div class="col-sm-2"></div>
-        -->
     </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="modalCreaCateg">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar categoría</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <label> Nombre: </label>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control auxNombreNuevaCatg"
+                                   maxlength="50"
+                                   (keyup)="$event.target.value=$event.target.value.toUpperCase()"
+                                   [(ngModel)]="nombreNuevaCatg">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" (click)="guardaCreaCatg()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

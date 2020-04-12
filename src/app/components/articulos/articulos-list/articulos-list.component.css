@@ -1,0 +1,33 @@
+.fusay-odd {
+    background-color: #ffffff;
+}
+
+.fusay-even{
+    background-color: #f9f9f9;
+}
+
+.fstbpadtit{
+    padding: 0.5em 0.5em 0em 0.5em !important;
+}
+
+.fstbpadtitnumber{
+    padding: 0em 0.5em !important;
+}
+
+
+.fstbpaddet{
+    padding: 0em 0.5em 0.5em 0.5em !important;
+}
+
+.fstbsmall{
+    font-size: 12px;
+    -webkit-font-smoothing: antialiased;
+}
+
+.fusayMerc0{
+    background-color: #FF2C05 !important;
+}
+
+.fusaMerc10{
+    background-color: #ffbd0f !important;
+}

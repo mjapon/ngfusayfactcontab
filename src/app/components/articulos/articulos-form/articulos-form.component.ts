@@ -17,6 +17,8 @@ import {parse} from 'date-fns';
 import {LocalStorageService} from '../../../services/local-storage.service';
 import {ArticulostockService} from '../../../services/articulostock.service';
 
+declare var $: any;
+
 @Component({
     selector: 'app-articulos-form',
     templateUrl: './articulos-form.component.html',
@@ -47,6 +49,8 @@ export class ArticulosFormComponent implements OnInit {
     numbersPattern: string = '^[0-9]*\\.*[0-9]*$';
 
     minimumDate = new Date();
+    nombreNuevaCatg: string;
+    activeTabIndex: number;
 
     constructor(
         private fb: FormBuilder,
@@ -77,6 +81,7 @@ export class ArticulosFormComponent implements OnInit {
         ];
         this.artCodAutomatic = false;
         this.isShowAsistPre = false;
+        this.activeTabIndex = 0;
     }
 
     get f() {
@@ -94,7 +99,7 @@ export class ArticulosFormComponent implements OnInit {
             today: 'Hoy',
             clear: 'Borrar'
         };
-
+        this.nombreNuevaCatg = "";
         this.artFromDb = {};
         this.editing = false;
         this.proveedores = new Array<any>();
@@ -108,6 +113,18 @@ export class ArticulosFormComponent implements OnInit {
                 this.domService.setFocus('codbarraInput');
             }, 100);
             this.loadArrays();
+            if (this.localStrgServ.getItem('insertStock')) {
+                setTimeout(() => {
+                    this.activeTabIndex = 1;
+                    this.localStrgServ.removeItem('insertStock');
+                }, 500);
+            }
+        });
+
+        $('#modalCreaCateg').on('show.bs.modal', () => {
+            setTimeout(() => {
+                $('.auxNombreNuevaCatg').focus();
+            }, 500);
         });
 
     }
@@ -118,6 +135,15 @@ export class ArticulosFormComponent implements OnInit {
 
     getProvDefault(): any {
         return this.arrayUtil.getFirstResult(this.proveedores, this.provIsDefault);
+    }
+
+    loadCategorias() {
+        this.catsService.listar().subscribe(resCat => {
+            if (resCat.status === 200) {
+                this.categorias = resCat.items;
+                this.defaultCat = this.getCatDefault();
+            }
+        });
     }
 
     loadArrays() {
@@ -327,9 +353,9 @@ export class ArticulosFormComponent implements OnInit {
             });
             return;
         }
-        let msg = 'Confirma la creación del articulo/servicio';
+        let msg = 'Confirma la creación del artículo/servicio';
         if (this.editing) {
-            msg = 'Confirma la actualización de este articulo/servicio';
+            msg = 'Confirma la actualización de este artículo/servicio';
         }
         this.swalService.fireDialog(msg).then(confirm => {
             if (confirm.value) {
@@ -337,7 +363,12 @@ export class ArticulosFormComponent implements OnInit {
                 this.artService.guardarArticulo(formtoPost).subscribe(res => {
                     if (res.status === 200) {
                         this.swalService.fireToastSuccess(res.msg);
-                        this.router.navigate(['mercaderia']);
+                        if (formtoPost.tipic_id === 1) {
+                            this.localStrgServ.setItem('insertStock', 'true');
+                            this.router.navigate(['mercaderiaForm', res.ic_id]);
+                        } else {
+                            this.router.navigate(['mercaderia']);
+                        }
                     }
                 });
             }
@@ -485,5 +516,23 @@ export class ArticulosFormComponent implements OnInit {
 
     onKeyupPorcentajeIncr($event: KeyboardEvent) {
         this.calculaPrecioVenta();
+    }
+
+    showModalCreaCateg() {
+        $('#modalCreaCateg').modal();
+    }
+
+    guardaCreaCatg() {
+        if (this.nombreNuevaCatg.trim().length > 0) {
+            this.catsService.crear(this.nombreNuevaCatg).subscribe(res => {
+                if (res.status === 200) {
+                    $('#modalCreaCateg').modal('hide');
+                    this.swalService.fireToastSuccess(res.msg);
+                    this.loadCategorias();
+                }
+            });
+        } else {
+            this.swalService.fireWarning('Debe ingresar el nombre de la categoría');
+        }
     }
 }

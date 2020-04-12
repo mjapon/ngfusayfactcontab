@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ArticuloService} from '../../../services/articulo.service';
 import {Router} from '@angular/router';
 import {DomService} from '../../../services/dom.service';
-import {MenuItem} from "primeng/api";
-import {SwalService} from "../../../services/swal.service";
-import {SeccionService} from "../../../services/seccion.service";
+import {MenuItem} from 'primeng/api';
+import {SwalService} from '../../../services/swal.service';
+import {SeccionService} from '../../../services/seccion.service';
 
 @Component({
     selector: 'app-articulos-list',
@@ -36,13 +36,11 @@ export class ArticulosListComponent implements OnInit {
         this.cols = new Array<any>();
         this.filtro = '';
         this.domService.setFocus('buscaInput');
-
         this.itemsCtxMenu = [
+            {label: 'Ver detalles', icon: 'fa fa-eye', command: (event) => this.viewItem(this.selectedItem)},
             {label: 'Editar', icon: 'pi pi-pencil', command: (event) => this.editItem(this.selectedItem)},
-            {label: 'Ver detalles', icon: 'pi pi-view', command: (event) => this.viewItem(this.selectedItem)},
             {label: 'Eliminar', icon: 'pi pi-times', command: (event) => this.deleteItem(this.selectedItem)}
         ];
-
         this.seccionService.listar().subscribe(res => {
             if (res.status === 200) {
                 this.sections = res.items;
@@ -75,7 +73,8 @@ export class ArticulosListComponent implements OnInit {
     }
 
     deleteItem(rowItem: any) {
-        let msg = '¿Seguro que desea eliminar este registro?';
+        let nombreProd = rowItem.ic_nombre;
+        let msg = '¿Seguro que desea eliminar ' + nombreProd + ' ?';
 
         this.swalService.fireDialog(msg).then(confirm => {
             if (confirm.value) {
@@ -115,5 +114,7 @@ export class ArticulosListComponent implements OnInit {
         this.router.navigate(['mercaderiaForm', 0]);
     }
 
-
+    onDobleClick(rowData) {
+        this.viewItem(rowData);
+    }
 }
