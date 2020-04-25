@@ -1,0 +1,177 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h4> Ingreso rápido de productos </h4>
+        </div>
+        <div class="col-3">
+            <div class="btn-group pull-right" role="group" aria-label="Default button group">
+                <button type="button" class="btn btn-outline-success" (click)="cancelar()"
+                        title="Retornar a listado de productos y servicios">
+                    <i class="fa fa-arrow-left"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col"><span>Tipo</span></div>
+        <div class="col"><span>Categoría</span></div>
+        <div class="col"><span>Proveedor</span></div>
+        <div class="col"><span>Sección</span></div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p-dropdown [options]="tiposArt"
+                        optionLabel="label" [(ngModel)]="tipoArtSelected"></p-dropdown>
+        </div>
+        <div class="col">
+            <p-dropdown [options]="categorias" filter="true"
+                        optionLabel="label" [(ngModel)]="categSelected"></p-dropdown>
+        </div>
+        <div class="col">
+            <p-dropdown [options]="proveedores" filter="true"
+                        optionLabel="label" [(ngModel)]="proveedorSelected"></p-dropdown>
+        </div>
+        <div class="col">
+            <p-dropdown [options]="secciones" filter="true"
+                        optionLabel="label" [(ngModel)]="secSelected"></p-dropdown>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Código</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Iva</th>
+                    <th scope="col">Precio Compra(-Iva)</th>
+                    <th scope="col">Precio Venta(+Iva)</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Observación</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr [formGroup]="item" *ngFor="let item of filas; let i = index">
+                <td>
+                    {{i}}
+                </td>
+                <td>
+                    <input type="text" class="form-control" id="{{i}}_codbarraInput"
+                           aria-describedby="Código de barra"
+                           maxlength="80"
+                           autocomplete="off"
+                           (keydown.enter)="onEnterCodBarra($event)"
+                           placeholder="código del producto"
+                           formControlName="ic_code"
+                           [ngClass]="{'is-invalid':submited && f.ic_code.errors}">
+
+                </td>
+                <td>
+                    <input type="text" class="form-control" id="{{i}}_nombreInput"
+                           aria-describedby="Nombre del artículo"
+                           autocomplete="off"
+                           maxlength="150"
+                           (keydown.enter)="onEnterNombre($event)"
+                           (keyup)="$event.target.value=$event.target.value.toUpperCase()"
+                           placeholder="nombre del producto o servicio"
+                           formControlName="ic_nombre"
+                           [ngClass]="{'is-invalid':submited && f.ic_nombre.errors}">
+
+                </td>
+                <td>
+                    <p-dropdown [options]="ivas" id="{{i}}_icdp_grabaiva"
+                                formControlName="icdp_grabaiva"
+                                optionLabel="label"></p-dropdown>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input type="text"
+                               maxlength="10"
+                               autocomplete="off"
+                               class="form-control" id="{{i}}_precioCompraInput"
+                               aria-describedby="emailHelp"
+                               [pattern]="numbersPattern"
+                               placeholder="Precio de compra"
+                               (keyup)="onKeyupPrecioCompra($event)"
+                               (keydown.enter)="onEnterPrecioCompra($event)"
+                               formControlName="icdp_preciocompra"
+                               [ngClass]="{'is-invalid':(submited && f.icdp_preciocompra.errors)||f.icdp_preciocompra.errors?.pattern}">
+                        <div *ngIf="f.icdp_preciocompra.errors?.pattern">
+                            <small class="text-danger">Valor incorrecto</small>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input type="text"
+                               maxlength="10"
+                               autocomplete="off"
+                               class="form-control" id="{{i}}_precioVentaInput" aria-describedby="emailHelp"
+                               placeholder="Precio de venta"
+                               (keydown.enter)="onEnterPrecioVenta($event)"
+                               formControlName="icdp_precioventa"
+                               [pattern]="numbersPattern"
+                               [ngClass]="{'is-invalid':(submited && f.icdp_precioventa.errors)||(f.icdp_precioventa.errors?.pattern)}">
+                        <div *ngIf="f.icdp_precioventa.errors?.pattern">
+                            <small class="text-danger">Valor incorrecto</small>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input type="text"
+                               maxlength="10"
+                               autocomplete="off"
+                               class="form-control" id="{{i}}_stockInput" aria-describedby="emailHelp"
+                               placeholder="stock"
+                               (keydown.enter)="onEnterStock($event)"
+                               formControlName="sec_stock"
+                               [pattern]="numbersPattern"
+                               [ngClass]="{'is-invalid':(submited && f.sec_stock.errors)||(f.sec_stock.errors?.pattern)}">
+                        <div *ngIf="f.sec_stock.errors?.pattern">
+                            <small class="text-danger">Valor incorrecto</small>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <input type="text"
+                           maxlength="500"
+                           autocomplete="off"
+                           class="form-control" id="{{i}}_ic_nota" aria-describedby="emailHelp"
+                           placeholder="nota"
+                           (keydown.enter)="onEnterNota($event)"
+                           formControlName="ic_nota"
+                           [pattern]="numbersPattern"
+                           [ngClass]="{'is-invalid':(submited && f.ic_nota.errors)||(f.ic_nota.errors?.pattern)}">
+                </td>
+
+                </tr>
+
+                    <!--
+                    <tr [formGroup]="item" *ngFor="let item of filas; let i = index" [i]="i"
+                        [rowFormGroup]="item"
+                        [defaultTipo]="tipoArtSelected"
+                        [defaultCat]="categSelected"
+                        [defaultProv]="proveedorSelected" app-articulo-item-batch >
+                    </tr>
+                    -->
+                <!--
+                <app-articulo-item-batch *ngFor="let item of filas; let i = index" [i]="i" [rowForm]="item"
+                                         [defaultTipo]="tipoArtSelected"
+                                         [defaultCat]="categSelected"
+                                         [defaultProv]="proveedorSelected"></app-articulo-item-batch>
+
+                                         -->
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

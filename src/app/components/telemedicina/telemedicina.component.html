@@ -1,0 +1,116 @@
+<h1>Tele-Medicina Andina</h1>
+<div class="card border-primary">
+    <div class="card-body">
+        <div class="alert alert-primary mj" role="alert">
+            La Fundación Salud Vida pone a su dispocisión el servicio de telemedicina en las siguientes especialidades:
+            <br><br>
+            <ul>
+                <li class="text-justify">
+                    Médico General
+                </li>
+                <li class="text-justify">
+                    Médico Ancestral
+                </li>
+                <li class="text-justify">
+                    Lectura Astral
+                </li>
+                <li class="text-justify">
+                    Lectura Limpia de huevo
+                </li>
+                <li class="text-justify">
+                    Lectura limpia cuy
+                </li>
+            </ul>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-outline-primary btn-lg" (click)="showFormRegistro()"> Solicitar una cita</button>
+            <span style="padding: 0 10px"></span>
+            <button class="btn btn-outline-primary btn-lg"> Ya tengo cita</button>
+            <button class="btn btn-primary" (click)="signInWithFB()"> Ingresar con Facebook</button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isShowFormReg">
+
+    <div class="card border-primary sepBloques">
+        <div class="card-header">
+            Seleccione el servicio que requiere
+        </div>
+        <ul class="list-group list-group-flush">
+            <li *ngFor="let item of teleservicios" (click)="checkService(item)"
+                class="list-group-item hand {{item.selected?'active':''}}">
+                <i class="fa {{item.selected?'fa-check-square-o':'fa-square-o'}}"></i>
+                {{item.ic_nombre}} </li>
+        </ul>
+    </div>
+
+    <div class="card border-primary sepBloques" *ngIf="isServiceSelected()">
+        <div class="card-header">
+            Ingrese sus datos
+        </div>
+        <div class="card-body">
+
+            <form [formGroup]="pacienteForm" (ngSubmit)="procesaForm()">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="nombresInput"
+                           aria-describedby="emailHelp"
+                           autocomplete="off"
+                           maxlength="150"
+                           (keydown.enter)="onEnterNombres($event)"
+                           (keyup)="$event.target.value=$event.target.value.toUpperCase()"
+                           placeholder="Ingrese sus nombres completos" name="nombres"
+                           formControlName="nombres"
+                           [ngClass]="{'is-invalid':submited && f.nombres.errors}">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="emailInput"
+                           aria-describedby="emailHelp"
+                           autocomplete="off"
+                           maxlength="80"
+                           (keydown.enter)="onEnterEmail($event)"
+                           placeholder="Ingrese su dirección de correo" name="email"
+                           formControlName="email"
+                           [ngClass]="{'is-invalid':submited && f.email.errors}">
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" id="celularInput"
+                           aria-describedby="emailHelp"
+                           autocomplete="off"
+                           maxlength="80"
+                           placeholder="Ingrese su número de celular" name="celular"
+                           (keydown.enter)="onEnterMovil($event)"
+                           formControlName="celular"
+                           [ngClass]="{'is-invalid':submited && f.celular.errors}">
+                </div>
+
+                <!--
+                <div class="form-group">
+                    <input type="text" class="form-control" id="edadInput"
+                           aria-describedby="emailHelp"
+                           autocomplete="off"
+                           maxlength="80"
+                           placeholder="Ingrese su edad" name="celular"
+                           formControlName="edad"
+                           [ngClass]="{'is-invalid':submited && f.edad.errors}">
+                </div>
+                -->
+
+                <div class="row">
+                    <div class="col">
+                        <div class="text-center">
+                            <button class="btn btn-outline-primary btn-lg" *ngIf="!pacienteForm.invalid"
+                                    (click)="procesaForm()"> Registrarme
+                                <i class="fa fa-check"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+</div>

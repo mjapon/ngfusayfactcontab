@@ -1,0 +1,94 @@
+<!--<tr [formGroup]="rowFormGroup">-->
+    <td>
+        {{rowNumber}}
+    </td>
+    <td>
+        <input type="text" class="form-control" id="{{rowNumber}}_codbarraInput"
+               aria-describedby="Código de barra"
+               maxlength="80"
+               autocomplete="off"
+               (keydown.enter)="onEnterCodBarra($event)"
+               placeholder="código del producto"
+               formControlName="ic_code"
+               [ngClass]="{'is-invalid':submited && f.ic_code.errors}">
+
+    </td>
+    <td>
+        <input type="text" class="form-control" id="{{rowNumber}}_nombreInput"
+               aria-describedby="Nombre del artículo"
+               autocomplete="off"
+               maxlength="150"
+               (keydown.enter)="onEnterNombre($event)"
+               (keyup)="$event.target.value=$event.target.value.toUpperCase()"
+               placeholder="nombre del producto o servicio"
+               formControlName="ic_nombre"
+               [ngClass]="{'is-invalid':submited && f.ic_nombre.errors}">
+
+    </td>
+    <td>
+        <p-dropdown [options]="ivas" id="{{rowNumber}}_icdp_grabaiva"
+                    formControlName="icdp_grabaiva"
+                    optionLabel="label"></p-dropdown>
+    </td>
+    <td>
+        <div class="form-group">
+            <input type="text"
+                   maxlength="10"
+                   autocomplete="off"
+                   class="form-control" id="{{rowNumber}}_precioCompraInput"
+                   aria-describedby="emailHelp"
+                   [pattern]="numbersPattern"
+                   placeholder="Precio de compra"
+                   (keyup)="onKeyupPrecioCompra($event)"
+                   (keydown.enter)="onEnterPrecioCompra($event)"
+                   formControlName="icdp_preciocompra"
+                   [ngClass]="{'is-invalid':(submited && f.icdp_preciocompra.errors)||f.icdp_preciocompra.errors?.pattern}">
+            <div *ngIf="f.icdp_preciocompra.errors?.pattern">
+                <small class="text-danger">Valor incorrecto</small>
+            </div>
+        </div>
+    </td>
+    <td>
+        <div class="form-group">
+            <input type="text"
+                   maxlength="10"
+                   autocomplete="off"
+                   class="form-control" id="{{rowNumber}}_precioVentaInput" aria-describedby="emailHelp"
+                   placeholder="Precio de venta"
+                   (keydown.enter)="onEnterPrecioVenta($event)"
+                   formControlName="icdp_precioventa"
+                   [pattern]="numbersPattern"
+                   [ngClass]="{'is-invalid':(submited && f.icdp_precioventa.errors)||(f.icdp_precioventa.errors?.pattern)}">
+            <div *ngIf="f.icdp_precioventa.errors?.pattern">
+                <small class="text-danger">Valor incorrecto</small>
+            </div>
+        </div>
+    </td>
+    <td>
+        <div class="form-group">
+            <input type="text"
+                   maxlength="10"
+                   autocomplete="off"
+                   class="form-control" id="{{rowNumber}}_stockInput" aria-describedby="emailHelp"
+                   placeholder="stock"
+                   (keydown.enter)="onEnterStock($event)"
+                   formControlName="sec_stock"
+                   [pattern]="numbersPattern"
+                   [ngClass]="{'is-invalid':(submited && f.sec_stock.errors)||(f.sec_stock.errors?.pattern)}">
+            <div *ngIf="f.sec_stock.errors?.pattern">
+                <small class="text-danger">Valor incorrecto</small>
+            </div>
+        </div>
+    </td>
+    <td>
+        <input type="text"
+               maxlength="500"
+               autocomplete="off"
+               class="form-control" id="{{rowNumber}}_ic_nota" aria-describedby="emailHelp"
+               placeholder="nota"
+               (keydown.enter)="onEnterNota($event)"
+               formControlName="ic_nota"
+               [pattern]="numbersPattern"
+               [ngClass]="{'is-invalid':(submited && f.ic_nota.errors)||(f.ic_nota.errors?.pattern)}">
+    </td>
+<!--</tr>-->
