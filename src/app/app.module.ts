@@ -90,7 +90,7 @@ import {GoogleLoginProvider, SocialLoginModule, AuthServiceConfig, FacebookLogin
 let config = new AuthServiceConfig([
     {
         id: GoogleLoginProvider.PROVIDER_ID,
-        provider: new GoogleLoginProvider("Google-OAuth-Client-Id")
+        provider: new GoogleLoginProvider("702999941401-ql2c4rufsliivam2f7hub633brvicgk0.apps.googleusercontent.com")
     },
     {
         id: FacebookLoginProvider.PROVIDER_ID,
