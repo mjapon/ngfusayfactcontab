@@ -109,6 +109,10 @@ export class ArticulosListComponent implements OnInit {
         this.router.navigate(['mercaderiaForm', this.selectedItem.ic_id]);
     }
 
+    goToIngresoRapido() {
+        this.router.navigate(['mercaderiaIngrRapid']);
+    }
+
     goToForm() {
         this.router.navigate(['mercaderiaForm', 0]);
     }

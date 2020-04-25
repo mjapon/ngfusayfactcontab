@@ -22,42 +22,46 @@ import {BlogsComponent} from './components/blogs/blogs.component';
 import {BlogComponent} from './components/blogs/blog/blog.component';
 import {TicketComponent} from './components/tickets/ticket/ticket.component';
 import {TicketformComponent} from './components/tickets/ticketform/ticketform.component';
-import {ArticulosViewComponent} from "./components/articulos/articulos-view/articulos-view.component";
+import {ArticulosViewComponent} from './components/articulos/articulos-view/articulos-view.component';
+import {ArticulosBatchComponent} from './components/articulos/articulos-batch/articulos-batch.component';
+import {TelemedicinaComponent} from './components/telemedicina/telemedicina.component';
 
 const routes: Routes = [
-  {path: 'login', component: LoginComponent},
-  {path: 'home', component: StartComponent},
-  {path: 'lghome', component: LoggedHomeComponent},
-  {path: 'aperturaCaja', component: AperturaCajaComponent},
-  {path: 'cierreCaja', component: CierreCajaComponent},
-  {path: 'mercaderia', component: ArticulosListComponent},
-  {path: 'mercaderiaForm/:art_id', component: ArticulosFormComponent},
-  {path: 'mercaderiaView/:art_id', component: ArticulosViewComponent},
-  {path: 'contribs', component: ContribsListComponent},
-  {path: 'contribs/:cnt_id', component: ContribsFormComponent},
-  {path: 'directiva/:tipo', component: MiembrodirectivaComponent},
-  {path: 'referentes', component: ReferentesListComponent},
-  {path: 'eventos', component: EventosComponent},
-  {path: 'eventosform', component: EventosformComponent},
-  {path: 'eventos/:ev_id', component: EventosdetComponent},
-  {path: 'congreso2020', component: Congreso2020Component},
-  { path: 'blogs', component: BlogsComponent},
-  { path: 'blog/:blg_id', component: BlogComponent},
-  {
-    path: 'referentesForm/:ref_id/:ref_tipo',
-    component: ReferentesFormComponent
-  },
-  {path: 'sender', component: SenderComponentComponent},
-  {path: 'tickets', component: TicketComponent},
-  {path: 'ticket/form', component: TicketformComponent},
-  {path: '**', component: HomeComponent}
+    {path: 'login', component: LoginComponent},
+    {path: 'home', component: StartComponent},
+    {path: 'lghome', component: LoggedHomeComponent},
+    {path: 'aperturaCaja', component: AperturaCajaComponent},
+    {path: 'cierreCaja', component: CierreCajaComponent},
+    {path: 'mercaderia', component: ArticulosListComponent},
+    {path: 'mercaderiaForm/:art_id', component: ArticulosFormComponent},
+    {path: 'mercaderiaView/:art_id', component: ArticulosViewComponent},
+    {path: 'mercaderiaIngrRapid', component: ArticulosBatchComponent},
+    {path: 'contribs', component: ContribsListComponent},
+    {path: 'telemedicina', component: TelemedicinaComponent},
+    {path: 'contribs/:cnt_id', component: ContribsFormComponent},
+    {path: 'directiva/:tipo', component: MiembrodirectivaComponent},
+    {path: 'referentes', component: ReferentesListComponent},
+    {path: 'eventos', component: EventosComponent},
+    {path: 'eventosform', component: EventosformComponent},
+    {path: 'eventos/:ev_id', component: EventosdetComponent},
+    {path: 'congreso2020', component: Congreso2020Component},
+    {path: 'blogs', component: BlogsComponent},
+    {path: 'blog/:blg_id', component: BlogComponent},
+    {
+        path: 'referentesForm/:ref_id/:ref_tipo',
+        component: ReferentesFormComponent
+    },
+    {path: 'sender', component: SenderComponentComponent},
+    {path: 'tickets', component: TicketComponent},
+    {path: 'ticket/form', component: TicketformComponent},
+    {path: '**', component: HomeComponent}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    anchorScrolling: 'enabled',
-  })],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes, {
+        anchorScrolling: 'enabled',
+    })],
+    exports: [RouterModule]
 })
 export class AppRoutingModule {
 }

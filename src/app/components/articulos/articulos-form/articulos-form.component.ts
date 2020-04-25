@@ -83,7 +83,7 @@ export class ArticulosFormComponent implements OnInit {
         this.artCodAutomatic = false;
         this.isShowAsistPre = false;
         this.activeTabIndex = 0;
-        this.nuevoBarcode = "";
+        this.nuevoBarcode = '';
     }
 
     get f() {

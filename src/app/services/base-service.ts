@@ -3,10 +3,10 @@ import swal from 'sweetalert2';
 import {LocalStorageService} from './local-storage.service';
 import {HttpClient} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 export class BaseService {
-    //private baseUrlEndPoint = 'http://157.230.129.131:6543/api';
-    private baseUrlEndPoint = 'http://localhost:6543/api';
+    private baseUrlEndPoint = environment.baseUrlEndPoint;
     protected urlEndPoint: string;
 
     constructor(urlPath: string, protected localStrgServ: LocalStorageService) {

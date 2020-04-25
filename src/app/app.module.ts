@@ -68,60 +68,83 @@ import {EventosdetComponent} from './components/eventos/eventosdet/eventosdet.co
 import {PersonaformComponent} from './components/personas/personaform/personaform.component';
 import {ValidationMessagesComponent} from './components/shared/validation-messages/validation-messages.component';
 import {DatePipe} from '@angular/common';
-import { Congreso2020Component } from './components/blog/congreso2020/congreso2020.component';
-import { LoggednavbarComponent } from './components/shared/loggednavbar/loggednavbar.component';
-import { LoggedHomeComponent } from './components/logged/logged-home/logged-home.component';
+import {Congreso2020Component} from './components/blog/congreso2020/congreso2020.component';
+import {LoggednavbarComponent} from './components/shared/loggednavbar/loggednavbar.component';
+import {LoggedHomeComponent} from './components/logged/logged-home/logged-home.component';
 
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {BlogComponent} from './components/blogs/blog/blog.component';
 import {BlogsComponent} from './components/blogs/blogs.component';
-import { AppfooterComponent } from './components/shared/appfooter/appfooter.component';
-import {TicketComponent} from "./components/tickets/ticket/ticket.component";
-import {TicketformComponent} from "./components/tickets/ticketform/ticketform.component";
-import { ArticulosViewComponent } from './components/articulos/articulos-view/articulos-view.component';
+import {AppfooterComponent} from './components/shared/appfooter/appfooter.component';
+import {TicketComponent} from './components/tickets/ticket/ticket.component';
+import {TicketformComponent} from './components/tickets/ticketform/ticketform.component';
+import {ArticulosViewComponent} from './components/articulos/articulos-view/articulos-view.component';
+import {ArticulosBatchComponent} from './components/articulos/articulos-batch/articulos-batch.component';
+import {ArticuloItemBatchComponent} from './components/articulos/articulo-item-batch/articulo-item-batch.component';
+import {TelemedicinaComponent} from './components/telemedicina/telemedicina.component';
+import {GoogleLoginProvider, SocialLoginModule, AuthServiceConfig, FacebookLoginProvider } from 'angularx-social-login';
+
 
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+let config = new AuthServiceConfig([
+    {
+        id: GoogleLoginProvider.PROVIDER_ID,
+        provider: new GoogleLoginProvider("Google-OAuth-Client-Id")
+    },
+    {
+        id: FacebookLoginProvider.PROVIDER_ID,
+        provider: new FacebookLoginProvider("606945676568898")
+    }
+]);
+
+export function provideConfig() {
+    return config;
+}
+
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    LoginComponent,
-    HomeComponent,
-    MenuComponent,
-    ContribsListComponent,
-    ContribsFormComponent,
-    PageHeaderComponent,
-    StartComponent,
-    AperturaCajaComponent,
-    CierreCajaComponent,
-    ArticulosListComponent,
-    ArticulosFormComponent,
-    DateFormatPipe,
-    DisableControlDirective,
-    ReferentesListComponent,
-    ReferentesFormComponent,
-    SenderComponentComponent,
-    FusaynavbarComponent,
-    LoadcomponentComponent,
-    FusayfooterComponent,
-    MiembrodirectivaComponent,
-    EventosComponent,
-    EventosformComponent,
-    EventosdetComponent,
-    PersonaformComponent,
-    ValidationMessagesComponent,
-    Congreso2020Component,
-    LoggednavbarComponent,
-    LoggedHomeComponent,
-    BlogComponent,
-    BlogsComponent,
-    AppfooterComponent,
-    TicketComponent,
-      TicketformComponent,
-      ArticulosViewComponent
-  ],
+    declarations: [
+        AppComponent,
+        NavbarComponent,
+        LoginComponent,
+        HomeComponent,
+        MenuComponent,
+        ContribsListComponent,
+        ContribsFormComponent,
+        PageHeaderComponent,
+        StartComponent,
+        AperturaCajaComponent,
+        CierreCajaComponent,
+        ArticulosListComponent,
+        ArticulosFormComponent,
+        DateFormatPipe,
+        DisableControlDirective,
+        ReferentesListComponent,
+        ReferentesFormComponent,
+        SenderComponentComponent,
+        FusaynavbarComponent,
+        LoadcomponentComponent,
+        FusayfooterComponent,
+        MiembrodirectivaComponent,
+        EventosComponent,
+        EventosformComponent,
+        EventosdetComponent,
+        PersonaformComponent,
+        ValidationMessagesComponent,
+        Congreso2020Component,
+        LoggednavbarComponent,
+        LoggedHomeComponent,
+        BlogComponent,
+        BlogsComponent,
+        AppfooterComponent,
+        TicketComponent,
+        TicketformComponent,
+        ArticulosViewComponent,
+        ArticulosBatchComponent,
+        ArticuloItemBatchComponent,
+        TelemedicinaComponent
+    ],
     imports: [
         BrowserModule,
         // Imports agregados
@@ -155,22 +178,27 @@ import { ArticulosViewComponent } from './components/articulos/articulos-view/ar
         BreadcrumbModule,
         SidebarModule,
         ContextMenuModule,
-        TabViewModule
+        TabViewModule,
+        SocialLoginModule
     ],
-  providers: [
-    ContribuyenteService,
-    AuthService,
-    MessageService,
-    DateFormatPipe,
-    DatePipe,
-    AngularFireAuth,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuditInterceptorService,
-      multi: true
-    }
-  ],
-  bootstrap: [AppComponent]
+    providers: [
+        ContribuyenteService,
+        AuthService,
+        MessageService,
+        DateFormatPipe,
+        DatePipe,
+        AngularFireAuth,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuditInterceptorService,
+            multi: true
+        },
+        {
+            provide: AuthServiceConfig,
+            useFactory: provideConfig
+        }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

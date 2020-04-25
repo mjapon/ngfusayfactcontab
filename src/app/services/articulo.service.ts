@@ -87,4 +87,19 @@ export class ArticuloService extends BaseService {
             catchError(this.fnProcesaError)
         );
     }
+
+    listarTeleServicios(): Observable<any> {
+        const endopoint = this.urlEndPoint;
+        const httpOptions = this.getHttpOptionsToken({
+            accion: 'teleservicios'
+        });
+
+        return this.http.get(endopoint, httpOptions).pipe(
+            map((response: any) => {
+                return response;
+            }),
+            catchError(this.fnProcesaError)
+        );
+
+    }
 }
