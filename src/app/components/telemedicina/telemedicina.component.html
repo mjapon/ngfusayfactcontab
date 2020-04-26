@@ -1,5 +1,5 @@
-<h1>Tele-Medicina Andina</h1>
-<div class="card border-primary">
+<h1>Tele-Medicina</h1>
+<div class="card border-primary" *ngIf="!showMensajeFinal">
     <div class="card-body">
         <div class="alert alert-primary mj" role="alert">
             La Fundación Salud Vida pone a su dispocisión el servicio de telemedicina en las siguientes especialidades:
@@ -11,106 +11,296 @@
                 <li class="text-justify">
                     Médico Ancestral
                 </li>
-                <li class="text-justify">
-                    Lectura Astral
-                </li>
-                <li class="text-justify">
-                    Lectura Limpia de huevo
-                </li>
-                <li class="text-justify">
-                    Lectura limpia cuy
-                </li>
             </ul>
         </div>
         <div class="text-center">
-            <button class="btn btn-outline-primary btn-lg" (click)="showFormRegistro()"> Solicitar una cita</button>
-            <span style="padding: 0 10px"></span>
-            <button class="btn btn-outline-primary btn-lg"> Ya tengo cita</button>
-            <button class="btn btn-primary" (click)="signInWithFB()"> Ingresar con Facebook</button>
+            <button class="btn btn-outline-primary btn-lg" (click)="showModalLogin()"> Solicitar una cita</button>
         </div>
     </div>
 </div>
 
 <div *ngIf="isShowFormReg">
-
-    <div class="card border-primary sepBloques">
-        <div class="card-header">
-            Seleccione el servicio que requiere
-        </div>
-        <ul class="list-group list-group-flush">
-            <li *ngFor="let item of teleservicios" (click)="checkService(item)"
-                class="list-group-item hand {{item.selected?'active':''}}">
-                <i class="fa {{item.selected?'fa-check-square-o':'fa-square-o'}}"></i>
-                {{item.ic_nombre}} </li>
-        </ul>
-    </div>
-
-    <div class="card border-primary sepBloques" *ngIf="isServiceSelected()">
-        <div class="card-header">
-            Ingrese sus datos
-        </div>
-        <div class="card-body">
-
-            <form [formGroup]="pacienteForm" (ngSubmit)="procesaForm()">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="nombresInput"
-                           aria-describedby="emailHelp"
-                           autocomplete="off"
-                           maxlength="150"
-                           (keydown.enter)="onEnterNombres($event)"
-                           (keyup)="$event.target.value=$event.target.value.toUpperCase()"
-                           placeholder="Ingrese sus nombres completos" name="nombres"
-                           formControlName="nombres"
-                           [ngClass]="{'is-invalid':submited && f.nombres.errors}">
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" id="emailInput"
-                           aria-describedby="emailHelp"
-                           autocomplete="off"
-                           maxlength="80"
-                           (keydown.enter)="onEnterEmail($event)"
-                           placeholder="Ingrese su dirección de correo" name="email"
-                           formControlName="email"
-                           [ngClass]="{'is-invalid':submited && f.email.errors}">
-                </div>
-
-                <div class="form-group">
-                    <input type="text" class="form-control" id="celularInput"
-                           aria-describedby="emailHelp"
-                           autocomplete="off"
-                           maxlength="80"
-                           placeholder="Ingrese su número de celular" name="celular"
-                           (keydown.enter)="onEnterMovil($event)"
-                           formControlName="celular"
-                           [ngClass]="{'is-invalid':submited && f.celular.errors}">
-                </div>
-
-                <!--
-                <div class="form-group">
-                    <input type="text" class="form-control" id="edadInput"
-                           aria-describedby="emailHelp"
-                           autocomplete="off"
-                           maxlength="80"
-                           placeholder="Ingrese su edad" name="celular"
-                           formControlName="edad"
-                           [ngClass]="{'is-invalid':submited && f.edad.errors}">
-                </div>
-                -->
-
-                <div class="row">
-                    <div class="col">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card border-primary">
+                <div class="card-body">
+                    <div class="card-body">
                         <div class="text-center">
-                            <button class="btn btn-outline-primary btn-lg" *ngIf="!pacienteForm.invalid"
-                                    (click)="procesaForm()"> Registrarme
-                                <i class="fa fa-check"></i>
-                            </button>
+                            <img src="{{paciente.photoUrl}}" width="50" height="50" class="d-inline-block align-top"
+                                 alt="">
+                            <br>
+                            <span class="text-primary"> {{paciente.name}} </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <p-steps [model]="steps" [readonly]="true" [(activeIndex)]="activeIndex" class="custom" styleClass="custom"></p-steps>
+
+            <div class="card border-primary" *ngIf="activeIndex===0">
+
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        Seleccione el servicio que requiere y luego ingrese sus datos personales
+                    </div>
+                </div>
+
+                <ul class="list-group list-group-flush">
+                    <li *ngFor="let item of teleservicios" (click)="checkService(item)"
+                        class="list-group-item hand {{item.selected?'active':''}}">
+                        <i class="fa {{item.selected?'fa-check-square-o':'fa-square-o'}}"></i>
+                        {{item.ic_nombre}}
+                        <span class="badge badge-info"> {{item.medico}} </span>
+                    </li>
+                </ul>
+
+                <div class="card-body" *ngIf="isServiceSelected()">
+                    <br>
+                    <h3>Ingrese sus datos personales</h3>
+                    <div>
+                        <form [formGroup]="pacienteForm" (ngSubmit)="procesaForm()">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="nombresInput"
+                                       aria-describedby="emailHelp"
+                                       autocomplete="off"
+                                       maxlength="150"
+                                       (keydown.enter)="onEnterNombres($event)"
+                                       (keyup)="$event.target.value=$event.target.value.toUpperCase()"
+                                       placeholder="Ingrese sus nombres completos" name="nombres"
+                                       formControlName="nombres"
+                                       [ngClass]="{'is-invalid':submited && f.nombres.errors}">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="emailInput"
+                                       aria-describedby="emailHelp"
+                                       autocomplete="off"
+                                       maxlength="80"
+                                       (keydown.enter)="onEnterEmail($event)"
+                                       placeholder="Ingrese su dirección de correo" name="email"
+                                       formControlName="email"
+                                       [ngClass]="{'is-invalid':submited && f.email.errors}">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="celularInput"
+                                       aria-describedby="emailHelp"
+                                       autocomplete="off"
+                                       maxlength="80"
+                                       placeholder="Ingrese su número de celular" name="celular"
+                                       (keydown.enter)="onEnterMovil($event)"
+                                       formControlName="celular"
+                                       [ngClass]="{'is-invalid':submited && f.celular.errors}">
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="text-center">
+                                        <button class="btn btn-outline-primary btn-lg" *ngIf="!pacienteForm.invalid"
+                                                (click)="showFormSelectFechaHora()"> Siguiente
+                                            <i class="fa fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-primary" *ngIf="activeIndex===1">
+
+                <div class="card-body">
+
+                    <div class="alert alert-info">
+                        Seleccione el día en el calendario y luego la hora en el que le gustaría ser atendid@
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <p-calendar [(ngModel)]="diaCita" [inline]="true" [locale]="es" [minDate]="minimumDate"
+                                        (onSelect)="loadMatrizHoras()"></p-calendar>
+
+                            <br>
+                            <br>
+                            <div class="text-center">
+                                <span>
+                                <i class="fa fa-calendar"></i>
+                                    {{diaCitaTexto}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card border-primary">
+                                <div class="card-header">
+                                    Hora
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li *ngFor="let item of matrizHoras" (click)="onHoraClick(item)"
+                                        class="list-group-item hand {{(item.selected) ?'active':''}}  {{item.ocupado?'list-group-item-dark disabled':''}}">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                {{item.horaIni}} - {{item.horaFin}}
+                                            </div>
+                                            <div class="col">
+                                                {{item.ocupado ? 'ocupado' : ''}}
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
 
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-outline-primary btn-lg pull-left"
+                                    (click)="retornarADatos()">
+                                <i class="fa fa-arrow-circle-o-left"></i>
+                            </button>
 
-            </form>
+                            <div class="text-center">
+                                <button class="btn btn-outline-primary btn-lg"
+                                        (click)="showResumen()"> Siguiente
+                                    <i class="fa fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="activeIndex===2">
+                <div class="card border-primary">
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            Esta es la información de su cita, presione el boton Crear cita para confirmar su
+                            solicitud
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="pull-right">Día:</span>
+                                </div>
+                            <div class="col"> {{diaCitaTexto}} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="pull-right">
+                                    Hora:</span> </div>
+                            <div class="col"> {{horaCitaTexto}} </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="pull-right">
+                                    Servicio solicitado:</span> </div>
+                            <div class="col"> {{servicioSelected.ic_nombre}}  </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="pull-right">
+                                Usted será atendido por:
+                                </span></div>
+                            <div class="col"> {{servicioSelected.medico}}   </div>
+                        </div>
+
+                    </div>
+                    <div class="card-footer">
+
+                        <button class="btn btn-outline-primary btn-lg pull-left"
+                                (click)="retornarAFecha()">
+                            <i class="fa fa-arrow-circle-o-left"></i>
+                        </button>
+
+
+                        <div class="text-center">
+                            <button class="btn btn-outline-primary btn-lg"
+                                    (click)="registraCita()"> Crear cita
+                                <i class="fa fa-check"></i>
+                            </button>
+                            <button class="btn btn-outline-primary btn-lg"
+                                    (click)="cancelarRegistroCita()"> Cancelar
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+<div *ngIf="showMensajeFinal">
+    <div class="card border-primary">
+        <div class="card-header">
+            Cita registrada
+        </div>
+        <div class="card-body">
+            <div class="alert alert-success">
+                <h2>
+                    <span class="text-center">
+                        <i class="fa fa-check"></i>
+                    </span>
+                    <br>
+                    Tu cita ha sido registrada satisfactoriamente, recuerda registrarla en tu calendario, nos vemos
+                    pronto
+                </h2>
+            </div>
+            <div class="card-footer">
+                <div class="text-center">
+                    <button class="btn btn-outline-primary btn-lg"
+                            (click)="cerrarNotificacion()"> Aceptar
+                        <i class="fa fa-check"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
+<div class="modal fade" id="modalLoginPac" tabindex="-1" role="dialog" aria-labelledby="Login paciente"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Identifícate </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Primero debes identificarte
+                </p>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-outline-primary btn-lg btn-block"
+                                (click)="signInWithFB()">
+                            <i class="fa fa-facebook"></i>
+                            Ingresar con Facebook
+                        </button>
+                        <button type="button" class="btn btn-outline-warning btn-lg btn-block"
+                                (click)="signInWithGoogle()">
+                            <i class="fa fa-google"></i>
+                            Ingresar con Google
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <div class="text-center">
+                    <span class="espacio"></span>
+                    <input type="reset" class="btn btn-outline-secondary auxBtnCerrar" (click)="cancelarLogin()"
+                           value="Cerrar">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

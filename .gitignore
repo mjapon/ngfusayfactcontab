@@ -2,3 +2,5 @@ node_modules/
 *.DS_Store
 dist/
 src.zip
+package-lock.json
+yarn.lock

@@ -81,5 +81,17 @@ export class FechasService {
         return this.monthNamesShort;
     }
 
+    getDiaString(dia: number) {
+        let index = dia;
+        if (dia === 7) {
+            index = 0;
+        }
+        return this.dayNames[index];
+    }
+
+    getMesString(mes: number) {
+        return this.monthNames[mes];
+    }
+
 
 }

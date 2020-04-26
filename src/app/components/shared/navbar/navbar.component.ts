@@ -3,8 +3,6 @@ import {MenuItem} from 'primeng/api';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
 import {LocalStorageService} from '../../../services/local-storage.service';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {User} from 'firebase';
 
 @Component({
     selector: 'app-navbar',
@@ -13,16 +11,12 @@ import {User} from 'firebase';
 })
 export class NavbarComponent implements OnInit {
     items: MenuItem[];
-
     isLogged: boolean;
-
-    user: User;
 
     constructor(
         private router: Router,
         private authService: AuthService,
         private localStorageService: LocalStorageService,
-        private afAuth: AngularFireAuth,
         private ngZone: NgZone
     ) {
     }
@@ -32,17 +26,6 @@ export class NavbarComponent implements OnInit {
             this.isLogged = false;
             if ('true' === message) {
                 this.isLogged = true;
-            }
-        });
-
-        this.afAuth.user.subscribe(user => {
-            if (user) {
-                this.user = user;
-            } else {
-                this.user = null;
-                this.ngZone.run(() => {
-                    this.router.navigate(['']);
-                });
             }
         });
 

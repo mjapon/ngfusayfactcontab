@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MbmDirFusayService} from 'src/app/services/mbm-dir-fusay.service';
 import {MbroDir} from 'src/app/model/mbrodir';
-import {DocumentReference} from '@angular/fire/firestore';
 
 @Component({
     selector: 'app-miembrodirectiva',
@@ -148,7 +147,4 @@ export class MiembrodirectivaComponent implements OnInit {
         this.router.navigate(['home']);
     }
 
-    handleSuccessfulSaveTodo(response: DocumentReference, todo: MbroDir) {
-
-    }
 }

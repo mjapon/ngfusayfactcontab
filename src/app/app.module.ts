@@ -2,12 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
-// Codigo agregado para la logica de Firebase
-//import { AngularFireModule } from '@angular/fire'; // Firebase config
-//import { AngularFirestoreModule } from '@angular/fire/firestore'; // For Cloud Firestore
-//import { environment } from 'src/environments/environment'; // Config
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {NavbarComponent} from './components/shared/navbar/navbar.component';
@@ -17,7 +12,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MenuComponent} from './components/shared/menu/menu.component';
 import {PanelMenuModule} from 'primeng/panelmenu';
 import {DropdownModule} from 'primeng/dropdown';
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {CalendarModule} from 'primeng/calendar';
 import {ContribuyenteService} from './services/contribuyente.service';
 import {ContribsListComponent} from './components/contribs/contribs-list/contribs-list.component';
@@ -25,7 +19,6 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {TableModule} from 'primeng/table';
 import {MenubarModule} from 'primeng/menubar';
 import {SelectButtonModule} from 'primeng/selectbutton';
-import {AngularFireAuth} from '@angular/fire/auth';
 import {SidebarModule} from 'primeng/sidebar';
 import {
     CarouselModule,
@@ -83,6 +76,13 @@ import {ArticulosBatchComponent} from './components/articulos/articulos-batch/ar
 import {ArticuloItemBatchComponent} from './components/articulos/articulo-item-batch/articulo-item-batch.component';
 import {TelemedicinaComponent} from './components/telemedicina/telemedicina.component';
 import {GoogleLoginProvider, SocialLoginModule, AuthServiceConfig, FacebookLoginProvider } from 'angularx-social-login';
+import {StepsModule} from 'primeng/steps';
+
+import { LOCALE_ID } from '@angular/core';
+import localeEs from '@angular/common/locales/es-EC';
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localeEs, 'es-EC');
+
 
 
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -147,12 +147,8 @@ export function provideConfig() {
     ],
     imports: [
         BrowserModule,
-        // Imports agregados
-        //AngularFireModule.initializeApp(environment.firebaseConfig), // Import firebase
-        //AngularFirestoreModule, // Import firestore
         FlexLayoutModule,
         BrowserAnimationsModule,
-        FontAwesomeModule,
         AppRoutingModule,
         HttpClientModule,
         ReactiveFormsModule,
@@ -170,7 +166,6 @@ export function provideConfig() {
         DropdownModule,
         CalendarModule,
         MegaMenuModule,
-        AngularFontAwesomeModule,
         GalleriaModule,
         CarouselModule,
         EditorModule,
@@ -179,7 +174,8 @@ export function provideConfig() {
         SidebarModule,
         ContextMenuModule,
         TabViewModule,
-        SocialLoginModule
+        SocialLoginModule,
+        StepsModule
     ],
     providers: [
         ContribuyenteService,
@@ -187,7 +183,6 @@ export function provideConfig() {
         MessageService,
         DateFormatPipe,
         DatePipe,
-        AngularFireAuth,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuditInterceptorService,
@@ -196,7 +191,8 @@ export function provideConfig() {
         {
             provide: AuthServiceConfig,
             useFactory: provideConfig
-        }
+        },
+        { provide: LOCALE_ID, useValue: 'es-EC' }
     ],
     bootstrap: [AppComponent]
 })

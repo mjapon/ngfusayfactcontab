@@ -25,3 +25,40 @@
 .sepBloques{
     margin-top: 30px;
 }
+
+.sepSteps{
+    width: 33%;
+}
+
+body .ui-steps.custom {
+    margin-bottom: 30px;
+}
+
+body .ui-steps.custom .ui-steps-item .ui-menuitem-link {
+    height: 10px;
+    padding: 0 1em;
+    overflow: visible;
+    border: 1px solid #c8c8c8;
+    display: block;
+    background-color: #FFFFFF;
+}
+
+body .ui-steps.custom .ui-steps-item .ui-menuitem-link .ui-steps-number {
+    background-color: #0081c2;
+    color: #FFFFFF;
+    display: inline-block;
+    width: 30px;
+    border-radius: 10px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    position: relative;
+    top: -3px;
+}
+
+body .ui-steps.custom .ui-steps-item .ui-menuitem-link .ui-steps-title {
+    margin-top: -6px;
+}
+
+body .ui-steps.custom .ui-steps-item.ui-state-highlight .ui-menuitem-link .ui-steps-title {
+    color: #555;
+}
