@@ -4,7 +4,9 @@
 
 export const environment = {
     production: false,
-    baseUrlEndPoint: 'http://localhost:6543/api'
+    baseUrlEndPoint: 'http://localhost:6543/api',
+    facebookLoginApp: '571164293604524',
+    googleLoginApp:'702999941401-ql2c4rufsliivam2f7hub633brvicgk0.apps.googleusercontent.com'
 };
 
 /*

@@ -1,8 +1,8 @@
-<h1>Tele-Medicina</h1>
+<h1>Telemedicina</h1>
 <div class="card border-primary" *ngIf="!showMensajeFinal">
     <div class="card-body">
         <div class="alert alert-primary mj" role="alert">
-            La Fundación Salud Vida pone a su dispocisión el servicio de telemedicina en las siguientes especialidades:
+            La Fundación Salud y Vida Nueva pone a su dispocisión el servicio de telemedicina en las siguientes especialidades:
             <br><br>
             <ul>
                 <li class="text-justify">
@@ -12,6 +12,8 @@
                     Médico Ancestral
                 </li>
             </ul>
+            <br>
+            si desea solicitar este servicio favor hacer clic en Solicitar una cita
         </div>
         <div class="text-center">
             <button class="btn btn-outline-primary btn-lg" (click)="showModalLogin()"> Solicitar una cita</button>
@@ -37,7 +39,7 @@
             </div>
         </div>
         <div class="col">
-            <p-steps [model]="steps" [readonly]="true" [(activeIndex)]="activeIndex" class="custom" styleClass="custom"></p-steps>
+            <p-steps [model]="steps" [readonly]="true" [(activeIndex)]="activeIndex" styleClass="steps-custom"></p-steps>
 
             <div class="card border-primary" *ngIf="activeIndex===0">
 
@@ -244,12 +246,12 @@
         <div class="card-body">
             <div class="alert alert-success">
                 <h2>
-                    <span class="text-center">
+                    <br>
+                    Tu cita ha sido registrada satisfactoriamente, recuerda registrarla en tu calendario, nos vemos
+                    pronto <span class="text-center">
                         <i class="fa fa-check"></i>
                     </span>
                     <br>
-                    Tu cita ha sido registrada satisfactoriamente, recuerda registrarla en tu calendario, nos vemos
-                    pronto
                 </h2>
             </div>
             <div class="card-footer">

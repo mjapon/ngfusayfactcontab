@@ -1,6 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {environment} from 'src/environments/environment';
 
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {AppRoutingModule} from './app-routing.module';
@@ -20,18 +21,6 @@ import {TableModule} from 'primeng/table';
 import {MenubarModule} from 'primeng/menubar';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import {SidebarModule} from 'primeng/sidebar';
-import {
-    CarouselModule,
-    CheckboxModule, ContextMenuModule,
-    EditorModule,
-    InputMaskModule,
-    MegaMenuModule,
-    MessageModule,
-    MessageService,
-    SplitButtonModule,
-    ToolbarModule,
-    TabViewModule
-} from 'primeng/primeng';
 import {ContribsFormComponent} from './components/contribs/contribs-form/contribs-form.component';
 import {PageHeaderComponent} from './components/shared/page-header/page-header.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -75,26 +64,32 @@ import {ArticulosViewComponent} from './components/articulos/articulos-view/arti
 import {ArticulosBatchComponent} from './components/articulos/articulos-batch/articulos-batch.component';
 import {ArticuloItemBatchComponent} from './components/articulos/articulo-item-batch/articulo-item-batch.component';
 import {TelemedicinaComponent} from './components/telemedicina/telemedicina.component';
-import {GoogleLoginProvider, SocialLoginModule, AuthServiceConfig, FacebookLoginProvider } from 'angularx-social-login';
+import {GoogleLoginProvider, SocialLoginModule, AuthServiceConfig, FacebookLoginProvider} from 'angularx-social-login';
 import {StepsModule} from 'primeng/steps';
 
-import { LOCALE_ID } from '@angular/core';
+import {LOCALE_ID} from '@angular/core';
 import localeEs from '@angular/common/locales/es-EC';
-import { registerLocaleData } from '@angular/common';
+import {registerLocaleData} from '@angular/common';
+import {
+    CarouselModule,
+    CheckboxModule, ContextMenuModule, EditorModule,
+    InputMaskModule,
+    MegaMenuModule,
+    MessageModule, MessageService,
+    SplitButtonModule, TabViewModule,
+    ToolbarModule
+} from 'primeng';
+
 registerLocaleData(localeEs, 'es-EC');
-
-
-
-// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 let config = new AuthServiceConfig([
     {
         id: GoogleLoginProvider.PROVIDER_ID,
-        provider: new GoogleLoginProvider("702999941401-ql2c4rufsliivam2f7hub633brvicgk0.apps.googleusercontent.com")
+        provider: new GoogleLoginProvider(environment.googleLoginApp)
     },
     {
         id: FacebookLoginProvider.PROVIDER_ID,
-        provider: new FacebookLoginProvider("606945676568898")
+        provider: new FacebookLoginProvider(environment.facebookLoginApp)
     }
 ]);
 
@@ -192,7 +187,7 @@ export function provideConfig() {
             provide: AuthServiceConfig,
             useFactory: provideConfig
         },
-        { provide: LOCALE_ID, useValue: 'es-EC' }
+        {provide: LOCALE_ID, useValue: 'es-EC'}
     ],
     bootstrap: [AppComponent]
 })

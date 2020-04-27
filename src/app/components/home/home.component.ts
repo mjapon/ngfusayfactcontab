@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
     }
 
     goToEvento() {
-        this.router.navigate(['congreso2020']);
+        this.router.navigate(['home']);
     }
 
     goToLoggedHome() {

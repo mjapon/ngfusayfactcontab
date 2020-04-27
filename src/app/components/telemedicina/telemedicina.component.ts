@@ -146,6 +146,13 @@ export class TelemedicinaComponent implements OnInit {
 
     checkService(item: any) {
         item.selected = !item.selected;
+
+        this.teleservicios.forEach(value => {
+            if (value !== item) {
+                value.selected = false;
+            }
+        });
+
     }
 
     isServiceSelected(): boolean {
@@ -232,8 +239,6 @@ export class TelemedicinaComponent implements OnInit {
                 this.signOut();
                 this.clearAll();
                 this.showMensajeFinal = true;
-                console.log('Valor de showMensajeFinal');
-                console.log(this.showMensajeFinal);
             }
         });
     }
