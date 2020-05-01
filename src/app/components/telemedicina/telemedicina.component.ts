@@ -1,18 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ArticuloService} from '../../services/articulo.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PublicarticuloService} from '../../services/publicarticulo.service';
 import {DomService} from '../../services/dom.service';
 
-import {AuthService, SocialUser} from 'angularx-social-login';
-import {FacebookLoginProvider, GoogleLoginProvider} from 'angularx-social-login';
 import {PacienteService} from "../../services/paciente.service";
 import {SwalService} from "../../services/swal.service";
 import {MenuItem} from "primeng/api";
 import {DatePipe} from "@angular/common";
 import {FechasService} from "../../services/fechas.service";
+import {FirebaseauthService} from "../../services/firebaseauth.service";
+
+import {MetadataSocialUser} from 'src/app/model/metadasocialuser';
+import {environment} from "../../../environments/environment";
 
 declare var $: any;
+declare const FB: any;
 
 @Component({
     selector: 'app-telemedicina',
@@ -20,6 +23,8 @@ declare var $: any;
     styleUrls: ['./telemedicina.component.css']
 })
 export class TelemedicinaComponent implements OnInit {
+    @ViewChild('loginRef', {static: true}) loginElement: ElementRef;
+    @ViewChild('solicitaCitaBtn', {static: true}) creaCitaElement: ElementRef;
 
     isShowFormReg: boolean;
     teleservicios: Array<any>;
@@ -41,8 +46,11 @@ export class TelemedicinaComponent implements OnInit {
 
     steps: MenuItem[];
 
-    private paciente: SocialUser;
+    auth2: any;
+
+    private paciente: MetadataSocialUser;
     private pacienteLogged: boolean;
+    private applicationId: string;
 
     constructor(private artService: ArticuloService,
                 private publicArtService: PublicarticuloService,
@@ -52,45 +60,113 @@ export class TelemedicinaComponent implements OnInit {
                 private fb: FormBuilder,
                 private datepipe: DatePipe,
                 private swalService: SwalService,
-                private authService: AuthService) {
+                public firebaseAuthServ: FirebaseauthService) {
     }
 
     ngOnInit() {
+        this.applicationId = environment.facebookLoginApp;
+        this.loadFBSDK();
+        this.googleSDK();
+
         this.clearAll();
         this.steps = [
             {label: 'Datos Personales'},
             {label: 'Fecha y Hora'},
             {label: 'Resumen'}
         ];
-        this.es = {
-            firstDayOfWeek: 1,
-            dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
-            dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
-            dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-            monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
-            monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
-            today: 'Hoy',
-            clear: 'Borrar'
-        };
-
-        let prom = this.publicArtService.listarTeleServicios();
-        prom.subscribe(res => {
+        this.es = this.fechasService.getLocaleEsForPrimeCalendar();
+        this.publicArtService.listarTeleServicios().subscribe(res => {
             this.teleservicios = res.data;
+            this.clearAllSelectedServices();
+        });
+    }
+
+
+    loadFBSDK() {
+        let self = this;
+        (window as any).fbAsyncInit = () => {
+            FB.init({
+                appId: self.applicationId,
+                xfbml: false,
+                version: 'v2.9'
+            });
+            console.log('Se ejecuto FB.init-->');
+        };
+        (function (d, s, id) {
+            let js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-js-sdk'));
+    }
+
+
+    googleSDK() {
+        window['googleSDKLoaded'] = () => {
+            window['gapi'].load('auth2', () => {
+                this.auth2 = window['gapi'].auth2.getAuthInstance({
+                    client_id: environment.googleLoginApp,
+                    cookiepolicy: 'single_host_origin',
+                    scope: 'profile email'
+                });
+                this.prepareLoginButton();
+            });
+        }
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://apis.google.com/js/platform.js?onload=googleSDKLoaded";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'google-jssdk'));
+
+    }
+
+    prepareLoginButton() {
+
+        this.auth2.attachClickHandler(this.loginElement.nativeElement, {},
+            (googleUser) => {
+                let profile = googleUser.getBasicProfile();
+                this.paciente = {
+                    provider: 'google',
+                    id: profile.getId(),
+                    firstName: '',
+                    lastName: '',
+                    email: profile.getEmail(),
+                    name: profile.getName(),
+                    photoUrl: profile.getImageUrl() ? profile.getImageUrl() : ''
+                };
+                this.pacienteLogged = (this.paciente != null);
+                this.afterUserDataLoaded();
+            }, (error) => {
+                alert(JSON.stringify(error, undefined, 2));
+            });
+    }
+
+    clearAllSelectedServices() {
+        if (this.teleservicios) {
             this.teleservicios.forEach(value => {
                 value.selected = false;
             });
-        });
-        this.authService.authState.subscribe((user) => {
-            this.paciente = user;
-            this.pacienteLogged = (user != null);
-            if (this.pacienteLogged) {
-                $('#modalLoginPac').modal('hide');
-                setTimeout(() => {
-                    this.showFormRegistro();
-                    this.domService.setFocus('celularInput');
-                }, 1000);
-            }
-        });
+        }
+    }
+
+    afterUserDataLoaded() {
+        setTimeout(() => {
+            this.showFormRegistro();
+            this.domService.setFocus('celularInput');
+            $('#modalLoginPac').modal('hide');
+            let element: HTMLElement = document.getElementById('solicitaCitaBtnId') as HTMLElement;
+            element.click();
+        }, 1000);
     }
 
     clearAll() {
@@ -101,10 +177,12 @@ export class TelemedicinaComponent implements OnInit {
         this.activeIndex = 0;
         this.showMensajeFinal = false;
         this.pacienteLogged = false;
+        this.paciente = null;
         this.diaCita = new Date();
         this.matrizHoras = new Array<any>();
         this.servicioSelected = null;
         this.buildEmptyForm();
+        this.clearAllSelectedServices();
     }
 
     get f() {
@@ -130,8 +208,6 @@ export class TelemedicinaComponent implements OnInit {
     }
 
     showModalLogin() {
-        console.log('Valor de pacienteLogged');
-        console.log(this.pacienteLogged);
         if (this.pacienteLogged) {
             this.showFormRegistro();
         } else {
@@ -233,6 +309,7 @@ export class TelemedicinaComponent implements OnInit {
         formvalue.dia = diaCitaParsed;
         let horaIni = this.filaHoraSelected['horaIni'];
         formvalue.hora_ini = horaIni;
+        formvalue.photoUrl = this.paciente.photoUrl;
         this.pacienteService.registrar(formvalue).subscribe(res => {
             if (res.status === 200) {
                 this.swalService.fireToastSuccess(res.msg);
@@ -244,7 +321,6 @@ export class TelemedicinaComponent implements OnInit {
     }
 
     onEnterNombres($event) {
-        console.log('onEnternombres');
         this.domService.setFocus('emailInput');
     }
 
@@ -265,17 +341,54 @@ export class TelemedicinaComponent implements OnInit {
     }
 
     signInWithGoogle(): void {
-        this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+        //this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
         this.closeModal();
     }
 
     signInWithFB(): void {
-        this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+        let self = this;
+        FB.login(response => {
+            console.log('valor de response es:');
+            console.log(response);
+            if (response.status === 'connected') {
+                console.log('Ya estas logueado');
+                self.loadFacebookUserData();
+            } else {
+                // The person is not logged into your webpage or we are unable to tell.
+                console.log('No estas logueado');
+            }
+        });
+
         this.closeModal();
     }
 
+    loadFacebookUserData() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+        console.log('Welcome!  Fetching your information.... ');
+        let self = this;
+        FB.api(
+            '/me',
+            'GET',
+            {"fields": "id,name,email, birthday,picture, gender, last_name, first_name, hometown "},
+            response => {
+                self.paciente = {
+                    provider: 'facebook',
+                    id: response['id'],
+                    firstName: response['first_name'],
+                    lastName: response['last_name'],
+                    email: response['email'],
+                    name: response['name'],
+                    photoUrl: response.picture ? response.picture.data.url : ''
+                };
+                self.pacienteLogged = (self.paciente != null);
+                self.afterUserDataLoaded();
+            });
+    }
+
     signOut(): void {
-        this.authService.signOut();
+        FB.logout(response => {
+            // user is now logged out
+            console.log('FB.logout response--->');
+        });
     }
 
     closeModal() {

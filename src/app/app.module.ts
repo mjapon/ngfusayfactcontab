@@ -6,7 +6,6 @@ import {environment} from 'src/environments/environment';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {NavbarComponent} from './components/shared/navbar/navbar.component';
 import {LoginComponent} from './components/login/login.component';
 import {HomeComponent} from './components/home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -79,6 +78,11 @@ import {
     SplitButtonModule, TabViewModule,
     ToolbarModule
 } from 'primeng';
+import {AngularFireModule} from "@angular/fire";
+
+import * as firebase from 'firebase';
+import { MiscitasComponent } from './components/citas/miscitas/miscitas.component';
+firebase.initializeApp(environment.firebase);
 
 registerLocaleData(localeEs, 'es-EC');
 
@@ -101,7 +105,6 @@ export function provideConfig() {
 @NgModule({
     declarations: [
         AppComponent,
-        NavbarComponent,
         LoginComponent,
         HomeComponent,
         MenuComponent,
@@ -138,7 +141,8 @@ export function provideConfig() {
         ArticulosViewComponent,
         ArticulosBatchComponent,
         ArticuloItemBatchComponent,
-        TelemedicinaComponent
+        TelemedicinaComponent,
+        MiscitasComponent
     ],
     imports: [
         BrowserModule,
@@ -170,7 +174,8 @@ export function provideConfig() {
         ContextMenuModule,
         TabViewModule,
         SocialLoginModule,
-        StepsModule
+        StepsModule,
+        AngularFireModule.initializeApp(environment.firebase)
     ],
     providers: [
         ContribuyenteService,

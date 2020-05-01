@@ -93,5 +93,16 @@ export class FechasService {
         return this.monthNames[mes];
     }
 
-
+    getLocaleEsForPrimeCalendar() {
+        return {
+            firstDayOfWeek: 1,
+            dayNames: this.getDayNames(),
+            dayNamesShort: this.getDayNamesShort(),
+            dayNamesMin: this.getDayNamesMin(),
+            monthNames: this.getMonthNames(),
+            monthNamesShort: this.getMonthNamesShort(),
+            today: 'Hoy',
+            clear: 'Borrar'
+        };
+    }
 }

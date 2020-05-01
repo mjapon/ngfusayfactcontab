@@ -91,16 +91,7 @@ export class ArticulosFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.es = {
-            firstDayOfWeek: 1,
-            dayNames: this.fechasService.getDayNames(),
-            dayNamesShort: this.fechasService.getDayNamesShort(),
-            dayNamesMin: this.fechasService.getDayNamesMin(),
-            monthNames: this.fechasService.getMonthNames(),
-            monthNamesShort: this.fechasService.getMonthNamesShort(),
-            today: 'Hoy',
-            clear: 'Borrar'
-        };
+        this.es = this.fechasService.getLocaleEsForPrimeCalendar();
         this.nombreNuevaCatg = "";
         this.artFromDb = {};
         this.editing = false;

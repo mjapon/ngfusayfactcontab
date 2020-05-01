@@ -5,7 +5,7 @@
             La Fundación Salud y Vida Nueva pone a su dispocisión el servicio de telemedicina en las siguientes especialidades:
             <br><br>
             <ul>
-                <li class="text-justify">
+                <li class="text-justifenvy">
                     Médico General
                 </li>
                 <li class="text-justify">
@@ -13,14 +13,13 @@
                 </li>
             </ul>
             <br>
-            si desea solicitar este servicio favor hacer clic en Solicitar una cita
+            si desea solicitar este servicio favor hacer clic en el botón Solicitar una cita
         </div>
         <div class="text-center">
-            <button class="btn btn-outline-primary btn-lg" (click)="showModalLogin()"> Solicitar una cita</button>
+            <button class="btn btn-outline-primary btn-lg" id="solicitaCitaBtnId" (click)="showModalLogin()" #solicitaCitaBtn> Solicitar una cita</button>
         </div>
     </div>
 </div>
-
 <div *ngIf="isShowFormReg">
     <div class="row">
         <div class="col-md-3">
@@ -39,10 +38,12 @@
             </div>
         </div>
         <div class="col">
-            <p-steps [model]="steps" [readonly]="true" [(activeIndex)]="activeIndex" styleClass="steps-custom"></p-steps>
+
+            <div class="text-center">
+                <p-steps [model]="steps" [readonly]="true" [(activeIndex)]="activeIndex"></p-steps>
+            </div>
 
             <div class="card border-primary" *ngIf="activeIndex===0">
-
                 <div class="card-body">
                     <div class="alert alert-info">
                         Seleccione el servicio que requiere y luego ingrese sus datos personales
@@ -141,7 +142,7 @@
                                     <li *ngFor="let item of matrizHoras" (click)="onHoraClick(item)"
                                         class="list-group-item hand {{(item.selected) ?'active':''}}  {{item.ocupado?'list-group-item-dark disabled':''}}">
                                         <div class="row">
-                                            <div class="col-4">
+                                            <div class="col-6">
                                                 {{item.horaIni}} - {{item.horaFin}}
                                             </div>
                                             <div class="col">
@@ -182,42 +183,60 @@
                             solicitud
                         </div>
 
+                        <div class="text-center sepResumen">
+                            <span class="text-muted">Hora:</span>
+                            {{horaCitaTexto}}
+                        </div>
+
+                        <div class="text-center sepResumen">
+                            <span class="text-muted">Día:</span>
+                            {{diaCitaTexto}}
+                        </div>
+
+                        <div class="text-center sepResumen">
+                            <span class="text-muted">Servicio solicitado:</span>
+                            {{servicioSelected.ic_nombre}}
+                        </div>
+                        <div class="text-center sepResumen">
+                            <span class="text-muted">Usted será atendido por:</span>
+                            {{servicioSelected.medico}}
+                        </div>
+
+                        <!--
                         <div class="row">
                             <div class="col-md-6">
-                                <span class="pull-right">Día:</span>
+                                <span>Día:</span>
                                 </div>
                             <div class="col"> {{diaCitaTexto}} </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <span class="pull-right">
+                                <span>
                                     Hora:</span> </div>
                             <div class="col"> {{horaCitaTexto}} </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <span class="pull-right">
+                                <span>
                                     Servicio solicitado:</span> </div>
                             <div class="col"> {{servicioSelected.ic_nombre}}  </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
-                                <span class="pull-right">
+                                <span>
                                 Usted será atendido por:
                                 </span></div>
                             <div class="col"> {{servicioSelected.medico}}   </div>
                         </div>
+                        -->
 
                     </div>
                     <div class="card-footer">
-
                         <button class="btn btn-outline-primary btn-lg pull-left"
                                 (click)="retornarAFecha()">
                             <i class="fa fa-arrow-circle-o-left"></i>
                         </button>
-
-
                         <div class="text-center">
                             <button class="btn btn-outline-primary btn-lg"
                                     (click)="registraCita()"> Crear cita
@@ -288,7 +307,7 @@
                             Ingresar con Facebook
                         </button>
                         <button type="button" class="btn btn-outline-warning btn-lg btn-block"
-                                (click)="signInWithGoogle()">
+                                 #loginRef>
                             <i class="fa fa-google"></i>
                             Ingresar con Google
                         </button>

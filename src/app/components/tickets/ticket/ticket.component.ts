@@ -4,6 +4,7 @@ import {TicketService} from "../../../services/ticket.service";
 import {parse} from "date-fns";
 import {DateFormatPipe} from "../../../pipes/date-format.pipe";
 import {SwalService} from "../../../services/swal.service";
+import {FechasService} from "../../../services/fechas.service";
 
 /*import {PdfMakeWrapper} from "pdfmake-wrapper";
 import * as jsPDF from 'jspdf';
@@ -31,6 +32,7 @@ export class TicketComponent implements OnInit {
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private swalService: SwalService,
+                private fechasService: FechasService,
                 private ticketService: TicketService,
                 private dateFormatPipe: DateFormatPipe) {
     }
@@ -38,17 +40,7 @@ export class TicketComponent implements OnInit {
     ngOnInit() {
         this.items = new Array<any>();
         this.cols = new Array<any>();
-
-        this.es = {
-            firstDayOfWeek: 1,
-            dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
-            dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
-            dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-            monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
-            monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
-            today: 'Hoy',
-            clear: 'Borrar'
-        };
+        this.es =  this.fechasService.getLocaleEsForPrimeCalendar();
 
         this.ticketService.getFormListado().subscribe(res => {
             this.dia = parse(res.dia, 'd/M/yyyy', new Date());

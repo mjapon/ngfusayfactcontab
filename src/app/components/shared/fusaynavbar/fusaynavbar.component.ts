@@ -5,7 +5,6 @@ import {SwalService} from '../../../services/swal.service';
 import {Router} from '@angular/router';
 import {SeccionService} from "../../../services/seccion.service";
 import {LocalStorageService} from "../../../services/local-storage.service";
-import {AuthService, SocialUser} from "angularx-social-login";
 
 declare var $: any;
 
@@ -15,17 +14,13 @@ declare var $: any;
     styleUrls: ['./fusaynavbar.component.css']
 })
 export class FusaynavbarComponent implements OnInit {
-
     isLogged: boolean;
-    isPacienteLogged: boolean;
     loginForm: FormGroup;
     submited: boolean;
     secciones: Array<any>;
-    private paciente: SocialUser;
 
     constructor(private fautService: FautService,
                 private formBuilder: FormBuilder,
-                private authService: AuthService,
                 private swalService: SwalService,
                 private seccionService: SeccionService,
                 private localStorageService: LocalStorageService,
@@ -53,17 +48,9 @@ export class FusaynavbarComponent implements OnInit {
                 $('.auxusername').focus();
             }, 500);
         });
-
-
-        this.authService.authState.subscribe((user) => {
-            this.paciente = user;
-            this.isPacienteLogged = (user != null);
-        });
-
     }
 
     initLoginForm() {
-        //Verificar si existe registrado en el localstorage elcodigo de la emrpesa
         let globalCodEmpresa = this.localStorageService.getItem('GLOBAL_COD_EMPRESA');
         let codEmpresa = '';
         if (globalCodEmpresa) {

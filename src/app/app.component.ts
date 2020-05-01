@@ -3,6 +3,7 @@ import {AuthService} from './services/auth.service';
 import {LocalStorageService} from './services/local-storage.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {FautService} from './services/faut.service';
+import {faBoxes} from '@fortawesome/free-solid-svg-icons';
 
 declare let gtag: Function;
 declare let fbq: Function;
@@ -24,20 +25,10 @@ export class AppComponent implements OnInit {
                 private localStorageService: LocalStorageService,
                 private router: Router,
                 private fautService: FautService) {
-        /*
-        router.events.subscribe((y: NavigationEnd) => {
-          if(y instanceof NavigationEnd){
-            gtag('config','UA-157924627-1',{'page_path' : y.url});
-            fbq('track', 'PageView');
-          }
-        });
-        */
-
         this.migasApp = [
             {label: 'Inicio', routerLink: 'lghome'},
             {label: 'Productos y servicios', routerLink: 'mercaderia'}
         ];
-
     }
 
     ngOnInit(): void {
@@ -52,30 +43,28 @@ export class AppComponent implements OnInit {
             if (this.isLogged) {
                 this.menuApp = [
                     {label: 'Inicio', icon: 'pi pi-fw pi-home', routerLink: 'lghome'},
-                    {
-                        label: 'Tickets',
-                        icon: 'pi pi-fw pi-pencil',
-                        expanded: true,
-                        items: [
-                            {label: 'Listado', icon: 'pi pi-fw ', routerLink: 'tickets'}
-                        ]
-                    },
+                    {label: 'Tickets', icon: 'pi pi-fw fa-ticket-alt', routerLink: 'tickets'},
+                    {label: 'Eventos', icon: 'pi pi-fw fa-boxes', routerLink: 'eventosform'},
+                    {label: 'Productos', icon: 'fa fa-boxes', routerLink: 'mercaderia'},
+                    /*
                     {
                         label: 'Eventos',
-                        icon: 'pi pi-pw pi-file',
-                        expanded: true,
+                        icon: 'pi pi-pw',
+                        expanded: false,
                         items: [
                             {label: 'Crear', icon: 'pi pi-fw pi-item', routerLink: 'eventosform'}
                         ]
                     },
                     {
-                        label: 'Productos y servicios',
-                        icon: 'pi pi-fw ',
-                        expanded: true,
+                        label: 'Productos',
+                        icon: 'pi pi-pw',
+                        expanded: false,
                         items: [
-                            {label: 'Listado', icon: 'pi pi-fw ', routerLink: 'mercaderia'}
+                            {label: 'Listado', icon: 'pi pi-fw pi-item', routerLink: 'mercaderia'}
                         ]
-                    }
+                    },
+                    */
+                    {label: 'Citas Médicas', icon: 'pi pi-fw pi-calendar', routerLink: 'citasmedicas'},
                 ];
             }
         });

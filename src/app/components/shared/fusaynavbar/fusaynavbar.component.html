@@ -18,20 +18,13 @@
                         <a class="nav-link text-capitalize active colorfusay" [routerLink]="['home']"
                            [fragment]="'sec_servicios'">Servicios</a>
                     </li>
-                    <!--
-                    <li class="nav-item">
-                        <a class="nav-link text-capitalize  active colorfusay"  href="#sec_ubicacion">Ubicación</a>
-                    </li>
-                    -->
                     <li class="nav-item">
                         <a class="nav-link text-capitalize  active colorfusay" routerLink="eventos">Eventos</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link text-capitalize  active colorfusay"
                            routerLink="telemedicina">Telemedicina</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link text-capitalize  active colorfusay" routerLink="blogs">Blog</a>
                     </li>
@@ -39,25 +32,8 @@
                         <a class="nav-link text-capitalize  active colorfusay" href="#modalContacto" data-toggle="modal"
                            data-target="#modalContacto">Contacto</a>
                     </li>
-                    <!--
-                    <li class="nav-item">
-                        <span class="nav-link colorfusay  active"> <i class="fa fa-whatsapp"></i> (+593) 99 024 4830 </span>
-                    </li>
-                    -->
                 </ul>
                 <ul class="navbar-nav">
-
-                    <!--
-                    <li class="nav-item " *ngIf="isPacienteLogged">
-                        <img src="{{paciente.photoUrl}}" width="30" height="30" class="d-inline-block align-top" alt="">
-                    </li>
-                    <li class="nav-item " *ngIf="isPacienteLogged">
-                         <span class="navbar-text">
-                            {{paciente.name}}
-                          </span>
-                    </li>
-                    -->
-
                     <li class="nav-item ">
                         <div class="form-inline my-2 my-lg-0">
                             <button class="btn btn-outline-success my-2 my-sm-0 letras" (click)="showModalLogin()"
@@ -68,7 +44,6 @@
                             </button>
                         </div>
                     </li>
-
                 </ul>
             </div>
         </nav>
@@ -104,7 +79,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">

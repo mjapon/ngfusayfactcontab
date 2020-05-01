@@ -19,8 +19,19 @@ export class PacienteService extends BaseService {
         return this.doPost(this.http, endpoint, httpOptions, form);
     }
 
+    actualizarCita(form: any) {
+        const endpoint = this.urlEndPoint + '/0';
+        const httpOptions = this.getHttpOptions({accion: 'updatecita'});
+        return this.doPost(this.http, endpoint, httpOptions, form);
+    }
+
     getMatrizHoras(med_id: number, dia: any) {
         const httpOptions = this.getHttpOptions({'accion': 'matrizhoras', 'med_id': med_id, 'dia': dia});
+        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+    }
+
+    listarCitas(med_id: number, dia: any) {
+        const httpOptions = this.getHttpOptions({'accion': 'citasmedico', 'med_id': med_id, 'dia': dia});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 }

@@ -25,6 +25,7 @@ import {TicketformComponent} from './components/tickets/ticketform/ticketform.co
 import {ArticulosViewComponent} from './components/articulos/articulos-view/articulos-view.component';
 import {ArticulosBatchComponent} from './components/articulos/articulos-batch/articulos-batch.component';
 import {TelemedicinaComponent} from './components/telemedicina/telemedicina.component';
+import {MiscitasComponent} from './components/citas/miscitas/miscitas.component';
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -54,6 +55,7 @@ const routes: Routes = [
     {path: 'sender', component: SenderComponentComponent},
     {path: 'tickets', component: TicketComponent},
     {path: 'ticket/form', component: TicketformComponent},
+    {path: 'citasmedicas', component: MiscitasComponent},
     {path: '**', component: HomeComponent}
 ];
 

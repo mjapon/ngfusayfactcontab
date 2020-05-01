@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {SwalService} from 'src/app/services/swal.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DatePipe} from '@angular/common';
+import {FechasService} from "../../../services/fechas.service";
 
 @Component({
     selector: 'app-eventosform',
@@ -24,13 +25,16 @@ export class EventosformComponent implements OnInit {
         private router: Router,
         private datePipe: DatePipe,
         private swalService: SwalService,
-        private formBuildes: FormBuilder
+        private formBuildes: FormBuilder,
+        private fechasService: FechasService
     ) {
         this.submited = false;
         this.tiposserv = [];
         this.lugares = [];
 
-        this.es = {
+
+
+        this.es =  {
             firstDayOfWeek: 1,
             dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
             dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
