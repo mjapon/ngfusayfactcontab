@@ -5,11 +5,22 @@
   <title>Fundación Salud y Vida Nueva</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-signin-client_id" content="702999941401-ql2c4rufsliivam2f7hub633brvicgk0.apps.googleusercontent.com">
   <link rel="icon" type="image/x-icon" href="assets/favicon.png">
 </head>
 <body>
-  <div id="fb-root"></div>
-  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v6.0"></script>
+<script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId            : '571164293604524',
+        autoLogAppEvents : true,
+        xfbml            : true,
+        version          : 'v6.0'
+      });
+    };
+  </script>
+  <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+  <script src="https://apis.google.com/js/platform.js"></script>
 
   <app-root></app-root>
 
@@ -21,7 +32,6 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'UA-157924627-1');
   </script>
 
@@ -39,45 +49,9 @@
       fbq('track', 'PageView');
   </script>
   <noscript>
-    <img height="1" width="1" style="display:none"
-                 src="https://www.facebook.com/tr?id=833974367074278&ev=PageView&noscript=1"/>
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=833974367074278&ev=PageView&noscript=1"/>
   </noscript>
   <!-- End Facebook Pixel Code -->
 
-  <!--
-  <script>
-    var div = document.createElement('div');
-    div.className = 'fb-customerchat';
-    div.setAttribute('page_id', '323328971122359');
-    div.setAttribute('ref', '');
-    document.body.appendChild(div);
-    window.fbMessengerPlugins = window.fbMessengerPlugins || {
-      init: function () {
-        FB.init({
-          appId            : '1678638095724206',
-          autoLogAppEvents : true,
-          xfbml            : true,
-          version          : 'v3.3'
-        });
-      }, callable: []
-    };
-    window.fbAsyncInit = window.fbAsyncInit || function () {
-      window.fbMessengerPlugins.callable.forEach(function (item) { item(); });
-      window.fbMessengerPlugins.init();
-    };
-    setTimeout(function () {
-      (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) { return; }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-    }, 0);
-  </script>
-
-    <script src="//connect.facebook.net/en_US/sdk.js"></script>
-    -->
 </body>
 </html>

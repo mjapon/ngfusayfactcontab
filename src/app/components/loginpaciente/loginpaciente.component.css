@@ -1,0 +1,16 @@
+.padtop{
+    padding-top: 30px;
+}
+
+.bordeMedio{
+    border-right: 1px solid #007348;
+}
+
+.margenAuto{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.marginBtns{
+     margin: 0px 5px;
+ }

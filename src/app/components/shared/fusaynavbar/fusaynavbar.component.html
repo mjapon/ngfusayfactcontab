@@ -37,9 +37,9 @@
                     <li class="nav-item ">
                         <div class="form-inline my-2 my-lg-0">
                             <button class="btn btn-outline-success my-2 my-sm-0 letras" (click)="showModalLogin()"
-                                    *ngIf="!isLogged"> Ingresar
+                                    *ngIf="!isPacienteLogged"> Ingresar
                             </button>
-                            <button class="btn btn-outline-success my-2 my-sm-0" (click)="logout()" *ngIf="isLogged">
+                            <button class="btn btn-outline-success my-2 my-sm-0" (click)="logoutPaciente()" *ngIf="isPacienteLogged">
                                 Salir
                             </button>
                         </div>

@@ -1,0 +1,117 @@
+<div class="padtop">
+    <div class="row" *ngIf="modo==1">
+        <div class="col-md-7 bordeMedio">
+            <div class="text-center">
+                <h1>Identifícate</h1>
+                <!--
+                <h4>Ingresa tu usuario y clave o si es la primera vez que estas aquí por favor regístrate</h4>
+                -->
+            </div>
+            <br>
+            <div>
+                <div class="form-group row">
+                    <label for="inputEmail" class="col-sm-2 col-form-label">Correo:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputEmail" autocomplete="false"
+                               placeholder="Ingresa tu dirección de correo" [(ngModel)]="formLogin.email">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Clave:</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputPassword" autocomplete="false"
+                               [(ngModel)]="formLogin.password"
+                               placeholder="Ingresa tu clave">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-2">
+
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-outline-primary marginBtns" (click)="doLogin()">Ingresar
+                        </button>
+                        <button type="submit" class="btn btn-outline-secondary" (click)="showFormRegistro()">
+                            Regístrame
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <hr>
+            <br>
+            <div class="text-center">
+                <h6>También puedes ingresar usando Redes Sociales</h6>
+            </div>
+
+            <div class="text-center">
+                <button type="button" class="btn btn-outline-primary marginBtns"
+                        (click)="signInWithFB()">
+                    <i class="fa fa-facebook"></i>
+                    Ingresar con Facebook
+                </button>
+                <!--
+                <div id="googleBtnPaciente" class="btn btn-outline-warning marginBtns">Ingresar con Google</div>
+                -->
+            </div>
+            <br>
+            <br>
+        </div>
+        <div class="col-md margenAuto">
+            <div class="text-center">
+                <h5>
+                    Bienvenido al sitio web de la Fundación Salud y Vida Nueva por favor
+                    ingresa la información que se solicita para poder crear tu solicitud de atención en Telemedicina
+                </h5>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="modo==2">
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto">
+                <div class="text-center">
+                    <h1>Registro</h1>
+                    <h5>
+                        {{completaRegistro ? 'Por favor proporciona una clave para tu cuenta de usuario' : 'Por favor proporciona la información que se solicita'}}
+                    </h5>
+                </div>
+                <br>
+                <br>
+                <div class="form-group ">
+                    <label for="inputNombres">Nombres y Apellidos:</label>
+                    <input type="text" class="form-control" id="inputNombres" autocomplete="false"
+                           [(ngModel)]="formRegistro.nombres" maxlength="40"
+                           placeholder="Ingresa tus nombres y apellidos">
+                </div>
+                <div class="form-group">
+                    <label for="inputMovil">Nro Celular:</label>
+                    <input type="text" class="form-control" id="inputMovil" autocomplete="false"
+                           [(ngModel)]="formRegistro.celular" maxlength="10"
+                           placeholder="Ingresa tu número de teléfono celular">
+                </div>
+                <div class="form-group">
+                    <label for="staticEmailReg">Correo:</label>
+                    <input type="text" class="form-control" id="staticEmailReg" autocomplete="false"
+                           [(ngModel)]="formRegistro.email"  maxlength="40"
+                           placeholder="Ingresa tu direccion de correo">
+                </div>
+                <div class="form-group">
+                    <label for="statiClaveReg">Clave:</label>
+                    <input type="password" class="form-control" id="statiClaveReg" autocomplete="false"
+                           [(ngModel)]="formRegistro.clave"  maxlength="15"
+                           placeholder="Ingresa una clave para tu cuenta">
+                </div>
+                <br>
+                <div class="col text-center">
+                    <button type="submit" class="btn btn-outline-primary marginBtns" (click)="darDeAlta()" [disabled]="disableBtnCrea">
+                        Registrar <i class="fa fa-check"></i>
+                    </button>
+                    <button type="submit" class="btn btn-outline-secondary" (click)="cancelRegistro()">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

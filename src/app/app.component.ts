@@ -43,9 +43,9 @@ export class AppComponent implements OnInit {
             if (this.isLogged) {
                 this.menuApp = [
                     {label: 'Inicio', icon: 'pi pi-fw pi-home', routerLink: 'lghome'},
-                    {label: 'Tickets', icon: 'pi pi-fw fa-ticket-alt', routerLink: 'tickets'},
-                    {label: 'Eventos', icon: 'pi pi-fw fa-boxes', routerLink: 'eventosform'},
-                    {label: 'Productos', icon: 'fa fa-boxes', routerLink: 'mercaderia'},
+                    {label: 'Tickets', icon: 'pi pi-fw pi-ticket', routerLink: 'tickets'},
+                    {label: 'Eventos', icon: 'pi pi-fw pi-tag', routerLink: 'eventosform'},
+                    {label: 'Productos', icon: 'pi pi-fw pi-th-large', routerLink: 'mercaderia'},
                     /*
                     {
                         label: 'Eventos',

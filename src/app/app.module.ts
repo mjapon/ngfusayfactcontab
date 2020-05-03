@@ -78,11 +78,10 @@ import {
     SplitButtonModule, TabViewModule,
     ToolbarModule
 } from 'primeng';
-import {AngularFireModule} from "@angular/fire";
 
-import * as firebase from 'firebase';
 import { MiscitasComponent } from './components/citas/miscitas/miscitas.component';
-firebase.initializeApp(environment.firebase);
+import { LoginpacienteComponent } from './components/loginpaciente/loginpaciente.component';
+import { CitaspacienteComponent } from './components/citas/citaspaciente/citaspaciente.component';
 
 registerLocaleData(localeEs, 'es-EC');
 
@@ -142,7 +141,9 @@ export function provideConfig() {
         ArticulosBatchComponent,
         ArticuloItemBatchComponent,
         TelemedicinaComponent,
-        MiscitasComponent
+        MiscitasComponent,
+        LoginpacienteComponent,
+        CitaspacienteComponent
     ],
     imports: [
         BrowserModule,
@@ -174,8 +175,7 @@ export function provideConfig() {
         ContextMenuModule,
         TabViewModule,
         SocialLoginModule,
-        StepsModule,
-        AngularFireModule.initializeApp(environment.firebase)
+        StepsModule
     ],
     providers: [
         ContribuyenteService,

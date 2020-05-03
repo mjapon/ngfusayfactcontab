@@ -1,0 +1,255 @@
+<div class="row">
+    <div class="col">
+        <h4>Citas Telemedicina
+            <button class="btn btn-outline-primary" style="margin: 0px 5px" (click)="isShowFormReg=!isShowFormReg">
+                {{isShowFormReg?'Cancelar':'Crear cita'}} <i *ngIf="!isShowFormReg" class="fa fa-plus-circle"></i></button>
+        </h4>
+    </div>
+</div>
+<hr>
+<div class="row" *ngIf="!isShowFormReg">
+    <div class="col-md-3">
+        <div class="card border-primary">
+            <div class="card-body">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img src="{{paciente.up_photourl}}" width="50" height="50" class="d-inline-block align-top"
+                             alt="">
+                    </div>
+                    <hr>
+                    <div class="text-center">
+                        <p>{{paciente.up_nombres}}</p>
+                        <p>{{paciente.up_email}}</p>
+                        <p>{{paciente.up_celular}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card border-primary">
+            <table class="table table-hover" *ngIf="citas.length>0">
+                <thead>
+                <tr>
+                    <th scope="col"> Nro</th>
+                    <th scope="col"> Día</th>
+                    <th scope="col"> Hora</th>
+                    <th scope="col"> Médico</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let row of citas" class="{{row===citaSelected?'table-active':''}}"
+                    (click)="selectCita(row)">
+                    <td>
+                        {{row.cita_id}}
+                    </td>
+                    <td>
+                        {{row.cita_fecha_str}}
+                        <span class="badge " [ngClass]="{'badge-warning':row.cita_estado===0,
+                    'badge-success':row.cita_estado===1, 'badge-secondary':row.cita_estado===2} ">
+                            {{row.estado}}</span>
+                    </td>
+                    <td>
+                        {{row.cita_hora_str}}
+                    </td>
+                    <td>
+                        {{row.nombres_medico}}
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary" (click)="startVideoLlamada()" title="Unirse a la videollamda"><i class="fa fa-video-camera"></i></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="card-body" *ngIf="citas.length==0">
+                <h3 class="text-muted"> No tiene citas registradas </h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isShowFormReg">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card border-primary">
+                <div class="card-body">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <img src="{{paciente.up_photourl}}" width="50" height="50" class="d-inline-block align-top"
+                                 alt="">
+                        </div>
+                        <hr>
+                        <div class="text-center">
+                            <p>{{paciente.up_nombres}}</p>
+                            <p>{{paciente.up_email}}</p>
+                            <p>{{paciente.up_celular}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link {{activeIndex===0?'active':''}}">
+                        <span class="badge badge-light">1</span>
+                        Servicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{activeIndex===1?'active':''}}">
+                        <span class="badge badge-light">2</span>
+                        Horario</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{activeIndex===2?'active':''}}">
+                        <span class="badge badge-light">3</span>
+                        Resumen</a>
+                </li>
+            </ul>
+            <div class="card border-primary" *ngIf="activeIndex===0">
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        Seleccione el servicio que solicita
+                    </div>
+                </div>
+
+                <ul class="list-group list-group-flush">
+                    <li *ngFor="let item of teleservicios" (click)="checkService(item)"
+                        class="list-group-item hand {{item.selected?'active':''}}">
+                        <i class="fa {{item.selected?'fa-check-square-o':'fa-square-o'}}"></i>
+                        {{item.ic_nombre}}
+                        <span class="badge badge-info"> {{item.medico}} </span>
+                    </li>
+                </ul>
+
+                <div class="card-body" *ngIf="isServiceSelected()">
+                    <br>
+                    <h5>Verifique su número de teléfono celular</h5>
+                    <div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="celularInput"
+                                   aria-describedby="emailHelp"
+                                   autocomplete="off"
+                                   maxlength="80"
+                                   [(ngModel)]="upCelular"
+                                   placeholder="Ingrese su número de celular"
+                                   (keydown.enter)="onEnterMovil($event)">
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="text-center">
+                                    <button class="btn btn-outline-primary btn-lg" *ngIf="upCelular.trim().length>0"
+                                            (click)="showFormSelectFechaHora()"> Siguiente
+                                        <i class="fa fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-primary" *ngIf="activeIndex===1">
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        Seleccione el día y la hora en el que le gustaría ser atendido/a
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p-calendar [(ngModel)]="diaCita" [inline]="true" [locale]="es" [minDate]="minimumDate"
+                                        (onSelect)="loadMatrizHoras()"></p-calendar>
+                            <br>
+                            <br>
+                            <div class="text-center">
+                                <span>
+                                <i class="fa fa-calendar"></i>
+                                    {{diaCitaTexto}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card border-primary">
+                                <div class="card-header">
+                                    Hora
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li *ngFor="let item of matrizHoras" (click)="onHoraClick(item)"
+                                        class="list-group-item hand {{(item.selected) ?'active':''}}  {{item.ocupado?'list-group-item-dark disabled':''}}">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                {{item.horaIni}} - {{item.horaFin}}
+                                            </div>
+                                            <div class="col">
+                                                {{item.ocupado ? 'ocupado' : ''}}
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-outline-primary btn-lg pull-left"
+                                    (click)="retornarADatos()">
+                                <i class="fa fa-arrow-circle-o-left"></i>
+                            </button>
+                            <div class="text-center">
+                                <button class="btn btn-outline-primary btn-lg"
+                                        (click)="showResumen()" *ngIf="isHoraSelected()"> Siguiente
+                                    <i class="fa fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="activeIndex===2">
+                <div class="card border-primary">
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            Esta es la información de su cita, presione el boton Crear cita para confirmar su
+                            solicitud
+                        </div>
+                        <div class="text-center sepResumen">
+                            <span class="text-muted">Hora:</span>
+                            {{horaCitaTexto}}
+                        </div>
+                        <div class="text-center sepResumen">
+                            <span class="text-muted">Día:</span>
+                            {{diaCitaTexto}}
+                        </div>
+                        <div class="text-center sepResumen">
+                            <span class="text-muted">Servicio solicitado:</span>
+                            {{servicioSelected.ic_nombre}}
+                        </div>
+                        <div class="text-center sepResumen">
+                            <span class="text-muted">Usted será atendido por:</span>
+                            {{servicioSelected.medico}}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-outline-primary btn-lg pull-left"
+                                (click)="retornarAFecha()">
+                            <i class="fa fa-arrow-circle-o-left"></i>
+                        </button>
+                        <div class="text-center">
+                            <button class="btn btn-outline-primary btn-lg marginBtns"
+                                    (click)="registraCita()"> Crear cita
+                                <i class="fa fa-check"></i>
+                            </button>
+                            <button class="btn btn-outline-primary btn-lg"
+                                    (click)="cancelarRegistroCita()"> Cancelar
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

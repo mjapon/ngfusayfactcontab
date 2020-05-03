@@ -5,8 +5,10 @@ import {SwalService} from '../../../services/swal.service';
 import {Router} from '@angular/router';
 import {SeccionService} from "../../../services/seccion.service";
 import {LocalStorageService} from "../../../services/local-storage.service";
+import {PacienteService} from "../../../services/paciente.service";
 
 declare var $: any;
+declare const FB: any;
 
 @Component({
     selector: 'app-fusaynavbar',
@@ -18,12 +20,14 @@ export class FusaynavbarComponent implements OnInit {
     loginForm: FormGroup;
     submited: boolean;
     secciones: Array<any>;
+    isPacienteLogged: boolean;
 
     constructor(private fautService: FautService,
                 private formBuilder: FormBuilder,
                 private swalService: SwalService,
                 private seccionService: SeccionService,
                 private localStorageService: LocalStorageService,
+                private pacienteService: PacienteService,
                 private router: Router) {
         this.initLoginForm();
     }
@@ -35,11 +39,20 @@ export class FusaynavbarComponent implements OnInit {
     ngOnInit() {
         this.isLogged = this.fautService.isAuthenticated();
         this.submited = false;
+        this.isPacienteLogged = this.pacienteService.isAuthenticated();
         this.fautService.source.subscribe(msg => {
             if (msg === 'logout') {
                 this.isLogged = false;
             } else if (msg === 'login') {
                 this.isLogged = true;
+            }
+        });
+
+        this.pacienteService.source.subscribe(msg => {
+            if (msg === 'login') {
+                this.isPacienteLogged = true;
+            } else if (msg === 'logout') {
+                this.isPacienteLogged = false;
             }
         });
 
@@ -77,6 +90,14 @@ export class FusaynavbarComponent implements OnInit {
 
     showModalSeccion() {
         $('#modalSeccion').modal('show');
+    }
+
+    logoutPaciente() {
+        this.pacienteService.clearDatosPacienteLogged();
+        FB.logout(response => {
+            console.log('FB.logout response--->');
+        });
+        this.router.navigate(['home']);
     }
 
     submitLogin() {

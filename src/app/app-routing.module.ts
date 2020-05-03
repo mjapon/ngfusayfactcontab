@@ -26,6 +26,8 @@ import {ArticulosViewComponent} from './components/articulos/articulos-view/arti
 import {ArticulosBatchComponent} from './components/articulos/articulos-batch/articulos-batch.component';
 import {TelemedicinaComponent} from './components/telemedicina/telemedicina.component';
 import {MiscitasComponent} from './components/citas/miscitas/miscitas.component';
+import {LoginpacienteComponent} from "./components/loginpaciente/loginpaciente.component";
+import {CitaspacienteComponent} from "./components/citas/citaspaciente/citaspaciente.component";
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -56,6 +58,8 @@ const routes: Routes = [
     {path: 'tickets', component: TicketComponent},
     {path: 'ticket/form', component: TicketformComponent},
     {path: 'citasmedicas', component: MiscitasComponent},
+    {path: 'ingresoPaciente', component: LoginpacienteComponent},
+    {path: 'citasPaciente', component: CitaspacienteComponent},
     {path: '**', component: HomeComponent}
 ];
 
