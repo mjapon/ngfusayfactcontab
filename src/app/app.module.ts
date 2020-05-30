@@ -20,6 +20,7 @@ import {TableModule} from 'primeng/table';
 import {MenubarModule} from 'primeng/menubar';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import {SidebarModule} from 'primeng/sidebar';
+import {AccordionModule} from 'primeng/accordion';
 import {ContribsFormComponent} from './components/contribs/contribs-form/contribs-form.component';
 import {PageHeaderComponent} from './components/shared/page-header/page-header.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -36,7 +37,6 @@ import {DisableControlDirective} from './directives/disablecontrol.directive';
 import {ReferentesListComponent} from './components/referentes/referentes-list/referentes-list.component';
 import {ReferentesFormComponent} from './components/referentes/referentes-form/referentes-form.component';
 import {AuditInterceptorService} from './services/rates/audit-interceptor.service';
-import {SenderComponentComponent} from './components/sender-component/sender-component.component';
 import {FusaynavbarComponent} from './components/shared/fusaynavbar/fusaynavbar.component';
 import {LoadcomponentComponent} from './components/shared/loadcomponent/loadcomponent.component';
 import {FusayfooterComponent} from './components/shared/fusayfooter/fusayfooter.component';
@@ -74,7 +74,7 @@ import {
     CheckboxModule, ContextMenuModule, EditorModule,
     InputMaskModule,
     MegaMenuModule,
-    MessageModule, MessageService,
+    MessageModule, MessageService, RadioButtonModule,
     SplitButtonModule, TabViewModule,
     ToolbarModule
 } from 'primeng';
@@ -82,6 +82,7 @@ import {
 import { MiscitasComponent } from './components/citas/miscitas/miscitas.component';
 import { LoginpacienteComponent } from './components/loginpaciente/loginpaciente.component';
 import { CitaspacienteComponent } from './components/citas/citaspaciente/citaspaciente.component';
+import { CitasmedicasComponent } from './components/citas/citasmedicas/citasmedicas.component';
 
 registerLocaleData(localeEs, 'es-EC');
 
@@ -119,7 +120,6 @@ export function provideConfig() {
         DisableControlDirective,
         ReferentesListComponent,
         ReferentesFormComponent,
-        SenderComponentComponent,
         FusaynavbarComponent,
         LoadcomponentComponent,
         FusayfooterComponent,
@@ -143,7 +143,8 @@ export function provideConfig() {
         TelemedicinaComponent,
         MiscitasComponent,
         LoginpacienteComponent,
-        CitaspacienteComponent
+        CitaspacienteComponent,
+        CitasmedicasComponent
     ],
     imports: [
         BrowserModule,
@@ -175,7 +176,9 @@ export function provideConfig() {
         ContextMenuModule,
         TabViewModule,
         SocialLoginModule,
-        StepsModule
+        StepsModule,
+        AccordionModule,
+        RadioButtonModule
     ],
     providers: [
         ContribuyenteService,

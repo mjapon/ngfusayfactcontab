@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
 import {MenuItem} from "primeng";
 import {PublicarticuloService} from "../../../services/publicarticulo.service";
 import {DomService} from "../../../services/dom.service";

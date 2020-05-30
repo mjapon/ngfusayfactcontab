@@ -11,7 +11,6 @@ import {ArticulosListComponent} from './components/articulos/articulos-list/arti
 import {ArticulosFormComponent} from './components/articulos/articulos-form/articulos-form.component';
 import {ReferentesListComponent} from './components/referentes/referentes-list/referentes-list.component';
 import {ReferentesFormComponent} from './components/referentes/referentes-form/referentes-form.component';
-import {SenderComponentComponent} from './components/sender-component/sender-component.component';
 import {MiembrodirectivaComponent} from './components/miembrodirectiva/miembrodirectiva.component';
 import {EventosComponent} from './components/eventos/eventos.component';
 import {EventosformComponent} from './components/eventos/eventosform/eventosform.component';
@@ -26,8 +25,9 @@ import {ArticulosViewComponent} from './components/articulos/articulos-view/arti
 import {ArticulosBatchComponent} from './components/articulos/articulos-batch/articulos-batch.component';
 import {TelemedicinaComponent} from './components/telemedicina/telemedicina.component';
 import {MiscitasComponent} from './components/citas/miscitas/miscitas.component';
-import {LoginpacienteComponent} from "./components/loginpaciente/loginpaciente.component";
-import {CitaspacienteComponent} from "./components/citas/citaspaciente/citaspaciente.component";
+import {LoginpacienteComponent} from './components/loginpaciente/loginpaciente.component';
+import {CitaspacienteComponent} from './components/citas/citaspaciente/citaspaciente.component';
+import {CitasmedicasComponent} from "./components/citas/citasmedicas/citasmedicas.component";
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -54,12 +54,12 @@ const routes: Routes = [
         path: 'referentesForm/:ref_id/:ref_tipo',
         component: ReferentesFormComponent
     },
-    {path: 'sender', component: SenderComponentComponent},
     {path: 'tickets', component: TicketComponent},
     {path: 'ticket/form', component: TicketformComponent},
-    {path: 'citasmedicas', component: MiscitasComponent},
+    {path: 'miscitasmedicas', component: MiscitasComponent},
     {path: 'ingresoPaciente', component: LoginpacienteComponent},
     {path: 'citasPaciente', component: CitaspacienteComponent},
+    {path: 'citasMedicas', component: CitasmedicasComponent},
     {path: '**', component: HomeComponent}
 ];
 

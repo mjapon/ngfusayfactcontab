@@ -3,7 +3,6 @@ import {AuthService} from './services/auth.service';
 import {LocalStorageService} from './services/local-storage.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {FautService} from './services/faut.service';
-import {faBoxes} from '@fortawesome/free-solid-svg-icons';
 
 declare let gtag: Function;
 declare let fbq: Function;
@@ -64,7 +63,8 @@ export class AppComponent implements OnInit {
                         ]
                     },
                     */
-                    {label: 'Citas Médicas', icon: 'pi pi-fw pi-calendar', routerLink: 'citasmedicas'},
+                    {label: 'Mis Citas Médicas', icon: 'pi pi-fw pi-calendar', routerLink: 'miscitasmedicas'},
+                    {label: 'Citas Médicas', icon: 'pi pi-fw pi-calendar', routerLink: 'citasMedicas'},
                 ];
             }
         });
