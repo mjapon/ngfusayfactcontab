@@ -1,0 +1,134 @@
+<h1>Citas Médicas</h1>
+<hr>
+
+<div class="card">
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <span>Ci/RUC/Pasaporte:</span>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="form.per_ciruc">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <span>Nombres:</span>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="form.per_nombres">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <span>Apellidos:</span>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="form.per_apellidos">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <span>Fecha de nacimiento:</span>
+                    </div>
+                    <div class="col">
+                        <p-calendar id="per_fechanac"
+                                    [(ngModel)]="form.per_fechanac"
+                                    [showIcon]="true"
+                                    [locale]="es" inputId="per_fechanac"
+                                    [monthNavigator]="true" [yearNavigator]="true" [maxDate]="maxDate"
+                                    yearRange="1900:2100"
+                                    dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <span>Sexo:</span>
+                    </div>
+                    <div class="col">
+                        <p-radioButton name="sexo" *ngFor="let it of generosList" value="{{it.lval_valor}}" label="{{it.lval_nombre}}"></p-radioButton>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <span>Estado Civil:</span>
+                    </div>
+                    <div class="col">
+                        <p-dropdown [options]="estadoCivilList" optionLabel="lval_nombre"
+                                    [(ngModel)]="selectedEstCivil"></p-dropdown>
+
+                    </div>
+                </div><div class="row">
+                    <div class="col-lg-3">
+                        <span>Lugar de residencia:</span>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="form.per_lugresidencia">
+                    </div>
+                </div><div class="row">
+                    <div class="col-lg-3">
+                        <span>Correo Electrónico:</span>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" [(ngModel)]="form.per_email">
+                    </div>
+                </div><div class="row">
+                    <div class="col-lg-3">
+                        <span>Teléfono Convencial:</span>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control">
+                    </div>
+                </div><div class="row">
+                    <div class="col-lg-3">
+                        <span>Celular:</span>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<p-accordion [multiple]="true">
+    <p-accordionTab header="Datos del paciente">
+
+        The story begins  as Don Vito Corleone, the head of a New York Mafia family, overseeshis daughter's wedding. His beloved son ichael has just come home from the war, but does not intend to become part of his father's business. T hrough Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, kind and benevolent to those who give respect, but given to ruthless violence whenever anything stands against the good of the family.
+    </p-accordionTab>
+    <p-accordionTab header="Datos de la cita Médica">
+        Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream. In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy, killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows.
+    </p-accordionTab>
+    <p-accordionTab header="Antecedentes">
+        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
+    </p-accordionTab>
+    <p-accordionTab header="Revisión por sistemas">
+        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
+    </p-accordionTab>
+    <p-accordionTab header="Exámenes Físicos">
+        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
+    </p-accordionTab>
+    <p-accordionTab header="Exámenes Complementarios">
+        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
+    </p-accordionTab>
+    <p-accordionTab header="Diagnóstico">
+        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
+    </p-accordionTab>
+    <p-accordionTab header="Tratamiento">
+        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
+    </p-accordionTab>
+    <p-accordionTab header="Receta">
+        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
+    </p-accordionTab>
+    <p-accordionTab header="Recomendación">
+        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
+    </p-accordionTab>
+</p-accordion>
+
