@@ -26,4 +26,9 @@ export class CitasMedicasService extends BaseService {
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
+    crearCita(form: any): Observable<any> {
+        const httpOptions = this.getHttpOptionsToken({accion: 'registra'});
+        return this.doPost(this.http, this.urlEndPoint, httpOptions, form);
+    }
+
 }

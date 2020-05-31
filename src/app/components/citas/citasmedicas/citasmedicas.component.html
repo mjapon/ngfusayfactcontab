@@ -1,134 +1,339 @@
-<h1>Citas Médicas</h1>
-<hr>
-
-<div class="card">
-    <div class="card-body">
-
-        <div class="row">
-            <div class="col">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <span>Ci/RUC/Pasaporte:</span>
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" [(ngModel)]="form.per_ciruc">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <span>Nombres:</span>
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" [(ngModel)]="form.per_nombres">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <span>Apellidos:</span>
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" [(ngModel)]="form.per_apellidos">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <span>Fecha de nacimiento:</span>
-                    </div>
-                    <div class="col">
-                        <p-calendar id="per_fechanac"
-                                    [(ngModel)]="form.per_fechanac"
-                                    [showIcon]="true"
-                                    [locale]="es" inputId="per_fechanac"
-                                    [monthNavigator]="true" [yearNavigator]="true" [maxDate]="maxDate"
-                                    yearRange="1900:2100"
-                                    dateFormat="dd/mm/yy"></p-calendar>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <span>Sexo:</span>
-                    </div>
-                    <div class="col">
-                        <p-radioButton name="sexo" *ngFor="let it of generosList" value="{{it.lval_valor}}" label="{{it.lval_nombre}}"></p-radioButton>
-                    </div>
-                </div>
+<div class="container">
+    <div class="row">
+        <div class="col-9">
+            <h4>Historia Clínica</h4>
+        </div>
+        <div class="col-3">
+            <div class="btn-group pull-right" role="group" aria-label="Default button group">
+                <button type="button" class="btn btn-outline-success" (click)="registrarCita()"
+                        title="Guarda los detalles de la cita  médica">
+                    <i class="fa fa-save"></i>
+                </button>
             </div>
-            <div class="col">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <span>Estado Civil:</span>
+        </div>
+    </div>
+    <hr>
+    <div class="card">
+        <div class="card-header">
+            Identificación del paciente:
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span class="required">*</span><span>Ci/RUC/Pasaporte:</span>
+                        </div>
+                        <div class="col-12">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" [(ngModel)]="form.paciente.per_ciruc"
+                                       (blur)="verificaPacienteRegistrado()"
+                                       (keydown.enter)="buscarPaciente()">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" (click)="buscarPaciente()"
+                                            title="Presiona este botón para buscar el paciente por numero de cédula, ruc o pasaporte ">
+                                        <span class="fa fa-search"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col">
-                        <p-dropdown [options]="estadoCivilList" optionLabel="lval_nombre"
-                                    [(ngModel)]="selectedEstCivil"></p-dropdown>
-
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span class="required">*</span><span>Nombres:</span>
+                        </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control" [(ngModel)]="form.paciente.per_nombres">
+                        </div>
                     </div>
-                </div><div class="row">
-                    <div class="col-lg-3">
-                        <span>Lugar de residencia:</span>
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span>Apellidos:</span>
+                        </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control" [(ngModel)]="form.paciente.per_apellidos">
+                        </div>
                     </div>
-                    <div class="col">
-                        <input type="text" class="form-control" [(ngModel)]="form.per_lugresidencia">
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span class="required">*</span><span>Fecha de nacimiento (dd/mm/aaaa):</span>
+                        </div>
+                        <div class="col-12">
+                            <p-calendar id="per_fechanac"
+                                        [(ngModel)]="form.paciente.per_fechanac"
+                                        [showIcon]="true"
+                                        [locale]="es" inputId="per_fechanac"
+                                        [monthNavigator]="true" [yearNavigator]="true" [maxDate]="maxDate"
+                                        yearRange="1900:2100"
+                                        dateFormat="dd/mm/yy"></p-calendar>
+                        </div>
                     </div>
-                </div><div class="row">
-                    <div class="col-lg-3">
-                        <span>Correo Electrónico:</span>
+                    <div class="row dato-fila">
+                        <div class="col-md-3">
+                            <span class="required">*</span><span>Sexo:</span>
+                        </div>
+                        <div class="col-md-9">
+                            <p-radioButton name="sexo" *ngFor="let it of generosList" value="{{it.lval_valor}}"
+                                           label="{{it.lval_nombre}}"></p-radioButton>
+                        </div>
                     </div>
-                    <div class="col">
-                        <input type="text" class="form-control" [(ngModel)]="form.per_email">
+                </div>
+                <div class="col">
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span>Estado Civil:</span>
+                        </div>
+                        <div class="col-12">
+                            <p-dropdown [options]="estadoCivilList" optionLabel="lval_nombre"
+                                        [(ngModel)]="selectedEstCivil"></p-dropdown>
+                        </div>
                     </div>
-                </div><div class="row">
-                    <div class="col-lg-3">
-                        <span>Teléfono Convencial:</span>
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span>Lugar de residencia:</span>
+                        </div>
+                        <div class="col-12">
+                            <p-dropdown [options]="lugares" id="catic_id" [(ngModel)]="form.paciente.per_lugresidencia"
+                                        filter="true"
+                                        optionLabel="lug_nombre"
+                                        inputId="per_lugresidencia"></p-dropdown>
+                        </div>
                     </div>
-                    <div class="col">
-                        <input type="text" class="form-control">
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span class="required">*</span><span>Correo Electrónico:</span>
+                        </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control" [(ngModel)]="form.paciente.per_email">
+                        </div>
                     </div>
-                </div><div class="row">
-                    <div class="col-lg-3">
-                        <span>Celular:</span>
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span>Teléfono Convencial:</span>
+                        </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control">
+                        </div>
                     </div>
-                    <div class="col">
-                        <input type="text" class="form-control">
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span class="required">*</span><span>Celular:</span>
+                        </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
+    <div class="card datosadc">
+        <div class="card-header">
+            Datos de la consulta
+        </div>
+        <div class="card-body">
+            <div class="row dato-fila">
+                <div class="col-md-4">
+                    <span class="required">*</span><span>Fecha cita médica (dd/mm/aaaa):</span>
+                </div>
+                <div class="col-md-8">
+                    <span>{{form.datosconsulta.cosm_fechacita}}</span>
+                </div>
+            </div>
+
+            <div class="row dato-fila">
+                <div class="col-12">
+                    <span class="required">*</span><span>Motivo consulta:</span>
+                </div>
+                <div class="col-12">
+                <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_motivo">
+                </textarea>
+                </div>
+            </div>
+            <div class="row dato-fila">
+                <div class="col-12">
+                    <span class="required">*</span><span>Enfermedad actual:</span>
+                </div>
+                <div class="col-12">
+                <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_enfermactual">
+                </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Creamos tabs para el registro de los datos adicionales-->
+    <div class="datosadc">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-antecedentes-tab" data-toggle="tab" href="#nav-antecedentes"
+                   role="tab" aria-controls="nav-home" aria-selected="true">Antecedentes</a>
+                <a class="nav-item nav-link" id="nav-revxsistema-tab" data-toggle="tab" href="#nav-revxsistema"
+                   role="tab"
+                   aria-controls="nav-contact" aria-selected="false">Revisión por Sistemas</a>
+                <a class="nav-item nav-link" id="nav-examfisico-tab" data-toggle="tab" href="#nav-examfisico" role="tab"
+                   aria-controls="nav-profile" aria-selected="false">Exámen Físico</a>
+                <a class="nav-item nav-link" id="nav-examcomplem-tab" data-toggle="tab" href="#nav-examcomplem"
+                   role="tab"
+                   aria-controls="nav-profile" aria-selected="false">Exs. Complementarios</a>
+                <a class="nav-item nav-link" id="nav-diagnostico-tab" data-toggle="tab" href="#nav-diagnostico"
+                   role="tab"
+                   aria-controls="nav-contact" aria-selected="false">Diagnóstico</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-antecedentes" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row dato-adc-fila" *ngFor="let it of form.antecedentes">
+                            <div class="col-md-3">
+                                <span>{{it.cmtv_valor}}:</span>
+                            </div>
+                            <div class="col">
+                            <textarea class="form-control" [(ngModel)]="it.valorreg">
+
+                            </textarea>
+                                <!--
+                                <input type="text" class="form-control" [(ngModel)]="it.valorreg">
+                                -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-examfisico" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row dato-adc-fila" *ngFor="let it of form.examsfisicos">
+                            <div class="col-md-3">
+                                <span>{{it.cmtv_valor}}:</span>
+                            </div>
+                            <div class="col">
+                                <div *ngIf="it.cmtv_tinput===1">
+                                    <input type="text" class="form-control" [(ngModel)]="it.valorreg">
+                                </div>
+                                <div *ngIf="it.cmtv_tinput===2">
+                                <textarea class="form-control" [(ngModel)]="it.valorreg">
+                                </textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row dato-fila">
+                            <div class="col-12">
+                                <span>Descripción de hallazgos:</span>
+                            </div>
+                            <div class="col-12">
+                            <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_hallazgoexamfis">
+                            </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-revxsistema" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row dato-adc-fila" *ngFor="let it of form.revxsistemas">
+                            <div class="col-md-3">
+                                <span>{{it.cmtv_valor}}:</span>
+                            </div>
+                            <div class="col">
+                                <div *ngIf="it.cmtv_tinput===1">
+                                    <input type="text" class="form-control" [(ngModel)]="it.valorreg">
+                                </div>
+                                <div *ngIf="it.cmtv_tinput===2">
+                                <textarea class="form-control" [(ngModel)]="it.valorreg">
+                                </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-examcomplem" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row dato-fila">
+                            <div class="col-12">
+                                <span>Exámenes Complementarios:</span>
+                            </div>
+                            <div class="col-12">
+                            <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_exmscompl">
+                            </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="nav-diagnostico" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <!--
+                        <div class="row dato-adc-fila" *ngFor="let it of form.diagnostico">
+                            <div class="col-md-3">
+                                <span>{{it.cmtv_valor}}:</span>
+                            </div>
+                            <div class="col">
+                                <div *ngIf="it.cmtv_tinput===1">
+                                    <input type="text" class="form-control" [(ngModel)]="it.valorreg">
+                                </div>
+                                <div *ngIf="it.cmtv_tinput===2">
+                                <textarea class="form-control" [(ngModel)]="it.valorreg">
+                                </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        -->
+
+                        <div class="row dato-fila">
+                            <div class="col-12">
+                                <span class="required">*</span><span>Diagnóstico:</span>
+                            </div>
+                            <div class="col-12">
+                                <p-dropdown [options]="ciedataArray" id="diagnostico_id" [(ngModel)]="form.datosconsulta.diagnostico"
+                                            [virtualScroll]="true"
+                                            [style]="{width:'100%', overflow:'visible'}"
+                                            itemSize="50"
+                                            filter="true"
+                                            optionLabel="ciekeyval"
+                                            inputId="diagnostico_id"></p-dropdown>
+                            </div>
+                        </div>
+
+                        <div class="row dato-fila">
+                            <div class="col-12">
+                                <span class="required">*</span><span>Tratamiento:</span>
+                            </div>
+                            <div class="col-12">
+                            <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_tratamiento">
+                            </textarea>
+                            </div>
+                        </div>
+                        <div class="row dato-fila">
+                            <div class="col-12">
+                                <span class="required">*</span><span>Receta:</span>
+                            </div>
+                            <div class="col-12">
+                            <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_receta">
+                            </textarea>
+                            </div>
+                        </div>
+                        <div class="row dato-fila">
+                            <div class="col-12">
+                                <span>Recomendaciones:</span>
+                            </div>
+                            <div class="col-12">
+                            <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_recomendaciones">
+                            </textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-<p-accordion [multiple]="true">
-    <p-accordionTab header="Datos del paciente">
-
-        The story begins  as Don Vito Corleone, the head of a New York Mafia family, overseeshis daughter's wedding. His beloved son ichael has just come home from the war, but does not intend to become part of his father's business. T hrough Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, kind and benevolent to those who give respect, but given to ruthless violence whenever anything stands against the good of the family.
-    </p-accordionTab>
-    <p-accordionTab header="Datos de la cita Médica">
-        Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream. In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy, killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows.
-    </p-accordionTab>
-    <p-accordionTab header="Antecedentes">
-        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
-    </p-accordionTab>
-    <p-accordionTab header="Revisión por sistemas">
-        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
-    </p-accordionTab>
-    <p-accordionTab header="Exámenes Físicos">
-        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
-    </p-accordionTab>
-    <p-accordionTab header="Exámenes Complementarios">
-        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
-    </p-accordionTab>
-    <p-accordionTab header="Diagnóstico">
-        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
-    </p-accordionTab>
-    <p-accordionTab header="Tratamiento">
-        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
-    </p-accordionTab>
-    <p-accordionTab header="Receta">
-        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
-    </p-accordionTab>
-    <p-accordionTab header="Recomendación">
-        After a break of more than  15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
-    </p-accordionTab>
-</p-accordion>
-
