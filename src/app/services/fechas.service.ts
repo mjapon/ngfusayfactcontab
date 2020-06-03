@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {parse} from 'date-fns';
 
 @Injectable({
     providedIn: 'root'
@@ -104,5 +105,10 @@ export class FechasService {
             today: 'Hoy',
             clear: 'Borrar'
         };
+    }
+
+    parseString(dateString) {
+        let parsedDate = parse(dateString, 'dd/MM/yyyy', new Date());
+        return parsedDate;
     }
 }

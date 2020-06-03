@@ -31,4 +31,14 @@ export class CitasMedicasService extends BaseService {
         return this.doPost(this.http, this.urlEndPoint, httpOptions, form);
     }
 
+    getListaAtenciones(ciruc: string): Observable<any> {
+        const httpOptions = this.getHttpOptionsToken({accion: 'listaatenciones', ciruc});
+        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+    }
+
+    getDatosHistoriaByCod(codhistoria: any): Observable<any> {
+        const httpOptions = this.getHttpOptionsToken({accion: 'findhistbycod', codhistoria});
+        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+    }
+
 }

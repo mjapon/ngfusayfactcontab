@@ -17,7 +17,6 @@ export class LugarService extends BaseService {
     }
 
     listarTodos(): Observable<any> {
-        console.log('Emntra en listar todos');
         const endopoint = this.urlEndPoint;
         const httpOptions = this.getHttpOptionsToken({accion: 'listar'});
         return this.doGet(this.http, endopoint, httpOptions);

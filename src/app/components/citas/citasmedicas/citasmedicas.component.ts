@@ -6,6 +6,10 @@ import {PersonaService} from "../../../services/persona.service";
 import {SwalService} from "../../../services/swal.service";
 import {DateFormatPipe} from "../../../pipes/date-format.pipe";
 import {LugarService} from "../../../services/lugar.service";
+import {ArrayutilService} from "../../../services/arrayutil.service";
+import {DomService} from "../../../services/dom.service";
+
+declare var $: any;
 
 @Component({
     selector: 'app-citasmedicas',
@@ -18,11 +22,14 @@ export class CitasmedicasComponent implements OnInit {
     ciedataArray: Array<any>;
     es: any;
     maxDate = new Date();
+    showBuscaPaciente: boolean = true;
+    cirucPaciente: string;
 
     estadoCivilList: Array<any>;
     generosList: Array<any>;
     selectedEstCivil: any;
     lugares: Array<any>;
+    historias: Array<any>;
 
     constructor(private citasMedicasServ: CitasMedicasService,
                 private catalogosServ: CatalogosService,
@@ -30,14 +37,13 @@ export class CitasmedicasComponent implements OnInit {
                 private dateFormatPipe: DateFormatPipe,
                 private swalService: SwalService,
                 private fechasService: FechasService,
+                private arrayUtil: ArrayutilService,
+                private domService: DomService,
                 private lugarService: LugarService) {
     }
 
     ngOnInit(): void {
-        this.estadoCivilList = [];
-        this.generosList = [];
-        this.initform();
-
+        this.clearAll();
         this.citasMedicasServ.getForm().subscribe(res => {
             if (res.status === 200) {
                 this.form = res.form;
@@ -69,6 +75,16 @@ export class CitasmedicasComponent implements OnInit {
                 this.lugares = resLugares.items;
             }
         });
+
+        this.domService.setFocusTimeout('initBuscaPacInput', 600);
+    }
+
+    clearAll() {
+        this.showBuscaPaciente = true;
+        this.cirucPaciente = '';
+        this.estadoCivilList = [];
+        this.generosList = [];
+        this.initform();
     }
 
 
@@ -85,11 +101,11 @@ export class CitasmedicasComponent implements OnInit {
                 'per_email': '',
                 'per_fecreg': '',
                 'per_tipo': 1,
-                'per_lugnac': 0,
+                'per_lugnac': null,
                 'per_nota': '',
                 'per_fechanac': '',
-                'per_genero': 0,
-                'per_estadocivil': 1,
+                'per_genero': null,
+                'per_estadocivil': null,
                 'per_lugresidencia': 0
             },
             datosconsulta: {
@@ -114,11 +130,29 @@ export class CitasmedicasComponent implements OnInit {
         };
     }
 
-    buscarPaciente() {
+    initBuscaPaciente() {
+        this.buscarPaciente(true);
+        this.showBuscaPaciente = false;
+    }
+
+    buscarPaciente(showMessage) {
         let per_ciruc = this.form.paciente.per_ciruc;
+        this.historias = [];
         this.personaService.buscarPorCi(per_ciruc).subscribe(res => {
                 if (res.status === 200) {
+                    if (showMessage) {
+                        this.swalService.fireToastInfo('El paciente ya está registrado');
+                    }
                     this.loadDataPerson(res.persona);
+                    this.citasMedicasServ.getListaAtenciones(per_ciruc).subscribe(resCitas => {
+                        if (resCitas.status === 200) {
+                            this.historias = resCitas.items;
+                        }
+                    });
+                } else {
+                    if (showMessage) {
+                        this.swalService.fireToastWarn('Nuevo paciente, debe ingresar los datos de filiación');
+                    }
                 }
             }
         );
@@ -126,7 +160,7 @@ export class CitasmedicasComponent implements OnInit {
 
     verificaPacienteRegistrado() {
         if (this.form.paciente.per_id === 0) {
-            this.buscarPaciente();
+            this.buscarPaciente(false);
         }
     }
 
@@ -134,22 +168,34 @@ export class CitasmedicasComponent implements OnInit {
         const msg = '¿Seguro?';
         this.swalService.fireDialog(msg).then(confirm => {
             if (confirm.value) {
-                const fechaCita = this.dateFormatPipe.transform(this.form.datosconsulta.cosm_fechacita);
                 const fechaNac = this.dateFormatPipe.transform(this.form.paciente.per_fechanac);
                 const formToPost: any = {};
                 for (const prop of Object.keys(this.form)) {
                     formToPost[prop] = this.form[prop];
                 }
                 formToPost.paciente.per_fechanac = fechaNac;
-                formToPost.datosconsulta.cosm_fechacita = fechaCita;
+
+                console.log('Datos que se envia es:');
+                console.log(formToPost);
 
                 this.citasMedicasServ.crearCita(formToPost).subscribe(res => {
+                    console.log('Respuesta es:');
+                    console.log(res);
                     if (res.status === 200) {
                         this.swalService.fireToastSuccess(res.msg);
                     }
                 });
             }
         });
+    }
+
+    toggleAcordion(inputid) {
+        $('#' + inputid).collapse('toggle');
+    }
+
+    limpiar() {
+        this.clearAll();
+        this.domService.setFocusTimeout('initBuscaPacInput', 600);
     }
 
     private loadDataPerson(persona: any) {
@@ -163,10 +209,44 @@ export class CitasmedicasComponent implements OnInit {
         this.form.paciente.per_tipo = persona.per_tipo;
         this.form.paciente.per_lugnac = persona.per_lugnac;
         this.form.paciente.per_nota = persona.per_nota;
-        /*this.form.paciente.per_fechanac
-        this.form.paciente.per_genero
-        this.form.paciente.per_estadocivil
-        this.form.paciente.per_lugresidencia
-        */
+
+        this.form.paciente.per_fechanac = null;
+        if (persona.per_fechanac && persona.per_fechanac.trim().length > 0) {
+            let fechaNacimiento = this.fechasService.parseString(persona.per_fechanac);
+            this.form.paciente.per_fechanac = fechaNacimiento;
+        }
+
+        this.form.paciente.per_genero = null;
+        if (persona.per_genero) {
+            const dbGenero = this.arrayUtil.getFirstResult(
+                this.generosList,
+                (el, idx, array) => {
+                    return el.lval_id === persona.per_generoo;
+                }
+            );
+            this.form.paciente.per_genero = dbGenero;
+        }
+
+        this.form.paciente.per_estadocivil = null;
+        if (persona.per_estadocivil) {
+            const dbEstadoCivil = this.arrayUtil.getFirstResult(
+                this.estadoCivilList,
+                (el, idx, array) => {
+                    return el.lval_id === persona.per_estadocivil;
+                }
+            );
+            this.form.paciente.per_estadocivil = dbEstadoCivil;
+        }
+
+        this.form.paciente.per_lugresidencia = null;
+        if (persona.per_lugresidencia) {
+            const dbLugResidencia = this.arrayUtil.getFirstResult(
+                this.lugares,
+                (el, idx, array) => {
+                    return el.lug_id === persona.per_lugresidencia;
+                }
+            );
+            this.form.paciente.per_lugresidencia = dbLugResidencia;
+        }
     }
 }

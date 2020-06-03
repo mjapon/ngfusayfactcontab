@@ -59,7 +59,7 @@ const routes: Routes = [
     {path: 'miscitasmedicas', component: MiscitasComponent},
     {path: 'ingresoPaciente', component: LoginpacienteComponent},
     {path: 'citasPaciente', component: CitaspacienteComponent},
-    {path: 'citasMedicas', component: CitasmedicasComponent},
+    {path: 'historiaclinica', component: CitasmedicasComponent},
     {path: '**', component: HomeComponent}
 ];
 

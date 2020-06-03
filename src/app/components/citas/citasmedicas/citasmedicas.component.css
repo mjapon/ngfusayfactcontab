@@ -1,14 +1,27 @@
-.dato-fila{
+.dato-fila {
     margin: 15px 5px;
 }
-.datosadc{
-    margin-top: 20px;
+
+.datosadc {
+    margin-top: 10px;
 }
 
-.dato-adc-fila{
-    margin: 10px 1px;
+.dato-adc-fila {
+    margin: 6px 1px;
 }
 
-.diagdropdown{
+.diagdropdown {
     width: 1000px !important;
+}
+
+.buscapanel {
+    margin-top: 40px;
+}
+
+.btnTextLeft{
+    text-align: left !important;
+    padding: 12px 20px;
+    background-color: #F7F7F7 !important;
+    color: #212529 !important;
+    border-color: transparent !important;
 }
