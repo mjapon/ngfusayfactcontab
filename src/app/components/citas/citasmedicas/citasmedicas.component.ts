@@ -31,6 +31,8 @@ export class CitasmedicasComponent implements OnInit {
     lugares: Array<any>;
     historias: Array<any>;
 
+    accordionStatus: any;
+
     constructor(private citasMedicasServ: CitasMedicasService,
                 private catalogosServ: CatalogosService,
                 private personaService: PersonaService,
@@ -77,6 +79,13 @@ export class CitasmedicasComponent implements OnInit {
         });
 
         this.domService.setFocusTimeout('initBuscaPacInput', 600);
+
+        this.accordionStatus = {
+            citasPanel: false,
+            datosPacPanel: false,
+            motConsultaPanel: false
+        };
+
     }
 
     clearAll() {
@@ -191,6 +200,7 @@ export class CitasmedicasComponent implements OnInit {
 
     toggleAcordion(inputid) {
         $('#' + inputid).collapse('toggle');
+        this.accordionStatus[inputid] = !this.accordionStatus[inputid];
     }
 
     limpiar() {

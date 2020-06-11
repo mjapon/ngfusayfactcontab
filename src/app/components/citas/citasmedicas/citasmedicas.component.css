@@ -14,14 +14,32 @@
     width: 1000px !important;
 }
 
-.buscapanel {
-    margin-top: 40px;
+.flex-center-columns{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .btnTextLeft{
     text-align: left !important;
-    padding: 12px 20px;
+    padding: 8px 20px;
     background-color: #F7F7F7 !important;
     color: #212529 !important;
     border-color: transparent !important;
 }
+
+.btnTextLeft:active,
+.btnTextLeft:focus,
+.btnTextLeft.focus,
+.btnTextLeft.active{
+    outline: none !important;
+}
+
+.btn.btn-secondary.focus,
+.btn.btn-secondary:focus{
+    outline: none !important;
+}
+
+
+
