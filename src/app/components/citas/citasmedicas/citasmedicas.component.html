@@ -37,62 +37,343 @@
             </div>
         </div>
         <hr>
-
-        <!--
         <div class="row">
-            <div class="col-3">
+            <div class="col-3 quitaPadding">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">
-                        <span class="badge badge-pill badge-primary">1</span>
-                        Datos de Filiación</a>
-                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">
-                        <span class="badge badge-pill badge-primary">2</span>
-                        Motivo de Consulta</a>
-                    <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">
-                        <span class="badge badge-pill badge-primary">3</span>
-                        Enfermedad Actual</a>
-                    <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-                        <span class="badge badge-pill badge-primary">4</span>
-                        Antecedentes</a>
-                    <a class="nav-link" id="v-pills-revsistemas-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-                        <span class="badge badge-pill badge-primary">5</span>
-                        Revisión por sistemas</a>
-                    <a class="nav-link" id="v-pills-examfis-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-                        <span class="badge badge-pill badge-primary">6</span>
-                        Examen Físico</a>
-                    <a class="nav-link" id="v-pills-examcompl-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-                        <span class="badge badge-pill badge-primary">7</span>
-                        Exámenes Complementarios</a>
-                    <a class="nav-link" id="v-pills-diagn-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-                        <span class="badge badge-pill badge-primary">8</span>
-                        Diagnóstico</a>
-                    <a class="nav-link" id="v-pills-tratamiento-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-                        <span class="badge badge-pill badge-primary">9</span>
-                        Trantamiento y Receta</a>
-                    <a class="nav-link" id="v-pills-recomendaciones-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-                        <span class="badge badge-pill badge-primary">10</span>
-                        Recomendaciones</a>
+                    <a class="nav-link" *ngFor="let tab of tabs" data-toggle="pill" href="#{{tab.panelid}}" role="tab"
+                       aria-controls="v-pills-home" aria-selected="true" [ngClass]="{'active': tab.paso===selectedTab}">
+                        <span class="badge badge-pill badge-primary"> {{tab.paso}} </span>
+                        {{tab.titulo}}
+                    </a>
                 </div>
             </div>
-            <div class="col-9">
+            <div class="col-9 quitaPadding">
                 <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-                        <p>Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.</p>
+                    <div class="tab-pane fade" id="panelDatosFil" role="tabpanel"
+                         aria-labelledby="v-pills-home-tab">
+                        <div class="card border-primary">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row dato-fila">
+                                            <div class="col-12">
+                                                <span class="required">*</span><span>Ci/RUC/Pasaporte:</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control"
+                                                           [(ngModel)]="form.paciente.per_ciruc"
+                                                           (blur)="verificaPacienteRegistrado()"
+                                                           (keydown.enter)="buscarPaciente(false)">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-secondary" type="button"
+                                                                (click)="buscarPaciente(false)"
+                                                                title="Presiona este botón para buscar el paciente por numero de cédula, ruc o pasaporte ">
+                                                            <span class="fa fa-search"></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row dato-fila">
+                                            <div class="col-12">
+                                                <span class="required">*</span><span>Nombres:</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <input type="text" class="form-control"
+                                                       [(ngModel)]="form.paciente.per_nombres" id="perNombresInput"
+                                                       [autocomplete]="false">
+                                            </div>
+                                        </div>
+                                        <div class="row dato-fila">
+                                            <div class="col-12">
+                                                <span>Apellidos:</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <input type="text" class="form-control"
+                                                       [(ngModel)]="form.paciente.per_apellidos"
+                                                       [autocomplete]="false">
+                                            </div>
+                                        </div>
+                                        <div class="row dato-fila">
+                                            <div class="col-12">
+                                                <span class="required">*</span><span>Fecha de nacimiento (dd/mm/aaaa):</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <p-calendar id="per_fechanac"
+                                                            [(ngModel)]="form.paciente.per_fechanac"
+                                                            [showIcon]="true"
+                                                            [locale]="es" inputId="per_fechanac"
+                                                            [monthNavigator]="true" [yearNavigator]="true"
+                                                            [maxDate]="maxDate"
+                                                            yearRange="1900:2100"
+                                                            dateFormat="dd/mm/yy"></p-calendar>
+                                            </div>
+                                        </div>
+                                        <div class="row dato-fila">
+                                            <div class="col-md-3">
+                                                <span class="required">*</span><span>Sexo:</span>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <p-radioButton name="sexo" *ngFor="let it of generosList"
+                                                               value="{{it.lval_valor}}"
+                                                               label="{{it.lval_nombre}}"
+                                                               [(ngModel)]="form.paciente.per_genero"></p-radioButton>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row dato-fila">
+                                            <div class="col-12">
+                                                <span>Estado Civil:</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <p-dropdown [options]="estadoCivilList" optionLabel="lval_nombre"
+                                                            placeholder="Seleccione el estado civil"
+                                                            [showClear]="true"
+                                                            [(ngModel)]="form.paciente.per_estadocivil"></p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="row dato-fila">
+                                            <div class="col-12">
+                                                <span>Lugar de residencia:</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <p-dropdown [options]="lugares" id="catic_id"
+                                                            [(ngModel)]="form.paciente.per_lugresidencia"
+                                                            [virtualScroll]="true"
+                                                            placeholder="Seleccione el lugar de residencia"
+                                                            [showClear]="true"
+                                                            [style]="{width:'100%', overflow:'visible'}"
+                                                            [filterMatchMode]="'startsWith'"
+                                                            filter="true"
+                                                            itemSize="50"
+                                                            optionLabel="lug_nombre"
+                                                            inputId="per_lugresidencia"></p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="row dato-fila">
+                                            <div class="col-12">
+                                                <span class="required">*</span><span>Correo Electrónico:</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <input type="text" class="form-control"
+                                                       [(ngModel)]="form.paciente.per_email"
+                                                       autocomplete="false">
+                                            </div>
+                                        </div>
+                                        <div class="row dato-fila">
+                                            <div class="col-12">
+                                                <span>Teléfono Convencial:</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <input type="text" class="form-control"
+                                                       [(ngModel)]="form.paciente.per_telf"
+                                                       [autocomplete]="false">
+                                            </div>
+                                        </div>
+                                        <div class="row dato-fila">
+                                            <div class="col-12">
+                                                <span class="required">*</span><span>Celular:</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <input type="text" class="form-control" [autocomplete]="false"
+                                                       [(ngModel)]="form.paciente.per_movil">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="padding15">
+                                            <button class="btn btn-primary" (click)="guardaDatosPaciente()"> Siguiente <i class="fa fa-arrow-right"></i> </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                        <p>Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.</p>
+                    <div class="tab-pane fade" id="panelMotConsulta" role="tabpanel"
+                         aria-labelledby="v-pills-profile-tab">
+                        <div class="card border-primary">
+                            <div class="card-body">
+                                <div class="row dato-adc-fila">
+                                    <div class="col-12">
+                                        <span class="required">*</span><span>Motivo Consulta:</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_motivo" id="motivoConsultaTextArea">
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="row dato-adc-fila">
+                                    <div class="col-12">
+                                        <span class="required">*</span><span>Enfermedad actual:</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea class="form-control" rows="10"
+                                                  [(ngModel)]="form.datosconsulta.cosm_enfermactual">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                        <p>Fugiat id quis dolor culpa eiusmod anim velit excepteur proident dolor aute qui magna. Ad proident laboris ullamco esse anim Lorem Lorem veniam quis Lorem irure occaecat velit nostrud magna nulla. Velit et et proident Lorem do ea tempor officia dolor. Reprehenderit Lorem aliquip labore est magna commodo est ea veniam consectetur.</p>
+                    <div class="tab-pane fade" id="panelAntecedentes" role="tabpanel"
+                         aria-labelledby="v-pills-settings-tab">
+                        <div class="card border-primary">
+                            <div class="card-body">
+                                <div class="row dato-adc-fila" *ngFor="let it of form.antecedentes">
+                                    <div class="col-md-3">
+                                        <span>{{it.cmtv_valor}}:</span>
+                                    </div>
+                                    <div class="col">
+                                       <textarea class="form-control" [(ngModel)]="it.valorreg">
+                                       </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                        <p>Eu dolore ea ullamco dolore Lorem id cupidatat excepteur reprehenderit consectetur elit id dolor proident in cupidatat officia. Voluptate excepteur commodo labore nisi cillum duis aliqua do. Aliqua amet qui mollit consectetur nulla mollit velit aliqua veniam nisi id do Lorem deserunt amet. Culpa ullamco sit adipisicing labore officia magna elit nisi in aute tempor commodo eiusmod.</p>
+                    <div class="tab-pane fade" id="panelRevXSis" role="tabpanel"
+                         aria-labelledby="v-pills-settings-tab">
+                        <div class="card border-primary">
+                            <div class="card-body">
+                                <div class="row dato-adc-fila" *ngFor="let it of form.revxsistemas">
+                                    <div class="col-md-3">
+                                        <span>{{it.cmtv_valor}}:</span>
+                                    </div>
+                                    <div class="col">
+                                        <div *ngIf="it.cmtv_tinput===1">
+                                            <input type="text" class="form-control" [(ngModel)]="it.valorreg">
+                                        </div>
+                                        <div *ngIf="it.cmtv_tinput===2">
+                                            <textarea class="form-control" [(ngModel)]="it.valorreg">
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="panelExamFisico" role="tabpanel"
+                         aria-labelledby="v-pills-settings-tab">
+                        <div class="card border-primary">
+                            <div class="card-body">
+                                <div>
+                                    <div class="row dato-adc-fila" *ngFor="let it of form.examsfisicos">
+                                        <div class="col-md-3">
+                                            <span>{{it.cmtv_valor}}:</span>
+                                        </div>
+                                        <div class="col">
+                                            <div *ngIf="it.cmtv_tinput===1">
+                                                <input type="text" class="form-control" [(ngModel)]="it.valorreg">
+                                            </div>
+                                            <div *ngIf="it.cmtv_tinput===2">
+                                                    <textarea class="form-control" [(ngModel)]="it.valorreg">
+                                                    </textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row dato-fila">
+                                        <div class="col-12">
+                                            <span>Descripción de hallazgos:</span>
+                                        </div>
+                                        <div class="col-12">
+                                                <textarea class="form-control"
+                                                          [(ngModel)]="form.datosconsulta.cosm_hallazgoexamfis">
+                                                </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="panelExamComple" role="tabpanel"
+                         aria-labelledby="v-pills-settings-tab">
+                        <div class="card border-primary">
+                            <div class="card-body">
+                                <div class="row dato-fila">
+                                    <div class="col-12">
+                                        <span>Exámenes Complementarios:</span>
+                                    </div>
+                                    <div class="col-12">
+                                            <textarea class="form-control"
+                                                      [(ngModel)]="form.datosconsulta.cosm_exmscompl">
+                                            </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="panelDiagnostico" role="tabpanel"
+                         aria-labelledby="v-pills-settings-tab">
+                        <div class="card border-primary">
+                            <div class="card-body">
+                                <div class="row dato-fila">
+                                    <div class="col-12">
+                                        <span class="required">*</span><span>Diagnóstico:</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <p-dropdown [options]="ciedataArray" id="diagnostico_id"
+                                                    [(ngModel)]="form.datosconsulta.cosm_diagnostico"
+                                                    [virtualScroll]="true"
+                                                    placeholder="Seleccione o busque la enfermedad diagnosticada"
+                                                    [showClear]="true"
+                                                    [style]="{width:'100%', overflow:'visible'}"
+                                                    itemSize="50"
+                                                    filter="true"
+                                                    optionLabel="ciekeyval"
+                                                    inputId="diagnostico_id"></p-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="row dato-fila">
+                                    <div class="col-12">
+                                        <span class="required">*</span><span>Tratamiento:</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_tratamiento">
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="row dato-fila">
+                                    <div class="col-12">
+                                        <span class="required">*</span><span>Receta:</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_receta">
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="row dato-fila">
+                                    <div class="col-12">
+                                        <span class="required">*</span><span>Indicaciones Receta:</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_indicsreceta">
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="row dato-fila">
+                                    <div class="col-12">
+                                        <span>Recomendaciones:</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_recomendaciones">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        -->
 
+
+        <!--
         <div class="card" *ngIf="historias.length>0">
             <div class="row">
                 <div class="col">
@@ -102,7 +383,6 @@
                     </button>
                 </div>
             </div>
-
             <div id="citasPanel" class="collapse">
                 <div class="card-body">
                     <table class="table table-hover" *ngIf="historias.length>0">
@@ -130,6 +410,7 @@
                 </div>
             </div>
         </div>
+
         <div class="card">
             <div class="row">
                 <div class="col">
@@ -274,208 +555,207 @@
             </div>
         </div>
 
-        <div class="card">
-            <div class="row">
-                <div class="col">
-                    <button class="btn btn-block btn-secondary btnTextLeft"
-                            (click)="toggleAcordion('motConsultaPanel')">
-                        Motivo de la consulta <span
-                            class="fa {{accordionStatus.motConsultaPanel?'fa-chevron-circle-down':'fa-chevron-circle-right'}}"></span>
-                    </button>
-                </div>
-            </div>
-
-            <div id="motConsultaPanel" class="collapse">
-                <div class="card-body">
-                    <div class="row dato-adc-fila">
-                        <div class="col-12">
-                            <span class="required">*</span><span>Motivo Consulta:</span>
-                        </div>
-                        <div class="col-12">
-                <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_motivo">
-                </textarea>
-                        </div>
+        <div id="panelMotConsulta" class="collapse">
+            <div class="card">
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-block btn-secondary btnTextLeft"
+                                (click)="toggleAcordion('motConsultaPanel')">
+                            Motivo de la consulta <span
+                                class="fa {{accordionStatus.motConsultaPanel?'fa-chevron-circle-down':'fa-chevron-circle-right'}}"></span>
+                        </button>
                     </div>
-                    <div class="row dato-adc-fila">
-                        <div class="col-12">
-                            <span class="required">*</span><span>Enfermedad actual:</span>
-                        </div>
-                        <div class="col-12">
-                <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_enfermactual">
-                </textarea>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#nav-antecedentes">Antecedentes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " data-toggle="tab" href="#nav-revxsistema">Revisión por sistemas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " data-toggle="tab" href="#nav-examfisico">Examen Físico</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " data-toggle="tab" href="#nav-examcompl">Exms. Complementarios</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " data-toggle="tab" href="#nav-diagnostico">Diagnóstico</a>
-                    </li>
-                </ul>
-            </div>
+        <div id="panelEnfermActual" class="collapse">
             <div class="card-body">
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-antecedentes" role="tabpanel"
-                         aria-labelledby="nav-home-tab">
-                        <div>
-                            <div class="row dato-adc-fila" *ngFor="let it of form.antecedentes">
-                                <div class="col-md-3">
-                                    <span>{{it.cmtv_valor}}:</span>
+                <div class="row dato-adc-fila">
+                    <div class="col-12">
+                        <span class="required">*</span><span>Motivo Consulta:</span>
+                    </div>
+                    <div class="col-12">
+                                <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_motivo">
+                                </textarea>
+                    </div>
+                </div>
+                <div class="row dato-adc-fila">
+                    <div class="col-12">
+                        <span class="required">*</span><span>Enfermedad actual:</span>
+                    </div>
+                    <div class="col-12">
+                                <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_enfermactual">
+                                </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#nav-antecedentes">Antecedentes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " data-toggle="tab" href="#nav-revxsistema">Revisión por sistemas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " data-toggle="tab" href="#nav-examfisico">Examen Físico</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " data-toggle="tab" href="#nav-examcompl">Exms. Complementarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " data-toggle="tab" href="#nav-diagnostico">Diagnóstico</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-antecedentes" role="tabpanel"
+                     aria-labelledby="nav-home-tab">
+                    <div>
+                        <div class="row dato-adc-fila" *ngFor="let it of form.antecedentes">
+                            <div class="col-md-3">
+                                <span>{{it.cmtv_valor}}:</span>
+                            </div>
+                            <div class="col">
+                                        <textarea class="form-control" [(ngModel)]="it.valorreg">
+                                        </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-revxsistema" role="tabpanel"
+                     aria-labelledby="nav-home-tab">
+                    <div>
+                        <div class="row dato-adc-fila" *ngFor="let it of form.revxsistemas">
+                            <div class="col-md-3">
+                                <span>{{it.cmtv_valor}}:</span>
+                            </div>
+                            <div class="col">
+                                <div *ngIf="it.cmtv_tinput===1">
+                                    <input type="text" class="form-control" [(ngModel)]="it.valorreg">
                                 </div>
-                                <div class="col">
-                            <textarea class="form-control" [(ngModel)]="it.valorreg">
-
-                            </textarea>
-
+                                <div *ngIf="it.cmtv_tinput===2">
+                                            <textarea class="form-control" [(ngModel)]="it.valorreg">
+                                            </textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-revxsistema" role="tabpanel"
-                         aria-labelledby="nav-home-tab">
-                        <div>
-                            <div class="row dato-adc-fila" *ngFor="let it of form.revxsistemas">
-                                <div class="col-md-3">
-                                    <span>{{it.cmtv_valor}}:</span>
+                </div>
+
+                <div class="tab-pane fade" id="nav-examfisico" role="tabpanel"
+                     aria-labelledby="nav-home-tab">
+                    <div>
+                        <div class="row dato-adc-fila" *ngFor="let it of form.examsfisicos">
+                            <div class="col-md-3">
+                                <span>{{it.cmtv_valor}}:</span>
+                            </div>
+                            <div class="col">
+                                <div *ngIf="it.cmtv_tinput===1">
+                                    <input type="text" class="form-control" [(ngModel)]="it.valorreg">
                                 </div>
-                                <div class="col">
-                                    <div *ngIf="it.cmtv_tinput===1">
-                                        <input type="text" class="form-control" [(ngModel)]="it.valorreg">
-                                    </div>
-                                    <div *ngIf="it.cmtv_tinput===2">
+                                <div *ngIf="it.cmtv_tinput===2">
                                 <textarea class="form-control" [(ngModel)]="it.valorreg">
                                 </textarea>
-                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="tab-pane fade" id="nav-examfisico" role="tabpanel"
-                         aria-labelledby="nav-home-tab">
-                        <div>
-                            <div class="row dato-adc-fila" *ngFor="let it of form.examsfisicos">
-                                <div class="col-md-3">
-                                    <span>{{it.cmtv_valor}}:</span>
-                                </div>
-                                <div class="col">
-                                    <div *ngIf="it.cmtv_tinput===1">
-                                        <input type="text" class="form-control" [(ngModel)]="it.valorreg">
-                                    </div>
-                                    <div *ngIf="it.cmtv_tinput===2">
-                                <textarea class="form-control" [(ngModel)]="it.valorreg">
-                                </textarea>
-                                    </div>
-                                </div>
+                        <div class="row dato-fila">
+                            <div class="col-12">
+                                <span>Descripción de hallazgos:</span>
                             </div>
-
-                            <div class="row dato-fila">
-                                <div class="col-12">
-                                    <span>Descripción de hallazgos:</span>
-                                </div>
-                                <div class="col-12">
+                            <div class="col-12">
                             <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_hallazgoexamfis">
                             </textarea>
-                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="tab-pane fade" id="nav-examcompl" role="tabpanel"
-                         aria-labelledby="nav-home-tab">
-                        <div>
-                            <div class="row dato-fila">
-                                <div class="col-12">
-                                    <span>Exámenes Complementarios:</span>
-                                </div>
-                                <div class="col-12">
+                </div>
+                <div class="tab-pane fade" id="nav-examcompl" role="tabpanel"
+                     aria-labelledby="nav-home-tab">
+                    <div>
+                        <div class="row dato-fila">
+                            <div class="col-12">
+                                <span>Exámenes Complementarios:</span>
+                            </div>
+                            <div class="col-12">
                             <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_exmscompl">
                             </textarea>
-                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="tab-pane fade" id="nav-diagnostico" role="tabpanel"
-                         aria-labelledby="nav-home-tab">
+                <div class="tab-pane fade" id="nav-diagnostico" role="tabpanel"
+                     aria-labelledby="nav-home-tab">
 
-                        <div class="row dato-fila">
-                            <div class="col-12">
-                                <span class="required">*</span><span>Diagnóstico:</span>
-                            </div>
-                            <div class="col-12">
-                                <p-dropdown [options]="ciedataArray" id="diagnostico_id"
-                                            [(ngModel)]="form.datosconsulta.cosm_diagnostico"
-                                            [virtualScroll]="true"
-                                            placeholder="Seleccione o busque la enfermedad diagnosticada"
-                                            [showClear]="true"
-                                            [style]="{width:'100%', overflow:'visible'}"
-                                            itemSize="50"
-                                            filter="true"
-                                            optionLabel="ciekeyval"
-                                            inputId="diagnostico_id"></p-dropdown>
-                            </div>
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span class="required">*</span><span>Diagnóstico:</span>
                         </div>
-
-                        <div class="row dato-fila">
-                            <div class="col-12">
-                                <span class="required">*</span><span>Tratamiento:</span>
-                            </div>
-                            <div class="col-12">
-                            <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_tratamiento">
-                            </textarea>
-                            </div>
+                        <div class="col-12">
+                            <p-dropdown [options]="ciedataArray" id="diagnostico_id"
+                                        [(ngModel)]="form.datosconsulta.cosm_diagnostico"
+                                        [virtualScroll]="true"
+                                        placeholder="Seleccione o busque la enfermedad diagnosticada"
+                                        [showClear]="true"
+                                        [style]="{width:'100%', overflow:'visible'}"
+                                        itemSize="50"
+                                        filter="true"
+                                        optionLabel="ciekeyval"
+                                        inputId="diagnostico_id"></p-dropdown>
                         </div>
-                        <div class="row dato-fila">
-                            <div class="col-12">
-                                <span class="required">*</span><span>Receta:</span>
-                            </div>
-                            <div class="col-12">
-                            <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_receta">
-                            </textarea>
-                            </div>
-                        </div>
-                        <div class="row dato-fila">
-                            <div class="col-12">
-                                <span class="required">*</span><span>Indicaciones Receta:</span>
-                            </div>
-                            <div class="col-12">
-                            <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_indicsreceta">
-                            </textarea>
-                            </div>
-                        </div>
-                        <div class="row dato-fila">
-                            <div class="col-12">
-                                <span>Recomendaciones:</span>
-                            </div>
-                            <div class="col-12">
-                            <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_recomendaciones">
-                            </textarea>
-                            </div>
-                        </div>
-
                     </div>
 
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span class="required">*</span><span>Tratamiento:</span>
+                        </div>
+                        <div class="col-12">
+                                    <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_tratamiento">
+                                    </textarea>
+                        </div>
+                    </div>
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span class="required">*</span><span>Receta:</span>
+                        </div>
+                        <div class="col-12">
+                                    <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_receta">
+                                    </textarea>
+                        </div>
+                    </div>
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span class="required">*</span><span>Indicaciones Receta:</span>
+                        </div>
+                        <div class="col-12">
+                                    <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_indicsreceta">
+                                    </textarea>
+                        </div>
+                    </div>
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span>Recomendaciones:</span>
+                        </div>
+                        <div class="col-12">
+                                    <textarea class="form-control"
+                                              [(ngModel)]="form.datosconsulta.cosm_recomendaciones">
+                                    </textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    -->
 
 
         <!--Creamos tabs para el registro de los datos adicionales-->

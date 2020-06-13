@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {CitasMedicasService} from "../../../services/citas-medicas.service";
-import {FechasService} from "../../../services/fechas.service";
-import {CatalogosService} from "../../../services/catalogos.service";
-import {PersonaService} from "../../../services/persona.service";
-import {SwalService} from "../../../services/swal.service";
-import {DateFormatPipe} from "../../../pipes/date-format.pipe";
-import {LugarService} from "../../../services/lugar.service";
-import {ArrayutilService} from "../../../services/arrayutil.service";
-import {DomService} from "../../../services/dom.service";
+import {CitasMedicasService} from '../../../services/citas-medicas.service';
+import {FechasService} from '../../../services/fechas.service';
+import {CatalogosService} from '../../../services/catalogos.service';
+import {PersonaService} from '../../../services/persona.service';
+import {SwalService} from '../../../services/swal.service';
+import {DateFormatPipe} from '../../../pipes/date-format.pipe';
+import {LugarService} from '../../../services/lugar.service';
+import {ArrayutilService} from '../../../services/arrayutil.service';
+import {DomService} from '../../../services/dom.service';
 
 declare var $: any;
 
@@ -30,6 +30,10 @@ export class CitasmedicasComponent implements OnInit {
     selectedEstCivil: any;
     lugares: Array<any>;
     historias: Array<any>;
+
+    tabs: Array<any>;
+    selectedTab: number;
+    selectedTabId: string;
 
     accordionStatus: any;
 
@@ -86,16 +90,26 @@ export class CitasmedicasComponent implements OnInit {
             motConsultaPanel: false
         };
 
+        this.tabs = [
+            {titulo: 'Datos de Filiación', paso: 1, panelid: 'panelDatosFil'},
+            {titulo: 'Motivo de Consulta', paso: 2, panelid: 'panelMotConsulta'},
+            {titulo: 'Antecedentes', paso: 3, panelid: 'panelAntecedentes'},
+            {titulo: 'Revisión por sistemas', paso: 4, panelid: 'panelRevXSis'},
+            {titulo: 'Examen Físico', paso: 5, panelid: 'panelExamFisico'},
+            {titulo: 'Exms. Complementarios', paso: 6, panelid: 'panelExamComple'},
+            {titulo: 'Diagnóstico', paso: 7, panelid: 'panelDiagnostico'}
+        ];
+        this.selectedTab = 2;
+        this.selectedTabId = 'panelMotConsulta';
     }
 
     clearAll() {
         this.showBuscaPaciente = true;
         this.cirucPaciente = '';
-        this.estadoCivilList = [];
-        this.generosList = [];
+        this.selectedTab = 2;
+        this.selectedTabId = 'panelMotConsulta';
         this.initform();
     }
-
 
     initform() {
         this.form = {
@@ -144,6 +158,14 @@ export class CitasmedicasComponent implements OnInit {
         this.showBuscaPaciente = false;
     }
 
+    showTab(tabId) {
+        $('#' + tabId).tab('show');
+    }
+
+    hideTab(tabId) {
+        $('#' + tabId).tab('hide');
+    }
+
     buscarPaciente(showMessage) {
         let per_ciruc = this.form.paciente.per_ciruc;
         this.historias = [];
@@ -158,11 +180,17 @@ export class CitasmedicasComponent implements OnInit {
                             this.historias = resCitas.items;
                         }
                     });
+
+                    this.domService.setFocusTimeout('motivoConsultaTextArea', 600);
                 } else {
+                    this.selectedTabId = 'panelDatosFil';
+                    this.selectedTab = 1;
+                    this.domService.setFocusTimeout('perNombresInput', 600);
                     if (showMessage) {
                         this.swalService.fireToastWarn('Nuevo paciente, debe ingresar los datos de filiación');
                     }
                 }
+                this.showTab(this.selectedTabId);
             }
         );
     }
@@ -171,6 +199,13 @@ export class CitasmedicasComponent implements OnInit {
         if (this.form.paciente.per_id === 0) {
             this.buscarPaciente(false);
         }
+    }
+
+    guardaDatosPaciente() {
+        this.selectedTab = 2;
+        this.selectedTabId = 'panelMotConsulta';
+        this.showTab(this.selectedTabId);
+        this.hideTab('panelDatosFil');
     }
 
     registrarCita() {
