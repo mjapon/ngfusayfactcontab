@@ -3,11 +3,11 @@ import swal from 'sweetalert2';
 import {LocalStorageService} from './local-storage.service';
 import {HttpClient} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import {environment} from 'src/environments/environment';
 
 export class BaseService {
-    private baseUrlEndPoint = environment.baseUrlEndPoint;
     protected urlEndPoint: string;
+    private baseUrlEndPoint = environment.baseUrlEndPoint;
 
     constructor(urlPath: string, protected localStrgServ: LocalStorageService) {
         this.urlEndPoint = this.baseUrlEndPoint + urlPath;
@@ -72,6 +72,20 @@ export class BaseService {
         form: any
     ): Observable<any> {
         return http.post(endpoint, form, httpOptions).pipe(
+            map((response: any) => {
+                return response;
+            }),
+            catchError(this.fnProcesaError)
+        );
+    }
+
+    protected doPut(
+        http: HttpClient,
+        endpoint: string,
+        httpOptions: any,
+        form: any
+    ): Observable<any> {
+        return http.put(endpoint, form, httpOptions).pipe(
             map((response: any) => {
                 return response;
             }),

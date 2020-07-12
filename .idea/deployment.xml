@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="prod-fusay" />
+  <component name="PublishConfigData" serverName="prod-fusay">
+    <serverData>
+      <paths name="prod-fusay">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/opt/sysprintngjs" local="$PROJECT_DIR$" web="/opt/sysprintngjs" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
 </project>

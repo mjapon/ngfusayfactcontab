@@ -3,7 +3,6 @@ import {BaseService} from './base-service';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -38,12 +37,13 @@ export class PersonaService extends BaseService {
     guardar(form: any): Observable<any> {
         const endpoint = this.urlEndPoint + '/' + form['per_id'];
         const httpOptions = this.getHttpOptions({});
-        return this.http.post(endpoint, form, httpOptions).pipe(
-            map((response: any) => {
-                return response;
-            }),
-            catchError(this.fnProcesaError)
-        );
+        return this.doPost(this.http, endpoint, httpOptions, form);
+    }
+
+    actualizar(perId: number, form: any) {
+        const endpoint = this.urlEndPoint + '/' + perId;
+        const httpOptions = this.getHttpOptions({});
+        return this.doPut(this.http, endpoint, httpOptions, form);
     }
 
     listarProveedores(): Observable<any> {

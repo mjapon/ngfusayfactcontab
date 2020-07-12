@@ -41,4 +41,9 @@ export class CitasMedicasService extends BaseService {
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
+    imprimir(ccm: any) {
+        const rutaserver = "http://www.fusay.org/tomcat/imprentas/RecetaServlet?ccm=" + ccm;
+        window.open(rutaserver, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=500,height=700");
+    }
+
 }
