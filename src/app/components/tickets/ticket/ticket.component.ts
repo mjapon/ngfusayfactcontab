@@ -5,13 +5,7 @@ import {parse} from "date-fns";
 import {DateFormatPipe} from "../../../pipes/date-format.pipe";
 import {SwalService} from "../../../services/swal.service";
 import {FechasService} from "../../../services/fechas.service";
-
-/*import {PdfMakeWrapper} from "pdfmake-wrapper";
-import * as jsPDF from 'jspdf';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
-*/
+import {MenuItem} from "primeng";
 
 @Component({
     selector: 'app-ticket',
@@ -28,6 +22,8 @@ export class TicketComponent implements OnInit {
     es: any;
     enableBtns: boolean;
 
+    itemsCtxMenu: MenuItem[];
+
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -40,12 +36,19 @@ export class TicketComponent implements OnInit {
     ngOnInit() {
         this.items = new Array<any>();
         this.cols = new Array<any>();
-        this.es =  this.fechasService.getLocaleEsForPrimeCalendar();
+        this.es = this.fechasService.getLocaleEsForPrimeCalendar();
 
         this.ticketService.getFormListado().subscribe(res => {
             this.dia = parse(res.dia, 'd/M/yyyy', new Date());
             this.loadGrid();
         });
+
+
+        this.itemsCtxMenu = [
+            {label: 'Imprimir', icon: 'fa fa-print', command: (event) => this.imprimirRow(this.selectedItem)},
+            {label: 'Anular', icon: 'fa fa-trash', command: (event) => this.anularRow(this.selectedItem)}
+        ];
+
     }
 
     onRowSelect(event) {
@@ -79,6 +82,10 @@ export class TicketComponent implements OnInit {
         }
     }
 
+    imprimirRow(row) {
+        this.ticketService.imprimir(row.tk_id);
+    }
+
     anular() {
         if (this.selectedItem) {
             this.swalService.fireDialog('¿Confirma que desea anular este ticket?', '').then(confirm => {
@@ -93,6 +100,20 @@ export class TicketComponent implements OnInit {
                 }
             );
         }
+    }
+
+    anularRow(row) {
+        this.swalService.fireDialog('¿Confirma que desea anular este ticket?', '').then(confirm => {
+                if (confirm.value) {
+                    this.ticketService.anular(row.tk_id).subscribe(res => {
+                        if (res.status === 200) {
+                            this.swalService.fireToastSuccess(res.msg);
+                            this.loadGrid();
+                        }
+                    });
+                }
+            }
+        );
     }
 
     /*

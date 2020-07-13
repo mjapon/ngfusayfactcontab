@@ -4,12 +4,6 @@
     </div>
     <div class="col">
         <div class="btn-group pull-right" role="group" aria-label="Default button group">
-            <button type="button" class="btn btn-outline-success" [disabled]="!enableBtns" (click)="anular()">
-                <i class="fa fa-remove"></i>
-                Anular</button>
-            <button type="button" class="btn btn-outline-success" [disabled]="!enableBtns" (click)="imprimir()">
-                <i class="fa fa-print"></i>
-                Imprimir</button>
             <button type="button" class="btn btn-outline-success" (click)="nuevo()">
                 <i class="fa fa-plus-circle"></i>
                 Crear</button>
@@ -27,6 +21,8 @@
 <!--Formulario de creacion de registro -->
 <p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
          (onRowSelect)="onRowSelect($event)"
+         [(contextMenuSelection)]="selectedItem"
+         [contextMenu]="cm"
          (onRowUnselect)="onUnRowSelect($event)">
     <ng-template pTemplate="header">
         <tr>
@@ -34,20 +30,25 @@
                 {{item.label}}
                 <p-sortIcon [field]="item.field"></p-sortIcon>
             </th>
+            <th>
+                Acción
+            </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
-        <tr [pSelectableRow]="rowData">
+        <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
             <td *ngFor="let item of cols">
                 {{rowData[item['field']]}}
             </td>
-            <!--
             <td>
-                <button class="btn btn-sm btn-outline-dark" (click)="selectItem(rowData)">
-                    <i class="pi pi-pencil"></i>
+                <button class="btn btn-sm btn-outline-dark" (click)="imprimirRow(rowData)" title="Imprimir">
+                    <i class="fa fa-print"></i>
                 </button>
+                <button class="btn btn-sm btn-outline-dark" (click)="anularRow(rowData)" title="Anular">
+                    <i class="fa fa-trash"></i>
+                </button>
+
             </td>
-            -->
         </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage" let-columns>
@@ -59,6 +60,4 @@
     </ng-template>
 </p-table>
 
-
-
-
+<p-contextMenu #cm [model]="itemsCtxMenu"></p-contextMenu>
