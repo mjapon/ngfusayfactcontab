@@ -46,4 +46,9 @@ export class CitasMedicasService extends BaseService {
         window.open(rutaserver, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=500,height=700");
     }
 
+    imprimirHistoria(ch: any) {
+        const rutaserver = "http://www.fusay.org/tomcat/imprentas/HistoriaClinicaServlet?ch=" + ch;
+        window.open(rutaserver, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=700");
+    }
+
 }

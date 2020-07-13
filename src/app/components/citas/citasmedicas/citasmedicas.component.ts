@@ -434,4 +434,8 @@ export class CitasmedicasComponent implements OnInit {
             this.form.paciente.per_lugresidencia = dbLugResidencia;
         }
     }
+
+    imprimirHistoria() {
+        this.citasMedicasServ.imprimirHistoria(this.rowHistoriaSel.cosm_id);
+    }
 }

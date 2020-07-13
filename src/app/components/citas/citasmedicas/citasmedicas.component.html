@@ -262,6 +262,10 @@
                                         class="fa fa-times"></i></button>
                                 <button class="btn btn-outline-primary" (click)="imprimirRecetaAnterior()"> Imprimir Receta <i
                                         class="fa fa-print"></i></button>
+
+                                <button class="btn btn-outline-primary" (click)="imprimirHistoria()"> Imprimir Historia <i
+                                        class="fa fa-print"></i></button>
+
                             </div>
                         </div>
                     </div>
@@ -344,10 +348,10 @@
                                             </div>
                                         </div>
                                         <div class="row dato-fila">
-                                            <div class="col-md-3">
+                                            <div class="col-12">
                                                 <span class="required">*</span><span>Sexo:</span>
                                             </div>
-                                            <div class="col-md-9">
+                                            <div class="col-12">
                                                 <p-radioButton name="sexo" *ngFor="let it of generosList"
                                                                value="{{it.lval_valor}}"
                                                                label="{{it.lval_nombre}}"
@@ -644,16 +648,13 @@
                                         </textarea>
                                     </div>
                                 </div>
-
                                 <div class="padding15">
                                     <button class="btn btn-primary" [disabled]="saved" (click)="guardarDiagnostico()"> Guardar <i
                                             class="fa fa-save"></i></button>
 
                                     <button class="btn btn-primary" *ngIf="saved" (click)="imprimirReceta()"> Imprimir Receta <i
                                             class="fa fa-print"></i></button>
-
                                 </div>
-
                             </div>
                         </div>
                     </div>

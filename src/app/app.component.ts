@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
                     },
                     */
                     {label: 'Mis Citas Médicas', icon: 'pi pi-fw pi-calendar', routerLink: 'miscitasmedicas'},
-                    {label: 'Historias Clínica', icon: 'pi pi-fw pi-calendar', routerLink: 'historiaclinica'},
+                    {label: 'Historias Clínicas', icon: 'pi pi-fw pi-calendar', routerLink: 'historiaclinica'},
                 ];
             }
         });
