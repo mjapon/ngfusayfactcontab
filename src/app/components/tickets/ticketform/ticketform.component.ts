@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {TicketService} from "../../../services/ticket.service";
-import {PersonaService} from "../../../services/persona.service";
-import {SwalService} from "../../../services/swal.service";
-import {UiService} from "../../../services/ui.service";
+import {ActivatedRoute, Router} from '@angular/router';
+import {TicketService} from '../../../services/ticket.service';
+import {PersonaService} from '../../../services/persona.service';
+import {SwalService} from '../../../services/swal.service';
+import {UiService} from '../../../services/ui.service';
+import {LoadingUiService} from '../../../services/loading-ui.service';
 
 @Component({
     selector: 'app-ticketform',
@@ -21,7 +22,8 @@ export class TicketformComponent implements OnInit {
                 private ticketService: TicketService,
                 private swalService: SwalService,
                 private uiService: UiService,
-                private personaService: PersonaService) {
+                private personaService: PersonaService,
+                private loadingUiService: LoadingUiService) {
     }
 
     ngOnInit() {
@@ -47,6 +49,7 @@ export class TicketformComponent implements OnInit {
 
     buscarPersona() {
         if (this.formcli.per_ciruc && this.formcli.per_ciruc.trim().length > 4) {
+            this.loadingUiService.publishBlockMessage();
             this.personaService.buscarPorCi(this.formcli.per_ciruc).subscribe(res => {
                 if (res.status === 200) {
                     this.formcli.per_id = res.persona.per_id;
@@ -73,7 +76,6 @@ export class TicketformComponent implements OnInit {
     }
 
     guardar() {
-
         let filtrados = this.servicios.filter(item => {
             return item.ic_marca;
         });
@@ -95,6 +97,7 @@ export class TicketformComponent implements OnInit {
             this.swalService.fireError('Debe ingresar el nombre del paciente');
             return;
         } else {
+            this.loadingUiService.publishBlockMessage();
             this.ticketService.guardar(this.form, this.formcli).subscribe(res => {
                 this.swalService.fireToastSuccess(res.msg);
                 if (res.status === 200) {

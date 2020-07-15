@@ -70,13 +70,14 @@ import {LOCALE_ID} from '@angular/core';
 import localeEs from '@angular/common/locales/es-EC';
 import {registerLocaleData} from '@angular/common';
 import {
+    BlockUIModule,
     CarouselModule,
     CheckboxModule, ContextMenuModule, EditorModule,
     InputMaskModule,
     MegaMenuModule,
     MessageModule, MessageService, RadioButtonModule,
     SplitButtonModule, TabViewModule,
-    ToolbarModule
+    ToolbarModule, ProgressSpinnerModule
 } from 'primeng';
 
 import { MiscitasComponent } from './components/citas/miscitas/miscitas.component';
@@ -178,7 +179,9 @@ export function provideConfig() {
         SocialLoginModule,
         StepsModule,
         AccordionModule,
-        RadioButtonModule
+        RadioButtonModule,
+        BlockUIModule,
+        ProgressSpinnerModule
     ],
     providers: [
         ContribuyenteService,

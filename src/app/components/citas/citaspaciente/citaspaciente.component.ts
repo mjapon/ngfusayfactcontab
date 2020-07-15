@@ -75,8 +75,6 @@ export class CitaspacienteComponent implements OnInit {
     loadCitasPaciente() {
         this.pacienteService.listarCitasPaciente(this.paciente.up_email).subscribe(res => {
             if (res.status === 200) {
-                console.log('Listado de citas del pacientes es:');
-                console.log(res);
                 this.citas = res.citaspac;
             }
         });

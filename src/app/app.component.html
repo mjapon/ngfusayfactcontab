@@ -9,9 +9,14 @@
   <!-- Page Content  -->
   <div style="width: 100%; padding-left: 10px">
       <p-toast position="top-right"></p-toast>
-      <!--
-      <p-breadcrumb [model]="migasApp" *ngIf="isLogged"></p-breadcrumb>
-      -->
+      <p-blockUI [blocked]="blocked">
+          <div class="loading-container">
+              <p-progressSpinner></p-progressSpinner>
+              <div>
+                  <span style="color: white !important;">Procesando...</span>
+              </div>
+          </div>
+      </p-blockUI>
       <br>
       <router-outlet></router-outlet>
     </div>

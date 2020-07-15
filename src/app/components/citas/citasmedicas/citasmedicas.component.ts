@@ -8,6 +8,7 @@ import {DateFormatPipe} from '../../../pipes/date-format.pipe';
 import {LugarService} from '../../../services/lugar.service';
 import {ArrayutilService} from '../../../services/arrayutil.service';
 import {DomService} from '../../../services/dom.service';
+import {LoadingUiService} from '../../../services/loading-ui.service';
 
 declare var $: any;
 
@@ -52,7 +53,8 @@ export class CitasmedicasComponent implements OnInit {
                 private fechasService: FechasService,
                 private arrayUtil: ArrayutilService,
                 private domService: DomService,
-                private lugarService: LugarService) {
+                private lugarService: LugarService,
+                private loadingUiService: LoadingUiService) {
     }
 
     ngOnInit(): void {
@@ -171,6 +173,7 @@ export class CitasmedicasComponent implements OnInit {
     }
 
     initBuscaPaciente() {
+        this.loadingUiService.publishBlockMessage();
         this.citasMedicasServ.getForm().subscribe(res => {
             if (res.status === 200) {
                 let per_ciruc = this.form.paciente.per_ciruc;
@@ -374,6 +377,7 @@ export class CitasmedicasComponent implements OnInit {
         formToPost.per_lugresidencia = per_lugresidencia;
         const fechaNacimiento = this.dateFormatPipe.transform(formPaciente.per_fechanac);
         formToPost.per_fechanacp = fechaNacimiento;
+        this.loadingUiService.publishBlockMessage();
         this.personaService.actualizar(perId, formToPost).subscribe(res => {
             if (res.status === 200) {
                 this.swalService.fireToastSuccess(res.msg);
@@ -396,6 +400,7 @@ export class CitasmedicasComponent implements OnInit {
                     formToPost[prop] = this.form[prop];
                 }
                 formToPost.paciente.per_fechanac = fechaNac;
+                this.loadingUiService.publishBlockMessage();
                 this.citasMedicasServ.crearCita(formToPost).subscribe(res => {
                     if (res.status === 200) {
                         this.codConsultaGen = res.ccm;
@@ -421,6 +426,7 @@ export class CitasmedicasComponent implements OnInit {
 
     selectHistoriaAnt(row: any) {
         this.rowHistoriaSel = row;
+        this.loadingUiService.publishBlockMessage();
         this.citasMedicasServ.getDatosHistoriaByCod(row.cosm_id).subscribe(res => {
             if (res.status === 200) {
                 this.historiaSel = res.datoshistoria;

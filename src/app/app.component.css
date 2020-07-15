@@ -2,3 +2,11 @@
     margin-left: -13px !important;
     /*border-right: solid #F7F7F7 2px !important;*/
 }
+
+.loading-container {
+    flex-direction: column;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
