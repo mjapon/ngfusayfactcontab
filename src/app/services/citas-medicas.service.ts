@@ -51,4 +51,9 @@ export class CitasMedicasService extends BaseService {
         window.open(rutaserver, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=700");
     }
 
+    getDescValExamFisico(categ: number, valor: any) {
+        const httpOptions = this.getHttpOptionsToken({accion: 'galertexfis', valor, categ});
+        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+    }
+
 }

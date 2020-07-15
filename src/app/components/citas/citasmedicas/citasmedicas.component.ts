@@ -41,6 +41,9 @@ export class CitasmedicasComponent implements OnInit {
     saved: boolean;
     codConsultaGen: any;
 
+    datosAlertaImc: any;
+    datosAlertaPresion: any;
+
     constructor(private citasMedicasServ: CitasMedicasService,
                 private catalogosServ: CatalogosService,
                 private personaService: PersonaService,
@@ -102,6 +105,8 @@ export class CitasmedicasComponent implements OnInit {
         ];
         this.selectedTab = 2;
         this.selectedTabId = 'panelMotConsulta';
+        this.datosAlertaImc = {};
+        this.datosAlertaPresion = {};
     }
 
     clearAll() {
@@ -175,6 +180,57 @@ export class CitasmedicasComponent implements OnInit {
                 this.showBuscaPaciente = false;
             }
         });
+    }
+
+    calcularIMC(it: any) {
+        let valorPeso: any = '0';
+        let valorTalla: any = '0';
+        let filaIMC: any;
+        this.form.examsfisicos.forEach(e => {
+            const nombredato = e.cmtv_nombre;
+            if (nombredato === 'EXFIS_PESO') {
+                valorPeso = e.valorreg;
+            } else if (nombredato === 'EXFIS_TALLA') {
+                valorTalla = e.valorreg;
+            } else if (nombredato === 'EXFIS_IMC') {
+                filaIMC = e;
+            }
+        });
+        const valorPesoNumber = Number(valorPeso);
+        const valorTallaNumber = Number(valorTalla);
+        let imc = Number('0');
+        if (valorTallaNumber !== 0) {
+            imc = valorPesoNumber / (valorTallaNumber * valorTallaNumber);
+        }
+        const imcRounded = imc.toFixed(2);
+        if (filaIMC) {
+            filaIMC.valorreg = imcRounded;
+            this.citasMedicasServ.getDescValExamFisico(3, imcRounded).subscribe(resimc => {
+                if (resimc.status === 200) {
+                    let result =  resimc.result;
+                    let color = resimc.color;
+                    this.datosAlertaImc = {msg: result, color: color };
+                }
+            });
+        }
+
+        if (it.cmtv_nombre === 'EXFIS_IMC') {
+            this.citasMedicasServ.getDescValExamFisico(3, imcRounded).subscribe(resa => {
+                if (resa.status === 200) {
+                    let result = resa.result;
+                    let color = resa.color;
+                    this.datosAlertaImc = {msg: result, color: color };
+                }
+            });
+        } else if (it.cmtv_nombre === 'EXFIS_TA') {
+            this.citasMedicasServ.getDescValExamFisico( 1, it.valorreg).subscribe(resb => {
+                if (resb.status === 200) {
+                    let result = resb.result;
+                    let color = resb.color;
+                    this.datosAlertaPresion = {msg: result, color: color};
+                }
+            });
+        }
     }
 
     showTab(tabId) {
@@ -391,6 +447,9 @@ export class CitasmedicasComponent implements OnInit {
         this.citasMedicasServ.imprimir(this.rowHistoriaSel.cosm_id);
     }
 
+    imprimirHistoria() {
+        this.citasMedicasServ.imprimirHistoria(this.rowHistoriaSel.cosm_id);
+    }
 
     private loadDataPerson(persona: any) {
         this.form.paciente.per_id = persona.per_id;
@@ -433,9 +492,5 @@ export class CitasmedicasComponent implements OnInit {
             );
             this.form.paciente.per_lugresidencia = dbLugResidencia;
         }
-    }
-
-    imprimirHistoria() {
-        this.citasMedicasServ.imprimirHistoria(this.rowHistoriaSel.cosm_id);
     }
 }

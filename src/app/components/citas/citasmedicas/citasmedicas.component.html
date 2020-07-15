@@ -522,13 +522,21 @@
                                         <div class="col-12">
                                             <div *ngIf="it.cmtv_tinput===1">
                                                 <input type="text" class="form-control" [(ngModel)]="it.valorreg"
-                                                       id="inexamfis_{{form.examsfisicos.indexOf(it)}}">
+                                                       id="inexamfis_{{form.examsfisicos.indexOf(it)}}" (focusout)="calcularIMC(it)">
                                             </div>
                                             <div *ngIf="it.cmtv_tinput===2">
                                                     <textarea class="form-control" [(ngModel)]="it.valorreg"
                                                               id="inexamfis_{{form.examsfisicos.indexOf(it)}}">
                                                     </textarea>
                                             </div>
+                                        </div>
+                                        <div class="col-12" *ngIf="it.cmtv_nombre === 'EXFIS_TA' && datosAlertaPresion.msg? datosAlertaPresion.msg.length>0:false ">
+                                            <span style="color: {{datosAlertaPresion.color}}"> {{datosAlertaPresion.msg}} </span>
+                                            <br>
+                                        </div>
+                                        <div class="col-12" *ngIf="it.cmtv_nombre === 'EXFIS_IMC' && datosAlertaImc.msg?datosAlertaImc.msg.length>0:false">
+                                            <span style="color: {{datosAlertaImc.color}}"> {{datosAlertaImc.msg}} </span>
+                                            <br>
                                         </div>
                                     </div>
 
