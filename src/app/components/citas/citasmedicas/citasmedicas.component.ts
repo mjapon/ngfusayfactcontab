@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CitasMedicasService} from '../../../services/citas-medicas.service';
 import {FechasService} from '../../../services/fechas.service';
 import {CatalogosService} from '../../../services/catalogos.service';
@@ -23,14 +23,14 @@ export class CitasmedicasComponent implements OnInit {
     ciedataArray: Array<any>;
     antpers: Array<any>;
     es: any;
-    maxDate = new Date();
+    currentDate = new Date();
     showBuscaPaciente = true;
     cirucPaciente: string;
 
     estadoCivilList: Array<any>;
     generosList: Array<any>;
-    selectedEstCivil: any;
     lugares: Array<any>;
+    ocupaciones: Array<any>;
     historias: Array<any>;
     isHistoriaAntSel: boolean;
     historiaSel: any;
@@ -44,6 +44,8 @@ export class CitasmedicasComponent implements OnInit {
 
     datosAlertaImc: any;
     datosAlertaPresion: any;
+    @ViewChild('divHistoriaAnt') divHistoriaAnt: any;
+    @ViewChild('mainDiv') mainDiv: any;
 
     constructor(private citasMedicasServ: CitasMedicasService,
                 private catalogosServ: CatalogosService,
@@ -78,6 +80,12 @@ export class CitasmedicasComponent implements OnInit {
         this.catalogosServ.getCatalogos(2).subscribe(resb => {
             if (resb.status === 200) {
                 this.estadoCivilList = resb.items;
+            }
+        });
+
+        this.catalogosServ.getCatalogos(3).subscribe(resc => {
+            if (resc.status === 200) {
+                this.ocupaciones = resc.items;
             }
         });
 
@@ -395,11 +403,16 @@ export class CitasmedicasComponent implements OnInit {
         this.swalService.fireDialog(msg).then(confirm => {
             if (confirm.value) {
                 const fechaNac = this.dateFormatPipe.transform(this.form.paciente.per_fechanac);
+                let fechaProxCita = '';
+                if (this.form.datosconsulta.cosm_fechaproxcita) {
+                    fechaProxCita = this.dateFormatPipe.transform(this.form.datosconsulta.cosm_fechaproxcita);
+                }
                 const formToPost: any = {};
                 for (const prop of Object.keys(this.form)) {
                     formToPost[prop] = this.form[prop];
                 }
                 formToPost.paciente.per_fechanac = fechaNac;
+                formToPost.datosconsulta.cosm_fechaproxcita = fechaProxCita;
                 this.loadingUiService.publishBlockMessage();
                 this.citasMedicasServ.crearCita(formToPost).subscribe(res => {
                     if (res.status === 200) {
@@ -436,6 +449,9 @@ export class CitasmedicasComponent implements OnInit {
                         this.toggleAcordion('historiaSelPanel');
                     }, 500);
                 }
+                setTimeout(() => {
+                    this.divHistoriaAnt.nativeElement.scrollIntoView({behavior: 'smooth'});
+                },700);
             }
         });
     }
@@ -443,6 +459,9 @@ export class CitasmedicasComponent implements OnInit {
     cerrarHistoriaAnt() {
         this.toggleAcordion('historiaSelPanel');
         this.isHistoriaAntSel = false;
+        setTimeout(() => {
+            this.mainDiv.nativeElement.scrollIntoView({behavior: 'smooth'});
+        },400);
     }
 
     imprimirReceta() {
@@ -457,6 +476,11 @@ export class CitasmedicasComponent implements OnInit {
         this.citasMedicasServ.imprimirHistoria(this.rowHistoriaSel.cosm_id);
     }
 
+    sumarDias(ndias) {
+        const fechaActual = new Date();
+        this.form.datosconsulta.cosm_fechaproxcita = this.fechasService.sumarDias(fechaActual, ndias);
+    }
+
     private loadDataPerson(persona: any) {
         this.form.paciente.per_id = persona.per_id;
         this.form.paciente.per_nombres = persona.per_nombres;
@@ -468,6 +492,7 @@ export class CitasmedicasComponent implements OnInit {
         this.form.paciente.per_tipo = persona.per_tipo;
         this.form.paciente.per_lugnac = persona.per_lugnac;
         this.form.paciente.per_nota = persona.per_nota;
+        this.form.paciente.per_edad = persona.per_edad;
 
         this.form.paciente.per_fechanac = null;
         if (persona.per_fechanac && persona.per_fechanac.trim().length > 0) {
@@ -498,5 +523,24 @@ export class CitasmedicasComponent implements OnInit {
             );
             this.form.paciente.per_lugresidencia = dbLugResidencia;
         }
+
+        this.form.paciente.per_ocupacion = null;
+        if (persona.per_ocupacion) {
+            const dbOcupacion = this.arrayUtil.getFirstResult(
+                this.ocupaciones,
+                (el, idx, array) => {
+                    return el.lval_id === persona.per_ocupacion;
+                }
+            );
+            this.form.paciente.per_ocupacion = dbOcupacion;
+        }
+    }
+
+    calcularEdad() {
+        let edad = 0;
+        if (this.form.paciente.per_fechanac) {
+            edad = this.fechasService.getEdad(this.form.paciente.per_fechanac);
+        }
+        this.form.paciente.per_edad = edad;
     }
 }

@@ -111,4 +111,19 @@ export class FechasService {
         let parsedDate = parse(dateString, 'dd/MM/yyyy', new Date());
         return parsedDate;
     }
+
+    sumarDias(fecha, dias) {
+        fecha.setDate(fecha.getDate() + dias);
+        return fecha;
+    }
+
+    getEdad(fechaNacimiento: Date): number {
+        const today: Date = new Date();
+        let age: number = today.getFullYear() - fechaNacimiento.getFullYear();
+        const month: number = today.getMonth() - fechaNacimiento.getMonth();
+        if (month < 0 || (month === 0 && today.getDate() < fechaNacimiento.getDate())) {
+            age--;
+        }
+        return age;
+    }
 }

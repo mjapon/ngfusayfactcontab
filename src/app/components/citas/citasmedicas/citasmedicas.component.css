@@ -52,3 +52,9 @@
     padding: 0px 15px;
 }
 
+.padflex{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+

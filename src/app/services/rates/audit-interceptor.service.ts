@@ -20,7 +20,7 @@ export class AuditInterceptorService implements HttpInterceptor {
             filter((event: HttpEvent<any>) => event instanceof HttpResponse),
             tap((resp: HttpResponse<any>) => this.auditEvent(resp, started)),
             catchError(err => {
-                const error = err.error.message || err.statusText;
+                const error = err.error || err;
                 this.loadingUiService.publishUnblockMessage();
                 return throwError(error);
             })

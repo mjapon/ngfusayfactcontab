@@ -29,12 +29,6 @@
                             title="Cerrar esta historia y buscar otra">
                         <i class="fa fa-times"></i>
                     </button>
-                    <!--
-                    <button type="button" class="btn btn-outline-success" (click)="registrarCita()"
-                            title="Guarda los detalles de la cita  médica">
-                        <i class="fa fa-save"></i>
-                    </button>
-                    -->
                 </div>
             </div>
         </div>
@@ -46,22 +40,25 @@
                 <span class="pull-right fa {{accordionStatus.citasPanel?'fa-chevron-circle-down':'fa-chevron-circle-right'}}"></span>
             </button>
             <div id="citasPanel" class="collapse">
-
                     <table class="table table-hover">
                         <thead>
                         <tr>
                             <th scope="col"> Día</th>
                             <th scope="col"> Motivo</th>
+                            <th scope="col"> Próxima Cita</th>
                             <th scope="col"></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr *ngFor="let row of historias" (click)="selectHistoriaAnt(row)" class="hand">
-                            <td>
+                            <td width="30%">
                                 {{row.fecha_crea_largo}}
                             </td>
-                            <td>
+                            <td width="40%">
                                 {{row.cosm_motivo}}
+                            </td>
+                            <td width="20%">
+                                {{row.cosm_fechaproxcita}}
                             </td>
                             <td>
                                 <button class="btn btn-sm btn-outline-primary" title="Ver detalles"><i class="fa fa-eye"></i>
@@ -74,15 +71,10 @@
             </div>
         </div>
 
-        <div class="card" *ngIf="isHistoriaAntSel" style="margin-bottom: 20px">
+        <div class="card" *ngIf="isHistoriaAntSel" style="margin-bottom: 20px" #divHistoriaAnt>
             <button class="btn btn-block btn-secondary btnTextLeft" (click)="toggleAcordion('historiaSelPanel')">
                 Historia Anterior ({{rowHistoriaSel.fecha_crea_largo}})
                 <span class="pull-right fa {{accordionStatus.historiaSelPanel?'fa-chevron-circle-down':'fa-chevron-circle-right'}}"></span>
-                <!--
-                <span class="pull-right" (click)="cerrarHistoriaAnt()">
-                    <i class="fa fa-times"></i>
-                </span>
-                -->
             </button>
             <div id="historiaSelPanel" class="collapse">
                 <div class="card-body">
@@ -94,9 +86,19 @@
                                     <span class="required">*</span><span>Fecha:</span>
                                 </div>
                                 <div class="col">
-                                    <p>
-                                        {{rowHistoriaSel.fecha_crea_largo}}
-                                    </p>
+                                    <div class="padflex">
+                                        <p>
+                                            {{rowHistoriaSel.fecha_crea_largo}}
+                                        </p>
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Botones de acción" style="padding-left: 10px">
+                                            <button class="btn btn-outline-primary" (click)="imprimirHistoria()"> Imprimir Historia <i
+                                                    class="fa fa-print"></i></button>
+                                            <button class="btn btn-outline-primary" (click)="imprimirRecetaAnterior()"> Imprimir Receta <i
+                                                    class="fa fa-print"></i></button>
+                                            <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()"> Cerrar <i
+                                                    class="fa fa-times"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -257,15 +259,23 @@
                                     {{historiaSel.datosconsulta.cosm_recomendaciones}}
                                 </div>
                             </div>
+                            <div class="row dato-fila">
+                                <div class="col-md-3">
+                                    <span>Fecha Próxima Cita:</span>
+                                </div>
+                                <div class="col">
+                                    {{historiaSel.datosconsulta.cosm_fechaproxcita}}
+                                </div>
+                            </div>
                             <div class="padding15">
-                                <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()"> Cerrar <i
-                                        class="fa fa-times"></i></button>
-                                <button class="btn btn-outline-primary" (click)="imprimirRecetaAnterior()"> Imprimir Receta <i
-                                        class="fa fa-print"></i></button>
-
-                                <button class="btn btn-outline-primary" (click)="imprimirHistoria()"> Imprimir Historia <i
-                                        class="fa fa-print"></i></button>
-
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Botones de acción" style="padding-left: 10px">
+                                    <button class="btn btn-outline-primary" (click)="imprimirHistoria()"> Imprimir Historia <i
+                                            class="fa fa-print"></i></button>
+                                    <button class="btn btn-outline-primary" (click)="imprimirRecetaAnterior()"> Imprimir Receta <i
+                                            class="fa fa-print"></i></button>
+                                    <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()"> Cerrar <i
+                                            class="fa fa-times"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -285,7 +295,7 @@
                 </div>
             </div>
             <div class="col-9 quitaPadding">
-                <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-content" id="v-pills-tabContent" #mainDiv>
                     <div class="tab-pane fade" id="panelDatosFil" role="tabpanel"
                          aria-labelledby="v-pills-home-tab">
                         <div class="card border-primary">
@@ -297,7 +307,7 @@
                                                 <span class="required">*</span><span>Ci/RUC/Pasaporte:</span>
                                             </div>
                                             <div class="col-12">
-                                                <div class="input-group mb-3">
+                                                <div class="input-group">
                                                     <input type="text" class="form-control"
                                                            [(ngModel)]="form.paciente.per_ciruc"
                                                            (blur)="verificaPacienteRegistrado()"
@@ -342,9 +352,11 @@
                                                             [showIcon]="true"
                                                             [locale]="es" inputId="per_fechanac"
                                                             [monthNavigator]="true" [yearNavigator]="true"
-                                                            [maxDate]="maxDate"
+                                                            [maxDate]="currentDate"
+                                                            (onSelect)="calcularEdad()"
                                                             yearRange="1900:2100"
                                                             dateFormat="dd/mm/yy"></p-calendar>
+                                                <span> {{form.paciente.per_edad}} años </span>
                                             </div>
                                         </div>
                                         <div class="row dato-fila">
@@ -358,8 +370,6 @@
                                                                [(ngModel)]="form.paciente.per_genero"></p-radioButton>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col">
                                         <div class="row dato-fila">
                                             <div class="col-12">
                                                 <span>Estado Civil:</span>
@@ -371,6 +381,8 @@
                                                             [(ngModel)]="form.paciente.per_estadocivil"></p-dropdown>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col">
                                         <div class="row dato-fila">
                                             <div class="col-12">
                                                 <span>Lugar de residencia:</span>
@@ -387,6 +399,34 @@
                                                             itemSize="50"
                                                             optionLabel="lug_nombre"
                                                             inputId="per_lugresidencia"></p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="row dato-fila">
+                                            <div class="col-12">
+                                                <span>Dirección:</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <input type="text" class="form-control"
+                                                       [(ngModel)]="form.paciente.per_direccion"
+                                                       autocomplete="false" maxlength="80">
+                                            </div>
+                                        </div>
+                                        <div class="row dato-fila">
+                                            <div class="col-12">
+                                                <span>Profesión/Ocupación:</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <p-dropdown [options]="ocupaciones" id="per_ocupacion"
+                                                            [(ngModel)]="form.paciente.per_ocupacion"
+                                                            [virtualScroll]="true"
+                                                            placeholder="Seleccione la profesión/ocupación"
+                                                            [showClear]="true"
+                                                            [style]="{width:'100%', overflow:'visible'}"
+                                                            [filterMatchMode]="'contains'"
+                                                            filter="true"
+                                                            itemSize="50"
+                                                            optionLabel="lval_nombre"
+                                                            inputId="per_ocupacion"></p-dropdown>
                                             </div>
                                         </div>
                                         <div class="row dato-fila">
@@ -656,12 +696,40 @@
                                         </textarea>
                                     </div>
                                 </div>
-                                <div class="padding15">
-                                    <button class="btn btn-primary" [disabled]="saved" (click)="guardarDiagnostico()"> Guardar <i
-                                            class="fa fa-save"></i></button>
 
-                                    <button class="btn btn-primary" *ngIf="saved" (click)="imprimirReceta()"> Imprimir Receta <i
-                                            class="fa fa-print"></i></button>
+                                <div class="row dato-fila">
+                                    <div class="col-12">
+                                        <span>Fecha Próxima Cita (dd/mm/aaaa):</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <p-calendar id="cosm_fechaproxcita"
+                                                    [(ngModel)]="form.datosconsulta.cosm_fechaproxcita"
+                                                    [showIcon]="true"
+                                                    [locale]="es" inputId="cosm_fechaproxcita"
+                                                    [monthNavigator]="true" [yearNavigator]="true"
+                                                    [minDate]="currentDate"
+                                                    yearRange="2020:2100"
+                                                    dateFormat="dd/mm/yy"></p-calendar>
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Fecha de la próxima cita" style="padding-left: 10px">
+                                            <button type="button" class="btn btn-outline-secondary" title="Dentro de una semana" (click)="sumarDias(7)">+7</button>
+                                            <button type="button" class="btn btn-outline-secondary" title="Dentro de dos semanas" (click)="sumarDias(15)">+15</button>
+                                            <button type="button" class="btn btn-outline-secondary" title="Dentro de 20 dias" (click)="sumarDias(20)">+20</button>
+                                            <button type="button" class="btn btn-outline-secondary" title="Dentro de un mes" (click)="sumarDias(30)">+30</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="padding15">
+                                    <div class="btn-group" role="group" aria-label="Botones de acción" style="padding-left: 10px">
+                                        <button class="btn btn-primary" *ngIf="saved" (click)="imprimirReceta()"> Imprimir Receta <i
+                                                class="fa fa-print"></i></button>
+
+                                        <button class="btn btn-primary" [disabled]="saved" (click)="guardarDiagnostico()"> Guardar <i
+                                                class="fa fa-save"></i></button>
+
+                                        <button class="btn btn-primary" *ngIf="saved" (click)="limpiar()"> Cerrar <i
+                                                class="fa fa-times"></i></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

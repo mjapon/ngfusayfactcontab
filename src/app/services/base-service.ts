@@ -41,10 +41,10 @@ export class BaseService {
             if (e.status === 400) {
                 // return throwError(e);
             }
-            if (e.error && e.error.msg) {
-                swal.fire('Error al procesar petición', e.error.msg, 'error');
+            if (e.msg) {
+                swal.fire('Error al procesar petición', e.msg, 'error');
             } else {
-                swal.fire('Error al procesar petición', e.message, 'error');
+                swal.fire('Error al procesar petición', '--', 'error');
             }
         } else {
             swal.fire('Error al procesar petición', 'Error desconocido', 'error');
