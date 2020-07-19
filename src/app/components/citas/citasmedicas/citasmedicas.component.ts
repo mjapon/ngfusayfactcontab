@@ -218,9 +218,9 @@ export class CitasmedicasComponent implements OnInit {
             filaIMC.valorreg = imcRounded;
             this.citasMedicasServ.getDescValExamFisico(3, imcRounded).subscribe(resimc => {
                 if (resimc.status === 200) {
-                    let result =  resimc.result;
+                    let result = resimc.result;
                     let color = resimc.color;
-                    this.datosAlertaImc = {msg: result, color: color };
+                    this.datosAlertaImc = {msg: result, color: color};
                 }
             });
         }
@@ -230,11 +230,11 @@ export class CitasmedicasComponent implements OnInit {
                 if (resa.status === 200) {
                     let result = resa.result;
                     let color = resa.color;
-                    this.datosAlertaImc = {msg: result, color: color };
+                    this.datosAlertaImc = {msg: result, color: color};
                 }
             });
         } else if (it.cmtv_nombre === 'EXFIS_TA') {
-            this.citasMedicasServ.getDescValExamFisico( 1, it.valorreg).subscribe(resb => {
+            this.citasMedicasServ.getDescValExamFisico(1, it.valorreg).subscribe(resb => {
                 if (resb.status === 200) {
                     let result = resb.result;
                     let color = resb.color;
@@ -402,10 +402,22 @@ export class CitasmedicasComponent implements OnInit {
         const msg = '¿Seguro?';
         this.swalService.fireDialog(msg).then(confirm => {
             if (confirm.value) {
-                const fechaNac = this.dateFormatPipe.transform(this.form.paciente.per_fechanac);
+                let fechaNac = '';
+                if (this.form.paciente.per_fechanac) {
+                    if (this.form.paciente.per_fechanac instanceof Date) {
+                        fechaNac = this.dateFormatPipe.transform(this.form.paciente.per_fechanac);
+                    } else {
+                        fechaNac = this.form.paciente.per_fechanac;//editado
+                    }
+                }
+
                 let fechaProxCita = '';
                 if (this.form.datosconsulta.cosm_fechaproxcita) {
-                    fechaProxCita = this.dateFormatPipe.transform(this.form.datosconsulta.cosm_fechaproxcita);
+                    if (this.form.datosconsulta.cosm_fechaproxcita instanceof Date) {
+                        fechaProxCita = this.dateFormatPipe.transform(this.form.datosconsulta.cosm_fechaproxcita);
+                    } else {
+                        fechaProxCita = this.form.datosconsulta.cosm_fechaproxcita;
+                    }
                 }
                 const formToPost: any = {};
                 for (const prop of Object.keys(this.form)) {
@@ -451,7 +463,7 @@ export class CitasmedicasComponent implements OnInit {
                 }
                 setTimeout(() => {
                     this.divHistoriaAnt.nativeElement.scrollIntoView({behavior: 'smooth'});
-                },700);
+                }, 700);
             }
         });
     }
@@ -461,7 +473,7 @@ export class CitasmedicasComponent implements OnInit {
         this.isHistoriaAntSel = false;
         setTimeout(() => {
             this.mainDiv.nativeElement.scrollIntoView({behavior: 'smooth'});
-        },400);
+        }, 400);
     }
 
     imprimirReceta() {
@@ -479,6 +491,14 @@ export class CitasmedicasComponent implements OnInit {
     sumarDias(ndias) {
         const fechaActual = new Date();
         this.form.datosconsulta.cosm_fechaproxcita = this.fechasService.sumarDias(fechaActual, ndias);
+    }
+
+    calcularEdad() {
+        let edad = 0;
+        if (this.form.paciente.per_fechanac) {
+            edad = this.fechasService.getEdad(this.form.paciente.per_fechanac);
+        }
+        this.form.paciente.per_edad = edad;
     }
 
     private loadDataPerson(persona: any) {
@@ -534,13 +554,5 @@ export class CitasmedicasComponent implements OnInit {
             );
             this.form.paciente.per_ocupacion = dbOcupacion;
         }
-    }
-
-    calcularEdad() {
-        let edad = 0;
-        if (this.form.paciente.per_fechanac) {
-            edad = this.fechasService.getEdad(this.form.paciente.per_fechanac);
-        }
-        this.form.paciente.per_edad = edad;
     }
 }
