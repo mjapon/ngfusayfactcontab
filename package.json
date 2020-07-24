@@ -30,10 +30,12 @@
     "@fullcalendar/core": "^4.4.0",
     "@grpc/grpc-js": "^0.6.13",
     "@ng-bootstrap/ng-bootstrap": "^5.1.4",
+    "@ng-select/ng-select": "^4.0.4",
     "angularx-social-login": "^2.3.0",
     "bootstrap": "4.3.1",
     "chart.js": "^2.8.0",
     "date-fns": "^2.10.0",
+    "firebase": "^7.13.2",
     "font-awesome": "^4.7.0",
     "jquery": "3.4.1",
     "ngx-webstorage-service": "^4.1.0",
@@ -45,8 +47,7 @@
     "rxjs": "~6.5.5",
     "sweetalert2": "^8.13.2",
     "tslib": "^1.11.1",
-    "zone.js": "~0.10.3",
-    "firebase": "^7.13.2"
+    "zone.js": "~0.10.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.901.3",

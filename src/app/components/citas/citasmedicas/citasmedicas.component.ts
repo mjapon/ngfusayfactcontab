@@ -9,6 +9,7 @@ import {LugarService} from '../../../services/lugar.service';
 import {ArrayutilService} from '../../../services/arrayutil.service';
 import {DomService} from '../../../services/dom.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
+import {Observable} from "rxjs";
 
 declare var $: any;
 
@@ -41,6 +42,8 @@ export class CitasmedicasComponent implements OnInit {
     accordionStatus: any;
     saved: boolean;
     codConsultaGen: any;
+    pacientesFiltrados: Observable<any>;
+    pacienteSel: any;
 
     datosAlertaImc: any;
     datosAlertaPresion: any;
@@ -139,6 +142,8 @@ export class CitasmedicasComponent implements OnInit {
     }
 
     initform() {
+        this.pacienteSel = null;
+
         this.form = {
             paciente: {
                 per_id: 0,
@@ -244,6 +249,15 @@ export class CitasmedicasComponent implements OnInit {
         }
     }
 
+    filtrarPacientes(event) {
+        //prueba de ccomentiario
+        this.personaService.buscarPorNomapel(event.query).subscribe(res => {
+            if (res.status === 200) {
+                this.pacientesFiltrados = res.items;
+            }
+        });
+    }
+
     showTab(tabId) {
         $('#' + tabId).tab('show');
         $('#tabcab_' + tabId).addClass('active');
@@ -266,6 +280,7 @@ export class CitasmedicasComponent implements OnInit {
     buscarPaciente(showMessage) {
         const per_ciruc = this.form.paciente.per_ciruc;
         this.historias = [];
+        this.loadingUiService.publishBlockMessage();
         this.personaService.buscarPorCi(per_ciruc).subscribe(res => {
                 if (res.status === 200) {
                     if (showMessage) {
@@ -554,5 +569,9 @@ export class CitasmedicasComponent implements OnInit {
             );
             this.form.paciente.per_ocupacion = dbOcupacion;
         }
+    }
+
+    setSelectedTab(paso: any) {
+        this.selectedTab = paso;
     }
 }

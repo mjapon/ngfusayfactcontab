@@ -27,6 +27,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './services/auth.service';
 import {StartComponent} from './components/start/start.component';
 import {ToastModule} from 'primeng/toast';
+
 import {AperturaCajaComponent} from './components/cajas/apertura-caja/apertura-caja.component';
 import {CierreCajaComponent} from './components/cajas/cierre-caja/cierre-caja.component';
 import {ArticulosListComponent} from './components/articulos/articulos-list/articulos-list.component';
@@ -77,7 +78,7 @@ import {
     MegaMenuModule,
     MessageModule, MessageService, RadioButtonModule,
     SplitButtonModule, TabViewModule,
-    ToolbarModule, ProgressSpinnerModule
+    ToolbarModule, ProgressSpinnerModule, AutoCompleteModule
 } from 'primeng';
 
 import { MiscitasComponent } from './components/citas/miscitas/miscitas.component';
@@ -181,7 +182,8 @@ export function provideConfig() {
         AccordionModule,
         RadioButtonModule,
         BlockUIModule,
-        ProgressSpinnerModule
+        ProgressSpinnerModule,
+        AutoCompleteModule
     ],
     providers: [
         ContribuyenteService,

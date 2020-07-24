@@ -34,6 +34,11 @@ export class PersonaService extends BaseService {
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
+    buscarPorNomapel(nomapel: string): Observable<any> {
+        const httpOptions = this.getHttpOptions({accion: 'filtronomapel', filtro: nomapel});
+        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+    }
+
     guardar(form: any): Observable<any> {
         const endpoint = this.urlEndPoint + '/' + form['per_id'];
         const httpOptions = this.getHttpOptions({});

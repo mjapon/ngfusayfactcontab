@@ -5,6 +5,12 @@
                 <h1 class="text-muted">
                     <span class="fa fa-history"></span> Historias Clínicas
                 </h1>
+
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-outline-secondary">Cédula</button>
+                    <button type="button" class="btn btn-outline-secondary">Nombres</button>
+                </div>
+
                 <div class="input-group">
                     <input type="text" class="form-control form-control-lg" [(ngModel)]="form.paciente.per_ciruc"
                            placeholder="Ingrese el número de cédula del paciente" id="initBuscaPacInput"
@@ -13,6 +19,21 @@
                         <button class="btn btn-outline-primary" (click)="initBuscaPaciente()">Buscar</button>
                     </div>
                 </div>
+
+                <div class="flexrow">
+                    <div class="input-group">
+                        <p-autoComplete [(ngModel)]="pacienteSel" [suggestions]="pacientesFiltrados" (completeMethod)="filtrarPacientes($event)" [size]="100"
+                                        placeholder="buscar paciente por nombre" [minLength]="1" [forceSelection]="true" field="nomapel" delay="600" inputStyleClass="form-control form-control-lg">
+                            <ng-template let-item pTemplate="item">
+                                <div>{{item.nomapel+' ' + item.per_ciruc}}</div>
+                            </ng-template>
+                        </p-autoComplete>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" (click)="initBuscaPaciente()">Buscar</button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -36,7 +57,7 @@
 
         <div class="card" *ngIf="historias.length>0" style="margin-bottom: 20px">
             <button class="btn btn-block btn-secondary btnTextLeft" (click)="toggleAcordion('citasPanel')">
-                <span class="badge badge-pill badge-primary">{{historias.length}}</span> Citas Anteriores
+                Citas Anteriores <span class="badge badge-pill badge-primary">{{historias.length}}</span>
                 <span class="pull-right fa {{accordionStatus.citasPanel?'fa-chevron-circle-down':'fa-chevron-circle-right'}}"></span>
             </button>
             <div id="citasPanel" class="collapse">
@@ -289,7 +310,7 @@
                     <a class="nav-link" *ngFor="let tab of tabs" data-toggle="pill" href="#{{tab.panelid}}" role="tab"
                        aria-controls="v-pills-home" aria-selected="true" id="tabcab_{{tab.panelid}}"
                        [ngClass]="{'active': tab.paso===selectedTab}">
-                        <span class="badge badge-pill badge-primary"> {{tab.paso}} </span>
+                        <span class="badge badge-pill badge-light"> {{tab.paso}} </span>
                         {{tab.titulo}}
                     </a>
                 </div>
