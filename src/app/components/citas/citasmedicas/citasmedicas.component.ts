@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {CitasMedicasService} from '../../../services/citas-medicas.service';
 import {FechasService} from '../../../services/fechas.service';
 import {CatalogosService} from '../../../services/catalogos.service';
@@ -22,7 +22,7 @@ declare var $: any;
     ],
     styleUrls: ['./citasmedicas.component.css']
 })
-export class CitasmedicasComponent implements OnInit {
+export class CitasmedicasComponent implements OnInit, OnDestroy {
 
     form: any;
     ciedataArray: Array<any>;
@@ -686,5 +686,9 @@ export class CitasmedicasComponent implements OnInit {
                 }
             );
         }
+    }
+
+    ngOnDestroy(): void {
+        this.listener();
     }
 }
