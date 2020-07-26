@@ -36,8 +36,6 @@ export class ArticuloItemBatchComponent implements OnInit {
             {label: 'Si', value: true},
             {label: 'No', value: false}
         ];
-
-
         this.buildForm();
     }
 

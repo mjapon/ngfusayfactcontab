@@ -600,6 +600,17 @@ footer .copyright {
   -webkit-font-smoothing: antialiased;
 }
 
+.form-rounded{
+  border-radius: 1rem !important;
+}
+
+.justificado{
+  text-align: justify;
+}
+
+
+
+
 @keyframes ui-progress-spinner-color {
   100%,
   0% {
