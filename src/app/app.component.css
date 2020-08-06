@@ -2,6 +2,11 @@
 
 .sidebar{
     margin-left: -13px !important;
+    height: 100% !important;
+}
+
+.full-height {
+    /*height: 84vh;*/
 }
 
 .loading-container {
@@ -14,5 +19,5 @@
 
 .flexrow{
     flex-direction: row;
-
 }
+

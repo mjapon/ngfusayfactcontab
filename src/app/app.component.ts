@@ -3,7 +3,7 @@ import {AuthService} from './services/auth.service';
 import {LocalStorageService} from './services/local-storage.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {FautService} from './services/faut.service';
-import {LoadingUiService} from "./services/loading-ui.service";
+import {LoadingUiService} from './services/loading-ui.service';
 
 declare let gtag: Function;
 declare let fbq: Function;
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
     migasApp;
     menuApp;
     showMenu = true;
-    blocked: boolean;
+    blocked = false;
 
     constructor(private authService: AuthService,
                 private localStorageService: LocalStorageService,

@@ -1,5 +1,4 @@
 <div class="container">
-
     <div *ngIf="showBuscaPaciente">
         <h2>
             <span class="fa fa-history"></span> Historias Clínicas
@@ -12,13 +11,14 @@
                        (keyup)="onFiltroTyped()">
             </div>
             <div class="col-3">
-                <button class="btn btn-outline-primary btn-block" (click)="crearPaciente()"> Nuevo Paciente <span
+                <button class="btn btn-outline-success btn-block" (click)="crearPaciente()"> Nuevo Paciente <span
                         class="fa fa-plus-circle"></span></button>
             </div>
         </div>
 
-        <div style="padding-top: 10px" id="divListaPacientes">
-            <div class="divpacientesemtpy rounded-lg" *ngIf="pacientesArray.length===0">
+        <div style="padding-top: 10px" id="divListaPacientes" #divListaPac>
+            <div class="divpacientesemtpy rounded-lg"
+                 *ngIf="pacientesArray.length===0 && filtro && filtro.trim().length>0">
                 <div class="text-center">
                     <h3 class="text-muted"> No hay resultados <i class="fa fa-search"></i></h3>
                 </div>

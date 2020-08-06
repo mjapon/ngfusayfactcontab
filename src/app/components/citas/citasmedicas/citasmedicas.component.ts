@@ -79,7 +79,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 private cadutil: CadenasutilService) {
 
         this.listener = this.renderer2.listen('window', 'scroll', (e) => {
-            if (!this.bottomAlcanzado) {
+            if (!this.bottomAlcanzado && this.showBuscaPaciente) {
                 if ((window.innerHeight + window.pageYOffset + 100) >= (document.body.offsetHeight)) {
                     this.bottomAlcanzado = true;
                     this.loadMorePacientes();
@@ -146,7 +146,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.selectedTabId = 'panelMotConsulta';
         this.datosAlertaImc = {};
         this.datosAlertaPresion = {};
-
         this.buscarPacientes();
     }
 
@@ -265,7 +264,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         };
     }
 
-
     initBuscaPaciente(focusInput: string) {
         this.loadingUiService.publishBlockMessage();
         this.citasMedicasServ.getForm().subscribe(res => {
@@ -278,7 +276,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
             }
         });
     }
-
 
     calcularIMC(it: any) {
         let valorPeso: any = '0';
@@ -337,6 +334,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     }
 
     buscarPacientes() {
+        //if (this.filtro.trim().length > 0) {
         this.loadingUiService.publishBlockMessage();
         this.personaService.buscarPorNomapelCiPag(this.filtro, this.currentPagPacientes).subscribe(res => {
             if (res.status === 200) {
@@ -350,6 +348,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 }
             }
         });
+        //}
     }
 
     showTab(tabId) {
@@ -408,7 +407,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                     if (showMessage) {
                         this.swalService.fireToastWarn('Nuevo paciente, debe ingresar los datos de filiación');
                     }
-                    this.clearForm();
+                    //this.clearForm();
                     this.form.paciente.per_ciruc = per_ciruc;
                 }
                 this.showTab(this.selectedTabId);
@@ -561,6 +560,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     }
 
     loadMorePacientes() {
+        console.log('Valor para this.hayMasFilasPac ', this.hayMasFilasPac);
         if (this.hayMasFilasPac) {
             this.buscarPacientes();
         }

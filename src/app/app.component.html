@@ -3,9 +3,12 @@
 
 <!--<div class="wrapper">-->
 <div class="{{isLogged?'container-fluid':'container'}}" style="display: flex; flex-wrap: nowrap;">
-  <nav id="sidebar" *ngIf="isLogged"  class="sidebar shadow-sm">
-    <p-panelMenu [model]="menuApp" [transitionOptions]="'0ms'" *ngIf="isLogged" [style]="{'width':'180px'}" [multiple]="false"></p-panelMenu>
-  </nav>
+    <div class="sidebar" *ngIf="isLogged">
+        <nav id="sidebar">
+            <p-panelMenu [model]="menuApp" [transitionOptions]="'0ms'" *ngIf="isLogged" [style]="{'width':'180px'}"
+                         [multiple]="false"></p-panelMenu>
+        </nav>
+    </div>
   <!-- Page Content  -->
   <div style="width: 100%; padding-left: 10px">
       <p-toast position="top-right"></p-toast>
