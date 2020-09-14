@@ -11,12 +11,12 @@ export class LoggednavbarComponent implements OnInit {
 
     userinfo: any;
     seccion: any;
+    empNombreComercial: any;
 
     constructor(private fautService: FautService,
                 private router: Router) {
         this.userinfo = {};
     }
-
 
     ngOnInit() {
         const userInfoSaved = this.fautService.getUserInfoSaved();
@@ -24,6 +24,10 @@ export class LoggednavbarComponent implements OnInit {
             this.userinfo = userInfoSaved;
         }
         this.seccion = this.fautService.getSeccionInfoSaved();
+        this.empNombreComercial = this.fautService.getNombreComercialSaved();
+        if (!this.empNombreComercial) {
+            this.empNombreComercial = 'SmartFact';
+        }
 
         this.fautService.source.subscribe(msg => {
             if (msg === 'updateSeccion') {

@@ -4,17 +4,6 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
-/*-
-body {
-  line-height: 1.6;
-  font-family: "Myriad Pro", Myriad, "Liberation Sans", "Nimbus Sans L", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  font-size: 16px;
-  color: #092303 !important;
-}
-*/
-
-
 /*Estilos agregados de la pagin del blog*/
 body {
   font-size: 17px;
@@ -607,8 +596,6 @@ footer .copyright {
 .justificado{
   text-align: justify;
 }
-
-
 
 
 @keyframes ui-progress-spinner-color {

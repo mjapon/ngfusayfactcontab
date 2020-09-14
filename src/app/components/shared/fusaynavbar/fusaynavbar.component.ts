@@ -112,7 +112,7 @@ export class FusaynavbarComponent implements OnInit {
                 if (res.autenticado) {
                     this.localStorageService.setItem('GLOBAL_COD_EMPRESA', form['empresa']);
                     this.fautService.publishMessage('login');
-                    this.fautService.setAsAuthenticated(res.userinfo, res.token, res.menu, res.seccion);
+                    this.fautService.setAsAuthenticated(res.userinfo, res.token, res.menu, res.seccion, res.empNombreComercial);
                     this.swalService.fireToastSuccess('', 'Bienvenido: ' + res.userinfo.per_nombres);
                     $('#modalLogin').modal('hide');
                     this.router.navigate(['lghome']);

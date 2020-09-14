@@ -2,6 +2,10 @@
     margin: 15px 5px;
 }
 
+.dato-fila-diag {
+    margin: 0px 5px !important;
+}
+
 .datosadc {
     margin-top: 10px;
 }
@@ -44,6 +48,20 @@
 
 .quitaPadding{
     padding: 0px !important;
+}
+
+.quitaPaddingTB {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.quitaPaddingLR {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.quitaPaddingR {
+    padding-right: 0px !important;
 }
 
 .padding15{

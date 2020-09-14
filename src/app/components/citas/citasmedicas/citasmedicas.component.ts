@@ -48,14 +48,21 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     saved: boolean;
     codConsultaGen: any;
     pacienteSel: any;
+    datosPacienteFull: any;
     pacientesArray: Array<any>;
     currentPagPacientes: number;
     hayMasFilasPac: boolean;
+    showAnim: boolean;
 
     datosAlertaImc: any;
     datosAlertaPresion: any;
     bottomAlcanzado: boolean;
     previustimer: any = 0;
+    lastAtencion: any;
+    datosIncompletos: boolean;
+    showFormNuevo: boolean;
+
+    selectedDiags: any[];
 
     @ViewChild('divHistoriaAnt') divHistoriaAnt: any;
     @ViewChild('mainDiv') mainDiv: any;
@@ -134,12 +141,12 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         };
 
         this.tabs = [
-            {titulo: 'Datos de Filiación', paso: 1, panelid: 'panelDatosFil'},
-            {titulo: 'Motivo de Consulta', paso: 2, panelid: 'panelMotConsulta'},
+            {titulo: 'Datos Filiación', paso: 1, panelid: 'panelDatosFil'},
+            {titulo: 'Motivo Consulta', paso: 2, panelid: 'panelMotConsulta'},
             {titulo: 'Antecedentes', paso: 3, panelid: 'panelAntecedentes'},
-            {titulo: 'Revisión por sistemas', paso: 4, panelid: 'panelRevXSis'},
-            {titulo: 'Examen Físico', paso: 5, panelid: 'panelExamFisico'},
-            {titulo: 'Exms. Complementarios', paso: 6, panelid: 'panelExamComple'},
+            {titulo: 'Rev. x Sistemas', paso: 4, panelid: 'panelRevXSis'},
+            {titulo: 'Exm. Físico', paso: 5, panelid: 'panelExamFisico'},
+            {titulo: 'Exm. Compl.', paso: 6, panelid: 'panelExamComple'},
             {titulo: 'Diagnóstico', paso: 7, panelid: 'panelDiagnostico'}
         ];
         this.selectedTab = 2;
@@ -171,6 +178,10 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
             motConsultaPanel: false,
             historiaSelPanel: false
         };
+        this.showAnim = false;
+        this.datosIncompletos = false;
+        this.showFormNuevo = false;
+        this.selectedDiags = [null];
     }
 
     initform() {
@@ -220,6 +231,8 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
             revxsistemas: [],
             diagnostico: []
         };
+
+        this.selectedDiags = [null];
     }
 
     clearForm() {
@@ -328,14 +341,25 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         }
     }
 
+    addDiagnostico() {
+        if (this.selectedDiags[this.selectedDiags.length - 1] != null) {
+            this.selectedDiags.push(null);
+        } else {
+            this.swalService.fireToastWarn('Debe especificar el diagnóstico para agregar otros');
+        }
+    }
+
+    removeDiagnostico(diag: any) {
+        this.arrayUtil.removeElement(this.selectedDiags, diag);
+    }
+
     selectPaciente(row) {
         this.form.paciente.per_ciruc = row.per_ciruc;
         this.initBuscaPaciente('perNombresInput');
     }
 
     buscarPacientes() {
-        //if (this.filtro.trim().length > 0) {
-        this.loadingUiService.publishBlockMessage();
+        this.showAnim = true;
         this.personaService.buscarPorNomapelCiPag(this.filtro, this.currentPagPacientes).subscribe(res => {
             if (res.status === 200) {
                 this.pacientesArray.push.apply(this.pacientesArray, res.items);
@@ -347,8 +371,8 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                     this.bottomAlcanzado = true;
                 }
             }
+            this.showAnim = false;
         });
-        //}
     }
 
     showTab(tabId) {
@@ -363,9 +387,18 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
 
     loadListaAtenciones() {
         const per_ciruc = this.form.paciente.per_ciruc;
+        this.lastAtencion = null;
         this.citasMedicasServ.getListaAtenciones(per_ciruc).subscribe(resCitas => {
             if (resCitas.status === 200) {
                 this.historias = resCitas.items;
+                if (this.historias.length > 0) {
+                    this.lastAtencion = this.historias[0];
+                    if (!this.accordionStatus.citasPanel) {
+                        setTimeout(() => {
+                            this.toggleAcordion('citasPanel');
+                        }, 1000);
+                    }
+                }
             }
         });
     }
@@ -378,18 +411,33 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
             this.form.paciente.per_ciruc = '';
         }
         this.initBuscaPaciente('perCirucInput');
+        this.showFormNuevo = true;
+    }
+
+    logicaDatosIncompletos(showMessage) {
+        this.datosIncompletos = true;
+        this.selectedTabId = 'panelDatosFil';
+        this.selectedTab = 1;
+        this.domService.setFocusTimeout('perNombresInput', 600);
+        if (showMessage) {
+            this.swalService.fireToastWarn('Datos incompletos del paciente, favor completar');
+        }
     }
 
     buscarPaciente(showMessage, focusInput) {
         const per_ciruc = this.form.paciente.per_ciruc;
         this.historias = [];
+        this.lastAtencion = null;
         this.loadingUiService.publishBlockMessage();
-        this.personaService.buscarPorCi(per_ciruc).subscribe(res => {
+        this.datosIncompletos = false;
+        this.personaService.buscarPorCifull(per_ciruc).subscribe(res => {
                 if (res.status === 200) {
+                    this.showFormNuevo = false;
                     if (showMessage) {
                         this.swalService.fireToastInfo('El paciente ya está registrado');
                     }
                     this.loadDataPerson(res.persona);
+                    this.datosPacienteFull = res.persona;
                     this.citasMedicasServ.getListaAtenciones(per_ciruc).subscribe(resCitas => {
                         if (resCitas.status === 200) {
                             this.historias = resCitas.items;
@@ -397,17 +445,25 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                             if (this.antpers && this.antpers.length > 0) {
                                 this.form.antecedentes = this.antpers;
                             }
+                            if (this.historias.length > 0) {
+                                this.lastAtencion = this.historias[0];
+                                if (!this.accordionStatus.citasPanel) {
+                                    setTimeout(() => {
+                                        this.toggleAcordion('citasPanel');
+                                    }, 500);
+                                }
+                            }
                         }
                     });
                     this.domService.setFocusTimeout('motivoConsultaTextArea', 600);
                 } else {
+                    this.showFormNuevo = true;
                     this.selectedTabId = 'panelDatosFil';
                     this.selectedTab = 1;
                     this.domService.setFocusTimeout(focusInput, 600);
                     if (showMessage) {
                         this.swalService.fireToastWarn('Nuevo paciente, debe ingresar los datos de filiación');
                     }
-                    //this.clearForm();
                     this.form.paciente.per_ciruc = per_ciruc;
                 }
                 this.showTab(this.selectedTabId);
@@ -421,48 +477,36 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         }
     }
 
-    guardarExamCompl() {
-        this.selectedTab = 7;
-        this.selectedTabId = 'panelDiagnostico';
-        this.showTab(this.selectedTabId);
-        this.hideTab('panelExamComple');
-        this.domService.setFocusTimeout('diagnostico_id', 100);
-    }
-
     guardarDiagnostico() {
         this.registrarCita();
     }
 
-    guardarExamenFisico() {
-        this.selectedTab = 6;
-        this.selectedTabId = 'panelExamComple';
+    auxGuardaTab(tabId, tabName, hideTab, inputFocusId) {
+        this.selectedTab = tabId;
+        this.selectedTabId = tabName;
         this.showTab(this.selectedTabId);
-        this.hideTab('panelExamFisico');
-        this.domService.setFocusTimeout('inexamcompl_0', 100);
+        this.hideTab(hideTab);
+        this.domService.setFocusTimeout(inputFocusId, 100);
+    }
+
+    guardarExamCompl() {
+        this.auxGuardaTab(7, 'panelDiagnostico', 'panelExamComple', 'diagnostico_id');
+    }
+
+    guardarExamenFisico() {
+        this.auxGuardaTab(6, 'panelExamComple', 'panelExamFisico', 'inexamcompl_0');
     }
 
     guardarRevXSistemas() {
-        this.selectedTab = 5;
-        this.selectedTabId = 'panelExamFisico';
-        this.showTab(this.selectedTabId);
-        this.hideTab('panelRevXSis');
-        this.domService.setFocusTimeout('inexamfis_0', 100);
+        this.auxGuardaTab(5, 'panelExamFisico', 'panelRevXSis', 'inexamfis_0');
     }
 
     guardaMotivoConsulta() {
-        this.selectedTab = 3;
-        this.selectedTabId = 'panelAntecedentes';
-        this.showTab(this.selectedTabId);
-        this.hideTab('panelMotConsulta');
-        this.domService.setFocusTimeout('inantecedentes_0', 100);
+        this.auxGuardaTab(3, 'panelAntecedentes', 'panelMotConsulta', 'inantecedentes_0');
     }
 
     guardarAntecedentes() {
-        this.selectedTab = 4;
-        this.selectedTabId = 'panelRevXSis';
-        this.showTab(this.selectedTabId);
-        this.hideTab('panelAntecedentes');
-        this.domService.setFocusTimeout('inrevxsis_0', 100);
+        this.auxGuardaTab(4, 'panelRevXSis', 'panelAntecedentes', 'inrevxsis_0');
     }
 
     guardaDatosPaciente() {
@@ -534,6 +578,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 }
                 formToPost.paciente.per_fechanac = fechaNac;
                 formToPost.datosconsulta.cosm_fechaproxcita = fechaProxCita;
+                formToPost.datosconsulta.diagnosticos = this.selectedDiags;
                 this.loadingUiService.publishBlockMessage();
                 this.citasMedicasServ.crearCita(formToPost).subscribe(res => {
                     if (res.status === 200) {
@@ -560,7 +605,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     }
 
     loadMorePacientes() {
-        console.log('Valor para this.hayMasFilasPac ', this.hayMasFilasPac);
         if (this.hayMasFilasPac) {
             this.buscarPacientes();
         }
@@ -637,6 +681,35 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.previustimer = this.delayKeyup(this.filtroDelayFn, 600, this.previustimer, this);
     }
 
+    ngOnDestroy(): void {
+        this.listener();
+    }
+
+    doShowFormNuevo(): void {
+        this.showFormNuevo = true;
+        this.showTab(this.selectedTabId);
+        this.domService.setFocusTimeout('motivoConsultaTextArea', 900);
+    }
+
+    showExamFisico(itExamFis): boolean {
+        const nombreExamen = itExamFis.cmtv_nombre;
+        const perGenero = this.form.paciente.per_genero;
+        const setAntMujer = new Set();
+        setAntMujer.add('ANT_A');
+        setAntMujer.add('ANT_C');
+        setAntMujer.add('ANT_FUM');
+        setAntMujer.add('ANT_G');
+        setAntMujer.add('ANT_HM');
+        setAntMujer.add('ANT_HV');
+        setAntMujer.add('ANT_P');
+        setAntMujer.add('ANT_GINECOOBS');
+        if (perGenero === '1') {
+            return !setAntMujer.has(nombreExamen);
+        } else {
+            return true;
+        }
+    }
+
     private loadDataPerson(persona: any) {
         this.form.paciente.per_id = persona.per_id;
         this.form.paciente.per_nombres = persona.per_nombres;
@@ -652,7 +725,11 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
 
         this.form.paciente.per_fechanac = null;
         if (persona.per_fechanac && persona.per_fechanac.trim().length > 0) {
+            this.form.paciente.per_fechanacstr = persona.per_fechanac;
             this.form.paciente.per_fechanac = this.fechasService.parseString(persona.per_fechanac);
+        } else {
+            this.logicaDatosIncompletos(true);
+            this.showFormNuevo = true;
         }
 
         this.form.paciente.per_genero = persona.per_genero.toString();
@@ -686,9 +763,5 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 }
             );
         }
-    }
-
-    ngOnDestroy(): void {
-        this.listener();
     }
 }

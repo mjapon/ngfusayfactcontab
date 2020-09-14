@@ -29,6 +29,11 @@ export class PersonaService extends BaseService {
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
+    buscarPorCifull(pciruc: string): Observable<any> {
+        const httpOptions = this.getHttpOptions({accion: 'buscacifull', ciruc: pciruc});
+        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+    }
+
     buscarPorEmail(pemail: string): Observable<any> {
         const httpOptions = this.getHttpOptions({accion: 'buscaci', email: pemail});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);

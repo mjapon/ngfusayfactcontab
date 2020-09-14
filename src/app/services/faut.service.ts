@@ -31,12 +31,13 @@ export class FautService extends BaseService {
         return this.localStorageService.getItem('fIsLogged') != null;
     }
 
-    setAsAuthenticated(userinfo: any, token: any, menu: any, seccion: any) {
+    setAsAuthenticated(userinfo: any, token: any, menu: any, seccion: any, empNombreComercial) {
         this.localStorageService.setItem('fIsLogged', 'true');
         this.localStorageService.setItem('infoUserFLogged', JSON.stringify(userinfo));
         this.localStorageService.setItem('menuApp', JSON.stringify(menu));
         this.localStorageService.setItem('auToken', token);
         this.localStorageService.setItem('seccion', JSON.stringify(seccion));
+        this.localStorageService.setItem('empNombreComercial', empNombreComercial);
     }
 
     setSecciones(secciones: any) {
@@ -60,6 +61,7 @@ export class FautService extends BaseService {
         this.localStorageService.removeItem('menuApp');
         this.localStorageService.removeItem('seccion');
         this.localStorageService.removeItem('secciones');
+        this.localStorageService.removeItem('empNombreComercial');
     }
 
     getUserInfoSaved(): any {
@@ -72,6 +74,9 @@ export class FautService extends BaseService {
         return JSON.parse(infoSeccion);
     }
 
+    getNombreComercialSaved(): any {
+        return this.localStorageService.getItem('empNombreComercial');
+    }
 
     getMenuApp() {
         const infoUser: string = this.localStorageService.getItem('menuApp');
