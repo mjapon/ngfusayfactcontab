@@ -28,6 +28,8 @@ import {MiscitasComponent} from './components/citas/miscitas/miscitas.component'
 import {LoginpacienteComponent} from './components/loginpaciente/loginpaciente.component';
 import {CitaspacienteComponent} from './components/citas/citaspaciente/citaspaciente.component';
 import {CitasmedicasComponent} from "./components/citas/citasmedicas/citasmedicas.component";
+import {VticketComponent} from "./components/tickets/vtickets/vticket/vticket.component";
+import {VticketformComponent} from "./components/tickets/vtickets/vticketform/vticketform.component";
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -56,6 +58,8 @@ const routes: Routes = [
     },
     {path: 'tickets', component: TicketComponent},
     {path: 'ticket/form', component: TicketformComponent},
+    {path: 'vtickets', component: VticketComponent},
+    {path: 'vticket/form', component: VticketformComponent},
     {path: 'miscitasmedicas', component: MiscitasComponent},
     {path: 'ingresoPaciente', component: LoginpacienteComponent},
     {path: 'citasPaciente', component: CitaspacienteComponent},

@@ -24,6 +24,7 @@ export class TicketComponent implements OnInit {
     enableBtns: boolean;
 
     itemsCtxMenu: MenuItem[];
+    total: any;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -38,7 +39,7 @@ export class TicketComponent implements OnInit {
         this.items = new Array<any>();
         this.cols = new Array<any>();
         this.es = this.fechasService.getLocaleEsForPrimeCalendar();
-
+        this.total = 0.0;
         this.ticketService.getFormListado().subscribe(res => {
             this.dia = parse(res.dia, 'd/M/yyyy', new Date());
             this.loadGrid();
@@ -64,6 +65,7 @@ export class TicketComponent implements OnInit {
         this.ticketService.listar(diaStr).subscribe(res => {
             this.cols = res.res.cols;
             this.items = res.res.data;
+            this.total = res.suma;
         });
     }
 
@@ -116,5 +118,9 @@ export class TicketComponent implements OnInit {
                 }
             }
         );
+    }
+
+    rubros() {
+        this.router.navigate(['vtickets']);
     }
 }

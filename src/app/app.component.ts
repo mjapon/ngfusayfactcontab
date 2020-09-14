@@ -5,9 +5,6 @@ import {NavigationEnd, Router} from '@angular/router';
 import {FautService} from './services/faut.service';
 import {LoadingUiService} from './services/loading-ui.service';
 
-declare let gtag: Function;
-declare let fbq: Function;
-
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -46,9 +43,9 @@ export class AppComponent implements OnInit {
                 this.menuApp = [
                     {label: 'Inicio', icon: 'pi pi-fw pi-home', routerLink: 'lghome'},
                     {label: 'Tickets', icon: 'pi pi-fw pi-ticket', routerLink: 'tickets'},
-                    {label: 'Eventos', icon: 'pi pi-fw pi-tag', routerLink: 'eventosform'},
+                    /*{label: 'Eventos', icon: 'pi pi-fw pi-tag', routerLink: 'eventosform'},*/
                     {label: 'Productos', icon: 'pi pi-fw pi-th-large', routerLink: 'mercaderia'},
-                    {label: 'Mis Citas Médicas', icon: 'pi pi-fw pi-calendar', routerLink: 'miscitasmedicas'},
+                    /*{label: 'Mis Citas Médicas', icon: 'pi pi-fw pi-calendar', routerLink: 'miscitasmedicas'},*/
                     {label: 'Historias Clínicas', icon: 'pi pi-fw pi-calendar', routerLink: 'historiaclinica'},
                 ];
             }

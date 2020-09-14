@@ -1,6 +1,5 @@
 <div class="row justify-content-center">
     <div class="col-10">
-
         <div class="card">
             <div class="card-header">
                 <div class="row">
@@ -74,7 +73,6 @@
                                 <i class="fa fa-usd"></i> Costo:</label>
                             <input type="email" class="form-control " id="costoInput" name="per_email" [(ngModel)]="form.tk_costo" placeholder="" autocomplete="off">
                         </div>
-
                         <div class="card">
                             <div class="card-header">
                                 <span class="text-primary"> Servicios</span>
@@ -85,37 +83,15 @@
                             </ul>
                         </div>
                         <br>
-
                         <button type="button" class="btn btn-outline-success btn-block" (click)="guardar()" >
                             <i class="fa fa-save"></i>
                             Guardar</button>
                         <button type="button" class="btn btn-outline-secondary btn-block" (click)="cancelar()">
                             <i class="fa fa-times"></i>
                             Cancelar</button>
-
-                        <!--
-                        <div class="row">
-                            <div class="col">
-                                <button class="btn btn-lg btn-secondary " (click)="cancelar()">
-                                    <i class="fa fa-times"></i>
-                                    Cancelar</button>
-                            </div>
-                            <div class="col">
-                                <button class="btn btn-lg btn-success float-right" (click)="guardar()" >
-                                    <i class="fa fa-check"></i>
-                                    Guardar</button>
-                            </div>
-                        </div>
-                        -->
                     </div>
                 </div>
             </div>
-            <!--
-            <div class="card-footer">
-                <a class="btn btn-lg btn-outline-secondary float-left" (click)="cancelar()">Cancelar</a>
-                <a class="btn btn-lg btn-outline-success float-right" (click)="guardar()" >Guardar</a>
-            </div>
-            -->
         </div>
     </div>
 </div>

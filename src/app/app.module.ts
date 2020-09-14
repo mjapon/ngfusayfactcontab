@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {environment} from 'src/environments/environment';
 
@@ -49,7 +49,7 @@ import {EventosformComponent} from './components/eventos/eventosform/eventosform
 import {EventosdetComponent} from './components/eventos/eventosdet/eventosdet.component';
 import {PersonaformComponent} from './components/personas/personaform/personaform.component';
 import {ValidationMessagesComponent} from './components/shared/validation-messages/validation-messages.component';
-import {DatePipe} from '@angular/common';
+import {DatePipe, registerLocaleData} from '@angular/common';
 import {Congreso2020Component} from './components/blog/congreso2020/congreso2020.component';
 import {LoggednavbarComponent} from './components/shared/loggednavbar/loggednavbar.component';
 import {LoggedHomeComponent} from './components/logged/logged-home/logged-home.component';
@@ -64,27 +64,33 @@ import {ArticulosViewComponent} from './components/articulos/articulos-view/arti
 import {ArticulosBatchComponent} from './components/articulos/articulos-batch/articulos-batch.component';
 import {ArticuloItemBatchComponent} from './components/articulos/articulo-item-batch/articulo-item-batch.component';
 import {TelemedicinaComponent} from './components/telemedicina/telemedicina.component';
-import {GoogleLoginProvider, SocialLoginModule, AuthServiceConfig, FacebookLoginProvider} from 'angularx-social-login';
+import {AuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider, SocialLoginModule} from 'angularx-social-login';
 import {StepsModule} from 'primeng/steps';
-
-import {LOCALE_ID} from '@angular/core';
 import localeEs from '@angular/common/locales/es-EC';
-import {registerLocaleData} from '@angular/common';
 import {
+    AutoCompleteModule,
     BlockUIModule,
     CarouselModule,
-    CheckboxModule, ContextMenuModule, EditorModule,
+    CheckboxModule,
+    ContextMenuModule,
+    EditorModule,
     InputMaskModule,
     MegaMenuModule,
-    MessageModule, MessageService, RadioButtonModule,
-    SplitButtonModule, TabViewModule,
-    ToolbarModule, ProgressSpinnerModule, AutoCompleteModule
+    MessageModule,
+    MessageService,
+    ProgressSpinnerModule,
+    RadioButtonModule,
+    SplitButtonModule,
+    TabViewModule,
+    ToolbarModule
 } from 'primeng';
 
-import { MiscitasComponent } from './components/citas/miscitas/miscitas.component';
-import { LoginpacienteComponent } from './components/loginpaciente/loginpaciente.component';
-import { CitaspacienteComponent } from './components/citas/citaspaciente/citaspaciente.component';
-import { CitasmedicasComponent } from './components/citas/citasmedicas/citasmedicas.component';
+import {MiscitasComponent} from './components/citas/miscitas/miscitas.component';
+import {LoginpacienteComponent} from './components/loginpaciente/loginpaciente.component';
+import {CitaspacienteComponent} from './components/citas/citaspaciente/citaspaciente.component';
+import {CitasmedicasComponent} from './components/citas/citasmedicas/citasmedicas.component';
+import {VticketComponent} from './components/tickets/vtickets/vticket/vticket.component';
+import {VticketformComponent} from './components/tickets/vtickets/vticketform/vticketform.component';
 
 registerLocaleData(localeEs, 'es-EC');
 
@@ -146,7 +152,9 @@ export function provideConfig() {
         MiscitasComponent,
         LoginpacienteComponent,
         CitaspacienteComponent,
-        CitasmedicasComponent
+        CitasmedicasComponent,
+        VticketComponent,
+        VticketformComponent
     ],
     imports: [
         BrowserModule,

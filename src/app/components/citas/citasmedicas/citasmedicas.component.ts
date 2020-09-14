@@ -142,9 +142,9 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
 
         this.tabs = [
             {titulo: 'Datos Filiación', paso: 1, panelid: 'panelDatosFil'},
-            {titulo: 'Motivo Consulta', paso: 2, panelid: 'panelMotConsulta'},
+            {titulo: 'Motivo', paso: 2, panelid: 'panelMotConsulta'},
             {titulo: 'Antecedentes', paso: 3, panelid: 'panelAntecedentes'},
-            {titulo: 'Rev. x Sistemas', paso: 4, panelid: 'panelRevXSis'},
+            {titulo: 'Rev. Sistemas', paso: 4, panelid: 'panelRevXSis'},
             {titulo: 'Exm. Físico', paso: 5, panelid: 'panelExamFisico'},
             {titulo: 'Exm. Compl.', paso: 6, panelid: 'panelExamComple'},
             {titulo: 'Diagnóstico', paso: 7, panelid: 'panelDiagnostico'}

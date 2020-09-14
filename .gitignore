@@ -5,4 +5,4 @@ src.zip
 package-lock.json
 yarn.lock
 .idea/
-.idea/**
+.idea/*
