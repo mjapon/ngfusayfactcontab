@@ -91,6 +91,7 @@ import {CitaspacienteComponent} from './components/citas/citaspaciente/citaspaci
 import {CitasmedicasComponent} from './components/citas/citasmedicas/citasmedicas.component';
 import {VticketComponent} from './components/tickets/vtickets/vticket/vticket.component';
 import {VticketformComponent} from './components/tickets/vtickets/vticketform/vticketform.component';
+import {OdontogramaComponent} from './components/citas/odontograma/odontograma.component';
 
 registerLocaleData(localeEs, 'es-EC');
 
@@ -154,7 +155,8 @@ export function provideConfig() {
         CitaspacienteComponent,
         CitasmedicasComponent,
         VticketComponent,
-        VticketformComponent
+        VticketformComponent,
+        OdontogramaComponent
     ],
     imports: [
         BrowserModule,

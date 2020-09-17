@@ -17,17 +17,32 @@ export class VticketComponent implements OnInit {
     itemsCtxMenu: MenuItem[];
     total: any;
 
+    tipos: Array<any>;
+    cuentas: Array<any>;
+    tipoSel: any;
+    cuentaSel: any;
+
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private swalService: SwalService,
-                private vtServie: VentaticketService,
+                private vtService: VentaticketService,
                 private loadingUiService: LoadingUiService) {
     }
 
     ngOnInit(): void {
         this.items = new Array<any>();
         this.cols = new Array<any>();
-        this.loadGrid();
+        this.tipos = new Array<any>();
+        this.cuentas = new Array<any>();
+
+        this.vtService.getFormListar().subscribe(res => {
+            if (res.status === 200) {
+                this.tipos = res.tipos;
+                this.cuentas = res.cuentas;
+                this.tipoSel = this.tipos[0];
+                this.loadGrid();
+            }
+        });
 
         this.itemsCtxMenu = [
             {label: 'Confirmar', icon: 'fa fa-check', command: (event) => this.confirmarRow(this.selectedItem)},
@@ -52,7 +67,7 @@ export class VticketComponent implements OnInit {
             this.swalService.fireDialog('¿Confirmar este registro?', '').then(confirm => {
                     if (confirm.value) {
                         this.loadingUiService.publishBlockMessage();
-                        this.vtServie.confirmar(rowData.vt_id).subscribe(res => {
+                        this.vtService.confirmar(rowData.vt_id).subscribe(res => {
                             if (res.status === 200) {
                                 this.swalService.fireToastSuccess(res.msg);
                                 this.loadGrid();
@@ -69,11 +84,17 @@ export class VticketComponent implements OnInit {
     }
 
     loadGrid() {
-        this.vtServie.listar().subscribe(res => {
+        let tipoIdSel = this.tipoSel.value;
+        let cuentaIdSel = 0;
+        if (this.cuentaSel) {
+            cuentaIdSel = this.cuentaSel.ic_id;
+        }
+        this.vtService.listar(tipoIdSel, cuentaIdSel).subscribe(res => {
             this.cols = res.res.cols;
             this.items = res.res.data;
             this.total = res.suma;
         });
+
     }
 
     anularRow(rowData) {
@@ -81,7 +102,7 @@ export class VticketComponent implements OnInit {
             this.swalService.fireDialog('¿Confirma que desea anular este registro?', '').then(confirm => {
                     if (confirm.value) {
                         this.loadingUiService.publishBlockMessage();
-                        this.vtServie.anular(rowData.vt_id).subscribe(res => {
+                        this.vtService.anular(rowData.vt_id).subscribe(res => {
                             if (res.status === 200) {
                                 this.swalService.fireToastSuccess(res.msg);
                                 this.loadGrid();
@@ -93,5 +114,22 @@ export class VticketComponent implements OnInit {
         } else {
             this.swalService.fireToastError('No es posible');
         }
+    }
+
+    onTipoCuentaChange($event: any) {
+        if (this.tipoSel) {
+            this.cuentaSel = null;
+            this.vtService.getCuentas(this.tipoSel.value).subscribe(res => {
+                if (res.status === 200) {
+                    this.cuentaSel = null;
+                    this.cuentas = res.cuentas;
+                }
+            });
+            this.loadGrid();
+        }
+    }
+
+    onCuentaChange($event: any) {
+        this.loadGrid();
     }
 }

@@ -4,6 +4,8 @@ import {SwalService} from '../../../../services/swal.service';
 import {UiService} from '../../../../services/ui.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
 import {VentaticketService} from '../../../../services/ventaticket.service';
+import {FechasService} from '../../../../services/fechas.service';
+import {DateFormatPipe} from '../../../../pipes/date-format.pipe';
 
 @Component({
     selector: 'app-vticketform',
@@ -11,47 +13,65 @@ import {VentaticketService} from '../../../../services/ventaticket.service';
     styleUrls: ['./vticketform.component.css']
 })
 export class VticketformComponent implements OnInit {
-    tiposRubroList: any;
+    tiposList: any;
+    cuentasList: any;
     form: any;
-    rubrosel: any;
+    cuentasel: any;
+    tiposel: any;
+    es: any;
+    currentDate = new Date();
+    fechaRegistro = new Date();
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private vtService: VentaticketService,
                 private swalService: SwalService,
                 private uiService: UiService,
-                private loadingUiService: LoadingUiService) {
+                private fechasService: FechasService,
+                private loadingUiService: LoadingUiService,
+                private dateFormatPipe: DateFormatPipe) {
     }
 
     ngOnInit(): void {
         this.form = {};
-        this.tiposRubroList = [];
+        this.tiposList = [];
+        this.cuentasList = [];
+        this.tiposel = {};
         this.vtService.getForm().subscribe(res => {
             if (res.status === 200) {
                 this.form = res.form;
-                this.tiposRubroList = res.tiposrubro;
+                this.tiposList = res.tipos;
+                this.cuentasList = res.cuentas;
+                this.tiposel = this.tiposList[0];
             }
         });
-
+        this.es = this.fechasService.getLocaleEsForPrimeCalendar();
         this.uiService.setFocusById('costoInput', 1000);
     }
 
+
     guardar() {
-        if (this.rubrosel === null || this.rubrosel === undefined) {
+        if (this.cuentasel === null || this.cuentasel === undefined) {
             this.swalService.fireError('Debe seleccionar el tipo de registro');
             return;
         } else if (this.form.vt_monto == null || this.form.vt_monto.toString().trim().length === 0) {
             this.swalService.fireError('Debe ingresar el monto');
             return;
         } else {
-            this.form.vt_tipo = this.rubrosel.ic_id;
-            this.loadingUiService.publishBlockMessage();
-            this.vtService.guardar(this.form).subscribe(res => {
-                this.swalService.fireToastSuccess(res.msg);
-                if (res.status === 200) {
-                    this.router.navigate(['vtickets']);
-                }
-            });
+            if (!this.fechaRegistro) {
+                this.swalService.fireToastWarn('Debe ingresar la fecha del registro');
+            } else {
+                const fechaRegistroStr = this.dateFormatPipe.transform(this.fechaRegistro);
+                this.form.vt_tipo = this.cuentasel.ic_id;
+                this.form.vt_fecha = fechaRegistroStr;
+                this.loadingUiService.publishBlockMessage();
+                this.vtService.guardar(this.form).subscribe(res => {
+                    this.swalService.fireToastSuccess(res.msg);
+                    if (res.status === 200) {
+                        this.router.navigate(['vtickets']);
+                    }
+                });
+            }
         }
     }
 
@@ -63,6 +83,18 @@ export class VticketformComponent implements OnInit {
         this.uiService.setFocusById('costoInput', 400);
         if (this.form.vt_monto === 0) {
             this.form.vt_monto = '';
+        }
+    }
+
+    ontiposel($event: any) {
+        if (this.tiposel) {
+            const tipoidsel = this.tiposel.value;
+            this.cuentasel = null;
+            this.vtService.getCuentas(tipoidsel).subscribe(res => {
+                if (res.status === 200) {
+                    this.cuentasList = res.cuentas;
+                }
+            });
         }
     }
 }

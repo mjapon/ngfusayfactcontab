@@ -19,8 +19,18 @@ export class VentaticketService extends BaseService {
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
-    listar(): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'listar'});
+    getFormListar(): Observable<any> {
+        const httpOptions = this.getHttpOptionsToken({accion: 'forml'});
+        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+    }
+
+    getCuentas(tipoId: number): Observable<any> {
+        const httpOptions = this.getHttpOptionsToken({accion: 'gcuentas', tipo: tipoId});
+        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+    }
+
+    listar(tipo: any, cuenta: any): Observable<any> {
+        const httpOptions = this.getHttpOptionsToken({accion: 'listar', tipo, cuenta});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 

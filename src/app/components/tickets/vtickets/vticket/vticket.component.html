@@ -1,8 +1,47 @@
-<div class="row align-items-end">
-    <div class="col-md-9">
-        <h1>Registro de ingresos</h1>
+<h1>Ingresos y Gastos</h1>
+<hr>
+<div class="row">
+    <div class="col-md-3">
+        <div>
+            <span>Tipo</span><br>
+            <p-dropdown [options]="tipos" optionLabel="label"
+                        placeholder="Seleccione el tipo ingreso o egreso"
+                        (onChange)="onTipoCuentaChange($event)"
+                        [showClear]="false"
+                        [(ngModel)]="tipoSel"></p-dropdown>
+
+        </div>
     </div>
+    <div class="col-md-3">
+        <div>
+            <span>Cuenta</span><br>
+            <p-dropdown [options]="cuentas" id="cuenta_id"
+                        [(ngModel)]="cuentaSel"
+                        [virtualScroll]="true"
+                        (onChange)="onCuentaChange($event)"
+                        placeholder="Seleccione la cuenta"
+                        [showClear]="true"
+                        [style]="{width:'100%', overflow:'visible'}"
+                        [filterMatchMode]="'startsWith'"
+                        filter="true"
+                        itemSize="50"
+                        optionLabel="ic_nombre"
+                        inputId="cuenta_id"></p-dropdown>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <span>&nbsp;</span><br>
+        <div class="btn-group" role="group" aria-label="Default button group">
+            <button type="button" class="btn btn-outline-success" (click)="loadGrid()">
+                <i class="fa fa-refresh"></i>
+                Buscar
+            </button>
+        </div>
+
+    </div>
+
     <div class="col">
+        <span>&nbsp;</span><br>
         <div class="btn-group pull-right" role="group" aria-label="Default button group">
             <button type="button" class="btn btn-outline-success" (click)="nuevo()">
                 <i class="fa fa-plus-circle"></i>

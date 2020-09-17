@@ -30,6 +30,7 @@ import {CitaspacienteComponent} from './components/citas/citaspaciente/citaspaci
 import {CitasmedicasComponent} from "./components/citas/citasmedicas/citasmedicas.component";
 import {VticketComponent} from "./components/tickets/vtickets/vticket/vticket.component";
 import {VticketformComponent} from "./components/tickets/vtickets/vticketform/vticketform.component";
+import {OdontogramaComponent} from "./components/citas/odontograma/odontograma.component";
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -64,6 +65,7 @@ const routes: Routes = [
     {path: 'ingresoPaciente', component: LoginpacienteComponent},
     {path: 'citasPaciente', component: CitaspacienteComponent},
     {path: 'historiaclinica', component: CitasmedicasComponent},
+    {path: 'odontograma', component: OdontogramaComponent},
     {path: '**', component: HomeComponent}
 ];
 
