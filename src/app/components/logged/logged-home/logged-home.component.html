@@ -5,11 +5,23 @@
             <h3>Sección actual:</h3>
         </div>
         <div>
-            <ul class="list-group list-group-flush">
-                    <li class="list-group-item hand list-group-item-action {{item.ic_marca?'list-group-item-success':''}}" *ngFor="let item of secciones" (click)="cambiarSeccion(item)"> <i class="fa  {{item.sec_id==seccion.sec_id?'fa-check':''}}"></i>
-                        {{item.sec_nombre}} </li>
-
-            </ul>
+            <div class="row">
+                <div class="col-md-8">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item hand list-group-item-action {{item.ic_marca?'list-group-item-success':''}}"
+                            *ngFor="let item of secciones" (click)="cambiarSeccion(item)"><i
+                                class="fa  {{item.sec_id==seccion.sec_id?'fa-check':''}}"></i>
+                            {{item.sec_nombre}} </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <p-panelMenu [model]="menuApp" [transitionOptions]="'0ms'" [style]="{'width':'100%'}"
+                                 [multiple]="false"></p-panelMenu>
+                    <!--
+                    <p-panelMenu [model]="menu" [style]="{'width':'100%'}"></p-panelMenu>
+                    -->
+                </div>
+            </div>
         </div>
     </div>
 

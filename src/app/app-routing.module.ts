@@ -27,10 +27,15 @@ import {TelemedicinaComponent} from './components/telemedicina/telemedicina.comp
 import {MiscitasComponent} from './components/citas/miscitas/miscitas.component';
 import {LoginpacienteComponent} from './components/loginpaciente/loginpaciente.component';
 import {CitaspacienteComponent} from './components/citas/citaspaciente/citaspaciente.component';
-import {CitasmedicasComponent} from "./components/citas/citasmedicas/citasmedicas.component";
-import {VticketComponent} from "./components/tickets/vtickets/vticket/vticket.component";
-import {VticketformComponent} from "./components/tickets/vtickets/vticketform/vticketform.component";
-import {OdontogramaComponent} from "./components/citas/odontograma/odontograma.component";
+import {CitasmedicasComponent} from './components/citas/citasmedicas/citasmedicas.component';
+import {VticketComponent} from './components/tickets/vtickets/vticket/vticket.component';
+import {VticketformComponent} from './components/tickets/vtickets/vticketform/vticketform.component';
+import {OdontogramaComponent} from './components/citas/odontograma/odontograma.component';
+import {HistoriaCliOdontoComponent} from './components/citas/historia-cli-odonto/historia-cli-odonto.component';
+import {RoleslistComponent} from './components/usuarios/roles/roleslist/roleslist.component';
+import {RolesformComponent} from './components/usuarios/roles/rolesform/rolesform.component';
+import {UserlistComponent} from './components/usuarios/userlist/userlist.component';
+import {UserformComponent} from './components/usuarios/userform/userform.component';
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -64,8 +69,13 @@ const routes: Routes = [
     {path: 'miscitasmedicas', component: MiscitasComponent},
     {path: 'ingresoPaciente', component: LoginpacienteComponent},
     {path: 'citasPaciente', component: CitaspacienteComponent},
-    {path: 'historiaclinica', component: CitasmedicasComponent},
+    {path: 'historiaclinica/:tipo', component: CitasmedicasComponent},
     {path: 'odontograma', component: OdontogramaComponent},
+    {path: 'historiacliodonto', component: HistoriaCliOdontoComponent},
+    {path: 'roles', component: RoleslistComponent},
+    {path: 'roles/form/:rl_id', component: RolesformComponent},
+    {path: 'usuarios', component: UserlistComponent},
+    {path: 'usuarios/form/:us_id', component: UserformComponent},
     {path: '**', component: HomeComponent}
 ];
 

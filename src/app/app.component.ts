@@ -15,8 +15,6 @@ export class AppComponent implements OnInit {
 
     isLogged = false;
     migasApp;
-    menuApp;
-    showMenu = true;
     blocked = false;
 
     constructor(private authService: AuthService,
@@ -40,15 +38,7 @@ export class AppComponent implements OnInit {
                 this.isLogged = true;
             }
             if (this.isLogged) {
-                this.menuApp = [
-                    {label: 'Inicio', icon: 'pi pi-fw pi-home', routerLink: 'lghome'},
-                    {label: 'Tickets', icon: 'pi pi-fw pi-ticket', routerLink: 'tickets'},
-                    /*{label: 'Eventos', icon: 'pi pi-fw pi-tag', routerLink: 'eventosform'},*/
-                    {label: 'Productos', icon: 'pi pi-fw pi-th-large', routerLink: 'mercaderia'},
-                    /*{label: 'Mis Citas Médicas', icon: 'pi pi-fw pi-calendar', routerLink: 'miscitasmedicas'},*/
-                    {label: 'Historias Clínicas', icon: 'pi pi-fw pi-calendar', routerLink: 'historiaclinica'},
-                    {label: 'Odontograma', icon: 'pi pi-fw pi-bell', routerLink: 'odontograma'},
-                ];
+                //
             }
         });
 
@@ -66,9 +56,5 @@ export class AppComponent implements OnInit {
             }
             window.scrollTo(0, 0);
         });
-    }
-
-    toggleShowMenu() {
-        this.showMenu = !this.showMenu;
     }
 }

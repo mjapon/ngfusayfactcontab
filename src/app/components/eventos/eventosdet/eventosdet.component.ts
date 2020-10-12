@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {EventosService} from '../../../services/eventos.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PersonaService} from '../../../services/persona.service';
 import {UiService} from '../../../services/ui.service';
 import {FautService} from '../../../services/faut.service';
 import {SwalService} from '../../../services/swal.service';
+import {Subscription} from "rxjs";
 
 declare var $: any;
 
@@ -13,10 +14,11 @@ declare var $: any;
   templateUrl: './eventosdet.component.html',
   styleUrls: ['./eventosdet.component.css']
 })
-export class EventosdetComponent implements OnInit {
+export class EventosdetComponent implements OnInit, OnDestroy {
   eventId: number;
   datosEvent: any;
   isLogged: boolean;
+    subscription: Subscription;
 
   constructor(private eventosService: EventosService,
               private router: Router,
@@ -55,7 +57,7 @@ export class EventosdetComponent implements OnInit {
   }
 
   suscribePersonaTopic() {
-    this.personaService.observableSource.subscribe(msg => {
+      this.subscription = this.personaService.observableSource.subscribe(msg => {
       if (msg === 'doClose') {
         $('#modalRegistraForm').modal('hide');
       }
@@ -92,4 +94,8 @@ export class EventosdetComponent implements OnInit {
       }
     });
   }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 }

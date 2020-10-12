@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FautService} from '../../../services/faut.service';
 import {Router} from '@angular/router';
-import {SeccionService} from "../../../services/seccion.service";
-import {SwalService} from "../../../services/swal.service";
+import {SeccionService} from '../../../services/seccion.service';
+import {SwalService} from '../../../services/swal.service';
+import {MenuItem} from 'primeng';
 
 @Component({
     selector: 'app-logged-home',
@@ -11,7 +12,7 @@ import {SwalService} from "../../../services/swal.service";
 })
 export class LoggedHomeComponent implements OnInit {
 
-    menu: any;
+    menuApp: MenuItem[];
     secciones: Array<any>;
     seccion: any;
 
@@ -19,14 +20,23 @@ export class LoggedHomeComponent implements OnInit {
                 private router: Router,
                 private seccionService: SeccionService,
                 private swalService: SwalService) {
+        this.menuApp = new Array();
     }
 
     ngOnInit() {
-        const menuFrom = this.fautService.getMenuApp();
+        const menuApp = this.fautService.getMenuApp();
+        if (menuApp) {
+            this.menuApp = menuApp;
+        }
         this.loadSeciones();
         this.fautService.source.subscribe(msg => {
             if (msg === 'updateSecciones') {
                 this.loadSeciones();
+            } else if (msg === 'loadmenu') {
+                const menu = this.fautService.getMenuApp();
+                if (menu) {
+                    this.menuApp = menu;
+                }
             }
         });
     }
@@ -42,7 +52,7 @@ export class LoggedHomeComponent implements OnInit {
                 this.swalService.fireToastSuccess('Nueva sección seleccionada');
                 this.fautService.updateToken(res.token, res.seccion);
                 this.seccion = res.seccion;
-                this.fautService.publishMessage("updateSeccion");
+                this.fautService.publishMessage('updateSeccion');
             }
         });
     }

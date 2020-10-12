@@ -597,6 +597,11 @@ footer .copyright {
   text-align: justify;
 }
 
+.quitaPaddingMargin {
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
 
 @keyframes ui-progress-spinner-color {
   100%,

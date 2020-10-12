@@ -1,0 +1,59 @@
+<div class="row align-items-end">
+    <div class="col-md-4">
+        <h4>Roles del sistema</h4>
+    </div>
+    <div class="col">
+        <div class="btn-group pull-right" role="group" aria-label="Default button group">
+            <button type="button" class="btn btn-outline-success" (click)="loadGrid()">
+                <i class="fa fa-refresh"></i>
+            </button>
+            <button type="button" class="btn btn-outline-success" (click)="nuevo()">
+                <i class="fa fa-plus-circle"></i>
+                Crear
+            </button>
+
+        </div>
+    </div>
+</div>
+<hr>
+
+<p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
+         (onRowSelect)="onRowSelect($event)"
+         [(contextMenuSelection)]="selectedItem"
+         (onRowUnselect)="onUnRowSelect($event)">
+    <ng-template pTemplate="header">
+        <tr>
+            <th *ngFor="let item of cols" [pSortableColumn]="item.field" [ngSwitch]="item.field">
+                {{item.label}}
+                <p-sortIcon [field]="item.field"></p-sortIcon>
+            </th>
+            <th>
+                Acción
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+        <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
+            <td *ngFor="let item of cols">
+                {{rowData[item['field']]}}
+            </td>
+            <td>
+                <button class="btn btn-sm btn-outline-dark" style="margin-right: 5px" (click)="anularRow(rowData)"
+                        title="Anular">
+                    <i class="fa fa-trash"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-dark" (click)="editarRow(rowData)" title="Editar">
+                    <i class="fa fa-pencil"></i>
+                </button>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+            <td [attr.colspan]="cols.length+1">
+                <span class="text-muted">No hay registros</span>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

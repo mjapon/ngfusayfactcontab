@@ -1,0 +1,320 @@
+<p-contextMenu #contextMenuDiente [model]="menuItemsDiente" id="contextmenumj"></p-contextMenu>
+<div class="row" style="margin-bottom: 40px">
+    <div class="col">
+        <div class="btn-group btn-group-sm pull-right" role="group">
+            <button type="button" class="btn text-rojo {{cssSelectedTool(1)}}" (click)="selectTool(1)"
+                    title="Sellante necesario">*
+            </button>
+            <button type="button" class="btn text-azul {{cssSelectedTool(2)}}" (click)="selectTool(2)"
+                    title="Sellante realizado">*
+            </button>
+            <button type="button" class="btn text-rojo {{cssSelectedTool(3)}}" (click)="selectTool(3)"
+                    title="Extracción Indicada"><span class="fa fa-times text-danger"></span></button>
+            <button type="button" class="btn text-azul {{cssSelectedTool(4)}}" (click)="selectTool(4)"
+                    title="Pérdida por caries"><span class="fa fa-times"></span></button>
+            <button type="button" class="btn {{cssSelectedTool(6)}}" (click)="selectTool(6)"
+                    title="Endodoncia Necesaria">
+                <p class="endonecesaria"></p></button>
+            <button type="button" class="btn {{cssSelectedTool(7)}}" (click)="selectTool(7)"
+                    title="Endodoncia Realizada">
+                <p class="endorealizada"></p></button>
+            <button type="button" class="btn {{cssSelectedTool(8)}}" (click)="selectTool(8)" title="Prótesis Fija">PrF
+            </button>
+            <button type="button" class="btn {{cssSelectedTool(9)}}" (click)="selectTool(9)" title="Prótesis removible">
+                PrR
+            </button>
+            <button type="button" class="btn {{cssSelectedTool(10)}}" (click)="selectTool(10)" title="Prótesis total">
+                PrT
+            </button>
+            <button type="button" class="btn {{cssSelectedTool(11)}} text-rojo" (click)="selectTool(11)"
+                    title="Corona Necesaria">
+                O
+            </button>
+            <button type="button" class="btn {{cssSelectedTool(12)}} text-azul" (click)="selectTool(12)"
+                    title="Corona Realizada">
+                O
+            </button>
+            <button type="button" class="btn {{cssSelectedTool(13)}} text-azul" (click)="selectTool(13)"
+                    title="Obturado">
+                <p class="obturado"></p></button>
+            <button type="button" class="btn {{cssSelectedTool(14)}} text-rojo" (click)="selectTool(14)" title="Caries">
+                <p class="caries"></p></button>
+            <button type="button" class="btn {{cssSelectedTool(17)}} text-rojo" (click)="selectTool(17)" title="Caries">
+                <p class="cariesm"></p></button>
+            <button type="button" class="btn {{cssSelectedTool(16)}} text-rojo" (click)="selectTool(16)" title="Caries">
+                <p class="cariesp"></p></button><!--editado-->
+
+
+            <button type="button" class="btn {{cssSelectedTool(15)}}" (click)="selectTool(15)" title="Implante">
+                I
+            </button>
+        </div>
+    </div>
+    <div class="col">
+        <div *ngIf="toolSelected"><h3 class="text-primary">{{toolSelected.nombre}}</h3></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="row">
+            <div id="tr" class="col-6 text-right">
+                <div class="contdiente" *ngFor="let diente of dentadura.A" data-name="value"
+                     id="diente{{diente.numero}}" (contextmenu)="onContextMenuDiente(diente, $event)"
+                     [title]="diente.texto?diente.texto:''">
+                    <span class="badge badge-{{getBadgeStatus(diente)}} nmargen-diente">{{diente.numero}}</span>
+                    <div class="mdiente">
+                        <div id="t{{diente.numero}}" class="mcuadro marriba" (click)="toggleClassTop(diente)"
+                             [ngClass]="getCssClass(diente.t.estilos)">
+                        </div>
+                        <div id="l{{diente.numero}}" class="mcuadro mizquierdo" (click)="toggleClassLeft(diente)"
+                             [ngClass]="getCssClass(diente.l.estilos)">
+                        </div>
+                        <div id="b{{diente.numero}}" class="mcuadro mdebajo" (click)="toggleClassBottom(diente)"
+                             [ngClass]="getCssClass(diente.b.estilos)">
+                        </div>
+                        <div id="r{{diente.numero}}" class="mcuadro mderecha" (click)="toggleClassRight(diente)"
+                             [ngClass]="getCssClass(diente.r.estilos)">
+                        </div>
+                        <div id="c{{diente.numero}}" class="mcentro" (click)="toggleClassCenter(diente)"
+                             [ngClass]="getCssClass(diente.c.estilos)">
+                        </div>
+                    </div>
+                    <div class="mfondodiente {{diente.classTapa}}" *ngIf="diente.tapaVisible"
+                         (click)="clickTapaDiente(diente)">
+
+                    </div>
+                </div>
+            </div>
+            <div id="tl" class="col-6">
+                <div class="contdiente" *ngFor="let diente of dentadura.B" data-name="value"
+                     id="diente{{diente.numero}}" (contextmenu)="onContextMenuDiente(diente, $event)"
+                     [title]="diente.texto?diente.texto:''">
+                    <span class="badge badge-{{getBadgeStatus(diente)}} nmargen-diente">{{diente.numero}}</span>
+                    <div class="mdiente">
+                        <div id="t{{diente.numero}}" class="mcuadro marriba" (click)="toggleClassTop(diente)"
+                             [ngClass]="getCssClass(diente.t.estilos)">
+                        </div>
+                        <div id="l{{diente.numero}}" class="mcuadro mizquierdo" (click)="toggleClassLeft(diente)"
+                             [ngClass]="getCssClass(diente.l.estilos)">
+                        </div>
+                        <div id="b{{diente.numero}}" class="mcuadro mdebajo" (click)="toggleClassBottom(diente)"
+                             [ngClass]="getCssClass(diente.b.estilos)">
+                        </div>
+                        <div id="r{{diente.numero}}" class="mcuadro mderecha" (click)="toggleClassRight(diente)"
+                             [ngClass]="getCssClass(diente.r.estilos)">
+                        </div>
+                        <div id="c{{diente.numero}}" class="mcentro" (click)="toggleClassCenter(diente)"
+                             [ngClass]="getCssClass(diente.c.estilos)">
+                        </div>
+                    </div>
+                    <div class="mfondodiente {{diente.classTapa}}" *ngIf="diente.tapaVisible"
+                         (click)="clickTapaDiente(diente)">
+
+                    </div>
+                </div>
+            </div>
+            <div id="tlr" class="col-6 text-right">
+                <p style="padding-top: 15px"></p>
+                <div class="contdienteleche" *ngFor="let diente of dentadura.lA" data-name="value"
+                     id="diente{{diente.numero}}" (contextmenu)="onContextMenuDiente(diente, $event)"
+                     [title]="diente.texto?diente.texto:''">
+                    <span class="badge badge-{{getBadgeStatus(diente)}} nmargen-dienteleche">{{diente.numero}}</span>
+                    <div class="mdienteleche">
+                        <div id="t{{diente.numero}}" class="mcuadroleche marribaleche" (click)="toggleClassTop(diente)"
+                             [ngClass]="getCssClass(diente.t.estilos)">
+                        </div>
+                        <div id="l{{diente.numero}}" class="mcuadroleche mizquierdoleche"
+                             (click)="toggleClassLeft(diente)" [ngClass]="getCssClass(diente.l.estilos)">
+                        </div>
+                        <div id="b{{diente.numero}}" class="mcuadroleche mdebajoleche"
+                             (click)="toggleClassBottom(diente)" [ngClass]="getCssClass(diente.b.estilos)">
+                        </div>
+                        <div id="r{{diente.numero}}" class="mcuadroleche mderechaleche"
+                             (click)="toggleClassRight(diente)" [ngClass]="getCssClass(diente.r.estilos)">
+                        </div>
+                        <div id="c{{diente.numero}}" class="mcentroleche" (click)="toggleClassCenter(diente)"
+                             [ngClass]="getCssClass(diente.c.estilos)">
+                        </div>
+                    </div>
+                    <div class="mfondodienteleche {{diente.classTapa}}" *ngIf="diente.tapaVisible"
+                         (click)="clickTapaDiente(diente)">
+
+                    </div>
+                </div>
+            </div>
+            <div id="tll" class="col-6">
+                <p style="padding-top: 15px"></p>
+                <div class="contdienteleche" *ngFor="let diente of dentadura.lB" data-name="value"
+                     id="diente{{diente.numero}}" (contextmenu)="onContextMenuDiente(diente, $event)"
+                     [title]="diente.texto?diente.texto:''">
+                    <span class="badge badge-{{getBadgeStatus(diente)}} nmargen-dienteleche">{{diente.numero}}</span>
+                    <div class="mdienteleche">
+                        <div id="t{{diente.numero}}" class="mcuadroleche marribaleche" (click)="toggleClassTop(diente)"
+                             [ngClass]="getCssClass(diente.t.estilos)">
+                        </div>
+                        <div id="l{{diente.numero}}" class="mcuadroleche mizquierdoleche"
+                             (click)="toggleClassLeft(diente)" [ngClass]="getCssClass(diente.l.estilos)">
+                        </div>
+                        <div id="b{{diente.numero}}" class="mcuadroleche mdebajoleche"
+                             (click)="toggleClassBottom(diente)" [ngClass]="getCssClass(diente.b.estilos)">
+                        </div>
+                        <div id="r{{diente.numero}}" class="mcuadroleche mderechaleche"
+                             (click)="toggleClassRight(diente)" [ngClass]="getCssClass(diente.r.estilos)">
+                        </div>
+                        <div id="c{{diente.numero}}" class="mcentroleche" (click)="toggleClassCenter(diente)"
+                             [ngClass]="getCssClass(diente.c.estilos)">
+                        </div>
+                    </div>
+                    <div class="mfondodienteleche {{diente.classTapa}}" *ngIf="diente.tapaVisible"
+                         (click)="clickTapaDiente(diente)">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="blr" class="col-6 text-right">
+                <p style="padding-top: 40px"></p>
+                <div class="contdienteleche" *ngFor="let diente of dentadura.lC" data-name="value"
+                     id="diente{{diente.numero}}" (contextmenu)="onContextMenuDiente(diente, $event)"
+                     [title]="diente.texto?diente.texto:''">
+                    <span class="badge badge-{{getBadgeStatus(diente)}} nmargen-dienteleche">{{diente.numero}}</span>
+                    <div class="mdienteleche">
+                        <div id="t{{diente.numero}}" class="mcuadroleche marribaleche" (click)="toggleClassTop(diente)"
+                             [ngClass]="getCssClass(diente.t.estilos)">
+                        </div>
+                        <div id="l{{diente.numero}}" class="mcuadroleche mizquierdoleche"
+                             (click)="toggleClassLeft(diente)" [ngClass]="getCssClass(diente.l.estilos)">
+                        </div>
+                        <div id="b{{diente.numero}}" class="mcuadroleche mdebajoleche"
+                             (click)="toggleClassBottom(diente)" [ngClass]="getCssClass(diente.b.estilos)">
+                        </div>
+                        <div id="r{{diente.numero}}" class="mcuadroleche mderechaleche"
+                             (click)="toggleClassRight(diente)" [ngClass]="getCssClass(diente.r.estilos)">
+                        </div>
+                        <div id="c{{diente.numero}}" class="mcentroleche" (click)="toggleClassCenter(diente)"
+                             [ngClass]="getCssClass(diente.c.estilos)">
+                        </div>
+                    </div>
+                    <div class="mfondodienteleche {{diente.classTapa}}" *ngIf="diente.tapaVisible"
+                         (click)="clickTapaDiente(diente)">
+
+                    </div>
+                </div>
+            </div>
+            <div id="bll" class="col-6">
+                <p style="padding-top: 40px"></p>
+                <div class="contdienteleche" *ngFor="let diente of dentadura.lD" data-name="value"
+                     id="diente{{diente.numero}}" (contextmenu)="onContextMenuDiente(diente, $event)"
+                     [title]="diente.texto?diente.texto:''">
+                    <span class="badge badge-{{getBadgeStatus(diente)}} nmargen-dienteleche">{{diente.numero}}</span>
+                    <div class="mdienteleche">
+                        <div id="t{{diente.numero}}" class="mcuadroleche marribaleche" (click)="toggleClassTop(diente)"
+                             [ngClass]="getCssClass(diente.t.estilos)">
+                        </div>
+                        <div id="l{{diente.numero}}" class="mcuadroleche mizquierdoleche"
+                             (click)="toggleClassLeft(diente)" [ngClass]="getCssClass(diente.l.estilos)">
+                        </div>
+                        <div id="b{{diente.numero}}" class="mcuadroleche mdebajoleche"
+                             (click)="toggleClassBottom(diente)" [ngClass]="getCssClass(diente.b.estilos)">
+                        </div>
+                        <div id="r{{diente.numero}}" class="mcuadroleche mderechaleche"
+                             (click)="toggleClassRight(diente)" [ngClass]="getCssClass(diente.r.estilos)">
+                        </div>
+                        <div id="c{{diente.numero}}" class="mcentroleche" (click)="toggleClassCenter(diente)"
+                             [ngClass]="getCssClass(diente.c.estilos)">
+                        </div>
+                    </div>
+                    <div class="mfondodienteleche {{diente.classTapa}}" *ngIf="diente.tapaVisible"
+                         (click)="clickTapaDiente(diente)">
+
+                    </div>
+                </div>
+            </div>
+            <div id="br" class="col-6 text-right">
+                <div class="contdiente" *ngFor="let diente of dentadura.C" data-name="value"
+                     id="diente{{diente.numero}}" (contextmenu)="onContextMenuDiente(diente, $event)"
+                     [title]="diente.texto?diente.texto:''">
+                    <span class="badge badge-{{getBadgeStatus(diente)}} nmargen-diente">{{diente.numero}}</span>
+                    <div class="mdiente">
+                        <div id="t{{diente.numero}}" class="mcuadro marriba" (click)="toggleClassTop(diente)"
+                             [ngClass]="getCssClass(diente.t.estilos)">
+                        </div>
+                        <div id="l{{diente.numero}}" class="mcuadro mizquierdo" (click)="toggleClassLeft(diente)"
+                             [ngClass]="getCssClass(diente.l.estilos)">
+                        </div>
+                        <div id="b{{diente.numero}}" class="mcuadro mdebajo" (click)="toggleClassBottom(diente)"
+                             [ngClass]="getCssClass(diente.b.estilos)">
+                        </div>
+                        <div id="r{{diente.numero}}" class="mcuadro mderecha" (click)="toggleClassRight(diente)"
+                             [ngClass]="getCssClass(diente.r.estilos)">
+                        </div>
+                        <div id="c{{diente.numero}}" class="mcentro" (click)="toggleClassCenter(diente)"
+                             [ngClass]="getCssClass(diente.c.estilos)">
+                        </div>
+                    </div>
+                    <div class="mfondodiente {{diente.classTapa}}" *ngIf="diente.tapaVisible"
+                         (click)="clickTapaDiente(diente)">
+
+                    </div>
+                </div>
+            </div>
+            <div id="bl" class="col-6">
+                <div class="contdiente" *ngFor="let diente of dentadura.D" data-name="value"
+                     id="diente{{diente.numero}}" (contextmenu)="onContextMenuDiente(diente, $event)"
+                     [title]="diente.texto?diente.texto:''">
+                    <span class="badge badge-{{getBadgeStatus(diente)}} nmargen-diente">{{diente.numero}}</span>
+                    <div class="mdiente">
+                        <div id="t{{diente.numero}}" class="mcuadro marriba" (click)="toggleClassTop(diente)"
+                             [ngClass]="getCssClass(diente.t.estilos)">
+                        </div>
+                        <div id="l{{diente.numero}}" class="mcuadro mizquierdo" (click)="toggleClassLeft(diente)"
+                             [ngClass]="getCssClass(diente.l.estilos)">
+                        </div>
+                        <div id="b{{diente.numero}}" class="mcuadro mdebajo" (click)="toggleClassBottom(diente)"
+                             [ngClass]="getCssClass(diente.b.estilos)">
+                        </div>
+                        <div id="r{{diente.numero}}" class="mcuadro mderecha" (click)="toggleClassRight(diente)"
+                             [ngClass]="getCssClass(diente.r.estilos)">
+                        </div>
+                        <div id="c{{diente.numero}}" class="mcentro" (click)="toggleClassCenter(diente)"
+                             [ngClass]="getCssClass(diente.c.estilos)">
+                        </div>
+                    </div>
+                    <div class="mfondodiente {{diente.classTapa}}" *ngIf="diente.tapaVisible"
+                         (click)="clickTapaDiente(diente)">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header quitaPaddingMargin">
+                Resumen
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div [innerHTML]="textos.a"></div>
+                    </div>
+                    <div class="col-6">
+                        <div [innerHTML]="textos.b"></div>
+                    </div>
+                    <div class="col-6">
+                        <div [innerHTML]="textos.c"></div>
+                    </div>
+                    <div class="col-6">
+                        <div [innerHTML]="textos.d"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

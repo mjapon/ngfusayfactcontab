@@ -40,6 +40,18 @@ export class FautService extends BaseService {
         this.localStorageService.setItem('empNombreComercial', empNombreComercial);
     }
 
+    setMenuApp(menu) {
+        this.localStorageService.setItem('menuApp', JSON.stringify(menu));
+    }
+
+    getMenuApp() {
+        const menuApp: string = this.localStorageService.getItem('menuApp');
+        if (menuApp) {
+            return JSON.parse(menuApp);
+        }
+        return null;
+    }
+
     setSecciones(secciones: any) {
         this.localStorageService.setItem('secciones', JSON.stringify(secciones));
     }
@@ -78,9 +90,16 @@ export class FautService extends BaseService {
         return this.localStorageService.getItem('empNombreComercial');
     }
 
-    getMenuApp() {
-        const infoUser: string = this.localStorageService.getItem('menuApp');
-        return JSON.parse(infoUser);
+    saveManuCli(menu: any) {
+        this.localStorageService.setItem('menuCliApp', JSON.stringify(menu));
+    }
+
+    getMenuCli() {
+        const menuCliApp = this.localStorageService.getItem('menuCliApp');
+        if (menuCliApp) {
+            return JSON.parse(menuCliApp);
+        }
+        return null;
     }
 
     getAuToken() {
@@ -91,4 +110,6 @@ export class FautService extends BaseService {
     publishMessage(message: string) {
         this.bssource.next(message);
     }
+
+
 }

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {BaseService} from "./base-service";
-import {HttpClient} from "@angular/common/http";
-import {LocalStorageService} from "./local-storage.service";
-import {Observable} from "rxjs";
+import {BaseService} from './base-service';
+import {HttpClient} from '@angular/common/http';
+import {LocalStorageService} from './local-storage.service';
+import {Observable} from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +15,7 @@ export class TicketService extends BaseService {
     }
 
     listar(dia: string): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'listar', 'dia': dia});
+        const httpOptions = this.getHttpOptionsToken({accion: 'listar', dia: dia});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
@@ -45,8 +45,8 @@ export class TicketService extends BaseService {
     }
 
     imprimir(ticketid: any) {
-        //const rutaserver = "http://localhost:8080/imprentas/TicketServlet?tkid=" + ticketid;
-        const rutaserver = "http://www.fusay.org/tomcat/imprentas/TicketServlet?tkid=" + ticketid;
-        window.open(rutaserver, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=500,height=700");
+        // const rutaserver = "http://localhost:8080/imprentas/TicketServlet?tkid=" + ticketid;
+        const rutaserver = 'http://www.fusay.org/tomcat/imprentas/TicketServlet?tkid=' + ticketid;
+        window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=500,height=700');
     }
 }

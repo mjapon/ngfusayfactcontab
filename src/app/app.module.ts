@@ -10,6 +10,7 @@ import {LoginComponent} from './components/login/login.component';
 import {HomeComponent} from './components/home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MenuComponent} from './components/shared/menu/menu.component';
+import {MenuModule} from 'primeng/menu';
 import {PanelMenuModule} from 'primeng/panelmenu';
 import {DropdownModule} from 'primeng/dropdown';
 import {CalendarModule} from 'primeng/calendar';
@@ -19,6 +20,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {TableModule} from 'primeng/table';
 import {MenubarModule} from 'primeng/menubar';
 import {SelectButtonModule} from 'primeng/selectbutton';
+import {ButtonModule} from 'primeng/button';
 import {SidebarModule} from 'primeng/sidebar';
 import {AccordionModule} from 'primeng/accordion';
 import {ContribsFormComponent} from './components/contribs/contribs-form/contribs-form.component';
@@ -92,6 +94,11 @@ import {CitasmedicasComponent} from './components/citas/citasmedicas/citasmedica
 import {VticketComponent} from './components/tickets/vtickets/vticket/vticket.component';
 import {VticketformComponent} from './components/tickets/vtickets/vticketform/vticketform.component';
 import {OdontogramaComponent} from './components/citas/odontograma/odontograma.component';
+import {HistoriaCliOdontoComponent} from './components/citas/historia-cli-odonto/historia-cli-odonto.component';
+import {RoleslistComponent} from './components/usuarios/roles/roleslist/roleslist.component';
+import {RolesformComponent} from './components/usuarios/roles/rolesform/rolesform.component';
+import {UserlistComponent} from './components/usuarios/userlist/userlist.component';
+import {UserformComponent} from './components/usuarios/userform/userform.component';
 
 registerLocaleData(localeEs, 'es-EC');
 
@@ -156,7 +163,12 @@ export function provideConfig() {
         CitasmedicasComponent,
         VticketComponent,
         VticketformComponent,
-        OdontogramaComponent
+        OdontogramaComponent,
+        HistoriaCliOdontoComponent,
+        RoleslistComponent,
+        RolesformComponent,
+        UserlistComponent,
+        UserformComponent
     ],
     imports: [
         BrowserModule,
@@ -167,10 +179,12 @@ export function provideConfig() {
         ReactiveFormsModule,
         FormsModule,
         PanelMenuModule,
+        MenuModule,
         TableModule,
         MenubarModule,
         SelectButtonModule,
         ToolbarModule,
+        ButtonModule,
         SplitButtonModule,
         InputMaskModule,
         MessageModule,

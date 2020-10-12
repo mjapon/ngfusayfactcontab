@@ -1,11 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FautService} from '../../../services/faut.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SwalService} from '../../../services/swal.service';
 import {Router} from '@angular/router';
-import {SeccionService} from "../../../services/seccion.service";
-import {LocalStorageService} from "../../../services/local-storage.service";
-import {PacienteService} from "../../../services/paciente.service";
+import {SeccionService} from '../../../services/seccion.service';
+import {LocalStorageService} from '../../../services/local-storage.service';
+import {PacienteService} from '../../../services/paciente.service';
+import {Subscription} from 'rxjs';
+import {UsertokenService} from '../../../services/usertoken.service';
 
 declare var $: any;
 declare const FB: any;
@@ -15,18 +17,20 @@ declare const FB: any;
     templateUrl: './fusaynavbar.component.html',
     styleUrls: ['./fusaynavbar.component.css']
 })
-export class FusaynavbarComponent implements OnInit {
+export class FusaynavbarComponent implements OnInit, OnDestroy {
     isLogged: boolean;
     loginForm: FormGroup;
     submited: boolean;
     secciones: Array<any>;
     isPacienteLogged: boolean;
+    subscription: Subscription;
 
     constructor(private fautService: FautService,
                 private formBuilder: FormBuilder,
                 private swalService: SwalService,
                 private seccionService: SeccionService,
                 private localStorageService: LocalStorageService,
+                private userTokenService: UsertokenService,
                 private pacienteService: PacienteService,
                 private router: Router) {
         this.initLoginForm();
@@ -48,7 +52,7 @@ export class FusaynavbarComponent implements OnInit {
             }
         });
 
-        this.pacienteService.source.subscribe(msg => {
+        this.subscription = this.pacienteService.source.subscribe(msg => {
             if (msg === 'login') {
                 this.isPacienteLogged = true;
             } else if (msg === 'logout') {
@@ -64,7 +68,7 @@ export class FusaynavbarComponent implements OnInit {
     }
 
     initLoginForm() {
-        let globalCodEmpresa = this.localStorageService.getItem('GLOBAL_COD_EMPRESA');
+        const globalCodEmpresa = this.localStorageService.getItem('GLOBAL_COD_EMPRESA');
         let codEmpresa = '';
         if (globalCodEmpresa) {
             codEmpresa = globalCodEmpresa;
@@ -107,10 +111,10 @@ export class FusaynavbarComponent implements OnInit {
         }
 
         const form = this.loginForm.value;
-        this.fautService.autenticar(form['empresa'], form['username'], form['password']).subscribe(
+        this.fautService.autenticar(form.empresa, form.username, form.password).subscribe(
             res => {
                 if (res.autenticado) {
-                    this.localStorageService.setItem('GLOBAL_COD_EMPRESA', form['empresa']);
+                    this.localStorageService.setItem('GLOBAL_COD_EMPRESA', form.empresa);
                     this.fautService.publishMessage('login');
                     this.fautService.setAsAuthenticated(res.userinfo, res.token, res.menu, res.seccion, res.empNombreComercial);
                     this.swalService.fireToastSuccess('', 'Bienvenido: ' + res.userinfo.per_nombres);
@@ -123,6 +127,12 @@ export class FusaynavbarComponent implements OnInit {
                             this.fautService.publishMessage('updateSecciones');
                         }
                     });
+                    this.userTokenService.getMenu(res.userinfo.us_id).subscribe(resMenu => {
+                        if (resMenu.status === 200) {
+                            this.fautService.setMenuApp(resMenu.menu);
+                            this.fautService.publishMessage('loadmenu');
+                        }
+                    });
                 } else {
                     this.swalService.fireWarning('Usuario o clave incorrectos');
                 }
@@ -132,5 +142,11 @@ export class FusaynavbarComponent implements OnInit {
 
     cancelarLogin() {
         $('#modalLogin').modal('hide');
+    }
+
+    ngOnDestroy(): void {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 }

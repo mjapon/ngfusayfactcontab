@@ -12,5 +12,12 @@ export class CadenasutilService {
         return /^([0-9])*$/.test(texto);
     }
 
+    esNoNuloNoVacio(texto: string): boolean {
+        if (texto) {
+            return texto.trim().length > 0;
+        }
+        return false;
+    }
+
 
 }

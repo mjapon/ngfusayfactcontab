@@ -1,1045 +1,975 @@
-<div class="container">
-    <div *ngIf="showBuscaPaciente">
-        <h2>
-            <span class="fa fa-history"></span> Historias Clínicas
-        </h2>
-        <hr>
-        <div class="row" style="padding-bottom: 10px">
-            <div class="col">
-                <input class="form-control form-rounded" id="buscaPacNomCiInput" type="text"
-                       placeholder="Buscar paciente por nombres o número de cédula" [(ngModel)]="filtro"
-                       (keyup)="onFiltroTyped()">
-            </div>
-            <div class="col-3">
-                <button class="btn btn-outline-success btn-block" (click)="crearPaciente()"> Nuevo Paciente <span
-                        class="fa fa-plus-circle"></span></button>
+<div *ngIf="showBuscaPaciente">
+    <h4>
+        <span class="fa fa-history"></span> Historias Clínicas {{tipoHistoria === 1 ? '' : 'Odontológicas'}}
+    </h4>
+    <hr>
+    <div class="row" style="padding-bottom: 10px">
+        <div class="col">
+            <input class="form-control form-rounded" id="buscaPacNomCiInput" type="text"
+                   placeholder="Buscar paciente por nombres o número de cédula" [(ngModel)]="filtro"
+                   (keyup)="onFiltroTyped()">
+        </div>
+        <div class="col-3">
+            <button class="btn btn-outline-success btn-block" (click)="crearPaciente()"> Nuevo Paciente <span
+                    class="fa fa-plus-circle"></span></button>
+        </div>
+    </div>
+
+    <div style="padding-top: 10px" id="divListaPacientes" #divListaPac>
+        <div class="divpacientesemtpy rounded-lg"
+             *ngIf="pacientesArray.length===0 && filtro && filtro.trim().length>0">
+            <div class="text-center">
+                <h3 class="text-muted"> No hay resultados <i class="fa fa-search"></i></h3>
             </div>
         </div>
-
-        <div style="padding-top: 10px" id="divListaPacientes" #divListaPac>
-            <div class="divpacientesemtpy rounded-lg"
-                 *ngIf="pacientesArray.length===0 && filtro && filtro.trim().length>0">
-                <div class="text-center">
-                    <h3 class="text-muted"> No hay resultados <i class="fa fa-search"></i></h3>
-                </div>
-            </div>
-            <div *ngIf="pacientesArray.length>0" class="divpacientes rounded-lg">
-                <div class="list-group">
-                    <a class="list-group-item list-group-item-action hand" *ngFor="let item of pacientesArray"
-                       (click)="selectPaciente(item)">
-                        <div class="d-flex w-100 justify-content-between align-items-center">
-                            <div style="padding-right:20px !important; width: 6%">
-                                <img src="assets/imgs/{{item.per_genero===2?'female.png':'male.png'}}" alt="Avatar">
-                            </div>
-                            <div style="width: 90%">
-                                <h6 class="mb-0">{{item.nomapel}}</h6>
-                                <p class="mb-0 text-muted">
-                                    <h8>{{item.per_ciruc}}</h8>
-                                </p>
-                                <p class="mb-0 text-muted">
-                                    <h8>{{item.lugresidencia}}</h8>
-                                </p>
-                            </div>
-                            <div>
-                                <i class="fa fa-chevron-right"></i>
-                            </div>
+        <div *ngIf="pacientesArray.length>0" class="divpacientes rounded-lg">
+            <div class="list-group">
+                <a class="list-group-item list-group-item-action hand" *ngFor="let item of pacientesArray"
+                   (click)="selectPaciente(item)">
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                        <div style="padding-right:20px !important; width: 6%">
+                            <img src="assets/imgs/{{item.per_genero===2?'female.png':'male.png'}}" alt="Avatar">
                         </div>
-                    </a>
-                </div>
+                        <div style="width: 90%">
+                            <h6 class="mb-0">{{item.nomapel}}</h6>
+                            <p class="mb-0 text-muted">
+                                <h8>{{item.per_ciruc}}</h8>
+                            </p>
+                            <p class="mb-0 text-muted">
+                                <h8>{{item.lugresidencia}}</h8>
+                            </p>
+                        </div>
+                        <div>
+                            <i class="fa fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </a>
             </div>
-            <div class="text-center" *ngIf="showAnim">
-                <img src="assets/anim.gif"
-                     alt="procesando">
+        </div>
+        <div class="text-center" *ngIf="showAnim">
+            <img src="assets/anim.gif"
+                 alt="procesando">
+        </div>
+    </div>
+</div>
+<div *ngIf="!showBuscaPaciente">
+    <div class="row">
+        <div class="col-9">
+            <h4>Historia
+                Clínica {{ form.paciente.per_nombres ? (' - ' + form.paciente.per_nombres + ' ' + form.paciente.per_apellidos) : '' }} </h4>
+        </div>
+        <div class="col-3">
+            <div class="btn-group pull-right" role="group" aria-label="Default button group">
+                <button type="button" class="btn btn-outline-success" (click)="limpiar()"
+                        title="Cerrar esta historia y buscar otra">
+                    <i class="fa fa-times"></i>
+                </button>
             </div>
         </div>
     </div>
-    <div *ngIf="!showBuscaPaciente">
-        <div class="row">
-            <div class="col-9">
-                <h4>Historia
-                    Clínica {{ form.paciente.per_nombres ? (' - ' + form.paciente.per_nombres + ' ' + form.paciente.per_apellidos) : '' }} </h4>
-            </div>
-            <div class="col-3">
-                <div class="btn-group pull-right" role="group" aria-label="Default button group">
-                    <button type="button" class="btn btn-outline-success" (click)="limpiar()"
-                            title="Cerrar esta historia y buscar otra">
-                        <i class="fa fa-times"></i>
-                    </button>
+    <hr *ngIf="form.paciente.per_id>0 && !datosIncompletos">
+    <div class="card border-primary" style="margin-bottom: 20px"
+         *ngIf="form.paciente.per_id>0 && !datosIncompletos">
+        <div class="card-body">
+            <div class="d-flex w-100 justify-content-between align-items-center">
+                <div style="padding:1px 20px !important; width: 10%">
+                    <img src="assets/imgs/{{datosPacienteFull.per_genero===2?'female.png':'male.png'}}"
+                         alt="Avatar">
+                </div>
+                <div style="width: 90%">
+                    <div class="d-flex flex-row">
+                        <div class="w-50">
+                            <h5>
+                                {{datosPacienteFull.per_nombres + ' ' + datosPacienteFull.per_apellidos}}
+                            </h5>
+                            <h6>
+                                {{datosPacienteFull.per_ciruc}}
+                            </h6>
+                            <h6>{{datosPacienteFull.per_fechanac}} - {{datosPacienteFull.per_edad}} años
+                            </h6>
+                        </div>
+                        <div class="w-50">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <span class="text-muted">Dirección:</span>
+                                </div>
+                                <div class="col">
+                                    <span> {{datosPacienteFull.residencia}} {{datosPacienteFull.per_direccion ? ('-' + datosPacienteFull.per_direccion) : ''}}</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <span class="text-muted">Celular:</span>
+                                </div>
+                                <div class="col">
+                                    <span> {{datosPacienteFull.per_movil}}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <span class="text-muted">Email:</span>
+                                </div>
+                                <div class="col">
+                                    <span> {{datosPacienteFull.per_email}}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <span class="text-muted">Estado Civil:</span>
+                                </div>
+                                <div class="col">
+                                    <span> {{datosPacienteFull.estadocivil}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-100">
+                        <span class="text-muted">Profesión: </span>
+                        <span>{{datosPacienteFull.profesion}}</span>
+                    </div>
+
+                    <div class="w-100" style="margin-top: 20px" *ngIf="lastAtencion!==null">
+                        <div>
+                            <button class="btn btn-link btn-sm" (click)="toggleAcordion('citasPanel')"
+                                    *ngIf="historias.length>0">
+                                <i class="fa fa-history"></i>
+                                Citas Anteriores <span
+                                    class="badge badge-pill badge-primary">{{historias.length}}</span></button>
+                        </div>
+
+                        <div id="citasPanel" class="collapse">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col" class="quitaPaddingTB">Día</th>
+                                    <th scope="col" class="quitaPaddingTB">Motivo</th>
+                                    <th scope="col" class="quitaPaddingTB">Próxima Cita</th>
+                                    <th scope="col" class="quitaPaddingTB">
+                                        <button type="button" class="btn btn-sm btn-outline-primary"
+                                                (click)="toggleAcordion('citasPanel')"
+                                                title="Cerrar ">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let row of historias" (click)="selectHistoriaAnt(row)" class="hand">
+                                    <td width="30%">
+                                        {{row.cosm_fechacrea}}
+                                    </td>
+                                    <td width="40%">
+                                        {{row.cosm_motivo}}
+                                    </td>
+                                    <td width="20%">
+                                        {{row.cosm_fechaproxcita}}
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" title="Ver detalles"><i
+                                                class="fa fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <hr *ngIf="form.paciente.per_id>0 && !datosIncompletos">
-        <div class="card border-primary" style="margin-bottom: 20px"
-             *ngIf="form.paciente.per_id>0 && !datosIncompletos">
+    </div>
+
+    <div class="card" *ngIf="isHistoriaAntSel" style="margin-bottom: 20px" #divHistoriaAnt>
+        <button class="btn btn-block btn-secondary btnTextLeft" (click)="toggleAcordion('historiaSelPanel')">
+            Historia Anterior ({{rowHistoriaSel.fecha_crea_largo}})
+            <span class="pull-right fa {{accordionStatus.historiaSelPanel?'fa-chevron-circle-down':'fa-chevron-circle-right'}}"></span>
+        </button>
+        <div id="historiaSelPanel" class="collapse">
             <div class="card-body">
-                <div class="d-flex w-100 justify-content-between align-items-center">
-                    <div style="padding:1px 20px !important; width: 10%">
-                        <img src="assets/imgs/{{datosPacienteFull.per_genero===2?'female.png':'male.png'}}"
-                             alt="Avatar">
+                <!-- Motivo de consulta -->
+                <div class="card border-secondary">
+                    <div id="HistPanelMotivoConsulta">
+                        <div class="row dato-adc-fila">
+                            <div class="col-md-3">
+                                <span>Fecha:</span>
+                            </div>
+                            <div class="col">
+                                <div class="padflex">
+                                    <p>
+                                        {{rowHistoriaSel.cosm_fechacrea}}
+                                    </p>
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Botones de acción"
+                                         style="padding-left: 10px">
+                                        <button class="btn btn-outline-primary" (click)="imprimirHistoria()">
+                                            Historia <i class="fa fa-print"></i></button>
+                                        <button class="btn btn-outline-primary" (click)="imprimirRecetaAnterior()">
+                                            Receta <i class="fa fa-print"></i></button>
+                                        <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()">
+                                            Cerrar <i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row dato-adc-fila">
+                            <div class="col-md-3">
+                                <span>Motivo Consulta:</span>
+                            </div>
+                            <div class="col">
+                                <p>
+                                    {{historiaSel.datosconsulta.cosm_motivo}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row dato-adc-fila">
+                            <div class="col-md-3">
+                                <span>Enfermedad actual:</span>
+                            </div>
+                            <div class="col">
+                                <p>
+                                    {{historiaSel.datosconsulta.cosm_enfermactual}}
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div style="width: 90%">
-                        <div class="d-flex flex-row">
-                            <div class="w-50">
-                                <h5>
-                                    {{datosPacienteFull.per_nombres + ' ' + datosPacienteFull.per_apellidos}}
-                                </h5>
-                                <h6>
-                                    {{datosPacienteFull.per_ciruc}}
-                                </h6>
-                                <h6>{{datosPacienteFull.per_fechanac}} - {{datosPacienteFull.per_edad}} años
-                                </h6>
-                            </div>
-                            <div class="w-50">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <span class="text-muted">Dirección:</span>
-                                    </div>
-                                    <div class="col">
-                                        <span> {{datosPacienteFull.residencia}} {{datosPacienteFull.per_direccion ? ('-' + datosPacienteFull.per_direccion) : ''}}</span>
-                                    </div>
-                                </div>
+                </div>
 
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <span class="text-muted">Celular:</span>
-                                    </div>
-                                    <div class="col">
-                                        <span> {{datosPacienteFull.per_movil}}</span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <span class="text-muted">Email:</span>
-                                    </div>
-                                    <div class="col">
-                                        <span> {{datosPacienteFull.per_email}}</span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <span class="text-muted">Estado Civil:</span>
-                                    </div>
-                                    <div class="col">
-                                        <span> {{datosPacienteFull.estadocivil}}</span>
-                                    </div>
-                                </div>
+                <div class="card border-secondary">
+                    <div class="card-header quitaPadding">
+                        Antecedentes Personales
+                    </div>
+                    <div id="HistPanelAntecedentes">
+                        <div class="row dato-adc-fila" *ngFor="let it of historiaSel.antecedentes;">
+                            <div class="col-md-4">
+                                <span>{{it.cmtv_valor}}:</span>
+                            </div>
+                            <div class="col">
+                                <p>
+                                    {{it.valorreg}}
+                                </p>
                             </div>
                         </div>
-                        <div class="w-100">
-                            <span class="text-muted">Profesión: </span>
-                            <span>{{datosPacienteFull.profesion}}</span>
-                        </div>
+                    </div>
+                </div>
 
-                        <div class="w-100" style="margin-top: 20px" *ngIf="lastAtencion!==null">
-                            <div>
-                                <button class="btn btn-link btn-sm" (click)="toggleAcordion('citasPanel')"
-                                        *ngIf="historias.length>0">
-                                    <i class="fa fa-history"></i>
-                                    Citas Anteriores <span
-                                        class="badge badge-pill badge-primary">{{historias.length}}</span></button>
+                <div class="card border-secondary">
+                    <div class="card-header quitaPadding">
+                        Revisión por sistemas
+                    </div>
+                    <div id="HistPanelRevXSistemas">
+                        <div class="row dato-adc-fila" *ngFor="let it of historiaSel.revxsistemas">
+                            <div class="col-md-3">
+                                <span>{{it.cmtv_valor}}:</span>
                             </div>
-
-                            <div id="citasPanel" class="collapse">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col" class="quitaPaddingTB">Día</th>
-                                        <th scope="col" class="quitaPaddingTB">Motivo</th>
-                                        <th scope="col" class="quitaPaddingTB">Próxima Cita</th>
-                                        <th scope="col" class="quitaPaddingTB">
-                                            <button type="button" class="btn btn-sm btn-outline-primary"
-                                                    (click)="toggleAcordion('citasPanel')"
-                                                    title="Cerrar ">
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr *ngFor="let row of historias" (click)="selectHistoriaAnt(row)" class="hand">
-                                        <td width="30%">
-                                            {{row.cosm_fechacrea}}
-                                        </td>
-                                        <td width="40%">
-                                            {{row.cosm_motivo}}
-                                        </td>
-                                        <td width="20%">
-                                            {{row.cosm_fechaproxcita}}
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary" title="Ver detalles"><i
-                                                    class="fa fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                            <div class="col">
+                                <p>
+                                    {{it.valorreg}}
+                                </p>
                             </div>
                         </div>
-                        <!--
-                        <div class="w-100" style="margin-top: 20px">
-                            <div class="row">
-                                <div class="col">
-                                    <button class="btn btn-sm btn-outline-success" (click)="limpiar()"><i
-                                            class="fa fa-times"></i> Cerrar
+                    </div>
+                </div>
+
+                <div class="card border-secondary">
+                    <div class="card-header quitaPadding">
+                        Exámenes Físicos
+                    </div>
+                    <div id="HistPanelExamenFisico">
+                        <div class="row dato-adc-fila" *ngFor="let it of historiaSel.examsfisicos">
+                            <div class="col-md-3">
+                                <span>{{it.cmtv_valor}}</span>
+                                <span class="badge badge-light">{{it.cmtv_unidad}}</span>:
+                            </div>
+                            <div class="col">
+                                <p>
+                                    {{it.valorreg}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row dato-adc-fila">
+                            <div class="col-md-3">
+                                <span>Descripción de Hallazgos:</span>
+                            </div>
+                            <div class="col">
+                                {{historiaSel.datosconsulta.cosm_hallazgoexamfis}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-secondary">
+                    <div class="card-header quitaPadding">
+                        Exámenes Complementarios
+                    </div>
+                    <div id="HistPanelExamesComplementarios">
+                        <div class="row dato-fila">
+                            <div class="col-md-3">
+                                <span>Exámenes Complementarios:</span>
+                            </div>
+                            <div class="col">
+                                {{historiaSel.datosconsulta.cosm_exmscompl}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-secondary">
+                    <div class="card-header quitaPadding">
+                        Diagnóstico
+                    </div>
+                    <div id="HistPanelDiagnostico">
+                        <div class="row dato-fila">
+                            <div class="col-md-3">
+                                <span>Diagnóstico:</span>
+                            </div>
+                            <div class="col">
+                                {{historiaSel.datosconsulta.diagnosticos}}
+                            </div>
+                        </div>
+
+                        <div class="row dato-fila">
+                            <div class="col-md-3">
+                                <span>Diagnóstico Alternativo:</span>
+                            </div>
+                            <div class="col">
+                                {{historiaSel.datosconsulta.cosm_diagnosticoal}}
+                            </div>
+                        </div>
+
+                        <div class="row dato-fila">
+                            <div class="col-md-3">
+                                <span>Tratamiento:</span>
+                            </div>
+                            <div class="col">
+                                {{historiaSel.datosconsulta.cosm_tratamiento}}
+                            </div>
+                        </div>
+                        <div class="row dato-fila">
+                            <div class="col-md-3">
+                                <span>Receta:</span>
+                            </div>
+                            <div class="col">
+                                {{historiaSel.datosconsulta.cosm_receta}}
+                            </div>
+                        </div>
+                        <div class="row dato-fila">
+                            <div class="col-md-3">
+                                <span>Indicaciones Receta:</span>
+                            </div>
+                            <div class="col">
+                                {{historiaSel.datosconsulta.cosm_indicsreceta}}
+                            </div>
+                        </div>
+                        <div class="row dato-fila">
+                            <div class="col-md-3">
+                                <span>Recomendaciones:</span>
+                            </div>
+                            <div class="col">
+                                {{historiaSel.datosconsulta.cosm_recomendaciones}}
+                            </div>
+                        </div>
+                        <div class="row dato-fila">
+                            <div class="col-md-3">
+                                <span>Fecha Próxima Cita:</span>
+                            </div>
+                            <div class="col">
+                                {{historiaSel.datosconsulta.cosm_fechaproxcita}}
+                            </div>
+                        </div>
+                        <div class="padding15">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Botones de acción"
+                                 style="padding-left: 10px">
+                                <button class="btn btn-outline-primary" (click)="imprimirHistoria()">
+                                    Historia <i
+                                        class="fa fa-print"></i></button>
+                                <button class="btn btn-outline-primary" (click)="imprimirRecetaAnterior()">
+                                    Receta <i
+                                        class="fa fa-print"></i></button>
+                                <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()"> Cerrar <i
+                                        class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <p-tabView [(activeIndex)]="selectedTab">
+        <p-tabPanel header="{{tabsFisicos.a.paso}}. {{tabsFisicos.a.titulo}}" *ngIf="tabsFisicos.a.visible">
+            <div class="row">
+                <div class="col">
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span class="required">*</span><span>Ci/RUC/Pasaporte:</span>
+                        </div>
+                        <div class="col-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control"
+                                       [(ngModel)]="form.paciente.per_ciruc"
+                                       (blur)="verificaPacienteRegistrado()"
+                                       (keydown.enter)="buscarPaciente(false, 'perNombresInput')"
+                                       id="perCirucInput">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button"
+                                            (click)="buscarPaciente(false, 'perNombresInput')"
+                                            title="Presiona este botón para buscar el paciente por numero de cédula, ruc o pasaporte ">
+                                        <span class="fa fa-search"></span>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        -->
+                    </div>
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span class="required">*</span><span>Nombres:</span>
+                        </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control"
+                                   [(ngModel)]="form.paciente.per_nombres" id="perNombresInput"
+                                   [autocomplete]="false">
+                        </div>
+                    </div>
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span>Apellidos:</span>
+                        </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control"
+                                   [(ngModel)]="form.paciente.per_apellidos"
+                                   [autocomplete]="false">
+                        </div>
+                    </div>
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span class="required">*</span><span>Fecha de nacimiento (dd/mm/aaaa):</span>
+                        </div>
+                        <div class="col-12">
+                            <p-calendar id="per_fechanac"
+                                        [(ngModel)]="form.paciente.per_fechanac"
+                                        [showIcon]="true"
+                                        [locale]="es" inputId="per_fechanac"
+                                        [monthNavigator]="true" [yearNavigator]="true"
+                                        [maxDate]="currentDate"
+                                        (onSelect)="calcularEdad()"
+                                        yearRange="1900:2100"
+                                        dateFormat="dd/mm/yy"></p-calendar>
+                            <span> {{form.paciente.per_edad}} años </span>
+                        </div>
+                    </div>
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span class="required">*</span><span>Sexo:</span>
+                        </div>
+                        <div class="col-12">
+                            <p-radioButton name="sexo" *ngFor="let it of generosList"
+                                           value="{{it.lval_valor}}"
+                                           label="{{it.lval_nombre}}"
+                                           [(ngModel)]="form.paciente.per_genero"></p-radioButton>
+                        </div>
+                    </div>
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span>Estado Civil:</span>
+                        </div>
+                        <div class="col-12">
+                            <p-dropdown [options]="estadoCivilList" optionLabel="lval_nombre"
+                                        placeholder="Seleccione el estado civil"
+                                        [showClear]="true"
+                                        [(ngModel)]="form.paciente.per_estadocivil"></p-dropdown>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="card" *ngIf="isHistoriaAntSel" style="margin-bottom: 20px" #divHistoriaAnt>
-            <button class="btn btn-block btn-secondary btnTextLeft" (click)="toggleAcordion('historiaSelPanel')">
-                Historia Anterior ({{rowHistoriaSel.fecha_crea_largo}})
-                <span class="pull-right fa {{accordionStatus.historiaSelPanel?'fa-chevron-circle-down':'fa-chevron-circle-right'}}"></span>
-            </button>
-            <div id="historiaSelPanel" class="collapse">
-                <div class="card-body">
-                    <!-- Motivo de consulta -->
-                    <div class="card border-secondary">
-                        <div id="HistPanelMotivoConsulta">
-                            <div class="row dato-adc-fila">
-                                <div class="col-md-3">
-                                    <span>Fecha:</span>
-                                </div>
-                                <div class="col">
-                                    <div class="padflex">
-                                        <p>
-                                            {{rowHistoriaSel.cosm_fechacrea}}
-                                        </p>
-                                        <div class="btn-group btn-group-sm" role="group" aria-label="Botones de acción"
-                                             style="padding-left: 10px">
-                                            <button class="btn btn-outline-primary" (click)="imprimirHistoria()">
-                                                Historia <i class="fa fa-print"></i></button>
-                                            <button class="btn btn-outline-primary" (click)="imprimirRecetaAnterior()">
-                                                Receta <i class="fa fa-print"></i></button>
-                                            <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()">
-                                                Cerrar <i class="fa fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row dato-adc-fila">
-                                <div class="col-md-3">
-                                    <span>Motivo Consulta:</span>
-                                </div>
-                                <div class="col">
-                                    <p>
-                                        {{historiaSel.datosconsulta.cosm_motivo}}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row dato-adc-fila">
-                                <div class="col-md-3">
-                                    <span>Enfermedad actual:</span>
-                                </div>
-                                <div class="col">
-                                    <p>
-                                        {{historiaSel.datosconsulta.cosm_enfermactual}}
-                                    </p>
-                                </div>
-                            </div>
+                <div class="col">
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span>Lugar de residencia:</span>
+                        </div>
+                        <div class="col-12">
+                            <p-dropdown [options]="lugares" id="catic_id"
+                                        [(ngModel)]="form.paciente.per_lugresidencia"
+                                        [virtualScroll]="true"
+                                        placeholder="Seleccione el lugar de residencia"
+                                        [showClear]="true"
+                                        [style]="{width:'100%', overflow:'visible'}"
+                                        [filterMatchMode]="'startsWith'"
+                                        filter="true"
+                                        itemSize="50"
+                                        optionLabel="lug_nombre"
+                                        inputId="per_lugresidencia"></p-dropdown>
                         </div>
                     </div>
-
-                    <div class="card border-secondary">
-                        <div class="card-header quitaPadding">
-                            Antecedentes Personales
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span>Dirección:</span>
                         </div>
-                        <div id="HistPanelAntecedentes">
-                            <div class="row dato-adc-fila" *ngFor="let it of historiaSel.antecedentes;">
-                                <div class="col-md-4">
-                                    <span>{{it.cmtv_valor}}:</span>
-                                </div>
-                                <div class="col">
-                                    <p>
-                                        {{it.valorreg}}
-                                    </p>
-                                </div>
-                            </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control"
+                                   [(ngModel)]="form.paciente.per_direccion"
+                                   autocomplete="false" maxlength="80">
                         </div>
                     </div>
-
-                    <div class="card border-secondary">
-                        <div class="card-header quitaPadding">
-                            Revisión por sistemas
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span>Profesión/Ocupación:</span>
                         </div>
-                        <div id="HistPanelRevXSistemas">
-                            <div class="row dato-adc-fila" *ngFor="let it of historiaSel.revxsistemas">
-                                <div class="col-md-3">
-                                    <span>{{it.cmtv_valor}}:</span>
-                                </div>
-                                <div class="col">
-                                    <p>
-                                        {{it.valorreg}}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card border-secondary">
-                        <div class="card-header quitaPadding">
-                            Exámenes Físicos
-                        </div>
-                        <div id="HistPanelExamenFisico">
-                            <div class="row dato-adc-fila" *ngFor="let it of historiaSel.examsfisicos">
-                                <div class="col-md-3">
-                                    <span>{{it.cmtv_valor}}</span>
-                                    <span class="badge badge-light">{{it.cmtv_unidad}}</span>:
-                                </div>
-                                <div class="col">
-                                    <p>
-                                        {{it.valorreg}}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row dato-adc-fila">
-                                <div class="col-md-3">
-                                    <span>Descripción de Hallazgos:</span>
-                                </div>
-                                <div class="col">
-                                    {{historiaSel.datosconsulta.cosm_hallazgoexamfis}}
-                                </div>
-                            </div>
+                        <div class="col-12">
+                            <p-dropdown [options]="ocupaciones" id="per_ocupacion"
+                                        [(ngModel)]="form.paciente.per_ocupacion"
+                                        [virtualScroll]="true"
+                                        placeholder="Seleccione la profesión/ocupación"
+                                        [showClear]="true"
+                                        [style]="{width:'100%', overflow:'visible'}"
+                                        [filterMatchMode]="'contains'"
+                                        filter="true"
+                                        itemSize="50"
+                                        optionLabel="lval_nombre"
+                                        inputId="per_ocupacion"></p-dropdown>
                         </div>
                     </div>
-
-                    <div class="card border-secondary">
-                        <div class="card-header quitaPadding">
-                            Exámenes Complementarios
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span class="required">*</span><span>Correo Electrónico:</span>
                         </div>
-                        <div id="HistPanelExamesComplementarios">
-                            <div class="row dato-fila">
-                                <div class="col-md-3">
-                                    <span>Exámenes Complementarios:</span>
-                                </div>
-                                <div class="col">
-                                    {{historiaSel.datosconsulta.cosm_exmscompl}}
-                                </div>
-                            </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control"
+                                   [(ngModel)]="form.paciente.per_email"
+                                   autocomplete="false">
                         </div>
                     </div>
-
-                    <div class="card border-secondary">
-                        <div class="card-header quitaPadding">
-                            Diagnóstico
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span>Teléfono Convencial:</span>
                         </div>
-                        <div id="HistPanelDiagnostico">
-                            <div class="row dato-fila">
-                                <div class="col-md-3">
-                                    <span>Diagnóstico:</span>
-                                </div>
-                                <div class="col">
-                                    {{historiaSel.datosconsulta.diagnosticos}}
-                                </div>
-                            </div>
-
-                            <div class="row dato-fila">
-                                <div class="col-md-3">
-                                    <span>Diagnóstico Alternativo:</span>
-                                </div>
-                                <div class="col">
-                                    {{historiaSel.datosconsulta.cosm_diagnosticoal}}
-                                </div>
-                            </div>
-
-                            <div class="row dato-fila">
-                                <div class="col-md-3">
-                                    <span>Tratamiento:</span>
-                                </div>
-                                <div class="col">
-                                    {{historiaSel.datosconsulta.cosm_tratamiento}}
-                                </div>
-                            </div>
-                            <div class="row dato-fila">
-                                <div class="col-md-3">
-                                    <span>Receta:</span>
-                                </div>
-                                <div class="col">
-                                    {{historiaSel.datosconsulta.cosm_receta}}
-                                </div>
-                            </div>
-                            <div class="row dato-fila">
-                                <div class="col-md-3">
-                                    <span>Indicaciones Receta:</span>
-                                </div>
-                                <div class="col">
-                                    {{historiaSel.datosconsulta.cosm_indicsreceta}}
-                                </div>
-                            </div>
-                            <div class="row dato-fila">
-                                <div class="col-md-3">
-                                    <span>Recomendaciones:</span>
-                                </div>
-                                <div class="col">
-                                    {{historiaSel.datosconsulta.cosm_recomendaciones}}
-                                </div>
-                            </div>
-                            <div class="row dato-fila">
-                                <div class="col-md-3">
-                                    <span>Fecha Próxima Cita:</span>
-                                </div>
-                                <div class="col">
-                                    {{historiaSel.datosconsulta.cosm_fechaproxcita}}
-                                </div>
-                            </div>
-                            <div class="padding15">
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Botones de acción"
-                                     style="padding-left: 10px">
-                                    <button class="btn btn-outline-primary" (click)="imprimirHistoria()">
-                                        Historia <i
-                                            class="fa fa-print"></i></button>
-                                    <button class="btn btn-outline-primary" (click)="imprimirRecetaAnterior()">
-                                        Receta <i
-                                            class="fa fa-print"></i></button>
-                                    <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()"> Cerrar <i
-                                            class="fa fa-times"></i></button>
-                                </div>
-                            </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control"
+                                   [(ngModel)]="form.paciente.per_telf"
+                                   [autocomplete]="false">
+                        </div>
+                    </div>
+                    <div class="row dato-fila">
+                        <div class="col-12">
+                            <span class="required">*</span><span>Celular:</span>
+                        </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control" [autocomplete]="false"
+                                   [(ngModel)]="form.paciente.per_movil">
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="padding15">
+                <button class="btn btn-primary" (click)="guardaDatosPaciente()"> Siguiente <i
+                        class="fa fa-arrow-right"></i></button>
+            </div>
+        </p-tabPanel>
 
-        <div class="card border-primary">
-            <div class="d-flex w-100 flex-row">
-                <div style="padding-right: 0px !important; width: 17% !important;">
-                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <a class="nav-link" *ngFor="let tab of tabs" data-toggle="pill" href="#{{tab.panelid}}"
-                           role="tab"
-                           aria-controls="v-pills-home" aria-selected="true" id="tabcab_{{tab.panelid}}"
-                           [ngClass]="{'active': tab.paso===selectedTab}">
-                            <span class="badge badge-pill badge-light"> {{tab.paso}} </span>
-                            {{tab.titulo}}
-                        </a>
-                    </div>
+        <p-tabPanel header="{{tabsFisicos.b.paso}}. {{tabsFisicos.b.titulo}}" *ngIf="tabsFisicos.b.visible">
+            <div class="row dato-adc-fila">
+                <div class="col-12">
+                    <span class="required">*</span><span>Motivo Consulta:</span>
                 </div>
-                <div style="padding-left: 0px !important; width: 83% !important;">
-                    <div class="tab-content" id="v-pills-tabContent" #mainDiv>
-                        <div class="tab-pane fade" id="panelDatosFil" role="tabpanel"
-                             aria-labelledby="v-pills-home-tab">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="row dato-fila">
-                                                <div class="col-12">
-                                                    <span class="required">*</span><span>Ci/RUC/Pasaporte:</span>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control"
-                                                               [(ngModel)]="form.paciente.per_ciruc"
-                                                               (blur)="verificaPacienteRegistrado()"
-                                                               (keydown.enter)="buscarPaciente(false, 'perNombresInput')"
-                                                               id="perCirucInput">
-                                                        <div class="input-group-append">
-                                                            <button class="btn btn-outline-secondary" type="button"
-                                                                    (click)="buscarPaciente(false, 'perNombresInput')"
-                                                                    title="Presiona este botón para buscar el paciente por numero de cédula, ruc o pasaporte ">
-                                                                <span class="fa fa-search"></span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row dato-fila">
-                                                <div class="col-12">
-                                                    <span class="required">*</span><span>Nombres:</span>
-                                                </div>
-                                                <div class="col-12">
-                                                    <input type="text" class="form-control"
-                                                           [(ngModel)]="form.paciente.per_nombres" id="perNombresInput"
-                                                           [autocomplete]="false">
-                                                </div>
-                                            </div>
-                                            <div class="row dato-fila">
-                                                <div class="col-12">
-                                                    <span>Apellidos:</span>
-                                                </div>
-                                                <div class="col-12">
-                                                    <input type="text" class="form-control"
-                                                           [(ngModel)]="form.paciente.per_apellidos"
-                                                           [autocomplete]="false">
-                                                </div>
-                                            </div>
-                                            <div class="row dato-fila">
-                                                <div class="col-12">
-                                                    <span class="required">*</span><span>Fecha de nacimiento (dd/mm/aaaa):</span>
-                                                </div>
-                                                <div class="col-12">
-                                                    <p-calendar id="per_fechanac"
-                                                                [(ngModel)]="form.paciente.per_fechanac"
-                                                                [showIcon]="true"
-                                                                [locale]="es" inputId="per_fechanac"
-                                                                [monthNavigator]="true" [yearNavigator]="true"
-                                                                [maxDate]="currentDate"
-                                                                (onSelect)="calcularEdad()"
-                                                                yearRange="1900:2100"
-                                                                dateFormat="dd/mm/yy"></p-calendar>
-                                                    <span> {{form.paciente.per_edad}} años </span>
-                                                </div>
-                                            </div>
-                                            <div class="row dato-fila">
-                                                <div class="col-12">
-                                                    <span class="required">*</span><span>Sexo:</span>
-                                                </div>
-                                                <div class="col-12">
-                                                    <p-radioButton name="sexo" *ngFor="let it of generosList"
-                                                                   value="{{it.lval_valor}}"
-                                                                   label="{{it.lval_nombre}}"
-                                                                   [(ngModel)]="form.paciente.per_genero"></p-radioButton>
-                                                </div>
-                                            </div>
-                                            <div class="row dato-fila">
-                                                <div class="col-12">
-                                                    <span>Estado Civil:</span>
-                                                </div>
-                                                <div class="col-12">
-                                                    <p-dropdown [options]="estadoCivilList" optionLabel="lval_nombre"
-                                                                placeholder="Seleccione el estado civil"
-                                                                [showClear]="true"
-                                                                [(ngModel)]="form.paciente.per_estadocivil"></p-dropdown>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="row dato-fila">
-                                                <div class="col-12">
-                                                    <span>Lugar de residencia:</span>
-                                                </div>
-                                                <div class="col-12">
-                                                    <p-dropdown [options]="lugares" id="catic_id"
-                                                                [(ngModel)]="form.paciente.per_lugresidencia"
-                                                                [virtualScroll]="true"
-                                                                placeholder="Seleccione el lugar de residencia"
-                                                                [showClear]="true"
-                                                                [style]="{width:'100%', overflow:'visible'}"
-                                                                [filterMatchMode]="'startsWith'"
-                                                                filter="true"
-                                                                itemSize="50"
-                                                                optionLabel="lug_nombre"
-                                                                inputId="per_lugresidencia"></p-dropdown>
-                                                </div>
-                                            </div>
-                                            <div class="row dato-fila">
-                                                <div class="col-12">
-                                                    <span>Dirección:</span>
-                                                </div>
-                                                <div class="col-12">
-                                                    <input type="text" class="form-control"
-                                                           [(ngModel)]="form.paciente.per_direccion"
-                                                           autocomplete="false" maxlength="80">
-                                                </div>
-                                            </div>
-                                            <div class="row dato-fila">
-                                                <div class="col-12">
-                                                    <span>Profesión/Ocupación:</span>
-                                                </div>
-                                                <div class="col-12">
-                                                    <p-dropdown [options]="ocupaciones" id="per_ocupacion"
-                                                                [(ngModel)]="form.paciente.per_ocupacion"
-                                                                [virtualScroll]="true"
-                                                                placeholder="Seleccione la profesión/ocupación"
-                                                                [showClear]="true"
-                                                                [style]="{width:'100%', overflow:'visible'}"
-                                                                [filterMatchMode]="'contains'"
-                                                                filter="true"
-                                                                itemSize="50"
-                                                                optionLabel="lval_nombre"
-                                                                inputId="per_ocupacion"></p-dropdown>
-                                                </div>
-                                            </div>
-                                            <div class="row dato-fila">
-                                                <div class="col-12">
-                                                    <span class="required">*</span><span>Correo Electrónico:</span>
-                                                </div>
-                                                <div class="col-12">
-                                                    <input type="text" class="form-control"
-                                                           [(ngModel)]="form.paciente.per_email"
-                                                           autocomplete="false">
-                                                </div>
-                                            </div>
-                                            <div class="row dato-fila">
-                                                <div class="col-12">
-                                                    <span>Teléfono Convencial:</span>
-                                                </div>
-                                                <div class="col-12">
-                                                    <input type="text" class="form-control"
-                                                           [(ngModel)]="form.paciente.per_telf"
-                                                           [autocomplete]="false">
-                                                </div>
-                                            </div>
-                                            <div class="row dato-fila">
-                                                <div class="col-12">
-                                                    <span class="required">*</span><span>Celular:</span>
-                                                </div>
-                                                <div class="col-12">
-                                                    <input type="text" class="form-control" [autocomplete]="false"
-                                                           [(ngModel)]="form.paciente.per_movil">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="padding15">
-                                        <button class="btn btn-primary" (click)="guardaDatosPaciente()"> Siguiente <i
-                                                class="fa fa-arrow-right"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="panelMotConsulta" role="tabpanel"
-                             aria-labelledby="v-pills-profile-tab">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row dato-adc-fila">
-                                        <div class="col-12">
-                                            <span class="required">*</span><span>Motivo Consulta:</span>
-                                        </div>
-                                        <div class="col-12">
+                <div class="col-12">
                                         <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_motivo"
                                                   id="motivoConsultaTextArea">
                                         </textarea>
-                                        </div>
-                                    </div>
-                                    <div class="row dato-adc-fila">
-                                        <div class="col-12">
-                                            <span class="required">*</span><span>Enfermedad actual:</span>
-                                        </div>
-                                        <div class="col-12">
+                </div>
+            </div>
+            <div class="row dato-adc-fila">
+                <div class="col-12">
+                    <span class="required">*</span><span>Enfermedad actual:</span>
+                </div>
+                <div class="col-12">
                                         <textarea class="form-control" rows="5"
                                                   [(ngModel)]="form.datosconsulta.cosm_enfermactual">
                                         </textarea>
-                                        </div>
-                                    </div>
-                                    <div class="padding15">
-                                        <button class="btn btn-primary" (click)="guardaMotivoConsulta()"> Siguiente <i
-                                                class="fa fa-arrow-right"></i></button>
-                                    </div>
-                                </div>
+                </div>
+            </div>
+            <div class="padding15">
+                <button class="btn btn-primary" (click)="guardaMotivoConsulta()"> Siguiente <i
+                        class="fa fa-arrow-right"></i></button>
+            </div>
+        </p-tabPanel>
+
+        <p-tabPanel header="{{tabsFisicos.c.paso}}. {{tabsFisicos.c.titulo}}" *ngIf="tabsFisicos.c.visible">
+            <div class="row">
+                <div class="col">
+                    <div *ngFor="let it of form.antecedentes.slice(0,4);">
+                        <div class="row dato-adc-fila" *ngIf="showExamFisico(it)">
+                            <div class="col-12">
+                                <span>{{it.cmtv_valor}}:</span>
                             </div>
-                        </div>
-                        <div class="tab-pane fade" id="panelAntecedentes" role="tabpanel"
-                             aria-labelledby="v-pills-settings-tab">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div *ngFor="let it of form.antecedentes.slice(0,4);">
-                                                <div class="row dato-adc-fila" *ngIf="showExamFisico(it)">
-                                                    <div class="col-12">
-                                                        <span>{{it.cmtv_valor}}:</span>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div *ngIf="it.cmtv_tinput===1">
-                                                            <input type="text" class="form-control"
-                                                                   [(ngModel)]="it.valorreg"
-                                                                   id="inantecedentes_{{form.antecedentes.indexOf(it)}}">
-                                                        </div>
-                                                        <div *ngIf="it.cmtv_tinput===2">
+                            <div class="col">
+                                <div *ngIf="it.cmtv_tinput===1">
+                                    <input type="text" class="form-control"
+                                           [(ngModel)]="it.valorreg"
+                                           id="inantecedentes_{{form.antecedentes.indexOf(it)}}">
+                                </div>
+                                <div *ngIf="it.cmtv_tinput===2">
                                                             <textarea class="form-control" [(ngModel)]="it.valorreg"
                                                                       id="inantecedentes_{{form.antecedentes.indexOf(it)}}">
                                                             </textarea>
-                                                        </div>
-                                                        <div *ngIf="it.cmtv_tinput===3">
-                                                            <p-inputMask mask="99/99/9999" [(ngModel)]="it.valorreg"
-                                                                         placeholder="dd/mm/aaaa"
-                                                                         slotChar="dd/mm/aaaa"></p-inputMask>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col" *ngIf="form.paciente.per_genero==='2'">
-                                            <div *ngFor="let it of form.antecedentes.slice(4,10);">
-                                                <div class="row dato-adc-fila">
-                                                    <div class="col-12">
-                                                        <span>{{it.cmtv_valor}}:</span>
-                                                    </div>
-                                                    <div class="col">
-                                                        <input type="text" class="form-control"
-                                                               [(ngModel)]="it.valorreg"
-                                                               id="inantecedentes_{{form.antecedentes.indexOf(it)}}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="row dato-adc-fila"
-                                                 *ngFor="let it of form.antecedentes.slice(10,11);">
-                                                <div class="col-12">
-                                                    <span>{{it.cmtv_valor}}:</span>
-                                                </div>
-                                                <div class="col">
-                                                    <div *ngIf="it.cmtv_tinput===1">
-                                                        <input type="text" class="form-control"
-                                                               [(ngModel)]="it.valorreg"
-                                                               id="inantecedentes_{{form.antecedentes.indexOf(it)}}">
-                                                    </div>
+                                </div>
+                                <div *ngIf="it.cmtv_tinput===3">
+                                    <p-inputMask mask="99/99/9999" [(ngModel)]="it.valorreg"
+                                                 placeholder="dd/mm/aaaa"
+                                                 slotChar="dd/mm/aaaa"></p-inputMask>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" *ngIf="form.paciente.per_genero==='2'">
+                    <div *ngFor="let it of form.antecedentes.slice(4,10);">
+                        <div class="row dato-adc-fila">
+                            <div class="col-12">
+                                <span>{{it.cmtv_valor}}:</span>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control"
+                                       [(ngModel)]="it.valorreg"
+                                       id="inantecedentes_{{form.antecedentes.indexOf(it)}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row dato-adc-fila"
+                         *ngFor="let it of form.antecedentes.slice(10,11);">
+                        <div class="col-12">
+                            <span>{{it.cmtv_valor}}:</span>
+                        </div>
+                        <div class="col">
+                            <div *ngIf="it.cmtv_tinput===1">
+                                <input type="text" class="form-control"
+                                       [(ngModel)]="it.valorreg"
+                                       id="inantecedentes_{{form.antecedentes.indexOf(it)}}">
+                            </div>
 
-                                                    <div *ngIf="it.cmtv_tinput===2">
+                            <div *ngIf="it.cmtv_tinput===2">
                                             <textarea class="form-control" [(ngModel)]="it.valorreg"
                                                       id="inantecedentes_{{form.antecedentes.indexOf(it)}}">
                                             </textarea>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="padding15">
-                                        <button class="btn btn-primary" (click)="guardarAntecedentes()"> Siguiente <i
-                                                class="fa fa-arrow-right"></i></button>
-                                    </div>
-                                </div>
                             </div>
+
                         </div>
-                        <div class="tab-pane fade" id="panelRevXSis" role="tabpanel"
-                             aria-labelledby="v-pills-settings-tab">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="row dato-adc-fila"
-                                                 *ngFor="let it of form.revxsistemas.slice(0,5)">
-                                                <div class="col-12">
-                                                    <span>{{it.cmtv_valor}}:</span>
-                                                </div>
-                                                <div class="col">
-                                                    <div *ngIf="it.cmtv_tinput===1">
-                                                        <input type="text" class="form-control"
-                                                               [(ngModel)]="it.valorreg"
-                                                               id="inrevxsis_{{form.revxsistemas.indexOf(it)}}">
-                                                    </div>
-                                                    <div *ngIf="it.cmtv_tinput===2">
+                    </div>
+                </div>
+            </div>
+
+            <div class="padding15">
+                <button class="btn btn-primary" (click)="guardarAntecedentes()"> Siguiente <i
+                        class="fa fa-arrow-right"></i></button>
+            </div>
+        </p-tabPanel>
+
+        <p-tabPanel header="{{tabsFisicos.d.paso}}. {{tabsFisicos.d.titulo}}" *ngIf="tabsFisicos.d.visible">
+            <div class="row">
+                <div class="col">
+                    <div class="row dato-adc-fila"
+                         *ngFor="let it of form.revxsistemas.slice(0,5)">
+                        <div class="col-12">
+                            <span>{{it.cmtv_valor}}:</span>
+                        </div>
+                        <div class="col">
+                            <div *ngIf="it.cmtv_tinput===1">
+                                <input type="text" class="form-control"
+                                       [(ngModel)]="it.valorreg"
+                                       id="inrevxsis_{{form.revxsistemas.indexOf(it)}}">
+                            </div>
+                            <div *ngIf="it.cmtv_tinput===2">
                                             <textarea class="form-control" [(ngModel)]="it.valorreg"
                                                       id="inrevxsis_{{form.revxsistemas.indexOf(it)}}">
                                             </textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
+                            </div>
+                        </div>
+                    </div>
 
-                                        </div>
-                                        <div class="col">
-                                            <div class="row dato-adc-fila"
-                                                 *ngFor="let it of form.revxsistemas.slice(5,9)">
-                                                <div class="col-12">
-                                                    <span>{{it.cmtv_valor}}:</span>
-                                                </div>
-                                                <div class="col">
-                                                    <div *ngIf="it.cmtv_tinput===1">
-                                                        <input type="text" class="form-control"
-                                                               [(ngModel)]="it.valorreg"
-                                                               id="inrevxsis_{{form.revxsistemas.indexOf(it)}}">
-                                                    </div>
-                                                    <div *ngIf="it.cmtv_tinput===2">
+                </div>
+                <div class="col">
+                    <div class="row dato-adc-fila"
+                         *ngFor="let it of form.revxsistemas.slice(5,9)">
+                        <div class="col-12">
+                            <span>{{it.cmtv_valor}}:</span>
+                        </div>
+                        <div class="col">
+                            <div *ngIf="it.cmtv_tinput===1">
+                                <input type="text" class="form-control"
+                                       [(ngModel)]="it.valorreg"
+                                       id="inrevxsis_{{form.revxsistemas.indexOf(it)}}">
+                            </div>
+                            <div *ngIf="it.cmtv_tinput===2">
                                             <textarea class="form-control" [(ngModel)]="it.valorreg"
                                                       id="inrevxsis_{{form.revxsistemas.indexOf(it)}}">
                                             </textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="padding15">
-                                        <button class="btn btn-primary" (click)="guardarRevXSistemas()"> Siguiente <i
-                                                class="fa fa-arrow-right"></i></button>
-                                    </div>
-
-                                </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="panelExamFisico" role="tabpanel"
-                             aria-labelledby="v-pills-settings-tab">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div>
+                    </div>
+                </div>
+            </div>
 
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="row dato-adc-fila"
-                                                     *ngFor="let it of form.examsfisicos.slice(0,4)">
-                                                    <div class="col-12">
-                                                        <span>{{it.cmtv_valor}}</span>
-                                                        <span class="badge badge-light">{{it.cmtv_unidad}}</span>:
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div *ngIf="it.cmtv_tinput===1">
-                                                            <input type="text" class="form-control"
-                                                                   [(ngModel)]="it.valorreg"
-                                                                   id="inexamfis_{{form.examsfisicos.indexOf(it)}}"
-                                                                   (focusout)="calcularIMC(it)">
-                                                        </div>
-                                                        <div *ngIf="it.cmtv_tinput===2">
+            <div class="padding15">
+                <button class="btn btn-primary" (click)="guardarRevXSistemas()"> Siguiente <i
+                        class="fa fa-arrow-right"></i></button>
+            </div>
+        </p-tabPanel>
+
+        <p-tabPanel header="{{tabsFisicos.e.paso}}. {{tabsFisicos.e.titulo}}" *ngIf="tabsFisicos.e.visible">
+            <div>
+                <div class="row">
+                    <div class="col">
+                        <div class="row dato-adc-fila"
+                             *ngFor="let it of form.examsfisicos.slice(0,4)">
+                            <div class="col-12">
+                                <span>{{it.cmtv_valor}}</span>
+                                <span class="badge badge-light">{{it.cmtv_unidad}}</span>:
+                            </div>
+                            <div class="col-12">
+                                <div *ngIf="it.cmtv_tinput===1">
+                                    <input type="text" class="form-control"
+                                           [(ngModel)]="it.valorreg"
+                                           id="inexamfis_{{form.examsfisicos.indexOf(it)}}"
+                                           (focusout)="calcularIMC(it)">
+                                </div>
+                                <div *ngIf="it.cmtv_tinput===2">
                                                     <textarea class="form-control" [(ngModel)]="it.valorreg"
                                                               id="inexamfis_{{form.examsfisicos.indexOf(it)}}">
                                                     </textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12"
-                                                         *ngIf="it.cmtv_nombre === 'EXFIS_TA' && datosAlertaPresion.msg? datosAlertaPresion.msg.length>0:false ">
-                                                        <span style="color: {{datosAlertaPresion.color}}"> {{datosAlertaPresion.msg}} </span>
-                                                        <br>
-                                                    </div>
-                                                    <div class="col-12"
-                                                         *ngIf="it.cmtv_nombre === 'EXFIS_IMC' && datosAlertaImc.msg?datosAlertaImc.msg.length>0:false">
-                                                        <span style="color: {{datosAlertaImc.color}}"> {{datosAlertaImc.msg}} </span>
-                                                        <br>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="row dato-adc-fila"
-                                                     *ngFor="let it of form.examsfisicos.slice(4,9)">
-                                                    <div class="col-12">
-                                                        <span>{{it.cmtv_valor}}</span>
-                                                        <span class="badge badge-light">{{it.cmtv_unidad}}</span>:
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div *ngIf="it.cmtv_tinput===1">
-                                                            <input type="text" class="form-control"
-                                                                   [(ngModel)]="it.valorreg"
-                                                                   id="inexamfis_{{form.examsfisicos.indexOf(it)}}"
-                                                                   (focusout)="calcularIMC(it)">
-                                                        </div>
-                                                        <div *ngIf="it.cmtv_tinput===2">
+                                </div>
+                            </div>
+                            <div class="col-12"
+                                 *ngIf="it.cmtv_nombre === 'EXFIS_TA' && datosAlertaPresion.msg? datosAlertaPresion.msg.length>0:false ">
+                                <span style="color: {{datosAlertaPresion.color}}"> {{datosAlertaPresion.msg}} </span>
+                                <br>
+                            </div>
+                            <div class="col-12"
+                                 *ngIf="it.cmtv_nombre === 'EXFIS_IMC' && datosAlertaImc.msg?datosAlertaImc.msg.length>0:false">
+                                <span style="color: {{datosAlertaImc.color}}"> {{datosAlertaImc.msg}} </span>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row dato-adc-fila"
+                             *ngFor="let it of form.examsfisicos.slice(4,9)">
+                            <div class="col-12">
+                                <span>{{it.cmtv_valor}}</span>
+                                <span class="badge badge-light">{{it.cmtv_unidad}}</span>:
+                            </div>
+                            <div class="col-12">
+                                <div *ngIf="it.cmtv_tinput===1">
+                                    <input type="text" class="form-control"
+                                           [(ngModel)]="it.valorreg"
+                                           id="inexamfis_{{form.examsfisicos.indexOf(it)}}"
+                                           (focusout)="calcularIMC(it)">
+                                </div>
+                                <div *ngIf="it.cmtv_tinput===2">
                                                     <textarea class="form-control" [(ngModel)]="it.valorreg"
                                                               id="inexamfis_{{form.examsfisicos.indexOf(it)}}">
                                                     </textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12"
-                                                         *ngIf="it.cmtv_nombre === 'EXFIS_TA' && datosAlertaPresion.msg? datosAlertaPresion.msg.length>0:false ">
-                                                        <span style="color: {{datosAlertaPresion.color}}"> {{datosAlertaPresion.msg}} </span>
-                                                        <br>
-                                                    </div>
-                                                    <div class="col-12"
-                                                         *ngIf="it.cmtv_nombre === 'EXFIS_IMC' && datosAlertaImc.msg?datosAlertaImc.msg.length>0:false">
-                                                        <span style="color: {{datosAlertaImc.color}}"> {{datosAlertaImc.msg}} </span>
-                                                        <br>
-                                                    </div>
-                                                </div>
+                                </div>
+                            </div>
+                            <div class="col-12"
+                                 *ngIf="it.cmtv_nombre === 'EXFIS_TA' && datosAlertaPresion.msg? datosAlertaPresion.msg.length>0:false ">
+                                <span style="color: {{datosAlertaPresion.color}}"> {{datosAlertaPresion.msg}} </span>
+                                <br>
+                            </div>
+                            <div class="col-12"
+                                 *ngIf="it.cmtv_nombre === 'EXFIS_IMC' && datosAlertaImc.msg?datosAlertaImc.msg.length>0:false">
+                                <span style="color: {{datosAlertaImc.color}}"> {{datosAlertaImc.msg}} </span>
+                                <br>
+                            </div>
+                        </div>
 
-                                            </div>
-                                        </div>
+                    </div>
+                </div>
 
-                                        <div class="row dato-fila">
-                                            <div class="col-12">
-                                                <span>Descripción de Hallazgos:</span>
-                                            </div>
-                                            <div class="col-12">
+                <div class="row dato-fila">
+                    <div class="col-12">
+                        <span>Descripción de Hallazgos:</span>
+                    </div>
+                    <div class="col-12">
                                                 <textarea class="form-control"
                                                           [(ngModel)]="form.datosconsulta.cosm_hallazgoexamfis">
                                                 </textarea>
-                                            </div>
-                                        </div>
+                    </div>
+                </div>
 
-                                        <div class="padding15">
-                                            <button class="btn btn-primary" (click)="guardarExamenFisico()"> Siguiente
-                                                <i
-                                                        class="fa fa-arrow-right"></i></button>
-                                        </div>
+                <div class="padding15">
+                    <button class="btn btn-primary" (click)="guardarExamenFisico()"> Siguiente
+                        <i
+                                class="fa fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </p-tabPanel>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="panelExamComple" role="tabpanel"
-                             aria-labelledby="v-pills-settings-tab">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row dato-fila">
-                                        <div class="col-12">
-                                            <span>Exámenes Complementarios:</span>
-                                        </div>
-                                        <div class="col-12">
+        <p-tabPanel header="{{tabsFisicos.f.paso}}. {{tabsFisicos.f.titulo}}" *ngIf="tabsFisicos.f.visible">
+            <div class="row dato-fila">
+                <div class="col-12">
+                    <span>Exámenes Complementarios:</span>
+                </div>
+                <div class="col-12">
                                             <textarea class="form-control"
                                                       [(ngModel)]="form.datosconsulta.cosm_exmscompl"
                                                       id="inexamcompl_0">
                                             </textarea>
-                                        </div>
-                                    </div>
+                </div>
+            </div>
 
-                                    <div class="padding15">
-                                        <button class="btn btn-primary" (click)="guardarExamCompl()"> Siguiente <i
-                                                class="fa fa-arrow-right"></i></button>
-                                    </div>
+            <div class="padding15">
+                <button class="btn btn-primary" (click)="guardarExamCompl()"> Siguiente <i
+                        class="fa fa-arrow-right"></i></button>
+            </div>
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="panelDiagnostico" role="tabpanel"
-                             aria-labelledby="v-pills-settings-tab">
-                            <div class="card">
-                                <div class="card-body">
+        </p-tabPanel>
+        <p-tabPanel header="{{tabsFisicos.g.paso}}. {{tabsFisicos.g.titulo}}" *ngIf="tabsFisicos.g.visible">
+            <app-odontograma (messageToEmit)="getMessage($event)"></app-odontograma>
 
-                                    <div class="row dato-fila">
-                                        <div class="col-12">
-                                            <span class="required">*</span><span>Diagnóstico:</span>
-                                        </div>
-                                        <!--
-                                        <div class="col-12">
-                                            <p-dropdown [options]="ciedataArray" id="diagnostico_id"
-                                                        [(ngModel)]="form.datosconsulta.cosm_diagnostico"
-                                                        [virtualScroll]="true"
-                                                        placeholder="Seleccione o busque la enfermedad diagnosticada"
-                                                        [showClear]="true"
-                                                        [style]="{width:'100%', overflow:'visible'}"
-                                                        itemSize="50"
-                                                        filter="true"
-                                                        optionLabel="ciekeyval"
-                                                        inputId="diagnostico_id"></p-dropdown>
-                                        </div>
-                                        -->
-                                    </div>
+            <div class="padding15">
+                <button class="btn btn-primary" (click)="guardarOdontograma()"> Siguiente <i
+                        class="fa fa-arrow-right"></i></button>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="{{tabsFisicos.h.paso}}. {{tabsFisicos.h.titulo}}" *ngIf="tabsFisicos.h.visible">
+            <div class="row dato-fila">
+                <div class="col-12">
+                    <span class="required">*</span><span>Diagnóstico:</span>
+                </div>
+            </div>
 
-                                    <div class="dato-fila">
-                                        <div class="row dato-fila-diag"
-                                             *ngFor="let sdiag of selectedDiags; let i=index">
-                                            <div class="col-11">
-                                                <p-dropdown [options]="ciedataArray" id="diagnostico_id_{{i}}"
-                                                            [(ngModel)]="selectedDiags[i]"
-                                                            [virtualScroll]="true"
-                                                            placeholder="Seleccione o busque la enfermedad diagnosticada"
-                                                            [showClear]="true"
-                                                            [style]="{width:'100%', overflow:'visible'}"
-                                                            itemSize="50"
-                                                            filter="true"
-                                                            optionLabel="ciekeyval"
-                                                            inputId="diagnostico_id_{{i}}"></p-dropdown>
-                                            </div>
-                                            <div class="col-1 quitaPaddingLR">
-                                                <button class="btn btn-sm btn-outline-warning"
-                                                        (click)="removeDiagnostico(sdiag)"
-                                                        *ngIf="i>0"
-                                                        title="Quitar este diagnóstico"><span
-                                                        class="fa fa-minus-circle"></span></button>
-                                                <button class="btn btn-sm btn-outline-primary"
-                                                        (click)="addDiagnostico()"
-                                                        *ngIf="i===selectedDiags.length-1 && sdiag"
-                                                        title="Agregar otro diagnóstico"><span
-                                                        class="fa fa-plus-circle"></span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row dato-fila">
-                                        <div class="col-12">
-                                            <span>Diagnóstico Alternativo:</span>
-                                        </div>
-                                        <div class="col-12">
-                                        <textarea class="form-control"
-                                                  [(ngModel)]="form.datosconsulta.cosm_diagnosticoal">
-                                        </textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row dato-fila">
-                                        <div class="col-12">
-                                            <span class="required">*</span><span>Tratamiento:</span>
-                                        </div>
-                                        <div class="col-12">
-                                        <textarea class="form-control"
-                                                  [(ngModel)]="form.datosconsulta.cosm_tratamiento">
-                                        </textarea>
-                                        </div>
-                                    </div>
-                                    <div class="row dato-fila">
-                                        <div class="col-12">
-                                            <span class="required">*</span><span>Receta:</span>
-                                        </div>
-                                        <div class="col-12">
-                                        <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_receta"
-                                                  rows="10">
-                                        </textarea>
-                                        </div>
-                                    </div>
-                                    <div class="row dato-fila">
-                                        <div class="col-12">
-                                            <span class="required">*</span><span>Indicaciones Receta:</span>
-                                        </div>
-                                        <div class="col-12">
-                                        <textarea class="form-control"
-                                                  [(ngModel)]="form.datosconsulta.cosm_indicsreceta" rows="10">
-                                        </textarea>
-                                        </div>
-                                    </div>
-                                    <div class="row dato-fila">
-                                        <div class="col-12">
-                                            <span>Recomendaciones:</span>
-                                        </div>
-                                        <div class="col-12">
-                                        <textarea class="form-control"
-                                                  [(ngModel)]="form.datosconsulta.cosm_recomendaciones">
-                                        </textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row dato-fila">
-                                        <div class="col-12">
-                                            <span>Fecha Próxima Cita (dd/mm/aaaa):</span>
-                                        </div>
-                                        <div class="col-12">
-                                            <p-calendar id="cosm_fechaproxcita"
-                                                        [(ngModel)]="form.datosconsulta.cosm_fechaproxcita"
-                                                        [showIcon]="true"
-                                                        [locale]="es" inputId="cosm_fechaproxcita"
-                                                        [monthNavigator]="true" [yearNavigator]="true"
-                                                        [minDate]="currentDate"
-                                                        yearRange="2020:2100"
-                                                        dateFormat="dd/mm/yy"></p-calendar>
-                                            <div class="btn-group btn-group-sm" role="group"
-                                                 aria-label="Fecha de la próxima cita" style="padding-left: 10px">
-                                                <button type="button" class="btn btn-outline-secondary"
-                                                        title="Dentro de una semana" (click)="sumarDias(7)">+7
-                                                </button>
-                                                <button type="button" class="btn btn-outline-secondary"
-                                                        title="Dentro de dos semanas" (click)="sumarDias(15)">+15
-                                                </button>
-                                                <button type="button" class="btn btn-outline-secondary"
-                                                        title="Dentro de 20 dias" (click)="sumarDias(20)">+20
-                                                </button>
-                                                <button type="button" class="btn btn-outline-secondary"
-                                                        title="Dentro de un mes" (click)="sumarDias(30)">+30
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="padding15">
-                                        <div class="btn-group" role="group" aria-label="Botones de acción"
-                                             style="padding-left: 10px">
-                                            <button class="btn btn-primary" *ngIf="saved" (click)="imprimirReceta()">
-                                                Imprimir Receta <i
-                                                    class="fa fa-print"></i></button>
-
-                                            <button class="btn btn-primary" [disabled]="saved"
-                                                    (click)="guardarDiagnostico()"> Guardar <i
-                                                    class="fa fa-save"></i></button>
-
-                                            <button class="btn btn-primary" *ngIf="saved" (click)="limpiar()"> Cerrar <i
-                                                    class="fa fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="dato-fila">
+                <div class="row dato-fila-diag"
+                     *ngFor="let sdiag of selectedDiags; let i=index">
+                    <div class="col-11">
+                        <p-dropdown [options]="ciedataArray" id="diagnostico_id_{{i}}"
+                                    [(ngModel)]="selectedDiags[i]"
+                                    [virtualScroll]="true"
+                                    placeholder="Seleccione o busque la enfermedad diagnosticada"
+                                    [showClear]="true"
+                                    [style]="{width:'100%', overflow:'visible'}"
+                                    itemSize="50"
+                                    filter="true"
+                                    optionLabel="ciekeyval"
+                                    inputId="diagnostico_id_{{i}}"></p-dropdown>
+                    </div>
+                    <div class="col-1 quitaPaddingLR">
+                        <button class="btn btn-sm btn-outline-warning"
+                                (click)="removeDiagnostico(sdiag)"
+                                *ngIf="i>0"
+                                title="Quitar este diagnóstico"><span
+                                class="fa fa-minus-circle"></span></button>
+                        <button class="btn btn-sm btn-outline-primary"
+                                (click)="addDiagnostico()"
+                                *ngIf="i===selectedDiags.length-1 && sdiag"
+                                title="Agregar otro diagnóstico"><span
+                                class="fa fa-plus-circle"></span></button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+
+
+            <div class="row dato-fila">
+                <div class="col-12">
+                    <span>Diagnóstico Alternativo:</span>
+                </div>
+                <div class="col-12">
+                                        <textarea class="form-control"
+                                                  [(ngModel)]="form.datosconsulta.cosm_diagnosticoal">
+                                        </textarea>
+                </div>
+            </div>
+
+            <div class="row dato-fila" *ngIf="tipoHistoria === 1">
+                <div class="col-12">
+                    <span class="required">*</span><span>Tratamiento:</span>
+                </div>
+                <div class="col-12">
+                                        <textarea class="form-control"
+                                                  [(ngModel)]="form.datosconsulta.cosm_tratamiento">
+                                        </textarea>
+                </div>
+            </div>
+            <div class="row dato-fila">
+                <div class="col-12">
+                    <span class="required">*</span><span>Receta:</span>
+                </div>
+                <div class="col-12">
+                                        <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_receta"
+                                                  rows="10">
+                                        </textarea>
+                </div>
+            </div>
+            <div class="row dato-fila">
+                <div class="col-12">
+                    <span class="required">*</span><span>Indicaciones Receta:</span>
+                </div>
+                <div class="col-12">
+                                        <textarea class="form-control"
+                                                  [(ngModel)]="form.datosconsulta.cosm_indicsreceta" rows="10">
+                                        </textarea>
+                </div>
+            </div>
+            <div class="row dato-fila">
+                <div class="col-12">
+                    <span>Recomendaciones:</span>
+                </div>
+                <div class="col-12">
+                                        <textarea class="form-control"
+                                                  [(ngModel)]="form.datosconsulta.cosm_recomendaciones">
+                                        </textarea>
+                </div>
+            </div>
+
+            <div class="row dato-fila">
+                <div class="col-12">
+                    <span>Fecha Próxima Cita (dd/mm/aaaa):</span>
+                </div>
+                <div class="col-12">
+                    <p-calendar id="cosm_fechaproxcita"
+                                [(ngModel)]="form.datosconsulta.cosm_fechaproxcita"
+                                [showIcon]="true"
+                                [locale]="es" inputId="cosm_fechaproxcita"
+                                [monthNavigator]="true" [yearNavigator]="true"
+                                [minDate]="currentDate"
+                                yearRange="2020:2100"
+                                dateFormat="dd/mm/yy"></p-calendar>
+                    <div class="btn-group btn-group-sm" role="group"
+                         aria-label="Fecha de la próxima cita" style="padding-left: 10px">
+                        <button type="button" class="btn btn-outline-secondary"
+                                title="Dentro de una semana" (click)="sumarDias(7)">+7
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary"
+                                title="Dentro de dos semanas" (click)="sumarDias(15)">+15
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary"
+                                title="Dentro de 20 dias" (click)="sumarDias(20)">+20
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary"
+                                title="Dentro de un mes" (click)="sumarDias(30)">+30
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="padding15">
+                <div class="btn-group" role="group" aria-label="Botones de acción"
+                     style="padding-left: 10px">
+                    <button class="btn btn-primary" *ngIf="saved" (click)="imprimirReceta()">
+                        Imprimir Receta <i
+                            class="fa fa-print"></i></button>
+
+                    <button class="btn btn-primary" [disabled]="saved"
+                            (click)="guardarDiagnostico()"> Guardar <i
+                            class="fa fa-save"></i></button>
+
+                    <button class="btn btn-primary" *ngIf="saved" (click)="limpiar()"> Cerrar <i
+                            class="fa fa-times"></i></button>
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
 </div>

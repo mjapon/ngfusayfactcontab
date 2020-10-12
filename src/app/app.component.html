@@ -1,31 +1,21 @@
 <app-fusaynavbar *ngIf="!isLogged"></app-fusaynavbar>
 <app-loggednavbar *ngIf="isLogged"></app-loggednavbar>
 
-<!--<div class="wrapper">-->
 <div class="{{isLogged?'container-fluid':'container'}}" style="display: flex; flex-wrap: nowrap;">
-    <div class="sidebar" *ngIf="isLogged">
-        <nav id="sidebar">
-            <p-panelMenu [model]="menuApp" [transitionOptions]="'0ms'" *ngIf="isLogged" [style]="{'width':'180px'}"
-                         [multiple]="false"></p-panelMenu>
-        </nav>
+    <div style="width: 100%;">
+        <p-toast position="top-right"></p-toast>
+        <p-blockUI [blocked]="blocked">
+            <div class="loading-container">
+                <p-progressSpinner></p-progressSpinner>
+                <div>
+                    <span style="color: white !important;">Procesando...</span>
+                </div>
+            </div>
+        </p-blockUI>
+        <br>
+        <router-outlet></router-outlet>
     </div>
-  <!-- Page Content  -->
-  <div style="width: 100%; padding-left: 10px">
-      <p-toast position="top-right"></p-toast>
-      <p-blockUI [blocked]="blocked">
-          <div class="loading-container">
-              <p-progressSpinner></p-progressSpinner>
-              <div>
-                  <span style="color: white !important;">Procesando...</span>
-              </div>
-          </div>
-      </p-blockUI>
-      <br>
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-<!--</div>-->
+</div>
 
 <app-fusayfooter *ngIf="!isLogged"></app-fusayfooter>
 <app-appfooter *ngIf="isLogged"></app-appfooter>
-

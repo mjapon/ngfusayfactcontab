@@ -1,0 +1,441 @@
+.contdiente {
+    position: relative;
+    width: 52px !important;
+    height: 60px !important;
+    border: 0px dashed grey;
+    display: inline-block;
+    margin-right: 2px;
+}
+
+.contdiente:hover {
+
+}
+
+.nmargen-diente {
+    position: absolute;
+    top: 0px;
+    left: 15px;
+    width: 20px;
+    height: 15px;
+}
+
+.contdienteleche {
+    position: relative;
+    width: 41px !important;
+    height: 58px !important;
+    border: 0px dashed grey;
+    display: inline-block;
+    margin-right: 4px;
+}
+
+.mdienteleche {
+    position: absolute;
+    width: 40px !important;
+    height: 40px !important;
+    border: 0px solid red;
+    top: 17px;
+    left: 0px;
+    z-index: 10;
+}
+
+.mdienteleche:hover {
+    border: 1px dashed #e4e4e4;
+}
+
+.nmargen-dienteleche {
+    position: absolute;
+    top: 0px;
+    left: 11px;
+    width: 20px;
+    height: 15px;
+}
+
+.mfondodienteleche {
+    position: absolute;
+    width: 40px !important;
+    height: 40px !important;
+    border: 0px solid blue;
+    top: 17px;
+    left: 0px;
+    z-index: 20;
+}
+
+.mfondodienteleche:hover {
+    cursor: pointer;
+    border: 1px dashed #e4e4e4;
+}
+
+.mcuadroleche {
+    background-color: #FFFFFF;
+    border: 1px solid #7F7F7F;
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    -webkit-border-radius: 80px 80px 0px 0px;
+    -moz-border-radius: 80px 80px 0px 0px;
+    border-radius: 80px 80px 0px 0px;
+}
+
+.mcuadroleche:hover {
+    cursor: pointer;
+}
+
+.mcentroleche {
+    top: 13px;
+    left: 13px;
+    background: #F3F3F3;
+    border: 0px solid #7F7F7F;
+    width: 13px;
+    height: 13px;
+    position: absolute;
+}
+
+.mcentroleche:hover {
+    cursor: pointer;
+}
+
+.marribaleche {
+    top: 0px;
+    left: 13px;
+}
+
+.mizquierdoleche {
+    left: 0px;
+    top: 13px;
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+
+.mdebajoleche {
+    top: 26px;
+    left: 13px;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.mderechaleche {
+    left: 26px;
+    top: 13px;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.mdiente {
+    position: absolute;
+    width: 52px !important;
+    height: 55px !important;
+    border: 0px solid red;
+    top: 17px;
+    left: 0px;
+    z-index: 10;
+}
+
+.mdiente:hover {
+    border: 1px dashed #e4e4e4;
+}
+
+.mfondodiente {
+    position: absolute;
+    width: 52px !important;
+    height: 55px !important;
+    border: 0px solid blue;
+    top: 17px;
+    left: 0px;
+    z-index: 20;
+}
+
+.mfondodiente:hover {
+    cursor: pointer;
+    border: 1px dashed #e4e4e4;
+}
+
+.mcuadro {
+    background-color: #FFFFFF;
+    border: 1px solid #7F7F7F;
+    position: absolute;
+    width: 26px;
+    height: 26px;
+}
+
+.mcuadro:hover {
+    cursor: pointer;
+}
+
+.mcentro {
+    top: 13px;
+    left: 13px;
+    background: #F3F3F3;
+    border: 0px solid #7F7F7F;
+    width: 26px;
+    height: 26px;
+    position: absolute;
+}
+
+.mcentro:hover {
+    cursor: pointer;
+}
+
+.marriba {
+    top: 0px;
+    left: 13px;
+    height: 13px !important;
+    -moz-border-radius: 100px 100px 0 0;
+    -webkit-border-radius: 100px 100px 0 0;
+    border-radius: 100px 100px 0 0;
+}
+
+.mizquierdo {
+    left: 0px;
+    top: 13px;
+    width: 13px !important;
+    -moz-border-radius: 100px 0px 0px 100px;
+    -webkit-border-radius: 100px 0px 0px 100px;
+    border-radius: 100px 0px 0px 100px;
+}
+
+.mdebajo {
+    top: 39px;
+    left: 13px;
+    height: 13px !important;
+    -moz-border-radius: 0px 0px 100px 100px;
+    -webkit-border-radius: 0px 0px 100px 100px;
+    border-radius: 0px 0px 100px 100px;
+}
+
+.mderecha {
+    left: 39px;
+    top: 13px;
+    -moz-border-radius: 0px 100px 100px 0px;
+    -webkit-border-radius: 0px 100px 100px 0px;
+    border-radius: 0px 100px 100px 0px;
+    width: 13px !important;
+}
+
+.m-aster-rojo {
+    background-image: url("/assets/imgs/asterrojo.png");
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+.m-aster-rojo-leche {
+    background-image: url("/assets/imgs/asterrojoleche.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.m-aster-azul {
+    background-image: url("/assets/imgs/asterazul.png");
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+.m-aster-azul-leche {
+    background-image: url("/assets/imgs/asterazulleche.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.m-x-rojo {
+    background-image: url("/assets/imgs/xrojo.png");
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+.m-x-rojo-leche {
+    background-image: url("/assets/imgs/xrojoleche.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.m-x-azul {
+    background-image: url("/assets/imgs/xazul.png");
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+.m-x-azul-leche {
+    background-image: url("/assets/imgs/xazulleche.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.m-endo-rojo {
+    background-image: url("/assets/imgs/endorojo.png");
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+.m-endo-azul {
+    background-image: url("/assets/imgs/endoazul.png");
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+.m-endo-rojoleche {
+    background-image: url("/assets/imgs/endorojoleche.png");
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+.m-endo-azulleche {
+    background-image: url("/assets/imgs/endoazulleche.png");
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+.m-corona-azul {
+    background-image: url("/assets/imgs/coronaazul.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.m-corona-rojo {
+    background-image: url("/assets/imgs/coronarojo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.m-corona-azulleche {
+    background-image: url("/assets/imgs/coronaazulleche.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.m-corona-rojoleche {
+    background-image: url("/assets/imgs/coronarojoleche.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.caries-mediano {
+    background-image: url("/assets/imgs/cariesmediano.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.caries-pequeño {
+    background-image: url("/assets/imgs/cariespequeño.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.implante {
+    background-image: url("/assets/imgs/implante.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#tlr {
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+
+#tr {
+    border-right: 1px solid black;
+}
+
+#tll {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+}
+
+#tl {
+    border-left: 1px solid black;
+}
+
+#blr {
+    border-right: 1px solid black;
+}
+
+#br {
+    border-right: 1px solid black;
+}
+
+#bl {
+    border-left: 1px solid black;
+}
+
+#bll {
+    border-left: 1px solid black;
+}
+
+.fondorojo {
+    background-color: red !important;
+}
+
+.fondoazul {
+    background-color: blue;
+}
+
+.borderojo {
+    border: 2px solid red !important;
+}
+
+.text-rojo {
+    color: red;
+}
+
+.text-azul {
+    color: blue;
+}
+
+.endonecesaria {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 16px solid red;
+}
+
+.endorealizada {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 16px solid blue;
+}
+
+.caries {
+    width: 16px;
+    height: 16px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: red;
+}
+
+.cariesm {
+    width: 10px;
+    height: 10px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: red;
+}
+
+.cariesp {
+    width: 5px;
+    height: 5px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: red;
+}
+
+.obturado {
+    width: 16px;
+    height: 16px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: blue;
+}
