@@ -52,12 +52,12 @@ export class CitasMedicasService extends BaseService {
     }
 
     imprimir(ccm: any) {
-        const rutaserver = 'http://www.fusay.org/tomcat/imprentas/RecetaServlet?ccm=' + ccm;
+        const rutaserver = 'http://mavil.site/tomcat/imprentas/RecetaServlet?ccm=' + ccm;
         window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=500,height=700');
     }
 
     imprimirHistoria(ch: any) {
-        const rutaserver = 'http://www.fusay.org/tomcat/imprentas/HistoriaClinicaServlet?ch=' + ch;
+        const rutaserver = 'http://mavil.site/tomcat/imprentas/HistoriaClinicaServlet?ch=' + ch;
         window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=700');
     }
 

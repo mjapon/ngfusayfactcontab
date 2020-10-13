@@ -245,7 +245,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy {
                 codigo: 15, nombre: 'Implante', classTapa: 'implante',
                 classTapaLeche: 'implante'
             },
-            16: {codigo: 16, nombre: 'Caries', cssClass: 'caries-pequeño'},
+            16: {codigo: 16, nombre: 'Caries Incipiente', cssClass: 'caries-pequenio'},
             17: {codigo: 17, nombre: 'Caries', cssClass: 'caries-mediano'}
 
         };
@@ -370,7 +370,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy {
             } else {
                 const estilos = diente[lado].estilos;
                 let cssprop = 'fondo';
-                if (cssclass === 'fondorojo' || cssclass === 'caries-pequeño' || cssclass === 'caries-mediano') {
+                if (cssclass === 'fondorojo' || cssclass === 'caries-pequenio' || cssclass === 'caries-mediano') {
                     if (this.arrayUtil.contains(Object.values(estilos), 'fondoazul')) {
                         cssprop = 'borde';
                         cssclass = 'borderojo';

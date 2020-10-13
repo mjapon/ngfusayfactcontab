@@ -9,7 +9,6 @@ import {AppComponent} from './app.component';
 import {LoginComponent} from './components/login/login.component';
 import {HomeComponent} from './components/home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MenuComponent} from './components/shared/menu/menu.component';
 import {MenuModule} from 'primeng/menu';
 import {PanelMenuModule} from 'primeng/panelmenu';
 import {DropdownModule} from 'primeng/dropdown';
@@ -45,20 +44,15 @@ import {LoadcomponentComponent} from './components/shared/loadcomponent/loadcomp
 import {FusayfooterComponent} from './components/shared/fusayfooter/fusayfooter.component';
 
 import {GalleriaModule} from 'primeng/galleria';
-import {MiembrodirectivaComponent} from './components/miembrodirectiva/miembrodirectiva.component';
 import {EventosComponent} from './components/eventos/eventos.component';
 import {EventosformComponent} from './components/eventos/eventosform/eventosform.component';
 import {EventosdetComponent} from './components/eventos/eventosdet/eventosdet.component';
-import {PersonaformComponent} from './components/personas/personaform/personaform.component';
-import {ValidationMessagesComponent} from './components/shared/validation-messages/validation-messages.component';
 import {DatePipe, registerLocaleData} from '@angular/common';
-import {Congreso2020Component} from './components/blog/congreso2020/congreso2020.component';
 import {LoggednavbarComponent} from './components/shared/loggednavbar/loggednavbar.component';
 import {LoggedHomeComponent} from './components/logged/logged-home/logged-home.component';
 
 import {BreadcrumbModule} from 'primeng/breadcrumb';
-import {BlogComponent} from './components/blogs/blog/blog.component';
-import {BlogsComponent} from './components/blogs/blogs.component';
+
 import {AppfooterComponent} from './components/shared/appfooter/appfooter.component';
 import {TicketComponent} from './components/tickets/ticket/ticket.component';
 import {TicketformComponent} from './components/tickets/ticketform/ticketform.component';
@@ -123,7 +117,6 @@ export function provideConfig() {
         AppComponent,
         LoginComponent,
         HomeComponent,
-        MenuComponent,
         ContribsListComponent,
         ContribsFormComponent,
         PageHeaderComponent,
@@ -139,17 +132,11 @@ export function provideConfig() {
         FusaynavbarComponent,
         LoadcomponentComponent,
         FusayfooterComponent,
-        MiembrodirectivaComponent,
         EventosComponent,
         EventosformComponent,
         EventosdetComponent,
-        PersonaformComponent,
-        ValidationMessagesComponent,
-        Congreso2020Component,
         LoggednavbarComponent,
         LoggedHomeComponent,
-        BlogComponent,
-        BlogsComponent,
         AppfooterComponent,
         TicketComponent,
         TicketformComponent,

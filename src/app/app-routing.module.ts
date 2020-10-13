@@ -11,14 +11,11 @@ import {ArticulosListComponent} from './components/articulos/articulos-list/arti
 import {ArticulosFormComponent} from './components/articulos/articulos-form/articulos-form.component';
 import {ReferentesListComponent} from './components/referentes/referentes-list/referentes-list.component';
 import {ReferentesFormComponent} from './components/referentes/referentes-form/referentes-form.component';
-import {MiembrodirectivaComponent} from './components/miembrodirectiva/miembrodirectiva.component';
+
 import {EventosComponent} from './components/eventos/eventos.component';
 import {EventosformComponent} from './components/eventos/eventosform/eventosform.component';
 import {EventosdetComponent} from './components/eventos/eventosdet/eventosdet.component';
-import {Congreso2020Component} from './components/blog/congreso2020/congreso2020.component';
 import {LoggedHomeComponent} from './components/logged/logged-home/logged-home.component';
-import {BlogsComponent} from './components/blogs/blogs.component';
-import {BlogComponent} from './components/blogs/blog/blog.component';
 import {TicketComponent} from './components/tickets/ticket/ticket.component';
 import {TicketformComponent} from './components/tickets/ticketform/ticketform.component';
 import {ArticulosViewComponent} from './components/articulos/articulos-view/articulos-view.component';
@@ -50,14 +47,10 @@ const routes: Routes = [
     {path: 'contribs', component: ContribsListComponent},
     {path: 'telemedicina', component: TelemedicinaComponent},
     {path: 'contribs/:cnt_id', component: ContribsFormComponent},
-    {path: 'directiva/:tipo', component: MiembrodirectivaComponent},
     {path: 'referentes', component: ReferentesListComponent},
     {path: 'eventos', component: EventosComponent},
     {path: 'eventosform', component: EventosformComponent},
     {path: 'eventos/:ev_id', component: EventosdetComponent},
-    {path: 'congreso2020', component: Congreso2020Component},
-    {path: 'blogs', component: BlogsComponent},
-    {path: 'blog/:blg_id', component: BlogComponent},
     {
         path: 'referentesForm/:ref_id/:ref_tipo',
         component: ReferentesFormComponent
