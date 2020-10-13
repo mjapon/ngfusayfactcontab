@@ -1,0 +1,7 @@
+
+.scrol-list-group {
+    max-height: 300px;
+    margin-bottom: 0px;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}

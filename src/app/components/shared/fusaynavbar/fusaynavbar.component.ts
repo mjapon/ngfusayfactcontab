@@ -84,7 +84,7 @@ export class FusaynavbarComponent implements OnInit, OnDestroy {
     showModalLogin() {
         this.submited = false;
         this.initLoginForm();
-        $('#modalLogin').modal();
+        this.router.navigate(['login']);
     }
 
     logout() {

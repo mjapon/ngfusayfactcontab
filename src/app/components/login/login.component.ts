@@ -1,76 +1,93 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SwalService} from '../../services/swal.service';
-import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {LocalStorageService} from '../../services/local-storage.service';
-import {MessageService} from 'primeng/api';
+import {FautService} from '../../services/faut.service';
+import {SeccionService} from '../../services/seccion.service';
+import {UsertokenService} from '../../services/usertoken.service';
+import {UiService} from "../../services/ui.service";
 
 @Component({
     selector: 'app-login',
+    styleUrls: ['./login.component.css'],
     templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
-    angForm: FormGroup;
+    loginForm: FormGroup;
     submited: boolean;
+    secciones: Array<any>;
 
     constructor(
         private fb: FormBuilder,
-        private authService: AuthService,
+        private fautService: FautService,
         private swalService: SwalService,
         private router: Router,
         private localStorageService: LocalStorageService,
-        private messageService: MessageService
+        private seccionService: SeccionService,
+        private uiService: UiService,
+        private userTokenService: UsertokenService
     ) {
-        this.createForm();
+
     }
 
     get f() {
-        return this.angForm.controls;
+        return this.loginForm.controls;
     }
 
     ngOnInit() {
-
+        this.createForm();
     }
 
     createForm() {
-        this.angForm = this.fb.group({
-            empresa: ['', Validators.required],
-            usuario: ['', Validators.required],
-            clave: ['', Validators.required]
+        const globalCodEmpresa = this.localStorageService.getItem('GLOBAL_COD_EMPRESA');
+        let codEmpresa = '';
+        let codFocus = 'empresaInput';
+        if (globalCodEmpresa) {
+            codEmpresa = globalCodEmpresa;
+            codFocus = 'usernameInput';
+        }
+        this.loginForm = this.fb.group({
+            empresa: [codEmpresa, Validators.required],
+            username: ['', Validators.required],
+            password: ['', Validators.required]
         });
+        console.log('Se establece el foco en:', codFocus);
+        this.uiService.setFocusById(codFocus, 1500);
     }
 
     onclickSubmit() {
         this.submited = true;
-        const formvalue: any = this.angForm.value;
-        if (this.angForm.invalid) {
+        if (this.loginForm.invalid) {
             return;
         }
 
-        this.authService
-            .autenticar(formvalue.empresa, formvalue.usuario, formvalue.clave)
-            .subscribe((response: any) => {
-                if (response.estado === 200) {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Éxito',
-                        detail: response.msg
+        const form = this.loginForm.value;
+        this.fautService.autenticar(form.empresa, form.username, form.password).subscribe(
+            res => {
+                if (res.autenticado) {
+                    this.localStorageService.setItem('GLOBAL_COD_EMPRESA', form.empresa);
+                    this.fautService.publishMessage('login');
+                    this.fautService.setAsAuthenticated(res.userinfo, res.token, res.menu, res.seccion, res.empNombreComercial);
+                    this.swalService.fireToastSuccess('', 'Bienvenido: ' + res.userinfo.per_nombres);
+                    this.router.navigate(['lghome']);
+                    this.seccionService.listar().subscribe(ressec => {
+                        if (ressec.status === 200) {
+                            this.secciones = ressec.items;
+                            this.fautService.setSecciones(this.secciones);
+                            this.fautService.publishMessage('updateSecciones');
+                        }
                     });
-
-                    const menu = response.menu;
-                    this.localStorageService.setItem('globalMenu', menu);
-                    this.localStorageService.setItem('authtoken', response.token);
-                    this.localStorageService.setItem('islogged', 'true');
-                    this.localStorageService.setItem('tdvCodigo', response.tdv_codigo);
-
-                    this.authService.changeMessage('true');
-                    this.router.navigate(['home']);
-                } else if (response.estado === 400) {
-                    this.swalService.fireWarning(response.msg, 'Bad');
+                    this.userTokenService.getMenu(res.userinfo.us_id).subscribe(resMenu => {
+                        if (resMenu.status === 200) {
+                            this.fautService.setMenuApp(resMenu.menu);
+                            this.fautService.publishMessage('loadmenu');
+                        }
+                    });
                 } else {
-                    this.swalService.fireError('Error al procesar petición', 'HOO!');
+                    this.swalService.fireWarning('Usuario o clave incorrectos');
                 }
-            });
+            }
+        );
     }
 }
