@@ -88,7 +88,6 @@ import {CitasmedicasComponent} from './components/citas/citasmedicas/citasmedica
 import {VticketComponent} from './components/tickets/vtickets/vticket/vticket.component';
 import {VticketformComponent} from './components/tickets/vtickets/vticketform/vticketform.component';
 import {OdontogramaComponent} from './components/citas/odontograma/odontograma.component';
-import {HistoriaCliOdontoComponent} from './components/citas/historia-cli-odonto/historia-cli-odonto.component';
 import {RoleslistComponent} from './components/usuarios/roles/roleslist/roleslist.component';
 import {RolesformComponent} from './components/usuarios/roles/rolesform/rolesform.component';
 import {UserlistComponent} from './components/usuarios/userlist/userlist.component';
@@ -151,7 +150,6 @@ export function provideConfig() {
         VticketComponent,
         VticketformComponent,
         OdontogramaComponent,
-        HistoriaCliOdontoComponent,
         RoleslistComponent,
         RolesformComponent,
         UserlistComponent,
