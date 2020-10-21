@@ -92,6 +92,8 @@ import {RoleslistComponent} from './components/usuarios/roles/roleslist/roleslis
 import {RolesformComponent} from './components/usuarios/roles/rolesform/rolesform.component';
 import {UserlistComponent} from './components/usuarios/userlist/userlist.component';
 import {UserformComponent} from './components/usuarios/userform/userform.component';
+import {TrubrosComponent} from './components/tickets/vtickets/trubros/trubros.component';
+import {TrubrosformComponent} from './components/tickets/vtickets/trubrosform/trubrosform.component';
 
 registerLocaleData(localeEs, 'es-EC');
 
@@ -153,7 +155,9 @@ export function provideConfig() {
         RoleslistComponent,
         RolesformComponent,
         UserlistComponent,
-        UserformComponent
+        UserformComponent,
+        TrubrosComponent,
+        TrubrosformComponent
     ],
     imports: [
         BrowserModule,

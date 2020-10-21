@@ -20,6 +20,11 @@ export class UsertokenService extends BaseService {
         return this.doGet(this.http, endpoint, httpOptions);
     }
 
+    getFormCrea(): Observable<any> {
+        const httpOptions = this.getHttpOptionsToken({accion: 'formcrea'});
+        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+    }
+
     listarUsuarios(): Observable<any> {
         const httpOptions = this.getHttpOptionsToken({accion: 'listar'});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
@@ -29,6 +34,12 @@ export class UsertokenService extends BaseService {
         const form = {us_id: usId, roles: rolesList};
         const httpOptions = this.getHttpOptionsToken({accion: 'setroles'});
         return this.doPost(this.http, this.urlEndPoint, httpOptions, form);
+    }
+
+    crearUsuario(form: any, formcli: any): Observable<any> {
+        const theform = {form, formcli};//Editado
+        const httpOptions = this.getHttpOptionsToken({accion: 'creauser'});
+        return this.doPost(this.http, this.urlEndPoint, httpOptions, theform);
     }
 
     listarPermisos(usId: number): Observable<any> {
@@ -41,6 +52,11 @@ export class UsertokenService extends BaseService {
         const httpOptions = this.getHttpOptionsToken({accion: 'gmenu'});
         const endpoint = this.urlEndPoint + '/' + usId.toString();
         return this.doGet(this.http, endpoint, httpOptions);
+    }
+
+    chkexiste(perId: number): Observable<any> {
+        const httpOptions = this.getHttpOptionsToken({accion: 'chkexiste', per_id: perId});
+        return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
 }

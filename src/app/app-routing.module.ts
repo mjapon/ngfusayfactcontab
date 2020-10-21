@@ -31,6 +31,8 @@ import {RoleslistComponent} from './components/usuarios/roles/roleslist/roleslis
 import {RolesformComponent} from './components/usuarios/roles/rolesform/rolesform.component';
 import {UserlistComponent} from './components/usuarios/userlist/userlist.component';
 import {UserformComponent} from './components/usuarios/userform/userform.component';
+import {TrubrosComponent} from './components/tickets/vtickets/trubros/trubros.component';
+import {TrubrosformComponent} from './components/tickets/vtickets/trubrosform/trubrosform.component';
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -65,6 +67,8 @@ const routes: Routes = [
     {path: 'roles/form/:rl_id', component: RolesformComponent},
     {path: 'usuarios', component: UserlistComponent},
     {path: 'usuarios/form/:us_id', component: UserformComponent},
+    {path: 'rubros', component: TrubrosComponent},
+    {path: 'rubros/form/:ic_id', component: TrubrosformComponent},
     {path: '**', component: HomeComponent}
 ];
 

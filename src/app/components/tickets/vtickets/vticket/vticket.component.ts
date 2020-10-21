@@ -132,4 +132,8 @@ export class VticketComponent implements OnInit {
     onCuentaChange($event: any) {
         this.loadGrid();
     }
+
+    goTipos() {
+        this.router.navigate(['rubros']);
+    }
 }

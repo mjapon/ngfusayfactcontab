@@ -1,21 +1,14 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light navcorp shadow-sm">
     <a class="navbar-brand" href="#">{{empNombreComercial}} <small>{{seccion.sec_nombre}}</small> </a>
-
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
     <button class="btn btn-sm btn-outline-success" style="margin-right: 5px" (click)="goHome()"><span
             class="fa fa-home"></span></button>
     <button class="btn btn-sm btn-outline-success" (click)="themenu.toggle($event)"><span class="fa fa-bars"></span>
     </button>
-
-    <!--
-    <button type="button" pButton pRipple icon="pi pi-bars" label="" class="p-button-danger" (click)="themenu.toggle($event)"></button>
-    -->
     <p-menu #themenu [popup]="true" [model]="menuApp"></p-menu>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
 
@@ -27,7 +20,9 @@
             </li>
             <li class="nav-item">
                 <div class="form-inline my-2 my-lg-0">
-                    <button class="btn btn-sm btn-outline-success my-2 my-sm-0" (click)="logout()"> Salir</button>
+                    <button class="btn btn-sm btn-outline-success" (click)="logout()"><span
+                            class="fa fa-sign-out"></span> Salir
+                    </button>
                 </div>
             </li>
         </ul>

@@ -16,28 +16,115 @@
     <div class="col-md-10">
         <div class="row">
             <div class="col">
-                <div>
+                <div *ngIf="usId>0">
                     <div class="form-group">
                         <label for="perNombres"><span class="required">*</span>Nombres:</label>
                         <input type="text" maxlength="30" class="form-control" [disabled]="false" [readOnly]="true"
-                               id="perNombres" name="rl_name" [(ngModel)]="form.persona.per_nombres" placeholder=""
+                               id="perNombres" name="rl_name" [(ngModel)]="formcli.per_nombres" placeholder=""
                                autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="perApellidos"><span class="required">*</span>Apellidos:</label>
                         <input type="text" maxlength="30" class="form-control" [disabled]="false" [readOnly]="true"
-                               id="perApellidos" name="rl_name" [(ngModel)]="form.persona.per_apellidos" placeholder=""
+                               id="perApellidos" name="rl_name" [(ngModel)]="formcli.per_apellidos" placeholder=""
                                autocomplete="off">
+                    </div>
+                </div>
+                <div *ngIf="usId==0">
+
+                    <div class="card border-success">
+                        <div class="card-header border-success">
+                            Datos del referente
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="ciPasInput">
+                                    <span class="required">*</span>
+                                    Número Cédula/Pasaporte:</label>
+                                <input type="text" maxlength="15" class="form-control"
+                                       (keyup.enter)="setFocus('nomApelInput')" id="ciPasInput" name="per_ciruc"
+                                       (blur)="buscarPersona()" [(ngModel)]="formcli.per_ciruc" placeholder=""
+                                       autocomplete="off">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="nomApelInput">
+                                    <span class="required">*</span>
+                                    Nombres:</label>
+                                <input type="text" maxlength="80" class="form-control"
+                                       (keyup)="$event.target.value=$event.target.value.toUpperCase()"
+                                       (keyup.enter)="setFocus('ApelInput')" id="nomApelInput" name="per_nombres"
+                                       [(ngModel)]="formcli.per_nombres" placeholder="" autocomplete="off">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ApelInput">Apellidos:</label>
+                                <input type="text" maxlength="80" class="form-control " id="ApelInput"
+                                       (keyup)="$event.target.value=$event.target.value.toUpperCase()"
+                                       (keyup.enter)="setFocus('numCelInput')" name="per_apellidos"
+                                       [(ngModel)]="formcli.per_apellidos" placeholder="" autocomplete="off">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="numCelInput">
+                                    <i class="fa fa-phone"></i>
+                                    Nro Teléfono Celular:</label>
+                                <input type="text" class="form-control " id="numCelInput"
+                                       (keyup.enter)="setFocus('emailInput')" name="per_movil"
+                                       [(ngModel)]="formcli.per_movil" placeholder="" autocomplete="off">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="emailInput">
+                                    <i class="fa fa-envelope"></i>
+                                    Dirección de correo:</label>
+                                <input type="email" class="form-control " id="emailInput" name="per_email"
+                                       (keyup.enter)="setFocus('obsInput')" [(ngModel)]="formcli.per_email"
+                                       placeholder="" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-success">
+                        <div class="card-header border-success">
+                            Datos de la cuenta
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="numCelInput">
+                                    <span class="required">*</span>
+                                    Nombre de la cuenta:</label>
+                                <input type="text" class="form-control " id="usCuentaInput" maxlength="20"
+                                       (keyup.enter)="setFocus('usClaveInput')" name="us_cuenta"
+                                       [(ngModel)]="form.us_cuenta" placeholder="" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label for="numCelInput">
+                                    <span class="required">*</span>
+                                    Clave:</label>
+                                <input type="password" class="form-control " id="usClaveInput" maxlength="15"
+                                       (keyup.enter)="setFocus('usConfirmClaveInput')" name="us_clave"
+                                       [(ngModel)]="form.us_clave" placeholder="" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label for="numCelInput">
+                                    <span class="required">*</span>
+                                    Confirma clave:</label>
+                                <input type="password" class="form-control " id="usConfirmClaveInput" maxlength="15"
+                                       name="us_confirmclave" [(ngModel)]="form.us_confirmclave" placeholder=""
+                                       autocomplete="off">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="col">
-                <div class="card">
-                    <div class="card-header">
-                        <span class="text-primary">Roles</span>
+                <div class="card border-success">
+                    <div class="card-header border-success">
+                        <span>Roles</span>
                     </div>
-                    <ul class="list-group list-group-flush scrol-list-group">
+                    <ul class="list-group list-group-flush">
                         <li class="list-group-item hand list-group-item-action {{item.rl_marca?'list-group-item-success':''}}"
                             *ngFor="let item of roles" (click)="selectRol(item)"><i
                                 class="fa  {{item.rl_marca?'fa-check-square-o':'fa-square-o'}}"></i>

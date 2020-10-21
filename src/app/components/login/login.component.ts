@@ -6,7 +6,7 @@ import {LocalStorageService} from '../../services/local-storage.service';
 import {FautService} from '../../services/faut.service';
 import {SeccionService} from '../../services/seccion.service';
 import {UsertokenService} from '../../services/usertoken.service';
-import {UiService} from "../../services/ui.service";
+import {UiService} from '../../services/ui.service';
 
 @Component({
     selector: 'app-login',
@@ -37,6 +37,13 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         this.createForm();
+        this.verificarLogueado();
+    }
+
+    verificarLogueado() {
+        if (this.fautService.isAuthenticated()) {
+            this.router.navigate(['lghome']);
+        }
     }
 
     createForm() {
@@ -52,7 +59,6 @@ export class LoginComponent implements OnInit {
             username: ['', Validators.required],
             password: ['', Validators.required]
         });
-        console.log('Se establece el foco en:', codFocus);
         this.uiService.setFocusById(codFocus, 1500);
     }
 

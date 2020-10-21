@@ -60,7 +60,6 @@ export class TicketformComponent implements OnInit {
                 }
             });
         }
-
     }
 
     setFocus(inputid) {

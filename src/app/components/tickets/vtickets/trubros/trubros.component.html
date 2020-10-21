@@ -1,6 +1,6 @@
 <div class="row align-items-end">
     <div class="col-md-4">
-        <h4>Lista de usuarios</h4>
+        <h4>Tipos de rubros</h4>
     </div>
     <div class="col">
         <div class="btn-group pull-right" role="group" aria-label="Default button group">
@@ -9,7 +9,8 @@
             </button>
             <button type="button" class="btn btn-outline-success" (click)="nuevo()">
                 <i class="fa fa-plus-circle"></i>
-                Crear</button>
+                Crear
+            </button>
         </div>
     </div>
 </div>
@@ -36,10 +37,12 @@
                 {{rowData[item['field']]}}
             </td>
             <td>
+                <!--
                 <button class="btn btn-sm btn-outline-dark" style="margin-right: 5px" (click)="anularRow(rowData)"
                         title="Anular">
                     <i class="fa fa-trash"></i>
                 </button>
+                -->
                 <button class="btn btn-sm btn-outline-dark" (click)="editarRow(rowData)" title="Editar">
                     <i class="fa fa-pencil"></i>
                 </button>
