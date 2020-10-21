@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {BaseService} from "./base-service";
-import {HttpClient} from "@angular/common/http";
-import {LocalStorageService} from "./local-storage.service";
-import {Observable} from "rxjs";
+import {BaseService} from './base-service';
+import {HttpClient} from '@angular/common/http';
+import {LocalStorageService} from './local-storage.service';
+import {Observable} from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +19,7 @@ export class ArticulostockService extends BaseService {
 
     getForm(icId: number): Observable<any> {
         const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({accion: 'form', 'ic_id': icId});
+        const httpOptions = this.getHttpOptionsToken({accion: 'form', ic_id: icId});
 
         return this.doGet(this.http, endopoint, httpOptions);
     }

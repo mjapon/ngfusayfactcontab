@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {BaseService} from "./base-service";
-import {HttpClient} from "@angular/common/http";
-import {LocalStorageService} from "./local-storage.service";
-import {BehaviorSubject} from "rxjs";
+import {BaseService} from './base-service';
+import {HttpClient} from '@angular/common/http';
+import {LocalStorageService} from './local-storage.service';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -69,17 +69,17 @@ export class PacienteService extends BaseService {
     }
 
     getMatrizHoras(med_id: number, dia: any) {
-        const httpOptions = this.getHttpOptions({'accion': 'matrizhoras', 'med_id': med_id, 'dia': dia});
+        const httpOptions = this.getHttpOptions({accion: 'matrizhoras', med_id: med_id, dia: dia});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
     listarCitas(med_id: number, dia: any) {
-        const httpOptions = this.getHttpOptions({'accion': 'citasmedico', 'med_id': med_id, 'dia': dia});
+        const httpOptions = this.getHttpOptions({accion: 'citasmedico', med_id: med_id, dia: dia});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
     getDatosUser(email: string) {
-        const httpOptions = this.getHttpOptions({'accion': 'getdatauser', 'email': email});
+        const httpOptions = this.getHttpOptions({accion: 'getdatauser', email: email});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
@@ -90,7 +90,7 @@ export class PacienteService extends BaseService {
     }
 
     listarCitasPaciente(email: string) {
-        const httpOptions = this.getHttpOptions({'accion': 'citaspaciente', 'email': email});
+        const httpOptions = this.getHttpOptions({accion: 'citaspaciente', email: email});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 }

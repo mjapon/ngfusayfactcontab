@@ -13,8 +13,7 @@ import {MenuModule} from 'primeng/menu';
 import {PanelMenuModule} from 'primeng/panelmenu';
 import {DropdownModule} from 'primeng/dropdown';
 import {CalendarModule} from 'primeng/calendar';
-import {ContribuyenteService} from './services/contribuyente.service';
-import {ContribsListComponent} from './components/contribs/contribs-list/contribs-list.component';
+
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {TableModule} from 'primeng/table';
 import {MenubarModule} from 'primeng/menubar';
@@ -22,7 +21,6 @@ import {SelectButtonModule} from 'primeng/selectbutton';
 import {ButtonModule} from 'primeng/button';
 import {SidebarModule} from 'primeng/sidebar';
 import {AccordionModule} from 'primeng/accordion';
-import {ContribsFormComponent} from './components/contribs/contribs-form/contribs-form.component';
 import {PageHeaderComponent} from './components/shared/page-header/page-header.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './services/auth.service';
@@ -36,11 +34,8 @@ import {ArticulosListComponent} from './components/articulos/articulos-list/arti
 import {ArticulosFormComponent} from './components/articulos/articulos-form/articulos-form.component';
 import {DateFormatPipe} from './pipes/date-format.pipe';
 import {DisableControlDirective} from './directives/disablecontrol.directive';
-import {ReferentesListComponent} from './components/referentes/referentes-list/referentes-list.component';
-import {ReferentesFormComponent} from './components/referentes/referentes-form/referentes-form.component';
 import {AuditInterceptorService} from './services/rates/audit-interceptor.service';
 import {FusaynavbarComponent} from './components/shared/fusaynavbar/fusaynavbar.component';
-import {LoadcomponentComponent} from './components/shared/loadcomponent/loadcomponent.component';
 import {FusayfooterComponent} from './components/shared/fusayfooter/fusayfooter.component';
 
 import {GalleriaModule} from 'primeng/galleria';
@@ -59,7 +54,6 @@ import {TicketformComponent} from './components/tickets/ticketform/ticketform.co
 import {ArticulosViewComponent} from './components/articulos/articulos-view/articulos-view.component';
 import {ArticulosBatchComponent} from './components/articulos/articulos-batch/articulos-batch.component';
 import {ArticuloItemBatchComponent} from './components/articulos/articulo-item-batch/articulo-item-batch.component';
-import {TelemedicinaComponent} from './components/telemedicina/telemedicina.component';
 import {AuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider, SocialLoginModule} from 'angularx-social-login';
 import {StepsModule} from 'primeng/steps';
 import localeEs from '@angular/common/locales/es-EC';
@@ -81,9 +75,6 @@ import {
     ToolbarModule
 } from 'primeng';
 
-import {MiscitasComponent} from './components/citas/miscitas/miscitas.component';
-import {LoginpacienteComponent} from './components/loginpaciente/loginpaciente.component';
-import {CitaspacienteComponent} from './components/citas/citaspaciente/citaspaciente.component';
 import {CitasmedicasComponent} from './components/citas/citasmedicas/citasmedicas.component';
 import {VticketComponent} from './components/tickets/vtickets/vticket/vticket.component';
 import {VticketformComponent} from './components/tickets/vtickets/vticketform/vticketform.component';
@@ -97,7 +88,7 @@ import {TrubrosformComponent} from './components/tickets/vtickets/trubrosform/tr
 
 registerLocaleData(localeEs, 'es-EC');
 
-let config = new AuthServiceConfig([
+const config = new AuthServiceConfig([
     {
         id: GoogleLoginProvider.PROVIDER_ID,
         provider: new GoogleLoginProvider(environment.googleLoginApp)
@@ -118,8 +109,6 @@ export function provideConfig() {
         AppComponent,
         LoginComponent,
         HomeComponent,
-        ContribsListComponent,
-        ContribsFormComponent,
         PageHeaderComponent,
         StartComponent,
         AperturaCajaComponent,
@@ -128,10 +117,7 @@ export function provideConfig() {
         ArticulosFormComponent,
         DateFormatPipe,
         DisableControlDirective,
-        ReferentesListComponent,
-        ReferentesFormComponent,
         FusaynavbarComponent,
-        LoadcomponentComponent,
         FusayfooterComponent,
         EventosComponent,
         EventosformComponent,
@@ -144,10 +130,6 @@ export function provideConfig() {
         ArticulosViewComponent,
         ArticulosBatchComponent,
         ArticuloItemBatchComponent,
-        TelemedicinaComponent,
-        MiscitasComponent,
-        LoginpacienteComponent,
-        CitaspacienteComponent,
         CitasmedicasComponent,
         VticketComponent,
         VticketformComponent,
@@ -199,7 +181,6 @@ export function provideConfig() {
         AutoCompleteModule
     ],
     providers: [
-        ContribuyenteService,
         AuthService,
         MessageService,
         DateFormatPipe,

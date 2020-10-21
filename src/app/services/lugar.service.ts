@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {BaseService} from "./base-service";
-import {HttpClient} from "@angular/common/http";
-import {LocalStorageService} from "./local-storage.service";
-import {Observable} from "rxjs";
+import {BaseService} from './base-service';
+import {HttpClient} from '@angular/common/http';
+import {LocalStorageService} from './local-storage.service';
+import {Observable} from 'rxjs';
 
 @Injectable({
     providedIn: 'root'

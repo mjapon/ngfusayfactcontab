@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ArticuloService} from '../../../services/articulo.service';
-import {ReferenteService} from '../../../services/referente.service';
 import {CategoriasService} from '../../../services/categorias.service';
 import {TipoCajaService} from '../../../services/tipocaja.service';
 import {UnidadesService} from '../../../services/unidades.service';
@@ -57,7 +56,6 @@ export class ArticulosFormComponent implements OnInit {
         private fb: FormBuilder,
         private artService: ArticuloService,
         private artStockService: ArticulostockService,
-        private refsService: ReferenteService,
         private catsService: CategoriasService,
         private tipoCajaService: TipoCajaService,
         private unidadesService: UnidadesService,
