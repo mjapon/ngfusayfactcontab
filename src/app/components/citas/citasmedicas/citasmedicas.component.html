@@ -70,11 +70,11 @@
     </div>
 
     <div id="AtencionesHechas" *ngIf="selectedSupTab===2">
-        <app-citashechas></app-citashechas>
+        <app-citashechas [tipocita]="tipoHistoria"></app-citashechas>
     </div>
 
     <div id="CitasPlanificadas" *ngIf="selectedSupTab===3">
-        <app-citasplaned></app-citasplaned>
+        <app-citasplaned [tipocita]="tipoHistoria"></app-citasplaned>
     </div>
 
 </div>

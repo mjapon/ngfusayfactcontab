@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FechasService} from '../../../services/fechas.service';
 import {CitasMedicasService} from '../../../services/citas-medicas.service';
 import {DateFormatPipe} from '../../../pipes/date-format.pipe';
@@ -20,6 +20,7 @@ export class CitashechasComponent implements OnInit {
     hasMore: boolean;
     rowHistoriaSel: any;
     showModalDet: boolean;
+    @Input() tipocita: number;
 
     constructor(private fechasService: FechasService,
                 private citasMedicasServ: CitasMedicasService,
@@ -69,7 +70,7 @@ export class CitashechasComponent implements OnInit {
         }
 
         this.showAnim = true;
-        this.citasMedicasServ.listarPrevias(this.filtro, desdeStr, hastaStr, this.pagina).subscribe(res => {
+        this.citasMedicasServ.listarPrevias(this.tipocita, this.filtro, desdeStr, hastaStr, this.pagina).subscribe(res => {
             this.showAnim = false;
             if (res.status === 200) {
                 this.atencionesArray.push.apply(this.atencionesArray, res.items);

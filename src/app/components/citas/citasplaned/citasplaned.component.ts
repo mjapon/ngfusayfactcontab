@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {CitasMedicasService} from '../../../services/citas-medicas.service';
 import {ConsMedicaMsgService} from '../../../services/cons-medica-msg.service';
@@ -16,6 +16,7 @@ export class CitasplanedComponent implements OnInit {
     enableBtns: boolean;
     tipoFiltro: number;
     fechasstr: string;
+    @Input() tipocita: number;
 
     constructor(private loadingUiService: LoadingUiService,
                 private citasMedicasService: CitasMedicasService,
@@ -32,7 +33,7 @@ export class CitasplanedComponent implements OnInit {
 
     loadGrid() {
         this.loadingUiService.publishBlockMessage();
-        this.citasMedicasService.listarProximas(this.tipoFiltro).subscribe(res => {
+        this.citasMedicasService.listarProximas(this.tipoFiltro, this.tipocita).subscribe(res => {
             this.cols = res.grid.cols;
             this.items = res.grid.data;
             this.fechasstr = res.fechas;

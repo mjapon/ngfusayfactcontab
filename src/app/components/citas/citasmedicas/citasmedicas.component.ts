@@ -67,8 +67,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     selectedDiags: any[];
     tipoHistoria: number;
 
-    receivedChildMessage: string;
-
     @ViewChild('divHistoriaAnt') divHistoriaAnt: any;
     @ViewChild('mainDiv') mainDiv: any;
     @ViewChild('divListaPacientes') divListaPaciente: any;
@@ -614,6 +612,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 }
                 formToPost.paciente.per_fechanac = fechaNac;
                 formToPost.datosconsulta.cosm_fechaproxcita = fechaProxCita;
+                formToPost.datosconsulta.cosm_tipo = this.tipoHistoria;
                 formToPost.datosconsulta.diagnosticos = this.selectedDiags;
                 this.loadingUiService.publishBlockMessage();
                 if (this.tipoHistoria === 2) {
