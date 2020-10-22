@@ -1,0 +1,92 @@
+<div style="margin-bottom: 10px">
+    <div *ngIf="!showfiltro" class="d-flex justify-content-start">
+        <button class="btn btn-outline-success" (click)="toggleShowFiltro()"><i class="fa fa-filter"></i> Filtar
+        </button>
+    </div>
+    <div class="row d-flex align-items-end" *ngIf="showfiltro">
+        <div class="col-md-4">
+            <div class="d-flex justify-content-center">
+                <div>
+                    <p class="quitaPaddingMargin">Desde:</p>
+                    <p-calendar [showIcon]="true"
+                                [(ngModel)]="desde"
+                                [locale]="es"
+                                [monthNavigator]="true" [yearNavigator]="true"
+                                yearRange="2019:2050"
+                                dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+                <div>
+                    <p class="quitaPaddingMargin">Hasta:</p>
+                    <p-calendar [showIcon]="true"
+                                [(ngModel)]="hasta"
+                                [locale]="es"
+                                [monthNavigator]="true" [yearNavigator]="true" [minDate]="desde"
+                                yearRange="2019:2050"
+                                dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <input class="form-control form-rounded" id="buscaPacNomCiInput" type="text"
+                   placeholder="Buscar paciente por nombres o número de cédula" [(ngModel)]="filtro"
+                   (keyup)="onFiltroTyped()">
+        </div>
+        <div class="col-md-3">
+            <div class="d-flex justify-content-around">
+                <button class="btn btn-success" (click)="buscar()"><i class="fa fa-search"></i> Buscar
+                </button>
+                <button class="btn btn-outline-success" (click)="toggleShowFiltro()"><i class="fa fa-times"></i>
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="atencionesArray.length>0" class="divpacientes rounded-lg">
+    <div class="list-group">
+        <a *ngFor="let item of atencionesArray" class="list-group-item {{!item.tipo?'list-group-item-action hand':''}}"
+           (click)="selectPaciente(item)">
+            <span *ngIf="item.tipo" class="text-primary"> {{item.mes}} </span>
+            <div class="d-flex w-100 justify-content-center" *ngIf="!item.tipo">
+                <div style="padding-right:20px !important; width: 6%">
+                    <img src="assets/imgs/{{item.genero===2?'female.png':'male.png'}}" alt="Avatar">
+                </div>
+                <div style="width: 45%">
+                    <p class="quitaPaddingMargin text-muted"> {{item.horacreastr}} </p>
+                    <h6 class="mb-0">{{item.paciente}}</h6>
+                    <p class="mb-0 text-muted">
+                        <h8>{{item.per_ciruc}}</h8>
+                    </p>
+                    <p class="mb-0">
+                        <h8>{{item.lugresidencia}}</h8>
+                    </p>
+                </div>
+                <div style="width: 45%">
+                    <p class="quitaPaddingMargin text-muted">Motivo:</p>
+                    <h8>{{item.cosm_motivo}}</h8>
+                </div>
+                <div style="width: 4%" title="Ver detalles de la consulta">
+                    <i class="fa fa-eye"></i>
+                </div>
+            </div>
+        </a>
+        <a class="list-group-item list-group-item-action" *ngIf="hasMore">
+            <p class="text-center">
+                <button class="btn btn-outline-primary" (click)="loadMore()"> Listar mas</button>
+            </p>
+        </a>
+    </div>
+</div>
+<div class="text-center" *ngIf="showAnim">
+    <img src="assets/anim.gif"
+         alt="procesando">
+</div>
+
+<div *ngIf="showModalDet">
+    <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '80vw'}" [baseZIndex]="10000"
+              [(visible)]="showModalDet">
+        <app-citadet [rowHistoriaSel]="rowHistoriaSel" [isCollapse]="false"
+                     (closed)="onCerrarDetHistoria($event)"></app-citadet>
+    </p-dialog>
+</div>

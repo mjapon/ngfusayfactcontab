@@ -21,7 +21,6 @@ import {SelectButtonModule} from 'primeng/selectbutton';
 import {ButtonModule} from 'primeng/button';
 import {SidebarModule} from 'primeng/sidebar';
 import {AccordionModule} from 'primeng/accordion';
-import {PageHeaderComponent} from './components/shared/page-header/page-header.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './services/auth.service';
 import {StartComponent} from './components/start/start.component';
@@ -35,8 +34,8 @@ import {ArticulosFormComponent} from './components/articulos/articulos-form/arti
 import {DateFormatPipe} from './pipes/date-format.pipe';
 import {DisableControlDirective} from './directives/disablecontrol.directive';
 import {AuditInterceptorService} from './services/rates/audit-interceptor.service';
-import {FusaynavbarComponent} from './components/shared/fusaynavbar/fusaynavbar.component';
-import {FusayfooterComponent} from './components/shared/fusayfooter/fusayfooter.component';
+import {FusaynavbarComponent} from './components/shared/initnavbar/fusaynavbar.component';
+import {FusayfooterComponent} from './components/shared/initfooter/fusayfooter.component';
 
 import {GalleriaModule} from 'primeng/galleria';
 import {EventosComponent} from './components/eventos/eventos.component';
@@ -48,7 +47,7 @@ import {LoggedHomeComponent} from './components/logged/logged-home/logged-home.c
 
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 
-import {AppfooterComponent} from './components/shared/appfooter/appfooter.component';
+import {AppfooterComponent} from './components/shared/loggedfooter/appfooter.component';
 import {TicketComponent} from './components/tickets/ticket/ticket.component';
 import {TicketformComponent} from './components/tickets/ticketform/ticketform.component';
 import {ArticulosViewComponent} from './components/articulos/articulos-view/articulos-view.component';
@@ -63,6 +62,7 @@ import {
     CarouselModule,
     CheckboxModule,
     ContextMenuModule,
+    DialogModule,
     EditorModule,
     InputMaskModule,
     MegaMenuModule,
@@ -85,6 +85,9 @@ import {UserlistComponent} from './components/usuarios/userlist/userlist.compone
 import {UserformComponent} from './components/usuarios/userform/userform.component';
 import {TrubrosComponent} from './components/tickets/vtickets/trubros/trubros.component';
 import {TrubrosformComponent} from './components/tickets/vtickets/trubrosform/trubrosform.component';
+import {CitashechasComponent} from './components/citas/citashechas/citashechas.component';
+import {CitasplanedComponent} from './components/citas/citasplaned/citasplaned.component';
+import {CitadetComponent} from './components/citas/citadet/citadet.component';
 
 registerLocaleData(localeEs, 'es-EC');
 
@@ -109,7 +112,6 @@ export function provideConfig() {
         AppComponent,
         LoginComponent,
         HomeComponent,
-        PageHeaderComponent,
         StartComponent,
         AperturaCajaComponent,
         CierreCajaComponent,
@@ -139,7 +141,10 @@ export function provideConfig() {
         UserlistComponent,
         UserformComponent,
         TrubrosComponent,
-        TrubrosformComponent
+        TrubrosformComponent,
+        CitashechasComponent,
+        CitasplanedComponent,
+        CitadetComponent
     ],
     imports: [
         BrowserModule,
@@ -155,6 +160,7 @@ export function provideConfig() {
         MenubarModule,
         SelectButtonModule,
         ToolbarModule,
+        DialogModule,
         ButtonModule,
         SplitButtonModule,
         InputMaskModule,

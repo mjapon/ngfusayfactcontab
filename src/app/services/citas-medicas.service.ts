@@ -71,4 +71,13 @@ export class CitasMedicasService extends BaseService {
         return this.doPost(this.http, this.urlEndPoint, httpOptions, {cosm_id: cosmId});
     }
 
+    listarPrevias(filtro: string, desde: string, hasta: string, pag: number) {
+        const httpOptions = this.getHttpOptionsToken({accion: 'cpreviasfiltropag', filtro, desde, hasta, pag});
+        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+    }
+
+    listarProximas(tipofecha: number) {
+        const httpOptions = this.getHttpOptionsToken({accion: 'proxcitas', tipofecha});
+        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+    }
 }

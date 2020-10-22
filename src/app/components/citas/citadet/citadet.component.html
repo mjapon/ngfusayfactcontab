@@ -1,0 +1,220 @@
+<div id="historiaSelPanel" class="{{isCollapse?'collapse':''}}">
+    <!-- Motivo de consulta -->
+    <div class="card border-secondary">
+        <div id="HistPanelMotivoConsulta">
+            <div class="row dato-adc-fila" *ngIf="!isCollapse">
+                <div class="col-md-6">
+                    <h6>
+                        {{historiaSel.paciente.per_nombres + ' ' + historiaSel.paciente.per_apellidos}}
+                        -  {{historiaSel.paciente.per_ciruc}}
+                    </h6>
+                </div>
+                <div class="col-md-6">
+                    <span>Fecha nacimiento:</span>
+                    {{historiaSel.paciente.per_fechanac}}
+                </div>
+            </div>
+
+            <div class="row dato-adc-fila">
+                <div class="col-md-3">
+                    <span class="text-muted">Fecha:</span>
+                </div>
+                <div class="col">
+                    <div class="padflex">
+                        <p>
+                            {{rowHistoriaSel.cosm_fechacrea}}
+                        </p>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Botones de acción"
+                             style="padding-left: 10px">
+                            <button class="btn btn-outline-primary" (click)="imprimirHistoria()">
+                                Historia <i class="fa fa-print"></i></button>
+                            <button class="btn btn-outline-primary" (click)="imprimirRecetaAnterior()">
+                                Receta <i class="fa fa-print"></i></button>
+                            <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()">
+                                Cerrar <i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row dato-adc-fila">
+                <div class="col-md-3">
+                    <span class="text-muted">Motivo Consulta:</span>
+                </div>
+                <div class="col">
+                    <p>
+                        {{historiaSel.datosconsulta.cosm_motivo}}
+                    </p>
+                </div>
+            </div>
+            <div class="row dato-adc-fila">
+                <div class="col-md-3">
+                    <span class="text-muted">Enfermedad actual:</span>
+                </div>
+                <div class="col">
+                    <p>
+                        {{historiaSel.datosconsulta.cosm_enfermactual}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-secondary">
+        <div class="card-header quitaPadding">
+            Antecedentes Personales
+        </div>
+        <div id="HistPanelAntecedentes">
+            <div class="row dato-adc-fila" *ngFor="let it of historiaSel.antecedentes;">
+                <div class="col-md-4">
+                    <span class="text-muted">{{it.cmtv_valor}}:</span>
+                </div>
+                <div class="col-md-8">
+                    <p>
+                        {{it.valorreg}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-secondary">
+        <div class="card-header quitaPadding">
+            Revisión por sistemas
+        </div>
+        <div id="HistPanelRevXSistemas">
+            <div class="row dato-adc-fila" *ngFor="let it of historiaSel.revxsistemas">
+                <div class="col-md-4">
+                    <span class="text-muted">{{it.cmtv_valor}}:</span>
+                </div>
+                <div class="col-md-8">
+                    <p>
+                        {{it.valorreg}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-secondary">
+        <div class="card-header quitaPadding">
+            Exámenes Físicos
+        </div>
+        <div id="HistPanelExamenFisico">
+            <div class="row dato-adc-fila" *ngFor="let it of historiaSel.examsfisicos">
+                <div class="col-md-4">
+                    <span class="text-muted">{{it.cmtv_valor}}</span>
+                    <span class="badge badge-light">{{it.cmtv_unidad}}</span>:
+                </div>
+                <div class="col-md-8">
+                    <p>
+                        {{it.valorreg}}
+                    </p>
+                </div>
+            </div>
+            <div class="row dato-adc-fila">
+                <div class="col-md-4">
+                    <span class="text-muted">Descripción de Hallazgos:</span>
+                </div>
+                <div class="col-md-8">
+                    {{historiaSel.datosconsulta.cosm_hallazgoexamfis}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-secondary">
+        <div class="card-header quitaPadding">
+            Exámenes Complementarios
+        </div>
+        <div id="HistPanelExamesComplementarios">
+            <div class="row dato-fila">
+                <div class="col-md-4">
+                    <span class="text-muted">Exámenes Complementarios:</span>
+                </div>
+                <div class="col-md-8">
+                    {{historiaSel.datosconsulta.cosm_exmscompl}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-secondary">
+        <div class="card-header quitaPadding">
+            Diagnóstico
+        </div>
+        <div id="HistPanelDiagnostico">
+            <div class="row dato-fila">
+                <div class="col-md-4">
+                    <span class="text-muted">Diagnóstico:</span>
+                </div>
+                <div class="col-md-8">
+                    {{historiaSel.datosconsulta.diagnosticos}}
+                </div>
+            </div>
+
+            <div class="row dato-fila">
+                <div class="col-md-4">
+                    <span class="text-muted">Diagnóstico Alternativo:</span>
+                </div>
+                <div class="col-md-8">
+                    {{historiaSel.datosconsulta.cosm_diagnosticoal}}
+                </div>
+            </div>
+
+            <div class="row dato-fila">
+                <div class="col-md-4">
+                    <span class="text-muted">Tratamiento:</span>
+                </div>
+                <div class="col-md-8">
+                    {{historiaSel.datosconsulta.cosm_tratamiento}}
+                </div>
+            </div>
+            <div class="row dato-fila">
+                <div class="col-md-4">
+                    <span class="text-muted">Receta:</span>
+                </div>
+                <div class="col-md-8">
+                    {{historiaSel.datosconsulta.cosm_receta}}
+                </div>
+            </div>
+            <div class="row dato-fila">
+                <div class="col-md-4">
+                    <span class="text-muted">Indicaciones Receta:</span>
+                </div>
+                <div class="col-md-8">
+                    {{historiaSel.datosconsulta.cosm_indicsreceta}}
+                </div>
+            </div>
+            <div class="row dato-fila">
+                <div class="col-md-4">
+                    <span class="text-muted">Recomendaciones:</span>
+                </div>
+                <div class="col-md-8">
+                    {{historiaSel.datosconsulta.cosm_recomendaciones}}
+                </div>
+            </div>
+            <div class="row dato-fila">
+                <div class="col-md-4">
+                    <span class="text-muted">Fecha Próxima Cita:</span>
+                </div>
+                <div class="col-md-8">
+                    {{historiaSel.datosconsulta.cosm_fechaproxcita}}
+                </div>
+            </div>
+            <div class="d-flex flex-row-reverse">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Botones de acción"
+                     style="padding-left: 10px">
+                    <button class="btn btn-outline-primary" (click)="imprimirHistoria()">
+                        Historia <i
+                            class="fa fa-print"></i></button>
+                    <button class="btn btn-outline-primary" (click)="imprimirRecetaAnterior()">
+                        Receta <i
+                            class="fa fa-print"></i></button>
+                    <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()"> Cerrar <i
+                            class="fa fa-times"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

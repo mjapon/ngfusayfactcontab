@@ -2,57 +2,83 @@
     <h4>
         <span class="fa fa-history"></span> Historias Clínicas {{tipoHistoria === 1 ? '' : 'Odontológicas'}}
     </h4>
-    <hr>
-    <div class="row" style="padding-bottom: 10px">
-        <div class="col">
-            <input class="form-control form-rounded" id="buscaPacNomCiInput" type="text"
-                   placeholder="Buscar paciente por nombres o número de cédula" [(ngModel)]="filtro"
-                   (keyup)="onFiltroTyped()">
+
+    <!--Ubicar tabs para navegacion -->
+    <ul class="nav nav-tabs" style="margin-bottom: 10px">
+        <li class="nav-item">
+            <a class="nav-link" href="#" [ngClass]="{'active':1===selectedSupTab}" (click)="selectSupTab(1, $event)">Registrar
+                Historia</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" [ngClass]="{'active':2===selectedSupTab}" (click)="selectSupTab(2, $event)">Atenciones
+                realizadas</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" [ngClass]="{'active':3===selectedSupTab}" (click)="selectSupTab(3, $event)">Citas
+                planificadas</a>
+        </li>
+    </ul>
+
+    <div id="RegistrarHistoria" *ngIf="selectedSupTab===1">
+        <div class="row" style="padding-bottom: 10px">
+            <div class="col">
+                <input class="form-control form-rounded" id="buscaPacNomCiInput" type="text"
+                       placeholder="Buscar paciente por nombres o número de cédula" [(ngModel)]="filtro"
+                       (keyup)="onFiltroTyped()">
+            </div>
+            <div class="col-3">
+                <button class="btn btn-outline-success btn-block" (click)="crearPaciente()"> Nuevo Paciente <span
+                        class="fa fa-plus-circle"></span></button>
+            </div>
         </div>
-        <div class="col-3">
-            <button class="btn btn-outline-success btn-block" (click)="crearPaciente()"> Nuevo Paciente <span
-                    class="fa fa-plus-circle"></span></button>
+        <div style="padding-top: 10px" id="divListaPacientes" #divListaPacientes>
+            <div class="divpacientesemtpy rounded-lg"
+                 *ngIf="pacientesArray.length===0 && filtro && filtro.trim().length>0">
+                <div class="text-center">
+                    <h3 class="text-muted"> No hay resultados <i class="fa fa-search"></i></h3>
+                </div>
+            </div>
+            <div *ngIf="pacientesArray.length>0" class="divpacientes rounded-lg">
+                <div class="list-group">
+                    <a class="list-group-item list-group-item-action hand" *ngFor="let item of pacientesArray"
+                       (click)="selectPaciente(item)">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <div style="padding-right:20px !important; width: 6%">
+                                <img src="assets/imgs/{{item.per_genero===2?'female.png':'male.png'}}" alt="Avatar">
+                            </div>
+                            <div style="width: 90%">
+                                <h6 class="mb-0">{{item.nomapel}}</h6>
+                                <p class="mb-0 text-muted">
+                                    <h8>{{item.per_ciruc}}</h8>
+                                </p>
+                                <p class="mb-0 text-muted">
+                                    <h8>{{item.lugresidencia}}</h8>
+                                </p>
+                            </div>
+                            <div>
+                                <i class="fa fa-chevron-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="text-center" *ngIf="showAnim">
+                <img src="assets/anim.gif"
+                     alt="procesando">
+            </div>
         </div>
     </div>
 
-    <div style="padding-top: 10px" id="divListaPacientes" #divListaPac>
-        <div class="divpacientesemtpy rounded-lg"
-             *ngIf="pacientesArray.length===0 && filtro && filtro.trim().length>0">
-            <div class="text-center">
-                <h3 class="text-muted"> No hay resultados <i class="fa fa-search"></i></h3>
-            </div>
-        </div>
-        <div *ngIf="pacientesArray.length>0" class="divpacientes rounded-lg">
-            <div class="list-group">
-                <a class="list-group-item list-group-item-action hand" *ngFor="let item of pacientesArray"
-                   (click)="selectPaciente(item)">
-                    <div class="d-flex w-100 justify-content-between align-items-center">
-                        <div style="padding-right:20px !important; width: 6%">
-                            <img src="assets/imgs/{{item.per_genero===2?'female.png':'male.png'}}" alt="Avatar">
-                        </div>
-                        <div style="width: 90%">
-                            <h6 class="mb-0">{{item.nomapel}}</h6>
-                            <p class="mb-0 text-muted">
-                                <h8>{{item.per_ciruc}}</h8>
-                            </p>
-                            <p class="mb-0 text-muted">
-                                <h8>{{item.lugresidencia}}</h8>
-                            </p>
-                        </div>
-                        <div>
-                            <i class="fa fa-chevron-right"></i>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="text-center" *ngIf="showAnim">
-            <img src="assets/anim.gif"
-                 alt="procesando">
-        </div>
+    <div id="AtencionesHechas" *ngIf="selectedSupTab===2">
+        <app-citashechas></app-citashechas>
     </div>
+
+    <div id="CitasPlanificadas" *ngIf="selectedSupTab===3">
+        <app-citasplaned></app-citasplaned>
+    </div>
+
 </div>
-<div *ngIf="!showBuscaPaciente">
+<div *ngIf="!showBuscaPaciente" #mainDiv id="mainDiv">
     <div class="row">
         <div class="col-9">
             <h4>Historia
@@ -185,215 +211,8 @@
             Historia Anterior ({{rowHistoriaSel.fecha_crea_largo}})
             <span class="pull-right fa {{accordionStatus.historiaSelPanel?'fa-chevron-circle-down':'fa-chevron-circle-right'}}"></span>
         </button>
-        <div id="historiaSelPanel" class="collapse">
-            <div class="card-body">
-                <!-- Motivo de consulta -->
-                <div class="card border-secondary">
-                    <div id="HistPanelMotivoConsulta">
-                        <div class="row dato-adc-fila">
-                            <div class="col-md-3">
-                                <span>Fecha:</span>
-                            </div>
-                            <div class="col">
-                                <div class="padflex">
-                                    <p>
-                                        {{rowHistoriaSel.cosm_fechacrea}}
-                                    </p>
-                                    <div class="btn-group btn-group-sm" role="group" aria-label="Botones de acción"
-                                         style="padding-left: 10px">
-                                        <button class="btn btn-outline-primary" (click)="imprimirHistoria()">
-                                            Historia <i class="fa fa-print"></i></button>
-                                        <button class="btn btn-outline-primary" (click)="imprimirRecetaAnterior()">
-                                            Receta <i class="fa fa-print"></i></button>
-                                        <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()">
-                                            Cerrar <i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row dato-adc-fila">
-                            <div class="col-md-3">
-                                <span>Motivo Consulta:</span>
-                            </div>
-                            <div class="col">
-                                <p>
-                                    {{historiaSel.datosconsulta.cosm_motivo}}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row dato-adc-fila">
-                            <div class="col-md-3">
-                                <span>Enfermedad actual:</span>
-                            </div>
-                            <div class="col">
-                                <p>
-                                    {{historiaSel.datosconsulta.cosm_enfermactual}}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card border-secondary">
-                    <div class="card-header quitaPadding">
-                        Antecedentes Personales
-                    </div>
-                    <div id="HistPanelAntecedentes">
-                        <div class="row dato-adc-fila" *ngFor="let it of historiaSel.antecedentes;">
-                            <div class="col-md-4">
-                                <span>{{it.cmtv_valor}}:</span>
-                            </div>
-                            <div class="col">
-                                <p>
-                                    {{it.valorreg}}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card border-secondary">
-                    <div class="card-header quitaPadding">
-                        Revisión por sistemas
-                    </div>
-                    <div id="HistPanelRevXSistemas">
-                        <div class="row dato-adc-fila" *ngFor="let it of historiaSel.revxsistemas">
-                            <div class="col-md-3">
-                                <span>{{it.cmtv_valor}}:</span>
-                            </div>
-                            <div class="col">
-                                <p>
-                                    {{it.valorreg}}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card border-secondary">
-                    <div class="card-header quitaPadding">
-                        Exámenes Físicos
-                    </div>
-                    <div id="HistPanelExamenFisico">
-                        <div class="row dato-adc-fila" *ngFor="let it of historiaSel.examsfisicos">
-                            <div class="col-md-3">
-                                <span>{{it.cmtv_valor}}</span>
-                                <span class="badge badge-light">{{it.cmtv_unidad}}</span>:
-                            </div>
-                            <div class="col">
-                                <p>
-                                    {{it.valorreg}}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row dato-adc-fila">
-                            <div class="col-md-3">
-                                <span>Descripción de Hallazgos:</span>
-                            </div>
-                            <div class="col">
-                                {{historiaSel.datosconsulta.cosm_hallazgoexamfis}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card border-secondary">
-                    <div class="card-header quitaPadding">
-                        Exámenes Complementarios
-                    </div>
-                    <div id="HistPanelExamesComplementarios">
-                        <div class="row dato-fila">
-                            <div class="col-md-3">
-                                <span>Exámenes Complementarios:</span>
-                            </div>
-                            <div class="col">
-                                {{historiaSel.datosconsulta.cosm_exmscompl}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card border-secondary">
-                    <div class="card-header quitaPadding">
-                        Diagnóstico
-                    </div>
-                    <div id="HistPanelDiagnostico">
-                        <div class="row dato-fila">
-                            <div class="col-md-3">
-                                <span>Diagnóstico:</span>
-                            </div>
-                            <div class="col">
-                                {{historiaSel.datosconsulta.diagnosticos}}
-                            </div>
-                        </div>
-
-                        <div class="row dato-fila">
-                            <div class="col-md-3">
-                                <span>Diagnóstico Alternativo:</span>
-                            </div>
-                            <div class="col">
-                                {{historiaSel.datosconsulta.cosm_diagnosticoal}}
-                            </div>
-                        </div>
-
-                        <div class="row dato-fila">
-                            <div class="col-md-3">
-                                <span>Tratamiento:</span>
-                            </div>
-                            <div class="col">
-                                {{historiaSel.datosconsulta.cosm_tratamiento}}
-                            </div>
-                        </div>
-                        <div class="row dato-fila">
-                            <div class="col-md-3">
-                                <span>Receta:</span>
-                            </div>
-                            <div class="col">
-                                {{historiaSel.datosconsulta.cosm_receta}}
-                            </div>
-                        </div>
-                        <div class="row dato-fila">
-                            <div class="col-md-3">
-                                <span>Indicaciones Receta:</span>
-                            </div>
-                            <div class="col">
-                                {{historiaSel.datosconsulta.cosm_indicsreceta}}
-                            </div>
-                        </div>
-                        <div class="row dato-fila">
-                            <div class="col-md-3">
-                                <span>Recomendaciones:</span>
-                            </div>
-                            <div class="col">
-                                {{historiaSel.datosconsulta.cosm_recomendaciones}}
-                            </div>
-                        </div>
-                        <div class="row dato-fila">
-                            <div class="col-md-3">
-                                <span>Fecha Próxima Cita:</span>
-                            </div>
-                            <div class="col">
-                                {{historiaSel.datosconsulta.cosm_fechaproxcita}}
-                            </div>
-                        </div>
-                        <div class="padding15">
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Botones de acción"
-                                 style="padding-left: 10px">
-                                <button class="btn btn-outline-primary" (click)="imprimirHistoria()">
-                                    Historia <i
-                                        class="fa fa-print"></i></button>
-                                <button class="btn btn-outline-primary" (click)="imprimirRecetaAnterior()">
-                                    Receta <i
-                                        class="fa fa-print"></i></button>
-                                <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()"> Cerrar <i
-                                        class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <app-citadet [rowHistoriaSel]="rowHistoriaSel" [isCollapse]="true"
+                     (closed)="onCerrarDetHistoria($event)"></app-citadet>
     </div>
 
 

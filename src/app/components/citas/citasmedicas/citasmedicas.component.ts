@@ -13,6 +13,8 @@ import {DOCUMENT} from '@angular/common';
 import {CadenasutilService} from '../../../services/cadenasutil.service';
 import {ActivatedRoute} from '@angular/router';
 import {ChangeodontoService} from '../../../services/changeodonto.service';
+import {Subscription} from 'rxjs';
+import {ConsMedicaMsgService} from '../../../services/cons-medica-msg.service';
 
 declare var $: any;
 
@@ -34,7 +36,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     showBuscaPaciente = true;
     cirucPaciente: string;
     filtro: string;
-
+    selectedSupTab: number;
     estadoCivilList: Array<any>;
     generosList: Array<any>;
     lugares: Array<any>;
@@ -55,7 +57,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     hayMasFilasPac: boolean;
     showAnim: boolean;
     odontograma: any;
-
     datosAlertaImc: any;
     datosAlertaPresion: any;
     bottomAlcanzado: boolean;
@@ -63,7 +64,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     lastAtencion: any;
     datosIncompletos: boolean;
     showFormNuevo: boolean;
-
     selectedDiags: any[];
     tipoHistoria: number;
 
@@ -74,6 +74,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     @ViewChild('divListaPacientes') divListaPaciente: any;
 
     listener;
+    subsCitasPlaned: Subscription;
 
     constructor(private citasMedicasServ: CitasMedicasService,
                 private catalogosServ: CatalogosService,
@@ -90,7 +91,9 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 private renderer2: Renderer2,
                 private route: ActivatedRoute,
                 private cadutil: CadenasutilService,
-                private changeodonto: ChangeodontoService) {
+                private changeodonto: ChangeodontoService,
+                private cosMsgService: ConsMedicaMsgService
+    ) {
 
         this.listener = this.renderer2.listen('window', 'scroll', (e) => {
             if (!this.bottomAlcanzado && this.showBuscaPaciente) {
@@ -104,6 +107,8 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.route.paramMap.subscribe(params => {
             this.tipoHistoria = parseInt(params.get('tipo'), 10);
         });
+
+        this.selectedSupTab = 1;
     }
 
     auxLoadCatalogos(codcat: number, array: string) {
@@ -213,6 +218,14 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.domService.setFocusTimeout('buscaPacNomCiInput', 700);
         this.auxLoadTabs();
         this.buscarPacientes();
+
+        this.subsCitasPlaned = this.cosMsgService.message.subscribe(msg => {
+            if (msg) {
+                if (msg.tipo === 1) {// Mensaje de citas planificadas
+                    this.selectPaciente(msg.msg);
+                }
+            }
+        });
     }
 
     clearAll() {
@@ -638,21 +651,19 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
 
     selectHistoriaAnt(row: any) {
         this.rowHistoriaSel = row;
-        this.loadingUiService.publishBlockMessage();
-        this.citasMedicasServ.getDatosHistoriaByCod(row.cosm_id).subscribe(res => {
-            if (res.status === 200) {
-                this.historiaSel = res.datoshistoria;
-                this.isHistoriaAntSel = true;
-                if (!this.accordionStatus.historiaSelPanel) {
-                    setTimeout(() => {
-                        this.toggleAcordion('historiaSelPanel');
-                    }, 500);
-                }
-                setTimeout(() => {
-                    this.divHistoriaAnt.nativeElement.scrollIntoView({behavior: 'smooth'});
-                }, 700);
-            }
-        });
+        this.isHistoriaAntSel = true;
+        if (!this.accordionStatus.historiaSelPanel) {
+            setTimeout(() => {
+                this.toggleAcordion('historiaSelPanel');
+            }, 100);
+        }
+        setTimeout(() => {
+            this.divHistoriaAnt.nativeElement.scrollIntoView({behavior: 'smooth'});
+        }, 100);
+    }
+
+    onCerrarDetHistoria(msg: any) {
+        this.cerrarHistoriaAnt();
     }
 
     cerrarHistoriaAnt() {
@@ -698,7 +709,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     filtroDelayFn(context) {
         context.currentPagPacientes = 0;
         context.pacientesArray = [];
-        context.currentPagPacientes = 0;
         context.bottomAlcanzado = false;
         context.buscarPacientes();
     }
@@ -709,6 +719,9 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.listener();
+        if (this.subsCitasPlaned) {
+            this.subsCitasPlaned.unsubscribe();
+        }
     }
 
     showExamFisico(itExamFis): boolean {
@@ -781,5 +794,10 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 }
             );
         }
+    }
+
+    selectSupTab(tab: number, event: Event) {
+        this.selectedSupTab = tab;
+        event.preventDefault();
     }
 }

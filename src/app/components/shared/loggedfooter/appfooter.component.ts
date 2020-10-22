@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-appfooter',
@@ -6,10 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./appfooter.component.css']
 })
 export class AppfooterComponent implements OnInit {
-
+  versionApp: string;
   constructor() { }
-
   ngOnInit() {
+    this.versionApp = '1.1 - ' + new Date().toISOString();
   }
-
 }
