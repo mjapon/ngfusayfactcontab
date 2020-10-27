@@ -45,8 +45,12 @@
                 {{rowData[item['field']]}}
             </td>
             <td>
+                <button class="btn btn-sm btn-outline-dark" (click)="verCita(rowData)" title="Ver Detalles"
+                        style="margin-right: 10px">
+                    <i class="fa fa-eye"></i>
+                </button>
                 <button class="btn btn-sm btn-outline-dark" (click)="crerCita(rowData)" title="Registrar atención">
-                    <i class="fa fa-plus"></i>
+                    &nbsp; <i class="fa fa-angle-double-right"> </i> &nbsp;
                 </button>
             </td>
         </tr>
@@ -60,3 +64,11 @@
         </tr>
     </ng-template>
 </p-table>
+
+<div *ngIf="showModalDet">
+    <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
+              [(visible)]="showModalDet">
+        <app-citadet [rowHistoriaSel]="rowHistoriaSel" [isCollapse]="false"
+                     (closed)="onCerrarDetHistoria($event)"></app-citadet>
+    </p-dialog>
+</div>

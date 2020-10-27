@@ -36,6 +36,11 @@ export class CitasMedicasService extends BaseService {
         return this.doPost(this.http, this.urlEndPoint, httpOptions, form);
     }
 
+    editarCita(form: any): Observable<any> {
+        const httpOptions = this.getHttpOptionsToken({accion: 'editar'});
+        return this.doPost(this.http, this.urlEndPoint, httpOptions, form);
+    }
+
     getListaAtenciones(ciruc: string): Observable<any> {
         const httpOptions = this.getHttpOptionsToken({accion: 'listaatenciones', ciruc});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
@@ -53,12 +58,12 @@ export class CitasMedicasService extends BaseService {
 
     imprimir(ccm: any) {
         const rutaserver = 'http://mavil.site/tomcat/imprentas/RecetaServlet?ccm=' + ccm;
-        window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=500,height=700');
+        window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=600');
     }
 
     imprimirHistoria(ch: any) {
         const rutaserver = 'http://mavil.site/tomcat/imprentas/HistoriaClinicaServlet?ch=' + ch;
-        window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=700');
+        window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=600');
     }
 
     getDescValExamFisico(categ: number, valor: any) {
@@ -66,9 +71,9 @@ export class CitasMedicasService extends BaseService {
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
-    anular(cosmId: number): Observable<any> {
+    anular(cosmId: number, obs): Observable<any> {
         const httpOptions = this.getHttpOptionsToken({accion: 'anular'});
-        return this.doPost(this.http, this.urlEndPoint, httpOptions, {cosm_id: cosmId});
+        return this.doPost(this.http, this.urlEndPoint, httpOptions, {cosm_id: cosmId, cosm_obsanula: obs});
     }
 
     listarPrevias(tipo: number, filtro: string, desde: string, hasta: string, pag: number) {

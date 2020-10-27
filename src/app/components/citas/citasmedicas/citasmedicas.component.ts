@@ -61,11 +61,11 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     datosAlertaPresion: any;
     bottomAlcanzado: boolean;
     previustimer: any = 0;
-    lastAtencion: any;
     datosIncompletos: boolean;
-    showFormNuevo: boolean;
     selectedDiags: any[];
     tipoHistoria: number;
+    editando: boolean;
+    codHistoriaEdit: number;
 
     @ViewChild('divHistoriaAnt') divHistoriaAnt: any;
     @ViewChild('mainDiv') mainDiv: any;
@@ -183,22 +183,17 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
             this.tabsFisicos[proppaso7].visible = false;
             this.tabsFisicos[proppaso7].paso = 0;
             this.tabsFisicos[proppaso8].paso = 7;
-
         } else if (this.tipoHistoria === 2) {
             const paso4 = 'd';
             const paso5 = 'e';
             const paso6 = 'f';
             const paso7 = 'g';
             const paso8 = 'h';
-
             this.tabsFisicos[paso4].visible = false;
             this.tabsFisicos[paso4].paso = 0;
-
             this.tabsFisicos[paso5].paso = 4;
-
             this.tabsFisicos[paso6].visible = false;
             this.tabsFisicos[paso6].paso = 0;
-
             this.tabsFisicos[paso7].paso = 5;
             this.tabsFisicos[paso8].paso = 6;
         }
@@ -221,6 +216,10 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
             if (msg) {
                 if (msg.tipo === 1) {// Mensaje de citas planificadas
                     this.selectPaciente(msg.msg);
+                } else if (msg.tipo === 2) {
+                    this.selectHistoriaForEdit(msg.msg);
+                } else if (msg.tipo === 3) {
+                    this.loadListaAtenciones();
                 }
             }
         });
@@ -244,7 +243,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.pacientesArray = [];
         this.showAnim = false;
         this.datosIncompletos = false;
-        this.showFormNuevo = false;
         this.selectedDiags = [null];
         this.odontograma = '';
         this.accordionStatus = {
@@ -253,6 +251,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
             motConsultaPanel: false,
             historiaSelPanel: false
         };
+        this.editando = false;
     }
 
     initForm() {
@@ -386,6 +385,13 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.initBuscaPaciente('perNombresInput');
     }
 
+    selectHistoriaForEdit(datosHistoria: any) {
+        this.codHistoriaEdit = datosHistoria.cosm_id;
+        this.editando = true;
+        this.hideHistoriaSelPanel();
+        this.selectPaciente({per_ciruc: datosHistoria.per_ciruc});
+    }
+
     buscarPacientes() {
         this.showAnim = true;
         this.personaService.buscarPorNomapelCiPag(this.filtro, this.currentPagPacientes).subscribe(res => {
@@ -405,19 +411,9 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
 
     loadListaAtenciones() {
         const per_ciruc = this.form.paciente.per_ciruc;
-        this.lastAtencion = null;
         this.citasMedicasServ.getListaAtenciones(per_ciruc).subscribe(resCitas => {
             if (resCitas.status === 200) {
                 this.historias = resCitas.items;
-                if (this.historias.length > 0) {
-                    this.lastAtencion = this.historias[0];
-                    /*
-                    if (!this.accordionStatus.citasPanel) {
-                        setTimeout(() => {
-                            this.toggleAcordion('citasPanel');
-                        }, 1000);
-                    }*/
-                }
             }
         });
     }
@@ -430,7 +426,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
             this.form.paciente.per_ciruc = '';
         }
         this.initBuscaPaciente('perCirucInput');
-        this.showFormNuevo = true;
     }
 
     logicaDatosIncompletos(showMessage) {
@@ -442,15 +437,21 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         }
     }
 
+    updateOdontograma(odontograma) {
+        if (odontograma) {
+            this.changeodonto.publishMessage(odontograma);
+        } else {
+            this.changeodonto.publishMessage('clear');
+        }
+    }
+
     buscarPaciente(showMessage, focusInput) {
         const per_ciruc = this.form.paciente.per_ciruc;
         this.historias = [];
-        this.lastAtencion = null;
         this.datosIncompletos = false;
         this.loadingUiService.publishBlockMessage();
         this.personaService.buscarPorCifull(per_ciruc).subscribe(res => {
                 if (res.status === 200) {
-                    this.showFormNuevo = false;
                     if (showMessage) {
                         this.swalService.fireToastInfo('El paciente ya está registrado');
                     }
@@ -463,32 +464,48 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                             if (this.antpers && this.antpers.length > 0) {
                                 this.form.antecedentes = this.antpers;
                             }
-                            if (this.historias.length > 0) {
-                                this.lastAtencion = this.historias[0];
-                                /*
-                                if (!this.accordionStatus.citasPanel) {
-                                    setTimeout(() => {
-                                        this.toggleAcordion('citasPanel');
-                                    }, 500);
-                                }
-                                 */
-                            }
                         }
                     });
-                    if (this.tipoHistoria === 2) {
-                        this.citasMedicasServ.getOdontograma(per_ciruc).subscribe(resOdonto => {
-                            if (resOdonto.status === 200) {
-                                if (resOdonto.odontograma) {
-                                    this.changeodonto.publishMessage(resOdonto.odontograma.cosm_odontograma);
-                                } else {
-                                    this.changeodonto.publishMessage('clear');
+                    if (this.editando) {
+                        this.citasMedicasServ.getDatosHistoriaByCod(this.codHistoriaEdit).subscribe(resHis => {
+                            if (resHis.status === 200) {
+                                this.form.antecedentes = resHis.datoshistoria.antecedentes;
+                                this.form.examsfisicos = resHis.datoshistoria.examsfisicos;
+                                this.form.revxsistemas = resHis.datoshistoria.revxsistemas;
+                                this.form.datosconsulta = resHis.datoshistoria.datosconsulta;
+                                if (this.tipoHistoria === 2) {
+                                    this.updateOdontograma(resHis.datoshistoria.datosconsulta.cosm_odontograma);
                                 }
+                                const cosm_diagnosticos = resHis.datoshistoria.datosconsulta.cosm_diagnosticos;
+                                this.selectedDiags = [];
+                                if (cosm_diagnosticos) {
+                                    const diagsNumberArray = cosm_diagnosticos.split(',');
+                                    for (let codDiag of diagsNumberArray) {
+                                        const ciedDiag = this.arrayUtil.getFirstResult(
+                                            this.ciedataArray,
+                                            (el, idx, array) => {
+                                                return parseInt(el.cie_id) === parseInt(codDiag);
+                                            }
+                                        );
+                                        if (ciedDiag) {
+                                            this.selectedDiags.push(ciedDiag);
+                                        }
+                                    }
+                                }
+                                this.selectedDiags.push(null);
                             }
                         });
+                    } else {
+                        if (this.tipoHistoria === 2) {
+                            this.citasMedicasServ.getOdontograma(per_ciruc).subscribe(resOdonto => {
+                                if (resOdonto.status === 200) {
+                                    this.updateOdontograma(resOdonto.odontograma.cosm_odontograma);
+                                }
+                            });
+                        }
+                        this.domService.setFocusTimeout('motivoConsultaTextArea', 600);
                     }
-                    this.domService.setFocusTimeout('motivoConsultaTextArea', 600);
                 } else {
-                    this.showFormNuevo = true;
                     this.selectedTab = 0;
                     this.domService.setFocusTimeout(focusInput, 600);
                     if (showMessage) {
@@ -496,6 +513,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                     }
                     this.form.paciente.per_ciruc = per_ciruc;
                 }
+
             }
         );
     }
@@ -618,16 +636,33 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 if (this.tipoHistoria === 2) {
                     formToPost.datosconsulta.cosm_odontograma = this.odontograma;
                 }
-                this.citasMedicasServ.crearCita(formToPost).subscribe(res => {
-                    if (res.status === 200) {
-                        this.codConsultaGen = res.ccm;
-                        this.swalService.fireToastSuccess(res.msg);
-                        this.loadListaAtenciones();
-                        this.saved = true;
-                    }
-                });
+                if (this.editando) {
+                    this.citasMedicasServ.editarCita(formToPost).subscribe(res => {
+                        if (res.status === 200) {
+                            this.codConsultaGen = res.ccm;
+                            this.swalService.fireToastSuccess(res.msg);
+                            this.loadListaAtenciones();
+                            this.saved = true;
+                        }
+                    });
+                } else {
+                    this.citasMedicasServ.crearCita(formToPost).subscribe(res => {
+                        if (res.status === 200) {
+                            this.codConsultaGen = res.ccm;
+                            this.swalService.fireToastSuccess(res.msg);
+                            this.loadListaAtenciones();
+                            this.saved = true;
+                        }
+                    });
+
+                }
             }
         });
+    }
+
+    hideHistoriaSelPanel() {
+        $('#historiaSelPanel').collapse('hide');
+        this.accordionStatus.historiaSelPanel = false;
     }
 
     toggleAcordion(inputid) {
@@ -760,7 +795,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
             this.form.paciente.per_fechanac = this.fechasService.parseString(persona.per_fechanac);
         } else {
             this.logicaDatosIncompletos(true);
-            this.showFormNuevo = true;
         }
 
         this.form.paciente.per_genero = persona.per_genero.toString();
@@ -798,5 +832,8 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     selectSupTab(tab: number, event: Event) {
         this.selectedSupTab = tab;
         event.preventDefault();
+        if (tab === 1) {
+            this.domService.setFocusTimeout('buscaPacNomCiInput', 500);
+        }
     }
 }

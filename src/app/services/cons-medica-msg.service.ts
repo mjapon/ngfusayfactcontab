@@ -18,4 +18,8 @@ export class ConsMedicaMsgService {
     publishLoadDatosCita(rowCitaSel) {
         this.publishMessage({tipo: 2, msg: rowCitaSel});
     }
+
+    publishReloadHistorias() {
+        this.publishMessage({tipo: 3});
+    }
 }

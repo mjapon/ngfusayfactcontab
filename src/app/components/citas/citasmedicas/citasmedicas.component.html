@@ -155,7 +155,7 @@
                         <span>{{datosPacienteFull.profesion}}</span>
                     </div>
 
-                    <div class="w-100" style="margin-top: 20px" *ngIf="lastAtencion!==null">
+                    <div class="w-100" style="margin-top: 20px" *ngIf="historias.length>0">
                         <div>
                             <button class="btn btn-link btn-sm" (click)="toggleAcordion('citasPanel')"
                                     *ngIf="historias.length>0">
@@ -215,6 +215,9 @@
                      (closed)="onCerrarDetHistoria($event)"></app-citadet>
     </div>
 
+    <div class="alert alert-warning" role="alert" *ngIf="editando">
+        Editando la historia Nro: {{this.form.datosconsulta.cosm_id}}
+    </div>
 
     <p-tabView [(activeIndex)]="selectedTab">
         <p-tabPanel header="{{tabsFisicos.a.paso}}. {{tabsFisicos.a.titulo}}" *ngIf="tabsFisicos.a.visible">
@@ -391,9 +394,9 @@
                     <span class="required">*</span><span>Motivo Consulta:</span>
                 </div>
                 <div class="col-12">
-                                        <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_motivo"
-                                                  id="motivoConsultaTextArea">
-                                        </textarea>
+                        <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_motivo"
+                                  id="motivoConsultaTextArea">
+                        </textarea>
                 </div>
             </div>
             <div class="row dato-adc-fila">
@@ -401,9 +404,9 @@
                     <span class="required">*</span><span>Enfermedad actual:</span>
                 </div>
                 <div class="col-12">
-                                        <textarea class="form-control" rows="5"
-                                                  [(ngModel)]="form.datosconsulta.cosm_enfermactual">
-                                        </textarea>
+                        <textarea class="form-control" rows="5"
+                                  [(ngModel)]="form.datosconsulta.cosm_enfermactual">
+                        </textarea>
                 </div>
             </div>
             <div class="padding15">
@@ -612,9 +615,9 @@
                         <span>Descripción de Hallazgos:</span>
                     </div>
                     <div class="col-12">
-                                                <textarea class="form-control"
-                                                          [(ngModel)]="form.datosconsulta.cosm_hallazgoexamfis">
-                                                </textarea>
+                            <textarea class="form-control"
+                                      [(ngModel)]="form.datosconsulta.cosm_hallazgoexamfis">
+                            </textarea>
                     </div>
                 </div>
 
@@ -632,10 +635,10 @@
                     <span>Exámenes Complementarios:</span>
                 </div>
                 <div class="col-12">
-                                            <textarea class="form-control"
-                                                      [(ngModel)]="form.datosconsulta.cosm_exmscompl"
-                                                      id="inexamcompl_0">
-                                            </textarea>
+                        <textarea class="form-control"
+                                  [(ngModel)]="form.datosconsulta.cosm_exmscompl"
+                                  id="inexamcompl_0">
+                        </textarea>
                 </div>
             </div>
 
@@ -676,16 +679,16 @@
                                     inputId="diagnostico_id_{{i}}"></p-dropdown>
                     </div>
                     <div class="col-1 quitaPaddingLR">
-                        <button class="btn btn-sm btn-outline-warning"
-                                (click)="removeDiagnostico(sdiag)"
-                                *ngIf="i>0"
-                                title="Quitar este diagnóstico"><span
-                                class="fa fa-minus-circle"></span></button>
                         <button class="btn btn-sm btn-outline-primary"
                                 (click)="addDiagnostico()"
                                 *ngIf="i===selectedDiags.length-1 && sdiag"
                                 title="Agregar otro diagnóstico"><span
                                 class="fa fa-plus-circle"></span></button>
+                        <button class="btn btn-sm btn-outline-warning"
+                                (click)="removeDiagnostico(sdiag)"
+                                *ngIf="i>0"
+                                title="Quitar este diagnóstico"><span
+                                class="fa fa-minus-circle"></span></button>
                     </div>
                 </div>
             </div>
@@ -696,9 +699,9 @@
                     <span>Diagnóstico Alternativo:</span>
                 </div>
                 <div class="col-12">
-                                        <textarea class="form-control"
-                                                  [(ngModel)]="form.datosconsulta.cosm_diagnosticoal">
-                                        </textarea>
+                        <textarea class="form-control"
+                                  [(ngModel)]="form.datosconsulta.cosm_diagnosticoal">
+                        </textarea>
                 </div>
             </div>
 
@@ -707,9 +710,9 @@
                     <span class="required">*</span><span>Tratamiento:</span>
                 </div>
                 <div class="col-12">
-                                        <textarea class="form-control"
-                                                  [(ngModel)]="form.datosconsulta.cosm_tratamiento">
-                                        </textarea>
+                        <textarea class="form-control"
+                                  [(ngModel)]="form.datosconsulta.cosm_tratamiento">
+                        </textarea>
                 </div>
             </div>
             <div class="row dato-fila">
@@ -717,9 +720,9 @@
                     <span class="required">*</span><span>Receta:</span>
                 </div>
                 <div class="col-12">
-                                        <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_receta"
-                                                  rows="10">
-                                        </textarea>
+                        <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_receta"
+                                  rows="10">
+                        </textarea>
                 </div>
             </div>
             <div class="row dato-fila">
@@ -727,9 +730,9 @@
                     <span class="required">*</span><span>Indicaciones Receta:</span>
                 </div>
                 <div class="col-12">
-                                        <textarea class="form-control"
-                                                  [(ngModel)]="form.datosconsulta.cosm_indicsreceta" rows="10">
-                                        </textarea>
+                        <textarea class="form-control"
+                                  [(ngModel)]="form.datosconsulta.cosm_indicsreceta" rows="10">
+                        </textarea>
                 </div>
             </div>
             <div class="row dato-fila">
@@ -737,9 +740,9 @@
                     <span>Recomendaciones:</span>
                 </div>
                 <div class="col-12">
-                                        <textarea class="form-control"
-                                                  [(ngModel)]="form.datosconsulta.cosm_recomendaciones">
-                                        </textarea>
+                        <textarea class="form-control"
+                                  [(ngModel)]="form.datosconsulta.cosm_recomendaciones">
+                        </textarea>
                 </div>
             </div>
 

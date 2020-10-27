@@ -18,6 +18,9 @@ export class CitasplanedComponent implements OnInit {
     fechasstr: string;
     @Input() tipocita: number;
 
+    rowHistoriaSel: any;
+    showModalDet: boolean;
+
     constructor(private loadingUiService: LoadingUiService,
                 private citasMedicasService: CitasMedicasService,
                 private cosmedicamsgService: ConsMedicaMsgService) {
@@ -52,10 +55,20 @@ export class CitasplanedComponent implements OnInit {
         this.cosmedicamsgService.publishMessage({tipo: 1, msg: rowData});
     }
 
+    verCita(item: any) {
+        this.rowHistoriaSel = item;
+        this.showModalDet = true;
+    }
+
     clickFiltro(tipo, event: Event) {
         event.preventDefault();
         this.tipoFiltro = tipo;
         this.loadGrid();
+    }
+
+
+    onCerrarDetHistoria($event: any) {
+        this.showModalDet = false;
     }
 
     clearFiltro() {

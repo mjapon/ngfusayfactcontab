@@ -2,38 +2,58 @@
     <!-- Motivo de consulta -->
     <div class="card border-secondary">
         <div id="HistPanelMotivoConsulta">
-            <div class="row dato-adc-fila" *ngIf="!isCollapse">
-                <div class="col-md-6">
+            <div class="row dato-adc-fila">
+                <div class="col-md-5">
                     <h6>
                         {{historiaSel.paciente.per_nombres + ' ' + historiaSel.paciente.per_apellidos}}
                         -  {{historiaSel.paciente.per_ciruc}}
                     </h6>
                 </div>
-                <div class="col-md-6">
-                    <span>Fecha nacimiento:</span>
-                    {{historiaSel.paciente.per_fechanac}}
-                </div>
-            </div>
-
-            <div class="row dato-adc-fila">
-                <div class="col-md-3">
-                    <span class="text-muted">Fecha:</span>
-                </div>
-                <div class="col">
+                <div class="col-md-7">
                     <div class="padflex">
-                        <p>
-                            {{rowHistoriaSel.cosm_fechacrea}}
-                        </p>
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Botones de acción"
-                             style="padding-left: 10px">
-                            <button class="btn btn-outline-primary" (click)="imprimirHistoria()">
-                                Historia <i class="fa fa-print"></i></button>
-                            <button class="btn btn-outline-primary" (click)="imprimirRecetaAnterior()">
-                                Receta <i class="fa fa-print"></i></button>
+                        <div>
+                            <span>Fecha nacimiento:</span>
+                            {{historiaSel.paciente.per_fechanac}}
+                        </div>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop1" type="button" class="btn btn-outline-primary dropdown-toggle"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Imprimir
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    <a class="dropdown-item" href="#" (click)="auximprime(1, $event)"> Historia <i
+                                            class="fa fa-print"></i> </a>
+                                    <a class="dropdown-item" href="#" (click)="auximprime(2, $event)"> Receta <i
+                                            class="fa fa-print"></i> </a>
+                                </div>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop2" type="button" class="btn btn-outline-primary dropdown-toggle"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Editar
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    <a class="dropdown-item" href="#" (click)="auxEditaAnula(1, $event)"> Editar <i
+                                            class="fa fa-edit"></i> </a>
+                                    <a class="dropdown-item" href="#" (click)="auxEditaAnula(2, $event)"> Anular <i
+                                            class="fa fa-trash"></i> </a>
+                                </div>
+                            </div>
                             <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()">
                                 Cerrar <i class="fa fa-times"></i></button>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row dato-adc-fila">
+                <div class="col-md-3">
+                    <span class="text-muted">Fecha Atención:</span>
+                </div>
+                <div class="col">
+                    <p>
+                        {{rowHistoriaSel.cosm_fechacrea}}
+                    </p>
                 </div>
             </div>
 
@@ -55,6 +75,14 @@
                     <p>
                         {{historiaSel.datosconsulta.cosm_enfermactual}}
                     </p>
+                </div>
+            </div>
+
+            <div class="row dato-adc-fila" *ngIf="historiaSel.datosconsulta.cosm_fechaedita">
+                <div class="col">
+                    <div class="alert alert-warning" role="alert">
+                        Historia editada el {{historiaSel.datosconsulta.cosm_fechaedita}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -203,16 +231,33 @@
                 </div>
             </div>
             <div class="d-flex flex-row-reverse">
-                <div class="btn-group btn-group-sm" role="group" aria-label="Botones de acción"
-                     style="padding-left: 10px">
-                    <button class="btn btn-outline-primary" (click)="imprimirHistoria()">
-                        Historia <i
-                            class="fa fa-print"></i></button>
-                    <button class="btn btn-outline-primary" (click)="imprimirRecetaAnterior()">
-                        Receta <i
-                            class="fa fa-print"></i></button>
-                    <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()"> Cerrar <i
-                            class="fa fa-times"></i></button>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Imprimir
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                            <a class="dropdown-item" href="#" (click)="auximprime(1, $event)"> Historia <i
+                                    class="fa fa-print"></i> </a>
+                            <a class="dropdown-item" href="#" (click)="auximprime(2, $event)"> Receta <i
+                                    class="fa fa-print"></i> </a>
+                        </div>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Editar
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                            <a class="dropdown-item" href="#" (click)="auxEditaAnula(1, $event)"> Editar <i
+                                    class="fa fa-edit"></i> </a>
+                            <a class="dropdown-item" href="#" (click)="auxEditaAnula(2, $event)"> Anular <i
+                                    class="fa fa-trash"></i> </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()">
+                        Cerrar <i class="fa fa-times"></i></button>
                 </div>
             </div>
         </div>
