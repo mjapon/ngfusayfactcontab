@@ -15,112 +15,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Características</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="#">Precios</a>
-                </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <button class="btn btn-outline-primary my-2 my-sm-0 letras" (click)="showModalLogin()"
+                <button class="btn btn-outline-primary my-2 my-sm-0 letras colormavil" (click)="showModalLogin()"
                         *ngIf="!isPacienteLogged">
-                    <span class="fa fa-sign-in"></span>
+                    <span class="fas fa-sign-in-alt"></span>
                     Ingresar
-
                 </button>
                 <button class="btn btn-outline-primary my-2 my-sm-0" (click)="logoutPaciente()"
-                        *ngIf="isPacienteLogged">
-                    Salir
+                        *ngIf="isPacienteLogged" title="Salir">
                 </button>
             </form>
         </div>
     </nav>
 </div>
-
-<div class="modal fade" id="modalContacto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-phone"></i> Comuníquese con nosotros</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="textofusay">Estamos ubicados en Saraguro - Loja - Ecuador, 200 Mts vía al Barrio Ilincho</p>
-                <ul class="list-unstyled">
-                    <li class="mb-3"><a class="textofusay" href="tel:+07-3030-181"><i class="fa fa-phone"></i>Telf:
-                        07-3030-181 </a></li>
-                    <li class="mb-3"><a class="textofusay" href="tel:+593-0990244830"> <i class="fa fa-whatsapp"></i>
-                        Celular: 0990244830 Saraguro</a></li>
-                    <li class="mb-3"><a class="textofusay" href="tel:+593-0998975316"> <i class="fa fa-whatsapp"></i>
-                        Celular: 0998975316 Cuenca</a></li>
-                    <li class="mb-3"><a class="textofusay" href="mailto:fusayvinue@hotmail.com"> <i
-                            class="fa fa-envelope"></i> fusayvinue@hotmail.com </a></li>
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"> Ingresar</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form (ngSubmit)="submitLogin()" [formGroup]="loginForm">
-                    <div class="form-group">
-                        <label> <span class="required">*</span> Empresa: </label>
-                        <input type="text" class="form-control auxusername" formControlName="empresa">
-                    </div>
-                    <div class="form-group">
-                        <label> <span class="required">*</span> Usuario: </label>
-                        <input type="text" class="form-control auxusername" formControlName="username">
-                    </div>
-                    <div class="form-group">
-                        <label> <span class="required">*</span> Clave: </label>
-                        <input type="password" class="form-control" formControlName="password">
-                    </div>
-                    <div class="text-center">
-                        <input type="submit" class="btn btn-outline-primary" [disabled]="loginForm.invalid"
-                               value="Ingresar">
-                        <span class="espacio"></span>
-                        <input type="reset" class="btn btn-outline-secondary auxBtnCerrar" (click)="cancelarLogin()"
-                               value="Cerrar">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modalSeccion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Elegir Sección</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="card" style="width: 100%">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item" *ngFor="let item of secciones">{{item.sec_nombre}}</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-

@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {LOCALE_ID, NgModule} from '@angular/core';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {environment} from 'src/environments/environment';
 
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -32,15 +31,11 @@ import {ArticulosListComponent} from './components/articulos/articulos-list/arti
 
 import {ArticulosFormComponent} from './components/articulos/articulos-form/articulos-form.component';
 import {DateFormatPipe} from './pipes/date-format.pipe';
-import {DisableControlDirective} from './directives/disablecontrol.directive';
 import {AuditInterceptorService} from './services/rates/audit-interceptor.service';
 import {FusaynavbarComponent} from './components/shared/initnavbar/fusaynavbar.component';
 import {FusayfooterComponent} from './components/shared/initfooter/fusayfooter.component';
 
 import {GalleriaModule} from 'primeng/galleria';
-import {EventosComponent} from './components/eventos/eventos.component';
-import {EventosformComponent} from './components/eventos/eventosform/eventosform.component';
-import {EventosdetComponent} from './components/eventos/eventosdet/eventosdet.component';
 import {DatePipe, registerLocaleData} from '@angular/common';
 import {LoggednavbarComponent} from './components/shared/loggednavbar/loggednavbar.component';
 import {LoggedHomeComponent} from './components/logged/logged-home/logged-home.component';
@@ -118,12 +113,8 @@ export function provideConfig() {
         ArticulosListComponent,
         ArticulosFormComponent,
         DateFormatPipe,
-        DisableControlDirective,
         FusaynavbarComponent,
         FusayfooterComponent,
-        EventosComponent,
-        EventosformComponent,
-        EventosdetComponent,
         LoggednavbarComponent,
         LoggedHomeComponent,
         AppfooterComponent,
@@ -173,7 +164,6 @@ export function provideConfig() {
         GalleriaModule,
         CarouselModule,
         EditorModule,
-        NgbModule,
         BreadcrumbModule,
         SidebarModule,
         ContextMenuModule,

@@ -24,41 +24,12 @@
         <p-dropdown [options]="sections" optionLabel="sec_nombre" [(ngModel)]="selectedSection"
                     (onChange)="listar()"></p-dropdown>
     </div>
-    <div class="col">
-        <div class="btn-group pull-right" role="group" aria-label="Default button group">
-
-            <!--
-            <button type="button" class="btn btn-outline-success" (click)="listar()"
-                    title="Actualiza listado de productos y servicios">
-                <i class="fa fa-search"></i>
-            </button>
-            <button type="button" class="btn btn-outline-success" [disabled]="!enableBtns" (click)="editar()"
-                    title="Muestra el detalle completo del producto o servicio">
-                <i class="fa fa-pencil"></i>
-            </button>
-
-            <button type="button" class="btn btn-outline-success" (click)="goToIngresoRapido()"
-                    title="Muestra el detalle completo del producto o servicio">
-                <i class="fa fa-pencil"></i>
-            </button>
-            -->
-
+    <div class="col d-flex justify-content-end">
+        <div class="btn-group" role="group" aria-label="Default button group">
             <button type="button" class="btn btn-outline-success" (click)="goToForm()"
                     title="Registrar un nuevo producto o servicio">
                 Crear <i class="fa fa-plus-circle"></i>
             </button>
-
-            <!--
-            <div class="btn-group" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-outline-success" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-ellipsis-v"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
-                    <a class="dropdown-item hand" (click)="eliminar()"> <i class="fa fa-trash"></i> Borrar</a>
-                </div>
-            </div>
-            -->
         </div>
     </div>
 </div>
@@ -85,7 +56,7 @@
     <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
         <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="onDobleClick(rowData)">
             <td rowspan="2" class="fstbpadtitnumber fstbsmall">
-                <span class="text-muted">{{rowIndex+1}}</span>
+                <span class="text-muted">{{rowIndex + 1}}</span>
             </td>
             <td colspan="6" class="fstbpadtit"> {{rowData.ic_nombre}} </td>
             <td rowspan="2" class="fstbpadtit">

@@ -1,263 +1,283 @@
-<div id="historiaSelPanel" class="{{isCollapse?'collapse':''}}">
+<div id="historiaSelPanel">
     <!-- Motivo de consulta -->
-    <div class="card border-secondary">
-        <div id="HistPanelMotivoConsulta">
-            <div class="row dato-adc-fila">
-                <div class="col-md-5">
-                    <h6>
-                        {{historiaSel.paciente.per_nombres + ' ' + historiaSel.paciente.per_apellidos}}
-                        -  {{historiaSel.paciente.per_ciruc}}
-                    </h6>
-                </div>
-                <div class="col-md-7">
-                    <div class="padflex">
-                        <div>
-                            <span>Fecha nacimiento:</span>
-                            {{historiaSel.paciente.per_fechanac}}
-                        </div>
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                            <div class="btn-group" role="group">
-                                <button id="btnGroupDrop1" type="button" class="btn btn-outline-primary dropdown-toggle"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Imprimir
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <a class="dropdown-item" href="#" (click)="auximprime(1, $event)"> Historia <i
-                                            class="fa fa-print"></i> </a>
-                                    <a class="dropdown-item" href="#" (click)="auximprime(2, $event)"> Receta <i
-                                            class="fa fa-print"></i> </a>
-                                </div>
+    <div class="text-center" *ngIf="showAnim">
+        <p class="p-5 m-5">
+            <img src="assets/anim.gif"
+                 alt="procesando">
+            <br>
+            <span class="text-info"> Espere un momento... </span>
+        </p>
+    </div>
+
+    <div *ngIf="!showAnim">
+        <div class="card border-secondary">
+            <div id="HistPanelMotivoConsulta">
+                <div class="row dato-adc-fila">
+                    <div class="col-md-5">
+                        <h6>
+                            {{historiaSel.paciente.per_nombres + ' ' + historiaSel.paciente.per_apellidos}}
+                            -  {{historiaSel.paciente.per_ciruc}}
+                        </h6>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="padflex">
+                            <div>
+                                <span>Fecha nacimiento:</span>
+                                {{historiaSel.paciente.per_fechanac}}
                             </div>
-                            <div class="btn-group" role="group">
-                                <button id="btnGroupDrop2" type="button" class="btn btn-outline-primary dropdown-toggle"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Editar
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <a class="dropdown-item" href="#" (click)="auxEditaAnula(1, $event)"> Editar <i
-                                            class="fa fa-edit"></i> </a>
-                                    <a class="dropdown-item" href="#" (click)="auxEditaAnula(2, $event)"> Anular <i
-                                            class="fa fa-trash"></i> </a>
+                            <div class="btn-group btn-group-sm" role="group"
+                                 aria-label="Button group with nested dropdown">
+                                <div class="btn-group" role="group">
+                                    <button type="button"
+                                            class="btn btn-outline-primary btn-sm dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Imprimir
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                        <a class="dropdown-item" href="#" (click)="auximprime(1, $event)">
+                                            <i class="fas fa-print"></i>Historia </a>
+                                        <a class="dropdown-item" href="#" (click)="auximprime(2, $event)">
+                                            <i class="fas fa-print"></i>Receta </a>
+                                    </div>
                                 </div>
+                                <div class="btn-group" role="group">
+                                    <button type="button"
+                                            class="btn btn-outline-primary btn-sm dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Editar
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                        <a class="dropdown-item" href="#" (click)="auxEditaAnula(1, $event)">
+                                            <i class="fas fa-edit"></i> Editar </a>
+                                        <a class="dropdown-item" href="#" (click)="auxEditaAnula(2, $event)">
+                                            <i class="fas fa-trash"></i>
+                                            Anular </a>
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()">
+                                    <i class="fas fa-times"></i> Cerrar
+                                </button>
                             </div>
-                            <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()">
-                                Cerrar <i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row dato-adc-fila">
+                    <div class="col-md-3">
+                        <span class="text-muted">Fecha Atención:</span>
+                    </div>
+                    <div class="col">
+                        <p>
+                            {{rowHistoriaSel.cosm_fechacrea}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row dato-adc-fila">
+                    <div class="col-md-3">
+                        <span class="text-muted">Motivo Consulta:</span>
+                    </div>
+                    <div class="col">
+                        <p>
+                            {{historiaSel.datosconsulta.cosm_motivo}}
+                        </p>
+                    </div>
+                </div>
+                <div class="row dato-adc-fila">
+                    <div class="col-md-3">
+                        <span class="text-muted">Enfermedad actual:</span>
+                    </div>
+                    <div class="col">
+                        <p>
+                            {{historiaSel.datosconsulta.cosm_enfermactual}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row dato-adc-fila" *ngIf="historiaSel.datosconsulta.cosm_fechaedita">
+                    <div class="col">
+                        <div class="alert alert-warning" role="alert">
+                            Historia editada el {{historiaSel.datosconsulta.cosm_fechaedita}}
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row dato-adc-fila">
-                <div class="col-md-3">
-                    <span class="text-muted">Fecha Atención:</span>
-                </div>
-                <div class="col">
-                    <p>
-                        {{rowHistoriaSel.cosm_fechacrea}}
-                    </p>
-                </div>
-            </div>
+        </div>
 
-            <div class="row dato-adc-fila">
-                <div class="col-md-3">
-                    <span class="text-muted">Motivo Consulta:</span>
-                </div>
-                <div class="col">
-                    <p>
-                        {{historiaSel.datosconsulta.cosm_motivo}}
-                    </p>
-                </div>
+        <div class="card border-secondary">
+            <div class="card-header quitaPadding">
+                Antecedentes Personales
             </div>
-            <div class="row dato-adc-fila">
-                <div class="col-md-3">
-                    <span class="text-muted">Enfermedad actual:</span>
-                </div>
-                <div class="col">
-                    <p>
-                        {{historiaSel.datosconsulta.cosm_enfermactual}}
-                    </p>
-                </div>
-            </div>
-
-            <div class="row dato-adc-fila" *ngIf="historiaSel.datosconsulta.cosm_fechaedita">
-                <div class="col">
-                    <div class="alert alert-warning" role="alert">
-                        Historia editada el {{historiaSel.datosconsulta.cosm_fechaedita}}
+            <div id="HistPanelAntecedentes">
+                <div class="row dato-adc-fila" *ngFor="let it of historiaSel.antecedentes;">
+                    <div class="col-md-4">
+                        <span class="text-muted">{{it.cmtv_valor}}:</span>
+                    </div>
+                    <div class="col-md-8">
+                        <p>
+                            {{it.valorreg}}
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="card border-secondary">
-        <div class="card-header quitaPadding">
-            Antecedentes Personales
-        </div>
-        <div id="HistPanelAntecedentes">
-            <div class="row dato-adc-fila" *ngFor="let it of historiaSel.antecedentes;">
-                <div class="col-md-4">
-                    <span class="text-muted">{{it.cmtv_valor}}:</span>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        {{it.valorreg}}
-                    </p>
+        <div class="card border-secondary">
+            <div class="card-header quitaPadding">
+                Revisión por sistemas
+            </div>
+            <div id="HistPanelRevXSistemas">
+                <div class="row dato-adc-fila" *ngFor="let it of historiaSel.revxsistemas">
+                    <div class="col-md-4">
+                        <span class="text-muted">{{it.cmtv_valor}}:</span>
+                    </div>
+                    <div class="col-md-8">
+                        <p>
+                            {{it.valorreg}}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="card border-secondary">
-        <div class="card-header quitaPadding">
-            Revisión por sistemas
-        </div>
-        <div id="HistPanelRevXSistemas">
-            <div class="row dato-adc-fila" *ngFor="let it of historiaSel.revxsistemas">
-                <div class="col-md-4">
-                    <span class="text-muted">{{it.cmtv_valor}}:</span>
+        <div class="card border-secondary">
+            <div class="card-header quitaPadding">
+                Exámenes Físicos
+            </div>
+            <div id="HistPanelExamenFisico">
+                <div class="row dato-adc-fila" *ngFor="let it of historiaSel.examsfisicos">
+                    <div class="col-md-4">
+                        <span class="text-muted">{{it.cmtv_valor}}</span>
+                        <span class="badge badge-light">{{it.cmtv_unidad}}</span>:
+                    </div>
+                    <div class="col-md-8">
+                        <p>
+                            {{it.valorreg}}
+                        </p>
+                    </div>
                 </div>
-                <div class="col-md-8">
-                    <p>
-                        {{it.valorreg}}
-                    </p>
+                <div class="row dato-adc-fila">
+                    <div class="col-md-4">
+                        <span class="text-muted">Descripción de Hallazgos:</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{historiaSel.datosconsulta.cosm_hallazgoexamfis}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="card border-secondary">
-        <div class="card-header quitaPadding">
-            Exámenes Físicos
-        </div>
-        <div id="HistPanelExamenFisico">
-            <div class="row dato-adc-fila" *ngFor="let it of historiaSel.examsfisicos">
-                <div class="col-md-4">
-                    <span class="text-muted">{{it.cmtv_valor}}</span>
-                    <span class="badge badge-light">{{it.cmtv_unidad}}</span>:
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        {{it.valorreg}}
-                    </p>
-                </div>
+        <div class="card border-secondary">
+            <div class="card-header quitaPadding">
+                Exámenes Complementarios
             </div>
-            <div class="row dato-adc-fila">
-                <div class="col-md-4">
-                    <span class="text-muted">Descripción de Hallazgos:</span>
-                </div>
-                <div class="col-md-8">
-                    {{historiaSel.datosconsulta.cosm_hallazgoexamfis}}
+            <div id="HistPanelExamesComplementarios">
+                <div class="row dato-fila">
+                    <div class="col-md-4">
+                        <span class="text-muted">Exámenes Complementarios:</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{historiaSel.datosconsulta.cosm_exmscompl}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="card border-secondary">
+            <div class="card-header quitaPadding">
+                Diagnóstico
+            </div>
+            <div id="HistPanelDiagnostico">
+                <div class="row dato-fila">
+                    <div class="col-md-4">
+                        <span class="text-muted">Diagnóstico:</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{historiaSel.datosconsulta.diagnosticos}}
+                    </div>
+                </div>
 
-    <div class="card border-secondary">
-        <div class="card-header quitaPadding">
-            Exámenes Complementarios
-        </div>
-        <div id="HistPanelExamesComplementarios">
-            <div class="row dato-fila">
-                <div class="col-md-4">
-                    <span class="text-muted">Exámenes Complementarios:</span>
+                <div class="row dato-fila">
+                    <div class="col-md-4">
+                        <span class="text-muted">Diagnóstico Alternativo:</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{historiaSel.datosconsulta.cosm_diagnosticoal}}
+                    </div>
                 </div>
-                <div class="col-md-8">
-                    {{historiaSel.datosconsulta.cosm_exmscompl}}
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="card border-secondary">
-        <div class="card-header quitaPadding">
-            Diagnóstico
-        </div>
-        <div id="HistPanelDiagnostico">
-            <div class="row dato-fila">
-                <div class="col-md-4">
-                    <span class="text-muted">Diagnóstico:</span>
+                <div class="row dato-fila">
+                    <div class="col-md-4">
+                        <span class="text-muted">Tratamiento:</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{historiaSel.datosconsulta.cosm_tratamiento}}
+                    </div>
                 </div>
-                <div class="col-md-8">
-                    {{historiaSel.datosconsulta.diagnosticos}}
+                <div class="row dato-fila">
+                    <div class="col-md-4">
+                        <span class="text-muted">Receta:</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{historiaSel.datosconsulta.cosm_receta}}
+                    </div>
                 </div>
-            </div>
-
-            <div class="row dato-fila">
-                <div class="col-md-4">
-                    <span class="text-muted">Diagnóstico Alternativo:</span>
+                <div class="row dato-fila">
+                    <div class="col-md-4">
+                        <span class="text-muted">Indicaciones Receta:</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{historiaSel.datosconsulta.cosm_indicsreceta}}
+                    </div>
                 </div>
-                <div class="col-md-8">
-                    {{historiaSel.datosconsulta.cosm_diagnosticoal}}
+                <div class="row dato-fila">
+                    <div class="col-md-4">
+                        <span class="text-muted">Recomendaciones:</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{historiaSel.datosconsulta.cosm_recomendaciones}}
+                    </div>
                 </div>
-            </div>
-
-            <div class="row dato-fila">
-                <div class="col-md-4">
-                    <span class="text-muted">Tratamiento:</span>
+                <div class="row dato-fila">
+                    <div class="col-md-4">
+                        <span class="text-muted">Fecha Próxima Cita:</span>
+                    </div>
+                    <div class="col-md-8">
+                        {{historiaSel.datosconsulta.cosm_fechaproxcita}}
+                    </div>
                 </div>
-                <div class="col-md-8">
-                    {{historiaSel.datosconsulta.cosm_tratamiento}}
-                </div>
-            </div>
-            <div class="row dato-fila">
-                <div class="col-md-4">
-                    <span class="text-muted">Receta:</span>
-                </div>
-                <div class="col-md-8">
-                    {{historiaSel.datosconsulta.cosm_receta}}
-                </div>
-            </div>
-            <div class="row dato-fila">
-                <div class="col-md-4">
-                    <span class="text-muted">Indicaciones Receta:</span>
-                </div>
-                <div class="col-md-8">
-                    {{historiaSel.datosconsulta.cosm_indicsreceta}}
-                </div>
-            </div>
-            <div class="row dato-fila">
-                <div class="col-md-4">
-                    <span class="text-muted">Recomendaciones:</span>
-                </div>
-                <div class="col-md-8">
-                    {{historiaSel.datosconsulta.cosm_recomendaciones}}
-                </div>
-            </div>
-            <div class="row dato-fila">
-                <div class="col-md-4">
-                    <span class="text-muted">Fecha Próxima Cita:</span>
-                </div>
-                <div class="col-md-8">
-                    {{historiaSel.datosconsulta.cosm_fechaproxcita}}
-                </div>
-            </div>
-            <div class="d-flex flex-row-reverse">
-                <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-primary dropdown-toggle"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Imprimir
+                <div class="d-flex flex-row-reverse">
+                    <div class="btn-group btn-group-sm" role="group"
+                         aria-label="Button group with nested dropdown">
+                        <div class="btn-group" role="group">
+                            <button type="button"
+                                    class="btn btn-outline-primary btn-sm dropdown-toggle"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Imprimir
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a class="dropdown-item" href="#" (click)="auximprime(1, $event)">
+                                    <i class="fas fa-print"></i>Historia </a>
+                                <a class="dropdown-item" href="#" (click)="auximprime(2, $event)">
+                                    <i class="fas fa-print"></i>Receta </a>
+                            </div>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button"
+                                    class="btn btn-outline-primary btn-sm dropdown-toggle"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Editar
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a class="dropdown-item" href="#" (click)="auxEditaAnula(1, $event)">
+                                    <i class="fas fa-edit"></i> Editar </a>
+                                <a class="dropdown-item" href="#" (click)="auxEditaAnula(2, $event)">
+                                    <i class="fas fa-trash"></i>
+                                    Anular </a>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()">
+                            <i class="fas fa-times"></i> Cerrar
                         </button>
-                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <a class="dropdown-item" href="#" (click)="auximprime(1, $event)"> Historia <i
-                                    class="fa fa-print"></i> </a>
-                            <a class="dropdown-item" href="#" (click)="auximprime(2, $event)"> Receta <i
-                                    class="fa fa-print"></i> </a>
-                        </div>
                     </div>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-primary dropdown-toggle"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Editar
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <a class="dropdown-item" href="#" (click)="auxEditaAnula(1, $event)"> Editar <i
-                                    class="fa fa-edit"></i> </a>
-                            <a class="dropdown-item" href="#" (click)="auxEditaAnula(2, $event)"> Anular <i
-                                    class="fa fa-trash"></i> </a>
-                        </div>
-                    </div>
-                    <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()">
-                        Cerrar <i class="fa fa-times"></i></button>
                 </div>
             </div>
         </div>

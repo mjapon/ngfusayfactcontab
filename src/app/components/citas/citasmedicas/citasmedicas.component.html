@@ -84,8 +84,8 @@
             <h4>Historia
                 Clínica {{ form.paciente.per_nombres ? (' - ' + form.paciente.per_nombres + ' ' + form.paciente.per_apellidos) : '' }} </h4>
         </div>
-        <div class="col-3">
-            <div class="btn-group pull-right" role="group" aria-label="Default button group">
+        <div class="col-3 d-flex justify-content-end">
+            <div class="btn-group" role="group" aria-label="Default button group">
                 <button type="button" class="btn btn-outline-success" (click)="limpiar()"
                         title="Cerrar esta historia y buscar otra">
                     <i class="fa fa-times"></i>
@@ -206,17 +206,17 @@
         </div>
     </div>
 
-    <div class="card" *ngIf="isHistoriaAntSel" style="margin-bottom: 20px" #divHistoriaAnt>
-        <button class="btn btn-block btn-secondary btnTextLeft" (click)="toggleAcordion('historiaSelPanel')">
-            Historia Anterior ({{rowHistoriaSel.fecha_crea_largo}})
-            <span class="pull-right fa {{accordionStatus.historiaSelPanel?'fa-chevron-circle-down':'fa-chevron-circle-right'}}"></span>
-        </button>
-        <app-citadet [rowHistoriaSel]="rowHistoriaSel" [isCollapse]="true"
-                     (closed)="onCerrarDetHistoria($event)"></app-citadet>
+    <div *ngIf="isHistoriaAntSel">
+        <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
+                  [(visible)]="isHistoriaAntSel">
+            <app-citadet [rowHistoriaSel]="rowHistoriaSel"
+                         (closed)="onCerrarDetHistoria($event)"></app-citadet>
+        </p-dialog>
     </div>
 
     <div class="alert alert-warning" role="alert" *ngIf="editando">
         Editando la historia Nro: {{this.form.datosconsulta.cosm_id}}
+        <button class="btn btn-sm btn-outline-secondary" style="margin-left: 30px" (click)="limpiar()">Cancelar</button>
     </div>
 
     <p-tabView [(activeIndex)]="selectedTab">

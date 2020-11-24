@@ -33,24 +33,28 @@
         <span>&nbsp;</span><br>
         <div class="btn-group" role="group" aria-label="Default button group">
             <button type="button" class="btn btn-outline-success" (click)="loadGrid()">
-                <i class="fa fa-refresh"></i>
+                <i class="fas fa-search"></i>
                 Buscar
             </button>
+            <!--
             <button type="button" class="btn btn-outline-success" (click)="goTipos()">
-                <i class="fa fa-refresh"></i>
+                <i class="fas fa-cog"></i>
                 Config
             </button>
+            -->
         </div>
 
     </div>
 
     <div class="col">
         <span>&nbsp;</span><br>
-        <div class="btn-group pull-right" role="group" aria-label="Default button group">
-            <button type="button" class="btn btn-outline-success" (click)="nuevo()">
-                <i class="fa fa-plus-circle"></i>
-                Crear
-            </button>
+        <div class="d-flex justify-content-end">
+            <div class="btn-group" role="group" aria-label="Default button group">
+                <button type="button" class="btn btn-outline-success" (click)="nuevo()">
+                    <i class="fas fa-plus-circle"></i>
+                    Crear
+                </button>
+            </div>
         </div>
     </div>
 </div>

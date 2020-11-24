@@ -1,14 +1,5 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
-.sidebar{
-    margin-left: -13px !important;
-    height: 100% !important;
-}
-
-.full-height {
-    /*height: 84vh;*/
-}
-
 .loading-container {
     flex-direction: column;
     height: 100%;
@@ -16,8 +7,3 @@
     align-items: center;
     justify-content: center;
 }
-
-.flexrow{
-    flex-direction: row;
-}
-

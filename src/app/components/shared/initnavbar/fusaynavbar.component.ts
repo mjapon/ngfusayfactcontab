@@ -92,10 +92,6 @@ export class FusaynavbarComponent implements OnInit, OnDestroy {
         this.fautService.publishMessage('logout');
     }
 
-    showModalSeccion() {
-        $('#modalSeccion').modal('show');
-    }
-
     logoutPaciente() {
         this.pacienteService.clearDatosPacienteLogged();
         FB.logout(response => {

@@ -3,8 +3,8 @@
         <div class="col-9">
             <h4> {{artFromDb.ic_nombre}} </h4>
         </div>
-        <div class="col-3">
-            <div class="btn-group pull-right" role="group" aria-label="Default button group">
+        <div class="col-3 d-flex justify-content-end">
+            <div class="btn-group" role="group" aria-label="Default button group">
                 <button type="button" class="btn btn-outline-success" (click)="retornar()"
                         title="Actualiza listado de productos y servicios">
                     <i class="fa fa-arrow-left"></i>
@@ -27,7 +27,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-2">
-                            <img src="assets/imgs/producto.png" alt="Imagen del producto o servicio" class="img-thumbnail">
+                            <img src="assets/imgs/producto.png" alt="Imagen del producto o servicio"
+                                 class="img-thumbnail">
                         </div>
                         <div class="col">
                             <div class="card border-secondary">
@@ -72,7 +73,7 @@
                                             <span class="font-weight-lighter">Graba Iva:</span>
                                         </div>
                                         <div class="col">
-                                            {{artFromDb.icdp_grabaiva?'Si':'No'}}
+                                            {{artFromDb.icdp_grabaiva ? 'Si' : 'No'}}
                                         </div>
                                     </div>
                                     <div class="row">
@@ -110,7 +111,8 @@
 
                                     <div class="row" *ngIf="artFromDb.tipic_id===1">
                                         <div class="col-6">
-                                            <span class="font-weight-lighter">Precio de compra <span class="badge badge-light"> (Sin Iva) </span>:</span>
+                                            <span class="font-weight-lighter">Precio de compra <span
+                                                    class="badge badge-light"> (Sin Iva) </span>:</span>
                                         </div>
                                         <div class="col">
                                             {{artFromDb.icdp_preciocompra}} $
@@ -118,7 +120,8 @@
                                     </div>
                                     <div class="row" *ngIf="artFromDb.tipic_id===1">
                                         <div class="col-6">
-                                            <span class="font-weight-lighter">Precio de compra <span class="badge badge-light"> (Con Iva) </span>:</span>
+                                            <span class="font-weight-lighter">Precio de compra <span
+                                                    class="badge badge-light"> (Con Iva) </span>:</span>
                                         </div>
                                         <div class="col">
                                             {{artFromDb.icdp_preciocompra_iva}} $
@@ -126,7 +129,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
-                                            <span class="font-weight-lighter">Precio de venta<span class="badge badge-light"> (Con Iva) </span>:</span>
+                                            <span class="font-weight-lighter">Precio de venta<span
+                                                    class="badge badge-light"> (Con Iva) </span>:</span>
                                         </div>
                                         <div class="col">
                                             {{artFromDb.icdp_precioventa}} $
@@ -161,30 +165,4 @@
             </div>
         </div>
     </div>
-
-    <!--
-    <br>
-    <div class="row">
-        <div class="col-9">
-
-        </div>
-        <div class="col-3">
-            <div class="btn-group pull-right" role="group" aria-label="Default button group">
-                <button type="button" class="btn btn-outline-success" (click)="retornar()"
-                        title="Actualiza listado de productos y servicios">
-                    <i class="fa fa-arrow-left"></i>
-                </button>
-                <button type="button" class="btn btn-outline-success" (click)="editar()"
-                        title="Editar la información de este producto o servicio">
-                    <i class="fa fa-pencil"></i>
-                </button>
-                <button type="button" class="btn btn-outline-success" (click)="elminar()"
-                        title="Borrar este producto o servicio">
-                    <i class="fa fa-trash"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    -->
-
 </div>

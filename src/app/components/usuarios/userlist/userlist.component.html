@@ -2,10 +2,10 @@
     <div class="col-md-4">
         <h4>Lista de usuarios</h4>
     </div>
-    <div class="col">
-        <div class="btn-group pull-right" role="group" aria-label="Default button group">
+    <div class="col d-flex flex-row-reverse">
+        <div class="btn-group" role="group" aria-label="Default button group">
             <button type="button" class="btn btn-outline-success" (click)="loadGrid()">
-                <i class="fa fa-refresh"></i>
+                <i class="fas fa-sync"></i>
             </button>
             <button type="button" class="btn btn-outline-success" (click)="nuevo()">
                 <i class="fa fa-plus-circle"></i>
@@ -38,10 +38,10 @@
             <td>
                 <button class="btn btn-sm btn-outline-dark" style="margin-right: 5px" (click)="anularRow(rowData)"
                         title="Anular">
-                    <i class="fa fa-trash"></i>
+                    <i class="fas fa-trash"></i>
                 </button>
                 <button class="btn btn-sm btn-outline-dark" (click)="editarRow(rowData)" title="Editar">
-                    <i class="fa fa-pencil"></i>
+                    <i class="fas fa-edit"></i>
                 </button>
             </td>
         </tr>

@@ -1,19 +1,23 @@
-<app-fusaynavbar *ngIf="!isLogged"></app-fusaynavbar>
-<app-loggednavbar *ngIf="isLogged"></app-loggednavbar>
+<div class="globalwrapper">
+    <app-fusaynavbar *ngIf="!isLogged"></app-fusaynavbar>
+    <app-loggednavbar *ngIf="isLogged"></app-loggednavbar>
 
-<div class="{{isLogged?'container-fluid':'container'}}" style="display: flex; flex-wrap: nowrap;">
-    <div style="width: 100%;">
-        <p-toast position="top-right"></p-toast>
-        <p-blockUI [blocked]="blocked">
-            <div class="loading-container">
-                <p-progressSpinner></p-progressSpinner>
-                <div>
-                    <span style="color: white !important;">Procesando...</span>
+    <div class="{{isLogged?'container-fluid':'container'}}">
+        <div>
+            <p-toast position="top-right"></p-toast>
+            <p-blockUI [blocked]="blocked">
+                <div class="loading-container">
+                    <p-progressSpinner></p-progressSpinner>
+                    <div>
+                        <span style="color: white !important;">Procesando...</span>
+                    </div>
                 </div>
-            </div>
-        </p-blockUI>
-        <br>
-        <router-outlet></router-outlet>
+            </p-blockUI>
+            <br>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <div class="push">
     </div>
 </div>
 

@@ -78,6 +78,9 @@
         </a>
     </div>
 </div>
+<div *ngIf="atencionesArray.length==0" class="divpacientes rounded-lg">
+    <h1 class="text-muted">No hay registros</h1>
+</div>
 <div class="text-center" *ngIf="showAnim">
     <img src="assets/anim.gif"
          alt="procesando">
@@ -86,7 +89,7 @@
 <div *ngIf="showModalDet">
     <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
               [(visible)]="showModalDet">
-        <app-citadet [rowHistoriaSel]="rowHistoriaSel" [isCollapse]="false"
+        <app-citadet [rowHistoriaSel]="rowHistoriaSel"
                      (closed)="onCerrarDetHistoria($event)"></app-citadet>
     </p-dialog>
 </div>

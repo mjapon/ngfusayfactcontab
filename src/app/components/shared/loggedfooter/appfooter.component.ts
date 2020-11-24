@@ -9,6 +9,6 @@ export class AppfooterComponent implements OnInit {
   versionApp: string;
   constructor() { }
   ngOnInit() {
-    this.versionApp = '1.12 - ' + new Date().toISOString();
+    this.versionApp = '1.12';
   }
 }

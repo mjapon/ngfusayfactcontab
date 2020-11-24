@@ -3,8 +3,8 @@
         <div class="col">
             <h4>{{editing ? 'Editar '+ artFromDb.ic_nombre : 'Crear Producto o Servicio'}} </h4>
         </div>
-        <div class="col-3">
-            <div class="btn-group pull-right" role="group" aria-label="Default button group">
+        <div class="col-3 d-flex justify-content-end">
+            <div class="btn-group" role="group" aria-label="Default button group">
                 <button type="button" class="btn btn-outline-success" (click)="cancelar()"
                         title="Retornar a listado de productos y servicios">
                     <i class="fa fa-arrow-left"></i>
@@ -176,19 +176,6 @@
                                     <span class="hand badge badge-primary" (click)="toggleAsistentePrecios()"
                                           title="Cierra el asistente de precios">Cerrar</span>
                                 </div>
-                                <!--
-                                <div class="form-group">
-                                  <label for="precioMinimoInput">Precio Mínimo:</label>
-                                  <br>
-                                  <input type="text"
-                                         autocomplete="off"
-                                         class="form-control" id="precioMinimoInput" aria-describedby="emailHelp"
-                                         [disableControl]="editing"
-                                         placeholder="Precio de venta mínimo" name="art_precio" formControlName="art_preciomin"
-                                         [ngClass]="{'is-invalid':submited && f.art_preciomin.errors}">
-                                </div>
-                                -->
-
                                 <div class="form-group">
                                     <label for="ic_nota">Observación:</label>
                                     <br>

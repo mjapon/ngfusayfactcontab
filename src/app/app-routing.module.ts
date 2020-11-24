@@ -8,9 +8,6 @@ import {CierreCajaComponent} from './components/cajas/cierre-caja/cierre-caja.co
 import {ArticulosListComponent} from './components/articulos/articulos-list/articulos-list.component';
 import {ArticulosFormComponent} from './components/articulos/articulos-form/articulos-form.component';
 
-import {EventosComponent} from './components/eventos/eventos.component';
-import {EventosformComponent} from './components/eventos/eventosform/eventosform.component';
-import {EventosdetComponent} from './components/eventos/eventosdet/eventosdet.component';
 import {LoggedHomeComponent} from './components/logged/logged-home/logged-home.component';
 import {TicketComponent} from './components/tickets/ticket/ticket.component';
 import {TicketformComponent} from './components/tickets/ticketform/ticketform.component';
@@ -36,9 +33,6 @@ const routes: Routes = [
     {path: 'mercaderiaForm/:art_id', component: ArticulosFormComponent},
     {path: 'mercaderiaView/:art_id', component: ArticulosViewComponent},
     {path: 'mercaderiaIngrRapid', component: ArticulosBatchComponent},
-    {path: 'eventos', component: EventosComponent},
-    {path: 'eventosform', component: EventosformComponent},
-    {path: 'eventos/:ev_id', component: EventosdetComponent},
     {path: 'tickets', component: TicketComponent},
     {path: 'ticket/form', component: TicketformComponent},
     {path: 'vtickets', component: VticketComponent},

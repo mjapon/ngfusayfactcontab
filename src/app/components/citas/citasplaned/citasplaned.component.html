@@ -68,7 +68,7 @@
 <div *ngIf="showModalDet">
     <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
               [(visible)]="showModalDet">
-        <app-citadet [rowHistoriaSel]="rowHistoriaSel" [isCollapse]="false"
+        <app-citadet [rowHistoriaSel]="rowHistoriaSel"
                      (closed)="onCerrarDetHistoria($event)"></app-citadet>
     </p-dialog>
 </div>

@@ -67,7 +67,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     editando: boolean;
     codHistoriaEdit: number;
 
-    @ViewChild('divHistoriaAnt') divHistoriaAnt: any;
     @ViewChild('mainDiv') mainDiv: any;
     @ViewChild('divListaPacientes') divListaPaciente: any;
 
@@ -686,14 +685,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     selectHistoriaAnt(row: any) {
         this.rowHistoriaSel = row;
         this.isHistoriaAntSel = true;
-        if (!this.accordionStatus.historiaSelPanel) {
-            setTimeout(() => {
-                this.toggleAcordion('historiaSelPanel');
-            }, 100);
-        }
-        setTimeout(() => {
-            this.divHistoriaAnt.nativeElement.scrollIntoView({behavior: 'smooth'});
-        }, 100);
     }
 
     onCerrarDetHistoria(msg: any) {
@@ -701,7 +692,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     }
 
     cerrarHistoriaAnt() {
-        this.toggleAcordion('historiaSelPanel');
         this.isHistoriaAntSel = false;
         setTimeout(() => {
             this.mainDiv.nativeElement.scrollIntoView({behavior: 'smooth'});

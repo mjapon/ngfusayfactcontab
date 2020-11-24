@@ -3,14 +3,16 @@
         <h4>Tipos de rubros</h4>
     </div>
     <div class="col">
-        <div class="btn-group pull-right" role="group" aria-label="Default button group">
-            <button type="button" class="btn btn-outline-success" (click)="loadGrid()">
-                <i class="fa fa-refresh"></i>
-            </button>
-            <button type="button" class="btn btn-outline-success" (click)="nuevo()">
-                <i class="fa fa-plus-circle"></i>
-                Crear
-            </button>
+        <div class="d-flex justify-content-end">
+            <div class="btn-group" role="group" aria-label="Default button group">
+                <button type="button" class="btn btn-outline-success" (click)="loadGrid()">
+                    <i class="fas fa-sync"></i>
+                </button>
+                <button type="button" class="btn btn-outline-success" (click)="nuevo()">
+                    <i class="fa fa-plus-circle"></i>
+                    Crear
+                </button>
+            </div>
         </div>
     </div>
 </div>

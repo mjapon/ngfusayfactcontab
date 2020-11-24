@@ -2,8 +2,8 @@
     <div class="col">
         <h4>{{usId == 0 ? 'Crear' : 'Editar'}} usuario del sistema</h4>
     </div>
-    <div class="col-3">
-        <div class="btn-group pull-right" role="group" aria-label="Default button group">
+    <div class="col-3 d-inline-flex flex-row-reverse">
+        <div class="btn-group" role="group" aria-label="Default button group">
             <button type="button" class="btn btn-outline-success" (click)="cancelar()"
                     title="Retornar a listado de roles del sistema">
                 <i class="fa fa-arrow-left"></i>
@@ -136,11 +136,11 @@
     </div>
     <div class="col-md-2">
         <button type="button" class="btn btn-outline-success btn-block" (click)="guardar()">
-            <i class="fa fa-save"></i>
+            <i class="fas fa-save"></i>
             Guardar
         </button>
         <button type="button" class="btn btn-outline-secondary btn-block" (click)="cancelar()">
-            <i class="fa fa-times"></i>
+            <i class="fas fa-times"></i>
             Cancelar
         </button>
     </div>
