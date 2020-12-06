@@ -3,8 +3,8 @@ import {CitasMedicasService} from '../../../services/citas-medicas.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {Subscription} from 'rxjs';
 import {ConsMedicaMsgService} from '../../../services/cons-medica-msg.service';
-import {MenuItem} from 'primeng';
 import {SwalService} from '../../../services/swal.service';
+import {MenuItem} from 'primeng/api';
 
 @Component({
     selector: 'app-citadet',

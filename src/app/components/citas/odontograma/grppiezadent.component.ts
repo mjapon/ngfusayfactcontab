@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {MenuItem} from 'primeng';
+
 import {ToolsDienteService} from '../../../services/toolsdiente.service';
+import {MenuItem} from 'primeng/api';
 
 declare var $: any;
 

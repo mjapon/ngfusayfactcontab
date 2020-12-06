@@ -10,7 +10,7 @@ import {
     ViewChild
 } from '@angular/core';
 import {ArrayutilService} from '../../../services/arrayutil.service';
-import {MenuItem} from 'primeng';
+import {MenuItem} from 'primeng/api';
 import {SwalService} from '../../../services/swal.service';
 import {ChangeodontoService} from '../../../services/changeodonto.service';
 import {ToolsDienteService} from '../../../services/toolsdiente.service';

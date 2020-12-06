@@ -3,7 +3,8 @@ import {FautService} from '../../../services/faut.service';
 import {Router} from '@angular/router';
 import {SeccionService} from '../../../services/seccion.service';
 import {SwalService} from '../../../services/swal.service';
-import {MenuItem} from 'primeng';
+import {MenuItem} from 'primeng/api';
+
 
 @Component({
     selector: 'app-logged-home',

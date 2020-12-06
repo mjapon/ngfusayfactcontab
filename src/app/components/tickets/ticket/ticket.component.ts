@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {TicketService} from "../../../services/ticket.service";
-import {parse} from "date-fns";
-import {DateFormatPipe} from "../../../pipes/date-format.pipe";
-import {SwalService} from "../../../services/swal.service";
-import {FechasService} from "../../../services/fechas.service";
-import {MenuItem} from "primeng";
-import {LoadingUiService} from "../../../services/loading-ui.service";
+import {ActivatedRoute, Router} from '@angular/router';
+import {TicketService} from '../../../services/ticket.service';
+import {parse} from 'date-fns';
+import {DateFormatPipe} from '../../../pipes/date-format.pipe';
+import {SwalService} from '../../../services/swal.service';
+import {FechasService} from '../../../services/fechas.service';
+import {LoadingUiService} from '../../../services/loading-ui.service';
+import {MenuItem} from 'primeng/api';
 
 @Component({
     selector: 'app-ticket',

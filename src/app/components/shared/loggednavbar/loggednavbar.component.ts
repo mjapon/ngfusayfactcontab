@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FautService} from '../../../services/faut.service';
 import {Router} from '@angular/router';
-import {MenuItem} from 'primeng';
+import {MenuItem} from 'primeng/api';
 
 @Component({
     selector: 'app-loggednavbar',

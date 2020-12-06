@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MenuItem} from 'primeng';
+import {MenuItem} from 'primeng/api';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SwalService} from '../../../../services/swal.service';
 import {VentaticketService} from '../../../../services/ventaticket.service';
