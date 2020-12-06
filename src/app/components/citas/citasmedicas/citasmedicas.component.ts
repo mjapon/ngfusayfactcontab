@@ -57,6 +57,8 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     hayMasFilasPac: boolean;
     showAnim: boolean;
     odontograma: any;
+    odontagramakid: any;
+    protesislist: any;
     datosAlertaImc: any;
     datosAlertaPresion: any;
     bottomAlcanzado: boolean;
@@ -67,11 +69,14 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     editando: boolean;
     codHistoriaEdit: number;
 
+    tipoOdontogramaSel: number;
+
     @ViewChild('mainDiv') mainDiv: any;
     @ViewChild('divListaPacientes') divListaPaciente: any;
 
     listener;
     subsCitasPlaned: Subscription;
+    subsOdonto: Subscription;
 
     constructor(private citasMedicasServ: CitasMedicasService,
                 private catalogosServ: CatalogosService,
@@ -106,6 +111,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         });
 
         this.selectedSupTab = 1;
+        this.tipoOdontogramaSel = 1;
     }
 
     auxLoadCatalogos(codcat: number, array: string) {
@@ -436,12 +442,14 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         }
     }
 
-    updateOdontograma(odontograma) {
-        if (odontograma) {
-            this.changeodonto.publishMessage(odontograma);
-        } else {
-            this.changeodonto.publishMessage('clear');
-        }
+    reloadDatosPaciente() {
+        const per_ciruc = this.form.paciente.per_ciruc;
+        this.personaService.buscarPorCifull(per_ciruc).subscribe(res => {
+            if (res.status === 200) {
+                this.loadDataPerson(res.persona);
+                this.datosPacienteFull = res.persona;
+            }
+        });
     }
 
     buscarPaciente(showMessage, focusInput) {
@@ -472,9 +480,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                                 this.form.examsfisicos = resHis.datoshistoria.examsfisicos;
                                 this.form.revxsistemas = resHis.datoshistoria.revxsistemas;
                                 this.form.datosconsulta = resHis.datoshistoria.datosconsulta;
-                                if (this.tipoHistoria === 2) {
-                                    this.updateOdontograma(resHis.datoshistoria.datosconsulta.cosm_odontograma);
-                                }
                                 const cosm_diagnosticos = resHis.datoshistoria.datosconsulta.cosm_diagnosticos;
                                 this.selectedDiags = [];
                                 if (cosm_diagnosticos) {
@@ -495,13 +500,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                             }
                         });
                     } else {
-                        if (this.tipoHistoria === 2) {
-                            this.citasMedicasServ.getOdontograma(per_ciruc).subscribe(resOdonto => {
-                                if (resOdonto.status === 200) {
-                                    this.updateOdontograma(resOdonto.odontograma.cosm_odontograma);
-                                }
-                            });
-                        }
                         this.domService.setFocusTimeout('motivoConsultaTextArea', 600);
                     }
                 } else {
@@ -512,7 +510,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                     }
                     this.form.paciente.per_ciruc = per_ciruc;
                 }
-
             }
         );
     }
@@ -598,6 +595,10 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 this.swalService.fireToastSuccess(res.msg);
                 this.selectedTab = 1;
                 this.domService.setFocusTimeout('motivoConsultaTextArea', 600);
+                if (res.per_id) {
+                    this.form.paciente.per_id = res.per_id;
+                    this.reloadDatosPaciente();
+                }
             }
         });
     }
@@ -653,7 +654,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                             this.saved = true;
                         }
                     });
-
                 }
             }
         });
@@ -746,6 +746,9 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         if (this.subsCitasPlaned) {
             this.subsCitasPlaned.unsubscribe();
         }
+        if (this.subsOdonto) {
+            this.subsOdonto.unsubscribe();
+        }
     }
 
     showExamFisico(itExamFis): boolean {
@@ -825,5 +828,9 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         if (tab === 1) {
             this.domService.setFocusTimeout('buscaPacNomCiInput', 500);
         }
+    }
+
+    setTipoOdontograma(tipo: number) {
+        this.tipoOdontogramaSel = tipo;
     }
 }

@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {SelectItem} from "primeng/api";
-import {ArticuloService} from "../../../services/articulo.service";
-import {SwalService} from "../../../services/swal.service";
-import {DomService} from "../../../services/dom.service";
+import {FormBuilder, Validators} from '@angular/forms';
+import {SelectItem} from 'primeng/api';
+import {ArticuloService} from '../../../services/articulo.service';
+import {SwalService} from '../../../services/swal.service';
+import {DomService} from '../../../services/dom.service';
 
 @Component({
-    selector: '[app-articulo-item-batch]',
+    selector: 'app-articulo-item-batch',
     templateUrl: './articulo-item-batch.component.html',
     styleUrls: ['./articulo-item-batch.component.css']
 })
@@ -20,18 +20,13 @@ export class ArticuloItemBatchComponent implements OnInit {
     @Input() secId: number;
 
     submited: boolean;
-
-    numbersPattern: string = '^[0-9]*\\.*[0-9]*$';
-
+    numbersPattern = '^[0-9]*\\.*[0-9]*$';
     ivas: SelectItem[];
-    //@Input() rowFormGroup: FormGroup;
 
     constructor(private fb: FormBuilder,
                 private artService: ArticuloService,
                 private swalService: SwalService,
                 private domService: DomService) {
-        console.log('Valor de rowForm es:');
-        console.log(this.rowFormGroup);
         this.ivas = [
             {label: 'Si', value: true},
             {label: 'No', value: false}
@@ -39,16 +34,16 @@ export class ArticuloItemBatchComponent implements OnInit {
         this.buildForm();
     }
 
-    ngOnInit() {
-    }
-
     get f() {
         return this.rowFormGroup.controls;
     }
 
+    ngOnInit() {
+    }
+
     buildForm() {
-        let tipo = this.defaultTipo;
-        let iva = this.ivas[0];
+        const tipo = this.defaultTipo;
+        const iva = this.ivas[0];
 
         this.rowFormGroup = this.fb.group({
             ic_code: [' ', Validators.required],
@@ -73,7 +68,7 @@ export class ArticuloItemBatchComponent implements OnInit {
     }
 
     onEnterCodBarra($event) {
-        let ic_code = this.rowFormGroup.controls.ic_code.value;
+        const ic_code = this.rowFormGroup.controls.ic_code.value;
         if (ic_code && ic_code.trim().length > 0) {
             this.artService.existeCodbar(ic_code).subscribe(res => {
                 if (res.existe) {
@@ -109,8 +104,8 @@ export class ArticuloItemBatchComponent implements OnInit {
     }
 
     onEnterNombre($event) {
-        let ic_nombre = this.rowFormGroup.controls.ic_nombre.value;
-        let tipic_id = this.rowFormGroup.controls.tipic_id.value;
+        const ic_nombre = this.rowFormGroup.controls.ic_nombre.value;
+        const tipic_id = this.rowFormGroup.controls.tipic_id.value;
         if (ic_nombre && ic_nombre.trim().length > 0) {
             if (tipic_id && tipic_id.value === 1) {
                 this.domService.setFocus(this.getInputId('precioCompraInput'));
@@ -141,6 +136,4 @@ export class ArticuloItemBatchComponent implements OnInit {
             alert('Se debe hacer submit del formulario');
         }
     }
-
-
 }

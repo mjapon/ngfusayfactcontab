@@ -15,4 +15,17 @@ export class ChangeodontoService {
         this.message.next(message);
     }
 
+    publishLoad(pacid: number) {
+        const msgload = '{"tipo": "load_db","pacid":' + pacid + '}';
+        this.message.next(msgload);
+    }
+
+    publishClear() {
+        this.message.next('{"tipo": "clear"}');
+    }
+
+    publishGetPacid() {
+        this.message.next('{"tipo": "getpacid"}');
+    }
+
 }

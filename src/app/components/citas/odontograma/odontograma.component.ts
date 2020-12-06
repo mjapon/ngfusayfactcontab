@@ -1,37 +1,45 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output, Renderer2, ViewChild} from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    Renderer2,
+    ViewChild
+} from '@angular/core';
 import {ArrayutilService} from '../../../services/arrayutil.service';
 import {MenuItem} from 'primeng';
 import {SwalService} from '../../../services/swal.service';
 import {ChangeodontoService} from '../../../services/changeodonto.service';
-import {Subscription} from 'rxjs';
-
-interface Pocision {
-    top: number;
-    left: number;
-}
+import {ToolsDienteService} from '../../../services/toolsdiente.service';
+import {OdontogramaService} from '../../../services/odontograma.service';
+import {LoadingUiService} from '../../../services/loading-ui.service';
 
 declare var $: any;
-
 
 @Component({
     selector: 'app-odontograma',
     templateUrl: './odontograma.component.html',
     styleUrls: ['./odontograma.component.css']
 })
-export class OdontogramaComponent implements OnInit, OnDestroy {
+export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
+
+    @Input()
+    tipodontograma: number;
+
+    @Input()
+    codpaciente: number;
 
     dientesA: Array<any>;
     dientesB: Array<any>;
     dientesC: Array<any>;
     dientesD: Array<any>;
 
-    dientesLecheA: Array<any>;
-    dientesLecheB: Array<any>;
-    dientesLecheC: Array<any>;
-    dientesLecheD: Array<any>;
-
     tools: any;
     toolSelected: any;
+
     codSelectedTool: 0;
     selectedCssClass: string;
     operacionCapa: boolean;
@@ -39,216 +47,104 @@ export class OdontogramaComponent implements OnInit, OnDestroy {
     classTapaLeche: string;
     dentadura: any;
 
+    dienteSelected: any;
+    rangoProtesis: number[];
+
     menuItemsDiente: MenuItem[];
-    textos: any;
-    configA = {t: 'Vestibular', b: 'Palatino', l: 'Distal', r: 'Mesial', c: 'Oclusal'};
-    configB = {t: 'Vestibular', b: 'Palatino', l: 'Mesial', r: 'Distal', c: 'Oclusal'};
-    configC = {t: 'Lingual', b: 'Vestibular', l: 'Distal', r: 'Mesial', c: 'Oclusal'};
-    configD = {t: 'Lingual', b: 'Vestibular', l: 'Mesial', r: 'Distal', c: 'Oclusal'};
+    menuItemsTool: MenuItem[];
+    tiposProtesis: any[];
+    estadoProtesisSel: any;
+    estadosProtesis: any[];
+    tipoProtesisSel: any;
+    zonasProtesis: any[];
+    zonaProtesisSel: any;
+    dientesProtesis: any[];
+    protesisList: any[];
+
+    tiposPiezas: any[];
+    tipoPiezaSel: any;
+    formOdontograma: any;
+
+    @Output() onClicSiguiente = new EventEmitter<any>();
 
     @ViewChild('contextMenuDiente') contextMenuDiente: any;
 
-    @Output() messageToEmit = new EventEmitter<string>();
-
-    subscription: Subscription;
+    modalPiezaVisible: boolean;
+    modalCreaProtesis: boolean;
+    obsodontograma: string;
+    private iniciaSelProt: boolean;
 
     constructor(private render: Renderer2, private arrayUtil: ArrayutilService, private swalService: SwalService,
-                private changeOdonto: ChangeodontoService) {
+                private changeOdonto: ChangeodontoService, private toolsDienteServ: ToolsDienteService,
+                private odontoService: OdontogramaService, private loadingUiService: LoadingUiService) {
+        this.tiposProtesis = this.toolsDienteServ.getTiposProtesis();
+        this.zonasProtesis = [{label: 'Palatino', value: 1}, {label: 'Lingual', value: 2}];
+        this.tiposPiezas = [{label: 'Protesis', value: 1}, {label: 'Retenedor', value: 2}];
+        this.estadosProtesis = [{label: 'Realizado', value: 1}, {label: 'Por realizar', value: 2}];
+        this.estadoProtesisSel = this.estadosProtesis[0];
+        this.obsodontograma = '';
+        this.menuItemsDiente = [];
+    }
+
+    ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
+        for (const propName in changes) {
+            const chng = changes[propName];
+            if (propName === 'codpaciente') {
+                if (chng.currentValue) {
+                    this.loadForm();
+                } else {
+                    this.clearAll();
+                }
+            }
+        }
     }
 
     ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+        this.modalPiezaVisible = false;
+        this.modalCreaProtesis = false;
+        this.dienteSelected = {};
+        this.iniciaSelProt = false;
+    }
+
+    loadForm() {
+        this.loadingUiService.publishBlockMessage();
+        this.odontoService.getForm(this.codpaciente, this.tipodontograma).subscribe(res => {
+            if (res.status === 200) {
+                this.formOdontograma = res.form;
+                this.loadDientesFromDb(res.form);
+            }
+        });
     }
 
     ngOnInit(): void {
         this.loadDientes();
         this.initTools();
         this.selectedCssClass = '';
-        this.menuItemsDiente = [];
-        this.textos = {a: '', b: '', c: '', d: ''};
-        this.subscription = this.changeOdonto.message.subscribe(msg => {
-            if (msg) {
-                if (msg === 'clear') {
-                    this.loadDientes();
-                } else {
-                    try {
-                        const odontoparsed = JSON.parse(msg.toString());
-                        this.loadDientesFromDb(odontoparsed);
-                    } catch (error) {
-                        console.log('Error al parsear texto de odontograma desde la base de datos', error);
-                    }
-                }
-            }
-        });
+        this.menuItemsTool = [];
+        this.rangoProtesis = [];
+        this.dientesProtesis = [];
+        this.protesisList = [];
     }
 
-    showSetTextoDiente(event: any) {
-        const diente = event.item.state;
-        const obsdiente = diente.texto ? diente.texto : '';
-        const textodiente = prompt('Observación', obsdiente);
-        if (textodiente) {
-            diente.texto = textodiente.trim();
-            event.context.updateTextos();
-        }
+    clearAll() {
+        this.loadDientes();
+        this.clearProtesisList();
+        this.obsodontograma = '';
     }
 
-    cambiarEstadoExterno(event) {
-        const diente = event.item.state;
-        const msg = '¿Confirma marca tratamiento externo?';
-        const estadoDiente = diente.estado ? diente.estado : 0;
-        if (estadoDiente === 0) {
-            if (confirm(msg)) {
-                diente.estado = 3;
-                event.context.updateTextos();
-            }
-        }
+    clearProtesisList() {
+        this.dientesProtesis = [];
+        this.protesisList = [];
     }
 
-    cambiarEstadoDiente(event) {
-        let msg = '¿Confirma que desea ';
-        const diente = event.item.state;
-        let estadoDiente = diente.estado ? diente.estado : 0;
-        if (estadoDiente === 0 || estadoDiente === 2) {
-            estadoDiente = 1;
-            msg += ' iniciar tratamiento?';
-        } else if (estadoDiente === 1) {
-            estadoDiente = 2;
-            msg += ' marcar como tratamiento realizado?';
-        }
-        if (confirm(msg)) {
-            diente.estado = estadoDiente;
-            event.context.updateTextos();
-        }
-    }
-
-    loadContexMenu(diente) {
-        this.menuItemsDiente = [];
-        const estadoDiente = diente.estado ? diente.estado : 0;
-        let txtestado = '';
-        let addCambiaEstado = false;
-        if (estadoDiente === 0 || estadoDiente === 2) {
-            txtestado = 'Marcar tratamiento pendiente';
-            addCambiaEstado = true;
-        } else if (estadoDiente === 1) {
-            txtestado = 'Marcar tratamiento realizado';
-            addCambiaEstado = true;
-        }
-        // tslint:disable-next-line:prefer-const
-        let self = this;
-        if (addCambiaEstado) {
-            this.menuItemsDiente.push({
-                label: txtestado,
-                command: (event => {
-                    event.context = self;
-                    self.cambiarEstadoDiente(event);
-                }),
-                state: diente
-            });
-        }
-
-        if (estadoDiente === 0) {
-            txtestado = 'Marcar tratamiento externo';
-            this.menuItemsDiente.push({
-                label: txtestado,
-                command: (event => {
-                    event.context = self;
-                    self.cambiarEstadoExterno(event);
-                }),
-                state: diente
-            });
-        }
-
-        const texto = diente.texto ? diente.texto : '';
-        if (texto.trim().length > 0) {
-            this.menuItemsDiente.push({
-                label: texto,
-                command: (event => {
-                    event.context = self;
-                    this.showSetTextoDiente(event);
-                }),
-                state: diente
-            });
-        } else {
-            this.menuItemsDiente.push({
-                label: 'Observación',
-                command: (event => {
-                    event.context = self;
-                    this.showSetTextoDiente(event);
-                }),
-                state: diente
-            });
-        }
+    showModalPieza(diente) {
+        this.dienteSelected = diente;
+        this.estadoProtesisSel = this.estadosProtesis[0];
+        this.modalPiezaVisible = true;
     }
 
     initTools(): void {
-        this.tools = {
-            1: {
-                codigo: 1,
-                nombre: 'Sellante necesario',
-                classTapa: 'm-aster-rojo',
-                classTapaLeche: 'm-aster-rojo-leche'
-            },
-            2: {
-                codigo: 2,
-                nombre: 'Sellante realizado',
-                classTapa: 'm-aster-azul',
-                classTapaLeche: 'm-aster-azul-leche'
-            },
-            3: {
-                codigo: 3,
-                nombre: 'Extracción Indicada',
-                classTapa: 'm-x-rojo',
-                classTapaLeche: 'm-x-rojo-leche'
-            },
-            4: {
-                codigo: 4,
-                nombre: 'Pérdida por caries',
-                classTapa: 'm-x-azul',
-                classTapaLeche: 'm-x-azul-leche'
-            },
-            5: {
-                codigo: 5,
-                nombre: 'Pérdida (otra causa)',
-                classTapa: 'm-x-rojo',
-                classTapaLeche: 'm-x-rojo-leche'
-            },
-            6: {
-                codigo: 6,
-                nombre: 'Endodoncia Necesaria',
-                classTapa: 'm-endo-rojo',
-                classTapaLeche: 'm-endo-rojoleche'
-            },
-            7: {
-                codigo: 7,
-                nombre: 'Endodoncia Realizada',
-                classTapa: 'm-endo-azul',
-                classTapaLeche: 'm-endo-azulleche'
-            },
-            8: {codigo: 8, nombre: 'Prótesis Fija', cssClass: ''},
-            9: {codigo: 9, nombre: 'Prótesis Removible', cssClass: ''},
-            10: {codigo: 10, nombre: 'Prótesis Total', cssClass: ''},
-            11: {
-                codigo: 11,
-                nombre: 'Corona Necesaria',
-                classTapa: 'm-corona-rojo',
-                classTapaLeche: 'm-corona-rojoleche'
-            },
-            12: {
-                codigo: 12,
-                nombre: 'Corona Realizada',
-                classTapa: 'm-corona-azul',
-                classTapaLeche: 'm-corona-azulleche'
-            },
-            13: {codigo: 13, nombre: 'Obturado', cssClass: 'fondoazul'},
-            14: {codigo: 14, nombre: 'Caries', cssClass: 'fondorojo'},
-            15: {
-                codigo: 15, nombre: 'Implante', classTapa: 'implante',
-                classTapaLeche: 'implante'
-            },
-            16: {codigo: 16, nombre: 'Caries Incipiente', cssClass: 'caries-pequenio'},
-            17: {codigo: 17, nombre: 'Caries', cssClass: 'caries-mediano'}
-
-        };
+        this.tools = this.toolsDienteServ.getTools();
     }
 
     auxLoadDientes(inicio: number, array: Array<any>, signo: number, numdientes: number, cudr: any) {
@@ -261,43 +157,38 @@ export class OdontogramaComponent implements OnInit, OnDestroy {
             const diente = {
                 numero: numDiente,
                 tipo: tipoDiente,
-                t: {estilos: {}},
-                b: {estilos: {}},
-                l: {estilos: {}},
-                r: {estilos: {}},
-                c: {estilos: {}},
+                t: {estilos: {}, tools: []},
+                b: {estilos: {}, tools: []},
+                l: {estilos: {}, tools: []},
+                r: {estilos: {}, tools: []},
+                c: {estilos: {}, tools: []},
                 tapaVisible: false,
                 classTapa: '',
                 tools: [],
                 texto: '',
                 cdr: cudr,
-                estado: 0
+                estado: 0,
+                protesis: 0
             };
             array.push(diente);
         }
     }
 
-    getBadgeStatus(diente: any) {
-        let status = 'secondary';
+    getEstadoDiente(diente: any) {
+        let estadodesc = '';
         const estado = diente.estado ? diente.estado : 0;
         switch (estado) {
-            case 0:
-                status = 'secondary';
-                break;
             case 1:
-                status = 'danger';
+                estadodesc = 'Tratamiento Pendiente';
                 break;
             case 2:
-                status = 'success';
+                estadodesc = 'Tratamiento Finalizado';
                 break;
             case 3:
-                status = 'info';
-                break;
-            default:
-                status = 'secondary';
+                estadodesc = 'Tratamiento Externo';
                 break;
         }
-        return status;
+        return estadodesc;
     }
 
     getCssClass(estilos) {
@@ -309,47 +200,70 @@ export class OdontogramaComponent implements OnInit, OnDestroy {
         this.dientesB = [];
         this.dientesC = [];
         this.dientesD = [];
-        this.dientesLecheA = [];
-        this.dientesLecheB = [];
-        this.dientesLecheC = [];
-        this.dientesLecheD = [];
         const numDientes = 8;
-        const numDientesNiño = 5;
-        this.auxLoadDientes(18, this.dientesA, -1, numDientes, 'A');
-        this.auxLoadDientes(21, this.dientesB, 1, numDientes, 'B');
-        this.auxLoadDientes(48, this.dientesC, -1, numDientes, 'C');
-        this.auxLoadDientes(31, this.dientesD, 1, numDientes, 'D');
-
-        this.auxLoadDientes(55, this.dientesLecheA, -1, numDientesNiño, 'A');
-        this.auxLoadDientes(61, this.dientesLecheB, 1, numDientesNiño, 'B');
-        this.auxLoadDientes(85, this.dientesLecheC, -1, numDientesNiño, 'C');
-        this.auxLoadDientes(71, this.dientesLecheD, 1, numDientesNiño, 'D');
+        const numDientesNinio = 5;
+        if (this.tipodontograma === 1) {
+            this.auxLoadDientes(18, this.dientesA, -1, numDientes, 'A');
+            this.auxLoadDientes(21, this.dientesB, 1, numDientes, 'B');
+            this.auxLoadDientes(48, this.dientesC, -1, numDientes, 'C');
+            this.auxLoadDientes(31, this.dientesD, 1, numDientes, 'D');
+        } else {
+            this.auxLoadDientes(55, this.dientesA, -1, numDientesNinio, 'A');
+            this.auxLoadDientes(61, this.dientesB, 1, numDientesNinio, 'B');
+            this.auxLoadDientes(85, this.dientesC, -1, numDientesNinio, 'C');
+            this.auxLoadDientes(71, this.dientesD, 1, numDientesNinio, 'D');
+        }
 
         this.dentadura = {
-            A: this.dientesA, B: this.dientesB, C: this.dientesC, D: this.dientesD,
-            lA: this.dientesLecheA, lB: this.dientesLecheB, lC: this.dientesLecheC, lD: this.dientesLecheD
+            A: this.dientesA, B: this.dientesB, C: this.dientesC, D: this.dientesD
         };
     }
 
-    loadDientesFromDb(dentadura: any) {
-        this.dentadura = dentadura;
-        this.updateTextos();
+    loadDientesFromDb(datosodonto: any) {
+        try {
+            if (datosodonto.od_odontograma) {
+                const dentadura = JSON.parse(datosodonto.od_odontograma);
+                if (dentadura) {
+                    this.dentadura = dentadura;
+                }
+            } else {
+                this.loadDientes();
+            }
+
+            if (datosodonto.od_protesis) {
+                const protesis = JSON.parse(datosodonto.od_protesis);
+                if (protesis) {
+                    this.protesisList = protesis;
+                }
+            } else {
+                this.clearProtesisList();
+            }
+
+            if (datosodonto.od_obsodonto) {
+                this.obsodontograma = datosodonto.od_obsodonto;
+            } else {
+                this.obsodontograma = '';
+            }
+        } catch (e) {
+            this.clearAll();
+        }
     }
 
     clearDienteCssTBLRC(diente: any) {
-        diente.t = {estilos: [], tools: {}};
-        diente.b = {estilos: [], tools: {}};
-        diente.l = {estilos: [], tools: {}};
-        diente.r = {estilos: [], tools: {}};
-        diente.c = {estilos: [], tools: {}};
+        diente.t = {estilos: {}, tools: []};
+        diente.b = {estilos: {}, tools: []};
+        diente.l = {estilos: {}, tools: []};
+        diente.r = {estilos: {}, tools: []};
+        diente.c = {estilos: {}, tools: []};
         diente.tools = [];
+        diente.tapaVisible = false;
+        diente.classTapa = '';
     }
 
     auxToggleClass(diente: any, lado: string) {
         let cssclass = this.selectedCssClass;
         if (this.toolSelected) {
             if (this.operacionCapa) {
-                this.clearDienteCssTBLRC(diente);
                 if (diente.tapaVisible) {
                     diente.tapaVisible = false;
                     diente.classTapa = '';
@@ -370,20 +284,38 @@ export class OdontogramaComponent implements OnInit, OnDestroy {
             } else {
                 const estilos = diente[lado].estilos;
                 let cssprop = 'fondo';
-                if (cssclass === 'fondorojo' || cssclass === 'caries-pequenio' || cssclass === 'caries-mediano') {
-                    if (this.arrayUtil.contains(Object.values(estilos), 'fondoazul')) {
+                if (cssclass === 'caries-grande' || cssclass === 'caries-pequenio' || cssclass === 'caries-mediano') {
+                    if (this.arrayUtil.contains(Object.values(estilos), 'obturado-grande')) {
                         cssprop = 'borde';
-                        cssclass = 'borderojo';
+                        cssclass = 'caries-grande-borde';
                     }
                 }
-                if (diente[lado].estilos[cssprop]) {
-                    delete diente[lado].estilos[cssprop];
+                if (estilos[cssprop]) {
+                    delete estilos[cssprop];
                 } else {
-                    diente[lado].estilos[cssprop] = cssclass;
+                    estilos[cssprop] = cssclass;
+                }
+                diente[lado].tools = [];
+                Object.values(estilos).forEach(it => {
+                    const idtoolit = this.getCodToolFromEstilo(it.toString());
+                    if (idtoolit) {
+                        diente[lado].tools.push(idtoolit);
+                    }
+                });
+
+                if (diente[lado].tools.length === 1) {
+                    const codtoold = diente[lado].tools[0];
+                    if (codtoold === 14 || codtoold === 16 || codtoold === 17) {
+                        if (codtoold === 14) {
+                            diente[lado].estilos = {fondo: 'caries-grande'};
+                        } else if (codtoold === 16) {
+                            diente[lado].estilos = {fondo: 'caries-pequenio'};
+                        } else if (codtoold === 17) {
+                            diente[lado].estilos = {fondo: 'caries-mediano'};
+                        }
+                    }
                 }
             }
-
-            this.updateTextos();
         } else {
             this.swalService.fireToastWarn('Primero seleccione una herramienta');
         }
@@ -416,17 +348,26 @@ export class OdontogramaComponent implements OnInit, OnDestroy {
     getCodToolFromEstilo(estilo: string) {
         let codtool = 0;
         switch (estilo) {
-            case 'fondoazul':
-                codtool = 13;
-                break;
-            case 'fondorojo':
+            case 'caries-grande':
                 codtool = 14;
                 break;
-            case 'borderojo':
+            case 'caries-pequenio':
+                codtool = 16;
+                break;
+            case 'caries-mediano':
+                codtool = 17;
+                break;
+            case 'obturado-mediano':
+                codtool = 19;
+                break;
+            case 'obturado-grande':
+                codtool = 13;
+                break;
+            case 'caries-grande-borde':
                 codtool = 14;
                 break;
             default:
-                codtool = 14;
+                codtool = null;
                 break;
         }
         return codtool;
@@ -449,80 +390,6 @@ export class OdontogramaComponent implements OnInit, OnDestroy {
         }
     }
 
-    getDescLadoDiente(diente: any, lado: string) {
-        const cuadrante = diente.cdr;
-        let config;
-        switch (cuadrante) {
-            case 'A':
-                config = this.configA;
-                break;
-            case 'B':
-                config = this.configB;
-                break;
-            case 'C':
-                config = this.configC;
-                break;
-            case 'D':
-                config = this.configD;
-                break;
-            default:
-                config = this.configA;
-                break;
-        }
-        if (config) {
-            return config[lado];
-        }
-        return 'Lado';
-    }
-
-    getTextoLadoDiente(diente: any, lado: string) {
-        let result = '<i>' + this.getDescLadoDiente(diente, lado) + '</i>:';
-        const toolstring = [];
-        Object.values(diente[lado].estilos).forEach(tool => {
-            if (tool) {
-                const idtool = this.getCodToolFromEstilo(tool.toString());
-                if (this.tools[idtool]) {
-                    toolstring.push(this.tools[idtool].nombre);
-                }
-            }
-        });
-        result += toolstring.join();
-        return result + '  ';
-    }
-
-    getTextoDienteModif(diente: any): string {
-        let result = '<b>' + diente.numero + ': </b>';
-        if (diente.tools.length > 0) {
-            const toolstring = [];
-            diente.tools.forEach(tool => {
-                if (tool) {
-                    toolstring.push(this.tools[tool].nombre);
-                }
-            });
-            result += toolstring.join();
-        }
-
-        if (Object.values(diente.t.estilos).length > 0) {
-            result += this.getTextoLadoDiente(diente, 't');
-        }
-        if (Object.values(diente.b.estilos).length > 0) {
-            result += this.getTextoLadoDiente(diente, 'b');
-        }
-        if (Object.values(diente.l.estilos).length > 0) {
-            result += this.getTextoLadoDiente(diente, 'l');
-        }
-        if (Object.values(diente.r.estilos).length > 0) {
-            result += this.getTextoLadoDiente(diente, 'r');
-        }
-        if (Object.values(diente.c.estilos).length > 0) {
-            result += this.getTextoLadoDiente(diente, 'c');
-        }
-        if (diente.texto.trim().length > 0) {
-            result += ' ' + diente.texto;
-        }
-        return result;
-    }
-
     isDienteModif(diente: any) {
         if (diente.tools.length > 0) {
             return true;
@@ -534,39 +401,267 @@ export class OdontogramaComponent implements OnInit, OnDestroy {
             Object.values(diente.c.estilos).length > 0;
     }
 
-    getTextoBloqueDent(arrayDent: Array<any>): string {
-        const dientesstring = [];
-        arrayDent.forEach(diente => {
-            if (this.isDienteModif(diente)) {
-                const textoDiente = this.getTextoDienteModif(diente);
-                dientesstring.push(textoDiente);
+    getNextCuadr(currentCuadr) {
+        let nextCuadr = null;
+        switch (currentCuadr) {
+            case 'A': {
+                nextCuadr = 'B';
+                break;
+            }
+            case 'B': {
+                nextCuadr = 'C';
+                break;
+            }
+            case 'C': {
+                nextCuadr = 'D';
+                break;
+            }
+            case 'D': {
+                nextCuadr = null;
+                break;
+            }
+            default: {
+                nextCuadr = null;
+                break;
+            }
+        }
+        return nextCuadr;
+    }
+
+    getPreviusCuadr(currentCuadr) {
+        let backCuadr = null;
+        switch (currentCuadr) {
+            case 'A': {
+                backCuadr = null;
+                break;
+            }
+            case 'B': {
+                backCuadr = 'A';
+                break;
+            }
+            case 'C': {
+                backCuadr = 'B';
+                break;
+            }
+            case 'D': {
+                backCuadr = 'C';
+                break;
+            }
+            default: {
+                backCuadr = null;
+                break;
+            }
+        }
+        return backCuadr;
+    }
+
+    nextDiente() {
+        if (this.dienteSelected) {
+            const cuandrante = this.dienteSelected.cdr;
+            if (this.dentadura[cuandrante]) {
+                const indexDS = this.dentadura[cuandrante].indexOf(this.dienteSelected);
+                if (indexDS !== -1 && indexDS < (this.dentadura[cuandrante].length - 1)) {
+                    this.dienteSelected = this.dentadura[cuandrante][indexDS + 1];
+                } else {
+                    const nextCuadr = this.getNextCuadr(cuandrante);
+                    if (nextCuadr) {
+                        this.dienteSelected = this.dentadura[nextCuadr][0];
+                    } else {
+                        alert('Llegasta al final');
+                    }
+                }
+            }
+        }
+    }
+
+    backDiente() {
+        if (this.dienteSelected) {
+            const cuandrante = this.dienteSelected.cdr;
+            if (this.dentadura[cuandrante]) {
+                const indexDS = this.dentadura[cuandrante].indexOf(this.dienteSelected);
+                if (indexDS !== -1 && indexDS > 0) {
+                    this.dienteSelected = this.dentadura[cuandrante][indexDS - 1];
+                } else {
+                    const backCuadr = this.getPreviusCuadr(cuandrante);
+                    if (backCuadr) {
+                        const cuadrlen = this.dentadura[backCuadr].length;
+                        this.dienteSelected = this.dentadura[backCuadr][cuadrlen - 1];
+                    } else {
+                        alert('Se alcanzó el inicio');
+                    }
+                }
+            }
+        }
+    }
+
+    checkUncheckTool(idTool: number) {
+        this.toolsDienteServ.checkUncheckTool(idTool, this.dienteSelected);
+    }
+
+    cssMarkedTool(idTool: number) {
+        return this.dienteSelected.tools.indexOf(idTool) >= 0 ? 'btn-success' : 'btn-outline-secondary';
+    }
+
+    cerrarDialogDiente() {
+        this.modalPiezaVisible = false;
+        this.dienteSelected = null;
+    }
+
+    showModalProtesis() {
+        this.dientesProtesis = [];
+        this.tipoProtesisSel = null;
+        this.zonaProtesisSel = null;
+        this.tipoPiezaSel = null;
+        this.estadoProtesisSel = null;
+        this.modalCreaProtesis = true;
+    }
+
+    closeModalProtesis() {
+        this.modalCreaProtesis = false;
+    }
+
+    loadDientesForProtesis(startA, endA, startB, endB, issel, tipo) {
+        this.dientesProtesis = [];
+        for (let i = startA; i >= endA; i--) {
+            this.dientesProtesis.push({value: i, sel: issel, tipo});
+        }
+        for (let i = startB; i <= endB; i++) {
+            this.dientesProtesis.push({value: i, sel: issel, tipo});
+        }
+    }
+
+    onZonaProtChange($event: any) {
+        const issel = this.tipoProtesisSel.value === 3;
+        const tipo = this.tiposPiezas[0].value;
+        if (this.zonaProtesisSel.value === 1) {
+            this.loadDientesForProtesis(18, 11, 21, 28, issel, tipo);
+        } else {
+            this.loadDientesForProtesis(48, 41, 31, 38, issel, tipo);
+        }
+    }
+
+    getDientesProtesisMarked() {
+        return this.dientesProtesis.filter(it => it.sel);
+    }
+
+    dientesProtesisMarked() {
+        return this.getDientesProtesisMarked().length > 0;
+    }
+
+    creaProtesis() {
+        const dientprot = this.getDientesProtesisMarked();
+        if (dientprot.length > 0) {
+            dientprot.forEach(e => {
+                // Esto es el tipo de pieza si es protesis o retenedor
+                if (e.tipo === 2) {
+                    e.protesis = -1;
+                } else {
+                    e.protesis = this.estadoProtesisSel.value;
+                    e.tipoprotesis = this.tipoProtesisSel.value;
+                }
+                const itdiente = this.toolsDienteServ.buscaPiezaDental(this.dentadura, e.value);
+                if (itdiente) {
+                    itdiente.protesis = e.protesis;
+                    if (e.protesis !== -1) {
+                        itdiente.tipoprotesis = e.tipoprotesis;
+                    }
+                }
+            });
+            const newprotesis = {
+                numero: this.protesisList.length + 1,
+                piezas: dientprot.filter(e => e.tipo === 1).map(x => x.value),
+                retens: dientprot.filter(e => e.tipo === 2).map(x => x.value),
+                tipo: this.tipoProtesisSel.label,
+                estado: this.estadoProtesisSel.label
+            };
+            this.protesisList.push(newprotesis);
+            this.modalCreaProtesis = false;
+        }
+    }
+
+    onMouseDownProtDiente(it: any) {
+        if (this.tipoPiezaSel && this.tipoProtesisSel.value < 3) {
+            /*this.dientesProtesis.forEach(e => {
+                e.sel = false;
+            });*/
+            it.sel = true;
+            it.tipo = this.tipoPiezaSel.value;
+            this.iniciaSelProt = true;
+        }
+    }
+
+    onMouseOverProtDiente(it: any) {
+        if (this.iniciaSelProt && this.tipoProtesisSel.value < 3) {
+            it.sel = true;
+            it.tipo = this.tipoPiezaSel.value;
+        }
+    }
+
+    onMouseUpProtDiente(it: any) {
+        if (this.iniciaSelProt && this.tipoProtesisSel.value < 3) {
+            it.sel = true;
+            it.tipo = this.tipoPiezaSel.value;
+            this.iniciaSelProt = false;
+
+            if (this.tipoProtesisSel.value === 2) {
+                this.tipoPiezaSel = null;
+            }
+        }
+    }
+
+    limpiarSelProtesis() {
+        this.dientesProtesis.forEach(e => {
+            e.sel = false;
+        });
+    }
+
+    onTipoProtesisChange($event: any) {
+        this.tipoPiezaSel = this.tiposPiezas[0];
+        this.estadoProtesisSel = null;
+        this.zonaProtesisSel = null;
+    }
+
+    onEstadoProtesisSel($event: any) {
+
+    }
+
+    clearProtesis(protesis: any) {
+        protesis.piezas.forEach(x => {
+            const piezadental = this.toolsDienteServ.buscaPiezaDental(this.dentadura, x);
+            if (piezadental) {
+                piezadental.protesis = 0;
             }
         });
-        return dientesstring.join('<br>');
+
+        protesis.retens.forEach(x => {
+            const piezadental = this.toolsDienteServ.buscaPiezaDental(this.dentadura, x);
+            if (piezadental) {
+                piezadental.protesis = 0;
+            }
+        });
+        this.arrayUtil.removeElement(this.protesisList, protesis);
     }
 
-    clickTapaDiente(diente: any) {
-        diente.tapaVisible = false;
-        diente.classTapa = '';
+    guardarOdontograma(next: boolean) {
+        this.formOdontograma.od_tipo = this.tipodontograma;
+        this.formOdontograma.od_odontograma = JSON.stringify(this.dentadura);
+        this.formOdontograma.od_protesis = JSON.stringify(this.protesisList);
+        this.formOdontograma.od_obs = this.obsodontograma;
+        if (this.formOdontograma.pac_id) {
+            this.odontoService.guardar(this.formOdontograma).subscribe(res => {
+                if (res.status === 200) {
+                    this.swalService.fireToastSuccess(res.msg);
+                    this.formOdontograma.od_id = res.od_id;
+                }
+                if (next) {
+                    this.onClicSiguiente.emit('');
+                }
+            });
+        } else {
+            this.swalService.fireToastError('Primero debe registrar el paciente antes de registrar el odontograma');
+            if (next) {
+                this.onClicSiguiente.emit('');
+            }
+        }
     }
-
-    updateTextos() {
-        this.textos.a = this.getTextoBloqueDent(this.dentadura.A) + '<br>' + this.getTextoBloqueDent(this.dentadura.lA);
-        this.textos.b = this.getTextoBloqueDent(this.dentadura.B) + '<br>' + this.getTextoBloqueDent(this.dentadura.lB);
-        this.textos.c = this.getTextoBloqueDent(this.dentadura.lC) + '<br>' + this.getTextoBloqueDent(this.dentadura.C);
-        this.textos.d = this.getTextoBloqueDent(this.dentadura.lD) + '<br>' + this.getTextoBloqueDent(this.dentadura.D);
-        this.messageToEmit.emit(JSON.stringify(this.dentadura));
-    }
-
-    onContextMenuDiente(diente: any, event: MouseEvent) {
-        this.loadContexMenu(diente);
-        this.contextMenuDiente.show();
-        const offset = $(event.target).offset();
-        offset.top += 10;
-        offset.left += 10;
-        $('#contextmenumj').offset(offset);
-        return false;
-    }
-
-
 }

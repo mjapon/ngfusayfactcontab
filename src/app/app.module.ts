@@ -65,6 +65,7 @@ import {
     MessageService,
     ProgressSpinnerModule,
     RadioButtonModule,
+    SliderModule,
     SplitButtonModule,
     TabViewModule,
     ToolbarModule
@@ -83,6 +84,12 @@ import {TrubrosformComponent} from './components/tickets/vtickets/trubrosform/tr
 import {CitashechasComponent} from './components/citas/citashechas/citashechas.component';
 import {CitasplanedComponent} from './components/citas/citasplaned/citasplaned.component';
 import {CitadetComponent} from './components/citas/citadet/citadet.component';
+import {ButooldentComponent} from './components/citas/odontograma/butooldent.component';
+import {RowdiagnospiezaComponent} from './components/citas/odontograma/rowdiagnospieza.component';
+import {PiezadentalComponent} from './components/citas/odontograma/piezadental.component';
+import {CaraspdComponent} from './components/citas/odontograma/caraspd.component';
+import {NumpiezaComponent} from './components/citas/odontograma/numpieza.component';
+import {GrppiezadentComponent} from './components/citas/odontograma/grppiezadent.component';
 
 registerLocaleData(localeEs, 'es-EC');
 
@@ -135,7 +142,13 @@ export function provideConfig() {
         TrubrosformComponent,
         CitashechasComponent,
         CitasplanedComponent,
-        CitadetComponent
+        CitadetComponent,
+        ButooldentComponent,
+        RowdiagnospiezaComponent,
+        PiezadentalComponent,
+        CaraspdComponent,
+        NumpiezaComponent,
+        GrppiezadentComponent
     ],
     imports: [
         BrowserModule,
@@ -174,7 +187,8 @@ export function provideConfig() {
         RadioButtonModule,
         BlockUIModule,
         ProgressSpinnerModule,
-        AutoCompleteModule
+        AutoCompleteModule,
+        SliderModule
     ],
     providers: [
         AuthService,

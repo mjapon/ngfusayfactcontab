@@ -649,12 +649,35 @@
 
         </p-tabPanel>
         <p-tabPanel header="{{tabsFisicos.g.paso}}. {{tabsFisicos.g.titulo}}" *ngIf="tabsFisicos.g.visible">
-            <app-odontograma (messageToEmit)="getMessage($event)"></app-odontograma>
 
+            <div class="d-flex justify-content-between mb-2">
+                <div class="btn-group btn-group-sm" role="group">
+                    <button type="button" class="btn " (click)="setTipoOdontograma(1)"
+                            [ngClass]="{'btn-outline-primary':tipoOdontogramaSel===1, 'btn-outline-secondary':tipoOdontogramaSel!==1 }">
+                        Permanente
+                    </button>
+                    <button type="button" class="btn " (click)="setTipoOdontograma(2)"
+                            [ngClass]="{'btn-outline-primary':tipoOdontogramaSel===2, 'btn-outline-secondary':tipoOdontogramaSel!==2 }">
+                        Temporal
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="tipoOdontogramaSel===1">
+                <app-odontograma (onClicSiguiente)="guardarOdontograma()" [tipodontograma]="1"
+                                 [codpaciente]="form.paciente.per_id"></app-odontograma>
+            </div>
+            <div *ngIf="tipoOdontogramaSel===2">
+                <app-odontograma (onClicSiguiente)="guardarOdontograma()" [tipodontograma]="2"
+                                 [codpaciente]="form.paciente.per_id"></app-odontograma>
+            </div>
+
+            <!--
             <div class="padding15">
                 <button class="btn btn-primary" (click)="guardarOdontograma()"> Siguiente <i
                         class="fa fa-arrow-right"></i></button>
             </div>
+            -->
         </p-tabPanel>
         <p-tabPanel header="{{tabsFisicos.h.paso}}. {{tabsFisicos.h.titulo}}" *ngIf="tabsFisicos.h.visible">
             <div class="row dato-fila">
