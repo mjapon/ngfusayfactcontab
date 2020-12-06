@@ -17,7 +17,6 @@ import {TableModule} from 'primeng/table';
 import {MenubarModule} from 'primeng/menubar';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import {ButtonModule} from 'primeng/button';
-import {SidebarModule} from 'primeng/sidebar';
 import {AccordionModule} from 'primeng/accordion';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './services/auth.service';
@@ -33,13 +32,9 @@ import {DateFormatPipe} from './pipes/date-format.pipe';
 import {AuditInterceptorService} from './services/rates/audit-interceptor.service';
 import {FusaynavbarComponent} from './components/shared/initnavbar/fusaynavbar.component';
 import {FusayfooterComponent} from './components/shared/initfooter/fusayfooter.component';
-
-import {GalleriaModule} from 'primeng/galleria';
 import {DatePipe, registerLocaleData} from '@angular/common';
 import {LoggednavbarComponent} from './components/shared/loggednavbar/loggednavbar.component';
 import {LoggedHomeComponent} from './components/logged/logged-home/logged-home.component';
-
-import {BreadcrumbModule} from 'primeng/breadcrumb';
 
 import {AppfooterComponent} from './components/shared/loggedfooter/appfooter.component';
 import {TicketComponent} from './components/tickets/ticket/ticket.component';
@@ -47,27 +42,7 @@ import {TicketformComponent} from './components/tickets/ticketform/ticketform.co
 import {ArticulosViewComponent} from './components/articulos/articulos-view/articulos-view.component';
 import {ArticulosBatchComponent} from './components/articulos/articulos-batch/articulos-batch.component';
 import {ArticuloItemBatchComponent} from './components/articulos/articulo-item-batch/articulo-item-batch.component';
-import {StepsModule} from 'primeng/steps';
 import localeEs from '@angular/common/locales/es-EC';
-import {
-    AutoCompleteModule,
-    BlockUIModule,
-    CarouselModule,
-    CheckboxModule,
-    ContextMenuModule,
-    DialogModule,
-    EditorModule,
-    InputMaskModule,
-    MegaMenuModule,
-    MessageModule,
-    MessageService,
-    ProgressSpinnerModule,
-    RadioButtonModule,
-    SliderModule,
-    SplitButtonModule,
-    TabViewModule,
-    ToolbarModule
-} from 'primeng';
 
 import {CitasmedicasComponent} from './components/citas/citasmedicas/citasmedicas.component';
 import {VticketComponent} from './components/tickets/vtickets/vticket/vticket.component';
@@ -88,6 +63,21 @@ import {PiezadentalComponent} from './components/citas/odontograma/piezadental.c
 import {CaraspdComponent} from './components/citas/odontograma/caraspd.component';
 import {NumpiezaComponent} from './components/citas/odontograma/numpieza.component';
 import {GrppiezadentComponent} from './components/citas/odontograma/grppiezadent.component';
+import {ToolbarModule} from 'primeng/toolbar';
+import {DialogModule} from 'primeng/dialog';
+import {SplitButtonModule} from 'primeng/splitbutton';
+import {InputMaskModule} from 'primeng/inputmask';
+import {MessageModule} from 'primeng/message';
+import {CheckboxModule} from 'primeng/checkbox';
+import {MegaMenuModule} from 'primeng/megamenu';
+import {ContextMenuModule} from 'primeng/contextmenu';
+import {TabViewModule} from 'primeng/tabview';
+import {RadioButtonModule} from 'primeng/radiobutton';
+import {BlockUIModule} from 'primeng/blockui';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import {SliderModule} from 'primeng/slider';
+import {MessageService} from 'primeng/api';
 
 registerLocaleData(localeEs, 'es-EC');
 
@@ -157,14 +147,8 @@ registerLocaleData(localeEs, 'es-EC');
         DropdownModule,
         CalendarModule,
         MegaMenuModule,
-        GalleriaModule,
-        CarouselModule,
-        EditorModule,
-        BreadcrumbModule,
-        SidebarModule,
         ContextMenuModule,
         TabViewModule,
-        StepsModule,
         AccordionModule,
         RadioButtonModule,
         BlockUIModule,
