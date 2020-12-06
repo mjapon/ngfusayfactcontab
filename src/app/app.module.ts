@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {LOCALE_ID, NgModule} from '@angular/core';
-import {environment} from 'src/environments/environment';
 
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {AppRoutingModule} from './app-routing.module';
@@ -48,7 +47,6 @@ import {TicketformComponent} from './components/tickets/ticketform/ticketform.co
 import {ArticulosViewComponent} from './components/articulos/articulos-view/articulos-view.component';
 import {ArticulosBatchComponent} from './components/articulos/articulos-batch/articulos-batch.component';
 import {ArticuloItemBatchComponent} from './components/articulos/articulo-item-batch/articulo-item-batch.component';
-import {AuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider, SocialLoginModule} from 'angularx-social-login';
 import {StepsModule} from 'primeng/steps';
 import localeEs from '@angular/common/locales/es-EC';
 import {
@@ -92,21 +90,6 @@ import {NumpiezaComponent} from './components/citas/odontograma/numpieza.compone
 import {GrppiezadentComponent} from './components/citas/odontograma/grppiezadent.component';
 
 registerLocaleData(localeEs, 'es-EC');
-
-const config = new AuthServiceConfig([
-    {
-        id: GoogleLoginProvider.PROVIDER_ID,
-        provider: new GoogleLoginProvider(environment.googleLoginApp)
-    },
-    {
-        id: FacebookLoginProvider.PROVIDER_ID,
-        provider: new FacebookLoginProvider(environment.facebookLoginApp)
-    }
-]);
-
-export function provideConfig() {
-    return config;
-}
 
 
 @NgModule({
@@ -181,7 +164,6 @@ export function provideConfig() {
         SidebarModule,
         ContextMenuModule,
         TabViewModule,
-        SocialLoginModule,
         StepsModule,
         AccordionModule,
         RadioButtonModule,
@@ -199,10 +181,6 @@ export function provideConfig() {
             provide: HTTP_INTERCEPTORS,
             useClass: AuditInterceptorService,
             multi: true
-        },
-        {
-            provide: AuthServiceConfig,
-            useFactory: provideConfig
         },
         {provide: LOCALE_ID, useValue: 'es-EC'}
     ],
