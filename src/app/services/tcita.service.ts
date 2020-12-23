@@ -21,6 +21,10 @@ export class TcitaService extends BaseService {
         return this._doGet(this.getHOT({accion: 'lstw', desde, hasta}));
     }
 
+    contar(desde: string, hasta: string) {
+        return this._doGet(this.getHOT({accion: 'countm', desde, hasta}));
+    }
+
     guardar(form: any) {
         return this._doPost(this.getHOT({accion: 'guardar'}), form);
     }

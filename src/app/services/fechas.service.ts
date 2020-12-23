@@ -151,6 +151,7 @@ export class FechasService {
     getMonthArray(year: number, month: number, slctdDate?: Date) {
         const initDate = new Date(year, month);
         const css = [];
+        const bordecss = [];
         let csstd = '';
         const matrix = getMountMatrix({year, month});
         return matrix.map(week => {
@@ -161,6 +162,7 @@ export class FechasService {
                     fecha: tday,
                     sm: isSameMonth(tday, initDate),
                     css,
+                    bordecss,
                     csstd
                 };
 

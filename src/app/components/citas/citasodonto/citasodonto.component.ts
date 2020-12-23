@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PersonaService} from '../../../services/persona.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
-import {OdontoMsgService} from "../../../services/odontomsg.service";
 
 @Component({
     selector: 'app-citasodonto',
@@ -19,8 +18,7 @@ export class CitasodontoComponent implements OnInit {
     tipoOdontogramaSel: number;
 
     constructor(private personaService: PersonaService,
-                private loadUiService: LoadingUiService,
-                private odonMsgService: OdontoMsgService) {
+                private loadUiService: LoadingUiService) {
     }
 
     ngOnInit(): void {
@@ -44,7 +42,6 @@ export class CitasodontoComponent implements OnInit {
     onSelPaciente($event: any) {
         this.pacienteSelected = $event;
         this.showFichaClinica = true;
-        this.odonMsgService.publishMessage({tipo: 1, msg: this.pacienteSelected});
     }
 
     clearAll() {
@@ -98,5 +95,15 @@ export class CitasodontoComponent implements OnInit {
 
     guardarOdontograma() {
         //console.log('clic guardar odontograma');
+    }
+
+    onRegistraAtencionEv($event: any) {
+        this.loadUiService.publishBlockMessage();
+        this.personaService.buscarPorCodfull($event.pac_id).subscribe(res => {
+            if (res.status === 200) {
+                this.pacienteSelected = res.persona;
+                this.showFichaClinica = true;
+            }
+        });
     }
 }

@@ -15,115 +15,124 @@ import {forkJoin} from 'rxjs';
             `.dato-fila {
             margin: 15px 5px;
         }
+
+        .datopac {
+            background: #e2e2e2;
+            border-radius: 5px;
+            padding-left: 10px;
+        }
         `],
     template: `
         <div>
             <div *ngIf="!editando" class="ml-5">
                 <div class="row">
-                    <div class="col-md-3">
-                        <div class="row d-flex flex-column mt-2">
+                    <div class="col-md-3 d-flex flex-column">
+                        <div class="d-flex flex-column mt-2">
                             <span class="text-muted">
                                 Ci/RUC/Pasaporte:
                             </span>
-                            <span>
+                            <span class="datopac">
                                 {{datosPacienteFull.per_ciruc}}
                             </span>
                         </div>
-                        <div class="row d-flex flex-column mt-2">
+
+                        <div class="d-flex flex-column mt-2">
                             <span class="text-muted">
                                 Nombres:
                             </span>
-                            <span>
+                            <span class="datopac">
                                 {{datosPacienteFull.per_nombres}}
                             </span>
                         </div>
-                        <div class="row d-flex flex-column mt-2">
+                        <div class="d-flex flex-column mt-2">
                             <span class="text-muted">
                                 Apellidos:
                             </span>
-                            <span>
+                            <span class="datopac">
                                 {{datosPacienteFull.per_apellidos}}
                             </span>
                         </div>
-                        <div class="row d-flex flex-column mt-2">
+                        <div class="d-flex flex-column mt-2">
                             <span class="text-muted">
                                 Fecha da nacimiento:
                             </span>
-                            <span>
+                            <span class="datopac">
                                 {{datosPacienteFull.per_fechanac}} - {{datosPacienteFull.per_edad}} años
                             </span>
                         </div>
-                        <div class="row d-flex flex-column mt-2">
+                        <div class="d-flex flex-column mt-2">
                             <span class="text-muted">
                                 Sexo:
                             </span>
-                            <span>
+                            <span class="datopac">
                                 {{datosPacienteFull.genero}}
                             </span>
                         </div>
-                        <div class="row d-flex flex-column mt-2">
+                        <div class="d-flex flex-column mt-2">
                             <span class="text-muted">
                                 Estado Civil:
                             </span>
-                            <span>
+                            <span class="datopac">
                                 {{datosPacienteFull.estadocivil}}
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="row d-flex flex-column mt-2">
+                    <div class="col-md-3 d-flex flex-column">
+                        <div class="d-flex flex-column mt-2">
                             <span class="text-muted">
                                 Lugar de residencia:
                             </span>
-                            <span>
+                            <span class="datopac">
                                 {{datosPacienteFull.residencia}}
                             </span>
                         </div>
-                        <div class="row d-flex flex-column mt-2">
+                        <div class="d-flex flex-column mt-2">
                             <span class="text-muted">
                                 Dirección:
                             </span>
-                            <span>
+                            <span class="datopac">
                                 {{datosPacienteFull.per_direccion}}
                             </span>
                         </div>
-                        <div class="row d-flex flex-column mt-2">
+                        <div class="d-flex flex-column mt-2">
                             <span class="text-muted">
                                 Profesión/Ocupación:
                             </span>
-                            <span>
+                            <span class="datopac">
                                 {{datosPacienteFull.profesion}}
                             </span>
                         </div>
-                        <div class="row d-flex flex-column mt-2">
+                        <div class="d-flex flex-column mt-2">
                             <span class="text-muted">
                                 Correo Electrónico:
                             </span>
-                            <span>
+                            <span class="datopac">
                                 {{datosPacienteFull.per_email}}
                             </span>
                         </div>
-                        <div class="row d-flex flex-column mt-2">
+                        <div class="d-flex flex-column mt-2">
                             <span class="text-muted">
                                 Teléfono Convencional:
                             </span>
-                            <span>
+                            <span class="datopac">
                                 {{datosPacienteFull.per_telf}}
                             </span>
                         </div>
-                        <div class="row d-flex flex-column mt-2">
+                        <div class="d-flex flex-column mt-2">
                             <span class="text-muted">
                                 Celular:
                             </span>
-                            <span>
+                            <span class="datopac">
                                 {{datosPacienteFull.per_movil}}
                             </span>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <button class="btn btn-outline-secondary" (click)="editar()">
-                            <i class="fa fa-edit"></i> Editar
-                        </button>
+                        <div class="mt-3">
+                            <button class="btn btn-outline-secondary" (click)="editar()">
+                                <i class="fa fa-edit"></i> Editar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

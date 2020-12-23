@@ -117,6 +117,10 @@
     margin: 1px 1px !important;
 }
 
+.smDiaCF {
+    border-bottom: 1px solid #ff5205;
+}
+
 .smDiaCalSel {
     border-radius: 50%;
     background-color: #6ebdff;
@@ -138,7 +142,7 @@
 
 .leymes {
     font-size: 13px;
-    margin: 10px 0px !important;
+    margin: 5px 0px !important;
 }
 
 .colcal {

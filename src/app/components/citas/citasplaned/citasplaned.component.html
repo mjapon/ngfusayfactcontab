@@ -1,10 +1,5 @@
-<!--
-<h4>Citas planificadas para fechas posteriores</h4>
-<hr>
--->
-
 <div class="d-flex justify-content-between">
-    <div class="d-flex justify-content-start" style="margin-bottom: 10px">
+    <div class="d-flex justify-content-start">
         <div class="btn-group" role="group">
             <button id="btnGroupDrop1" type="button"
                     class="btn btn-outline-success dropdown-toggle dropdown-menu-md-left"
@@ -48,7 +43,7 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
-        <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
+        <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="onrowclic(rowData)">
             <td *ngFor="let item of cols">
                 {{rowData[item['field']]}}
             </td>
@@ -87,7 +82,8 @@
     <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="100"
               [(visible)]="showModalDet" [autoZIndex]="false">
         <app-detcitacal [codcita]="rowHistoriaSel.ct_id"
-                        (cerrarModalEv)="onCerrarModalCitaCal($event)"></app-detcitacal>
+                        (cerrarModalEv)="onCerrarModalCitaCal($event)"
+                        (registraAtencionEv)="onRegistraAtencionEv($event)"></app-detcitacal>
     </p-dialog>
 
 </div>

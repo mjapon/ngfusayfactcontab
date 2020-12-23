@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {addDays, addMonths, getMonth, getYear, startOfWeek} from 'date-fns';
+import {addDays, addMonths, addWeeks, getMonth, getYear, startOfWeek} from 'date-fns';
 import {FechasService} from '../../../services/fechas.service';
 import {SwalService} from '../../../services/swal.service';
 import {TcitaService} from '../../../services/tcita.service';
@@ -124,6 +124,19 @@ export class OdcalendarComponent implements OnInit {
         this.loadMesArray();
     }
 
+    toggleWeek(cant: number) {
+        const newweekdate = addWeeks(this.selectedDate, cant);
+        const samemonth = this.auxIsSameMonth(newweekdate);
+        if (!samemonth) {
+            this.currentMonthDate = newweekdate;
+            this.loadMesArray();
+        }
+        const daycal = this.auxFindDateInMonthArray(newweekdate);
+        if (daycal) {
+            this.setCalendarDate(daycal);
+        }
+    }
+
     loadMesArray(dateSel?: Date) {
         this.currentMonthNumber = this.fechasService.getMonth(this.currentMonthDate);
         const anio = getYear(this.currentMonthDate);
@@ -131,12 +144,26 @@ export class OdcalendarComponent implements OnInit {
             this.mesString = `${res} de ${anio}`;
         });
         this.mesArray = this.fechasService.getMonthArray(getYear(this.currentMonthDate), getMonth(this.currentMonthDate), dateSel);
-        this.mesArray.forEach(row => {
-            const filtered = row.filter(dc => dc.selected);
-            if (filtered && filtered.length > 0) {
-                filtered[0].css = ['smDiaCalSel'];
-                this.setCalendarDate(filtered[0]);
-            }
+
+        const firstweek = this.mesArray[0];
+        const lastweek = this.mesArray[this.mesArray.length - 1];
+        const desdestr = this.fechasService.formatDate(firstweek[0].fecha);
+        const hastastr = this.fechasService.formatDate(lastweek[lastweek.length - 1].fecha);
+        this.tcitaService.contar(desdestr, hastastr).subscribe(resc => {
+            this.mesArray.forEach(row => {
+                const filtered = row.filter(dc => dc.selected);
+                if (filtered && filtered.length > 0) {
+                    filtered[0].css = ['smDiaCalSel'];
+                    this.setCalendarDate(filtered[0]);
+                }
+                row.forEach(dc => {
+                    const dcfilt = resc.citas.filter(cf =>
+                        this.fechasService.isSameDate(this.fechasService.parseString(cf.ct_fecha), dc.fecha));
+                    if (dcfilt && dcfilt.length > 0) {
+                        dc.bordecss = ['smDiaCF'];
+                    }
+                });
+            });
         });
     }
 
@@ -500,6 +527,19 @@ export class OdcalendarComponent implements OnInit {
         return !this.fechasService.dateInSameWeek(date, this.selectedDate);
     }
 
+    auxFindDateInMonthArray(date: Date) {
+        let daycal = null;
+        this.mesArray.forEach(row => {
+            row.forEach(dc => {
+                if (this.fechasService.isSameDate(dc.fecha, date)) {
+                    daycal = dc;
+                    return;
+                }
+            });
+        });
+        return daycal;
+    }
+
     setCalendarDate(dayCal: any) {
         this.selectedDiaCalMes = dayCal;
         const loadWeek = this.mustLoadNewWeek(dayCal.fecha);
@@ -532,15 +572,20 @@ export class OdcalendarComponent implements OnInit {
         });
     }
 
+    auxIsSameMonth(date: Date) {
+        let sameMonth = true;
+        if (!this.fechasService.isSameYear(this.currentMonthDate, date)) {
+            sameMonth = false;
+        } else if (!this.fechasService.isSameMonth(this.currentMonthDate, date)) {
+            sameMonth = false;
+        }
+        return sameMonth;
+    }
+
     hoy() {
         const fechaActual = this.fechasService.getCurrentDate();
         const loadWeek = this.mustLoadNewWeek(fechaActual);
-        let sameMonth = true;
-        if (!this.fechasService.isSameYear(this.currentMonthDate, fechaActual)) {
-            sameMonth = false;
-        } else if (!this.fechasService.isSameMonth(this.currentMonthDate, fechaActual)) {
-            sameMonth = false;
-        }
+        const sameMonth = this.auxIsSameMonth(fechaActual);
         if (sameMonth) {
             this.clearCssMonthCalc();
         }

@@ -53,7 +53,12 @@ import {SwalService} from '../../../services/swal.service';
                 </div>
             </div>
 
-
+            <div class="d-flex flex-row-reverse mt-4">
+                <button class="btn btn-sm btn-outline-primary" (click)="registraAtencion()"><i
+                        class="fa fa-plus-circle"></i> Registrar
+                    Atención
+                </button>
+            </div>
             <!--
             <div class="d-flex justify-content-around">
                 <button class="btn btn-outline-secondary" (click)="anularEv()"><i class="fa fa-trash"></i> Anular
@@ -72,6 +77,7 @@ export class DetallescitacalComponent implements OnInit {
 
     @Input() codcita: number;
     @Output() cerrarModalEv = new EventEmitter<any>();
+    @Output() registraAtencionEv = new EventEmitter<any>();
     showAnim: boolean;
     /*
     @Output() anularCitaEv = new EventEmitter<any>();
@@ -121,5 +127,9 @@ export class DetallescitacalComponent implements OnInit {
 
     closeModalDetEv() {
         this.cerrarModalEv.emit('');
+    }
+
+    registraAtencion() {
+        this.registraAtencionEv.emit(this.datosCita);
     }
 }

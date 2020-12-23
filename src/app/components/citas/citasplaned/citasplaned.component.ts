@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {CitasMedicasService} from '../../../services/citas-medicas.service';
 import {ConsMedicaMsgService} from '../../../services/cons-medica-msg.service';
@@ -17,6 +17,7 @@ export class CitasplanedComponent implements OnInit {
     tipoFiltro: number;
     fechasstr: string;
     @Input() tipocita: number;
+    @Output() registraAtencionEv = new EventEmitter<any>();
 
     rowHistoriaSel: any;
     showModalDet: boolean;
@@ -45,7 +46,7 @@ export class CitasplanedComponent implements OnInit {
     }
 
     onRowSelect($event: any) {
-
+        console.log('Se ejecuta on row select');
     }
 
     onUnRowSelect($event: any) {
@@ -84,5 +85,15 @@ export class CitasplanedComponent implements OnInit {
 
     gotoCalendar() {
         this.router.navigate(['calendario']);
+    }
+
+    onrowclic(rowData) {
+        this.rowHistoriaSel = rowData;
+        this.showModalDet = true;
+    }
+
+    onRegistraAtencionEv($event: any) {
+        this.showModalDet = false;
+        this.registraAtencionEv.emit($event);
     }
 }

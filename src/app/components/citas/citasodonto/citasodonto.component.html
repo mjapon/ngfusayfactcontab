@@ -26,7 +26,7 @@
     </div>
 
     <div *ngIf="selectedSupTab===3">
-        <app-citasplaned [tipocita]="2"></app-citasplaned>
+        <app-citasplaned [tipocita]="2" (registraAtencionEv)="onRegistraAtencionEv($event)"></app-citasplaned>
     </div>
 </div>
 <div *ngIf="showFichaClinica">
@@ -41,7 +41,9 @@
                 <app-datospaciente [codPaciente]="pacienteSelected.per_id" (pacienteLoaded)="onPacienteLoaded($event)"
                                    (pacienteSaved)="onPacienteSaved($event)"
                                    (creacionCancelada)="limpiar()"></app-datospaciente>
-
+            </p-tabPanel>
+            <p-tabPanel header="Atenciones">
+                <app-odatenciones [codPaciente]="pacienteSelected.per_id"></app-odatenciones>
             </p-tabPanel>
             <p-tabPanel header="Antecedentes">
                 <app-antcodonto [codPaciente]="pacienteSelected.per_id" (evGuardar)="onAntePerSave($event)"
@@ -72,10 +74,12 @@
                     <app-odontograma (clicSiguiente)="guardarOdontograma()" [tipodontograma]="2"
                                      [codpaciente]="pacienteSelected.per_id"></app-odontograma>
                 </div>
+            </p-tabPanel>
+            <p-tabPanel header="Recetas">
 
             </p-tabPanel>
-            <p-tabPanel header="Atenciones">
-                <app-odatenciones [codPaciente]="pacienteSelected.per_id"></app-odatenciones>
+            <p-tabPanel header="Documentos Clínicos">
+
             </p-tabPanel>
         </p-tabView>
     </div>

@@ -7,7 +7,7 @@ import {CitasMedicasService} from '../../services/citas-medicas.service';
 @Component({
     selector: 'app-antcodonto',
     styles: [
-        `.dato-adc-fila {
+            `.dato-adc-fila {
             margin: 6px 1px;
         }
         `],
@@ -130,7 +130,6 @@ import {CitasMedicasService} from '../../services/citas-medicas.service';
 export class AntcodontoComponent implements OnInit, OnChanges {
     @Input() codPaciente: number;
     @Input() tipo: number; // 1-Personales, 2-Examen Fisico
-
     @Output() evGuardar = new EventEmitter<any>();
 
     cabecera: any;
@@ -138,8 +137,9 @@ export class AntcodontoComponent implements OnInit, OnChanges {
     lastValid: boolean;
     datosAlertaImc: any;
     datosAlertaPresion: any;
+    editando: boolean;
 
-    historicos: Array<any>;
+    // historicos: Array<any>;
     hallazgosfisicos: string;
 
     constructor(private antecService: OdAntecService,
@@ -151,7 +151,7 @@ export class AntcodontoComponent implements OnInit, OnChanges {
     ngOnInit(): void {
         this.cabecera = {};
         this.detalles = [];
-        this.historicos = [];
+        // this.historicos = [];
         this.lastValid = false;
         this.hallazgosfisicos = '';
         this.datosAlertaImc = {};
@@ -164,7 +164,7 @@ export class AntcodontoComponent implements OnInit, OnChanges {
         if (codcurrentvalue !== null) {
             if (pacchange.currentValue > 0) {
                 this.loadLastOrForm();
-                this.loadHistoricos();
+                // this.loadHistoricos();
             }
         }
     }
@@ -174,10 +174,12 @@ export class AntcodontoComponent implements OnInit, OnChanges {
         this.loadingUiService.publishBlockMessage();
         this.antecService.getLastValid(this.codPaciente, this.tipo).subscribe(res => {
             if (res.status === 200) {
+                this.editando = false;
                 this.lastValid = true;
                 this.cabecera = res.res.cabecera;
                 this.detalles = res.res.detalles;
             } else {
+                this.editando = true;
                 this.loadForm();
             }
         });
@@ -193,6 +195,7 @@ export class AntcodontoComponent implements OnInit, OnChanges {
         });
     }
 
+    /*
     loadHistoricos() {
         this.antecService.getHistoricos(this.codPaciente, this.tipo).subscribe(res => {
             if (res.status === 200) {
@@ -200,6 +203,7 @@ export class AntcodontoComponent implements OnInit, OnChanges {
             }
         });
     }
+     */
 
     guardar() {
         const form = {cabecera: this.cabecera, detalles: this.detalles};
