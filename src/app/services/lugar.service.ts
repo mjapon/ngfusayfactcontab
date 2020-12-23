@@ -10,15 +10,15 @@ import {Observable} from 'rxjs';
 export class LugarService extends BaseService {
 
     constructor(
-        private http: HttpClient,
+        protected http: HttpClient,
         protected localStrgServ: LocalStorageService
     ) {
-        super('/tlugar', localStrgServ);
+        super('/tlugar', localStrgServ, http);
     }
 
     listarTodos(): Observable<any> {
         const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({accion: 'listar'});
+        const httpOptions = this.getHOT({accion: 'listar'});
         return this.doGet(this.http, endopoint, httpOptions);
     }
 

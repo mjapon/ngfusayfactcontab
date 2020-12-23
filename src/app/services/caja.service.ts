@@ -10,14 +10,14 @@ import {LocalStorageService} from './local-storage.service';
 })
 export class CajaService extends BaseService {
 
-    constructor(private http: HttpClient,
+    constructor(protected http: HttpClient,
                 protected localStrgServ: LocalStorageService) {
-        super('/cajas', localStrgServ);
+        super('/cajas', localStrgServ, http);
     }
 
     getform(tdvCod: string): Observable<any> {
         const endpoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({accion: 'form', tdv_codigo: tdvCod});
+        const httpOptions = this.getHOT({accion: 'form', tdv_codigo: tdvCod});
         return this.http
             .get(endpoint, httpOptions)
             .pipe(
@@ -30,7 +30,7 @@ export class CajaService extends BaseService {
 
     guardarAperturaCaja(form: any, tdvCod: string): Observable<any> {
         const endpoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({accion: 'apertura', tdv_codigo: tdvCod});
+        const httpOptions = this.getHOT({accion: 'apertura', tdv_codigo: tdvCod});
         return this.http.post(endpoint, form, httpOptions)
             .pipe(
                 map((response: any) => {

@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TicketService} from '../../../services/ticket.service';
 import {parse} from 'date-fns';
-import {DateFormatPipe} from '../../../pipes/date-format.pipe';
 import {SwalService} from '../../../services/swal.service';
 import {FechasService} from '../../../services/fechas.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
@@ -19,8 +18,6 @@ export class TicketComponent implements OnInit {
     cols: Array<any>;
     selectedItem: any;
     dia: Date;
-
-    es: any;
     enableBtns: boolean;
 
     itemsCtxMenu: MenuItem[];
@@ -31,14 +28,12 @@ export class TicketComponent implements OnInit {
                 private swalService: SwalService,
                 private fechasService: FechasService,
                 private ticketService: TicketService,
-                private dateFormatPipe: DateFormatPipe,
                 private loadingUiService: LoadingUiService) {
     }
 
     ngOnInit() {
         this.items = new Array<any>();
         this.cols = new Array<any>();
-        this.es = this.fechasService.getLocaleEsForPrimeCalendar();
         this.total = 0.0;
         this.ticketService.getFormListado().subscribe(res => {
             this.dia = parse(res.dia, 'd/M/yyyy', new Date());
@@ -61,7 +56,7 @@ export class TicketComponent implements OnInit {
     }
 
     loadGrid() {
-        const diaStr = this.dateFormatPipe.transform(this.dia);
+        const diaStr = this.fechasService.formatDate(this.dia);
         this.ticketService.listar(diaStr).subscribe(res => {
             this.cols = res.res.cols;
             this.items = res.res.data;

@@ -10,23 +10,23 @@ import {Observable} from 'rxjs';
 export class ArticulostockService extends BaseService {
 
     constructor(
-        private http: HttpClient,
+        protected http: HttpClient,
         protected localStrgServ: LocalStorageService
     ) {
-        super('/titemconfigsotck', localStrgServ);
+        super('/titemconfigsotck', localStrgServ, http);
     }
 
 
     getForm(icId: number): Observable<any> {
         const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({accion: 'form', ic_id: icId});
+        const httpOptions = this.getHOT({accion: 'form', ic_id: icId});
 
         return this.doGet(this.http, endopoint, httpOptions);
     }
 
     guardar(form: any): Observable<any> {
         const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({accion: 'guardar'});
+        const httpOptions = this.getHOT({accion: 'guardar'});
         return this.doPost(this.http, endopoint, httpOptions, form);
     }
 

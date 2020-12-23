@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {CitasMedicasService} from '../../../services/citas-medicas.service';
 import {ConsMedicaMsgService} from '../../../services/cons-medica-msg.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-citasplaned',
@@ -13,7 +14,6 @@ export class CitasplanedComponent implements OnInit {
     items: Array<any>;
     cols: Array<any>;
     selectedItem: any;
-    enableBtns: boolean;
     tipoFiltro: number;
     fechasstr: string;
     @Input() tipocita: number;
@@ -23,7 +23,8 @@ export class CitasplanedComponent implements OnInit {
 
     constructor(private loadingUiService: LoadingUiService,
                 private citasMedicasService: CitasMedicasService,
-                private cosmedicamsgService: ConsMedicaMsgService) {
+                private cosmedicamsgService: ConsMedicaMsgService,
+                private router: Router) {
     }
 
     ngOnInit(): void {
@@ -75,5 +76,13 @@ export class CitasplanedComponent implements OnInit {
         this.tipoFiltro = 0;
         this.fechasstr = '';
         this.loadGrid();
+    }
+
+    onCerrarModalCitaCal($event: any) {
+        this.showModalDet = false;
+    }
+
+    gotoCalendar() {
+        this.router.navigate(['calendario']);
     }
 }

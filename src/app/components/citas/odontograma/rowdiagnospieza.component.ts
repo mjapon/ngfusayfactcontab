@@ -9,64 +9,64 @@ import {ToolsDienteService} from '../../../services/toolsdiente.service';
             <div class="d-flex flex-wrap justify-content-start"
                  *ngIf="itdiente.t.tools&&itdiente.t.tools.length>0">
                 <div *ngFor="let idtool of itdiente.t.tools" class="m-1">
-                                            <span class="p-1 border border-secondary rounded-left">
+                                            <span class="p-1 tooldientetxt border border-secondary rounded-left">
                                                 {{getDescLadoDiente(itdiente, 't')}}:
                                                 {{tools[idtool] ? tools[idtool].nombre : ''}}</span>
                     <span title="Quitar" (click)="quitarToolLado(itdiente, idtool,'t')"
-                          class="hand border p-1 border-secondary rounded-right"> <i
+                          class="hand tooldientetxt border p-1 border-secondary rounded-right"> <i
                             class="fa fa-times-circle"></i> </span>
                 </div>
             </div>
             <div class="d-flex flex-wrap justify-content-start"
                  *ngIf="itdiente.b.tools&&itdiente.b.tools.length>0">
                 <div *ngFor="let idtool of itdiente.b.tools" class="m-1">
-                                            <span class="p-1 border border-secondary rounded-left">
+                                            <span class="p-1  tooldientetxt border border-secondary rounded-left">
                                                 {{getDescLadoDiente(itdiente, 'b')}}:
                                                 {{tools[idtool] ? tools[idtool].nombre : ''}}</span>
                     <span title="Quitar" (click)="quitarToolLado(itdiente, idtool,'b')"
-                          class="hand border p-1 border-secondary rounded-right"> <i
+                          class="hand tooldientetxt border p-1 border-secondary rounded-right"> <i
                             class="fa fa-times-circle"></i> </span>
                 </div>
             </div>
             <div class="d-flex flex-wrap justify-content-start"
                  *ngIf="itdiente.l.tools&&itdiente.l.tools.length>0">
                 <div *ngFor="let idtool of itdiente.l.tools" class="m-1">
-                                            <span class="p-1 border border-secondary rounded-left">
+                                            <span class="p-1 tooldientetxt border border-secondary rounded-left">
                                                 {{getDescLadoDiente(itdiente, 'l')}}:
                                                 {{tools[idtool] ? tools[idtool].nombre : ''}}</span>
                     <span title="Quitar" (click)="quitarToolLado(itdiente, idtool,'l')"
-                          class="hand border p-1 border-secondary rounded-right"> <i
+                          class="hand tooldientetxt border p-1 border-secondary rounded-right"> <i
                             class="fa fa-times-circle"></i> </span>
                 </div>
             </div>
             <div class="d-flex flex-wrap justify-content-start"
                  *ngIf="itdiente.r.tools&&itdiente.r.tools.length>0">
                 <div *ngFor="let idtool of itdiente.r.tools" class="m-1">
-                                            <span class="p-1 border border-secondary rounded-left">
+                                            <span class="p-1 tooldientetxt border border-secondary rounded-left">
                                                 {{getDescLadoDiente(itdiente, 'r')}}:
                                                 {{tools[idtool] ? tools[idtool].nombre : ''}}</span>
                     <span title="Quitar" (click)="quitarToolLado(itdiente, idtool,'r')"
-                          class="hand border p-1 border-secondary rounded-right"> <i
+                          class="hand tooldientetxt border p-1 border-secondary rounded-right"> <i
                             class="fa fa-times-circle"></i> </span>
                 </div>
             </div>
             <div class="d-flex flex-wrap justify-content-start"
                  *ngIf="itdiente.c.tools&&itdiente.c.tools.length>0">
                 <div *ngFor="let idtool of itdiente.c.tools" class="m-1">
-                                            <span class="p-1 border border-secondary rounded-left">
+                                            <span class="p-1 tooldientetxt border border-secondary rounded-left">
                                                 {{getDescLadoDiente(itdiente, 'c')}}:
                                                 {{tools[idtool] ? tools[idtool].nombre : ''}}</span>
                     <span title="Quitar" (click)="quitarToolLado(itdiente, idtool,'c')"
-                          class="hand border p-1 border-secondary rounded-right"> <i
+                          class="hand tooldientetxt border p-1 border-secondary rounded-right"> <i
                             class="fa fa-times-circle"></i> </span>
                 </div>
             </div>
             <div class="d-flex flex-wrap justify-content-start"
                  *ngIf="itdiente.tools&&itdiente.tools.length>0">
                 <div *ngFor="let idtool of itdiente.tools" class="m-1">
-                    <span class="p-1 border border-secondary rounded-left"> {{tools[idtool] ? tools[idtool].nombre : ''}}</span>
+                    <span class="p-1 tooldientetxt border border-secondary rounded-left"> {{tools[idtool] ? tools[idtool].nombre : ''}}</span>
                     <span title="Quitar" (click)="quitarTool(itdiente, idtool)"
-                          class="hand border p-1 border-secondary rounded-right"> <i
+                          class="hand tooldientetxt border p-1 border-secondary rounded-right"> <i
                             class="fa fa-times-circle"></i> </span>
                 </div>
             </div>

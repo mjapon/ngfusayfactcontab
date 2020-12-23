@@ -5,25 +5,25 @@ import {LocalStorageService} from './local-storage.service';
 import {catchError, map} from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class UnidadesService extends BaseService {
 
-  constructor(private httpClient: HttpClient,
-              protected localStrgService: LocalStorageService) {
-    super('/unidad', localStrgService);
-  }
+    constructor(protected httpClient: HttpClient,
+                protected localStrgService: LocalStorageService) {
+        super('/unidad', localStrgService, httpClient);
+    }
 
-  listar() {
-    const endpoint = this.urlEndPoint;
-    const httpoptions = this.getHttpOptionsToken({accion: 'listar'});
+    listar() {
+        const endpoint = this.urlEndPoint;
+        const httpoptions = this.getHOT({accion: 'listar'});
 
-    return this.httpClient.get(endpoint, httpoptions)
-      .pipe(
-        map((response: any) => {
-          return response;
-        }),
-        catchError(this.fnProcesaError)
-      );
-  }
+        return this.httpClient.get(endpoint, httpoptions)
+            .pipe(
+                map((response: any) => {
+                    return response;
+                }),
+                catchError(this.fnProcesaError)
+            );
+    }
 }

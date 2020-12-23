@@ -3,29 +3,37 @@
 <hr>
 -->
 
-<div class="d-flex justify-content-start" style="margin-bottom: 10px">
-    <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-outline-success dropdown-toggle dropdown-menu-md-left"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-filter"></i> Filtar
-        </button>
-        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item" href="#" (click)="clickFiltro(1,$event)">Hoy</a>
-            <a class="dropdown-item" href="#" (click)="clickFiltro(2,$event)">Mañana</a>
-            <a class="dropdown-item" href="#" (click)="clickFiltro(3,$event)">Esta Semana</a>
-            <a class="dropdown-item" href="#" (click)="clickFiltro(4,$event)">Esta Mes</a>
+<div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-start" style="margin-bottom: 10px">
+        <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button"
+                    class="btn btn-outline-success dropdown-toggle dropdown-menu-md-left"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-filter"></i> Filtrar
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" href="#" (click)="clickFiltro(1,$event)">Hoy</a>
+                <a class="dropdown-item" href="#" (click)="clickFiltro(2,$event)">Mañana</a>
+                <a class="dropdown-item" href="#" (click)="clickFiltro(3,$event)">Esta Semana</a>
+                <a class="dropdown-item" href="#" (click)="clickFiltro(4,$event)">Esta Mes</a>
+            </div>
         </div>
-    </div>
-    <div *ngIf="tipoFiltro>0" style="padding: 0px 10px">
+
+        <div *ngIf="tipoFiltro>0" style="padding: 0px 10px">
         <span>
         Filtro aplicado: {{fechasstr}}
         </span>
-        <button class="btn btn-outline-success" style="margin: 0 10px" (click)="clearFiltro()">Limpiar</button>
+            <button class="btn btn-outline-success" style="margin: 0 10px" (click)="clearFiltro()">Limpiar</button>
+        </div>
     </div>
+    <button class="btn btn-outline-success" (click)="gotoCalendar()"><i class="fa fa-calendar"></i> Ver calendario
+    </button>
 </div>
 
 <p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
          (onRowSelect)="onRowSelect($event)"
+         [autoLayout]="true"
+         [resizableColumns]="true"
          [(contextMenuSelection)]="selectedItem"
          (onRowUnselect)="onUnRowSelect($event)">
     <ng-template pTemplate="header">
@@ -49,7 +57,8 @@
                         style="margin-right: 10px">
                     <i class="fa fa-eye"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-dark" (click)="crerCita(rowData)" title="Registrar atención">
+                <button *ngIf="tipocita===1" class="btn btn-sm btn-outline-dark" (click)="crerCita(rowData)"
+                        title="Registrar atención">
                     &nbsp; <i class="fa fa-angle-double-right"> </i> &nbsp;
                 </button>
             </td>
@@ -65,10 +74,20 @@
     </ng-template>
 </p-table>
 
-<div *ngIf="showModalDet">
-    <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
+<div *ngIf="showModalDet && tipocita===1">
+    <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="100"
               [(visible)]="showModalDet">
         <app-citadet [rowHistoriaSel]="rowHistoriaSel"
                      (closed)="onCerrarDetHistoria($event)"></app-citadet>
     </p-dialog>
+</div>
+
+
+<div *ngIf="showModalDet && tipocita===2">
+    <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="100"
+              [(visible)]="showModalDet" [autoZIndex]="false">
+        <app-detcitacal [codcita]="rowHistoriaSel.ct_id"
+                        (cerrarModalEv)="onCerrarModalCitaCal($event)"></app-detcitacal>
+    </p-dialog>
+
 </div>

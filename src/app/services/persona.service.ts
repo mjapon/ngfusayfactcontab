@@ -2,72 +2,72 @@ import {Injectable} from '@angular/core';
 import {BaseService} from './base-service';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class PersonaService extends BaseService {
-
-    private messageSource = new BehaviorSubject('empty');
-    observableSource = this.messageSource.asObservable();
-
     constructor(
-        private http: HttpClient,
+        protected http: HttpClient,
         protected localStrgServ: LocalStorageService
     ) {
-        super('/tpersona', localStrgServ);
+        super('/tpersona', localStrgServ, http);
     }
 
     getForm(): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'form'});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'form'});
+        return this._doGet(httpOptions);
     }
 
     buscarPorCi(pciruc: string): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'buscaci', ciruc: pciruc});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'buscaci', ciruc: pciruc});
+        return this._doGet(httpOptions);
     }
 
     buscarPorCifull(pciruc: string): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'buscacifull', ciruc: pciruc});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'buscacifull', ciruc: pciruc});
+        return this._doGet(httpOptions);
+    }
+
+    buscarPorCodfull(perid: number): Observable<any> {
+        const httpOptions = this.getHOT({accion: 'buscaporidfull', perid});
+        return this._doGet(httpOptions);
     }
 
     buscarPorEmail(pemail: string): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'buscaci', email: pemail});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'buscaci', email: pemail});
+        return this._doGet(httpOptions);
     }
 
     buscarPorNomapel(nomapel: string): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'filtronomapel', filtro: nomapel});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'filtronomapel', filtro: nomapel});
+        return this._doGet(httpOptions);
     }
 
     buscarPorNomapelCiPag(filtro: string, pag: number) {
-        const httpOptions = this.getHttpOptionsToken({accion: 'filtropag', filtro, pag});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'filtropag', filtro, pag});
+        return this._doGet(httpOptions);
     }
 
     guardar(form: any): Observable<any> {
-        const endpoint = this.urlEndPoint + '/' + form['per_id'];
-        const httpOptions = this.getHttpOptionsToken({});
+        const endpoint = this.urlEndPoint + '/' + form.per_id;
+        const httpOptions = this.getHOT({});
         return this.doPost(this.http, endpoint, httpOptions, form);
     }
 
     actualizar(perId: number, form: any) {
         const endpoint = this.urlEndPoint + '/' + perId;
-        const httpOptions = this.getHttpOptionsToken({});
+        const httpOptions = this.getHOT({});
         return this.doPut(this.http, endpoint, httpOptions, form);
     }
 
     listarProveedores(): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'buscatipo', per_tipo: 3});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'buscatipo', per_tipo: 3});
+        return this._doGet(httpOptions);
     }
 
-    public publishMsgToObs(message: string) {
-        this.messageSource.next(message);
+    listarMedicos(tipo: number): Observable<any> {
+        return this._doGet(this.getHOT({accion: 'lmedicos', tipo}));
     }
-
 }

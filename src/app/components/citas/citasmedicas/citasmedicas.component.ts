@@ -4,7 +4,6 @@ import {FechasService} from '../../../services/fechas.service';
 import {CatalogosService} from '../../../services/catalogos.service';
 import {PersonaService} from '../../../services/persona.service';
 import {SwalService} from '../../../services/swal.service';
-import {DateFormatPipe} from '../../../pipes/date-format.pipe';
 import {LugarService} from '../../../services/lugar.service';
 import {ArrayutilService} from '../../../services/arrayutil.service';
 import {DomService} from '../../../services/dom.service';
@@ -12,7 +11,6 @@ import {LoadingUiService} from '../../../services/loading-ui.service';
 import {DOCUMENT} from '@angular/common';
 import {CadenasutilService} from '../../../services/cadenasutil.service';
 import {ActivatedRoute} from '@angular/router';
-import {ChangeodontoService} from '../../../services/changeodonto.service';
 import {Subscription} from 'rxjs';
 import {ConsMedicaMsgService} from '../../../services/cons-medica-msg.service';
 
@@ -31,7 +29,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     form: any;
     ciedataArray: Array<any>;
     antpers: Array<any>;
-    es: any;
     currentDate = new Date();
     showBuscaPaciente = true;
     cirucPaciente: string;
@@ -51,14 +48,12 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     saved: boolean;
     codConsultaGen: any;
     pacienteSel: any;
-    datosPacienteFull: any;
+    datosPacienteFull: any = {};
     pacientesArray: Array<any>;
     currentPagPacientes: number;
     hayMasFilasPac: boolean;
     showAnim: boolean;
     odontograma: any;
-    odontagramakid: any;
-    protesislist: any;
     datosAlertaImc: any;
     datosAlertaPresion: any;
     bottomAlcanzado: boolean;
@@ -72,7 +67,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     tipoOdontogramaSel: number;
 
     @ViewChild('mainDiv') mainDiv: any;
-    @ViewChild('divListaPacientes') divListaPaciente: any;
 
     listener;
     subsCitasPlaned: Subscription;
@@ -81,7 +75,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     constructor(private citasMedicasServ: CitasMedicasService,
                 private catalogosServ: CatalogosService,
                 private personaService: PersonaService,
-                private dateFormatPipe: DateFormatPipe,
                 private swalService: SwalService,
                 private fechasService: FechasService,
                 private arrayUtil: ArrayutilService,
@@ -93,7 +86,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 private renderer2: Renderer2,
                 private route: ActivatedRoute,
                 private cadutil: CadenasutilService,
-                private changeodonto: ChangeodontoService,
                 private cosMsgService: ConsMedicaMsgService
     ) {
 
@@ -207,7 +199,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.clearAll();
         this.initForm();
-        this.es = this.fechasService.getLocaleEsForPrimeCalendar();
         this.auxLoadCiedata();
         this.auxLoadCatalogos(1, 'generosList');
         this.auxLoadCatalogos(2, 'estadoCivilList');
@@ -484,11 +475,11 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                                 this.selectedDiags = [];
                                 if (cosm_diagnosticos) {
                                     const diagsNumberArray = cosm_diagnosticos.split(',');
-                                    for (let codDiag of diagsNumberArray) {
+                                    for (const codDiag of diagsNumberArray) {
                                         const ciedDiag = this.arrayUtil.getFirstResult(
                                             this.ciedataArray,
                                             (el, idx, array) => {
-                                                return parseInt(el.cie_id) === parseInt(codDiag);
+                                                return parseInt(el.cie_id, 10) === parseInt(codDiag, 10);
                                             }
                                         );
                                         if (ciedDiag) {
@@ -588,7 +579,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         formToPost.per_estadocivil = perEstadocivil;
         formToPost.per_genero = perGenero;
         formToPost.per_lugresidencia = perLugresidencia;
-        formToPost.per_fechanacp = this.dateFormatPipe.transform(formPaciente.per_fechanac);
+        formToPost.per_fechanacp = this.fechasService.formatDate(formPaciente.per_fechanac);
         this.loadingUiService.publishBlockMessage();
         this.personaService.actualizar(perId, formToPost).subscribe(res => {
             if (res.status === 200) {
@@ -610,7 +601,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 let fechaNac = '';
                 if (this.form.paciente.per_fechanac) {
                     if (this.form.paciente.per_fechanac instanceof Date) {
-                        fechaNac = this.dateFormatPipe.transform(this.form.paciente.per_fechanac);
+                        fechaNac = this.fechasService.formatDate(this.form.paciente.per_fechanac);
                     } else {
                         fechaNac = this.form.paciente.per_fechanac;
                     }
@@ -619,7 +610,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 let fechaProxCita = '';
                 if (this.form.datosconsulta.cosm_fechaproxcita) {
                     if (this.form.datosconsulta.cosm_fechaproxcita instanceof Date) {
-                        fechaProxCita = this.dateFormatPipe.transform(this.form.datosconsulta.cosm_fechaproxcita);
+                        fechaProxCita = this.fechasService.formatDate(this.form.datosconsulta.cosm_fechaproxcita);
                     } else {
                         fechaProxCita = this.form.datosconsulta.cosm_fechaproxcita;
                     }
@@ -700,14 +691,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
 
     imprimirReceta() {
         this.citasMedicasServ.imprimir(this.codConsultaGen);
-    }
-
-    imprimirRecetaAnterior() {
-        this.citasMedicasServ.imprimir(this.rowHistoriaSel.cosm_id);
-    }
-
-    imprimirHistoria() {
-        this.citasMedicasServ.imprimirHistoria(this.rowHistoriaSel.cosm_id);
     }
 
     sumarDias(ndias) {

@@ -335,7 +335,7 @@
 }
 
 .scrol-tools-diente {
-    max-height: 250px;
+    max-height: 290px;
     margin-bottom: 0px;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
@@ -379,13 +379,4 @@
     background-image: url("/assets/imgs/cariesmediano.png");
     background-repeat: no-repeat;
     background-position: center;
-}
-
-.noselect {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }

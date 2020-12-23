@@ -11,9 +11,9 @@ export class FautService extends BaseService {
     private bssource = new BehaviorSubject('empty');
     public source = this.bssource.asObservable();
 
-    constructor(private http: HttpClient,
-                private localStorageService: LocalStorageService) {
-        super('/tfuser', localStorageService);
+    constructor(protected http: HttpClient,
+                protected localStorageService: LocalStorageService) {
+        super('/tfuser', localStorageService, http);
     }
 
     autenticar(empresa: string, username: string, password: string): Observable<any> {
@@ -23,7 +23,7 @@ export class FautService extends BaseService {
             username,
             password
         };
-        const httpOptions = this.getHttpOptions({accion: 'auth'});
+        const httpOptions = this.getHO({accion: 'auth'});
         return this.doPost(this.http, endpoint, httpOptions, form);
     }
 

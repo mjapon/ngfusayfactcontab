@@ -1,6 +1,6 @@
 <div style="margin-bottom: 10px">
     <div *ngIf="!showfiltro" class="d-flex justify-content-start">
-        <button class="btn btn-outline-success" (click)="toggleShowFiltro()"><i class="fa fa-filter"></i> Filtar
+        <button class="btn btn-outline-success" (click)="toggleShowFiltro()"><i class="fa fa-filter"></i> Filtrar
         </button>
     </div>
     <div class="row d-flex align-items-end" *ngIf="showfiltro">
@@ -10,7 +10,6 @@
                     <p class="quitaPaddingMargin">Desde:</p>
                     <p-calendar [showIcon]="true"
                                 [(ngModel)]="desde"
-                                [locale]="es"
                                 [monthNavigator]="true" [yearNavigator]="true"
                                 yearRange="2019:2050"
                                 dateFormat="dd/mm/yy"></p-calendar>
@@ -19,7 +18,6 @@
                     <p class="quitaPaddingMargin">Hasta:</p>
                     <p-calendar [showIcon]="true"
                                 [(ngModel)]="hasta"
-                                [locale]="es"
                                 [monthNavigator]="true" [yearNavigator]="true" [minDate]="desde"
                                 yearRange="2019:2050"
                                 dateFormat="dd/mm/yy"></p-calendar>
@@ -78,18 +76,31 @@
         </a>
     </div>
 </div>
-<div *ngIf="atencionesArray.length==0" class="divpacientes rounded-lg">
-    <h1 class="text-muted">No hay registros</h1>
+<div *ngIf="!showAnim && atencionesArray.length==0" class="divpacientes rounded-lg">
+    <div class="p-5">
+        <h1 class="d-flex justify-content-center text-muted">
+            <span>
+            No hay registros
+            </span>
+        </h1>
+    </div>
 </div>
 <div class="text-center" *ngIf="showAnim">
     <img src="assets/anim.gif"
          alt="procesando">
 </div>
 
-<div *ngIf="showModalDet">
+<div *ngIf="showModalDet && tipocita===1">
     <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
               [(visible)]="showModalDet">
         <app-citadet [rowHistoriaSel]="rowHistoriaSel"
                      (closed)="onCerrarDetHistoria($event)"></app-citadet>
+    </p-dialog>
+</div>
+
+<div *ngIf="showModalDet && tipocita===2">
+    <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '85vw'}" [baseZIndex]="10000"
+              [(visible)]="showModalDet">
+        <app-citaodontodet [codatencion]="rowHistoriaSel.ate_id"></app-citaodontodet>
     </p-dialog>
 </div>

@@ -13,10 +13,10 @@ export class AuthService extends BaseService {
     currentMessage = this.messageSource.asObservable();
 
     constructor(
-        private http: HttpClient,
-        private localStorageService: LocalStorageService
+        protected http: HttpClient,
+        protected localStorageService: LocalStorageService
     ) {
-        super('/auth/movil', localStorageService);
+        super('/auth/movil', localStorageService, http);
     }
 
     autenticar(empresa: string, usuario: string, clave: string): Observable<any> {

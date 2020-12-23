@@ -10,50 +10,50 @@ import {Observable} from 'rxjs';
 export class CitasMedicasService extends BaseService {
 
     constructor(
-        private http: HttpClient,
+        protected http: HttpClient,
         protected localStrgServ: LocalStorageService
     ) {
-        super('/tconsultam', localStrgServ);
+        super('/tconsultam', localStrgServ, http);
     }
 
     getForm(): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'form'});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'form'});
+        return this._doGet(httpOptions);
     }
 
     getFormOdonto(): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'form_odonto'});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'form_odonto'});
+        return this._doGet(httpOptions);
     }
 
     getCie10Data(): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'cie10data'});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'cie10data'});
+        return this._doGet(httpOptions);
     }
 
     crearCita(form: any): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'registra'});
-        return this.doPost(this.http, this.urlEndPoint, httpOptions, form);
+        const httpOptions = this.getHOT({accion: 'registra'});
+        return this._doPost(httpOptions, form);
     }
 
     editarCita(form: any): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'editar'});
-        return this.doPost(this.http, this.urlEndPoint, httpOptions, form);
+        const httpOptions = this.getHOT({accion: 'editar'});
+        return this._doPost(httpOptions, form);
     }
 
     getListaAtenciones(ciruc: string): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'listaatenciones', ciruc});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'listaatenciones', ciruc});
+        return this._doGet(httpOptions);
     }
 
     getOdontograma(ciruc: string): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'odontograma', ciruc});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'odontograma', ciruc});
+        return this._doGet(httpOptions);
     }
 
     getDatosHistoriaByCod(codhistoria: any): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'findhistbycod', codhistoria});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'findhistbycod', codhistoria});
+        return this._doGet(httpOptions);
     }
 
     imprimir(ccm: any) {
@@ -67,22 +67,22 @@ export class CitasMedicasService extends BaseService {
     }
 
     getDescValExamFisico(categ: number, valor: any) {
-        const httpOptions = this.getHttpOptionsToken({accion: 'galertexfis', valor, categ});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'galertexfis', valor, categ});
+        return this._doGet(httpOptions);
     }
 
     anular(cosmId: number, obs): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'anular'});
-        return this.doPost(this.http, this.urlEndPoint, httpOptions, {cosm_id: cosmId, cosm_obsanula: obs});
+        const httpOptions = this.getHOT({accion: 'anular'});
+        return this._doPost(httpOptions, {cosm_id: cosmId, cosm_obsanula: obs});
     }
 
     listarPrevias(tipo: number, filtro: string, desde: string, hasta: string, pag: number) {
-        const httpOptions = this.getHttpOptionsToken({accion: 'cpreviasfiltropag', tipo, filtro, desde, hasta, pag});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'cpreviasfiltropag', tipo, filtro, desde, hasta, pag});
+        return this._doGet(httpOptions);
     }
 
     listarProximas(tipofecha: number, tipocita: number) {
-        const httpOptions = this.getHttpOptionsToken({accion: 'proxcitas', tipofecha, tipocita});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'proxcitas', tipofecha, tipocita});
+        return this._doGet(httpOptions);
     }
 }

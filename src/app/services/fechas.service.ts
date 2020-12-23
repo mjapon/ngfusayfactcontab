@@ -1,114 +1,86 @@
 import {Injectable} from '@angular/core';
-import {parse} from 'date-fns';
+import {
+    format,
+    getDate,
+    getDay,
+    getMonth,
+    getWeekOfMonth,
+    isAfter,
+    isEqual,
+    isSameWeek,
+    isSameYear,
+    isToday,
+    parse
+} from 'date-fns';
+import {es} from 'date-fns/locale';
+import {TranslateService} from '@ngx-translate/core';
+
+import eachDayOfInterval from 'date-fns/eachDayOfInterval';
+import endOfISOWeek from 'date-fns/endOfISOWeek';
+import endOfMonth from 'date-fns/endOfMonth';
+import isSameMonth from 'date-fns/isSameMonth';
+import startOfISOWeek from 'date-fns/startOfISOWeek';
+import startOfMonth from 'date-fns/startOfMonth';
+import eachWeekOfInterval from 'date-fns/eachWeekOfInterval';
+
+type Options = {
+    year: number,
+    month: number
+};
+
+// tslint:disable-next-line:variable-name
+type convertFn = (Date, {isSameMonth: boolean}) => any;
+const getMountMatrix = (
+    {year, month}: Options,
+    // tslint:disable-next-line:no-shadowed-variable
+    convertDate: convertFn = date => date,
+) => {
+    const date = new Date(year, month);
+    const matrix = eachWeekOfInterval(
+        {
+            start: startOfMonth(date),
+            end: endOfMonth(date),
+        },
+        {weekStartsOn: 1},
+    );
+    return matrix.map(weekDay =>
+        eachDayOfInterval({
+            start: startOfISOWeek(weekDay),
+            end: endOfISOWeek(weekDay),
+        }).map(day =>
+            convertDate(day, {
+                isSameMonth: isSameMonth(date, day),
+            }),
+        ),
+    );
+};
+
 
 @Injectable({
     providedIn: 'root'
 })
 export class FechasService {
-    dayNames: Array<any>;
-    dayNamesShort: Array<any>;
-    dayNamesMin: Array<any>;
-    monthNames: Array<any>;
-    monthNamesShort: Array<any>;
+    private formatoFecha: string;
+    private dayNamesShort: Array<any>;
+    private monthNames: Array<any>;
+    private loaded: boolean;
+    private loadedMonths: boolean;
+    private promiseDateShort: Promise<any>;
+    private promiseMontNames: Promise<any>;
 
-    constructor() {
-        this.dayNames =
-            [
-                'domingo',
-                'lunes',
-                'martes',
-                'miércoles',
-                'jueves',
-                'viernes',
-                'sábado'
-            ];
-
-        this.dayNamesShort =
-            ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
-
-        this.dayNamesMin =
-            ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
-
-        this.monthNames =
-            [
-                'enero',
-                'febrero',
-                'marzo',
-                'abril',
-                'mayo',
-                'junio',
-                'julio',
-                'agosto',
-                'septiembre',
-                'octubre',
-                'noviembre',
-                'diciembre'
-            ];
-
-        this.monthNamesShort =
-            [
-                'ene',
-                'feb',
-                'mar',
-                'abr',
-                'may',
-                'jun',
-                'jul',
-                'ago',
-                'sep',
-                'oct',
-                'nov',
-                'dic'
-            ];
+    constructor(private translateService: TranslateService) {
+        this.formatoFecha = 'dd/MM/yyyy';
+        this.loaded = false;
+        this.loadDayNamesShort();
+        this.loadMontNames();
     }
 
-    getDayNames() {
-        return this.dayNames;
+    formatDate(dateObj): string {
+        return format(dateObj, this.formatoFecha);
     }
 
-    getDayNamesShort() {
-        return this.dayNamesShort;
-    }
-
-    getDayNamesMin() {
-        return this.dayNamesMin;
-    }
-
-    getMonthNames() {
-        return this.monthNames;
-    }
-
-    getMonthNamesShort() {
-        return this.monthNamesShort;
-    }
-
-    getDiaString(dia: number) {
-        let index = dia;
-        if (dia === 7) {
-            index = 0;
-        }
-        return this.dayNames[index];
-    }
-
-    getMesString(mes: number) {
-        return this.monthNames[mes];
-    }
-
-    getLocaleEsForPrimeCalendar() {
-        return {
-            firstDayOfWeek: 1,
-            dayNames: this.getDayNames(),
-            dayNamesShort: this.getDayNamesShort(),
-            dayNamesMin: this.getDayNamesMin(),
-            monthNames: this.getMonthNames(),
-            monthNamesShort: this.getMonthNamesShort(),
-            today: 'Hoy',
-            clear: 'Borrar'
-        };
-    }
-
-    parseString(dateString) {
-        let parsedDate = parse(dateString, 'dd/MM/yyyy', new Date());
+    parseString(dateString): Date {
+        const parsedDate = parse(dateString, this.formatoFecha, new Date());
         return parsedDate;
     }
 
@@ -126,4 +98,134 @@ export class FechasService {
         }
         return age;
     }
+
+    getDayString(date: Date): Promise<any> {
+        const diasemana = getDay(date);
+        const diames = format(date, 'd', {locale: es});
+        const respuesta = {diames, fecha: date};
+        return new Promise((resolve) => {
+            if (this.loaded) {
+                respuesta['diastr'] = this.dayNamesShort[diasemana];
+                resolve(respuesta);
+            } else {
+                this.promiseDateShort.then(res => {
+                    this.resolvePromiseFechas(res);
+                    respuesta['diastr'] = this.dayNamesShort[diasemana];
+                    resolve(respuesta);
+                });
+            }
+        });
+    }
+
+    resolvePromiseFechas(res) {
+        this.loaded = true;
+        this.dayNamesShort = res;
+    }
+
+    resolvePromiseMonts(res) {
+        this.loadedMonths = true;
+        this.monthNames = res;
+    }
+
+    loadDayNamesShort() {
+        this.promiseDateShort = this.translateService.get('primeng.dayNamesShort').toPromise();
+    }
+
+    loadMontNames() {
+        this.promiseMontNames = this.translateService.get('primeng.monthNames').toPromise();
+    }
+
+    getHoraStrFromNumber(horaNumber: number) {
+        const resto = horaNumber % 1;
+        const nmin = Math.trunc(resto * 60);
+        const nhoras = Math.trunc(horaNumber);
+        const nhorasstr = nhoras.toString().padStart(2, '0');
+        const nminstr = nmin.toString().padStart(2, '0');
+        return `${nhorasstr}:${nminstr}`;
+    }
+
+    getDayOfMonth(date: Date) {
+        return getDate(date);
+    }
+
+    getMonthArray(year: number, month: number, slctdDate?: Date) {
+        const initDate = new Date(year, month);
+        const css = [];
+        let csstd = '';
+        const matrix = getMountMatrix({year, month});
+        return matrix.map(week => {
+            return week.map(tday => {
+                csstd = isToday(tday) ? 'smDiaCalHoy' : '';
+                const dcal = {
+                    num: getDate(tday),
+                    fecha: tday,
+                    sm: isSameMonth(tday, initDate),
+                    css,
+                    csstd
+                };
+
+                if (slctdDate && isEqual(slctdDate, tday)) {
+                    dcal['selected'] = true;
+                }
+                return dcal;
+            });
+        });
+    }
+
+    getCurrentDate() {
+        const hoy = new Date();
+        hoy.setHours(0, 0, 0, 0);
+        return hoy;
+    }
+
+    getDiasSemana() {
+        return ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
+    }
+
+    getMesString(mes: number) {
+        return new Promise((resolve) => {
+            if (this.loadedMonths) {
+                resolve(this.monthNames[mes - 1]);
+            } else {
+                this.promiseMontNames.then(res => {
+                    this.resolvePromiseMonts(res);
+                    resolve(this.monthNames[mes - 1]);
+                });
+            }
+        });
+    }
+
+    getWeekOfMonth(date: Date) {
+        return getWeekOfMonth(date, {weekStartsOn: 1});
+    }
+
+    getMonth(date: Date) {
+        return getMonth(date);
+    }
+
+    getFirstMontDate(mes: number, anio: number) {
+        return new Date(anio, mes - 1, 1);
+    }
+
+    dateInSameWeek(dateA: Date, dateB) {
+        return isSameWeek(dateA, dateB, {weekStartsOn: 1});
+    }
+
+    isAfter(dateA: Date, dateB: Date) {
+        return isAfter(dateA, dateB);
+    }
+
+    isSameDate(dateA: Date, dateB: Date) {
+        return isEqual(dateA, dateB);
+    }
+
+    isSameMonth(dateA: Date, dateB: Date) {
+        return isSameMonth(dateA, dateB);
+    }
+
+    isSameYear(dateA: Date, dateB: Date) {
+        return isSameYear(dateA, dateB);
+    }
+
+
 }

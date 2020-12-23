@@ -10,15 +10,15 @@ import {LocalStorageService} from './local-storage.service';
 })
 export class ArticuloService extends BaseService {
     constructor(
-        private http: HttpClient,
+        protected http: HttpClient,
         protected localStrgServ: LocalStorageService
     ) {
-        super('/titemconfig', localStrgServ);
+        super('/titemconfig', localStrgServ, http);
     }
 
     getForm(): Observable<any> {
         const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({accion: 'formcrea'});
+        const httpOptions = this.getHOT({accion: 'formcrea'});
         return this.http.get(endopoint, httpOptions).pipe(
             map((response: any) => {
                 return response;
@@ -29,7 +29,7 @@ export class ArticuloService extends BaseService {
 
     getByCod(artId: number): Observable<any> {
         const endopoint = this.urlEndPoint + '/' + artId;
-        const httpOptions = this.getHttpOptionsToken({});
+        const httpOptions = this.getHOT({});
         return this.http.get(endopoint, httpOptions).pipe(
             map((response: any) => {
                 return response;
@@ -40,25 +40,25 @@ export class ArticuloService extends BaseService {
 
     getFormEditRubro(icId: number): Observable<any> {
         const endopoint = this.urlEndPoint + '/' + icId;
-        const httpOptions = this.getHttpOptionsToken({accion: 'formrubroedit'});
+        const httpOptions = this.getHOT({accion: 'formrubroedit'});
         return this.doGet(this.http, endopoint, httpOptions);
     }
 
     getNextCodbar(): Observable<any> {
         const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({accion: 'seccodbarra'});
+        const httpOptions = this.getHOT({accion: 'seccodbarra'});
         return this.doGet(this.http, endopoint, httpOptions);
     }
 
     existeCodbar(codbar: string): Observable<any> {
         const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({accion: 'verifcodbar', codbar: codbar});
+        const httpOptions = this.getHOT({accion: 'verifcodbar', codbar: codbar});
         return this.doGet(this.http, endopoint, httpOptions);
     }
 
     guardarArticulo(form: any): Observable<any> {
         const endpoint = this.urlEndPoint + '/' + form.ic_id;
-        const httpOptions = this.getHttpOptionsToken({});
+        const httpOptions = this.getHOT({});
         return this.http.post(endpoint, form, httpOptions).pipe(
             map((response: any) => {
                 return response;
@@ -69,19 +69,19 @@ export class ArticuloService extends BaseService {
 
     actualizaBarcode(icId: number, newbarcode: string) {
         const endpoint = this.urlEndPoint + '/' + icId;
-        const httpOptions = this.getHttpOptionsToken({accion: 'updatecode'});
+        const httpOptions = this.getHOT({accion: 'updatecode'});
         return this.doPost(this.http, endpoint, httpOptions, {'new_ic_code': newbarcode});
     }
 
     anularArticulo(artId: any): Observable<any> {
         const endpoint = this.urlEndPoint + '/' + artId;
-        const httpOptions = this.getHttpOptionsToken({'accion': 'del'});
+        const httpOptions = this.getHOT({'accion': 'del'});
         return this.doPost(this.http, endpoint, httpOptions, {'dato': 'datoval'});
     }
 
     listar(pfiltro: string, sec_id: number): Observable<any> {
         const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({
+        const httpOptions = this.getHOT({
             accion: 'listar',
             filtro: pfiltro,
             sec_id: sec_id
@@ -96,25 +96,25 @@ export class ArticuloService extends BaseService {
 
     listarRubros(): Observable<any> {
         const endpoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({accion: 'rubrosgrid'});
+        const httpOptions = this.getHOT({accion: 'rubrosgrid'});
         return this.doGet(this.http, endpoint, httpOptions);
     }
 
     getFormRubro(): Observable<any> {
         const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({accion: 'formrubros'});
+        const httpOptions = this.getHOT({accion: 'formrubros'});
         return this.doGet(this.http, endopoint, httpOptions);
     }
 
     guardarRubro(form: any) {
         const endopoint = this.urlEndPoint + '/' + form.ic_id;
-        const httpOptions = this.getHttpOptionsToken({accion: 'guardarubro'});
+        const httpOptions = this.getHOT({accion: 'guardarubro'});
         return this.doPost(this.http, endopoint, httpOptions, form);
     }
 
     listarTeleServicios(): Observable<any> {
         const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({
+        const httpOptions = this.getHOT({
             accion: 'teleservicios'
         });
 

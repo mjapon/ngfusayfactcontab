@@ -9,39 +9,39 @@ import {Observable} from 'rxjs';
 })
 export class TicketService extends BaseService {
 
-    constructor(private http: HttpClient,
+    constructor(protected http: HttpClient,
                 protected localStrgServ: LocalStorageService) {
-        super('/tticket', localStrgServ);
+        super('/tticket', localStrgServ, http);
     }
 
     listar(dia: string): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'listar', dia: dia});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'listar', dia});
+        return this._doGet(httpOptions);
     }
 
     getFormListado(): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'forml'});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'forml'});
+        return this._doGet(httpOptions);
     }
 
     getProdsForTickets(): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'servticktes'});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'servticktes'});
+        return this._doGet(httpOptions);
     }
 
     getFormCrea(): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'form'});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        const httpOptions = this.getHOT({accion: 'form'});
+        return this._doGet(httpOptions);
     }
 
     guardar(form: any, form_cli: any): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'guardar'});
-        return this.doPost(this.http, this.urlEndPoint, httpOptions, {form, form_cli});
+        const httpOptions = this.getHOT({accion: 'guardar'});
+        return this._doPost(httpOptions, {form, form_cli});
     }
 
     anular(tkid) {
-        const httpOptions = this.getHttpOptionsToken({accion: 'anular'});
-        return this.doPost(this.http, this.urlEndPoint, httpOptions, {tk_id: tkid});
+        const httpOptions = this.getHOT({accion: 'anular'});
+        return this._doPost(httpOptions, {tk_id: tkid});
     }
 
     imprimir(ticketid: any) {

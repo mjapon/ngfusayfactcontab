@@ -9,22 +9,20 @@ export class BaseService {
     protected urlEndPoint: string;
     private baseUrlEndPoint = environment.baseUrlEndPoint;
 
-    constructor(urlPath: string, protected localStrgServ: LocalStorageService) {
+    constructor(urlPath: string,
+                protected localStrgServ: LocalStorageService,
+                protected http: HttpClient) {
         this.urlEndPoint = this.baseUrlEndPoint + urlPath;
     }
 
-    protected buildUrlEndPoint(path: string): string {
-        return this.urlEndPoint + path;
-    }
-
-    protected getHttpOptions(pparams): any {
+    protected getHO(pparams): any {
         return {
             headers: {'Content-Type': 'application/json'},
             params: pparams
         };
     }
 
-    protected getHttpOptionsToken(pparams): any {
+    protected getHOT(pparams): any {
         const token = this.localStrgServ.getAuthToken();
         const res = {
             headers: {
@@ -91,5 +89,13 @@ export class BaseService {
             }),
             catchError(this.fnProcesaError)
         );
+    }
+
+    protected _doGet(httpOptions) {
+        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+    }
+
+    protected _doPost(httpOptions, form) {
+        return this.doPost(this.http, this.urlEndPoint, httpOptions, form);
     }
 }

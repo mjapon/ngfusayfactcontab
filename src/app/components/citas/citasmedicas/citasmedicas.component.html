@@ -1,7 +1,7 @@
 <div *ngIf="showBuscaPaciente">
-    <h4>
+    <h5 class="quitaPaddingMargin mb-1">
         <span class="fa fa-history"></span> Historias Clínicas {{tipoHistoria === 1 ? '' : 'Odontológicas'}}
-    </h4>
+    </h5>
 
     <!--Ubicar tabs para navegacion -->
     <ul class="nav nav-tabs" style="margin-bottom: 10px">
@@ -31,7 +31,7 @@
                         class="fa fa-plus-circle"></span></button>
             </div>
         </div>
-        <div style="padding-top: 10px" id="divListaPacientes" #divListaPacientes>
+        <div style="padding-top: 10px" id="divListaPacientes">
             <div class="divpacientesemtpy rounded-lg"
                  *ngIf="pacientesArray.length===0 && filtro && filtro.trim().length>0">
                 <div class="text-center">
@@ -79,10 +79,10 @@
 
 </div>
 <div *ngIf="!showBuscaPaciente" #mainDiv id="mainDiv">
-    <div class="row">
+    <div class="row border-bottom mb-2">
         <div class="col-9">
-            <h4>Historia
-                Clínica {{ form.paciente.per_nombres ? (' - ' + form.paciente.per_nombres + ' ' + form.paciente.per_apellidos) : '' }} </h4>
+            <h5 class="quitaPaddingMargin">Historia
+                Clínica {{ form.paciente.per_nombres ? (' - ' + form.paciente.per_nombres + ' ' + form.paciente.per_apellidos) : '' }} </h5>
         </div>
         <div class="col-3 d-flex justify-content-end">
             <div class="btn-group" role="group" aria-label="Default button group">
@@ -93,7 +93,6 @@
             </div>
         </div>
     </div>
-    <hr *ngIf="form.paciente.per_id>0 && !datosIncompletos">
     <div class="card border-primary" style="margin-bottom: 20px"
          *ngIf="form.paciente.per_id>0 && !datosIncompletos">
         <div class="card-body">
@@ -272,7 +271,7 @@
                             <p-calendar id="per_fechanac"
                                         [(ngModel)]="form.paciente.per_fechanac"
                                         [showIcon]="true"
-                                        [locale]="es" inputId="per_fechanac"
+                                        inputId="per_fechanac"
                                         [monthNavigator]="true" [yearNavigator]="true"
                                         [maxDate]="currentDate"
                                         (onSelect)="calcularEdad()"
@@ -430,9 +429,9 @@
                                            id="inantecedentes_{{form.antecedentes.indexOf(it)}}">
                                 </div>
                                 <div *ngIf="it.cmtv_tinput===2">
-                                                            <textarea class="form-control" [(ngModel)]="it.valorreg"
-                                                                      id="inantecedentes_{{form.antecedentes.indexOf(it)}}">
-                                                            </textarea>
+                                        <textarea class="form-control" [(ngModel)]="it.valorreg"
+                                                  id="inantecedentes_{{form.antecedentes.indexOf(it)}}">
+                                        </textarea>
                                 </div>
                                 <div *ngIf="it.cmtv_tinput===3">
                                     <p-inputMask mask="99/99/9999" [(ngModel)]="it.valorreg"
@@ -649,7 +648,6 @@
 
         </p-tabPanel>
         <p-tabPanel header="{{tabsFisicos.g.paso}}. {{tabsFisicos.g.titulo}}" *ngIf="tabsFisicos.g.visible">
-
             <div class="d-flex justify-content-between mb-2">
                 <div class="btn-group btn-group-sm" role="group">
                     <button type="button" class="btn " (click)="setTipoOdontograma(1)"
@@ -662,13 +660,12 @@
                     </button>
                 </div>
             </div>
-
             <div *ngIf="tipoOdontogramaSel===1">
-                <app-odontograma (onClicSiguiente)="guardarOdontograma()" [tipodontograma]="1"
+                <app-odontograma (clicSiguiente)="guardarOdontograma()" [tipodontograma]="1"
                                  [codpaciente]="form.paciente.per_id"></app-odontograma>
             </div>
             <div *ngIf="tipoOdontogramaSel===2">
-                <app-odontograma (onClicSiguiente)="guardarOdontograma()" [tipodontograma]="2"
+                <app-odontograma (clicSiguiente)="guardarOdontograma()" [tipodontograma]="2"
                                  [codpaciente]="form.paciente.per_id"></app-odontograma>
             </div>
 
@@ -777,7 +774,7 @@
                     <p-calendar id="cosm_fechaproxcita"
                                 [(ngModel)]="form.datosconsulta.cosm_fechaproxcita"
                                 [showIcon]="true"
-                                [locale]="es" inputId="cosm_fechaproxcita"
+                                inputId="cosm_fechaproxcita"
                                 [monthNavigator]="true" [yearNavigator]="true"
                                 [minDate]="currentDate"
                                 yearRange="2020:2100"

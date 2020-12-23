@@ -6,3 +6,7 @@
     align-items: center;
     justify-content: center;
 }
+
+.fondo-comun {
+    background-color: #d4d8db;
+}

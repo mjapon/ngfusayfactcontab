@@ -5,7 +5,6 @@ import {UiService} from '../../../../services/ui.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
 import {VentaticketService} from '../../../../services/ventaticket.service';
 import {FechasService} from '../../../../services/fechas.service';
-import {DateFormatPipe} from '../../../../pipes/date-format.pipe';
 
 @Component({
     selector: 'app-vticketform',
@@ -18,7 +17,6 @@ export class VticketformComponent implements OnInit {
     form: any;
     cuentasel: any;
     tiposel: any;
-    es: any;
     currentDate = new Date();
     fechaRegistro = new Date();
 
@@ -28,8 +26,7 @@ export class VticketformComponent implements OnInit {
                 private swalService: SwalService,
                 private uiService: UiService,
                 private fechasService: FechasService,
-                private loadingUiService: LoadingUiService,
-                private dateFormatPipe: DateFormatPipe) {
+                private loadingUiService: LoadingUiService) {
     }
 
     ngOnInit(): void {
@@ -45,7 +42,6 @@ export class VticketformComponent implements OnInit {
                 this.tiposel = this.tiposList[0];
             }
         });
-        this.es = this.fechasService.getLocaleEsForPrimeCalendar();
         this.uiService.setFocusById('costoInput', 1000);
     }
 
@@ -61,7 +57,7 @@ export class VticketformComponent implements OnInit {
             if (!this.fechaRegistro) {
                 this.swalService.fireToastWarn('Debe ingresar la fecha del registro');
             } else {
-                const fechaRegistroStr = this.dateFormatPipe.transform(this.fechaRegistro);
+                const fechaRegistroStr = this.fechasService.formatDate(this.fechaRegistro);
                 this.form.vt_tipo = this.cuentasel.ic_id;
                 this.form.vt_fecha = fechaRegistroStr;
                 this.loadingUiService.publishBlockMessage();

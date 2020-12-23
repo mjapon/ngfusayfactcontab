@@ -12,9 +12,9 @@ export class PacienteService extends BaseService {
     private bssource = new BehaviorSubject('empty');
     public source = this.bssource.asObservable();
 
-    constructor(private http: HttpClient,
+    constructor(protected http: HttpClient,
                 protected localStrgServ: LocalStorageService) {
-        super('/public/tpacienteuser', localStrgServ);
+        super('/public/tpacienteuser', localStrgServ, http);
     }
 
     isAuthenticated(): boolean {
@@ -46,51 +46,51 @@ export class PacienteService extends BaseService {
 
     registrar(form: any) {
         const endpoint = this.urlEndPoint + '/0';
-        const httpOptions = this.getHttpOptions({});
+        const httpOptions = this.getHO({});
         return this.doPost(this.http, endpoint, httpOptions, form);
     }
 
     crearCuenta(form: any) {
         const endpoint = this.urlEndPoint + '/0';
-        const httpOptions = this.getHttpOptions({accion: 'creacuenta'});
+        const httpOptions = this.getHO({accion: 'creacuenta'});
         return this.doPost(this.http, endpoint, httpOptions, form);
     }
 
     actualizarCita(form: any) {
         const endpoint = this.urlEndPoint + '/0';
-        const httpOptions = this.getHttpOptions({accion: 'updatecita'});
+        const httpOptions = this.getHO({accion: 'updatecita'});
         return this.doPost(this.http, endpoint, httpOptions, form);
     }
 
     autenticar(form: any) {
         const endpoint = this.urlEndPoint + '/0';
-        const httpOptions = this.getHttpOptions({accion: 'autenticar'});
+        const httpOptions = this.getHO({accion: 'autenticar'});
         return this.doPost(this.http, endpoint, httpOptions, form);
     }
 
     getMatrizHoras(med_id: number, dia: any) {
-        const httpOptions = this.getHttpOptions({accion: 'matrizhoras', med_id: med_id, dia: dia});
+        const httpOptions = this.getHO({accion: 'matrizhoras', med_id: med_id, dia: dia});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
     listarCitas(med_id: number, dia: any) {
-        const httpOptions = this.getHttpOptions({accion: 'citasmedico', med_id: med_id, dia: dia});
+        const httpOptions = this.getHO({accion: 'citasmedico', med_id: med_id, dia: dia});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
     getDatosUser(email: string) {
-        const httpOptions = this.getHttpOptions({accion: 'getdatauser', email: email});
+        const httpOptions = this.getHO({accion: 'getdatauser', email: email});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
     creaActualizaFromSocial(form: any) {
         const endpoint = this.urlEndPoint + '/0';
-        const httpOptions = this.getHttpOptions({accion: 'updateFromSocial'});
+        const httpOptions = this.getHO({accion: 'updateFromSocial'});
         return this.doPost(this.http, endpoint, httpOptions, form);
     }
 
     listarCitasPaciente(email: string) {
-        const httpOptions = this.getHttpOptions({accion: 'citaspaciente', email: email});
+        const httpOptions = this.getHO({accion: 'citaspaciente', email: email});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 }

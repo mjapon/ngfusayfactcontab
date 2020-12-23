@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FechasService} from '../../../services/fechas.service';
 import {CitasMedicasService} from '../../../services/citas-medicas.service';
-import {DateFormatPipe} from '../../../pipes/date-format.pipe';
 
 @Component({
     selector: 'app-citashechas',
@@ -11,7 +10,6 @@ import {DateFormatPipe} from '../../../pipes/date-format.pipe';
 export class CitashechasComponent implements OnInit {
     desde: Date;
     hasta: Date;
-    es: any;
     filtro: string;
     atencionesArray: Array<any>;
     pagina: number;
@@ -23,12 +21,10 @@ export class CitashechasComponent implements OnInit {
     @Input() tipocita: number;
 
     constructor(private fechasService: FechasService,
-                private citasMedicasServ: CitasMedicasService,
-                private dateFormatPipe: DateFormatPipe) {
+                private citasMedicasServ: CitasMedicasService) {
     }
 
     ngOnInit(): void {
-        this.es = this.fechasService.getLocaleEsForPrimeCalendar();
         this.clearAll();
         this.buscar();
     }
@@ -56,17 +52,16 @@ export class CitashechasComponent implements OnInit {
     }
 
     onFiltroTyped() {
-        console.log('onfiltro typed');
     }
 
     loadMore() {
         let desdeStr = '';
         let hastaStr = '';
         if (this.desde) {
-            desdeStr = this.dateFormatPipe.transform(this.desde);
+            desdeStr = this.fechasService.formatDate(this.desde);
         }
         if (this.hasta) {
-            hastaStr = this.dateFormatPipe.transform(this.hasta);
+            hastaStr = this.fechasService.formatDate(this.hasta);
         }
 
         this.showAnim = true;
@@ -89,8 +84,8 @@ export class CitashechasComponent implements OnInit {
     }
 
     selectPaciente(item: any) {
-        this.rowHistoriaSel = item;
         this.showModalDet = true;
+        this.rowHistoriaSel = item;
     }
 
     onCerrarDetHistoria($event: any) {

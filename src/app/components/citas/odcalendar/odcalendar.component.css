@@ -1,0 +1,165 @@
+.calbody {
+    width: 1100px !important;
+    height: 500px !important;
+    overflow: auto;
+}
+
+.head {
+    position: relative !important;
+}
+
+.cuadricula {
+    position: relative !important;
+}
+
+.celdacal {
+    border: 1px solid rgba(218, 204, 211, 0.34);
+    margin: 0px !important;
+    padding: 0px !important;
+    background-color: white;
+}
+
+.celdadia {
+    width: 135px !important;
+    height: 50px !important;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.celdadiahora {
+    width: 70px !important;
+    height: 50px !important;
+}
+
+.celdahora {
+    width: 70px !important;
+    height: 18px !important;
+    font-size: 12px;
+}
+
+.celda {
+    width: 135px !important;
+    height: 18px !important;
+}
+
+.celda:hover {
+    border: 1px solid #57a5ff;
+    background-color: #57a5ff;
+}
+
+.limitehora {
+    border-bottom: 1px solid #AFA4A8 !important;
+}
+
+.limitedia {
+    border-right: 1px solid #AFA4A8 !important;
+}
+
+.bordertop {
+    border-top: 1px solid #AFA4A8 !important;
+}
+
+.borderleft {
+    border-left: 1px solid #AFA4A8 !important;
+}
+
+.marcado {
+    border: 0px solid #ff3d19 !important;
+    background-color: #14ff8b !important;
+}
+
+.marcadoerror {
+    border: 1px solid #000000 !important;
+    background-color: #ff3013 !important;
+}
+
+.nuevoev {
+    border: 1px solid #ffc70f !important;
+    background-color: #20caff !important;
+}
+
+.textoEv {
+    font-size: 10px;
+}
+
+.textoCitaCred {
+    font-size: 10px;
+    color: white;
+    width: 100%;
+    height: 100%;
+    line-height: normal !important;
+    padding: 0px !important;
+    margin: 0px !important;
+    overflow-wrap: break-word;
+}
+
+.cuadroEv {
+    overflow-x: auto;
+    overflow-y: hidden;
+    box-shadow: 1px 1px 3px #666;
+}
+
+.tituloAgenda {
+    padding: 0px;
+    margin: 0px;
+    font-size: 24px;
+}
+
+.diaSelected {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.smDiaCal {
+    font-size: 13px;
+    width: 80px;
+    height: 19px;
+    margin: 1px 1px !important;
+}
+
+.smDiaCalSel {
+    border-radius: 50%;
+    background-color: #6ebdff;
+    color: white !important;
+}
+
+.smDiaCalHoy {
+    border-radius: 50%;
+    background-color: #196cff;
+    color: white !important;
+}
+
+.smDiaCalLey {
+    font-size: 13px;
+    width: 80px;
+    height: 15px;
+    margin: 10px 0px !important;
+}
+
+.leymes {
+    font-size: 13px;
+    margin: 10px 0px !important;
+}
+
+.colcal {
+    width: 16px;
+    height: 16px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    /*background-color: red;*/
+}
+
+.mpbtncol {
+    margin: 0px !important;
+    padding: 5px !important;
+}
+
+.zisemencol {
+    width: 80px !important;
+    min-width: 80px !important;
+}
+
+.micol {
+    padding: 4px !important;
+}

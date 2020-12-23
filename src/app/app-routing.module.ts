@@ -22,6 +22,8 @@ import {UserlistComponent} from './components/usuarios/userlist/userlist.compone
 import {UserformComponent} from './components/usuarios/userform/userform.component';
 import {TrubrosComponent} from './components/tickets/vtickets/trubros/trubros.component';
 import {TrubrosformComponent} from './components/tickets/vtickets/trubrosform/trubrosform.component';
+import {CitasodontoComponent} from './components/citas/citasodonto/citasodonto.component';
+import {OdcalendarComponent} from './components/citas/odcalendar/odcalendar.component';
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -38,12 +40,14 @@ const routes: Routes = [
     {path: 'vtickets', component: VticketComponent},
     {path: 'vticket/form', component: VticketformComponent},
     {path: 'historiaclinica/:tipo', component: CitasmedicasComponent},
+    {path: 'odonto', component: CitasodontoComponent},
     {path: 'roles', component: RoleslistComponent},
     {path: 'roles/form/:rl_id', component: RolesformComponent},
     {path: 'usuarios', component: UserlistComponent},
     {path: 'usuarios/form/:us_id', component: UserformComponent},
     {path: 'rubros', component: TrubrosComponent},
     {path: 'rubros/form/:ic_id', component: TrubrosformComponent},
+    {path: 'calendario', component: OdcalendarComponent},
     {path: '**', component: HomeComponent}
 ];
 

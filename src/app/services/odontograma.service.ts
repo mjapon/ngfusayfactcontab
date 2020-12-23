@@ -8,20 +8,20 @@ import {Observable} from 'rxjs';
     providedIn: 'root'
 })
 export class OdontogramaService extends BaseService {
-    constructor(private http: HttpClient,
+    constructor(protected http: HttpClient,
                 protected localStrgServ: LocalStorageService) {
-        super('/todontograma', localStrgServ);
+        super('/todontograma', localStrgServ, http);
     }
 
     getForm(pacId: number, tipo: number): Observable<any> {
         const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({accion: 'form', pac: pacId, tipo});
+        const httpOptions = this.getHOT({accion: 'form', pac: pacId, tipo});
         return this.doGet(this.http, endopoint, httpOptions);
     }
 
     guardar(form: any): Observable<any> {
         const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({});
+        const httpOptions = this.getHOT({});
         return this.doPost(this.http, endopoint, httpOptions, form);
     }
 }

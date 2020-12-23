@@ -7,12 +7,12 @@ import {
     OnInit,
     Output,
     Renderer2,
+    SimpleChanges,
     ViewChild
 } from '@angular/core';
 import {ArrayutilService} from '../../../services/arrayutil.service';
 import {MenuItem} from 'primeng/api';
 import {SwalService} from '../../../services/swal.service';
-import {ChangeodontoService} from '../../../services/changeodonto.service';
 import {ToolsDienteService} from '../../../services/toolsdiente.service';
 import {OdontogramaService} from '../../../services/odontograma.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
@@ -65,7 +65,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     tipoPiezaSel: any;
     formOdontograma: any;
 
-    @Output() onClicSiguiente = new EventEmitter<any>();
+    @Output() clicSiguiente = new EventEmitter<any>();
 
     @ViewChild('contextMenuDiente') contextMenuDiente: any;
 
@@ -75,27 +75,16 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     private iniciaSelProt: boolean;
 
     constructor(private render: Renderer2, private arrayUtil: ArrayutilService, private swalService: SwalService,
-                private changeOdonto: ChangeodontoService, private toolsDienteServ: ToolsDienteService,
+                private toolsDienteServ: ToolsDienteService,
                 private odontoService: OdontogramaService, private loadingUiService: LoadingUiService) {
-        this.tiposProtesis = this.toolsDienteServ.getTiposProtesis();
-        this.zonasProtesis = [{label: 'Palatino', value: 1}, {label: 'Lingual', value: 2}];
-        this.tiposPiezas = [{label: 'Protesis', value: 1}, {label: 'Retenedor', value: 2}];
-        this.estadosProtesis = [{label: 'Realizado', value: 1}, {label: 'Por realizar', value: 2}];
-        this.estadoProtesisSel = this.estadosProtesis[0];
-        this.obsodontograma = '';
-        this.menuItemsDiente = [];
     }
 
-    ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
-        for (const propName in changes) {
-            const chng = changes[propName];
-            if (propName === 'codpaciente') {
-                if (chng.currentValue) {
-                    this.loadForm();
-                } else {
-                    this.clearAll();
-                }
-            }
+    ngOnChanges(changes: SimpleChanges): void {
+        const chng = changes.codpaciente;
+        if (chng.currentValue) {
+            this.loadForm();
+        } else {
+            this.clearAll();
         }
     }
 
@@ -117,6 +106,20 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     ngOnInit(): void {
+        this.tiposProtesis = this.toolsDienteServ.getTiposProtesis();
+        this.zonasProtesis = [{label: 'Palatino', value: 1}, {label: 'Lingual', value: 2}];
+        this.tiposPiezas = [{label: 'Protesis', value: 1}, {label: 'Retenedor', value: 2}];
+        this.estadosProtesis = [{label: 'Realizado', value: 1}, {label: 'Por realizar', value: 2}];
+        this.estadoProtesisSel = this.estadosProtesis[0];
+        this.obsodontograma = '';
+        this.menuItemsDiente = [];
+
+        this.menuItemsDiente.push(
+            {
+                label: 'Pieza Dental Nro:..'
+            }
+        );
+
         this.loadDientes();
         this.initTools();
         this.selectedCssClass = '';
@@ -531,9 +534,9 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     onZonaProtChange($event: any) {
-        const issel = this.tipoProtesisSel.value === 3;
+        const issel = this.tipoProtesisSel === 3;
         const tipo = this.tiposPiezas[0].value;
-        if (this.zonaProtesisSel.value === 1) {
+        if (this.zonaProtesisSel === 1) {
             this.loadDientesForProtesis(18, 11, 21, 28, issel, tipo);
         } else {
             this.loadDientesForProtesis(48, 41, 31, 38, issel, tipo);
@@ -556,8 +559,8 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
                 if (e.tipo === 2) {
                     e.protesis = -1;
                 } else {
-                    e.protesis = this.estadoProtesisSel.value;
-                    e.tipoprotesis = this.tipoProtesisSel.value;
+                    e.protesis = this.estadoProtesisSel;
+                    e.tipoprotesis = this.tipoProtesisSel;
                 }
                 const itdiente = this.toolsDienteServ.buscaPiezaDental(this.dentadura, e.value);
                 if (itdiente) {
@@ -571,8 +574,8 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
                 numero: this.protesisList.length + 1,
                 piezas: dientprot.filter(e => e.tipo === 1).map(x => x.value),
                 retens: dientprot.filter(e => e.tipo === 2).map(x => x.value),
-                tipo: this.tipoProtesisSel.label,
-                estado: this.estadoProtesisSel.label
+                tipo: this.tiposProtesis[this.tipoProtesisSel - 1].label,
+                estado: this.estadosProtesis[this.estadoProtesisSel - 1].label
             };
             this.protesisList.push(newprotesis);
             this.modalCreaProtesis = false;
@@ -580,7 +583,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     onMouseDownProtDiente(it: any) {
-        if (this.tipoPiezaSel && this.tipoProtesisSel.value < 3) {
+        if (this.tipoPiezaSel && this.tipoProtesisSel < 3) {
             /*this.dientesProtesis.forEach(e => {
                 e.sel = false;
             });*/
@@ -591,19 +594,19 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     onMouseOverProtDiente(it: any) {
-        if (this.iniciaSelProt && this.tipoProtesisSel.value < 3) {
+        if (this.iniciaSelProt && this.tipoProtesisSel < 3) {
             it.sel = true;
             it.tipo = this.tipoPiezaSel.value;
         }
     }
 
     onMouseUpProtDiente(it: any) {
-        if (this.iniciaSelProt && this.tipoProtesisSel.value < 3) {
+        if (this.iniciaSelProt && this.tipoProtesisSel < 3) {
             it.sel = true;
             it.tipo = this.tipoPiezaSel.value;
             this.iniciaSelProt = false;
 
-            if (this.tipoProtesisSel.value === 2) {
+            if (this.tipoProtesisSel === 2) {
                 this.tipoPiezaSel = null;
             }
         }
@@ -622,7 +625,6 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     onEstadoProtesisSel($event: any) {
-
     }
 
     clearProtesis(protesis: any) {
@@ -648,19 +650,20 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
         this.formOdontograma.od_protesis = JSON.stringify(this.protesisList);
         this.formOdontograma.od_obs = this.obsodontograma;
         if (this.formOdontograma.pac_id) {
+            this.loadingUiService.publishBlockMessage();
             this.odontoService.guardar(this.formOdontograma).subscribe(res => {
                 if (res.status === 200) {
                     this.swalService.fireToastSuccess(res.msg);
                     this.formOdontograma.od_id = res.od_id;
                 }
                 if (next) {
-                    this.onClicSiguiente.emit('');
+                    this.clicSiguiente.emit('');
                 }
             });
         } else {
             this.swalService.fireToastError('Primero debe registrar el paciente antes de registrar el odontograma');
             if (next) {
-                this.onClicSiguiente.emit('');
+                this.clicSiguiente.emit('');
             }
         }
     }

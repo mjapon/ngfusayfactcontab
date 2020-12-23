@@ -12,7 +12,7 @@ import {PanelMenuModule} from 'primeng/panelmenu';
 import {DropdownModule} from 'primeng/dropdown';
 import {CalendarModule} from 'primeng/calendar';
 
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {TableModule} from 'primeng/table';
 import {MenubarModule} from 'primeng/menubar';
 import {SelectButtonModule} from 'primeng/selectbutton';
@@ -28,7 +28,6 @@ import {CierreCajaComponent} from './components/cajas/cierre-caja/cierre-caja.co
 import {ArticulosListComponent} from './components/articulos/articulos-list/articulos-list.component';
 
 import {ArticulosFormComponent} from './components/articulos/articulos-form/articulos-form.component';
-import {DateFormatPipe} from './pipes/date-format.pipe';
 import {AuditInterceptorService} from './services/rates/audit-interceptor.service';
 import {FusaynavbarComponent} from './components/shared/initnavbar/fusaynavbar.component';
 import {FusayfooterComponent} from './components/shared/initfooter/fusayfooter.component';
@@ -78,9 +77,24 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {SliderModule} from 'primeng/slider';
 import {MessageService} from 'primeng/api';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {DatospacienteComponent} from './components/citas/datospaciente.component';
+import {ListadopacientesComponent} from './components/citas/listadopacientes.component';
+import {AntcodontoComponent} from './components/citas/antcodonto.component';
+import {CitasodontoComponent} from './components/citas/citasodonto/citasodonto.component';
+import {OdatencionesComponent} from './components/citas/odatenciones.component';
+import {ResumenPacienteComponent} from './components/citas/resumenpac.component';
+import {OdcalendarComponent} from './components/citas/odcalendar/odcalendar.component';
+import {ColorPickerModule} from 'primeng/colorpicker';
+import {CitaodontodetComponent} from './components/citas/odontograma/citaodontodet.component';
+import {DetallescitacalComponent} from './components/citas/odcalendar/detallescitacal.component';
 
 registerLocaleData(localeEs, 'es-EC');
 
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http);
+}
 
 @NgModule({
     declarations: [
@@ -92,7 +106,6 @@ registerLocaleData(localeEs, 'es-EC');
         CierreCajaComponent,
         ArticulosListComponent,
         ArticulosFormComponent,
-        DateFormatPipe,
         FusaynavbarComponent,
         FusayfooterComponent,
         LoggednavbarComponent,
@@ -121,7 +134,16 @@ registerLocaleData(localeEs, 'es-EC');
         PiezadentalComponent,
         CaraspdComponent,
         NumpiezaComponent,
-        GrppiezadentComponent
+        GrppiezadentComponent,
+        DatospacienteComponent,
+        ListadopacientesComponent,
+        AntcodontoComponent,
+        CitasodontoComponent,
+        OdatencionesComponent,
+        ResumenPacienteComponent,
+        OdcalendarComponent,
+        CitaodontodetComponent,
+        DetallescitacalComponent
     ],
     imports: [
         BrowserModule,
@@ -154,19 +176,26 @@ registerLocaleData(localeEs, 'es-EC');
         BlockUIModule,
         ProgressSpinnerModule,
         AutoCompleteModule,
-        SliderModule
+        SliderModule,
+        ColorPickerModule,
+        TranslateModule.forRoot({
+            defaultLanguage: 'es', loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     providers: [
         AuthService,
         MessageService,
-        DateFormatPipe,
         DatePipe,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuditInterceptorService,
             multi: true
         },
-        {provide: LOCALE_ID, useValue: 'es-EC'}
+        {provide: LOCALE_ID, useValue: 'es'}
     ],
     bootstrap: [AppComponent]
 })

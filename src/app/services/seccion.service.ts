@@ -9,18 +9,18 @@ import {Observable} from 'rxjs';
 })
 export class SeccionService extends BaseService {
 
-    constructor(private http: HttpClient,
+    constructor(protected http: HttpClient,
                 protected localStrgServ: LocalStorageService) {
-        super('/tseccion', localStrgServ);
+        super('/tseccion', localStrgServ, http);
     }
 
     listar(): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'listar'});
+        const httpOptions = this.getHOT({accion: 'listar'});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
     setSeccion(secid: number): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'setseccion'});
+        const httpOptions = this.getHOT({accion: 'setseccion'});
         return this.doPost(this.http, this.urlEndPoint, httpOptions, {sec_id: secid});
     }
 

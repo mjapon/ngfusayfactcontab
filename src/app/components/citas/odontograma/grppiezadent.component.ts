@@ -109,6 +109,11 @@ export class GrppiezadentComponent {
 
     loadContexMenu(diente) {
         this.menuItemsDiente.splice(0, this.menuItemsDiente.length);
+        this.menuItemsDiente.push(
+            {
+                label: 'Pieza Dental Nro:' + this.diente.numero
+            }
+        );
         const estadoDiente = diente.estado ? diente.estado : 0;
         let txtestado = '';
         let addCambiaEstado = false;
@@ -119,12 +124,9 @@ export class GrppiezadentComponent {
             txtestado = 'Tratamiento realizado';
             addCambiaEstado = true;
         }
-        // tslint:disable-next-line:prefer-const
-        let self = this;
-        const auxmenuitems = [];
-
+        const self = this;
         if (addCambiaEstado) {
-            auxmenuitems.push({
+            this.menuItemsDiente.push({
                 label: txtestado,
                 command: (event => {
                     event.context = self;
@@ -136,7 +138,7 @@ export class GrppiezadentComponent {
 
         if (estadoDiente === 0) {
             txtestado = 'Tratamiento Externo';
-            auxmenuitems.push({
+            this.menuItemsDiente.push({
                 label: txtestado,
                 command: (event => {
                     event.context = self;
@@ -146,12 +148,6 @@ export class GrppiezadentComponent {
             });
         }
 
-        this.menuItemsDiente.push(
-            {
-                label: 'Pieza Dental Nro:' + this.diente.numero,
-                items: auxmenuitems
-            }
-        );
         /*
         const texto = diente.texto ? diente.texto : '';
         if (texto.trim().length > 0) {

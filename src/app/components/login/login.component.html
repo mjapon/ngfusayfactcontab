@@ -5,27 +5,23 @@
             <div>
                 <form [formGroup]="loginForm" (ngSubmit)="onclickSubmit()">
                     <div class="form-group">
-                        <!--<label for="empresaInput">Empresa</label>-->
                         <input type="text" class="form-control form-control-lg" id="empresaInput"
                                aria-describedby="emailHelp"
                                placeholder="Ingrese el codigo de la empresa" name="empresa" formControlName="empresa"
                                [ngClass]="{'is-invalid':submited && f.empresa.errors}">
                     </div>
                     <div class="form-group">
-                        <!--<label for="exampleInputEmail1">Usuario</label>-->
                         <input type="email" class="form-control form-control-lg" id="usernameInput"
                                aria-describedby="emailHelp"
                                placeholder="Ingrese el  nombre de usuario" name="username" formControlName="username"
                                [ngClass]="{'is-invalid':submited && f.username.errors}">
                     </div>
                     <div class="form-group">
-                        <!--<label for="exampleInputPassword1">Clave</label>-->
                         <input type="password" class="form-control form-control-lg" id="passwordInput"
                                name="password"
                                placeholder="Ingrese la clave" formControlName="password"
                                [ngClass]="{'is-invalid':submited && f.password.errors}">
                     </div>
-
                     <div class="d-md-flex flex-row justify-content-around botonIngreso">
                         <button type="submit" value="Ingresar" class="btn btn-primary">Ingresar <span
                                 class="fa fa-sign-in"></span></button>

@@ -9,32 +9,32 @@ import {Observable} from 'rxjs';
 })
 export class CategoriasService extends BaseService {
 
-    constructor(private http: HttpClient,
+    constructor(protected http: HttpClient,
                 protected localStrgService: LocalStorageService) {
-        super('/categorias', localStrgService);
+        super('/categorias', localStrgService, http);
     }
 
     listar(): Observable<any> {
         const endpoint = this.urlEndPoint;
-        const httpOptions = this.getHttpOptionsToken({accion: 'listar'});
+        const httpOptions = this.getHOT({accion: 'listar'});
         return this.doGet(this.http, endpoint, httpOptions);
     }
 
     crear(nombre: string): Observable<any> {
         const endpoint = this.urlEndPoint + '/0';
-        const httpOptions = this.getHttpOptionsToken({accion: 'crear'});
+        const httpOptions = this.getHOT({accion: 'crear'});
         return this.doPost(this.http, endpoint, httpOptions, {'catic_nombre': nombre});
     }
 
     actualizar(form: any): Observable<any> {
         const endpoint = this.urlEndPoint + '/' + form['catic_id'];
-        const httpOptions = this.getHttpOptionsToken({accion: 'actualizar'});
+        const httpOptions = this.getHOT({accion: 'actualizar'});
         return this.doPost(this.http, endpoint, httpOptions, form);
     }
 
     anular(caticId: number) {
         const endpoint = this.urlEndPoint + '/' + caticId;
-        const httpOptions = this.getHttpOptionsToken({accion: 'anular'});
+        const httpOptions = this.getHOT({accion: 'anular'});
         return this.doPost(this.http, endpoint, httpOptions, {});
     }
 

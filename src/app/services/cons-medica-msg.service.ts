@@ -15,10 +15,6 @@ export class ConsMedicaMsgService {
         this.message.next(message);
     }
 
-    publishLoadDatosCita(rowCitaSel) {
-        this.publishMessage({tipo: 2, msg: rowCitaSel});
-    }
-
     publishReloadHistorias() {
         this.publishMessage({tipo: 3});
     }

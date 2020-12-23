@@ -8,7 +8,6 @@ import {MessageService, SelectItem} from 'primeng/api';
 import {SwalService} from '../../../services/swal.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ArrayutilService} from '../../../services/arrayutil.service';
-import {DateFormatPipe} from '../../../pipes/date-format.pipe';
 import {DomService} from '../../../services/dom.service';
 import {PersonaService} from '../../../services/persona.service';
 import {FechasService} from '../../../services/fechas.service';
@@ -39,7 +38,6 @@ export class ArticulosFormComponent implements OnInit {
     defaultCat: any;
     defaultProv: any;
 
-    es: any;
     artId: number;
     artFromDb: any;
     editing: boolean;
@@ -64,7 +62,6 @@ export class ArticulosFormComponent implements OnInit {
         private localStrgServ: LocalStorageService,
         private router: Router,
         private route: ActivatedRoute,
-        private dateFormatPipe: DateFormatPipe,
         private fechasService: FechasService,
         private messageService: MessageService,
         private domService: DomService,
@@ -89,7 +86,6 @@ export class ArticulosFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.es = this.fechasService.getLocaleEsForPrimeCalendar();
         this.nombreNuevaCatg = '';
         this.artFromDb = {};
         this.editing = false;
@@ -314,7 +310,10 @@ export class ArticulosFormComponent implements OnInit {
         const catsel = formToPost.catic_id;
         const tipoiva = formToPost.icdp_grabaiva;
         const tipic_id = formToPost.tipic_id;
-        const fechaCaducidad = this.dateFormatPipe.transform(formToPost.icdp_fechacaducidad);
+        let fechaCaducidad = '';
+        if (formToPost.icdp_fechacaducidad) {
+            fechaCaducidad = this.fechasService.formatDate(formToPost.icdp_fechacaducidad);
+        }
         formToPost.prov_id = provsel.per_id;
         formToPost.catic_id = catsel.catic_id;
         formToPost.tipic_id = tipic_id.value;

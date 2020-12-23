@@ -5,25 +5,25 @@ import {LocalStorageService} from './local-storage.service';
 import {catchError, map} from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class TipoCajaService extends BaseService {
 
-  constructor(private http: HttpClient,
-              protected localStrgServ: LocalStorageService) {
-    super('/tipocaja', localStrgServ);
-  }
+    constructor(protected http: HttpClient,
+                protected localStrgServ: LocalStorageService) {
+        super('/tipocaja', localStrgServ, http);
+    }
 
-  listarActivos() {
-    const endpoint = this.urlEndPoint;
-    const httpOptions = this.getHttpOptionsToken({accion: 'listaractivos'});
-    return this.http.get(endpoint, httpOptions)
-      .pipe(
-        map((res: any) => {
-          return res;
-        }),
-        catchError(this.fnProcesaError)
-      );
+    listarActivos() {
+        const endpoint = this.urlEndPoint;
+        const httpOptions = this.getHOT({accion: 'listaractivos'});
+        return this.http.get(endpoint, httpOptions)
+            .pipe(
+                map((res: any) => {
+                    return res;
+                }),
+                catchError(this.fnProcesaError)
+            );
 
-  }
+    }
 }

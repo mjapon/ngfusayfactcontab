@@ -9,53 +9,53 @@ import {Observable} from 'rxjs';
 })
 export class UsertokenService extends BaseService {
 
-    constructor(private http: HttpClient,
+    constructor(protected http: HttpClient,
                 private localStorageService: LocalStorageService) {
-        super('/tfusertoken', localStorageService);
+        super('/tfusertoken', localStorageService, http);
     }
 
     getFormEdita(usId: number): Observable<any> {
         const endpoint = this.urlEndPoint + '/' + usId.toString();
-        const httpOptions = this.getHttpOptionsToken({accion: 'formedita'});
+        const httpOptions = this.getHOT({accion: 'formedita'});
         return this.doGet(this.http, endpoint, httpOptions);
     }
 
     getFormCrea(): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'formcrea'});
+        const httpOptions = this.getHOT({accion: 'formcrea'});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
     listarUsuarios(): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'listar'});
+        const httpOptions = this.getHOT({accion: 'listar'});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 
     guardarRoles(usId: number, rolesList: any): Observable<any> {
         const form = {us_id: usId, roles: rolesList};
-        const httpOptions = this.getHttpOptionsToken({accion: 'setroles'});
+        const httpOptions = this.getHOT({accion: 'setroles'});
         return this.doPost(this.http, this.urlEndPoint, httpOptions, form);
     }
 
     crearUsuario(form: any, formcli: any): Observable<any> {
         const theform = {form, formcli};//Editado
-        const httpOptions = this.getHttpOptionsToken({accion: 'creauser'});
+        const httpOptions = this.getHOT({accion: 'creauser'});
         return this.doPost(this.http, this.urlEndPoint, httpOptions, theform);
     }
 
     listarPermisos(usId: number): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'lpermisos'});
+        const httpOptions = this.getHOT({accion: 'lpermisos'});
         const endpoint = this.urlEndPoint + '/' + usId.toString();
         return this.doGet(this.http, endpoint, httpOptions);
     }
 
     getMenu(usId: number): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'gmenu'});
+        const httpOptions = this.getHOT({accion: 'gmenu'});
         const endpoint = this.urlEndPoint + '/' + usId.toString();
         return this.doGet(this.http, endpoint, httpOptions);
     }
 
     chkexiste(perId: number): Observable<any> {
-        const httpOptions = this.getHttpOptionsToken({accion: 'chkexiste', per_id: perId});
+        const httpOptions = this.getHOT({accion: 'chkexiste', per_id: perId});
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }
 

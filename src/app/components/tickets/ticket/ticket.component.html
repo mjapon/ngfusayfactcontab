@@ -6,14 +6,15 @@
         <div class="btn-group" role="group" aria-label="Default button group">
             <button type="button" class="btn btn-outline-success" (click)="nuevo()">
                 <i class="fa fa-plus-circle"></i>
-                Crear</button>
+                Crear
+            </button>
         </div>
     </div>
 </div>
 <hr>
 <div class="row">
     <div class="col">
-        <p-calendar showButtonBar="true" [(ngModel)]="dia" (onSelect)="loadGrid()" [showIcon]="true" [locale]="es"
+        <p-calendar showButtonBar="true" [(ngModel)]="dia" (onSelect)="loadGrid()" [showIcon]="true"
                     dateFormat="dd/mm/yy"></p-calendar>
     </div>
 </div>
