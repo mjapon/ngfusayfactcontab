@@ -22,6 +22,8 @@
 <!--Formulario de creacion de registro -->
 <p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
          (onRowSelect)="onRowSelect($event)"
+         [autoLayout]="true"
+         [resizableColumns]="true"
          [(contextMenuSelection)]="selectedItem"
          [contextMenu]="cm"
          (onRowUnselect)="onUnRowSelect($event)">

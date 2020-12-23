@@ -9,7 +9,8 @@
             </button>
             <button type="button" class="btn btn-outline-success" (click)="nuevo()">
                 <i class="fa fa-plus-circle"></i>
-                Crear</button>
+                Crear
+            </button>
         </div>
     </div>
 </div>
@@ -17,6 +18,8 @@
 
 <p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
          (onRowSelect)="onRowSelect($event)"
+         [autoLayout]="true"
+         [resizableColumns]="true"
          [(contextMenuSelection)]="selectedItem"
          (onRowUnselect)="onUnRowSelect($event)">
     <ng-template pTemplate="header">
