@@ -74,7 +74,8 @@ export class LoginComponent implements OnInit {
                 if (res.autenticado) {
                     this.localStorageService.setItem('GLOBAL_COD_EMPRESA', form.empresa);
                     this.fautService.publishMessage('login');
-                    this.fautService.setAsAuthenticated(res.userinfo, res.token, res.menu, res.seccion, res.empNombreComercial);
+                    this.fautService.setAsAuthenticated(res.userinfo, res.token, res.menu, res.seccion,
+                        res.empNombreComercial, res.sqm);
                     this.swalService.fireToastSuccess('', 'Bienvenido: ' + res.userinfo.per_nombres);
                     this.router.navigate(['lghome']);
                     this.seccionService.listar().subscribe(ressec => {

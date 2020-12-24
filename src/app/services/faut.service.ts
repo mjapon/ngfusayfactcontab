@@ -31,13 +31,18 @@ export class FautService extends BaseService {
         return this.localStorageService.getItem('fIsLogged') != null;
     }
 
-    setAsAuthenticated(userinfo: any, token: any, menu: any, seccion: any, empNombreComercial) {
+    setAsAuthenticated(userinfo: any, token: any, menu: any, seccion: any, empNombreComercial, sqm: string) {
         this.localStorageService.setItem('fIsLogged', 'true');
         this.localStorageService.setItem('infoUserFLogged', JSON.stringify(userinfo));
         this.localStorageService.setItem('menuApp', JSON.stringify(menu));
         this.localStorageService.setItem('auToken', token);
         this.localStorageService.setItem('seccion', JSON.stringify(seccion));
         this.localStorageService.setItem('empNombreComercial', empNombreComercial);
+        this.localStorageService.setItem('sqm', sqm);
+    }
+
+    getEsquema() {
+        return this.localStorageService.getItem('sqm');
     }
 
     setMenuApp(menu) {

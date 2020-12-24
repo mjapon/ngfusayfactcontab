@@ -3,6 +3,7 @@ import {BaseService} from './base-service';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
 import {Observable} from 'rxjs';
+import {FautService} from "./faut.service";
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +12,8 @@ export class CitasMedicasService extends BaseService {
 
     constructor(
         protected http: HttpClient,
-        protected localStrgServ: LocalStorageService
+        protected localStrgServ: LocalStorageService,
+        protected fautService: FautService
     ) {
         super('/tconsultam', localStrgServ, http);
     }
@@ -57,12 +59,14 @@ export class CitasMedicasService extends BaseService {
     }
 
     imprimir(ccm: any) {
-        const rutaserver = 'http://mavil.site/tomcat/imprentas/RecetaServlet?ccm=' + ccm;
+        const sqm = this.fautService.getEsquema();
+        const rutaserver = 'http://mavil.site/tomcat/imprentas/RecetaServlet?ccm=' + ccm + '&sqm=' + sqm;
         window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=600');
     }
 
     imprimirHistoria(ch: any) {
-        const rutaserver = 'http://mavil.site/tomcat/imprentas/HistoriaClinicaServlet?ch=' + ch;
+        const sqm = this.fautService.getEsquema();
+        const rutaserver = 'http://mavil.site/tomcat/imprentas/HistoriaClinicaServlet?ch=' + ch + '&sqm=' + sqm;
         window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=600');
     }
 
