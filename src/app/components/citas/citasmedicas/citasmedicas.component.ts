@@ -79,7 +79,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.subsCitasPlaned = this.cosMsgService.message.subscribe(msg => {
             if (msg) {
                 if (msg.tipo === 1) {// Cargar ficha clicina
-                    console.log('Valor de mensaje es:', msg.msg);
                     this.selPacFromLista(msg.msg);
                 } else if (msg.tipo === 2) { // Cargar historia anterior para edicion
                     this.selectHistoriaForEdit(msg.msg);
@@ -477,7 +476,12 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     onPacienteSaved($event: any) {
         this.datosPacienteFull.per_id = $event;
         this.selectedTab = 1;
+        this.form.paciente.per_id = $event;
         this.domService.setFocusTimeout('motivoConsultaTextArea', 600);
         this.reloadDatosPaciente(this.datosPacienteFull.per_id);
+    }
+
+    onDatosIncompletos($event: any) {
+        this.selectedTab = 0;
     }
 }

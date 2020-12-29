@@ -339,6 +339,7 @@ export class DatospacienteComponent implements OnInit, OnChanges {
     @Output() pacienteLoaded = new EventEmitter<any>();
     @Output() pacienteSaved = new EventEmitter<any>();
     @Output() creacionCancelada = new EventEmitter<any>();
+    @Output() datosIncompletosEv = new EventEmitter<any>();
 
     paciente: any;
     datosPacienteFull: any;
@@ -468,6 +469,7 @@ export class DatospacienteComponent implements OnInit, OnChanges {
                 this.pacienteLoaded.emit(res.persona);
                 this.datosIncompletos = this.isPersonDataIncomplete(res.persona);
                 if (this.datosIncompletos) {
+                    this.datosIncompletosEv.emit(res.persona);
                     this.logicaDatosIncompletos(true);
                     this.editando = true;
                     this.loadListasAndSetupForm();

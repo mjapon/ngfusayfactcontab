@@ -179,6 +179,7 @@
         <p-tabPanel header="1. Datos del Paciente">
             <app-datospaciente [codPaciente]="pacienteSelected.per_id" (pacienteLoaded)="onPacienteLoaded($event)"
                                (pacienteSaved)="onPacienteSaved($event)"
+                               (datosIncompletosEv)="onDatosIncompletos($event)"
                                (creacionCancelada)="limpiar()"></app-datospaciente>
         </p-tabPanel>
 
