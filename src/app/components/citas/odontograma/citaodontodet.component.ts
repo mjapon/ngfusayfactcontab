@@ -20,7 +20,8 @@ import {OdatencionesService} from '../../../services/odatenciones.service';
                         <h6 class="dato-adc-fila">
                             {{datosAtencion.per_nombres + ' ' + datosAtencion.per_apellidos}}
                             -  {{datosAtencion.per_ciruc}}  - {{datosAtencion.per_fechanac}}
-                            - {{datosAtencion.per_edad}} años
+                            - {{datosAtencion.per_edad.years}} año(s), {{datosAtencion.per_edad.months}}
+                            mes(es), {{datosAtencion.per_edad.days}} dia(s)
                         </h6>
                         <div class="row">
                             <div class="col-md-3">

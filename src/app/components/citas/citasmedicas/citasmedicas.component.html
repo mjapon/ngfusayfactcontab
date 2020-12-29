@@ -1,6 +1,6 @@
 <div *ngIf="showBuscaPaciente">
     <h5 class="quitaPaddingMargin mb-1">
-        <span class="fa fa-history"></span> Historias Clínicas {{tipoHistoria === 1 ? '' : 'Odontológicas'}}
+        <span class="fas fa-stethoscope"></span> Historias Clínicas
     </h5>
 
     <!--Ubicar tabs para navegacion -->
@@ -20,53 +20,8 @@
     </ul>
 
     <div id="RegistrarHistoria" *ngIf="selectedSupTab===1">
-        <div class="row" style="padding-bottom: 10px">
-            <div class="col">
-                <input class="form-control form-rounded" id="buscaPacNomCiInput" type="text"
-                       placeholder="Buscar paciente por nombres o número de cédula" [(ngModel)]="filtro"
-                       (keyup)="onFiltroTyped()">
-            </div>
-            <div class="col-3">
-                <button class="btn btn-outline-success btn-block" (click)="crearPaciente()"> Nuevo Paciente <span
-                        class="fa fa-plus-circle"></span></button>
-            </div>
-        </div>
-        <div style="padding-top: 10px" id="divListaPacientes">
-            <div class="divpacientesemtpy rounded-lg"
-                 *ngIf="pacientesArray.length===0 && filtro && filtro.trim().length>0">
-                <div class="text-center">
-                    <h3 class="text-muted"> No hay resultados <i class="fa fa-search"></i></h3>
-                </div>
-            </div>
-            <div *ngIf="pacientesArray.length>0" class="divpacientes rounded-lg">
-                <div class="list-group">
-                    <a class="list-group-item list-group-item-action hand" *ngFor="let item of pacientesArray"
-                       (click)="selectPaciente(item)">
-                        <div class="d-flex w-100 justify-content-between align-items-center">
-                            <div style="padding-right:20px !important; width: 6%">
-                                <img src="assets/imgs/{{item.per_genero===2?'female.png':'male.png'}}" alt="Avatar">
-                            </div>
-                            <div style="width: 90%">
-                                <h6 class="mb-0">{{item.nomapel}}</h6>
-                                <p class="mb-0 text-muted">
-                                    <h8>{{item.per_ciruc}}</h8>
-                                </p>
-                                <p class="mb-0 text-muted">
-                                    <h8>{{item.lugresidencia}}</h8>
-                                </p>
-                            </div>
-                            <div>
-                                <i class="fa fa-chevron-right"></i>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="text-center" *ngIf="showAnim">
-                <img src="assets/anim.gif"
-                     alt="procesando">
-            </div>
-        </div>
+        <app-listadopacientes (evCrearPaciente)="onCreaPaciente($event)"
+                              (evSelPaciente)="selPacFromLista($event)"></app-listadopacientes>
     </div>
 
     <div id="AtencionesHechas" *ngIf="selectedSupTab===2">
@@ -81,13 +36,12 @@
 <div *ngIf="!showBuscaPaciente" #mainDiv id="mainDiv">
     <div class="row border-bottom mb-2">
         <div class="col-9">
-            <h5 class="quitaPaddingMargin">Historia
-                Clínica {{ form.paciente.per_nombres ? (' - ' + form.paciente.per_nombres + ' ' + form.paciente.per_apellidos) : '' }} </h5>
+            <h4 class="quitaPaddingMargin text-muted"><span class="fas fa-stethoscope">  </span> Ficha Clínica </h4>
         </div>
         <div class="col-3 d-flex justify-content-end">
             <div class="btn-group" role="group" aria-label="Default button group">
                 <button type="button" class="btn btn-outline-success" (click)="limpiar()"
-                        title="Cerrar esta historia y buscar otra">
+                        title="Cerrar esta ficha clínica y buscar otra">
                     <i class="fa fa-times"></i>
                 </button>
             </div>
@@ -110,7 +64,10 @@
                             <h6>
                                 {{datosPacienteFull.per_ciruc}}
                             </h6>
-                            <h6>{{datosPacienteFull.per_fechanac}} - {{datosPacienteFull.per_edad}} años
+                            <h6>{{datosPacienteFull.per_fechanac}} - {{datosPacienteFull.per_edad.years}}
+                                año(s), {{datosPacienteFull.per_edad.months}}
+                                mes(es), {{datosPacienteFull.per_edad.days}}
+                                dia(s)
                             </h6>
                         </div>
                         <div class="w-50">
@@ -219,175 +176,13 @@
     </div>
 
     <p-tabView [(activeIndex)]="selectedTab">
-        <p-tabPanel header="{{tabsFisicos.a.paso}}. {{tabsFisicos.a.titulo}}" *ngIf="tabsFisicos.a.visible">
-            <div class="row">
-                <div class="col">
-                    <div class="row dato-fila">
-                        <div class="col-12">
-                            <span class="required">*</span><span>Ci/RUC/Pasaporte:</span>
-                        </div>
-                        <div class="col-12">
-                            <div class="input-group">
-                                <input type="text" class="form-control"
-                                       [(ngModel)]="form.paciente.per_ciruc"
-                                       (blur)="verificaPacienteRegistrado()"
-                                       (keydown.enter)="buscarPaciente(false, 'perNombresInput')"
-                                       id="perCirucInput">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button"
-                                            (click)="buscarPaciente(false, 'perNombresInput')"
-                                            title="Presiona este botón para buscar el paciente por numero de cédula, ruc o pasaporte ">
-                                        <span class="fa fa-search"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row dato-fila">
-                        <div class="col-12">
-                            <span class="required">*</span><span>Nombres:</span>
-                        </div>
-                        <div class="col-12">
-                            <input type="text" class="form-control"
-                                   [(ngModel)]="form.paciente.per_nombres" id="perNombresInput"
-                                   [autocomplete]="false">
-                        </div>
-                    </div>
-                    <div class="row dato-fila">
-                        <div class="col-12">
-                            <span>Apellidos:</span>
-                        </div>
-                        <div class="col-12">
-                            <input type="text" class="form-control"
-                                   [(ngModel)]="form.paciente.per_apellidos"
-                                   [autocomplete]="false">
-                        </div>
-                    </div>
-                    <div class="row dato-fila">
-                        <div class="col-12">
-                            <span class="required">*</span><span>Fecha de nacimiento (dd/mm/aaaa):</span>
-                        </div>
-                        <div class="col-12">
-                            <p-calendar id="per_fechanac"
-                                        [(ngModel)]="form.paciente.per_fechanac"
-                                        [showIcon]="true"
-                                        inputId="per_fechanac"
-                                        [monthNavigator]="true" [yearNavigator]="true"
-                                        [maxDate]="currentDate"
-                                        (onSelect)="calcularEdad()"
-                                        yearRange="1900:2100"
-                                        dateFormat="dd/mm/yy"></p-calendar>
-                            <span> {{form.paciente.per_edad}} años </span>
-                        </div>
-                    </div>
-                    <div class="row dato-fila">
-                        <div class="col-12">
-                            <span class="required">*</span><span>Sexo:</span>
-                        </div>
-                        <div class="col-12">
-                            <p-radioButton name="sexo" *ngFor="let it of generosList"
-                                           value="{{it.lval_valor}}"
-                                           label="{{it.lval_nombre}}"
-                                           [(ngModel)]="form.paciente.per_genero"></p-radioButton>
-                        </div>
-                    </div>
-                    <div class="row dato-fila">
-                        <div class="col-12">
-                            <span>Estado Civil:</span>
-                        </div>
-                        <div class="col-12">
-                            <p-dropdown [options]="estadoCivilList" optionLabel="lval_nombre"
-                                        placeholder="Seleccione el estado civil"
-                                        [showClear]="true"
-                                        [(ngModel)]="form.paciente.per_estadocivil"></p-dropdown>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="row dato-fila">
-                        <div class="col-12">
-                            <span>Lugar de residencia:</span>
-                        </div>
-                        <div class="col-12">
-                            <p-dropdown [options]="lugares" id="catic_id"
-                                        [(ngModel)]="form.paciente.per_lugresidencia"
-                                        [virtualScroll]="true"
-                                        placeholder="Seleccione el lugar de residencia"
-                                        [showClear]="true"
-                                        [style]="{width:'100%', overflow:'visible'}"
-                                        [filterMatchMode]="'startsWith'"
-                                        filter="true"
-                                        itemSize="50"
-                                        optionLabel="lug_nombre"
-                                        inputId="per_lugresidencia"></p-dropdown>
-                        </div>
-                    </div>
-                    <div class="row dato-fila">
-                        <div class="col-12">
-                            <span>Dirección:</span>
-                        </div>
-                        <div class="col-12">
-                            <input type="text" class="form-control"
-                                   [(ngModel)]="form.paciente.per_direccion"
-                                   autocomplete="false" maxlength="80">
-                        </div>
-                    </div>
-                    <div class="row dato-fila">
-                        <div class="col-12">
-                            <span>Profesión/Ocupación:</span>
-                        </div>
-                        <div class="col-12">
-                            <p-dropdown [options]="ocupaciones" id="per_ocupacion"
-                                        [(ngModel)]="form.paciente.per_ocupacion"
-                                        [virtualScroll]="true"
-                                        placeholder="Seleccione la profesión/ocupación"
-                                        [showClear]="true"
-                                        [style]="{width:'100%', overflow:'visible'}"
-                                        [filterMatchMode]="'contains'"
-                                        filter="true"
-                                        itemSize="50"
-                                        optionLabel="lval_nombre"
-                                        inputId="per_ocupacion"></p-dropdown>
-                        </div>
-                    </div>
-                    <div class="row dato-fila">
-                        <div class="col-12">
-                            <span class="required">*</span><span>Correo Electrónico:</span>
-                        </div>
-                        <div class="col-12">
-                            <input type="text" class="form-control"
-                                   [(ngModel)]="form.paciente.per_email"
-                                   autocomplete="false">
-                        </div>
-                    </div>
-                    <div class="row dato-fila">
-                        <div class="col-12">
-                            <span>Teléfono Convencial:</span>
-                        </div>
-                        <div class="col-12">
-                            <input type="text" class="form-control"
-                                   [(ngModel)]="form.paciente.per_telf"
-                                   [autocomplete]="false">
-                        </div>
-                    </div>
-                    <div class="row dato-fila">
-                        <div class="col-12">
-                            <span class="required">*</span><span>Celular:</span>
-                        </div>
-                        <div class="col-12">
-                            <input type="text" class="form-control" [autocomplete]="false"
-                                   [(ngModel)]="form.paciente.per_movil">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="padding15">
-                <button class="btn btn-primary" (click)="guardaDatosPaciente()"> Siguiente <i
-                        class="fa fa-arrow-right"></i></button>
-            </div>
+        <p-tabPanel header="1. Datos del Paciente">
+            <app-datospaciente [codPaciente]="pacienteSelected.per_id" (pacienteLoaded)="onPacienteLoaded($event)"
+                               (pacienteSaved)="onPacienteSaved($event)"
+                               (creacionCancelada)="limpiar()"></app-datospaciente>
         </p-tabPanel>
 
-        <p-tabPanel header="{{tabsFisicos.b.paso}}. {{tabsFisicos.b.titulo}}" *ngIf="tabsFisicos.b.visible">
+        <p-tabPanel header="2. Motivo">
             <div class="row dato-adc-fila">
                 <div class="col-12">
                     <span class="required">*</span><span>Motivo Consulta:</span>
@@ -414,7 +209,7 @@
             </div>
         </p-tabPanel>
 
-        <p-tabPanel header="{{tabsFisicos.c.paso}}. {{tabsFisicos.c.titulo}}" *ngIf="tabsFisicos.c.visible">
+        <p-tabPanel header="3. Antecedentes">
             <div class="row">
                 <div class="col">
                     <div *ngFor="let it of form.antecedentes.slice(0,4);">
@@ -442,7 +237,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col" *ngIf="form.paciente.per_genero==='2'">
+                <div class="col" *ngIf="datosPacienteFull.per_genero===2">
                     <div *ngFor="let it of form.antecedentes.slice(4,10);">
                         <div class="row dato-adc-fila">
                             <div class="col-12">
@@ -488,7 +283,7 @@
             </div>
         </p-tabPanel>
 
-        <p-tabPanel header="{{tabsFisicos.d.paso}}. {{tabsFisicos.d.titulo}}" *ngIf="tabsFisicos.d.visible">
+        <p-tabPanel header="4. Rev x Sistemas">
             <div class="row">
                 <div class="col">
                     <div class="row dato-adc-fila"
@@ -539,7 +334,7 @@
             </div>
         </p-tabPanel>
 
-        <p-tabPanel header="{{tabsFisicos.e.paso}}. {{tabsFisicos.e.titulo}}" *ngIf="tabsFisicos.e.visible">
+        <p-tabPanel header="5. Exm Físico">
             <div>
                 <div class="row">
                     <div class="col">
@@ -628,7 +423,8 @@
             </div>
         </p-tabPanel>
 
-        <p-tabPanel header="{{tabsFisicos.f.paso}}. {{tabsFisicos.f.titulo}}" *ngIf="tabsFisicos.f.visible">
+        <p-tabPanel header="6. Exm Complementario">
+            <!--
             <div class="row dato-fila">
                 <div class="col-12">
                     <span>Exámenes Complementarios:</span>
@@ -640,6 +436,9 @@
                         </textarea>
                 </div>
             </div>
+            !-->
+
+            <app-rxdocs [codPaciente]="pacienteSelected.per_id" [tipo]="1"></app-rxdocs>
 
             <div class="padding15">
                 <button class="btn btn-primary" (click)="guardarExamCompl()"> Siguiente <i
@@ -647,36 +446,8 @@
             </div>
 
         </p-tabPanel>
-        <p-tabPanel header="{{tabsFisicos.g.paso}}. {{tabsFisicos.g.titulo}}" *ngIf="tabsFisicos.g.visible">
-            <div class="d-flex justify-content-between mb-2">
-                <div class="btn-group btn-group-sm" role="group">
-                    <button type="button" class="btn " (click)="setTipoOdontograma(1)"
-                            [ngClass]="{'btn-outline-primary':tipoOdontogramaSel===1, 'btn-outline-secondary':tipoOdontogramaSel!==1 }">
-                        Permanente
-                    </button>
-                    <button type="button" class="btn " (click)="setTipoOdontograma(2)"
-                            [ngClass]="{'btn-outline-primary':tipoOdontogramaSel===2, 'btn-outline-secondary':tipoOdontogramaSel!==2 }">
-                        Temporal
-                    </button>
-                </div>
-            </div>
-            <div *ngIf="tipoOdontogramaSel===1">
-                <app-odontograma (clicSiguiente)="guardarOdontograma()" [tipodontograma]="1"
-                                 [codpaciente]="form.paciente.per_id"></app-odontograma>
-            </div>
-            <div *ngIf="tipoOdontogramaSel===2">
-                <app-odontograma (clicSiguiente)="guardarOdontograma()" [tipodontograma]="2"
-                                 [codpaciente]="form.paciente.per_id"></app-odontograma>
-            </div>
 
-            <!--
-            <div class="padding15">
-                <button class="btn btn-primary" (click)="guardarOdontograma()"> Siguiente <i
-                        class="fa fa-arrow-right"></i></button>
-            </div>
-            -->
-        </p-tabPanel>
-        <p-tabPanel header="{{tabsFisicos.h.paso}}. {{tabsFisicos.h.titulo}}" *ngIf="tabsFisicos.h.visible">
+        <p-tabPanel header="7. Diagnóstico">
             <div class="row dato-fila">
                 <div class="col-12">
                     <span class="required">*</span><span>Diagnóstico:</span>

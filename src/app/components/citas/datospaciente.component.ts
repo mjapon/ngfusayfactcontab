@@ -26,7 +26,7 @@ import {forkJoin} from 'rxjs';
         <div>
             <div *ngIf="!editando" class="ml-5">
                 <div class="row">
-                    <div class="col-md-3 d-flex flex-column">
+                    <div class="col-md-4 d-flex flex-column">
                         <div class="d-flex flex-column mt-2">
                             <span class="text-muted">
                                 Ci/RUC/Pasaporte:
@@ -57,7 +57,10 @@ import {forkJoin} from 'rxjs';
                                 Fecha da nacimiento:
                             </span>
                             <span class="datopac">
-                                {{datosPacienteFull.per_fechanac}} - {{datosPacienteFull.per_edad}} años
+                                {{datosPacienteFull.per_fechanac}} - {{datosPacienteFull.per_edad.years}}
+                                año(s), {{datosPacienteFull.per_edad.months}}
+                                mes(es), {{datosPacienteFull.per_edad.days}}
+                                dia(s)
                             </span>
                         </div>
                         <div class="d-flex flex-column mt-2">
@@ -70,6 +73,14 @@ import {forkJoin} from 'rxjs';
                         </div>
                         <div class="d-flex flex-column mt-2">
                             <span class="text-muted">
+                                Tipo de sangre:
+                            </span>
+                            <span class="datopac">
+                                {{datosPacienteFull.tiposangre}}
+                            </span>
+                        </div>
+                        <div class="d-flex flex-column mt-2">
+                            <span class="text-muted">
                                 Estado Civil:
                             </span>
                             <span class="datopac">
@@ -77,7 +88,7 @@ import {forkJoin} from 'rxjs';
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-3 d-flex flex-column">
+                    <div class="col-md-4 d-flex flex-column">
                         <div class="d-flex flex-column mt-2">
                             <span class="text-muted">
                                 Lugar de residencia:
@@ -194,7 +205,7 @@ import {forkJoin} from 'rxjs';
                                             (onSelect)="calcularEdad()"
                                             yearRange="1900:2100"
                                             dateFormat="dd/mm/yy"></p-calendar>
-                                <span> {{paciente.per_edad}} años </span>
+                                <span> {{paciente.per_edad.years}} año(s) </span>
                             </div>
                         </div>
                         <div class="row dato-fila">
@@ -217,6 +228,17 @@ import {forkJoin} from 'rxjs';
                                             placeholder="Seleccione el estado civil"
                                             [showClear]="true"
                                             [(ngModel)]="paciente.per_estadocivil"></p-dropdown>
+                            </div>
+                        </div>
+                        <div class="row dato-fila">
+                            <div class="col-12">
+                                <span>Tipo de sangre :</span>
+                            </div>
+                            <div class="col-12">
+                                <p-dropdown [options]="tipoSangreList" optionLabel="lval_nombre"
+                                            placeholder="Seleccione el tipo de sangre"
+                                            [showClear]="true"
+                                            [(ngModel)]="paciente.per_tiposangre"></p-dropdown>
                             </div>
                         </div>
                     </div>
@@ -321,6 +343,7 @@ export class DatospacienteComponent implements OnInit, OnChanges {
     paciente: any;
     datosPacienteFull: any;
     estadoCivilList: Array<any>;
+    tipoSangreList: Array<any>;
     generosList: Array<any>;
     lugares: Array<any>;
     ocupaciones: Array<any>;
@@ -345,9 +368,9 @@ export class DatospacienteComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-        this.datosPacienteFull = {};
+        this.datosPacienteFull = {per_edad: {}};
         this.datosIncompletos = false;
-        this.paciente = {};
+        this.paciente = {per_edad: {}};
     }
 
     editar() {
@@ -406,6 +429,14 @@ export class DatospacienteComponent implements OnInit, OnChanges {
                 }
             );
         }
+        if (persona.per_tiposangre) {
+            this.paciente.per_tiposangre = this.arrayUtil.getFirstResult(
+                this.tipoSangreList,
+                (el, idx, array) => {
+                    return el.lval_id === persona.per_tiposangre;
+                }
+            );
+        }
 
         this.paciente.per_lugresidencia = null;
         if (persona.per_lugresidencia) {
@@ -450,10 +481,11 @@ export class DatospacienteComponent implements OnInit, OnChanges {
         const genObs = this.catalogosServ.getCatalogos(1);
         const estCivilObs = this.catalogosServ.getCatalogos(2);
         const ocupObs = this.catalogosServ.getCatalogos(3);
+        const tipsangObs = this.catalogosServ.getCatalogos(4);
         const lugObs = this.lugarService.listarTodos();
         const formObs = this.personaService.getForm();
 
-        forkJoin([genObs, estCivilObs, ocupObs, lugObs, formObs]).subscribe(res => {
+        forkJoin([genObs, estCivilObs, ocupObs, tipsangObs, lugObs, formObs]).subscribe(res => {
             if (res[0].status === 200) {
                 this.generosList = res[0].items;
             }
@@ -464,10 +496,13 @@ export class DatospacienteComponent implements OnInit, OnChanges {
                 this.ocupaciones = res[2].items;
             }
             if (res[3].status === 200) {
-                this.lugares = res[3].items;
+                this.tipoSangreList = res[3].items;
             }
             if (res[4].status === 200) {
-                this.paciente = res[4].form;
+                this.lugares = res[4].items;
+            }
+            if (res[5].status === 200) {
+                this.paciente = res[5].form;
                 this.domService.setFocusTimeout('perCirucInput', 100);
             }
 
@@ -508,6 +543,7 @@ export class DatospacienteComponent implements OnInit, OnChanges {
         const estadoCivil = formPaciente.per_estadocivil;
         const residencia = formPaciente.per_lugresidencia;
         const genero = formPaciente.per_genero;
+        const tiposangre = formPaciente.per_tiposangre;
 
         if (!genero) {
             this.swalService.fireToastError('Debe seleccionar el genero del paciente');
@@ -536,6 +572,8 @@ export class DatospacienteComponent implements OnInit, OnChanges {
         formToPost.per_genero = perGenero;
         formToPost.per_lugresidencia = perLugresidencia;
         formToPost.per_fechanacp = this.fechasService.formatDate(formPaciente.per_fechanac);
+        formToPost.per_tiposangre = tiposangre ? tiposangre.lval_id : 0;
+
         this.loadingUiService.publishBlockMessage();
         this.personaService.actualizar(perId, formToPost).subscribe(res => {
             if (res.status === 200) {
@@ -557,7 +595,7 @@ export class DatospacienteComponent implements OnInit, OnChanges {
         if (this.paciente.per_fechanac) {
             edad = this.fechasService.getEdad(this.paciente.per_fechanac);
         }
-        this.paciente.per_edad = edad;
+        this.paciente.per_edad = {years: edad};
     }
 
 

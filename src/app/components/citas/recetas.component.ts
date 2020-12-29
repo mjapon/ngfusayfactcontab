@@ -230,7 +230,7 @@ export class RecetasComponent implements OnInit, OnChanges {
     }
 
     onMedicoChange($event: any) {
-        console.log('Logica para evento on medico change');
+
     }
 
     imprimir(receta: any) {

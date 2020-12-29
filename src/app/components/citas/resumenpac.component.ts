@@ -22,8 +22,8 @@ import {Router} from "@angular/router";
                                 <h6 class="quitaPaddingMargin">
                                     {{paciente.per_ciruc}}
                                 </h6>
-                                <h6 class="quitaPaddingMargin">{{paciente.per_fechanac}} - {{paciente.per_edad}} años
-                                </h6>
+                                <h6 class="quitaPaddingMargin">{{paciente.per_fechanac}} - {{paciente.per_edad.years}}
+                                    año(s),{{paciente.per_edad.months}} mes(es),{{paciente.per_edad.days}} dia(s)</h6>
                             </div>
                         </div>
                     </div>

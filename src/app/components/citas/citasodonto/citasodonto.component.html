@@ -79,7 +79,7 @@
                 <app-recetas [codPaciente]="pacienteSelected.per_id"></app-recetas>
             </p-tabPanel>
             <p-tabPanel header="Documentos Clínicos">
-
+                <app-rxdocs [codPaciente]="pacienteSelected.per_id" [tipo]="2"></app-rxdocs>
             </p-tabPanel>
         </p-tabView>
     </div>

@@ -616,21 +616,27 @@ export class OdcalendarComponent implements OnInit {
     }
 
     guardarEv() {
-        const pac = this.form.paciente;
+        /*const pac = this.form.paciente;
         if (!pac) {
             this.swalService.fireToastError('Debe especificar el paciente');
+        } else {*/
+
+        if (this.form.paciente) {
+            this.form.pac_id = this.form.paciente.per_id;
         } else {
-            this.form.pac_id = pac.per_id;
-            this.form.ct_fecha = this.fechasService.formatDate(this.form.ct_fechaobj);
-            this.tcitaService.guardar(this.form).subscribe(res => {
-                if (res.status === 200) {
-                    this.swalService.fireToastSuccess(res.msg);
-                    this.loadCitas();
-                    this.closeModalNewEv();
-                    this.clearPacForCalendar();
-                }
-            });
+            this.form.pac_id = 0;
         }
+
+        this.form.ct_fecha = this.fechasService.formatDate(this.form.ct_fechaobj);
+        this.tcitaService.guardar(this.form).subscribe(res => {
+            if (res.status === 200) {
+                this.swalService.fireToastSuccess(res.msg);
+                this.loadCitas();
+                this.closeModalNewEv();
+                this.clearPacForCalendar();
+            }
+        });
+        /*}*/
     }
 
     onPacSelect($event: any) {

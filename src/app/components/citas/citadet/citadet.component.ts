@@ -66,7 +66,6 @@ export class CitadetComponent implements OnInit, OnDestroy {
     }
 
     loadDatosCita() {
-        //this.loadingUiService.publishBlockMessage();
         this.citasMedicasServ.getDatosHistoriaByCod(this.rowHistoriaSel.cosm_id).subscribe(res => {
             if (res.status === 200) {
                 this.historiaSel = res.datoshistoria;
@@ -121,7 +120,11 @@ export class CitadetComponent implements OnInit, OnDestroy {
     }
 
     editar() {
-        const datoshistoria = {cosm_id: this.rowHistoriaSel.cosm_id, per_ciruc: this.rowHistoriaSel.per_ciruc};
+        const datoshistoria = {
+            cosm_id: this.rowHistoriaSel.cosm_id,
+            per_ciruc: this.rowHistoriaSel.per_ciruc,
+            per_id: this.historiaSel.paciente.per_id
+        };
         this.cerrarHistoriaAnt();
         this.cosmedicamsgService.publishMessage({tipo: 2, msg: datoshistoria});
     }

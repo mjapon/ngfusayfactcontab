@@ -46,7 +46,7 @@ export class CitasplanedComponent implements OnInit {
     }
 
     onRowSelect($event: any) {
-        console.log('Se ejecuta on row select');
+
     }
 
     onUnRowSelect($event: any) {

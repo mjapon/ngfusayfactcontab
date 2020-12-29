@@ -90,6 +90,7 @@ import {ColorPickerModule} from 'primeng/colorpicker';
 import {CitaodontodetComponent} from './components/citas/odontograma/citaodontodet.component';
 import {DetallescitacalComponent} from './components/citas/odcalendar/detallescitacal.component';
 import {RecetasComponent} from './components/citas/recetas.component';
+import {RxdocsComponent} from './components/citas/rxdocs.component';
 
 registerLocaleData(localeEs, 'es-EC');
 
@@ -145,7 +146,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         OdcalendarComponent,
         CitaodontodetComponent,
         DetallescitacalComponent,
-        RecetasComponent
+        RecetasComponent,
+        RxdocsComponent
     ],
     imports: [
         BrowserModule,
