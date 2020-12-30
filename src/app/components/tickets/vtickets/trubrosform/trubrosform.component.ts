@@ -61,7 +61,7 @@ export class TrubrosformComponent implements OnInit {
                         }
                     );
                     if (dbtipo) {
-                        this.tiposel = dbtipo;
+                        this.tiposel = dbtipo.value;
                     }
                 }
             });
@@ -83,7 +83,7 @@ export class TrubrosformComponent implements OnInit {
             this.swalService.fireToastError('Por favor ingrese el nombre del rubro');
         } else {
             this.loadingUiService.publishBlockMessage();
-            this.form.clsic_id = this.tiposel.value;
+            this.form.clsic_id = this.tiposel;
             this.artService.guardarRubro(this.form).subscribe(res => {
                 this.swalService.fireToastSuccess(res.msg);
                 if (res.status === 200) {

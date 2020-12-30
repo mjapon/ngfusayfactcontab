@@ -84,7 +84,7 @@ export class VticketformComponent implements OnInit {
 
     ontiposel($event: any) {
         if (this.tiposel) {
-            const tipoidsel = this.tiposel.value;
+            const tipoidsel = this.tiposel;
             this.cuentasel = null;
             this.vtService.getCuentas(tipoidsel).subscribe(res => {
                 if (res.status === 200) {

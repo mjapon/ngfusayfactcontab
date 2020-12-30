@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {SwalService} from '../../../../services/swal.service';
 import {VentaticketService} from '../../../../services/ventaticket.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
+import {ArrayutilService} from "../../../../services/arrayutil.service";
 
 @Component({
     selector: 'app-vticket',
@@ -26,6 +27,7 @@ export class VticketComponent implements OnInit {
                 private route: ActivatedRoute,
                 private swalService: SwalService,
                 private vtService: VentaticketService,
+                private arrayServ: ArrayutilService,
                 private loadingUiService: LoadingUiService) {
     }
 
@@ -39,7 +41,7 @@ export class VticketComponent implements OnInit {
             if (res.status === 200) {
                 this.tipos = res.tipos;
                 this.cuentas = res.cuentas;
-                this.tipoSel = this.tipos[0];
+                this.tipoSel = this.tipos[0].value;
                 this.loadGrid();
             }
         });
@@ -84,7 +86,7 @@ export class VticketComponent implements OnInit {
     }
 
     loadGrid() {
-        let tipoIdSel = this.tipoSel.value;
+        const tipoIdSel = this.tipoSel;
         let cuentaIdSel = 0;
         if (this.cuentaSel) {
             cuentaIdSel = this.cuentaSel.ic_id;
@@ -94,7 +96,6 @@ export class VticketComponent implements OnInit {
             this.items = res.res.data;
             this.total = res.suma;
         });
-
     }
 
     anularRow(rowData) {
@@ -119,7 +120,7 @@ export class VticketComponent implements OnInit {
     onTipoCuentaChange($event: any) {
         if (this.tipoSel) {
             this.cuentaSel = null;
-            this.vtService.getCuentas(this.tipoSel.value).subscribe(res => {
+            this.vtService.getCuentas(this.tipoSel).subscribe(res => {
                 if (res.status === 200) {
                     this.cuentaSel = null;
                     this.cuentas = res.cuentas;
