@@ -1,6 +1,7 @@
 .calbody {
-    width: 1100px !important;
-    height: 500px !important;
+    width: 1015px !important;
+    /*height: 500px !important;*/
+    height: 100%;
     overflow: auto;
 }
 

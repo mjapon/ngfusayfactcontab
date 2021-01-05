@@ -1,5 +1,4 @@
-<div id="historiaSelPanel">
-    <!-- Motivo de consulta -->
+<div>
     <div class="text-center" *ngIf="showAnim">
         <p class="p-5 m-5">
             <img src="assets/anim.gif"
@@ -24,6 +23,8 @@
                             <div>
                                 <span>Fecha nacimiento:</span>
                                 {{historiaSel.paciente.per_fechanac}}
+
+
                             </div>
                             <div class="btn-group btn-group-sm" role="group"
                                  aria-label="Button group with nested dropdown">
@@ -54,6 +55,10 @@
                                             Anular </a>
                                     </div>
                                 </div>
+                                <button class="btn btn-outline-primary" title="Ver ficha clínica"
+                                        (click)="verFichaClinica()" *ngIf="showFichaCli">
+                                    <i class="fas fas fa-stethoscope"></i>
+                                </button>
                                 <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()">
                                     <i class="fas fa-times"></i> Cerrar
                                 </button>
@@ -165,22 +170,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="card border-secondary">
-            <div class="card-header quitaPadding">
-                Exámenes Complementarios
-            </div>
-            <div id="HistPanelExamesComplementarios">
-                <div class="row dato-fila">
-                    <div class="col-md-4">
-                        <span class="text-muted">Exámenes Complementarios:</span>
-                    </div>
-                    <div class="col-md-8">
-                        {{historiaSel.datosconsulta.cosm_exmscompl}}
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="card border-secondary">
             <div class="card-header quitaPadding">
                 Diagnóstico
@@ -274,6 +263,10 @@
                                     Anular </a>
                             </div>
                         </div>
+                        <button class="btn btn-outline-primary" title="Ver ficha clínica" *ngIf="showFichaCli"
+                                (click)="verFichaClinica()">
+                            <i class="fas fas fa-stethoscope"></i>
+                        </button>
                         <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()">
                             <i class="fas fa-times"></i> Cerrar
                         </button>

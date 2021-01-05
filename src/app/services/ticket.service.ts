@@ -45,8 +45,7 @@ export class TicketService extends BaseService {
     }
 
     imprimir(ticketid: any) {
-        // const rutaserver = "http://localhost:8080/imprentas/TicketServlet?tkid=" + ticketid;
-        const rutaserver = 'http://mavil.site/tomcat/imprentas/TicketServlet?tkid=' + ticketid;
+        const rutaserver = 'https://mavil.site/tomcat/imprentas/TicketServlet?tkid=' + ticketid;
         window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=500,height=700');
     }
 }

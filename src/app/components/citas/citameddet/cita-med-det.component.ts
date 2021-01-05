@@ -4,21 +4,20 @@ import {LoadingUiService} from '../../../services/loading-ui.service';
 import {Subscription} from 'rxjs';
 import {ConsMedicaMsgService} from '../../../services/cons-medica-msg.service';
 import {SwalService} from '../../../services/swal.service';
-import {MenuItem} from 'primeng/api';
 
 @Component({
-    selector: 'app-citadet',
-    templateUrl: './citadet.component.html',
-    styleUrls: ['./citadet.component.css']
+    selector: 'app-citameddet',
+    templateUrl: './cita-med-det.component.html',
+    styleUrls: ['./cita-med-det.component.css']
 })
-export class CitadetComponent implements OnInit, OnDestroy {
+export class CitaMedDetComponent implements OnInit, OnDestroy {
 
     @Input() rowHistoriaSel: any;
+    @Input() showFichaCli: boolean;
     @Output() closed = new EventEmitter<any>();
 
     subsCitasPlaned: Subscription;
     historiaSel: any;
-    items: MenuItem[];
     showAnim: any;
 
     constructor(private citasMedicasServ: CitasMedicasService,
@@ -34,29 +33,6 @@ export class CitadetComponent implements OnInit, OnDestroy {
         }, 100);
         this.historiaSel = {datosconsulta: {}, antecedentes: [], revxsistemas: [], examsfisicos: [], paciente: {}};
         this.loadDatosCita();
-
-        this.items = [
-            {
-                label: 'Imprimir Historia', icon: 'pi pi-print', command: () => {
-                    this.imprimirHistoria();
-                }
-            },
-            {
-                label: 'Imprimir Receta', icon: 'pi pi-print', command: () => {
-                    this.imprimirRecetaAnterior();
-                }
-            },
-            {
-                label: 'Editar', icon: 'pi pi-pencil', command: () => {
-                    this.editar();
-                }
-            },
-            {
-                label: 'Anular', icon: 'pi pi-trash', command: () => {
-                    this.anular();
-                }
-            }
-        ];
     }
 
     ngOnDestroy() {
@@ -127,5 +103,14 @@ export class CitadetComponent implements OnInit, OnDestroy {
         };
         this.cerrarHistoriaAnt();
         this.cosmedicamsgService.publishMessage({tipo: 2, msg: datoshistoria});
+    }
+
+    verFichaClinica() {
+        const datoshistoria = {
+            per_ciruc: this.rowHistoriaSel.per_ciruc,
+            per_id: this.historiaSel.paciente.per_id
+        };
+        this.cerrarHistoriaAnt();
+        this.cosmedicamsgService.publishMessage({tipo: 1, msg: datoshistoria});
     }
 }

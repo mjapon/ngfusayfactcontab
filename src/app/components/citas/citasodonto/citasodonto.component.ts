@@ -106,4 +106,12 @@ export class CitasodontoComponent implements OnInit {
             }
         });
     }
+
+    onCancelarAgenda($event: any) {
+        this.selectedMasterTab = 1;
+    }
+
+    onEventoCreated($event: any) {
+        this.selectedMasterTab = 1;
+    }
 }

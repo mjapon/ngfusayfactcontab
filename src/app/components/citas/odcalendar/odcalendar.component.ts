@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {addDays, addMonths, addWeeks, getMonth, getYear, startOfWeek} from 'date-fns';
 import {FechasService} from '../../../services/fechas.service';
 import {SwalService} from '../../../services/swal.service';
@@ -8,6 +8,7 @@ import {DomService} from '../../../services/dom.service';
 import {MenuItem} from 'primeng/api';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {LocalStorageService} from '../../../services/local-storage.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
     selector: 'app-odcalendar',
@@ -15,6 +16,9 @@ import {LocalStorageService} from '../../../services/local-storage.service';
     styleUrls: ['./odcalendar.component.css']
 })
 export class OdcalendarComponent implements OnInit {
+    @Input() tipoCita: number;
+    @Input() showCancelar = false;
+
     calHoraIni: number;
     calHoraFin: number;
     intervalo: number;
@@ -62,6 +66,9 @@ export class OdcalendarComponent implements OnInit {
     titEvNewEdCita: string;
 
     pacForCalendar: any;
+    @Output() evCreated = new EventEmitter<any>();
+    @Output() evCancelar = new EventEmitter<any>();
+
 
     constructor(private fechasService: FechasService,
                 private swalService: SwalService,
@@ -69,7 +76,12 @@ export class OdcalendarComponent implements OnInit {
                 private lclStrgService: LocalStorageService,
                 private tcitaService: TcitaService,
                 private loadinUiServ: LoadingUiService,
+                private route: ActivatedRoute,
                 private domService: DomService) {
+
+        this.route.paramMap.subscribe(params => {
+            this.tipoCita = parseInt(params.get('tipo'), 10);
+        });
     }
 
     ngOnInit(): void {
@@ -112,7 +124,7 @@ export class OdcalendarComponent implements OnInit {
 
     loadMedicos() {
         this.medicos = [];
-        this.personaService.listarMedicos(2).subscribe(res => {
+        this.personaService.listarMedicos(this.tipoCita).subscribe(res => {
             if (res.status === 200) {
                 this.medicos = res.medicos;
             }
@@ -149,7 +161,7 @@ export class OdcalendarComponent implements OnInit {
         const lastweek = this.mesArray[this.mesArray.length - 1];
         const desdestr = this.fechasService.formatDate(firstweek[0].fecha);
         const hastastr = this.fechasService.formatDate(lastweek[lastweek.length - 1].fecha);
-        this.tcitaService.contar(desdestr, hastastr).subscribe(resc => {
+        this.tcitaService.contar(desdestr, hastastr, this.tipoCita).subscribe(resc => {
             this.mesArray.forEach(row => {
                 const filtered = row.filter(dc => dc.selected);
                 if (filtered && filtered.length > 0) {
@@ -454,12 +466,12 @@ export class OdcalendarComponent implements OnInit {
         this.form.ct_fechaobj = this.fechasService.parseString(this.datosCita.ct_fecha);
         this.form.ct_hora = this.datosCita.ct_hora;
         this.form.ct_hora_fin = this.datosCita.ct_hora_fin;
-
     }
 
     _auxIniFormEv() {
         this.titEvNewEdCita = 'Nueva Cita';
         this.form.ct_id = 0;
+        this.form.ct_tipo = this.tipoCita;
         this.form.ct_titulo = '';
         this.form.paciente = null;
         const pacForCal = this.lclStrgService.getItem('PAC_FOR_CAL');
@@ -475,7 +487,12 @@ export class OdcalendarComponent implements OnInit {
 
     initFormEvBtn() {
         this._auxIniFormEv();
-        this.form.ct_fechaobj = new Date();
+        if (this.selectedDate) {
+            this.form.ct_fechaobj = this.selectedDate;
+        } else {
+            this.form.ct_fechaobj = new Date();
+        }
+
         this.form.ct_hora = 0;
         this.form.ct_hora_fin = 0;
     }
@@ -616,11 +633,6 @@ export class OdcalendarComponent implements OnInit {
     }
 
     guardarEv() {
-        /*const pac = this.form.paciente;
-        if (!pac) {
-            this.swalService.fireToastError('Debe especificar el paciente');
-        } else {*/
-
         if (this.form.paciente) {
             this.form.pac_id = this.form.paciente.per_id;
         } else {
@@ -634,9 +646,9 @@ export class OdcalendarComponent implements OnInit {
                 this.loadCitas();
                 this.closeModalNewEv();
                 this.clearPacForCalendar();
+                this.evCreated.emit(this.form);
             }
         });
-        /*}*/
     }
 
     onPacSelect($event: any) {
@@ -657,7 +669,7 @@ export class OdcalendarComponent implements OnInit {
         const endcol = first[first.length - 1];
         this.loadinUiServ.publishBlockMessage();
         this.tcitaService.listar(this.fechasService.formatDate(firstcol.dia.fecha),
-            this.fechasService.formatDate(endcol.dia.fecha)).subscribe(res => {
+            this.fechasService.formatDate(endcol.dia.fecha), this.tipoCita).subscribe(res => {
             if (res.status === 200) {
                 this.citas = res.citas;
                 this.citas.forEach(it => {
@@ -718,5 +730,9 @@ export class OdcalendarComponent implements OnInit {
         this.pacForCalendar = null;
         this.form.paciente = null;
         this.lclStrgService.removeItem('PAC_FOR_CAL');
+    }
+
+    raiseCancelClic() {
+        this.evCancelar.emit('');
     }
 }

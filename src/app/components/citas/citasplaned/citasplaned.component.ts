@@ -68,7 +68,6 @@ export class CitasplanedComponent implements OnInit {
         this.loadGrid();
     }
 
-
     onCerrarDetHistoria($event: any) {
         this.showModalDet = false;
     }
@@ -84,7 +83,7 @@ export class CitasplanedComponent implements OnInit {
     }
 
     gotoCalendar() {
-        this.router.navigate(['calendario']);
+        this.router.navigate(['calendario', this.tipocita]);
     }
 
     onrowclic(rowData) {

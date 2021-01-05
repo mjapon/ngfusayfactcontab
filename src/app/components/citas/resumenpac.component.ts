@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {LocalStorageService} from "../../services/local-storage.service";
-import {Router} from "@angular/router";
+import {LocalStorageService} from '../../services/local-storage.service';
 
 @Component({
     selector: 'app-resumenpac',
@@ -53,7 +52,7 @@ import {Router} from "@angular/router";
                     <ul class="nav nav-pills">
                         <li class="nav-item">
                             <a class="nav-link" href="#" [ngClass]="{'active':4===selectedMasterTab}"
-                               (click)="gotoAgenda($event)">
+                               (click)="selectMasterTab(4, $event)">
                                 <i class="fa fa-calendar"></i>
                                 Dar Cita</a>
                         </li>
@@ -72,10 +71,9 @@ export class ResumenPacienteComponent implements OnInit {
     @Input() paciente: any;
     @Output() evSelectMasterTab = new EventEmitter<any>();
     @Output() evCerrarResumen = new EventEmitter<any>();
-    selectedMasterTab: number;
+    @Input() selectedMasterTab: number;
 
-    constructor(private lclStrgServ: LocalStorageService,
-                private router: Router) {
+    constructor(private lclStrgServ: LocalStorageService) {
 
     }
 
@@ -84,15 +82,12 @@ export class ResumenPacienteComponent implements OnInit {
     }
 
     selectMasterTab(tab: number, event: Event) {
+        if (tab === 4) {
+            this.lclStrgServ.setItem('PAC_FOR_CAL', JSON.stringify(this.paciente));
+        }
         this.selectedMasterTab = tab;
         event.preventDefault();
         this.evSelectMasterTab.emit(tab);
-    }
-
-    gotoAgenda(event: Event) {
-        this.lclStrgServ.setItem('PAC_FOR_CAL', JSON.stringify(this.paciente));
-        event.preventDefault();
-        this.router.navigate(['calendario']);
     }
 
     cerrar(event: MouseEvent) {

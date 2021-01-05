@@ -65,9 +65,6 @@ import {SwalService} from '../../../services/swal.service';
                 </button>
                 <button class="btn btn-outline-secondary" (click)="editarEv()"><i class="fa fa-edit"></i> Editar
                 </button>
-                <button class="btn btn-outline-secondary" (click)="closeModalDetEv()"><i class="fa fa-times"></i>
-                    Cerrar
-                </button>
             </div>
             -->
         </div>
@@ -124,10 +121,6 @@ export class DetallescitacalComponent implements OnInit {
         //this.editarCitaEv.emit('');
     }
      */
-
-    closeModalDetEv() {
-        this.cerrarModalEv.emit('');
-    }
 
     registraAtencion() {
         this.registraAtencionEv.emit(this.datosCita);

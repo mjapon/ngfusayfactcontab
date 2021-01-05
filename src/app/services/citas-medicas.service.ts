@@ -3,7 +3,7 @@ import {BaseService} from './base-service';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
 import {Observable} from 'rxjs';
-import {FautService} from "./faut.service";
+import {FautService} from './faut.service';
 
 @Injectable({
     providedIn: 'root'
@@ -20,11 +20,6 @@ export class CitasMedicasService extends BaseService {
 
     getForm(): Observable<any> {
         const httpOptions = this.getHOT({accion: 'form'});
-        return this._doGet(httpOptions);
-    }
-
-    getFormOdonto(): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'form_odonto'});
         return this._doGet(httpOptions);
     }
 
@@ -48,11 +43,6 @@ export class CitasMedicasService extends BaseService {
         return this._doGet(httpOptions);
     }
 
-    getOdontograma(ciruc: string): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'odontograma', ciruc});
-        return this._doGet(httpOptions);
-    }
-
     getDatosHistoriaByCod(codhistoria: any): Observable<any> {
         const httpOptions = this.getHOT({accion: 'findhistbycod', codhistoria});
         return this._doGet(httpOptions);
@@ -60,13 +50,13 @@ export class CitasMedicasService extends BaseService {
 
     imprimir(ccm: any) {
         const sqm = this.fautService.getEsquema();
-        const rutaserver = 'http://mavil.site/tomcat/imprentas/RecetaServlet?ccm=' + ccm + '&sqm=' + sqm;
+        const rutaserver = 'https://mavil.site/tomcat/imprentas/RecetaServlet?ccm=' + ccm + '&sqm=' + sqm;
         window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=600');
     }
 
     imprimirHistoria(ch: any) {
         const sqm = this.fautService.getEsquema();
-        const rutaserver = 'http://mavil.site/tomcat/imprentas/HistoriaClinicaServlet?ch=' + ch + '&sqm=' + sqm;
+        const rutaserver = 'https://mavil.site/tomcat/imprentas/HistoriaClinicaServlet?ch=' + ch + '&sqm=' + sqm;
         window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=600');
     }
 

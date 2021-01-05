@@ -9,6 +9,8 @@ import {LoadingUiService} from '../../../services/loading-ui.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {ConsMedicaMsgService} from '../../../services/cons-medica-msg.service';
+import {LocalStorageService} from '../../../services/local-storage.service';
+import {TcitaService} from '../../../services/tcita.service';
 
 declare var $: any;
 
@@ -21,22 +23,18 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
 
     form: any;
     ciedataArray: Array<any>;
-    currentDate = new Date();
     showBuscaPaciente = true;
     selectedSupTab: number;
     historias: Array<any>;
     isHistoriaAntSel: boolean;
-    historiaSel: any;
     rowHistoriaSel: any;
     selectedTab: number;
-    accordionStatus: any;
     saved: boolean;
     codConsultaGen: any;
     datosPacienteFull: any = {};
     showAnim: boolean;
     datosAlertaImc: any;
     datosAlertaPresion: any;
-    datosIncompletos: boolean;
     selectedDiags: any[];
     tipoHistoria: number;
     editando: boolean;
@@ -44,9 +42,16 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     pacienteSelected: any;
 
     @ViewChild('mainDiv') mainDiv: any;
+    @ViewChild('agendaDiv') agendaDiv: any;
+    @ViewChild('diagnosticoDiv') diagnosticoDiv: any;
+    @ViewChild('proxcitaDiv') proxcitaDiv: any;
+
     subsCitasPlaned: Subscription;
+    showCalendar: boolean;
+    lastCita: any;
 
     constructor(private citasMedicasServ: CitasMedicasService,
+                private lclStrgServ: LocalStorageService,
                 private personaService: PersonaService,
                 private swalService: SwalService,
                 private fechasService: FechasService,
@@ -54,7 +59,8 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 private domService: DomService,
                 private loadingUiService: LoadingUiService,
                 private route: ActivatedRoute,
-                private cosMsgService: ConsMedicaMsgService
+                private cosMsgService: ConsMedicaMsgService,
+                private tcitaServ: TcitaService
     ) {
         this.route.paramMap.subscribe(params => {
             this.tipoHistoria = parseInt(params.get('tipo'), 10);
@@ -95,7 +101,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.datosAlertaImc = {};
         this.datosAlertaPresion = {};
         this.isHistoriaAntSel = false;
-        this.historiaSel = {};
         this.rowHistoriaSel = {};
         this.datosPacienteFull = {per_id: 0, per_edad: {}};
         this.pacienteSelected = {per_id: 0, per_ciruc: ''};
@@ -103,15 +108,9 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.saved = false;
         this.codConsultaGen = null;
         this.showAnim = false;
-        this.datosIncompletos = false;
         this.selectedDiags = [null];
-        this.accordionStatus = {
-            citasPanel: false,
-            datosPacPanel: false,
-            motConsultaPanel: false,
-            historiaSelPanel: false
-        };
         this.editando = false;
+        this.lastCita = {};
     }
 
     initForm() {
@@ -274,7 +273,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     selectHistoriaForEdit(datosHistoria: any) {
         this.codHistoriaEdit = datosHistoria.cosm_id;
         this.editando = true;
-        this.hideHistoriaSelPanel();
         this.selPacFromLista(datosHistoria);
     }
 
@@ -367,14 +365,8 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         });
     }
 
-    hideHistoriaSelPanel() {
-        $('#historiaSelPanel').collapse('hide');
-        this.accordionStatus.historiaSelPanel = false;
-    }
-
     toggleAcordion(inputid) {
         $('#' + inputid).collapse('toggle');
-        this.accordionStatus[inputid] = !this.accordionStatus[inputid];
     }
 
     limpiar() {
@@ -483,5 +475,82 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
 
     onDatosIncompletos($event: any) {
         this.selectedTab = 0;
+    }
+
+    showModalCalendar() {
+        this.lclStrgServ.setItem('PAC_FOR_CAL', JSON.stringify(this.datosPacienteFull));
+        this.showCalendar = true; // modificado
+        this.scrollToDivAgenda();
+    }
+
+    closeModalCalendar() {
+        this.showCalendar = false; // modificado
+        this.scrollToDivDiagnos();
+    }
+
+    onCitaCreated($event: any) {
+        this.showCalendar = false;
+        this.loadLastCita();
+        this.scrollToDivDiagnos();
+    }
+
+    loadLastCita() {
+        this.lastCita = {};
+        const cd = this.fechasService.getCurrentDateStr();
+        this.form.datosconsulta.cosm_fechaproxcita = '';
+        this.tcitaServ.getNextCita(this.datosPacienteFull.per_id, 1, cd).subscribe(res => {
+            if (res.status === 200) {
+                this.lastCita = res.cita;
+                this.lastCita.texto = this.tcitaServ.getFechaHoraStr(this.lastCita);
+                this.form.datosconsulta.cosm_fechaproxcita = this.lastCita.ct_fecha;
+            }
+        });
+    }
+
+    onTabChange($event: any) {
+        if ($event && $event.index === 6) {
+            this.loadLastCita();
+        }
+    }
+
+    scrollToDivDiagnos() {
+        setTimeout(() => {
+            this.proxcitaDiv.nativeElement.scrollIntoView({behavior: 'smooth'});
+        }, 400);
+    }
+
+    scrollToDivAgenda() {
+        setTimeout(() => {
+            this.agendaDiv.nativeElement.scrollIntoView({behavior: 'smooth'});
+        }, 400);
+    }
+
+
+    anularCita() {
+        const msg = '¿Seguro que desea anular esta cita?';
+        this.swalService.fireDialog(msg).then(confirm => {
+                if (confirm.value) {
+                    this.tcitaServ.anular(this.lastCita.ct_id).subscribe(res => {
+                        if (res.status === 200) {
+                            this.swalService.fireToastSuccess(res.msg);
+                            this.loadLastCita();
+                        }
+                    });
+                }
+            }
+        );
+    }
+
+    onRegistrarAtencionEv($event: any) {
+        if ($event.pac_id) {
+            const datoshistoria = {
+                per_ciruc: $event.ciruc_pac,
+                per_id: $event.pac_id
+            };
+            this.cerrarHistoriaAnt();
+            this.cosMsgService.publishMessage({tipo: 1, msg: datoshistoria});
+        } else {
+            this.swalService.fireWarning('Esta cita no tiene registrado un paciente, no se puede ver la ficha clinica');
+        }
     }
 }

@@ -11,21 +11,21 @@
 }
 
 .dato-adc-fila {
-    margin: 6px 1px;
+    margin: 6px 2px;
 }
 
 .diagdropdown {
     width: 1000px !important;
 }
 
-.flex-center-columns{
+.flex-center-columns {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.btnTextLeft{
+.btnTextLeft {
     text-align: left !important;
     padding: 8px 20px;
     background-color: #F7F7F7 !important;
@@ -36,34 +36,35 @@
 .btnTextLeft:active,
 .btnTextLeft:focus,
 .btnTextLeft.focus,
-.btnTextLeft.active{
+.btnTextLeft.active {
     outline: none !important;
 }
 
 .btn.btn-secondary.focus,
-.btn.btn-secondary:focus{
+.btn.btn-secondary:focus {
     outline: none !important;
 }
 
-.padding15{
+.padding15 {
     display: flex;
     flex-direction: row-reverse;
     padding: 0px 15px;
 }
 
-.padflex{
+.padflex {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.level{
+.level {
     width: 100%;
     height: 400px;
-    box-shadow: 0 0 5px 0 rgba(0, 0,0,0.7);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.7);
     background: transparent;
 
 }
-.level-trans{
+
+.level-trans {
     background: whitesmoke;
 }

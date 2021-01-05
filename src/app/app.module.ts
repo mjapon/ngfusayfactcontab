@@ -55,7 +55,7 @@ import {TrubrosComponent} from './components/tickets/vtickets/trubros/trubros.co
 import {TrubrosformComponent} from './components/tickets/vtickets/trubrosform/trubrosform.component';
 import {CitashechasComponent} from './components/citas/citashechas/citashechas.component';
 import {CitasplanedComponent} from './components/citas/citasplaned/citasplaned.component';
-import {CitadetComponent} from './components/citas/citadet/citadet.component';
+import {CitaMedDetComponent} from './components/citas/citameddet/cita-med-det.component';
 import {ButooldentComponent} from './components/citas/odontograma/butooldent.component';
 import {RowdiagnospiezaComponent} from './components/citas/odontograma/rowdiagnospieza.component';
 import {PiezadentalComponent} from './components/citas/odontograma/piezadental.component';
@@ -130,7 +130,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         TrubrosformComponent,
         CitashechasComponent,
         CitasplanedComponent,
-        CitadetComponent,
+        CitaMedDetComponent,
         ButooldentComponent,
         RowdiagnospiezaComponent,
         PiezadentalComponent,

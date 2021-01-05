@@ -56,11 +56,11 @@ import {forkJoin} from 'rxjs';
                             <span class="text-muted">
                                 Fecha da nacimiento:
                             </span>
-                            <span class="datopac">
-                                {{datosPacienteFull.per_fechanac}} - {{datosPacienteFull.per_edad.years}}
+                            <span class="datopac" *ngIf="datosPacienteFull.per_fechanac">
+                                {{datosPacienteFull.per_fechanac}} - <small> {{datosPacienteFull.per_edad.years}}
                                 año(s), {{datosPacienteFull.per_edad.months}}
                                 mes(es), {{datosPacienteFull.per_edad.days}}
-                                dia(s)
+                                dia(s)</small>
                             </span>
                         </div>
                         <div class="d-flex flex-column mt-2">

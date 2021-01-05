@@ -52,10 +52,12 @@
                         style="margin-right: 10px">
                     <i class="fa fa-eye"></i>
                 </button>
+                <!--
                 <button *ngIf="tipocita===1" class="btn btn-sm btn-outline-dark" (click)="crerCita(rowData)"
                         title="Registrar atención">
                     &nbsp; <i class="fa fa-angle-double-right"> </i> &nbsp;
                 </button>
+                -->
             </td>
         </tr>
     </ng-template>
@@ -69,21 +71,20 @@
     </ng-template>
 </p-table>
 
+<!--
 <div *ngIf="showModalDet && tipocita===1">
     <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="100"
               [(visible)]="showModalDet">
-        <app-citadet [rowHistoriaSel]="rowHistoriaSel"
-                     (closed)="onCerrarDetHistoria($event)"></app-citadet>
+        <app-citameddet [rowHistoriaSel]="rowHistoriaSel" [showFichaCli]="true"
+                        (closed)="onCerrarDetHistoria($event)"></app-citameddet>
     </p-dialog>
 </div>
-
-
-<div *ngIf="showModalDet && tipocita===2">
+-->
+<div *ngIf="showModalDet">
     <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="100"
               [(visible)]="showModalDet" [autoZIndex]="false">
         <app-detcitacal [codcita]="rowHistoriaSel.ct_id"
                         (cerrarModalEv)="onCerrarModalCitaCal($event)"
                         (registraAtencionEv)="onRegistraAtencionEv($event)"></app-detcitacal>
     </p-dialog>
-
 </div>

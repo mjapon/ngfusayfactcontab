@@ -47,7 +47,7 @@ const routes: Routes = [
     {path: 'usuarios/form/:us_id', component: UserformComponent},
     {path: 'rubros', component: TrubrosComponent},
     {path: 'rubros/form/:ic_id', component: TrubrosformComponent},
-    {path: 'calendario', component: OdcalendarComponent},
+    {path: 'calendario/:tipo', component: OdcalendarComponent},
     {path: '**', component: HomeComponent}
 ];
 

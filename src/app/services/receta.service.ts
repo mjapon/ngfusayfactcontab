@@ -35,7 +35,7 @@ export class RecetaService extends BaseService {
 
     imprimir(codReceta: any) {
         const sqm = this.fautService.getEsquema();
-        const rutaserver = 'http://mavil.site/tomcat/imprentas/RecetaOdServlet?rec=' + codReceta + '&sqm=' + sqm;
+        const rutaserver = 'https://mavil.site/tomcat/imprentas/RecetaOdServlet?rec=' + codReceta + '&sqm=' + sqm;
         window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=600');
     }
 }

@@ -1,270 +1,287 @@
-<div class="row">
-    <div class="col-md-2">
-        <div class="d-flex justify-content-around mb-3">
-            <p class="tituloAgenda text-center">Agenda</p>
-            <button class="btn btn-outline-primary" (click)="onCreaEvClic()"><i class="fa fa-plus-circle"></i> Crear
-            </button>
-        </div>
-
-        <div class="d-flex justify-content-between">
-            <span class="leymes noselect">
-                {{mesString}}
-            </span>
-            <div class="d-flex justify-content-around mt-1">
-                <div class="hand pl-2 pr-2" (click)="toggleMonth(-1)" title="Mes anterior">
-                    <span class="fa fa-angle-left"></span>
-                </div>
-                <div class="hand pl-2 pr-2" (click)="toggleMonth(1)" title="Próximo mes">
-                    <span class="fa fa-angle-right"></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="d-flex flex-column">
-            <div class="d-flex flex-row">
-                <div class="text-center smDiaCalLey" *ngFor="let day of diasSemana;">
-                    <span>{{day}}</span>
-                </div>
-            </div>
-            <div class="d-flex flex-row" *ngFor="let week of mesArray;">
-                <ng-container *ngFor="let day of week;">
-                    <div (click)="setCalendarDate(day)"
-                         class="hand noselect text-center smDiaCal {{day.csstd}}" [ngClass]="day.css">
-                        <span class="{{day.sm?'':'text-muted'}}" [ngClass]="day.bordecss">{{day.num}}</span>
-                    </div>
-                </ng-container>
-            </div>
-        </div>
-        <div class="mt-3 d-flex justify-content-center quitaPaddingMargin">
-            <button class="btn btn-sm btn-outline-secondary" (click)="hoy()">Hoy</button>
-        </div>
-    </div>
-    <div class="col-md-10 d-flex flex-row-reverse">
-        <div>
-            <table class="head">
-                <tr>
-                    <th class="hand celdacal celdadiahora noselect">
-                        <div class="d-flex justify-content-around">
-                            <div class="hand p-2" (click)="toggleWeek(-1)"
-                                 title="Semana anterior">
-                                <span class="fa fa-angle-left"></span>
-                            </div>
-                            <div class="hand p-2" (click)="toggleWeek(1)" title="Próxima semana">
-                                <span class="fa fa-angle-right"></span>
-                            </div>
-                        </div>
-                    </th>
-                    <th *ngFor="let dia of dias;" class="hand celdacal celdadia limitehora">
-                        <div class="d-flex flex-column noselect ">
-                            <div class="d-flex justify-content-center"><span>{{dia.diastr|uppercase}}</span></div>
-                            <div class="d-flex justify-content-center"><span
-                                    class="pl-2 pr-2" [ngClass]="dia.css">{{dia.diames}}</span>
-                            </div>
-                        </div>
-                    </th>
-                </tr>
-            </table>
-
-            <div class="calbody">
-                <table class="cuadricula" id="tablacuadricula">
-                    <div *ngFor="let item of citas;" class="hand noselect border d-flex rounded cuadroEv"
-                         (click)="onEventClic(item)"
-                         [title]="item.texto" [style]="item.css">
-                        <span class="textoCitaCred"> {{item.texto}} </span>
-                    </div>
-
-                    <div [style]="cssform" class="nuevoev noselect" *ngIf="clicfinish">
-                        <span class="textoEv text-muted"> {{textoNewEv}} </span>
-                    </div>
-                    <tr *ngFor="let pxrow of citasmatrix;">
-                        <td class="hand celdacal celdahora noselect limitedia" *ngIf="addCol(pxrow)" rowspan="4">
-                            <div class="d-flex align-items-start w-100 h-100 noselect">
-                                <span>{{gethoraStr(pxrow)}} </span>
-                            </div>
-                        </td>
-                        <td *ngFor="let px of pxrow;" class="hand celdacal celda noselect"
-                            (mouseover)="onMouseOver($event,px)"
-                            [ngClass]="px.cssclass" (mousedown)="mousedown($event, px)" (mouseup)="mouseup($event, px)"
-                            id="px{{px.x+'-'+px.y}}">
-
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<p-dialog [header]="titEvNewEdCita" [modal]="true" [style]="{width: '60vw'}" [baseZIndex]="100"
-          [(visible)]="showModalCrea" [autoZIndex]="false" #detdialog id="detdialog"
-          (onShow)="onModalNewEvShow($event)">
+<div>
     <div class="row">
-        <div class="col-md-3"><span>Título:</span></div>
-        <div class="col-md-9">
-            <input type="text" class="form-control" [(ngModel)]="form.ct_titulo" maxlength="70" id="inputCtTitulo"
-                   autocomplete="off" (keyup.enter)="setFocusPac()">
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-md-3">
-            <span class="text-rojo">*</span>
-            <span>Día:</span></div>
-        <div class="col-md-4">
-            <p-calendar [(ngModel)]="form.ct_fechaobj"
-                        [appendTo]="detdialog"
-                        [monthNavigator]="true"
-                        [showIcon]="true"
-                        [yearNavigator]="true"
-                        [firstDayOfWeek]="1"
-                        [minDate]="currentDate"
-                        dateFormat="dd/mm/yy" id="ct_fecha"
-                        inputId="ct_fecha"
-                        yearRange="1900:2100"></p-calendar>
-        </div>
-        <div class="col-md-1">
-            <div class="btn-group">
-                <button type="button" class="btn btn-outline-secondary dropdown-toggle mpbtncol d-flex"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                    <div class="colcal" style="background-color: {{form.ct_color}}"></div>
+        <div class="col-md-2">
+            <div class="d-flex justify-content-around mb-3">
+                <p class="tituloAgenda text-center">Agenda</p>
+                <button class="btn btn-outline-primary" (click)="onCreaEvClic()"><i class="fa fa-plus-circle"></i> Crear
                 </button>
-                <div class="dropdown-menu zisemencol">
-                    <ng-container *ngFor="let color of colores">
-                        <a class="dropdown-item micol border-bottom">
-                            <div class="d-flex justify-content-around">
-                                <div class="hand" (click)="selectColor(color.colora, $event)">
-                                    <div class="colcal" style="background-color: {{color.colora}}"></div>
-                                </div>
-                                <div class="hand" (click)="selectColor(color.colorb, $event)">
-                                    <div class="colcal" style="background-color: {{color.colorb}}"></div>
-                                </div>
-                            </div>
-                        </a>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <span class="leymes noselect">
+                    {{mesString}}
+                </span>
+                <div class="d-flex justify-content-around mt-1">
+                    <div class="hand pl-2 pr-2" (click)="toggleMonth(-1)" title="Mes anterior">
+                        <span class="fa fa-angle-left"></span>
+                    </div>
+                    <div class="hand pl-2 pr-2" (click)="toggleMonth(1)" title="Próximo mes">
+                        <span class="fa fa-angle-right"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column">
+                <div class="d-flex flex-row">
+                    <div class="text-center smDiaCalLey" *ngFor="let day of diasSemana;">
+                        <span>{{day}}</span>
+                    </div>
+                </div>
+                <div class="d-flex flex-row" *ngFor="let week of mesArray;">
+                    <ng-container *ngFor="let day of week;">
+                        <div (click)="setCalendarDate(day)"
+                             class="hand noselect text-center smDiaCal {{day.csstd}}" [ngClass]="day.css">
+                            <span class="{{day.sm?'':'text-muted'}}" [ngClass]="day.bordecss">{{day.num}}</span>
+                        </div>
                     </ng-container>
                 </div>
             </div>
+            <div class="mt-3 d-flex flex-column quitaPaddingMargin">
+                <div class="text-center">
+                    <button class="btn btn-sm btn-outline-secondary" (click)="hoy()">Hoy</button>
+                </div>
+                <div *ngIf="showCancelar" class="text-center mt-3">
+                    <button class="btn btn-sm btn-outline-primary" (click)="raiseCancelClic()"><i
+                            class="fas fa-times"></i> Cancelar
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4">
-            <div class="d-flex flex-row">
-                <p-dropdown [options]="horasList" optionLabel="label"
-                            placeholder="Desde" [appendTo]="detdialog"
-                            [(ngModel)]="form.ct_hora"></p-dropdown>
-                <p-dropdown [options]="horasList" optionLabel="label"
-                            placeholder="Hasta" [appendTo]="detdialog"
-                            [(ngModel)]="form.ct_hora_fin"></p-dropdown>
+        <div class="col-md-10">
+            <div class="d-flex justify-content-center">
+                <table class="head">
+                    <tr>
+                        <th class="hand celdacal celdadiahora noselect">
+                            <div class="d-flex justify-content-around">
+                                <div class="hand p-2" (click)="toggleWeek(-1)"
+                                     title="Semana anterior">
+                                    <span class="fa fa-angle-left"></span>
+                                </div>
+                                <div class="hand p-2" (click)="toggleWeek(1)" title="Próxima semana">
+                                    <span class="fa fa-angle-right"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th *ngFor="let dia of dias;" class="hand celdacal celdadia limitehora">
+                            <div class="d-flex flex-column noselect ">
+                                <div class="d-flex justify-content-center"><span>{{dia.diastr|uppercase}}</span></div>
+                                <div class="d-flex justify-content-center"><span
+                                        class="pl-2 pr-2" [ngClass]="dia.css">{{dia.diames}}</span>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <div class="calbody">
+                    <table class="cuadricula" id="tablacuadricula">
+                        <div *ngFor="let item of citas;" class="hand noselect border d-flex rounded cuadroEv"
+                             (click)="onEventClic(item)"
+                             [title]="item.texto" [style]="item.css">
+                            <span class="textoCitaCred"> {{item.texto}} </span>
+                        </div>
+
+                        <div [style]="cssform" class="nuevoev noselect" *ngIf="clicfinish">
+                            <span class="textoEv text-muted"> {{textoNewEv}} </span>
+                        </div>
+                        <tr *ngFor="let pxrow of citasmatrix;">
+                            <td class="hand celdacal celdahora noselect limitedia" *ngIf="addCol(pxrow)" rowspan="4">
+                                <div class="d-flex align-items-start w-100 h-100 noselect">
+                                    <span>{{gethoraStr(pxrow)}} </span>
+                                </div>
+                            </td>
+                            <td *ngFor="let px of pxrow;" class="hand celdacal celda noselect"
+                                (mouseover)="onMouseOver($event,px)"
+                                [ngClass]="px.cssclass" (mousedown)="mousedown($event, px)"
+                                (mouseup)="mouseup($event, px)"
+                                id="px{{px.x+'-'+px.y}}">
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-    <div *ngIf="form.ct_id===0">
-        <div class="row mt-2">
-            <div class="col-md-3">
-                <span>Paciente:</span></div>
-            <div class="col-md-9">
-                <div *ngIf="pacForCalendar" class="input-group">
-                    <input type="text" class="form-control"
-                           [ngModel]="pacForCalendar.per_nombres + ' ' + pacForCalendar.per_apellidos" disabled>
-                    <button class="btn btn-outline-secondary" (click)="clearPacForCalendar()"><i
-                            class="fa fa-times"></i>
-                    </button>
-                </div>
-                <div class="p-fluid" *ngIf="!pacForCalendar">
-                    <p-autoComplete [appendTo]="detdialog" [(ngModel)]="form.paciente" [suggestions]="pacsFiltered"
-                                    (completeMethod)="buscaPacs($event)" field="nomapel" inputId="pacAutoCom"
-                                    placeholder="Digite los nombres o el número de cédula del paciente"
-                                    (onSelect)="onPacSelect($event)">
 
-                    </p-autoComplete>
-                </div>
+    <p-dialog [header]="titEvNewEdCita" [modal]="true" [style]="{width: '60vw'}"
+              [(visible)]="showModalCrea" #detdialog id="detdialog"
+              (onShow)="onModalNewEvShow($event)">
+        <div class="row">
+            <div class="col-md-3"><span>Título:</span></div>
+            <div class="col-md-9">
+                <input type="text" class="form-control" [(ngModel)]="form.ct_titulo" maxlength="70" id="inputCtTitulo"
+                       autocomplete="off" (keyup.enter)="setFocusPac()">
             </div>
         </div>
         <div class="row mt-2">
             <div class="col-md-3">
                 <span class="text-rojo">*</span>
-                <span>Profesional a cargo:</span></div>
-            <div class="col-md-9">
-                <div class="p-fluid">
-                    <p-dropdown [options]="medicos"
-                                [showClear]="true"
-                                placeholder="Seleccione el/la profesional a cargo"
-                                filter="true"
-                                (onChange)="onMedicoChange($event)"
-                                optionLabel="nomapel" optionValue="per_id" [(ngModel)]="form.med_id"></p-dropdown>
+                <span>Día:</span></div>
+            <div class="col-md-4">
+                <p-calendar [(ngModel)]="form.ct_fechaobj"
+                            [appendTo]="detdialog"
+                            [monthNavigator]="true"
+                            [showIcon]="true"
+                            [yearNavigator]="true"
+                            [firstDayOfWeek]="1"
+                            [minDate]="currentDate"
+                            dateFormat="dd/mm/yy" id="ct_fecha"
+                            inputId="ct_fecha"
+                            yearRange="1900:2100"></p-calendar>
+            </div>
+            <div class="col-md-1">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-secondary dropdown-toggle mpbtncol d-flex"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                        <div class="colcal" style="background-color: {{form.ct_color}}"></div>
+                    </button>
+                    <div class="dropdown-menu zisemencol">
+                        <ng-container *ngFor="let color of colores">
+                            <a class="dropdown-item micol border-bottom">
+                                <div class="d-flex justify-content-around">
+                                    <div class="hand" (click)="selectColor(color.colora, $event)">
+                                        <div class="colcal" style="background-color: {{color.colora}}"></div>
+                                    </div>
+                                    <div class="hand" (click)="selectColor(color.colorb, $event)">
+                                        <div class="colcal" style="background-color: {{color.colorb}}"></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="d-flex flex-row">
+                    <p-dropdown [options]="horasList" optionLabel="label"
+                                placeholder="Desde" [appendTo]="detdialog"
+                                [(ngModel)]="form.ct_hora"></p-dropdown>
+                    <p-dropdown [options]="horasList" optionLabel="label"
+                                placeholder="Hasta" [appendTo]="detdialog"
+                                [(ngModel)]="form.ct_hora_fin"></p-dropdown>
                 </div>
             </div>
         </div>
-    </div>
-    <div *ngIf="form.ct_id>0">
-        <div class="row mt-2">
-            <div class="col-md-3">Paciente:</div>
-            <div class="col-md-9">{{datosCita.paciente}}</div>
+        <div *ngIf="form.ct_id===0">
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <span>Paciente:</span></div>
+                <div class="col-md-9">
+                    <div *ngIf="pacForCalendar" class="input-group">
+                        <input type="text" class="form-control"
+                               [ngModel]="pacForCalendar.per_nombres + ' ' + pacForCalendar.per_apellidos" disabled>
+                        <button class="btn btn-outline-secondary" (click)="clearPacForCalendar()"><i
+                                class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="p-fluid" *ngIf="!pacForCalendar">
+                        <p-autoComplete [appendTo]="detdialog" [(ngModel)]="form.paciente" [suggestions]="pacsFiltered"
+                                        (completeMethod)="buscaPacs($event)" field="nomapel" inputId="pacAutoCom"
+                                        placeholder="Digite los nombres o el número de cédula del paciente"
+                                        (onSelect)="onPacSelect($event)">
+
+                        </p-autoComplete>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <span class="text-rojo">*</span>
+                    <span>Profesional a cargo:</span></div>
+                <div class="col-md-9">
+                    <div class="p-fluid">
+                        <p-dropdown [options]="medicos"
+                                    [showClear]="true"
+                                    placeholder="Seleccione el/la profesional a cargo"
+                                    filter="true"
+                                    (onChange)="onMedicoChange($event)"
+                                    optionLabel="nomapel" optionValue="per_id" [(ngModel)]="form.med_id"></p-dropdown>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="form.ct_id>0">
+            <div class="row mt-2">
+                <div class="col-md-3">Paciente:</div>
+                <div class="col-md-9">{{datosCita.paciente}}</div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3">Atiende:</div>
+                <div class="col-md-9">{{datosCita.medico}}</div>
+            </div>
         </div>
 
         <div class="row mt-2">
-            <div class="col-md-3">Atiende:</div>
-            <div class="col-md-9">{{datosCita.medico}}</div>
-        </div>
-    </div>
-
-    <div class="row mt-2">
-        <div class="col-md-3"><span>Detalle:</span></div>
-        <div class="col-md-9">
+            <div class="col-md-3"><span>Detalle:</span></div>
+            <div class="col-md-9">
             <textarea class="form-control" [(ngModel)]="form.ct_obs" rows="4" autocomplete="off" id="detalleCitaTa">
             </textarea>
+            </div>
         </div>
-    </div>
 
-    <ng-template pTemplate="footer">
-        <div class="d-flex justify-content-around">
-            <button class="btn btn-outline-primary" (click)="guardarEv()"><i class="fa fa-save"></i> Guardar</button>
-            <button class="btn btn-outline-secondary" (click)="closeModalNewEv()"><i class="fa fa-times"></i> Cancelar
-            </button>
-        </div>
-    </ng-template>
+        <ng-template pTemplate="footer">
+            <div class="d-flex justify-content-around">
+                <button class="btn btn-outline-primary" (click)="guardarEv()"><i class="fa fa-save"></i> Guardar
+                </button>
+                <button class="btn btn-outline-secondary" (click)="closeModalNewEv()"><i class="fa fa-times"></i>
+                    Cancelar
+                </button>
+            </div>
+        </ng-template>
 
-</p-dialog>
+    </p-dialog>
 
 
-<p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="100"
-          [(visible)]="showModalDetalles" [autoZIndex]="false" #detdialog id="datosCitaDialog">
+    <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="10007"
+              [autoZIndex]="false"
+              [(visible)]="showModalDetalles" id="datosCitaDialog">
 
-    <div class="ml-5 mr-5">
-        <div class="d-flex w-100">
-            <div class="colcal" style="background-color: {{datosCita.ct_color}}"></div>
-            <div class="ml-3 d-flex flex-column w-100">
-                <div> {{datosCita.ct_titulo}} </div>
-                <div class="d-flex ">
-                    <div>
-                        {{datosCita.ct_fecha}}
-                    </div>
-                    <div class="ml-5">
-                        {{datosCita.ct_hora_str}} - {{datosCita.ct_hora_fin_str}}
+        <div class="ml-5 mr-5">
+            <div class="d-flex w-100">
+                <div class="colcal" style="background-color: {{datosCita.ct_color}}"></div>
+                <div class="ml-3 d-flex flex-column w-100">
+                    <div> {{datosCita.ct_titulo}} </div>
+                    <div class="d-flex">
+                        <div>
+                            {{datosCita.ct_fecha}}
+                        </div>
+                        <div class="ml-5">
+                            {{datosCita.ct_hora_str}} - {{datosCita.ct_hora_fin_str}}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <p class="mt-2">
-            {{datosCita.ct_obs}}
-        </p>
+            <p class="mt-2">
+                {{datosCita.ct_obs}}
+            </p>
 
-        <div class="row">
-            <div>Paciente:</div>
-            <div>{{datosCita.paciente}}</div>
+            <div class="row">
+                <div>Paciente:</div>
+                <div>{{datosCita.paciente}}</div>
+            </div>
+
+            <div class="row">
+                <div>Atiende:</div>
+                <div>{{datosCita.medico}}</div>
+            </div>
         </div>
 
-        <div class="row">
-            <div>Atiende:</div>
-            <div>{{datosCita.medico}}</div>
-        </div>
-    </div>
+        <ng-template pTemplate="footer">
+            <div class="d-flex justify-content-around">
+                <button class="btn btn-outline-secondary" (click)="anularEv()"><i class="fa fa-trash"></i> Anular
+                </button>
+                <button class="btn btn-outline-secondary" (click)="editarEv()"><i class="fa fa-edit"></i> Editar
+                </button>
+                <button class="btn btn-outline-secondary" (click)="closeModalDetEv()"><i class="fa fa-times"></i> Cerrar
+                </button>
+            </div>
+        </ng-template>
 
-    <ng-template pTemplate="footer">
-        <div class="d-flex justify-content-around">
-            <button class="btn btn-outline-secondary" (click)="anularEv()"><i class="fa fa-trash"></i> Anular</button>
-            <button class="btn btn-outline-secondary" (click)="editarEv()"><i class="fa fa-edit"></i> Editar</button>
-            <button class="btn btn-outline-secondary" (click)="closeModalDetEv()"><i class="fa fa-times"></i> Cerrar
-            </button>
-        </div>
-    </ng-template>
-
-</p-dialog>
+    </p-dialog>
+</div>

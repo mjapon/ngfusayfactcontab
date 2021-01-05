@@ -180,6 +180,11 @@ export class FechasService {
         return hoy;
     }
 
+    getCurrentDateStr() {
+        const cd = this.getCurrentDate();
+        return this.formatDate(cd);
+    }
+
     getDiasSemana() {
         return ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
     }
