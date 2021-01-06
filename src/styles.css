@@ -15,16 +15,6 @@ body, html {
     margin: 0;
 }
 
-.globalwrapper {
-    min-height: 100%;
-    margin-bottom: -70px;
-}
-
-.push {
-    height: 80px;
-}
-
-
 h1,
 h2,
 h3,
@@ -74,10 +64,6 @@ footer {
     border-radius: 1rem !important;
 }
 
-.justificado {
-    text-align: justify;
-}
-
 @keyframes ui-progress-spinner-color {
     100%,
     0% {
@@ -96,28 +82,27 @@ footer {
 }
 
 .quitaPadding {
-    padding: 0px !important;
+    padding: 0 !important;
 }
 
 .quitaPaddingMargin {
-    padding: 0px !important;
-    margin: 0px !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .quitaPaddingTB {
-    padding-top: 0px !important;
-    padding-bottom: 0px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
 }
 
 .quitaPaddingLR {
-    padding-left: 0px !important;
-    padding-right: 0px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
 .quitaPaddingR {
-    padding-right: 0px !important;
+    padding-right: 0 !important;
 }
-
 
 .colormavil {
     color: #9D1F63 !important;
@@ -126,12 +111,7 @@ footer {
 
 .colormavil:hover {
     color: #FFFFFF !important;
-    /*background-color: #9D1F63 !important;;*/
     background-image: linear-gradient(to right, #9D1F63, #D91C5C);
-}
-
-.imgscaled {
-    transform: scale(0.4);
 }
 
 .imgmavilpie {
@@ -151,7 +131,6 @@ footer {
     color: blue;
 }
 
-
 .endonecesaria {
     width: 0;
     height: 0;
@@ -168,16 +147,14 @@ footer {
     border-bottom: 16px solid blue;
 }
 
-
 .viewtooldiente {
     width: 40px;
     height: 35px;
     padding: 6px 12px;
 }
 
-
 .diente_blank {
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -204,11 +181,11 @@ footer {
 }
 
 .dntsup {
-    bottom: 0px;
+    bottom: 0;
 }
 
 .dtninf {
-    top: 0px;
+    top: 0;
 }
 
 /*11*/
@@ -219,7 +196,7 @@ footer {
 }
 
 .cara_11 {
-    bottom: 0px;
+    bottom: 0;
     left: 7px;
     position: absolute;
 }
@@ -373,7 +350,7 @@ footer {
 }
 
 .cara_15 {
-    bottom: 0px;
+    bottom: 0;
     left: 12px;
     position: absolute;
 }
@@ -398,19 +375,19 @@ footer {
 
 /*16*/
 .corona_16 {
-    bottom: 0px;
+    bottom: 0;
     left: 7px;
     position: absolute;
 }
 
 .ds_16 {
-    bottom: 0px;
+    bottom: 0;
     left: 16px;
     position: absolute;
 }
 
 .cara_16 {
-    bottom: 0px;
+    bottom: 0;
     left: 7px;
     position: absolute;
 }
@@ -435,13 +412,13 @@ footer {
 
 /*17*/
 .corona_17 {
-    bottom: 0px;
-    left: 0px;
+    bottom: 0;
+    left: 0;
     position: absolute;
 }
 
 .ds_17 {
-    bottom: 0px;
+    bottom: 0;
     left: 8px;
     position: absolute;
 }
@@ -472,20 +449,20 @@ footer {
 
 /*18*/
 .corona_18 {
-    bottom: 0px;
-    left: 0px;
+    bottom: 0;
+    left: 0;
     position: absolute;
 }
 
 .ds_18 {
-    bottom: 0px;
+    bottom: 0;
     left: 6px;
     position: absolute;
 }
 
 .cara_18 {
-    bottom: 0px;
-    left: 0px;
+    bottom: 0;
+    left: 0;
     position: absolute;
 }
 
@@ -509,7 +486,7 @@ footer {
 
 /*21*/
 .corona_21 {
-    bottom: 0px;
+    bottom: 0;
     left: 1px;
     position: absolute;
 }
@@ -521,7 +498,7 @@ footer {
 }
 
 .cara_21 {
-    bottom: 0px;
+    bottom: 0;
     left: 1px;
     position: absolute;
 }
@@ -669,7 +646,7 @@ footer {
 }
 
 .cara_25 {
-    bottom: 0px;
+    bottom: 0;
     left: 13px;
     position: absolute;
 }
@@ -731,13 +708,13 @@ footer {
 
 /*27*/
 .corona_27 {
-    bottom: 0px;
+    bottom: 0;
     left: 1px;
     position: absolute;
 }
 
 .ds_27 {
-    bottom: 0px;
+    bottom: 0;
     left: 8px;
     position: absolute;
 }
@@ -768,20 +745,20 @@ footer {
 
 /*28*/
 .corona_28 {
-    bottom: 0px;
+    bottom: 0;
     left: 1px;
     position: absolute;
 }
 
 .ds_28 {
-    bottom: 0px;
+    bottom: 0;
     left: 7px;
     position: absolute;
 }
 
 .cara_28 {
     bottom: -2px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -806,7 +783,7 @@ footer {
 /*41*/
 .corona_41 {
     top: 4px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -817,7 +794,7 @@ footer {
 }
 
 .cara_41 {
-    top: 0px;
+    top: 0;
     left: -1px;
     position: absolute;
 }
@@ -843,7 +820,7 @@ footer {
 
 /*42*/
 .corona_42 {
-    top: 0px;
+    top: 0;
     left: 14px;
     position: absolute;
 }
@@ -855,7 +832,7 @@ footer {
 }
 
 .cara_42 {
-    top: 0px;
+    top: 0;
     left: 14px;
     position: absolute;
 }
@@ -882,7 +859,7 @@ footer {
 /*43*/
 .corona_43 {
     top: -1px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -957,7 +934,7 @@ footer {
 
 /*45*/
 .corona_45 {
-    top: 0px;
+    top: 0;
     left: -1px;
     position: absolute;
 }
@@ -969,7 +946,7 @@ footer {
 }
 
 .cara_45 {
-    top: 0px;
+    top: 0;
     left: 1px;
     position: absolute;
 }
@@ -1008,7 +985,7 @@ footer {
 
 .cara_46 {
     top: 5px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -1110,7 +1087,7 @@ footer {
 /*31*/
 .corona_31 {
     top: 4px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -1147,7 +1124,7 @@ footer {
 
 /*32*/
 .corona_32 {
-    top: 0px;
+    top: 0;
     left: 14px;
     position: absolute;
 }
@@ -1159,7 +1136,7 @@ footer {
 }
 
 .cara_32 {
-    top: 0px;
+    top: 0;
     left: 14px;
     position: absolute;
 }
@@ -1186,7 +1163,7 @@ footer {
 /*33*/
 .corona_33 {
     top: -1px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -1197,7 +1174,7 @@ footer {
 }
 
 .cara_33 {
-    top: 0px;
+    top: 0;
     left: 2px;
     position: absolute;
 }
@@ -1268,7 +1245,7 @@ footer {
 
 .ds_35 {
     top: 3px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -1312,7 +1289,7 @@ footer {
 
 .cara_36 {
     top: 5px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -1420,7 +1397,7 @@ footer {
 }
 
 .cara_51 {
-    bottom: 0px;
+    bottom: 0;
     left: 7px;
     position: absolute;
 }
@@ -1525,7 +1502,7 @@ footer {
 
 /*21*/
 .corona_61 {
-    bottom: 0px;
+    bottom: 0;
     left: 1px;
     position: absolute;
 }
@@ -1537,7 +1514,7 @@ footer {
 }
 
 .cara_61 {
-    bottom: 0px;
+    bottom: 0;
     left: 1px;
     position: absolute;
 }
@@ -1637,7 +1614,7 @@ footer {
 /*41*/
 .corona_81 {
     top: 4px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -1648,7 +1625,7 @@ footer {
 }
 
 .cara_81 {
-    top: 0px;
+    top: 0;
     left: -1px;
     position: absolute;
 }
@@ -1674,7 +1651,7 @@ footer {
 
 /*42*/
 .corona_82 {
-    top: 0px;
+    top: 0;
     left: 14px;
     position: absolute;
 }
@@ -1686,7 +1663,7 @@ footer {
 }
 
 .cara_82 {
-    top: 0px;
+    top: 0;
     left: 14px;
     position: absolute;
 }
@@ -1713,7 +1690,7 @@ footer {
 /*43*/
 .corona_83 {
     top: -1px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -1752,7 +1729,7 @@ footer {
 /*31*/
 .corona_71 {
     top: 4px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -1789,7 +1766,7 @@ footer {
 
 /*32*/
 .corona_72 {
-    top: 0px;
+    top: 0;
     left: 14px;
     position: absolute;
 }
@@ -1801,7 +1778,7 @@ footer {
 }
 
 .cara_72 {
-    top: 0px;
+    top: 0;
     left: 14px;
     position: absolute;
 }
@@ -1828,7 +1805,7 @@ footer {
 /*33*/
 .corona_73 {
     top: -1px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -1839,7 +1816,7 @@ footer {
 }
 
 .cara_73 {
-    top: 0px;
+    top: 0;
     left: 2px;
     position: absolute;
 }
@@ -1878,7 +1855,7 @@ footer {
 }
 
 .cara_54 {
-    bottom: 0px;
+    bottom: 0;
     left: 7px;
     position: absolute;
 }
@@ -1904,7 +1881,7 @@ footer {
 /*17*/
 .corona_55 {
     bottom: 28px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -2027,7 +2004,7 @@ footer {
 
 .cara_84 {
     top: 5px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -2103,7 +2080,7 @@ footer {
 
 .cara_74 {
     top: 5px;
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 
@@ -2168,9 +2145,8 @@ footer {
     position: relative;
     width: 52px !important;
     height: 55px !important;
-    border: 0px dashed grey;
+    border: 0 dashed grey;
     display: inline-block;
-    /*margin-right: 2px;*/
 }
 
 #diente11 {
@@ -2314,11 +2290,11 @@ footer {
 }
 
 .dnt_61 {
-    bottom: 0px;
+    bottom: 0;
 }
 
 .dnt_62 {
-    bottom: 0px;
+    bottom: 0;
 }
 
 .dnt_64 {
@@ -2617,7 +2593,7 @@ footer {
     top: 13px;
     left: 13px;
     background: #F3F3F3;
-    border: 0px solid #7F7F7F;
+    border: 0 solid #7F7F7F;
     width: 26px;
     height: 26px;
     position: absolute;
@@ -2628,7 +2604,7 @@ footer {
 }
 
 .marriba {
-    top: 0px;
+    top: 0;
     left: 13px;
     height: 13px !important;
     -moz-border-radius: 100px 100px 0 0;
@@ -2637,29 +2613,29 @@ footer {
 }
 
 .mizquierdo {
-    left: 0px;
+    left: 0;
     top: 13px;
     width: 13px !important;
-    -moz-border-radius: 100px 0px 0px 100px;
-    -webkit-border-radius: 100px 0px 0px 100px;
-    border-radius: 100px 0px 0px 100px;
+    -moz-border-radius: 100px 0 0 100px;
+    -webkit-border-radius: 100px 0 0 100px;
+    border-radius: 100px 0 0 100px;
 }
 
 .mdebajo {
     top: 39px;
     left: 13px;
     height: 13px !important;
-    -moz-border-radius: 0px 0px 100px 100px;
-    -webkit-border-radius: 0px 0px 100px 100px;
-    border-radius: 0px 0px 100px 100px;
+    -moz-border-radius: 0 0 100px 100px;
+    -webkit-border-radius: 0 0 100px 100px;
+    border-radius: 0 0 100px 100px;
 }
 
 .mderecha {
     left: 39px;
     top: 13px;
-    -moz-border-radius: 0px 100px 100px 0px;
-    -webkit-border-radius: 0px 100px 100px 0px;
-    border-radius: 0px 100px 100px 0px;
+    -moz-border-radius: 0 100px 100px 0;
+    -webkit-border-radius: 0 100px 100px 0;
+    border-radius: 0 100px 100px 0;
     width: 13px !important;
 }
 
@@ -2668,9 +2644,9 @@ footer {
     position: absolute;
     width: 52px !important;
     height: 55px !important;
-    border: 0px solid blue;
+    border: 0 solid blue;
     top: 1px;
-    left: 0px;
+    left: 0;
     z-index: 20;
 }
 
@@ -2682,99 +2658,67 @@ footer {
 /**/
 
 .m-aster-rojo {
-    background-image: url("/assets/imgs/asterrojo.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/asterrojo.png") center no-repeat;
 }
 
 .m-aster-rojo-leche {
-    background-image: url("/assets/imgs/asterrojoleche.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/asterrojoleche.png") center no-repeat;
 }
 
 .m-aster-azul {
-    background-image: url("/assets/imgs/asterazul.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/asterazul.png") center no-repeat;
 }
 
 .m-aster-azul-leche {
-    background-image: url("/assets/imgs/asterazulleche.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/asterazulleche.png") center no-repeat;
 }
 
 .m-x-rojo {
-    background-image: url("/assets/imgs/xrojo.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/xrojo.png") center no-repeat;
 }
 
 .m-x-rojo-leche {
-    background-image: url("/assets/imgs/xrojoleche.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/xrojoleche.png") center no-repeat;
 }
 
 .m-x-azul {
-    background-image: url("/assets/imgs/xazul.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/xazul.png") center no-repeat;
 }
 
 .m-x-azul-leche {
-    background-image: url("/assets/imgs/xazulleche.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/xazulleche.png") center no-repeat;
 }
 
 .m-endo-rojo {
-    background-image: url("/assets/imgs/endorojo.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/endorojo.png") center no-repeat;
 }
 
 .m-endo-azul {
-    background-image: url("/assets/imgs/endoazul.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/endoazul.png") center no-repeat;
 }
 
 .m-endo-rojoleche {
-    background-image: url("/assets/imgs/endorojoleche.png");
-    background-repeat: no-repeat;
-    background-position: top;
+    background: url("/assets/imgs/endorojoleche.png") top no-repeat;
 }
 
 .m-endo-azulleche {
-    background-image: url("/assets/imgs/endoazulleche.png");
-    background-repeat: no-repeat;
-    background-position: top;
+    background: url("/assets/imgs/endoazulleche.png") top no-repeat;
 }
 
 .m-corona-azul {
-    background-image: url("/assets/imgs/coronaazul.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/coronaazul.png") center no-repeat;
 }
 
 .m-corona-rojo {
-    background-image: url("/assets/imgs/coronarojo.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/coronarojo.png") center no-repeat;
 }
 
 .m-corona-azulleche {
-    background-image: url("/assets/imgs/coronaazulleche.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/coronaazulleche.png") center no-repeat;
 }
 
 .m-corona-rojoleche {
-    background-image: url("/assets/imgs/coronarojoleche.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/coronarojoleche.png") center no-repeat;
 }
 
 .caries-grande {
@@ -2782,35 +2726,19 @@ footer {
 }
 
 .caries-mediano {
-    background-image: url("/assets/imgs/cariesmediano.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/cariesmediano.png") center no-repeat;
 }
 
 .caries-pequenio {
-    background-image: url("/assets/imgs/cariespequenio.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/cariespequenio.png") center no-repeat;
 }
 
 .implante {
-    background-image: url("/assets/imgs/implante.png");
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.dientesano {
-    /*
-    background-image: url("/assets/imgs/dientesano.png");
-    background-repeat: no-repeat;
-    background-position: center;
-     */
+    background: url("/assets/imgs/implante.png") center no-repeat;
 }
 
 .dienteproblemas {
-    background-image: url("/assets/imgs/dienteproblemas.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/dienteproblemas.png") center no-repeat;
 }
 
 .obturado-grande {
@@ -2818,9 +2746,7 @@ footer {
 }
 
 .obturado-mediano {
-    background-image: url("/assets/imgs/cariesmediano.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    background: url("/assets/imgs/cariesmediano.png") center no-repeat;
 }
 
 .fondorojo {
@@ -2842,7 +2768,6 @@ footer {
 .pdextraccion {
     opacity: 0.2;
 }
-
 
 .divpacientes {
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);

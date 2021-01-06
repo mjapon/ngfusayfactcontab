@@ -171,7 +171,7 @@ export class OdatencionesComponent implements OnInit, OnChanges {
     }
 
     anular(atencion: any) {
-        const msg = '¿Confirma que desea anular esta atención?'
+        const msg = '¿Confirma que desea anular esta atención?';
         this.swalService.fireDialog(msg).then(confirm => {
             if (confirm.value) {
                 this.loadinUiService.publishBlockMessage();

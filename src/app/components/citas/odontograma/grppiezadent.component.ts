@@ -96,17 +96,6 @@ export class GrppiezadentComponent {
         }
     }
 
-    /*
-    showSetTextoDiente(event: any) {
-        const diente = event.item.state;
-        const obsdiente = diente.texto ? diente.texto : '';
-        const textodiente = prompt('Observación', obsdiente);
-        if (textodiente) {
-            diente.texto = textodiente.trim();
-        }
-    }
-     */
-
     loadContexMenu(diente) {
         this.menuItemsDiente.splice(0, this.menuItemsDiente.length);
         this.menuItemsDiente.push(
@@ -147,28 +136,6 @@ export class GrppiezadentComponent {
                 state: diente
             });
         }
-
-        /*
-        const texto = diente.texto ? diente.texto : '';
-        if (texto.trim().length > 0) {
-            this.menuItemsDiente.push({
-                label: texto,
-                command: (event => {
-                    event.context = self;
-                    this.showSetTextoDiente(event);
-                }),
-                state: diente
-            });
-        } else {
-            this.menuItemsDiente.push({
-                label: 'Observación',
-                command: (event => {
-                    event.context = self;
-                    this.showSetTextoDiente(event);
-                }),
-                state: diente
-            });
-        }*/
     }
 
     onContextMenuDiente(diente: any, event: MouseEvent) {

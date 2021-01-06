@@ -8,8 +8,7 @@ import {LoadingUiService} from '../../../services/loading-ui.service';
 
 @Component({
     selector: 'app-ticketform',
-    templateUrl: './ticketform.component.html',
-    styleUrls: ['./ticketform.component.css']
+    templateUrl: './ticketform.component.html'
 })
 export class TicketformComponent implements OnInit {
 

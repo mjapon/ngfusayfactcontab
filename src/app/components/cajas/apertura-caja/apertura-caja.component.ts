@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { CajaService } from '../../../services/caja.service';
-import { Router } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
-import { SwalService } from '../../../services/swal.service';
+import {Component, OnInit} from '@angular/core';
+import {CajaService} from '../../../services/caja.service';
+import {Router} from '@angular/router';
+import {AuthService} from '../../../services/auth.service';
+import {SwalService} from '../../../services/swal.service';
 
 @Component({
   selector: 'app-apertura-caja',
-  templateUrl: './apertura-caja.component.html',
-  styleUrls: ['./apertura-caja.component.css']
+    templateUrl: './apertura-caja.component.html'
 })
 export class AperturaCajaComponent implements OnInit {
   form: any;

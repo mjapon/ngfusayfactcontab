@@ -2,22 +2,8 @@
     margin: 15px 5px;
 }
 
-.dato-fila-diag {
-    margin: 0px 5px !important;
-}
-
-.datosadc {
-    margin-top: 10px;
-}
-
 .dato-adc-fila {
     margin: 6px 1px;
-}
-
-.padding15 {
-    display: flex;
-    flex-direction: row-reverse;
-    padding: 0px 15px;
 }
 
 .padflex {

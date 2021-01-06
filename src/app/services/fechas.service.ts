@@ -60,7 +60,7 @@ const getMountMatrix = (
     providedIn: 'root'
 })
 export class FechasService {
-    private formatoFecha: string;
+    private readonly formatoFecha: string;
     private dayNamesShort: Array<any>;
     private monthNames: Array<any>;
     private loaded: boolean;

@@ -91,6 +91,8 @@ import {CitaodontodetComponent} from './components/citas/odontograma/citaodontod
 import {DetallescitacalComponent} from './components/citas/odcalendar/detallescitacal.component';
 import {RecetasComponent} from './components/citas/recetas.component';
 import {RxdocsComponent} from './components/citas/rxdocs.component';
+import {PlantratamientoComponent} from './components/citas/citasodonto/plantratamiento/plantratamiento.component';
+import {FactpagosComponent} from './components/citas/citasodonto/factpagos/factpagos.component';
 
 registerLocaleData(localeEs, 'es-EC');
 
@@ -147,7 +149,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         CitaodontodetComponent,
         DetallescitacalComponent,
         RecetasComponent,
-        RxdocsComponent
+        RxdocsComponent,
+        PlantratamientoComponent,
+        FactpagosComponent
     ],
     imports: [
         BrowserModule,

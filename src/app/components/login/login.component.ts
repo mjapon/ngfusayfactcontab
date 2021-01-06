@@ -7,6 +7,7 @@ import {FautService} from '../../services/faut.service';
 import {SeccionService} from '../../services/seccion.service';
 import {UsertokenService} from '../../services/usertoken.service';
 import {UiService} from '../../services/ui.service';
+import {LoadingUiService} from '../../services/loading-ui.service';
 
 @Component({
     selector: 'app-login',
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit {
         private localStorageService: LocalStorageService,
         private seccionService: SeccionService,
         private uiService: UiService,
-        private userTokenService: UsertokenService
+        private userTokenService: UsertokenService,
+        private loadingServ: LoadingUiService
     ) {
 
     }
@@ -69,6 +71,7 @@ export class LoginComponent implements OnInit {
         }
 
         const form = this.loginForm.value;
+        this.loadingServ.publishBlockMessage();
         this.fautService.autenticar(form.empresa, form.username, form.password).subscribe(
             res => {
                 if (res.autenticado) {

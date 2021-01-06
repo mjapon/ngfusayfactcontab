@@ -9,8 +9,7 @@ import {PersonaService} from '../../../services/persona.service';
 
 @Component({
     selector: 'app-userform',
-    templateUrl: './userform.component.html',
-    styleUrls: ['./userform.component.css']
+    templateUrl: './userform.component.html'
 })
 export class UserformComponent implements OnInit {
     form: any;

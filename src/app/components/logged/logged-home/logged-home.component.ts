@@ -21,7 +21,7 @@ export class LoggedHomeComponent implements OnInit {
                 private router: Router,
                 private seccionService: SeccionService,
                 private swalService: SwalService) {
-        this.menuApp = new Array();
+        this.menuApp = [];
     }
 
     ngOnInit() {

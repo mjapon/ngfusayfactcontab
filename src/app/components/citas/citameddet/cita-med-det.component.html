@@ -23,8 +23,6 @@
                             <div>
                                 <span>Fecha nacimiento:</span>
                                 {{historiaSel.paciente.per_fechanac}}
-
-
                             </div>
                             <div class="btn-group btn-group-sm" role="group"
                                  aria-label="Button group with nested dropdown">
@@ -108,59 +106,64 @@
             </div>
         </div>
 
-        <div class="card border-secondary">
+        <div class="card border-secondary" *ngIf="hasAntecedentes()">
             <div class="card-header quitaPadding">
                 Antecedentes Personales
             </div>
             <div id="HistPanelAntecedentes">
-                <div class="row dato-adc-fila" *ngFor="let it of historiaSel.antecedentes;">
-                    <div class="col-md-4">
-                        <span class="text-muted">{{it.cmtv_valor}}:</span>
+                <ng-container *ngFor="let it of historiaSel.antecedentes;">
+                    <div class="row dato-adc-fila" *ngIf="it.valorreg">
+                        <div class="col-md-4">
+                            <span class="text-muted">{{it.cmtv_valor}}:</span>
+                        </div>
+                        <div class="col-md-8">
+                            <p>
+                                {{it.valorreg}}
+                            </p>
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <p>
-                            {{it.valorreg}}
-                        </p>
-                    </div>
-                </div>
+                </ng-container>
             </div>
         </div>
 
-        <div class="card border-secondary">
+        <div class="card border-secondary" *ngIf="hasRevXSistemas()">
             <div class="card-header quitaPadding">
                 Revisión por sistemas
             </div>
             <div id="HistPanelRevXSistemas">
-                <div class="row dato-adc-fila" *ngFor="let it of historiaSel.revxsistemas">
-                    <div class="col-md-4">
-                        <span class="text-muted">{{it.cmtv_valor}}:</span>
+                <ng-container *ngFor="let it of historiaSel.revxsistemas">
+                    <div class="row dato-adc-fila" *ngIf="it.valorreg">
+                        <div class="col-md-4">
+                            <span class="text-muted">{{it.cmtv_valor}}:</span>
+                        </div>
+                        <div class="col-md-8">
+                            <p>
+                                {{it.valorreg}}
+                            </p>
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <p>
-                            {{it.valorreg}}
-                        </p>
-                    </div>
-                </div>
+                </ng-container>
             </div>
         </div>
 
-        <div class="card border-secondary">
+        <div class="card border-secondary" *ngIf="hasExamsFisico()">
             <div class="card-header quitaPadding">
-                Exámenes Físicos
+                Exámen Físico
             </div>
             <div id="HistPanelExamenFisico">
-                <div class="row dato-adc-fila" *ngFor="let it of historiaSel.examsfisicos">
-                    <div class="col-md-4">
-                        <span class="text-muted">{{it.cmtv_valor}}</span>
-                        <span class="badge badge-light">{{it.cmtv_unidad}}</span>:
+                <ng-container *ngFor="let it of historiaSel.examsfisicos">
+                    <div class="row dato-adc-fila" *ngIf="it.valorreg">
+                        <div class="col-md-4">
+                            <span class="text-muted">{{it.cmtv_valor}}</span>
+                        </div>
+                        <div class="col-md-8">
+                            <p>
+                                {{it.valorreg}} <span class="badge badge-light">{{it.cmtv_unidad}}</span>
+                            </p>
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <p>
-                            {{it.valorreg}}
-                        </p>
-                    </div>
-                </div>
-                <div class="row dato-adc-fila">
+                </ng-container>
+                <div class="row dato-adc-fila" *ngIf="historiaSel.datosconsulta.cosm_hallazgoexamfis">
                     <div class="col-md-4">
                         <span class="text-muted">Descripción de Hallazgos:</span>
                     </div>
@@ -170,7 +173,7 @@
                 </div>
             </div>
         </div>
-        <div class="card border-secondary">
+        <div class="card border-secondary mb-3">
             <div class="card-header quitaPadding">
                 Diagnóstico
             </div>

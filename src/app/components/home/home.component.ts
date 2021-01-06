@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {SwalService} from '../../services/swal.service';
 import {FautService} from '../../services/faut.service';
 
 @Component({
@@ -10,9 +9,7 @@ import {FautService} from '../../services/faut.service';
 export class HomeComponent implements OnInit {
 
     constructor(private fautService: FautService,
-                private router: Router,
-                private swalService: SwalService
-    ) {
+                private router: Router) {
     }
 
     ngOnInit() {

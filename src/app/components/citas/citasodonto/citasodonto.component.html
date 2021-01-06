@@ -68,11 +68,11 @@
                     </div>
                 </div>
                 <div *ngIf="tipoOdontogramaSel===1">
-                    <app-odontograma (clicSiguiente)="guardarOdontograma()" [tipodontograma]="1"
+                    <app-odontograma [tipodontograma]="1"
                                      [codpaciente]="pacienteSelected.per_id"></app-odontograma>
                 </div>
                 <div *ngIf="tipoOdontogramaSel===2">
-                    <app-odontograma (clicSiguiente)="guardarOdontograma()" [tipodontograma]="2"
+                    <app-odontograma [tipodontograma]="2"
                                      [codpaciente]="pacienteSelected.per_id"></app-odontograma>
                 </div>
             </p-tabPanel>
@@ -84,6 +84,15 @@
             </p-tabPanel>
         </p-tabView>
     </div>
+
+    <div *ngIf="selectedMasterTab===2">
+        <app-plantratamiento></app-plantratamiento>
+    </div>
+
+    <div *ngIf="selectedMasterTab===3">
+        <app-factpagos></app-factpagos>
+    </div>
+
     <div *ngIf="selectedMasterTab===4">
         <div class="mt-2 pb-2">
             <app-odcalendar [tipoCita]="2" [showCancelar]="false" (evCancelar)="onCancelarAgenda($event)"

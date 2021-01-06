@@ -4,8 +4,7 @@ import {LoadingUiService} from '../../../services/loading-ui.service';
 
 @Component({
     selector: 'app-citasodonto',
-    templateUrl: './citasodonto.component.html',
-    styleUrls: ['./citasodonto.component.css']
+    templateUrl: './citasodonto.component.html'
 })
 export class CitasodontoComponent implements OnInit {
     selectedMasterTab: number;
@@ -82,19 +81,13 @@ export class CitasodontoComponent implements OnInit {
     }
 
     onAntePerSave($event: any) {
-        //console.log('onAntePerSave saved', $event);
     }
 
     onExamFisSave($event: any) {
-        //console.log('onExamFisSave saved', $event);
     }
 
     setTipoOdontograma(tipo: number) {
         this.tipoOdontogramaSel = tipo;
-    }
-
-    guardarOdontograma() {
-        //console.log('clic guardar odontograma');
     }
 
     onRegistraAtencionEv($event: any) {

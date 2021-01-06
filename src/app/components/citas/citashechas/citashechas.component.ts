@@ -4,8 +4,7 @@ import {CitasMedicasService} from '../../../services/citas-medicas.service';
 
 @Component({
     selector: 'app-citashechas',
-    templateUrl: './citashechas.component.html',
-    styleUrls: ['./citashechas.component.css']
+    templateUrl: './citashechas.component.html'
 })
 export class CitashechasComponent implements OnInit {
     desde: Date;

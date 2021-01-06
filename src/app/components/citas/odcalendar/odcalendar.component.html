@@ -3,10 +3,10 @@
         <div class="col-md-2">
             <div class="d-flex justify-content-around mb-3">
                 <p class="tituloAgenda text-center">Agenda</p>
-                <button class="btn btn-outline-primary" (click)="onCreaEvClic()"><i class="fa fa-plus-circle"></i> Crear
+                <button class="btn btn-sm btn-outline-primary" (click)="onCreaEvClic()"><i
+                        class="fa fa-plus-circle"></i> Crear
                 </button>
             </div>
-
             <div class="d-flex justify-content-between">
                 <span class="leymes noselect">
                     {{mesString}}
@@ -20,7 +20,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="d-flex flex-column">
                 <div class="d-flex flex-row">
                     <div class="text-center smDiaCalLey" *ngFor="let day of diasSemana;">

@@ -17,25 +17,12 @@ export class ArticuloService extends BaseService {
     }
 
     getForm(): Observable<any> {
-        const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHOT({accion: 'formcrea'});
-        return this.http.get(endopoint, httpOptions).pipe(
-            map((response: any) => {
-                return response;
-            }),
-            catchError(this.fnProcesaError)
-        );
+        return this._doGet(this.getHOT({acion: 'formcrea'}));
     }
 
     getByCod(artId: number): Observable<any> {
         const endopoint = this.urlEndPoint + '/' + artId;
-        const httpOptions = this.getHOT({});
-        return this.http.get(endopoint, httpOptions).pipe(
-            map((response: any) => {
-                return response;
-            }),
-            catchError(this.fnProcesaError)
-        );
+        return this.http.get(endopoint, this.getHOT({}));
     }
 
     getFormEditRubro(icId: number): Observable<any> {
@@ -51,9 +38,7 @@ export class ArticuloService extends BaseService {
     }
 
     existeCodbar(codbar: string): Observable<any> {
-        const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHOT({accion: 'verifcodbar', codbar: codbar});
-        return this.doGet(this.http, endopoint, httpOptions);
+        return this._doGet(this.getHOT({accion: 'verifcodbar', codbar}));
     }
 
     guardarArticulo(form: any): Observable<any> {
@@ -94,6 +79,10 @@ export class ArticuloService extends BaseService {
         );
     }
 
+    buscaServDentales(filtro: string) {
+        return this._doGet(this.getHOT({accion: 'gservdent', filtro}));
+    }
+
     listarRubros(): Observable<any> {
         const endpoint = this.urlEndPoint;
         const httpOptions = this.getHOT({accion: 'rubrosgrid'});
@@ -110,20 +99,5 @@ export class ArticuloService extends BaseService {
         const endopoint = this.urlEndPoint + '/' + form.ic_id;
         const httpOptions = this.getHOT({accion: 'guardarubro'});
         return this.doPost(this.http, endopoint, httpOptions, form);
-    }
-
-    listarTeleServicios(): Observable<any> {
-        const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHOT({
-            accion: 'teleservicios'
-        });
-
-        return this.http.get(endopoint, httpOptions).pipe(
-            map((response: any) => {
-                return response;
-            }),
-            catchError(this.fnProcesaError)
-        );
-
     }
 }

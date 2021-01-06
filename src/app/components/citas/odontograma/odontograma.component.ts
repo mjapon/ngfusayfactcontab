@@ -1,15 +1,4 @@
-import {
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    OnDestroy,
-    OnInit,
-    Output,
-    Renderer2,
-    SimpleChanges,
-    ViewChild
-} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, Renderer2, SimpleChanges, ViewChild} from '@angular/core';
 import {ArrayutilService} from '../../../services/arrayutil.service';
 import {MenuItem} from 'primeng/api';
 import {SwalService} from '../../../services/swal.service';
@@ -64,8 +53,6 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     tiposPiezas: any[];
     tipoPiezaSel: any;
     formOdontograma: any;
-
-    @Output() clicSiguiente = new EventEmitter<any>();
 
     @ViewChild('contextMenuDiente') contextMenuDiente: any;
 
@@ -261,6 +248,9 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
         diente.tools = [];
         diente.tapaVisible = false;
         diente.classTapa = '';
+        diente.protesis = 0;
+        diente.tipoprotesis = 0;
+        diente.estado = 0;
     }
 
     auxToggleClass(diente: any, lado: string) {
@@ -588,7 +578,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
                 e.sel = false;
             });*/
             it.sel = true;
-            it.tipo = this.tipoPiezaSel.value;
+            it.tipo = this.tipoPiezaSel;
             this.iniciaSelProt = true;
         }
     }
@@ -596,18 +586,18 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     onMouseOverProtDiente(it: any) {
         if (this.iniciaSelProt && this.tipoProtesisSel < 3) {
             it.sel = true;
-            it.tipo = this.tipoPiezaSel.value;
+            it.tipo = this.tipoPiezaSel;
         }
     }
 
     onMouseUpProtDiente(it: any) {
         if (this.iniciaSelProt && this.tipoProtesisSel < 3) {
             it.sel = true;
-            it.tipo = this.tipoPiezaSel.value;
+            it.tipo = this.tipoPiezaSel;
             this.iniciaSelProt = false;
 
             if (this.tipoProtesisSel === 2) {
-                this.tipoPiezaSel = null;
+                this.tipoPiezaSel = 1;
             }
         }
     }
@@ -619,7 +609,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     onTipoProtesisChange($event: any) {
-        this.tipoPiezaSel = this.tiposPiezas[0];
+        this.tipoPiezaSel = this.tiposPiezas[0].value;
         this.estadoProtesisSel = null;
         this.zonaProtesisSel = null;
     }
@@ -644,7 +634,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
         this.arrayUtil.removeElement(this.protesisList, protesis);
     }
 
-    guardarOdontograma(next: boolean) {
+    guardarOdontograma() {
         this.formOdontograma.od_tipo = this.tipodontograma;
         this.formOdontograma.od_odontograma = JSON.stringify(this.dentadura);
         this.formOdontograma.od_protesis = JSON.stringify(this.protesisList);
@@ -656,15 +646,9 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
                     this.swalService.fireToastSuccess(res.msg);
                     this.formOdontograma.od_id = res.od_id;
                 }
-                if (next) {
-                    this.clicSiguiente.emit('');
-                }
             });
         } else {
             this.swalService.fireToastError('Primero debe registrar el paciente antes de registrar el odontograma');
-            if (next) {
-                this.clicSiguiente.emit('');
-            }
         }
     }
 }

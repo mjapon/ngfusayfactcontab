@@ -18,7 +18,7 @@ export class LoggednavbarComponent implements OnInit {
     constructor(private fautService: FautService,
                 private router: Router) {
         this.userinfo = {};
-        this.menuApp = new Array();
+        this.menuApp = [];
     }
 
     ngOnInit() {

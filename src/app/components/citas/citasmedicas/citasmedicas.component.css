@@ -3,68 +3,15 @@
 }
 
 .dato-fila-diag {
-    margin: 0px 5px !important;
-}
-
-.datosadc {
-    margin-top: 10px;
+    margin: 0 5px !important;
 }
 
 .dato-adc-fila {
     margin: 6px 2px;
 }
 
-.diagdropdown {
-    width: 1000px !important;
-}
-
-.flex-center-columns {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.btnTextLeft {
-    text-align: left !important;
-    padding: 8px 20px;
-    background-color: #F7F7F7 !important;
-    color: #212529 !important;
-    border-color: transparent !important;
-}
-
-.btnTextLeft:active,
-.btnTextLeft:focus,
-.btnTextLeft.focus,
-.btnTextLeft.active {
-    outline: none !important;
-}
-
-.btn.btn-secondary.focus,
-.btn.btn-secondary:focus {
-    outline: none !important;
-}
-
 .padding15 {
     display: flex;
     flex-direction: row-reverse;
-    padding: 0px 15px;
-}
-
-.padflex {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.level {
-    width: 100%;
-    height: 400px;
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.7);
-    background: transparent;
-
-}
-
-.level-trans {
-    background: whitesmoke;
+    padding: 0 15px;
 }

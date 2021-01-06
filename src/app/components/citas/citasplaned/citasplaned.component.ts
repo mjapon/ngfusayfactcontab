@@ -6,8 +6,7 @@ import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-citasplaned',
-    templateUrl: './citasplaned.component.html',
-    styleUrls: ['./citasplaned.component.css']
+    templateUrl: './citasplaned.component.html'
 })
 export class CitasplanedComponent implements OnInit {
 

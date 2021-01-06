@@ -268,6 +268,4 @@ export class RxdocsComponent implements OnInit, OnChanges {
             }
         }
     }
-
 }
-

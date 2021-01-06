@@ -1,0 +1,75 @@
+<div class="mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3">
+                    <span>Nombre:</span>
+                </div>
+                <div class="col-md">
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md">
+                    <div>
+                        <span>Servicio:</span>
+                    </div>
+                    <div class="p-fluid">
+                        <p-autoComplete [(ngModel)]="form.servicio" [suggestions]="servsFiltered"
+                                        (completeMethod)="buscaServs($event)" field="nomapel" inputId="pacAutoCom"
+                                        placeholder="Digite los nombres o el número de cédula del paciente"
+                                        (onSelect)="onServSelect($event)">
+
+                        </p-autoComplete>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3">
+                    <span>Nro Plan:</span>
+                </div>
+                <div class="col-md">
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive mt-4">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Servicio</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Graba Iva</th>
+                <th scope="col">Precio Unitario</th>
+                <th scope="col">Precio Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+                <td>@twitter</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -113,4 +113,18 @@ export class CitaMedDetComponent implements OnInit, OnDestroy {
         this.cerrarHistoriaAnt();
         this.cosmedicamsgService.publishMessage({tipo: 1, msg: datoshistoria});
     }
+
+    hasAntecedentes() {
+        return this.historiaSel.antecedentes.filter(it => it.valorreg).length > 0;
+    }
+
+    hasExamsFisico() {
+        const val = this.historiaSel.examsfisicos.filter(it => it.valorreg).length > 0;
+        return val || this.historiaSel.datosconsulta.cosm_hallazgoexamfis;
+    }
+
+    hasRevXSistemas() {
+        return this.historiaSel.revxsistemas.filter(it => it.valorreg).length > 0;
+    }
+
 }
