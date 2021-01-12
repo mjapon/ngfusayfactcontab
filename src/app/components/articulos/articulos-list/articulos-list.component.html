@@ -45,12 +45,12 @@
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
-            <th width="1%" class="fstbpadtitnumber">#</th>
+            <th width="2%" class="fstbpadtitnumber">#</th>
             <th *ngFor="let item of cols" [pSortableColumn]="item.field" [ngSwitch]="item.field">
                 {{item.label}}
                 <p-sortIcon [field]="item.field"></p-sortIcon>
             </th>
-            <th width="3%"></th>
+            <th width="4%"></th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">

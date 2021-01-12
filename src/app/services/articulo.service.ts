@@ -83,6 +83,10 @@ export class ArticuloService extends BaseService {
         return this._doGet(this.getHOT({accion: 'gservdent', filtro}));
     }
 
+    buscaAllServDentalles() {
+        return this._doGet(this.getHOT({accion: 'gservdentall'}));
+    }
+
     listarRubros(): Observable<any> {
         const endpoint = this.urlEndPoint;
         const httpOptions = this.getHOT({accion: 'rubrosgrid'});

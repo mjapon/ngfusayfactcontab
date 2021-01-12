@@ -2798,3 +2798,18 @@ footer {
     -ms-user-select: none;
     user-select: none;
 }
+
+.scrol-list-dental {
+    max-height: 600px;
+    margin-bottom: 0;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.fondogris {
+    background-color: #bfc3c7;
+}
+
+.fondoblanco {
+    background-color: white;
+}

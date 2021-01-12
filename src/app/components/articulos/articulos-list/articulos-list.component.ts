@@ -5,6 +5,7 @@ import {DomService} from '../../../services/dom.service';
 import {MenuItem} from 'primeng/api';
 import {SwalService} from '../../../services/swal.service';
 import {SeccionService} from '../../../services/seccion.service';
+import {LoadingUiService} from '../../../services/loading-ui.service';
 
 @Component({
     selector: 'app-articulos-list',
@@ -22,10 +23,12 @@ export class ArticulosListComponent implements OnInit {
     itemsCtxMenu: MenuItem[];
     sections: Array<any>;
     selectedSection: any;
+    previustimer: any = 0;
 
     constructor(private artsService: ArticuloService,
                 private domService: DomService,
                 private swalService: SwalService,
+                private loadinUiServ: LoadingUiService,
                 private seccionService: SeccionService,
                 private router: Router) {
     }
@@ -57,8 +60,20 @@ export class ArticulosListComponent implements OnInit {
         this.enableBtns = false;
     }
 
+    delayKeyup(callback, ms, prevtimer, context) {
+        clearTimeout(prevtimer);
+        return setTimeout(() => {
+            callback(context);
+        }, ms);
+    }
+
+
+    filtroDelayFn(context) {
+        context.listar();
+    }
+
     doFilter(ev: any) {
-        this.listar();
+        this.previustimer = this.delayKeyup(this.filtroDelayFn, 500, this.previustimer, this);
     }
 
     editItem(rowItem: any) {
@@ -77,6 +92,7 @@ export class ArticulosListComponent implements OnInit {
 
         this.swalService.fireDialog(msg).then(confirm => {
             if (confirm.value) {
+                this.loadinUiServ.publishBlockMessage();
                 this.artsService.anularArticulo(rowItem.ic_id).subscribe(res => {
                     if (res.status === 200) {
                         if (res.status === 200) {

@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h4>{{editing ? 'Editar '+ artFromDb.ic_nombre : 'Crear Producto o Servicio'}} </h4>
+            <h4>{{editing ? 'Editar ' + artFromDb.ic_nombre : 'Crear Producto o Servicio'}} </h4>
         </div>
         <div class="col-3 d-flex justify-content-end">
             <div class="btn-group" role="group" aria-label="Default button group">
@@ -47,7 +47,9 @@
                                                                                      class="hand badge {{artCodAutomatic?'badge-primary':'badge-secondary'}} "
                                                                                      (click)="generarCodigoBarra()"
                                                                                      title="Seleccione esta opción si desea que el sistema genere el código para el producto o servicio"> Automático </span>
-                                        <span *ngIf="editing" (click)="showModalEditBarcode()" class="badge badge-info" title="Editar el código de barra"> <i class="fa fa-pencil hand"> </i> </span>
+                                        <span *ngIf="editing" (click)="showModalEditBarcode()" class="badge badge-info"
+                                              title="Editar el código de barra"> <i
+                                                class="fa fa-pencil hand"> </i> </span>
                                     </label>
                                     <br>
                                     <input type="text" class="form-control" id="codbarraInput"
@@ -75,13 +77,13 @@
                                            [ngClass]="{'is-invalid':submited && f.ic_nombre.errors}">
                                 </div>
 
-                                <div class="row" *ngIf="f.tipic_id && f.tipic_id.value.value===1">
+                                <div class="row" *ngIf="f.tipic_id && f.tipic_id.value===1">
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="precioCompraInput">
                                                 <span class="required">*</span>
                                                 Precio Compra <span class="badge badge-light"
-                                                                    *ngIf="f.icdp_grabaiva && f.icdp_grabaiva.value.value">(Sin Iva)</span>:</label>
+                                                                    *ngIf="f.icdp_grabaiva && f.icdp_grabaiva.value">(Sin Iva)</span>:</label>
                                             <br>
                                             <input type="text"
                                                    maxlength="10"
@@ -99,7 +101,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col" *ngIf="f.icdp_grabaiva && f.icdp_grabaiva.value.value">
+                                    <div class="col" *ngIf="f.icdp_grabaiva && f.icdp_grabaiva.value">
                                         <div class="form-group">
                                             <label for="precioCompraInput">
                                                 <span class="required">*</span>
@@ -121,7 +123,7 @@
                                 <div class="form-group">
                                     <label for="precioVentaInput">
                                         <span class="required">*</span>Precio Venta: <span
-                                            *ngIf="f.tipic_id && f.tipic_id.value.value===1"
+                                            *ngIf="f.tipic_id && f.tipic_id.value===1"
                                             (click)="toggleAsistentePrecios()"
                                             class="hand badge {{isShowAsistPre?'badge-primary':'badge-secondary'}}"
                                             title="Muestra el asitente para establecimiento de precios de un producto">Asistente de precios</span>
@@ -190,7 +192,8 @@
 
                                 <div class="form-group">
                                     <label for="catic_id">Categoría:
-                                        <span class="btn btn-sm btn-outline-secondary hand" title="Crear categoría" (click)="showModalCreaCateg()"> <i class="fa fa-plus-circle"></i> </span>
+                                        <span class="btn btn-sm btn-outline-secondary hand" title="Crear categoría"
+                                              (click)="showModalCreaCateg()"> <i class="fa fa-plus-circle"></i> </span>
                                     </label>
                                     <br>
                                     <p-dropdown [options]="categorias" id="catic_id" formControlName="catic_id"
@@ -199,7 +202,7 @@
                                                 inputId="catic_id"></p-dropdown>
                                 </div>
 
-                                <div class="form-group" *ngIf="f.tipic_id && f.tipic_id.value.value===1">
+                                <div class="form-group" *ngIf="f.tipic_id && f.tipic_id.value===1">
                                     <label for="icdp_proveedor">Proveedor:
                                         <!--
                                         <span class="btn btn-sm btn-outline-secondary hand" title="Agregar proveedor"> <i class="fa fa-plus-circle"></i> </span>
@@ -212,7 +215,7 @@
                                                 inputId="icdp_proveedor"></p-dropdown>
                                 </div>
 
-                                <div class="form-group" *ngIf="f.tipic_id && f.tipic_id.value.value===1">
+                                <div class="form-group" *ngIf="f.tipic_id && f.tipic_id.value===1">
                                     <label for="icdp_fechacaducidad">Fecha de caducidad:</label>
                                     <br>
                                     <p-calendar formControlName="icdp_fechacaducidad" id="icdp_fechacaducidad"
@@ -223,6 +226,16 @@
                                                 dateFormat="dd/mm/yy"></p-calendar>
                                     <br>
                                 </div>
+
+                                <!--TODO: Agregar solo para cierto tipo de rol o configuracion de empresa -->
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="dentalcheckinput"
+                                           formControlName="ic_dental">
+                                    <label for="dentalcheckinput" class="form-check-label">
+                                        Dental
+                                    </label>
+                                </div>
+
                                 <br>
                                 <button type="button" class="btn btn-outline-success  btn-block"
                                         (click)="procesaForm()">
@@ -342,7 +355,8 @@
                         <div class="col">
                             <span> {{artFromDb.ic_code}} </span>
                         </div>
-                    </div><div class="row">
+                    </div>
+                    <div class="row">
                         <div class="col-4">
                             <label> Nuevo Código: </label>
                         </div>

@@ -32,8 +32,6 @@ export class ArticulosFormComponent implements OnInit {
 
     tiposArt: SelectItem[];
     ivas: SelectItem[];
-    tipoArtSel: SelectItem;
-    tipoIvaSel: SelectItem;
 
     defaultCat: any;
     defaultProv: any;
@@ -173,8 +171,6 @@ export class ArticulosFormComponent implements OnInit {
     buildForm(form: any) {
         let prov = this.defaultProv;
         let cat = this.defaultCat;
-        let tipo = this.tiposArt[0];
-        let iva = this.ivas[1];
 
         const provid = form.icdp_proveedor;
         const catid = form.catic_id;
@@ -193,29 +189,12 @@ export class ArticulosFormComponent implements OnInit {
         );
 
         const tip = form.tipic_id;
-        const dbTipo = this.arrayUtil.getFirstResult(
-            this.tiposArt,
-            (el, idx, array) => {
-                return el.value === tip;
-            }
-        );
-
-        const iv = form.icdp_grabaiva;
-        const dbIva = this.arrayUtil.getFirstResult(this.ivas, (el, idx, array) => {
-            return el.value === iv;
-        });
 
         if (dbcat != null) {
             cat = dbcat;
         }
         if (dbprov != null) {
             prov = dbprov;
-        }
-        if (dbTipo != null) {
-            tipo = dbTipo;
-        }
-        if (dbIva != null) {
-            iva = dbIva;
         }
 
         const icdp_fechacaducidad = form.icdp_fechacaducidad;
@@ -233,20 +212,21 @@ export class ArticulosFormComponent implements OnInit {
         this.artForm = this.fb.group({
             ic_code: [form.ic_code, Validators.required],
             icdp_fechacaducidad: [artFeccaduParsed],
-            icdp_grabaiva: [iva, Validators.required],
+            icdp_grabaiva: [form.icdp_grabaiva, Validators.required],
             ic_nombre: [form.ic_nombre, Validators.required],
             ic_nota: [form.ic_nota],
             icdp_precioventa: [form.icdp_precioventa, Validators.required],
             icdp_preciocompra: [form.icdp_preciocompra, Validators.required],
             icdp_preciocompra_iva: [form.icdp_preciocompra_iva, Validators.required],
-            tipic_id: [tipo, Validators.required],
+            tipic_id: [form.tipic_id, Validators.required],
             catic_id: [cat, Validators.required],
             icdp_proveedor: [prov, Validators.required],
             icdp_modcontab: [form.icdp_modcontab],
             icdp_precioventamin: [form.icdp_precioventamin],
             asist_pre_porc: [asistPrePorc],
             asist_pre_util: [0.0],
-            asist_pre_prevsug: [0.0]
+            asist_pre_prevsug: [0.0],
+            ic_dental: [form.ic_dental]
         });
 
         this.artForm.controls.icdp_preciocompra_iva.disable();
@@ -258,14 +238,11 @@ export class ArticulosFormComponent implements OnInit {
                 this.artForm.controls.tipic_id.disable();
             }, 100);
         }
-
-        this.tipoArtSel = tipo;
-        this.tipoIvaSel = iva;
     }
 
     buildDefForm() {
-        const tipoSel = this.tiposArt[0];
-        const ivaSel = this.ivas[0];
+        const tipoSel = this.tiposArt[0].value;
+        const ivaSel = this.ivas[1].value;
 
         const globalAsistPorcIncrem = this.localStrgServ.getItem('globalAsistPorcIncrePrecioCompra');
         let asistPrePorc = 0.0;
@@ -283,21 +260,18 @@ export class ArticulosFormComponent implements OnInit {
             icdp_preciocompra: [0.0, Validators.required],
             icdp_preciocompra_iva: [0.0],
             tipic_id: [tipoSel, Validators.required],
-            catic_id: [-1, Validators.required],
+            catic_id: [1, Validators.required],
             icdp_proveedor: [-2, Validators.required],
             icdp_modcontab: [0],
             icdp_precioventamin: [0.0],
             asist_pre_porc: [asistPrePorc],
             asist_pre_util: [0.0],
-            asist_pre_prevsug: [0.0]
+            asist_pre_prevsug: [0.0],
+            ic_dental: [false]
         });
-
         this.artForm.controls.icdp_preciocompra_iva.disable();
         this.artForm.controls.asist_pre_util.disable();
         this.artForm.controls.asist_pre_prevsug.disable();
-
-        this.tipoArtSel = tipoSel;
-        this.tipoIvaSel = ivaSel;
     }
 
     getFormToPost() {
@@ -308,20 +282,16 @@ export class ArticulosFormComponent implements OnInit {
         }
         const provsel = formToPost.icdp_proveedor;
         const catsel = formToPost.catic_id;
-        const tipoiva = formToPost.icdp_grabaiva;
-        const tipic_id = formToPost.tipic_id;
         let fechaCaducidad = '';
         if (formToPost.icdp_fechacaducidad) {
             fechaCaducidad = this.fechasService.formatDate(formToPost.icdp_fechacaducidad);
         }
         formToPost.prov_id = provsel.per_id;
-        formToPost.catic_id = catsel.catic_id;
-        formToPost.tipic_id = tipic_id.value;
+        formToPost.catic_id = catsel;
         formToPost.ic_id = this.artId;
         formToPost.icdp_fechacaducidad = fechaCaducidad;
         formToPost.codbar_auto = this.artCodAutomatic;
-        formToPost.icdp_grabaiva = tipoiva.value;
-        formToPost.icdp_proveedor = provsel.per_id;
+        formToPost.icdp_proveedor = provsel;
         return formToPost;
     }
 
@@ -466,7 +436,7 @@ export class ArticulosFormComponent implements OnInit {
 
     onTipoArtChange($event: any) {
         const tipoSel = this.artForm.controls.tipic_id.value;
-        if (tipoSel.value === 2) {
+        if (tipoSel === 2) {
             this.artForm.controls.icdp_preciocompra.setValue(0.0);
         }
     }
@@ -490,7 +460,7 @@ export class ArticulosFormComponent implements OnInit {
     }
 
     catIsDefault(element, index, array) {
-        return element.catic_id === -1;
+        return element.catic_id === 1;
     }
 
     provIsDefault(element, index, array) {

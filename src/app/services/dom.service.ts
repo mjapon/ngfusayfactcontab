@@ -26,5 +26,8 @@ export class DomService {
             , timeout);
     }
 
+    clonarObjeto(obj: any) {
+        return Object.assign({}, obj);
+    }
 
 }
