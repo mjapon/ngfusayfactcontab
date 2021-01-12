@@ -26,10 +26,12 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
     datosDocPlan: any;
     showForm: boolean;
     allServicios: Array<any>;
+    filteredServ: Array<any>;
     plansel: any;
 
     @Input()
     codpaciente: number;
+    filtroserv: any;
 
     constructor(private artService: ArticuloService,
                 private domService: DomService,
@@ -44,6 +46,7 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
         this.artService.buscaAllServDentalles().subscribe(res => {
             if (res.status === 200) {
                 this.allServicios = res.items;
+                this.filteredServ = res.items;
             }
         });
     }
@@ -310,5 +313,14 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
                 }
             }
         );
+    }
+
+    doFilter() {
+        const filtroupd = this.filtroserv.toString().trim().toUpperCase();
+        if (filtroupd.length === 0) {
+            this.filteredServ = this.allServicios;
+        } else {
+            this.filteredServ = this.allServicios.filter(serv => serv.ic_nombre.startsWith(filtroupd));
+        }
     }
 }

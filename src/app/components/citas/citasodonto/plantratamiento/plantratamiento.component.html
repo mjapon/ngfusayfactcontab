@@ -288,10 +288,13 @@
                     <div class="card">
                         <div class="card-header">
                             <span class="text-primary">Servicios</span>
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="filtroserv"
+                                   (keyup)="doFilter()" placeholder="Buscar por nombre">
                         </div>
+
                         <ul class="list-group list-group-flush scrol-list-dental">
                             <li class="noselect list-group-item hand list-group-item-action"
-                                *ngFor="let item of allServicios" (dblclick)="selectServicio(item)">
+                                *ngFor="let item of filteredServ" (dblclick)="selectServicio(item)">
                                 <span>{{item.ic_nombre}}</span><span
                                     class="text-muted font-italic"> ${{item.icdp_precioventa}} </span>
                             </li>
