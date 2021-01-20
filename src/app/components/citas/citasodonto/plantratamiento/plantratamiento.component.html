@@ -1,20 +1,16 @@
 <div>
     <div *ngIf="!showForm">
-        <div>
-            <div class="text-muted p-5 shadow-sm" *ngIf="listaPlanes.length==0">
-                <span>
-                El/La paciente no tiene registrado aun un plan de tratamiento
-                </span>
-            </div>
-            <div class="pt-3 pb-3">
-                <button class="btn btn-outline-primary" (click)="initFormCrea()"
-                        title="Registrar un nuevo plan de tratamiento">
+        <div class="card shadow-sm rounded mt-2">
+            <div class="card-header d-flex justify-content-between">
+            <span class="font-weight-light">Planes de tratamiento <span
+                    *ngIf="listaPlanes.length>0">({{listaPlanes.length}}
+                )</span></span>
+                <button class="btn btn-outline-primary" (click)="initFormCrea()">
                     <i class="fa fa-plus"></i> Crear
                 </button>
             </div>
-        </div>
-        <div *ngIf="listaPlanes.length>0" class="shadow-sm border">
-            <div class="table-responsive">
+
+            <div class="table-responsive" *ngIf="listaPlanes.length>0">
                 <table class="table">
                     <thead>
                     <tr>
@@ -27,7 +23,7 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let fila of listaPlanes" class="hand" (click)="showDetallesPlan(fila)">
-                        <th scope="row" style="width: 5%">{{fila.pnt_id}}</th>
+                        <th scope="row" style="width: 5%">{{listaPlanes.indexOf(fila)}}</th>
                         <td>
                             {{fila.pnt_fechacrea}}
                         </td>
@@ -46,69 +42,74 @@
                     </tbody>
                 </table>
             </div>
+            <div class="card-body" *ngIf="listaPlanes.length==0">
+                <div class="p-5 d-flex justify-content-center">
+                    <h2 class="text-muted"> No registra planes de tratamiento </h2>
+                </div>
+            </div>
         </div>
 
         <!--Mostrar detetalles del planta de tratamiento creado -->
-        <div *ngIf="plansel.pnt_id" class="p-2 mt-3 shadow-sm border">
+        <div *ngIf="plansel.pnt_id" class="p-2 mt-3 mb-3 shadow border">
             <div *ngIf="datosDocPlan.plan">
                 <div class="row">
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-3">
-                                <span class="text-muted">Numero:</span>
+                                <span class="font-weight-lighter">Numero:</span>
                             </div>
                             <div class="col-md">
-                                <span class="font-weight-bold">{{datosDocPlan.plan.pnt_id}}</span>
+                                <span class="font-weight-light">{{datosDocPlan.plan.pnt_id}}</span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-3">
-                                <span class="text-muted">Nombre:</span>
+                                <span class="font-weight-lighter">Nombre:</span>
                             </div>
                             <div class="col-md">
-                                <span class="font-weight-bold">{{datosDocPlan.plan.pnt_nombre}}</span>
+                                <span class="font-weight-light">{{datosDocPlan.plan.pnt_nombre}}</span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-3">
-                                <span class="text-muted">Medico:</span>
+                                <span class="font-weight-lighter">Medico:</span>
                             </div>
                             <div class="col-md">
-                                <span class="font-weight-bold">{{datosDocPlan.plan.medico}}</span>
+                                <span class="font-weight-light">{{datosDocPlan.plan.medico}}</span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-3">
-                                <span class="text-muted">Nro Comprobante:</span>
+                                <span class="font-weight-lighter">Nro Comprobante:</span>
                             </div>
                             <div class="col-md">
-                                <span class="font-weight-bold">{{datosDocPlan.doc.tasiento.trn_compro}}</span>
+                                <span class="font-weight-light">{{datosDocPlan.doc.tasiento.trn_compro}}</span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-3">
-                                <span class="text-muted">Fecha factura:</span>
+                                <span class="font-weight-lighter">Fecha factura:</span>
                             </div>
                             <div class="col-md">
-                                <span class="font-weight-bold">{{datosDocPlan.doc.tasiento.trn_fecha}}</span>
+                                <span class="font-weight-light">{{datosDocPlan.doc.tasiento.trn_fecha}}</span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-3">
-                                <span class="text-muted">Estado:</span>
+                                <span class="font-weight-lighter">Estado:</span>
                             </div>
                             <div class="col-md">
-                                <span class="font-weight-bold">{{plansel.estadodesc}}</span>
+                                <span class="font-weight-lightd">{{plansel.estadodesc}}</span>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div *ngIf="datosDocPlan.plan.pnt_obs">
                             <div>
-                                <span class="text-muted">Observacion:</span>
+                                <span class="font-weight-lighter">Observacion:</span>
                             </div>
                             <div>
-                                <span>{{datosDocPlan.plan.pnt_obs}}</span>
+                                <span class="font-weight-light">{{datosDocPlan.plan.pnt_obs}}</span>
                             </div>
                         </div>
                         <div class="mt-3">
@@ -147,7 +148,7 @@
                     </div>
                 </div>
                 <div class="table-responsive mt-1">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-sm">
                         <thead>
                         <tr>
                             <th scope="col" style="width: 5%">#</th>
@@ -208,36 +209,14 @@
                         </tbody>
                     </table>
                 </div>
-                <!--
-                <div class="row">
-                    <div class="col-md-4 offset-md-8">
-                        <div class="row">
-                            <div class="col-md"><span class="font-weight-bold">TOTAL $:</span></div>
-                            <div class="col-md">
-                                <span class="font-weight-bold">{{datosDocPlan.doc.tasiento.totalfact}}</span>
-                            </div>
-                        </div>
-                        <div class="row" *ngFor="let pago of datosDocPlan.doc.pagos">
-                            <div class="col-md">
-                                <span class="font-weight-bold">{{pago.ic_nombre}} $:</span>
-                            </div>
-                            <div class="col-md">
-                                <span class="font-weight-bold">
-                                    {{pago.dt_valor}}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                -->
             </div>
         </div>
     </div>
-    <div *ngIf="showForm" class="shadow-sm border p-3">
-        <p>Nuevo plan de tratamiento, ingrese la información que se solicita:</p>
+    <div *ngIf="showForm" class="shadow border mt-1 p-3">
+        <p class="font-weight-light">Nuevo plan de tratamiento, ingrese la información que se solicita:</p>
         <div class="mt-4">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="row">
                         <div class="col-md-4">
                             <span class="text-rojo">*</span> <span>Nro Plan:</span>
@@ -273,7 +252,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 d-flex flex-column justify-content-between">
+                <div class="col-md-4 d-flex flex-column justify-content-between">
                     <div class="d-flex flex-column">
                         <span>Observación:</span>
                         <textarea class="form-control" [(ngModel)]="formplan.pnt_obs" rows="3" autocomplete="off"
@@ -284,7 +263,7 @@
             </div>
 
             <div class="row mt-2">
-                <div class="col-md-4">
+                <div class="col-md-4 quitaPaddingMargin">
                     <div class="card">
                         <div class="card-header">
                             <span class="text-primary">Servicios</span>
@@ -295,60 +274,97 @@
                         <ul class="list-group list-group-flush scrol-list-dental">
                             <li class="noselect list-group-item hand list-group-item-action"
                                 *ngFor="let item of filteredServ" (dblclick)="selectServicio(item)">
-                                <span>{{item.ic_nombre}}</span><span
-                                    class="text-muted font-italic"> ${{item.icdp_precioventa}} </span>
+                                <div class="d-flex flex-row">
+                                    <div style="width: 90%;">
+                                        <span style="font-size: small">{{item.ic_nombre}}</span>
+                                        <span style="font-size: small"
+                                              class="text-muted font-italic"> ${{item.icdp_precioventa}} </span>
+                                    </div>
+                                    <div style="width: 10%;">
+                                        <button class="btn btn-sm btn-outline-primary" (click)="selectServicio(item)">
+                                            <i class="fa fa-arrow-right"> </i>
+                                        </button>
+                                    </div>
+                                </div>
+
                             </li>
                         </ul>
                     </div>
-
                 </div>
-                <div class="col-md">
-                    <!--
-                    <div>
-                        <div class="p-fluid">
-                            <p-autoComplete [(ngModel)]="form.servicio" [suggestions]="servsFiltered"
-                                            (completeMethod)="buscaServs($event)" field="ic_nombre" inputId="artsAutoCom"
-                                            placeholder="Digite el nombre o el codigo del procedimiento  que se realizará"
-                                            (onSelect)="onServSelect($event)">
-
-                            </p-autoComplete>
-                        </div>
-                    </div>
-                    -->
+                <div class="col-md quitaPaddingMargin">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-bordered table-sm">
                             <thead>
                             <tr>
-                                <th scope="col" style="width: 5%">#</th>
-                                <th scope="col" style="width: 40%">Servicio</th>
-                                <th scope="col" style="width: 10%">Cantidad</th>
-                                <th scope="col" style="width: 20%">P. Uni.</th>
-                                <th scope="col" style="width: 10%">Iva</th>
-                                <th scope="col" style="width: 10%">Total</th>
-                                <th scope="col" style="width: 5%">.</th>
+                                <th scope="col" style="width: 3%">
+                                    <span class="font-weight-normal">#</span>
+                                </th>
+                                <th scope="col" style="width: 33%">
+                            <span class="font-weight-normal">
+                                Servicio </span>
+                                </th>
+                                <th scope="col" style="width: 10%">
+                            <span class="font-weight-normal">
+                                Cant. </span></th>
+                                <th scope="col" style="width: 10%">
+                            <span class="font-weight-normal">
+                                P. Uni. </span></th>
+                                <th scope="col" style="width: 10%">
+                            <span class="font-weight-normal">
+                                Subt.</span></th>
+                                <th scope="col" style="width: 9%">
+                            <span class="font-weight-normal">
+                                Desc </span></th>
+                                <th scope="col" style="width: 10%">
+                            <span class="font-weight-normal">
+                                Iva </span></th>
+                                <th scope="col" style="width: 10%">
+                            <span class="font-weight-normal">
+                                Total </span></th>
+                                <th scope="col" style="width: 5%">
+                            <span class="font-weight-normal">
+                                .</span></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr *ngFor="let fila of detalles">
-                                <th scope="row" style="width: 5%">{{detalles.indexOf(fila) + 1}}</th>
-                                <td style="width: 50%">
-                                    {{fila.ic_nombre}}
+                                <th scope="row">
+                                    <span class="font-weight-normal fontsizesm">{{detalles.indexOf(fila) + 1}}</span>
+                                </th>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <span class="font-weight-lighter fontsizenr">{{fila.ic_code}}</span>
+                                        <span class="font-weight-light fontsizenr">{{fila.ic_nombre}}</span>
+                                    </div>
                                 </td>
-                                <td style="width: 10%">
+                                <td>
                                     <div class="p-fluid">
-                                        <p-inputNumber [(ngModel)]="fila.dt_cant" [min]="1" [max]="100"
+                                        <p-inputNumber [(ngModel)]="fila.dt_cant" [min]="1" [max]="1000"
                                                        [showButtons]="true"
                                                        (ngModelChange)="recalcTotalFila(fila)"></p-inputNumber>
                                     </div>
                                 </td>
-                                <td style="width: 10%">
-                                    <input type="text" class="form-control" (keyup)="recalcTotalFila(fila)"
-                                           [(ngModel)]="fila.dt_precio"></td>
-                                <td style="width: 10%"> {{fila.dai_impg > 0 ? 'Si' : 'No'}} </td>
-                                <td style="width: 10%">
-                                    ${{fila.dt_valor}}
+                                <td>
+                                    <input type="text" class="form-control form-control-sm"
+                                           (keyup)="onFilaPrecioChange(fila)"
+                                           [(ngModel)]="fila.dt_precioiva"></td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm" [(ngModel)]="fila.subtotal"
+                                           disabled>
                                 </td>
-                                <td style="width: 5%">
+                                <td>
+                                    <input type="text" class="form-control form-control-sm"
+                                           (keyup)="onFilaDescChange(fila)" [ngClass]="{'is-invalid':fila.dt_dectoerr}"
+                                           [(ngModel)]="fila.dt_dectoin"></td>
+                                <td>
+                                    <select class="form-control" [(ngModel)]="fila.icdp_grabaiva"
+                                            (ngModelChange)="onFilaIvaChange(fila)">
+                                        <option *ngFor="let iv of ivas" [ngValue]="iv.value">{{iv.label}}</option>
+                                    </select>
+                                <td>
+                                    ${{fila.total | number: '.2'}}
+                                </td>
+                                <td>
                                     <button class="btn btn-sm btn-outline-secondary" (click)="quitarItem(fila)"
                                             title="Quitar">
                                         <i class="fa fa-trash"></i></button>
@@ -358,36 +374,75 @@
                         </table>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-8 d-flex align-items-end">
-                            <p class="d-flex">
-                                <button class="btn btn-outline-primary" (click)="creaPlanTratamiento()">
-                                    <i class="fa fa-save"></i>
-                                    Guardar
-                                </button>
-                                <button class="ml-3 btn btn-outline-secondary" (click)="cancelarCreaPlan()"><i
-                                        class="fa fa-times"></i> Cancelar
-                                </button>
-                            </p>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="row">
-                                <div class="col-md"><span class="font-weight-bold">TOTAL $:</span></div>
-                                <div class="col-md">
-                                    <input type="text" class="form-control form-control-sm" disabled
-                                           [(ngModel)]="totales.total">
+                    <div class="border p-2 mt-2" *ngIf="detalles.length>0">
+                        <div class="row">
+                            <hr class="text-muted quitaPaddingMargin">
+                            <div class="col-md-1">
+
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-sm-7 quitaPaddingMargin"><span
+                                            class="font-weight-light">Subtotal $:</span>
+                                    </div>
+                                    <div class="col-sm-5 ">
+                                        <input type="text" class="form-control form-control-sm" disabled
+                                               [(ngModel)]="totales.subtotal">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-7 quitaPaddingMargin"><span
+                                            class="font-weight-light">(-)Descuento $:</span>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control form-control-sm" disabled
+                                               [(ngModel)]="totales.descuentos">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-7 quitaPaddingMargin"><span
+                                            class="font-weight-light">(+)Iva {{impuestos.iva * 100}}%
+                            de ${{totales.subtotal12}}:</span></div>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control form-control-sm" disabled
+                                               [(ngModel)]="totales.iva">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-7 quitaPaddingMargin"><span
+                                            class="font-weight-bold">Total $:</span>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control form-control-sm" disabled
+                                               [(ngModel)]="totales.total">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row" *ngFor="let pago of formaspago">
-                                <div class="col-md">
-                                    <span class="font-weight-bold">{{pago.ic_nombre}} $:</span>
+                            <div class="col-md-5">
+                                <div>
+                                    <span class="text-muted">PAGOS:</span>
                                 </div>
-                                <div class="col-md">
-                                    <input type="number" class="form-control form-control-sm"
-                                           [(ngModel)]="pago.dt_valor" (keyup)="calculaPagos(pago)">
+                                <div class="row" *ngFor="let pago of formaspago">
+                                    <div class="col-md">
+                                        <span class="font-weight-bold">{{pago.ic_nombre}} $:</span>
+                                    </div>
+                                    <div class="col-md">
+                                        <input type="number" class="form-control form-control-sm"
+                                               [(ngModel)]="pago.dt_valor" (keyup)="calculaPagos(pago)">
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="mt-2 d-flex">
+                        <button class="btn btn-outline-primary" (click)="creaPlanTratamiento()">
+                            <i class="fa fa-save"></i>
+                            Guardar
+                        </button>
+                        <button class="ml-3 btn btn-outline-secondary" (click)="cancelarCreaPlan()"><i
+                                class="fa fa-times"></i> Cancelar
+                        </button>
                     </div>
                 </div>
             </div>

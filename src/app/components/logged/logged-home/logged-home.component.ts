@@ -5,11 +5,9 @@ import {SeccionService} from '../../../services/seccion.service';
 import {SwalService} from '../../../services/swal.service';
 import {MenuItem} from 'primeng/api';
 
-
 @Component({
     selector: 'app-logged-home',
-    templateUrl: './logged-home.component.html',
-    styleUrls: ['./logged-home.component.css']
+    templateUrl: './logged-home.component.html'
 })
 export class LoggedHomeComponent implements OnInit {
 

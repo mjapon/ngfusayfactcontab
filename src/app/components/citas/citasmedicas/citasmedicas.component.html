@@ -39,7 +39,7 @@
 
     </div>
     <div *ngIf="!showBuscaPaciente" #mainDiv id="mainDiv">
-        <div class="row border-bottom mb-2">
+        <div class="row mb-2">
             <div class="col-9">
                 <h4 class="quitaPaddingMargin text-muted"><span class="fas fa-stethoscope">  </span> Ficha Clínica </h4>
             </div>
@@ -52,6 +52,7 @@
                 </div>
             </div>
         </div>
+        <hr class="quitaPaddingMargin">
         <div class="card border-primary" style="margin-bottom: 20px"
              *ngIf="form.paciente.per_id>0 && datosPacienteFull.per_id>0">
             <div class="card-body">

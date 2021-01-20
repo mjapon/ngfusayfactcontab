@@ -340,6 +340,7 @@ export class OdcalendarComponent implements OnInit {
             left: leftPx,
             top: topPx,
             width: `${anxhopx}px`,
+            'min-width': `${anxhopx}px`,
             height: `${altopx}px`,
             'background-color': pixel.px_color,
             border,

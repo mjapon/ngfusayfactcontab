@@ -1,5 +1,6 @@
 .calbody {
-    width: 1015px !important;
+    width: 1020px !important;
+    min-width: 1020px !important;
     /*height: 500px !important;*/
     height: 100%;
     overflow: auto;
@@ -22,6 +23,7 @@
 
 .celdadia {
     width: 135px !important;
+    min-width: 135px !important;
     height: 50px !important;
     font-size: 16px;
     font-weight: bold;
@@ -29,17 +31,20 @@
 
 .celdadiahora {
     width: 70px !important;
+    min-width: 70px !important;
     height: 50px !important;
 }
 
 .celdahora {
     width: 70px !important;
+    min-width: 70px !important;
     height: 18px !important;
     font-size: 12px;
 }
 
 .celda {
     width: 135px !important;
+    min-width: 135px !important;
     height: 18px !important;
 }
 

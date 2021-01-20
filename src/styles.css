@@ -37,11 +37,6 @@ form .form-group:first-child .floating-label-form-group {
     border-top: 1px solid #dee2e6;
 }
 
-footer {
-    margin-top: 20px;
-    padding-top: 20px;
-}
-
 .ui-table table {
     table-layout: auto !important;
 }
@@ -2812,4 +2807,16 @@ footer {
 
 .fondoblanco {
     background-color: white;
+}
+
+.fontsizenr {
+    font-size: 14px !important;
+}
+
+.fontsizesm {
+    font-size: 13px !important;
+}
+
+.fontsizexsm {
+    font-size: 11px !important;
 }

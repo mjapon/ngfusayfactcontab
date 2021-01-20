@@ -1,0 +1,163 @@
+<app-loading *ngIf="showAnim"></app-loading>
+
+<div *ngIf="!showAnim">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <span class="font-weight-light">Número:</span>
+                        </div>
+                        <div class="col-md">
+                            <span class="font-weight-normal">{{doc.tasiento.trn_compro}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <span class="font-weight-light">Fecha comprobante:</span>
+                        </div>
+                        <div class="col-md">
+                            <span class="font-weight-normal">{{doc.tasiento.trn_fecreg}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <span class="font-weight-light">Registrado el:</span>
+                        </div>
+                        <div class="col-md">
+                            <span class="font-weight-normal">{{doc.tasiento.trn_fecha}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <span class="font-weight-light">Referente:</span>
+                        </div>
+                        <div class="col-md">
+                            <span class="font-weight-normal">{{doc.tasiento.referente}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <span class="font-weight-light">Creado por:</span>
+                        </div>
+                        <div class="col-md">
+                            <span class="font-weight-normal">{{doc.tasiento.us_id}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <span class="font-weight-light">Observación:</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <p style="white-space: pre-line">{{doc.tasiento.trn_observ}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered">
+            <thead>
+            <tr>
+                <th scope="col" style="width: 5%">#</th>
+                <th scope="col">Producto/Servicio</th>
+                <th scope="col">Cant.</th>
+                <th scope="col">Precio U.</th>
+                <th scope="col">Iva</th>
+                <th scope="col">Descuento</th>
+                <th scope="col">Precio T.</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let fila of doc.detalles" class="hand">
+                <td style="width: 5%">
+                    <span class="text-muted">{{doc.detalles.indexOf(fila) + 1}}</span>
+                </td>
+                <td>
+                    <div class="d-flex flex-column">
+                        <span class="font-weight-lighter">{{fila.ic_code}}</span>
+                        <span class="font-weight-light">{{fila.ic_nombre}}</span>
+                    </div>
+                </td>
+                <td>
+                    {{fila.dt_cant}}
+                </td>
+                <td>
+                    {{fila.dt_precio}}
+                </td>
+                <td>
+                    {{fila.icdp_grabaiva}}
+                </td>
+                <td>
+                    {{fila.dt_decto}}
+                </td>
+                <td>
+                    {{fila.dt_valor}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card" style="margin-top: -16px">
+        <div class="card-body">
+            <div class="row">
+                <div class="offset-md-4 col-md-4">
+                    <div class="row">
+                        <div class="col-sm-7 quitaPaddingMargin"><span class="font-weight-light">Subtotal $:</span>
+                        </div>
+                        <div class="col-sm-5 ">
+                            <input type="text" class="form-control form-control-sm" disabled
+                                   [(ngModel)]="doc.totales.subtotal">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7 quitaPaddingMargin"><span class="font-weight-light">(-)Descuento $:</span>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control form-control-sm" disabled
+                                   [(ngModel)]="doc.totales.descuentos">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7 quitaPaddingMargin"><span
+                                class="font-weight-light">(+)Iva {{doc.tasiento.trn_impref * 100}}%
+                            de ${{doc.totales.subtotal12}}:</span></div>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control form-control-sm" disabled
+                                   [(ngModel)]="doc.totales.iva">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7 quitaPaddingMargin"><span class="font-weight-bold">Total $:</span></div>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control form-control-sm" disabled
+                                   [(ngModel)]="doc.totales.total">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div>
+                        <span class="text-muted">PAGOS:</span>
+                    </div>
+                    <div class="row" *ngFor="let pago of doc.pagos">
+                        <div class="col-md">
+                            <span class="font-weight-bold">{{pago.ic_nombre}} $:</span>
+                        </div>
+                        <div class="col-md">
+                            <input type="text" class="form-control form-control-sm" disabled
+                                   [(ngModel)]="pago.dt_valor">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

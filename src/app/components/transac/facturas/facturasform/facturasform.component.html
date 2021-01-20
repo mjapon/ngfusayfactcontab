@@ -1,0 +1,307 @@
+<div *ngIf="isLoading">
+    <app-loading></app-loading>
+</div>
+
+<div *ngIf="!isLoading">
+    <div class="mt-3">
+        <div class="border p-2 mb-2">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4 class="quitaPaddingMargin font-weight-bold">FACTURA DE VENTA</h4>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex flex-row">
+                        <span class="font-weight-bold">Nro: </span>
+                        <div class="ml-2 d-flex">
+                            <span> {{formfact.estabptoemi}}</span>
+                            <input type="text" class="form-control form-control-sm  ml-2"
+                                   [(ngModel)]="formfact.secuencia"
+                                   disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex flex-row">
+                        <span class="font-weight-bold">Fecha:</span>
+                        <p-calendar [(ngModel)]="formfact.trn_fecregobj"
+                                    [showIcon]="false"
+                                    class="ml-2 p-inputtext-sm"
+                                    [maxDate]="currentdate"
+                                    inputId="trn_fecregobj"
+                                    [monthNavigator]="true" [yearNavigator]="true"
+                                    yearRange="1900:2100"
+                                    dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="border p-2">
+            <div class="row">
+                <div class="col-md">
+                    <div class="d-flex flex-row p-field-checkbox">
+                        <p-checkbox id="consfinalinput" binary="true" name="consfinalinput" inputId="binary"
+                                    [(ngModel)]="isConsumidorFinal" (onChange)="onConsFinalChange()"></p-checkbox>
+                        <label for="binary"
+                               class="ml-1 mt-2 hand">Consumidor Final</label>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!isConsumidorFinal">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <span class="fontsizenr font-weight-light">CI/Ruc: </span>
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-sm"
+                                       [(ngModel)]="formpersona.per_ciruc"
+                                       (blur)="verificaRefRegistrado()" autocomplete="false" id="per_ciruc"
+                                       (keydown.enter)="buscarReferente()" [disabled]="formpersona.per_id>0"
+                                       tabindex="10">
+                                <div class="input-group-append">
+                                    <button class="btn btn-sm btn-outline-secondary" type="button"
+                                            (click)="buscarReferente()" [disabled]="isDisabledFormRef"
+                                            title="Presiona este botón para buscar el referente por número de cédula, ruc o pasaporte ">
+                                        <span class="fa fa-search"></span>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary"
+                                            title="Buscar otro referente" type="button" *ngIf="formpersona.per_id>0"
+                                            (click)="clearFormPersona()">
+                                        <span class="fa fa-times"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <span class="fontsizenr">Nombres: </span>
+                            <input type="text" class="form-control form-control-sm" id="perNombresInput"
+                                   tabindex="11"
+                                   [(ngModel)]="formpersona.per_nombres" [disabled]="isDisabledFormRef"
+                                   maxlength="70">
+                        </div>
+
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <span class="fontsizenr">Apellidos: </span>
+                            <input type="text" class="form-control form-control-sm" id="perApellidosInput"
+                                   tabindex="12"
+                                   [(ngModel)]="formpersona.per_apellidos" [disabled]="isDisabledFormRef"
+                                   maxlength="60">
+                        </div>
+                    </div>
+                    <!--</div>
+                    <div class="row">-->
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <span class="fontsizenr">Dirección: </span>
+                            <input type="text" class="form-control form-control-sm" id="perDireccionInput"
+                                   tabindex="13"
+                                   [(ngModel)]="formpersona.per_direccion" [disabled]="isDisabledFormRef"
+                                   maxlength="90">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <span class="fontsizenr">Teléfono: </span>
+                            <input type="text" class="form-control form-control-sm" id="perTelfInput" tabindex="14"
+                                   [(ngModel)]="formpersona.per_telf" [disabled]="isDisabledFormRef" maxlength="20">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <span class="fontsizenr">Email: </span>
+                            <input type="text" class="form-control form-control-sm" id="perEamilInput" tabindex="15"
+                                   [(ngModel)]="formpersona.per_email" [disabled]="isDisabledFormRef"
+                                   maxlength="40">
+                        </div>
+                    </div>
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+
+        <div class="border mt-2 p-2">
+            <div>
+                <div *ngIf="detalles.length===0">
+                    <h5 class="p-1 text-muted"> Agrege un producto o servicio</h5>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="p-fluid">
+                            <p-autoComplete [(ngModel)]="formdet.servicio" [suggestions]="artsFiltrados"
+                                            (completeMethod)="buscaServs($event)" field="ic_nombre"
+                                            (keyup.enter)="onEnterFiltroArts($event)"
+                                            inputId="artsAutoCom"
+                                            placeholder="Digite el nombre o el codigo del producto o servicio"
+                                            (onSelect)="onServSelect($event)">
+                            </p-autoComplete>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="table-responsive mt-2" *ngIf="detalles.length>0">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col" style="width: 3%">
+                            <span class="font-weight-normal">#</span>
+                        </th>
+                        <th scope="col" style="width: 33%">
+                            <span class="font-weight-normal">
+                                Servicio </span>
+                        </th>
+                        <th scope="col" style="width: 10%">
+                            <span class="font-weight-normal">
+                                Cantidad </span></th>
+                        <th scope="col" style="width: 10%">
+                            <span class="font-weight-normal">
+                                P. Uni. </span></th>
+                        <th scope="col" style="width: 10%">
+                            <span class="font-weight-normal">
+                                Subt.</span></th>
+                        <th scope="col" style="width: 9%">
+                            <span class="font-weight-normal">
+                                Desc </span></th>
+                        <th scope="col" style="width: 10%">
+                            <span class="font-weight-normal">
+                                Iva </span></th>
+                        <th scope="col" style="width: 10%">
+                            <span class="font-weight-normal">
+                                Total </span></th>
+                        <th scope="col" style="width: 5%">
+                            <span class="font-weight-normal">
+                                .</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let fila of detalles">
+                        <th scope="row">
+                            <span class="font-weight-normal fontsizesm">{{detalles.indexOf(fila) + 1}}</span>
+                        </th>
+                        <td>
+                            <div class="d-flex flex-column">
+                                <span class="font-weight-lighter fontsizenr">{{fila.ic_code}}</span>
+                                <span class="font-weight-light fontsizenr">{{fila.ic_nombre}}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-fluid">
+                                <p-inputNumber [(ngModel)]="fila.dt_cant" [min]="1" [max]="1000"
+                                               [showButtons]="true"
+                                               (ngModelChange)="recalcTotalFila(fila)"></p-inputNumber>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm"
+                                   (keyup)="onFilaPrecioChange(fila)"
+                                   [(ngModel)]="fila.dt_precioiva"></td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="fila.subtotal"
+                                   disabled>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm"
+                                   (keyup)="onFilaDescChange(fila)" [ngClass]="{'is-invalid':fila.dt_dectoerr}"
+                                   [(ngModel)]="fila.dt_dectoin"></td>
+                        <td>
+                            <select class="form-control" [(ngModel)]="fila.icdp_grabaiva"
+                                    (ngModelChange)="onFilaIvaChange(fila)">
+                                <option *ngFor="let iv of ivas" [ngValue]="iv.value">{{iv.label}}</option>
+                            </select>
+                        <td>
+                            ${{fila.total | number: '.2'}}
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-secondary" (click)="quitarItem(fila)"
+                                    title="Quitar">
+                                <i class="fa fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="border p-2 mt-2" *ngIf="detalles.length>0">
+            <div class="row">
+                <hr class="text-muted quitaPaddingMargin">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <span class="font-weight-lighter">Observación:</span>
+                        <textarea class="form-control" [(ngModel)]="formfact.trn_observ" rows="3"
+                                  autocomplete="off"
+                                  id="trn_observ"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-sm-7 quitaPaddingMargin"><span
+                                class="font-weight-light">Subtotal $:</span>
+                        </div>
+                        <div class="col-sm-5 ">
+                            <input type="text" class="form-control form-control-sm" disabled
+                                   [(ngModel)]="totales.subtotal">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7 quitaPaddingMargin"><span
+                                class="font-weight-light">(-)Descuento $:</span>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control form-control-sm" disabled
+                                   [(ngModel)]="totales.descuentos">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7 quitaPaddingMargin"><span
+                                class="font-weight-light">(+)Iva {{impuestos.iva * 100}}%
+                            de ${{totales.subtotal12}}:</span></div>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control form-control-sm" disabled
+                                   [(ngModel)]="totales.iva">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7 quitaPaddingMargin"><span class="font-weight-bold">Total $:</span>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control form-control-sm" disabled
+                                   [(ngModel)]="totales.total">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div>
+                        <span class="text-muted">PAGOS:</span>
+                    </div>
+                    <div class="row" *ngFor="let pago of formaspago">
+                        <div class="col-md">
+                            <span class="font-weight-bold">{{pago.ic_nombre}} $:</span>
+                        </div>
+                        <div class="col-md">
+                            <input type="number" class="form-control form-control-sm"
+                                   [(ngModel)]="pago.dt_valor" (keyup)="calculaPagos(pago)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-2 border mt-3">
+            <p class="d-flex justify-content-start">
+                <button class="btn btn-outline-secondary" (click)="cancelarCreaFactura()"><i
+                        class="fa fa-times"></i> Cancelar
+                </button>
+
+                <button class="ml-3 btn btn-outline-primary" (click)="crearFactura()" *ngIf="detalles.length>0">
+                    <i class="fa fa-save"></i>
+                    Guardar
+                </button>
+            </p>
+        </div>
+    </div>
+</div>

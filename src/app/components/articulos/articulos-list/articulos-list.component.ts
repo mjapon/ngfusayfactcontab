@@ -24,6 +24,7 @@ export class ArticulosListComponent implements OnInit {
     sections: Array<any>;
     selectedSection: any;
     previustimer: any = 0;
+    loadingArts: boolean;
 
     constructor(private artsService: ArticuloService,
                 private domService: DomService,
@@ -34,6 +35,7 @@ export class ArticulosListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.loadingArts = false;
         this.items = new Array<any>();
         this.cols = new Array<any>();
         this.filtro = '';
@@ -106,9 +108,11 @@ export class ArticulosListComponent implements OnInit {
     }
 
     listar() {
-        let sec_id = this.selectedSection.sec_id;
-        this.artsService.listar(this.filtro, sec_id)
+        const secId = this.selectedSection.sec_id;
+        this.loadingArts = true;
+        this.artsService.listar(this.filtro, secId)
             .subscribe(response => {
+                this.loadingArts = false;
                 if (response.status === 200) {
                     const grid = response.data;
                     this.items = grid.data;

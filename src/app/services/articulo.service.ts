@@ -17,7 +17,7 @@ export class ArticuloService extends BaseService {
     }
 
     getForm(): Observable<any> {
-        return this._doGet(this.getHOT({acion: 'formcrea'}));
+        return this._doGet(this.getHOT({accion: 'formcrea'}));
     }
 
     getByCod(artId: number): Observable<any> {
@@ -55,13 +55,13 @@ export class ArticuloService extends BaseService {
     actualizaBarcode(icId: number, newbarcode: string) {
         const endpoint = this.urlEndPoint + '/' + icId;
         const httpOptions = this.getHOT({accion: 'updatecode'});
-        return this.doPost(this.http, endpoint, httpOptions, {'new_ic_code': newbarcode});
+        return this.doPost(this.http, endpoint, httpOptions, {new_ic_code: newbarcode});
     }
 
     anularArticulo(artId: any): Observable<any> {
         const endpoint = this.urlEndPoint + '/' + artId;
-        const httpOptions = this.getHOT({'accion': 'del'});
-        return this.doPost(this.http, endpoint, httpOptions, {'dato': 'datoval'});
+        const httpOptions = this.getHOT({accion: 'del'});
+        return this.doPost(this.http, endpoint, httpOptions, {dato: 'datoval'});
     }
 
     listar(pfiltro: string, sec_id: number): Observable<any> {
@@ -69,7 +69,7 @@ export class ArticuloService extends BaseService {
         const httpOptions = this.getHOT({
             accion: 'listar',
             filtro: pfiltro,
-            sec_id: sec_id
+            sec_id
         });
         return this.http.get(endopoint, httpOptions).pipe(
             map((response: any) => {
@@ -81,6 +81,10 @@ export class ArticuloService extends BaseService {
 
     buscaServDentales(filtro: string) {
         return this._doGet(this.getHOT({accion: 'gservdent', filtro}));
+    }
+
+    busArtsForTransacc(secid: number, filtro: string) {
+        return this._doGet(this.getHOT({accion: 'gartsserv', filtro, sec: secid}));
     }
 
     buscaAllServDentalles() {
@@ -103,5 +107,9 @@ export class ArticuloService extends BaseService {
         const endopoint = this.urlEndPoint + '/' + form.ic_id;
         const httpOptions = this.getHOT({accion: 'guardarubro'});
         return this.doPost(this.http, endopoint, httpOptions, form);
+    }
+
+    getImpuestos() {
+        return this._doGet(this.getHOT({accion: 'gimpuestos'}));
     }
 }

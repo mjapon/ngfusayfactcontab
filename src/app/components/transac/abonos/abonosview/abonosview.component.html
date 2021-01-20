@@ -1,0 +1,191 @@
+<div>
+    <h5 class="mt-1 ml-1 font-weight-light"> Datos del crédito: </h5>
+    <div class="card">
+        <div class="card-body">
+            <div *ngIf="!isShowAnim && isFacturaLoaded">
+                <div class="row mt-1 mb-2">
+                    <div class="col-md-4">
+                        <span class="font-weight-light">Nro Factura:</span>
+                        <span class="ml-3 font-weight-normal">{{datosFactura.tasiento.trn_compro}}</span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="font-weight-light">Fecha registro:</span>
+                        <span class="ml-3 font-weight-normal">{{datosFactura.tasiento.trn_fecha}}</span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="font-weight-light">Referente:</span>
+                        <span class="ml-3 font-weight-normal">{{datosFactura.tasiento.referente}}</span>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <span class="font-weight-light">Total:</span>
+                        <span class="ml-3 font-weight-bold">${{datosFactura.totales.total}}</span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="font-weight-light">Efectivo:</span>
+                        <span class="ml-3 font-weight-bold">${{datosFactura.pagosobj.efectivo}}</span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="font-weight-light">Credito:</span>
+                        <span class="ml-3 font-weight-bold">${{datosFactura.pagosobj.credito}}</span>
+
+                        <button class="ml-5 btn btn-sm btn-outline-secondary" title="Ver detalles de la factura"
+                                (click)="showFactura()">Ver Factura
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-md">
+                        <div class="table-responsive " *ngIf="abonosList.length>0">
+                            <p class="font-weight-light quitaPaddingMargin">Abonos realizados ({{abonosList.length}}
+                                ):</p>
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th scope="col" style="width: 5%">
+                                        <span class="font-weight-light">#</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span class="font-weight-light">Fecha</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span class="font-weight-light">Monto</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span class="font-weight-light">
+                                            Observación
+                                        </span>
+                                    </th>
+                                    <th scope="col">
+
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- editado -->
+                                <tr *ngFor="let abo of abonosList" class="hand">
+                                    <td style="width: 5%">
+                                        {{abonosList.indexOf(abo) + 1}}
+                                    </td>
+                                    <td>
+                                        {{abo.trn_fecha}}
+                                    </td>
+                                    <td>
+                                        {{abo.dt_valor}}
+                                    </td>
+                                    <td>
+                                        <p style="white-space: pre-line">
+                                            {{abo.trn_observ}}
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-outline-secondary" (click)="anularAbono(abo)"
+                                                title="Anular abono"><i
+                                                class="fa fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="quitaPaddingMargin p-1">
+                                        <div class="d-flex flex-row-reverse">
+                                            <span class="font-weight-light"> TOTAL:</span>
+                                        </div>
+                                    </td>
+                                    <td class="quitaPaddingMargin p-1">
+                                        <span>${{totalabonos}}</span>
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5 d-flex">
+                        <div style="font-size: 20px">
+                            <span class="font-weight-bold"> Saldo Pendiente: </span>
+                            <span class="font-weight-bolder">${{datosCredito.cre_saldopen}} </span>
+                        </div>
+                        <div class="ml-3">
+                            <button class="btn btn-outline-primary"
+                                    *ngIf="datosCredito.cre_saldopen>0 && !isShowFormAbonar"
+                                    (click)="showFormAbonar()"> Abonar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <app-loading *ngIf="isShowAnim || !isFacturaLoaded"></app-loading>
+
+            <div class="mt-3" *ngIf="isShowFormAbonar">
+                <hr class="quitaPaddingMargin text-muted mb-4">
+                <div class="mb-2">
+                    <h7 class="font-weight-lighter">Registrar nuevo abono:</h7>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="row ">
+                            <div class="col-md-4">
+                                <span class="font-weight-normal">Fecha abono: </span>
+                            </div>
+                            <div class="col-md">
+                                <input type="text" class="form-control" [(ngModel)]="formAbono.formcab.trn_fecreg"
+                                       disabled>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-md-4">
+                                <span class="font-weight-normal">Saldo pendiente: </span>
+                            </div>
+                            <div class="col-md">
+                                <input type="text" class="form-control" [(ngModel)]="saldopendiente" disabled>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-md-4">
+                                <span class="font-weight-normal">Monto a abonar: </span>
+                            </div>
+                            <div class="col-md">
+                                <input type="text" class="form-control" [(ngModel)]="valorabono"
+                                       (keyup)="onValorAbonoChange($event)" id="montoaboinput">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div>
+                            <textarea placeholder="Observación" class="form-control"
+                                      [(ngModel)]="formAbono.formcab.trn_observ" rows="4"
+                                      autocomplete="off"
+                                      id="abo_trn_observ" maxlength="1000"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center m-2">
+                    <button class="btn btn-outline-primary" (click)="guardarAbono()"><i
+                            class="fa fa-save"></i> Guardar
+                    </button>
+                    <button class="ml-3 btn btn-outline-secondary" (click)="cancelarGuardaAbono()"><i
+                            class="fa fa-times"></i> Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
+          [(visible)]="isShowFactura">
+    <app-facturaview [trncod]="codFactura" (evFacturaLoaded)="onFacturaLoaded($event)"></app-facturaview>
+</p-dialog>
+

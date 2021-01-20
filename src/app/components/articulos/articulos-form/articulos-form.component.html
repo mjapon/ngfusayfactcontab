@@ -13,11 +13,14 @@
         </div>
     </div>
     <hr>
-    <div class="row">
+    <div *ngIf="isLoading">
+        <app-loading></app-loading>
+    </div>
+    <div class="row" *ngIf="!isLoading">
         <div class="col">
-            <p-tabView [activeIndex]="activeTabIndex">
+            <p-tabView [(activeIndex)]="activeTabIndex">
                 <p-tabPanel header="Detalles">
-                    <form [formGroup]="artForm" (ngSubmit)="procesaForm()">
+                    <div>
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="row">
@@ -25,8 +28,9 @@
                                         <div class="form-group">
                                             <label>Tipo:</label>
                                             <br>
-                                            <p-selectButton [options]="tiposArt" formControlName="tipic_id"
+                                            <p-selectButton [options]="tiposArt" [(ngModel)]="artForm.tipic_id.value"
                                                             optionLabel="label"
+                                                            [disabled]="artForm.tipic_id.disabled"
                                                             (onChange)="onTipoArtChange($event)"></p-selectButton>
                                         </div>
                                     </div>
@@ -34,7 +38,7 @@
                                         <div class="form-group">
                                             <label>Graba Iva:</label>
                                             <br>
-                                            <p-selectButton [options]="ivas" formControlName="icdp_grabaiva"
+                                            <p-selectButton [options]="ivas" [(ngModel)]="artForm.icdp_grabaiva.value"
                                                             (onChange)="onTipoIvaChange($event)"
                                                             optionLabel="label"></p-selectButton>
                                         </div>
@@ -46,10 +50,11 @@
                                         <span class="required">*</span>Código: <span *ngIf="!editing"
                                                                                      class="hand badge {{artCodAutomatic?'badge-primary':'badge-secondary'}} "
                                                                                      (click)="generarCodigoBarra()"
-                                                                                     title="Seleccione esta opción si desea que el sistema genere el código para el producto o servicio"> Automático </span>
+                                                                                     title="Seleccione esta opción si desea que el sistema genere el código para el producto o servicio">
+                                        <i class="fa fa-check" *ngIf="artCodAutomatic"></i>Automático </span>
                                         <span *ngIf="editing" (click)="showModalEditBarcode()" class="badge badge-info"
                                               title="Editar el código de barra"> <i
-                                                class="fa fa-pencil hand"> </i> </span>
+                                                class="fa fa-edit hand"> </i> </span>
                                     </label>
                                     <br>
                                     <input type="text" class="form-control" id="codbarraInput"
@@ -58,8 +63,9 @@
                                            autocomplete="off"
                                            (keydown.enter)="onEnterCodBarra($event)"
                                            placeholder="Ingrese el código del producto o servicio" name="ic_code"
-                                           formControlName="ic_code"
-                                           [ngClass]="{'is-invalid':submited && f.ic_code.errors}">
+                                           [(ngModel)]="artForm.ic_code.value"
+                                           [disabled]="artForm.ic_code.disabled"
+                                           [ngClass]="{'is-invalid':submited && fieldHasError('ic_code')}">
                                 </div>
 
                                 <div class="form-group">
@@ -73,17 +79,17 @@
                                            (keydown.enter)="onEnterNombre($event)"
                                            (keyup)="$event.target.value=$event.target.value.toUpperCase()"
                                            placeholder="Ingrese el nombre del producto o servicio" name="ic_nombre"
-                                           formControlName="ic_nombre"
-                                           [ngClass]="{'is-invalid':submited && f.ic_nombre.errors}">
+                                           [(ngModel)]="artForm.ic_nombre.value"
+                                           [ngClass]="{'is-invalid':submited && fieldHasError('ic_nombre')}">
                                 </div>
 
-                                <div class="row" *ngIf="f.tipic_id && f.tipic_id.value===1">
+                                <div class="row" *ngIf="artForm.tipic_id && artForm.tipic_id.value===1">
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="precioCompraInput">
                                                 <span class="required">*</span>
                                                 Precio Compra <span class="badge badge-light"
-                                                                    *ngIf="f.icdp_grabaiva && f.icdp_grabaiva.value">(Sin Iva)</span>:</label>
+                                                                    *ngIf="artForm.icdp_grabaiva && artForm.icdp_grabaiva.value">(Sin Iva)</span>:</label>
                                             <br>
                                             <input type="text"
                                                    maxlength="10"
@@ -94,14 +100,14 @@
                                                    placeholder="Precio de compra" name="icdp_preciocompra"
                                                    (keyup)="onKeyupPrecioCompra($event)"
                                                    (keydown.enter)="onEnterPrecioCompra($event)"
-                                                   formControlName="icdp_preciocompra"
-                                                   [ngClass]="{'is-invalid':(submited && f.icdp_preciocompra.errors)||f.icdp_preciocompra.errors?.pattern}">
-                                            <div *ngIf="f.icdp_preciocompra.errors?.pattern">
+                                                   [(ngModel)]="artForm.icdp_preciocompra.value"
+                                                   [ngClass]="{'is-invalid':(submited && fieldHasError('icdp_preciocompra')||evalPattern('icdp_preciocompra',numbersPattern))}">
+                                            <div *ngIf="evalPattern('icdp_preciocompra',numbersPattern)">
                                                 <small class="text-danger">Valor incorrecto</small>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col" *ngIf="f.icdp_grabaiva && f.icdp_grabaiva.value">
+                                    <div class="col" *ngIf="artForm.icdp_grabaiva && artForm.icdp_grabaiva.value">
                                         <div class="form-group">
                                             <label for="precioCompraInput">
                                                 <span class="required">*</span>
@@ -114,16 +120,16 @@
                                                    class="form-control" id="precioCompraIvaInput"
                                                    aria-describedby="emailHelp"
                                                    placeholder="Precio de compra con iva" name="icdp_preciocompra_iva"
-                                                   formControlName="icdp_preciocompra_iva">
+                                                   [disabled]="artForm.icdp_preciocompra_iva.disabled"
+                                                   [(ngModel)]="artForm.icdp_preciocompra_iva.value">
                                         </div>
                                     </div>
                                 </div>
 
-
                                 <div class="form-group">
                                     <label for="precioVentaInput">
                                         <span class="required">*</span>Precio Venta: <span
-                                            *ngIf="f.tipic_id && f.tipic_id.value===1"
+                                            *ngIf="artForm.tipic_id && artForm.tipic_id.value===1"
                                             (click)="toggleAsistentePrecios()"
                                             class="hand badge {{isShowAsistPre?'badge-primary':'badge-secondary'}}"
                                             title="Muestra el asitente para establecimiento de precios de un producto">Asistente de precios</span>
@@ -135,10 +141,10 @@
                                            class="form-control" id="precioVentaInput" aria-describedby="emailHelp"
                                            placeholder="Precio de venta" name="icdp_precioventa"
                                            (keydown.enter)="onEnterPrecioVenta($event)"
-                                           formControlName="icdp_precioventa"
+                                           [(ngModel)]="artForm.icdp_precioventa.value"
                                            [pattern]="numbersPattern"
-                                           [ngClass]="{'is-invalid':(submited && f.icdp_precioventa.errors)||(f.icdp_precioventa.errors?.pattern)}">
-                                    <div *ngIf="f.icdp_precioventa.errors?.pattern">
+                                           [ngClass]="{'is-invalid':(submited && fieldHasError('icdp_precioventa')||evalPattern('icdp_precioventa', numbersPattern))}">
+                                    <div *ngIf="evalPattern('icdp_precioventa', numbersPattern)">
                                         <small class="text-danger">Valor incorrecto</small>
                                     </div>
                                 </div>
@@ -161,15 +167,17 @@
                                             <td>
                                                 <input type="text" (keyup)="onKeyupPorcentajeIncr($event)"
                                                        autocomplete="false"
-                                                       formControlName="asist_pre_porc" id="porcIncAsistPre"
+                                                       [(ngModel)]="artForm.asist_pre_porc.value" id="porcIncAsistPre"
                                                        class="form-control form-control-sm">
                                             </td>
                                             <td>
-                                                <input type="text" formControlName="asist_pre_util"
+                                                <input type="text" [(ngModel)]="artForm.asist_pre_util.value"
+                                                       [disabled]="artForm.asist_pre_util.disabled"
                                                        class="form-control form-control-sm">
                                             </td>
                                             <td>
-                                                <input type="text" formControlName="asist_pre_prevsug"
+                                                <input type="text" [(ngModel)]="artForm.asist_pre_prevsug.value"
+                                                       [disabled]="artForm.asist_pre_prevsug.disabled"
                                                        class="form-control form-control-sm">
                                             </td>
                                         </tr>
@@ -182,7 +190,7 @@
                                     <label for="ic_nota">Observación:</label>
                                     <br>
                                     <textarea pInputTextarea maxlength="1000" class="form-control"
-                                              formControlName="ic_nota"
+                                              [(ngModel)]="artForm.ic_nota.value"
                                               name="ic_nota" id="ic_nota"
                                               rows="5"></textarea>
                                     <br>
@@ -196,29 +204,26 @@
                                               (click)="showModalCreaCateg()"> <i class="fa fa-plus-circle"></i> </span>
                                     </label>
                                     <br>
-                                    <p-dropdown [options]="categorias" id="catic_id" formControlName="catic_id"
+                                    <p-dropdown [options]="categorias" id="catic_id"
+                                                [(ngModel)]="artForm.catic_id.value"
                                                 filter="true"
                                                 optionLabel="catic_nombre"
                                                 inputId="catic_id"></p-dropdown>
                                 </div>
 
-                                <div class="form-group" *ngIf="f.tipic_id && f.tipic_id.value===1">
-                                    <label for="icdp_proveedor">Proveedor:
-                                        <!--
-                                        <span class="btn btn-sm btn-outline-secondary hand" title="Agregar proveedor"> <i class="fa fa-plus-circle"></i> </span>
-                                        -->
-                                    </label>
+                                <div class="form-group" *ngIf="artForm.tipic_id && artForm.tipic_id.value===1">
+                                    <label for="icdp_proveedor">Proveedor:</label>
                                     <br>
                                     <p-dropdown [options]="proveedores" id="icdp_proveedor"
-                                                formControlName="icdp_proveedor"
+                                                [(ngModel)]="artForm.icdp_proveedor.value"
                                                 optionLabel="per_nombres" filter="true"
-                                                inputId="icdp_proveedor"></p-dropdown>
+                                                optionValue="per_id" inputId="icdp_proveedor"></p-dropdown>
                                 </div>
 
-                                <div class="form-group" *ngIf="f.tipic_id && f.tipic_id.value===1">
+                                <div class="form-group" *ngIf="artForm.tipic_id && artForm.tipic_id.value===1">
                                     <label for="icdp_fechacaducidad">Fecha de caducidad:</label>
                                     <br>
-                                    <p-calendar formControlName="icdp_fechacaducidad" id="icdp_fechacaducidad"
+                                    <p-calendar [(ngModel)]="artForm.icdp_fechacaducidad.value" id="icdp_fechacaducidad"
                                                 [showIcon]="true"
                                                 inputId="icdp_fechacaducidad"
                                                 [monthNavigator]="true" [yearNavigator]="true" [minDate]="minimumDate"
@@ -227,48 +232,42 @@
                                     <br>
                                 </div>
 
-                                <!--TODO: Agregar solo para cierto tipo de rol o configuracion de empresa -->
-                                <div class="form-check">
+                                <div class="form-check" *ngIf="!editing && aplicaDental">
                                     <input type="checkbox" class="form-check-input" id="dentalcheckinput"
-                                           formControlName="ic_dental">
+                                           [(ngModel)]="artForm.ic_dental.value">
                                     <label for="dentalcheckinput" class="form-check-label">
                                         Dental
                                     </label>
                                 </div>
 
-                                <br>
-                                <button type="button" class="btn btn-outline-success  btn-block"
-                                        (click)="procesaForm()">
-                                    <i class="fa fa-save"></i>
-                                    Guardar
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary  btn-block" (click)="cancelar()">
-                                    <i class="fa fa-times"></i>
-                                    Cancelar
-                                </button>
+                                <div class="font-weight-light mt-2"
+                                     title="Elija las secciones en las que va ha estar disponible este producto o servicio">
+                                    Secciones:
+                                </div>
+                                <div>
+                                    <div *ngFor="let itsec of artForm.seccionesf.value" class="d-flex flex-row">
+                                        <p-checkbox [inputId]="itsec.seccion.sec_id" binary="true"
+                                                    [(ngModel)]="itsec.value"></p-checkbox>
+                                        <label [for]="itsec.seccion.sec_id"
+                                               class="ml-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
+                                    </div>
+                                </div>
 
-                                <!--
-                                 <br>
-                                 <div class="row">
-                                   <div class="col">
-                                     <div class="text-center">
-                                       <button type="submit" value="Guardar" class="btn btn-success" (click)="procesaForm()">
-                                         <i class="pi pi-check"></i>
-                                         Guardar
-                                       </button>
-                                       <br>
-                                       <button type="button" value="Cancelar" class="btn btn-secondary" (click)="cancelar()">
-                                         <i class="pi pi-times"></i>
-                                         Cancelar
-                                       </button>
-                                     </div>
-                                   </div>
-                                 </div>
-                                 -->
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-outline-success  btn-block"
+                                            (click)="procesaForm()">
+                                        <i class="fa fa-save"></i>
+                                        Guardar
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary  btn-block"
+                                            (click)="cancelar()">
+                                        <i class="fa fa-times"></i>
+                                        Cancelar
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </form>
-
+                    </div>
 
                 </p-tabPanel>
                 <p-tabPanel header="Stock" *ngIf="editing && artFromDb.tipic_id===1">

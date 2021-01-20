@@ -21,7 +21,10 @@
         </div>
     </div>
     <hr>
-    <div class="row">
+    <div *ngIf="isLoading">
+        <app-loading></app-loading>
+    </div>
+    <div class="row" *ngIf="!isLoading">
         <div class="col">
             <div class="card border-success">
                 <div class="card-body">
@@ -84,7 +87,7 @@
                                             {{artFromDb.catic_nombre}}
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" *ngIf="artFromDb.tipic_id===1">
                                         <div class="col-3">
                                             <span class="font-weight-lighter">Proveedor:</span>
                                         </div>
@@ -145,12 +148,12 @@
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item" *ngFor="let item of stock">
+                                        <li class="list-group-item quitaPaddingMargin" *ngFor="let item of stock">
                                             <div class="row">
-                                                <div class="col">
+                                                <div class="col-md-4">
                                                     {{item.sec_nombre}}
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-md">
                                                     <span> {{item.ice_stock}}  </span>
                                                 </div>
                                             </div>

@@ -6,8 +6,7 @@ import {UsertokenService} from '../../../services/usertoken.service';
 
 @Component({
     selector: 'app-userlist',
-    templateUrl: './userlist.component.html',
-    styleUrls: ['./userlist.component.css']
+    templateUrl: './userlist.component.html'
 })
 export class UserlistComponent implements OnInit {
 

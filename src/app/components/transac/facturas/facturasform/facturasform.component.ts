@@ -1,25 +1,26 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AsientoService} from '../../../../services/asiento.service';
-import {LoadingUiService} from '../../../../services/loading-ui.service';
-import {PersonaService} from '../../../../services/persona.service';
-import {ArticuloService} from '../../../../services/articulo.service';
-import {ArrayutilService} from '../../../../services/arrayutil.service';
-import {DomService} from '../../../../services/dom.service';
 import {NumberService} from '../../../../services/number.service';
+import {DomService} from '../../../../services/dom.service';
 import {SwalService} from '../../../../services/swal.service';
+import {ArticuloService} from '../../../../services/articulo.service';
+import {LoadingUiService} from '../../../../services/loading-ui.service';
+import {ArrayutilService} from '../../../../services/arrayutil.service';
 import {FechasService} from '../../../../services/fechas.service';
-import {CreditoService} from '../../../../services/credito.service';
-import {registerLocaleData} from '@angular/common';
+import {Router} from '@angular/router';
+import {SeccionService} from '../../../../services/seccion.service';
+import {PersonaService} from '../../../../services/persona.service';
+import {forkJoin} from 'rxjs';
 import es from '@angular/common/locales/es';
+import {registerLocaleData} from '@angular/common';
 
 @Component({
-    selector: 'app-factpagos',
-    templateUrl: './factpagos.component.html'
+    selector: 'app-facturasform',
+    templateUrl: './facturasform.component.html'
 })
-export class FactpagosComponent implements OnInit, OnChanges {
-    facturasList: Array<any>;
-    creditosList: Array<any>;
-    isShowFormCreaFact: boolean;
+export class FacturasformComponent implements OnInit {
+    isLoading: boolean;
+
     ttransacc: any;
     formaspago: Array<any>;
     formdet: any;
@@ -31,119 +32,40 @@ export class FactpagosComponent implements OnInit, OnChanges {
     formfact: any;
     formpersona: any;
     totales: any;
-
-    @Input()
-    codpaciente: number;
     currentdate: any;
-    isShowDetallesFactura: boolean;
-    isShowDetallesCredito: boolean;
-    codFacturaSel: number;
-    credsel: any;
+    seccionSel: number;
+    secciones: Array<any>;
+    isConsumidorFinal: boolean;
+    isDisabledFormRef: boolean;
+    codConsFinal = -1;
 
-    loadingFacturas: boolean;
-    loadingCreditos: boolean;
-    totalescred: any;
-
-    constructor(private asientoServ: AsientoService,
-                private personaService: PersonaService,
-                private domService: DomService,
-                private artService: ArticuloService,
+    constructor(private asientoService: AsientoService,
                 private numberService: NumberService,
+                private domService: DomService,
+                private seccionService: SeccionService,
+                private artService: ArticuloService,
+                private loadingUiService: LoadingUiService,
+                private arrayService: ArrayutilService,
                 private fechasService: FechasService,
                 private swalService: SwalService,
-                private creditoService: CreditoService,
-                private arrayService: ArrayutilService,
-                private loadingUiServ: LoadingUiService) {
+                private router: Router,
+                private personaServ: PersonaService) {
     }
 
     ngOnInit(): void {
-        this.facturasList = [];
-        this.creditosList = [];
-        this.detalles = [];
-        this.isShowFormCreaFact = false;
+        this.isLoading = true;
         this.formpersona = {};
         this.initformfact();
-        this.ivas = this.numberService.getIvasArray();
+        this.initTotales();
         this.currentdate = new Date();
-        this.isShowDetallesFactura = false;
-        this.codFacturaSel = null;
-        this.loadingFacturas = true;
-        this.loadingCreditos = true;
-        this.totalescred = {};
+        this.seccionSel = 1;
+        this.ivas = this.numberService.getIvasArray();
+        this.showFormCreaFact();
+        this.isConsumidorFinal = false;
+        this.isDisabledFormRef = false;
         registerLocaleData(es);
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        const chng = changes.codpaciente;
-        if (chng.currentValue) {
-            this.loadFacturasCreditos();
-            this.loadDatosPersona();
-        }
-    }
-
-    loadDatosPersona() {
-        this.personaService.buscarPorCodfull(this.codpaciente).subscribe(resper => {
-            if (resper.status === 200) {
-                this.formpersona = resper.persona;
-            }
-        });
-    }
-
-    loadFacturas() {
-        this.loadingFacturas = true;
-        this.asientoServ.listarFacturas(this.codpaciente).subscribe(res => {
-            this.loadingFacturas = false;
-            if (res.status === 200) {
-                this.facturasList = res.docs;
-            }
-        });
-    }
-
-    loadCreaditos() {
-        const tracod = 1;
-        this.loadingCreditos = true;
-        this.creditoService.listarCreditos(tracod, this.codpaciente).subscribe(resc => {
-            this.loadingCreditos = false;
-            if (resc.status === 200) {
-                this.creditosList = resc.creds;
-                this.totalescred = resc.totales;
-            }
-        });
-    }
-
-    loadFacturasCreditos() {
-        this.loadFacturas();
-        this.loadCreaditos();
-    }
-
-    initformfact() {
-        this.formfact = {};
-        this.ttransacc = {};
-        this.formaspago = [];
-        this.formdet = {};
-        this.totales = {};
-        this.detalles = [];
-    }
-
-    showFormCreaFact() {
-        const traCodigo = 1;
-        const tdvCodigo = 1;
-        this.initformfact();
-        this.loadingUiServ.publishBlockMessage();
-        this.asientoServ.getFormCab(traCodigo, tdvCodigo).subscribe(res => {
-            if (res.status === 200) {
-                this.formfact = res.formcab;
-                this.formfact.trn_fecregobj = this.fechasService.parseString(this.formfact.trn_fecreg);
-                this.ttransacc = res.ttransacc;
-                this.formaspago = res.formaspago;
-                this.formdet = res.formdet;
-                this.impuestos = res.impuestos;
-                this.numberService.setIva(this.impuestos.iva);
-            }
-            this.isShowFormCreaFact = true;
-            this.domService.setFocusTimeout('artsAutoCom', 100);
-        });
-    }
 
     initTotales() {
         this.totales = {
@@ -153,6 +75,16 @@ export class FactpagosComponent implements OnInit, OnChanges {
             iva: 0.0,
             total: 0.0
         };
+    }
+
+    initformfact() {
+        this.formfact = {};
+        this.ttransacc = {};
+        this.formaspago = [];
+        this.formdet = {};
+        this.totales = {};
+        this.detalles = [];
+        this.formpersona = {};
     }
 
     totalizar() {
@@ -166,15 +98,6 @@ export class FactpagosComponent implements OnInit, OnChanges {
         }
     }
 
-    showDetallesFactura(fila: any) {
-        this.isShowDetallesFactura = true;
-        this.codFacturaSel = fila.trn_codigo;
-    }
-
-    showDetallesCredito(fila: any) {
-        this.credsel = fila;
-        this.isShowDetallesCredito = true;
-    }
 
     getNewEmptyRow(art) {
         const formDetalles = this.domService.clonarObjeto(this.formdet);
@@ -188,8 +111,9 @@ export class FactpagosComponent implements OnInit, OnChanges {
         formDetalles.art_codigo = art.ic_id;
         formDetalles.ic_nombre = art.ic_nombre;
         formDetalles.dt_precio = art.icdp_precioventa;
+        formDetalles.ic_code = art.ic_code;
         formDetalles.dt_precioiva = precio;
-        formDetalles.per_codigo = this.codpaciente;
+        formDetalles.per_codigo = 0;
         formDetalles.dt_cant = 1;
         formDetalles.dt_decto = 0.0;
         formDetalles.dai_impg = art.icdp_grabaiva ? this.numberService.getIva() : 0.0;
@@ -207,7 +131,7 @@ export class FactpagosComponent implements OnInit, OnChanges {
     }
 
     buscaServs(event) {
-        this.artService.buscaServDentales(event.query).subscribe(res => {
+        this.artService.busArtsForTransacc(this.seccionSel, event.query).subscribe(res => {
             if (res.status === 200) {
                 this.artsFiltrados = res.items;
             }
@@ -257,22 +181,16 @@ export class FactpagosComponent implements OnInit, OnChanges {
             const msg = '¿Seguro que desea crear la factura?';
             this.swalService.fireDialog(msg).then(confirm => {
                 if (confirm.value) {
-                    this.loadingUiServ.publishBlockMessage();
-                    this.asientoServ.crearDocumento(form).subscribe(res => {
+                    this.loadingUiService.publishBlockMessage();
+                    this.asientoService.crearDocumento(form).subscribe(res => {
                         if (res.status === 200) {
                             this.swalService.fireToastSuccess(res.msg);
-                            this.isShowFormCreaFact = false;
-                            this.loadFacturas();
-                            this.loadCreaditos();
+                            this.gotolist();
                         }
                     });
                 }
             });
         }
-    }
-
-    cancelarCreaFactura() {
-        this.isShowFormCreaFact = false;
     }
 
     calculaPagos(filapago) {
@@ -314,12 +232,119 @@ export class FactpagosComponent implements OnInit, OnChanges {
             dtPrecio = this.numberService.quitarIva(dtPrecio);
         }
         fila.dt_precio = dtPrecio;
+
+        if (fila.dt_decto > fila.dt_precio) {
+            fila.dt_decto = 0.0;
+            fila.dt_dectoin = 0.0;
+        }
+
         this.recalcTotalFila(fila);
     }
 
-    hideDetCredito() {
-        this.isShowDetallesCredito = false;
-        this.loadCreaditos();
+    gotolist() {
+        this.router.navigate(['trndocs']);
+    }
+
+    cancelarCreaFactura() {
+        this.gotolist();
+    }
+
+    loadFormReferente() {
+        this.formpersona = {};
+        this.isDisabledFormRef = false;
+        this.isConsumidorFinal = false;
+        this.personaServ.getForm().subscribe(res => {
+            if (res.status === 200) {
+                this.formpersona = res.form;
+                this.domService.setFocusTimeout('per_ciruc', 100);
+            }
+        });
+    }
+
+    showFormCreaFact() {
+        this.isLoading = true;
+        const traCodigo = 1;
+        const tdvCodigo = 1;
+        this.initformfact();
+
+        this.loadingUiService.publishBlockMessage();
+        const formCabObs = this.asientoService.getFormCab(traCodigo, tdvCodigo);
+        const secObs = this.seccionService.listar();
+        const perFormObs = this.personaServ.buscarPorCod(this.codConsFinal);
+
+        forkJoin([formCabObs, secObs, perFormObs]).subscribe(res => {
+            const res0: any = res[0];
+            const res1: any = res[1];
+            const res2: any = res[2];
+
+            if (res0.status === 200) {
+                this.formfact = res0.formcab;
+                this.formfact.trn_fecregobj = this.fechasService.parseString(this.formfact.trn_fecreg);
+                this.ttransacc = res0.ttransacc;
+                this.formaspago = res0.formaspago;
+                this.formdet = res0.formdet;
+                this.impuestos = res0.impuestos;
+                this.numberService.setIva(this.impuestos.iva);
+                this.seccionSel = res0.secid;
+            }
+
+            if (res1.status === 200) {
+                this.secciones = res1.items;
+            }
+
+            if (res2.status === 200) {
+                this.formpersona = res2.persona;
+                this.isConsumidorFinal = true;
+                this.isDisabledFormRef = true;
+            }
+
+            this.isLoading = false;
+            this.domService.setFocusTimeout('artsAutoCom', 100);
+        });
+    }
+
+    verificaRefRegistrado() {
+        if (this.formpersona.per_id === 0) {
+            this.buscarReferente();
+        }
+    }
+
+    loadConsumidorFinal() {
+        this.personaServ.buscarPorCod(this.codConsFinal).subscribe(res => {
+            if (res.status === 200) {
+                this.formpersona = res.persona;
+                this.isDisabledFormRef = true;
+                this.isConsumidorFinal = true;
+            }
+        });
+    }
+
+    buscarReferente() {
+        const per_ciruc = this.formpersona.per_ciruc;
+        this.loadingUiService.publishBlockMessage();
+        this.personaServ.buscarPorCi(per_ciruc).subscribe(res => {
+                if (res.status === 200) {
+                    this.formpersona = res.persona;
+                    this.domService.setFocusTimeout('artsAutoCom', 100);
+                    this.swalService.fireToastSuccess('El referente ya está registrado');
+                } else {
+                    this.domService.setFocusTimeout('perNombresInput', 200);
+                }
+            }
+        );
+    }
+
+    onConsFinalChange() {
+        if (!this.isConsumidorFinal) {
+            this.loadFormReferente();
+        } else {
+            this.loadConsumidorFinal();
+            this.domService.setFocusTimeout('artsAutoCom', 100);
+        }
+    }
+
+    clearFormPersona() {
+        this.loadFormReferente();
     }
 
     onFilaDescChange(fila: any) {
@@ -334,4 +359,9 @@ export class FactpagosComponent implements OnInit, OnChanges {
         fila.dt_decto = dtDecto;
         this.recalcTotalFila(fila);
     }
+
+    onEnterFiltroArts($event) {
+
+    }
+
 }

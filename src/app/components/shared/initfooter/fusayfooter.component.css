@@ -1,16 +1,4 @@
-/*
-.social-icons li a i {
-    width: 46px;
-    height: 46px;
-    line-height: 46px;
-    text-align: center;
-    display: block;
-    border-radius: 50%;
-    font-size: 12px;
-}
-*/
 .social-icons li a i:hover {
-    /*background-color: white;*/
     color: #00AEEF;
 }
 

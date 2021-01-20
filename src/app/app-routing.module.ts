@@ -24,6 +24,8 @@ import {TrubrosComponent} from './components/tickets/vtickets/trubros/trubros.co
 import {TrubrosformComponent} from './components/tickets/vtickets/trubrosform/trubrosform.component';
 import {CitasodontoComponent} from './components/citas/citasodonto/citasodonto.component';
 import {OdcalendarComponent} from './components/citas/odcalendar/odcalendar.component';
+import {FacturaslistComponent} from './components/transac/facturas/facturaslist/facturaslist.component';
+import {FacturasformComponent} from './components/transac/facturas/facturasform/facturasform.component';
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -48,6 +50,8 @@ const routes: Routes = [
     {path: 'rubros', component: TrubrosComponent},
     {path: 'rubros/form/:ic_id', component: TrubrosformComponent},
     {path: 'calendario/:tipo', component: OdcalendarComponent},
+    {path: 'trndocs', component: FacturaslistComponent},
+    {path: 'trndocform', component: FacturasformComponent},
     {path: '**', component: HomeComponent}
 ];
 

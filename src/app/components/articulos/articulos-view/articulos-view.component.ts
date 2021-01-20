@@ -6,14 +6,14 @@ import {ArticulostockService} from '../../../services/articulostock.service';
 
 @Component({
     selector: 'app-articulos-view',
-    templateUrl: './articulos-view.component.html',
-    styleUrls: ['./articulos-view.component.css']
+    templateUrl: './articulos-view.component.html'
 })
 export class ArticulosViewComponent implements OnInit {
 
     artId: number;
     artFromDb: any;
     stock: Array<any> = [];
+    isLoading: boolean;
 
     constructor(private artService: ArticuloService,
                 private router: Router,
@@ -23,6 +23,7 @@ export class ArticulosViewComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.isLoading = true;
         this.artFromDb = {};
         this.route.paramMap.subscribe(params => {
             this.artId = parseInt(params.get('art_id'), 10);
@@ -30,6 +31,7 @@ export class ArticulosViewComponent implements OnInit {
                 if (res.status === 200) {
                     this.artFromDb = res.datosprod;
                 }
+                this.isLoading = false;
             });
             this.artStockService.getForm(this.artId).subscribe(resStock => {
                 if (resStock.status === 200) {

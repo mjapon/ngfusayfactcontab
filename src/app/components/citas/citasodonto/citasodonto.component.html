@@ -90,7 +90,7 @@
     </div>
 
     <div *ngIf="selectedMasterTab===3">
-        <app-factpagos></app-factpagos>
+        <app-factpagos [codpaciente]="pacienteSelected.per_id"></app-factpagos>
     </div>
 
     <div *ngIf="selectedMasterTab===4">

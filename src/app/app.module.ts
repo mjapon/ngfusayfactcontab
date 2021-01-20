@@ -1,3 +1,4 @@
+import {CommonModule, DatePipe, registerLocaleData} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {LOCALE_ID, NgModule} from '@angular/core';
 
@@ -31,7 +32,6 @@ import {ArticulosFormComponent} from './components/articulos/articulos-form/arti
 import {AuditInterceptorService} from './services/rates/audit-interceptor.service';
 import {FusaynavbarComponent} from './components/shared/initnavbar/fusaynavbar.component';
 import {FusayfooterComponent} from './components/shared/initfooter/fusayfooter.component';
-import {DatePipe, registerLocaleData} from '@angular/common';
 import {LoggednavbarComponent} from './components/shared/loggednavbar/loggednavbar.component';
 import {LoggedHomeComponent} from './components/logged/logged-home/logged-home.component';
 
@@ -94,6 +94,13 @@ import {RxdocsComponent} from './components/citas/rxdocs.component';
 import {PlantratamientoComponent} from './components/citas/citasodonto/plantratamiento/plantratamiento.component';
 import {FactpagosComponent} from './components/citas/citasodonto/factpagos/factpagos.component';
 import {InputNumberModule} from 'primeng/inputnumber';
+import {FacturaviewComponent} from './components/transac/facturas/facturasview/facturaview.component';
+import {AbonosviewComponent} from './components/transac/abonos/abonosview/abonosview.component';
+import {LoadingComponent} from './components/home/loading.component';
+import {FacturaslistComponent} from './components/transac/facturas/facturaslist/facturaslist.component';
+import {FacturasformComponent} from './components/transac/facturas/facturasform/facturasform.component';
+import {SidebarmenuComponent} from './components/shared/sidebarmenu/sidebarmenu.component';
+
 
 registerLocaleData(localeEs, 'es-EC');
 
@@ -152,9 +159,16 @@ export function HttpLoaderFactory(http: HttpClient) {
         RecetasComponent,
         RxdocsComponent,
         PlantratamientoComponent,
-        FactpagosComponent
+        FactpagosComponent,
+        FacturaviewComponent,
+        AbonosviewComponent,
+        LoadingComponent,
+        FacturaslistComponent,
+        FacturasformComponent,
+        SidebarmenuComponent
     ],
     imports: [
+        CommonModule,
         BrowserModule,
         FlexLayoutModule,
         BrowserAnimationsModule,

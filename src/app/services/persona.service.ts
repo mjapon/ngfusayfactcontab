@@ -30,6 +30,10 @@ export class PersonaService extends BaseService {
         return this._doGet(httpOptions);
     }
 
+    buscarPorCod(perid: number) {
+        return this._doGet(this.getHOT({accion: 'buscaporid', perid}));
+    }
+
     buscarPorCodfull(perid: number): Observable<any> {
         const httpOptions = this.getHOT({accion: 'buscaporidfull', perid});
         return this._doGet(httpOptions);

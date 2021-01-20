@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ArticuloService} from '../../../services/articulo.service';
 import {CategoriasService} from '../../../services/categorias.service';
 import {TipoCajaService} from '../../../services/tipocaja.service';
@@ -14,16 +13,17 @@ import {FechasService} from '../../../services/fechas.service';
 import {parse} from 'date-fns';
 import {LocalStorageService} from '../../../services/local-storage.service';
 import {ArticulostockService} from '../../../services/articulostock.service';
+import {forkJoin} from 'rxjs';
+import {LoadingUiService} from '../../../services/loading-ui.service';
 
 declare var $: any;
 
 @Component({
     selector: 'app-articulos-form',
-    templateUrl: './articulos-form.component.html',
-    styleUrls: ['./articulos-form.component.css']
+    templateUrl: './articulos-form.component.html'
 })
 export class ArticulosFormComponent implements OnInit {
-    artForm: FormGroup;
+    artForm: any;
     submited: boolean;
 
     categorias: Array<any> = [];
@@ -47,9 +47,12 @@ export class ArticulosFormComponent implements OnInit {
     nombreNuevaCatg: string;
     activeTabIndex: number;
     nuevoBarcode: string;
+    aplicaDental: boolean;
+    secciones: Array<any>;
+    impuestos: any;
+    isLoading: boolean;
 
     constructor(
-        private fb: FormBuilder,
         private artService: ArticuloService,
         private artStockService: ArticulostockService,
         private catsService: CategoriasService,
@@ -58,6 +61,7 @@ export class ArticulosFormComponent implements OnInit {
         private swalService: SwalService,
         private arrayUtil: ArrayutilService,
         private localStrgServ: LocalStorageService,
+        private loadingService: LoadingUiService,
         private router: Router,
         private route: ActivatedRoute,
         private fechasService: FechasService,
@@ -77,10 +81,8 @@ export class ArticulosFormComponent implements OnInit {
         this.isShowAsistPre = false;
         this.activeTabIndex = 0;
         this.nuevoBarcode = '';
-    }
-
-    get f() {
-        return this.artForm.controls;
+        this.aplicaDental = false;
+        this.isLoading = true;
     }
 
     ngOnInit() {
@@ -94,7 +96,6 @@ export class ArticulosFormComponent implements OnInit {
             this.buildDefForm();
             this.artId = parseInt(params.get('art_id'), 10);
             this.editing = this.artId > 0;
-            this.domService.setFocusTimeout('codbarraInput', 100);
             this.loadArrays();
             if (this.localStrgServ.getItem('insertStock')) {
                 setTimeout(() => {
@@ -117,6 +118,19 @@ export class ArticulosFormComponent implements OnInit {
         });
     }
 
+    fieldHasError(field) {
+        let haserror = false;
+        if (this.artForm[field].required) {
+            haserror = this.artForm[field].value.toString().trim().length === 0;
+        }
+        return haserror;
+    }
+
+    evalPattern(field, pattern) {
+        const re = new RegExp(pattern);
+        return !re.test(this.artForm[field].value);
+    }
+
     getCatDefault(): any {
         return this.arrayUtil.getFirstResult(this.categorias, this.catIsDefault);
     }
@@ -135,36 +149,56 @@ export class ArticulosFormComponent implements OnInit {
     }
 
     loadArrays() {
-        this.personaService.listarProveedores().subscribe(resProv => {
-            if (resProv.status === 200) {
-                this.proveedores = resProv.items;
+        this.isLoading = true;
+        const provObs = this.personaService.listarProveedores();
+        const catsObs = this.catsService.listar();
+        const stockObs = this.artStockService.getForm(this.artId);
+        const impObs = this.artService.getImpuestos();
+        let artObs;
+        if (this.artId > 0) {
+            artObs = this.artService.getByCod(this.artId);
+        } else {
+            artObs = this.artService.getForm();
+        }
+
+
+        forkJoin([provObs, catsObs, stockObs, artObs, impObs]).subscribe(res => {
+            const res0: any = res[0];
+            const res1: any = res[1];
+            const res2: any = res[2];
+            const res3: any = res[3];
+            const res4: any = res[4];
+
+            if (res0.status === 200) {
+                this.proveedores = res0.items;
                 this.defaultProv = this.getProvDefault();
             }
-            this.catsService.listar().subscribe(resCat => {
-                if (resCat.status === 200) {
-                    this.categorias = resCat.items;
-                    this.defaultCat = this.getCatDefault();
-                }
+            if (res1.status === 200) {
+                this.categorias = res1.items;
+                this.defaultCat = this.getCatDefault();
+            }
+
+            if (res2.status === 200) {
+                this.stock = res2.form_secs;
+            }
+
+            if (res3.status === 200) {
                 if (this.artId > 0) {
-                    this.artService.getByCod(this.artId).subscribe(resEditArt => {
-                        if (resEditArt.status === 200) {
-                            this.artFromDb = resEditArt.datosprod;
-                            this.buildForm(this.artFromDb);
-                        }
-                    });
-                    this.artStockService.getForm(this.artId).subscribe(resStock => {
-                        if (resStock.status === 200) {
-                            this.stock = resStock.form_secs;
-                        }
-                    });
+                    this.artFromDb = res3.datosprod;
+                    this.secciones = res3.secciones;
+                    this.buildForm(this.artFromDb);
                 } else {
-                    this.artService.getForm().subscribe((resNewArt: any) => {
-                        if (resNewArt.status === 200) {
-                            this.buildForm(resNewArt.form);
-                        }
-                    });
+                    this.aplicaDental = res3.form.aplicadental;
+                    this.secciones = res3.form.secciones;
+                    this.buildForm(res3.form);
+                    this.domService.setFocusTimeout('codbarraInput', 200);
                 }
-            });
+            }
+
+            if (res4.status === 200) {
+                this.impuestos = res4.impuestos;
+            }
+            this.isLoading = false;
         });
     }
 
@@ -188,8 +222,6 @@ export class ArticulosFormComponent implements OnInit {
             }
         );
 
-        const tip = form.tipic_id;
-
         if (dbcat != null) {
             cat = dbcat;
         }
@@ -209,33 +241,43 @@ export class ArticulosFormComponent implements OnInit {
             asistPrePorc = Number(globalAsistPorcIncrem);
         }
 
-        this.artForm = this.fb.group({
-            ic_code: [form.ic_code, Validators.required],
-            icdp_fechacaducidad: [artFeccaduParsed],
-            icdp_grabaiva: [form.icdp_grabaiva, Validators.required],
-            ic_nombre: [form.ic_nombre, Validators.required],
-            ic_nota: [form.ic_nota],
-            icdp_precioventa: [form.icdp_precioventa, Validators.required],
-            icdp_preciocompra: [form.icdp_preciocompra, Validators.required],
-            icdp_preciocompra_iva: [form.icdp_preciocompra_iva, Validators.required],
-            tipic_id: [form.tipic_id, Validators.required],
-            catic_id: [cat, Validators.required],
-            icdp_proveedor: [prov, Validators.required],
-            icdp_modcontab: [form.icdp_modcontab],
-            icdp_precioventamin: [form.icdp_precioventamin],
-            asist_pre_porc: [asistPrePorc],
-            asist_pre_util: [0.0],
-            asist_pre_prevsug: [0.0],
-            ic_dental: [form.ic_dental]
+        this.artForm = {
+            ic_code: {value: form.ic_code, required: true},
+            icdp_fechacaducidad: {value: artFeccaduParsed},
+            icdp_grabaiva: {value: form.icdp_grabaiva, required: true},
+            ic_nombre: {value: form.ic_nombre, required: true},
+            ic_nota: {value: form.ic_nota},
+            icdp_precioventa: {value: form.icdp_precioventa, required: true},
+            icdp_preciocompra: {value: form.icdp_preciocompra, required: true},
+            icdp_preciocompra_iva: {value: form.icdp_preciocompra_iva, required: true},
+            tipic_id: {value: form.tipic_id, required: true},
+            catic_id: {value: cat, required: true},
+            icdp_proveedor: {value: prov.per_id, required: true},
+            icdp_modcontab: {value: form.icdp_modcontab},
+            icdp_precioventamin: {value: form.icdp_precioventamin},
+            asist_pre_porc: {value: asistPrePorc},
+            asist_pre_util: {value: 0.0},
+            asist_pre_prevsug: {value: 0.0},
+            ic_dental: {value: form.ic_dental},
+            seccionesf: {value: []}
+        };
+
+        this.secciones.forEach(e => {
+            this.artForm.seccionesf.value.push({
+                value: e.marca,
+                sec_id: e.sec_id,
+                seccion: e
+            });
         });
 
-        this.artForm.controls.icdp_preciocompra_iva.disable();
-        this.artForm.controls.asist_pre_util.disable();
-        this.artForm.controls.asist_pre_prevsug.disable();
+        this.artForm.icdp_preciocompra_iva.disabled = true;
+        this.artForm.asist_pre_util.disabled = true;
+        this.artForm.asist_pre_prevsug.disabled = true;
+
         if (this.editing) {
             setTimeout(() => {
-                this.artForm.controls.ic_code.disable();
-                this.artForm.controls.tipic_id.disable();
+                this.artForm.ic_code.disabled = true;
+                this.artForm.tipic_id.disabled = true;
             }, 100);
         }
     }
@@ -250,35 +292,37 @@ export class ArticulosFormComponent implements OnInit {
             asistPrePorc = Number(globalAsistPorcIncrem);
         }
 
-        this.artForm = this.fb.group({
-            ic_code: ['', Validators.required],
-            icdp_fechacaducidad: [null],
-            icdp_grabaiva: [ivaSel, Validators.required],
-            ic_nombre: ['', Validators.required],
-            ic_nota: [''],
-            icdp_precioventa: [0.0, Validators.required],
-            icdp_preciocompra: [0.0, Validators.required],
-            icdp_preciocompra_iva: [0.0],
-            tipic_id: [tipoSel, Validators.required],
-            catic_id: [1, Validators.required],
-            icdp_proveedor: [-2, Validators.required],
-            icdp_modcontab: [0],
-            icdp_precioventamin: [0.0],
-            asist_pre_porc: [asistPrePorc],
-            asist_pre_util: [0.0],
-            asist_pre_prevsug: [0.0],
-            ic_dental: [false]
-        });
-        this.artForm.controls.icdp_preciocompra_iva.disable();
-        this.artForm.controls.asist_pre_util.disable();
-        this.artForm.controls.asist_pre_prevsug.disable();
+        this.artForm = {
+            ic_code: {value: '', required: true},
+            icdp_fechacaducidad: {value: null},
+            icdp_grabaiva: {value: ivaSel, required: true},
+            ic_nombre: {value: '', required: true},
+            ic_nota: {value: ''},
+            icdp_precioventa: {value: 0.0, required: true},
+            icdp_preciocompra: {value: 0.0, required: true},
+            icdp_preciocompra_iva: {value: 0.0},
+            tipic_id: {value: tipoSel, required: true},
+            catic_id: {value: 1, required: true},
+            icdp_proveedor: {value: -2, required: true},
+            icdp_modcontab: {value: 0},
+            icdp_precioventamin: {value: 0.0},
+            asist_pre_porc: {value: asistPrePorc},
+            asist_pre_util: {value: 0.0},
+            asist_pre_prevsug: {value: 0.0},
+            ic_dental: {value: false},
+            seccionesf: {value: []}
+        };
+
+        this.artForm.icdp_preciocompra_iva.disabled = true;
+        this.artForm.asist_pre_util.disabled = true;
+        this.artForm.asist_pre_prevsug.disabled = true;
     }
 
     getFormToPost() {
-        const formvalue: any = this.artForm.getRawValue();
+        const formvalue: any = this.artForm;
         const formToPost: any = {};
         for (const prop of Object.keys(formvalue)) {
-            formToPost[prop] = formvalue[prop];
+            formToPost[prop] = formvalue[prop].value;
         }
         const provsel = formToPost.icdp_proveedor;
         const catsel = formToPost.catic_id;
@@ -306,7 +350,16 @@ export class ArticulosFormComponent implements OnInit {
 
     procesaForm() {
         this.submited = true;
-        if (this.artForm.invalid) {
+        let invalid = false;
+        for (const prop of Object.keys(this.artForm)) {
+            if (this.artForm[prop].required) {
+                invalid = this.artForm[prop].value.toString().trim().length === 0;
+                if (invalid) {
+                    break;
+                }
+            }
+        }
+        if (invalid) {
             this.messageService.add({
                 severity: 'warn',
                 summary: 'Datos Incorrectos',
@@ -314,9 +367,16 @@ export class ArticulosFormComponent implements OnInit {
             });
             return;
         }
-        let msg = 'Confirma la creación del artículo/servicio';
+
+        const secmarca = this.artForm.seccionesf.value.filter(itsec => itsec.value);
+        if (secmarca.length === 0) {
+            this.swalService.fireToastError('Debe seleccionar al menos una sección para este producto/servicio');
+            return;
+        }
+
+        let msg = 'Confirma la creación de este producto/servicio';
         if (this.editing) {
-            msg = 'Confirma la actualización de este artículo/servicio';
+            msg = 'Confirma la actualización de este producto/servicio';
         }
         this.swalService.fireDialog(msg).then(confirm => {
             if (confirm.value) {
@@ -338,15 +398,15 @@ export class ArticulosFormComponent implements OnInit {
 
     generarCodigoBarra() {
         if (this.artCodAutomatic) {
-            this.artForm.controls.ic_code.setValue('');
-            this.artForm.controls.ic_code.enable();
+            this.artForm.ic_code.value = '';
+            this.artForm.ic_code.disabled = false;
             this.domService.setFocus('codbarraInput');
         } else {
             this.artService.getNextCodbar().subscribe(res => {
                 if (res.status === 200) {
-                    this.artForm.controls.ic_code.setValue(res.codbar);
+                    this.artForm.ic_code.value = res.codbar;
                     this.domService.setFocus('nombreInput');
-                    this.artForm.controls.ic_code.disable();
+                    this.artForm.ic_code.disabled = true;
                 }
             });
         }
@@ -358,7 +418,7 @@ export class ArticulosFormComponent implements OnInit {
     }
 
     onEnterCodBarra($event) {
-        const icCode = this.artForm.controls.ic_code.value;
+        const icCode = this.artForm.ic_code.value;
         if (icCode && icCode.trim().length > 0) {
             this.artService.existeCodbar(icCode).subscribe(res => {
                 if (res.existe) {
@@ -373,8 +433,8 @@ export class ArticulosFormComponent implements OnInit {
     }
 
     onEnterNombre($event) {
-        const icNombre = this.artForm.controls.ic_nombre.value;
-        const tipicId = this.artForm.controls.tipic_id.value;
+        const icNombre = this.artForm.ic_nombre.value;
+        const tipicId = this.artForm.tipic_id.value;
         if (icNombre && icNombre.trim().length > 0) {
             if (tipicId && tipicId.value === 1) {
                 this.domService.setFocus('precioCompraInput');
@@ -393,8 +453,8 @@ export class ArticulosFormComponent implements OnInit {
     }
 
     calculaPrecioCompraConIva() {
-        const precioConIva = this.getPrecioConIva(this.artForm.controls.icdp_preciocompra.value);
-        this.artForm.controls.icdp_preciocompra_iva.setValue(precioConIva.toString());
+        const precioConIva = this.getPrecioConIva(this.artForm.icdp_preciocompra.value);
+        this.artForm.icdp_preciocompra_iva.value = precioConIva.toString();
     }
 
     onKeyupPrecioCompra($event) {
@@ -404,12 +464,12 @@ export class ArticulosFormComponent implements OnInit {
 
     calculaPrecioVenta() {
         let porcenIncr = 0.0;
-        const porcenIncrValue = this.artForm.controls.asist_pre_porc.value;
+        const porcenIncrValue = this.artForm.asist_pre_porc.value;
         if (porcenIncrValue) {
             porcenIncr = Number(porcenIncrValue);
         }
         let precioCompraIva = 0.0;
-        const preCompraIvaValue = this.artForm.controls.icdp_preciocompra_iva.value;
+        const preCompraIvaValue = this.artForm.icdp_preciocompra_iva.value;
         if (preCompraIvaValue) {
             precioCompraIva = Number(preCompraIvaValue);
         }
@@ -417,16 +477,16 @@ export class ArticulosFormComponent implements OnInit {
         const utilidadFixed = utilidad.toFixed(2);
         const precioVentaSug = precioCompraIva + utilidad;
         const precioVentaSugFixed = precioVentaSug.toFixed(2);
-        this.artForm.controls.asist_pre_util.setValue(utilidadFixed);
-        this.artForm.controls.asist_pre_prevsug.setValue(precioVentaSugFixed);
+        this.artForm.asist_pre_util.value = utilidadFixed;
+        this.artForm.asist_pre_prevsug.value = precioVentaSugFixed;
         this.localStrgServ.setItem('globalAsistPorcIncrePrecioCompra', porcenIncr.toString());
     }
 
     getPrecioConIva(precio: number) {
         let precioConIva = 0.0;
         if (precio) {
-            if (this.artForm.controls.icdp_grabaiva.value.value) {
-                precioConIva = Number(precio) * Number('1.12');
+            if (this.artForm.icdp_grabaiva.value) {
+                precioConIva = Number(precio) * Number(1.0 + this.impuestos.iva);
             } else {
                 precioConIva = Number(precio);
             }
@@ -435,9 +495,9 @@ export class ArticulosFormComponent implements OnInit {
     }
 
     onTipoArtChange($event: any) {
-        const tipoSel = this.artForm.controls.tipic_id.value;
+        const tipoSel = this.artForm.tipic_id.value;
         if (tipoSel === 2) {
-            this.artForm.controls.icdp_preciocompra.setValue(0.0);
+            this.artForm.icdp_preciocompra.value = 0.0;
         }
     }
 
@@ -507,7 +567,7 @@ export class ArticulosFormComponent implements OnInit {
                 if (res.status === 200) {
                     $('#modalEditBarcode').modal('hide');
                     this.swalService.fireToastSuccess(res.msg);
-                    this.artForm.controls.ic_code.setValue(this.nuevoBarcode.trim());
+                    this.artForm.ic_code.value = this.nuevoBarcode.trim();
                 }
             });
         } else {
