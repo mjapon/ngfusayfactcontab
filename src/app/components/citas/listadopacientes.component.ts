@@ -1,22 +1,18 @@
-import {Component, EventEmitter, Inject, OnDestroy, OnInit, Output, Renderer2} from '@angular/core';
-import {DOCUMENT} from '@angular/common';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {PersonaService} from '../../services/persona.service';
 
 @Component({
     selector: 'app-listadopacientes',
-    providers: [
-        {provide: Window, useValue: window}
-    ],
     template: `
         <div>
             <div class="row">
                 <div class="col">
                     <input class="form-control form-rounded" id="buscaPacNomCiInput" type="text"
-                           placeholder="Buscar paciente por nombres o número de cédula" [(ngModel)]="filtro"
+                           placeholder="Buscar referente por nombres o número de cédula" [(ngModel)]="filtro"
                            (keyup)="onFiltroTyped()">
                 </div>
                 <div class="col-3">
-                    <button class="btn btn-outline-success btn-block" (click)="crearPaciente()"> Nuevo Paciente <span
+                    <button class="btn btn-outline-success btn-block" (click)="crearPaciente()"> Nuevo <span
                             class="fa fa-plus-circle"></span></button>
                 </div>
             </div>
@@ -27,8 +23,11 @@ import {PersonaService} from '../../services/persona.service';
                         <h3 class="text-muted"> No hay resultados <i class="fa fa-search"></i></h3>
                     </div>
                 </div>
-                <div *ngIf="pacientesArray.length>0" class="divpacientes rounded-lg">
-                    <div class="list-group">
+                <div class="divpacientes rounded-lg">
+                    <div *ngIf="showAnim">
+                        <app-loading></app-loading>
+                    </div>
+                    <div class="list-group" *ngIf="pacientesArray.length>0">
                         <a class="list-group-item list-group-item-action hand" *ngFor="let item of pacientesArray"
                            (click)="selectPaciente(item)">
                             <div class="d-flex w-100 justify-content-between align-items-center">
@@ -49,18 +48,19 @@ import {PersonaService} from '../../services/persona.service';
                                 </div>
                             </div>
                         </a>
+                        <a class="list-group-item list-group-item-action" *ngIf="hayMasFilasPac">
+                            <p class="text-center">
+                                <button class="btn btn-outline-primary" (click)="loadMorePacientes()"> Listar mas
+                                </button>
+                            </p>
+                        </a>
                     </div>
-                </div>
-                <div class="text-center" *ngIf="showAnim">
-                    <img src="assets/anim.gif"
-                         alt="procesando">
                 </div>
             </div>
         </div>
-
     `
 })
-export class ListadopacientesComponent implements OnInit, OnDestroy {
+export class ListadopacientesComponent implements OnInit {
 
     @Output() evCrearPaciente = new EventEmitter<any>();
     @Output() evSelPaciente = new EventEmitter<any>();
@@ -69,25 +69,10 @@ export class ListadopacientesComponent implements OnInit, OnDestroy {
     previustimer: any = 0;
     pacientesArray: Array<any>;
     currentPagPacientes: number;
-    bottomAlcanzado: boolean;
     showAnim: boolean;
     hayMasFilasPac: boolean;
-    listener;
-    showBuscaPaciente = true;
 
-    constructor(private window: Window,
-                @Inject(DOCUMENT) private document: Document,
-                private renderer2: Renderer2,
-                private personaService: PersonaService) {
-
-        this.listener = this.renderer2.listen('window', 'scroll', (e) => {
-            if (!this.bottomAlcanzado && this.showBuscaPaciente) {
-                if ((window.innerHeight + window.pageYOffset + 100) >= (document.body.offsetHeight)) {
-                    this.bottomAlcanzado = true;
-                    this.loadMorePacientes();
-                }
-            }
-        });
+    constructor(private personaService: PersonaService) {
     }
 
     ngOnInit(): void {
@@ -95,12 +80,7 @@ export class ListadopacientesComponent implements OnInit, OnDestroy {
         this.pacientesArray = [];
         this.currentPagPacientes = 0;
         this.hayMasFilasPac = false;
-        this.bottomAlcanzado = false;
         this.buscarPacientes();
-    }
-
-    ngOnDestroy(): void {
-        this.listener();
     }
 
     delayKeyup(callback, ms, prevtimer, context) {
@@ -139,9 +119,6 @@ export class ListadopacientesComponent implements OnInit, OnDestroy {
                 this.hayMasFilasPac = res.hasMore;
                 if (res.hasMore) {
                     this.currentPagPacientes = res.nextp;
-                    this.bottomAlcanzado = false;
-                } else {
-                    this.bottomAlcanzado = true;
                 }
             }
             this.showAnim = false;

@@ -279,6 +279,11 @@ export class ArticulosFormComponent implements OnInit {
                 this.artForm.ic_code.disabled = true;
                 this.artForm.tipic_id.disabled = true;
             }, 100);
+        } else {
+            //Si solo hay una seccion, se la marca por defecto
+            if (this.artForm.seccionesf.value.length === 1) {
+                this.artForm.seccionesf.value[0].value = true;
+            }
         }
     }
 

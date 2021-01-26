@@ -6,6 +6,7 @@ export const environment = {
     production: false,
     baseUrlEndPoint: 'http://192.168.100.35:6543/api',
     baseUrlDwfile: 'http://192.168.100.35:6543/getrxdoc',
+    baseUrlDwfileNode: 'http://192.168.100.35:3000/getrxdoc',
     facebookLoginApp: '571164293604524',
     googleLoginApp: '702999941401-ql2c4rufsliivam2f7hub633brvicgk0.apps.googleusercontent.com',
 };

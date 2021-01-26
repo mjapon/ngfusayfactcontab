@@ -16,6 +16,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     title = 'sysprint';
     isLogged = false;
     blocked = false;
+    stylemaindiv: string;
+    classrouteroutlet: string;
+    isshowAppMenu: boolean;
 
     constructor(private authService: AuthService,
                 private localStorageService: LocalStorageService,
@@ -27,15 +30,25 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
+        this.stylemaindiv = 'width: 92%;';
+        this.classrouteroutlet = '';
+        this.isshowAppMenu = true;
         this.blocked = false;
         this.translateService.setDefaultLang('es');
         this.translate('es');
         this.isLogged = this.fautService.isAuthenticated();
+        if (this.isLogged) {
+            this.classrouteroutlet = 'ml-2 mt-2 mr-0';
+        }
         this.fautService.source.subscribe(msg => {
             if (msg === 'logout') {
                 this.isLogged = false;
+                this.classrouteroutlet = '';
             } else if (msg === 'login') {
                 this.isLogged = true;
+                this.classrouteroutlet = 'ml-2 mt-2 mr-0';
+            } else if (msg === 'hideappmenu') {
+                this.hideMenu();
             }
             if (this.isLogged) {
                 //
@@ -48,6 +61,16 @@ export class AppComponent implements OnInit, AfterViewInit {
             }
             window.scrollTo(0, 0);
         });
+    }
+
+    hideMenu() {
+        if (this.isshowAppMenu) {
+            this.stylemaindiv = 'width: 100%;';
+            this.isshowAppMenu = false;
+        } else {
+            this.stylemaindiv = 'width: 92%;';
+            this.isshowAppMenu = true;
+        }
     }
 
     translate(lang: string) {

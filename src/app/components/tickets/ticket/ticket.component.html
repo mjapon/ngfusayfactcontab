@@ -11,15 +11,15 @@
         </div>
     </div>
 </div>
-<hr>
-<div class="row">
+<hr class="quitaPaddingMargin">
+<div class="row mt-1 mb-2">
     <div class="col">
         <p-calendar showButtonBar="true" [(ngModel)]="dia" (onSelect)="loadGrid()" [showIcon]="true"
                     dateFormat="dd/mm/yy"></p-calendar>
     </div>
 </div>
-<br>
-<!--Formulario de creacion de registro -->
+
+
 <p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
          (onRowSelect)="onRowSelect($event)"
          [autoLayout]="true"

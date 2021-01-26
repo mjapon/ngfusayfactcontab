@@ -5,10 +5,10 @@
     <div class="col-md-8">
         <div class="input-group">
             <input type="text" class="form-control" id="buscaInput" (keyup)="doFilter($event)" [(ngModel)]="filtro"
-                   placeholder="Buscar comprobante por número o por referente">
+                   placeholder="Buscar plan por nombre">
             <div class="input-group-append">
                 <button class="btn btn-outline-success" type="button" id="buttonSearh" (click)="listar()"
-                        title="Buscar producto o servicio">
+                        title="Buscar plan">
                     <i class="fa fa-search"></i>
                 </button>
             </div>
@@ -16,16 +16,18 @@
     </div>
     <div class="col-md-4 d-flex flex-row-reverse">
         <button type="button" class="btn btn-outline-success" (click)="goToForm()"
-                title="Registrar un nuevo producto o servicio">
+                title="Registrar un nuevo plan">
             Crear <i class="fa fa-plus-circle"></i>
         </button>
     </div>
 </div>
+
 <div *ngIf="isLoading">
     <app-loading></app-loading>
 </div>
 
-<div class="mt-2" *ngIf="!isLoading">
+<div *ngIf="!isLoading">
+
     <p-table [value]="grid.data" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
              (onRowSelect)="onRowSelect($event)"
              [resizableColumns]="true"
@@ -67,11 +69,6 @@
             </tr>
         </ng-template>
     </p-table>
-</div>
 
-<div *ngIf="isShowDetallesFactura">
-    <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
-              [(visible)]="isShowDetallesFactura">
-        <app-facturaview [trncod]="codFacturaSel"></app-facturaview>
-    </p-dialog>
+
 </div>

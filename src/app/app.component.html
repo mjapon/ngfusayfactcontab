@@ -12,18 +12,15 @@
         </div>
     </p-blockUI>
     <div class="mt-2">
-        <div *ngIf="isLogged" class="d-flex">
-            <div style="width: 6%; margin-top: -10px !important;">
+        <div class="{{isLogged?'d-flex':''}}">
+            <div *ngIf="isLogged && isshowAppMenu" style="width: 6%; margin-top: -10px !important;">
                 <app-sidebarmenu></app-sidebarmenu>
             </div>
-            <div style="width: 92%;">
-                <div class="ml-2 mt-2">
+            <div [style]="stylemaindiv">
+                <div [ngClass]="classrouteroutlet">
                     <router-outlet></router-outlet>
                 </div>
             </div>
-        </div>
-        <div *ngIf="!isLogged">
-            <router-outlet></router-outlet>
         </div>
     </div>
 </div>

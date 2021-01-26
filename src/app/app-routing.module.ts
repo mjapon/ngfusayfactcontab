@@ -25,7 +25,11 @@ import {TrubrosformComponent} from './components/tickets/vtickets/trubrosform/tr
 import {CitasodontoComponent} from './components/citas/citasodonto/citasodonto.component';
 import {OdcalendarComponent} from './components/citas/odcalendar/odcalendar.component';
 import {FacturaslistComponent} from './components/transac/facturas/facturaslist/facturaslist.component';
-import {FacturasformComponent} from './components/transac/facturas/facturasform/facturasform.component';
+import {NewfacturaformComponent} from './components/transac/facturas/newfacturaform/newfacturaform.component';
+import {PlaneslistComponent} from './components/transac/planes/planeslist/planeslist.component';
+import {PlanesformComponent} from './components/transac/planes/planesform/planesform.component';
+import {ReferenteslistComponent} from './components/referentes/referenteslist.component';
+import {ReferenteviewComponent} from './components/referentes/referenteview.component';
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -51,15 +55,16 @@ const routes: Routes = [
     {path: 'rubros/form/:ic_id', component: TrubrosformComponent},
     {path: 'calendario/:tipo', component: OdcalendarComponent},
     {path: 'trndocs', component: FacturaslistComponent},
-    {path: 'trndocform', component: FacturasformComponent},
+    {path: 'trndocform', component: NewfacturaformComponent},
+    {path: 'planes', component: PlaneslistComponent},
+    {path: 'planesform', component: PlanesformComponent},
+    {path: 'referentes', component: ReferenteslistComponent},
+    {path: 'referentes/:codref', component: ReferenteviewComponent},
     {path: '**', component: HomeComponent}
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, {
-        anchorScrolling: 'enabled',
-        relativeLinkResolution: 'legacy'
-    })],
+    imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule]
 })
 export class AppRoutingModule {

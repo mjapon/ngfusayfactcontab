@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {SwalService} from '../../../../services/swal.service';
 import {VentaticketService} from '../../../../services/ventaticket.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
-import {ArrayutilService} from "../../../../services/arrayutil.service";
+import {ArrayutilService} from '../../../../services/arrayutil.service';
 
 @Component({
     selector: 'app-vticket',
@@ -81,8 +81,6 @@ export class VticketComponent implements OnInit {
         } else {
             this.swalService.fireToastError('No es posible');
         }
-
-
     }
 
     loadGrid() {
@@ -91,6 +89,7 @@ export class VticketComponent implements OnInit {
         if (this.cuentaSel) {
             cuentaIdSel = this.cuentaSel.ic_id;
         }
+        this.loadingUiService.publishBlockMessage();
         this.vtService.listar(tipoIdSel, cuentaIdSel).subscribe(res => {
             this.cols = res.res.cols;
             this.items = res.res.data;

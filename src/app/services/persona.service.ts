@@ -74,4 +74,8 @@ export class PersonaService extends BaseService {
     listarMedicos(tipo: number): Observable<any> {
         return this._doGet(this.getHOT({accion: 'lmedicos', tipo}));
     }
+
+    getTotalDeudas(codper: number) {
+        return this._doGet(this.getHOT({accion: 'gtotaldeudas', codper}));
+    }
 }

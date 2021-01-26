@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {AbonoService} from '../../../../services/abono.service';
 import {CreditoService} from '../../../../services/credito.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
@@ -14,6 +14,7 @@ export class AbonosviewComponent implements OnInit, OnChanges {
 
     @Input() codFactura: number;
     @Input() codCredito: number;
+    @Output() evDeudaChange = new EventEmitter<any>();
 
     isShowFactura: boolean;
     isShowFormAbonar: boolean;
@@ -141,6 +142,7 @@ export class AbonosviewComponent implements OnInit, OnChanges {
                         this.swalService.fireToastSuccess(res.msg);
                         this.isShowFormAbonar = false;
                         this.loadDatosCredito();
+                        this.evDeudaChange.emit('');
                     }
                 });
             }
@@ -164,6 +166,7 @@ export class AbonosviewComponent implements OnInit, OnChanges {
                         this.swalService.fireToastSuccess(res.msg);
                         this.loadAbonos();
                         this.loadDatosCredito();
+                        this.evDeudaChange.emit('');
                     }
                 });
             }

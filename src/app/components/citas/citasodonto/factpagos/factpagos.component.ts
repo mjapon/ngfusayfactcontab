@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {AsientoService} from '../../../../services/asiento.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
 import {PersonaService} from '../../../../services/persona.service';
@@ -43,6 +43,8 @@ export class FactpagosComponent implements OnInit, OnChanges {
     loadingFacturas: boolean;
     loadingCreditos: boolean;
     totalescred: any;
+
+    @Output() evDeudasChange = new EventEmitter<any>();
 
     constructor(private asientoServ: AsientoService,
                 private personaService: PersonaService,
@@ -333,5 +335,9 @@ export class FactpagosComponent implements OnInit, OnChanges {
         }
         fila.dt_decto = dtDecto;
         this.recalcTotalFila(fila);
+    }
+
+    onDeudasChange($event: any) {
+        this.evDeudasChange.emit($event);
     }
 }

@@ -69,6 +69,8 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
     }
 
     initFormCrea() {
+        this.filtroserv = '';
+        this.filteredServ = this.allServicios;
         this.showForm = true;
         this.detalles = [];
         this.loadForm();
@@ -166,10 +168,10 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
         this.initTotales();
         this.totales = this.numberService.totalizar(this.detalles);
         if (this.formaspago && this.formaspago.length > 0) {
-            this.formaspago[0].dt_valor = this.totales.total;
+            this.formaspago[0].dt_valor = 0.0;
         }
         if (this.formaspago && this.formaspago.length > 1) {
-            this.formaspago[1].dt_valor = 0.0;
+            this.formaspago[1].dt_valor = this.totales.total;
         }
     }
 

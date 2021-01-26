@@ -43,4 +43,8 @@ export class AsientoService extends BaseService {
         return this._doPost(this.getHOT({accion: 'errar'}), {trncod});
     }
 
+    duplicar(trncod: number) {
+        return this._doPost(this.getHOT({accion: 'duplicar'}), {trn_codigo: trncod});
+    }
+
 }

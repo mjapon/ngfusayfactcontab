@@ -58,38 +58,54 @@ import {FautService} from '../../services/faut.service';
             <div>
                 <div class="row">
                     <div class="col-md-10">
-                        <div class="row">
-                            <div class="col-md-4" *ngFor="let doc of docs">
-                                <div class="card">
+                        <div class="row row-cols-3 row-cols-md-3">
+                            <div class="col mb-2" *ngFor="let doc of docs">
+                                <div class="card h-100">
                                     <div class="card-body text-center">
-                                        <a [href]="descargar(doc.rxd_id)" target="_blank" [title]="doc.rxd_nombre">
-                                            <i class="far fa-3x" [ngClass]="doc.fa_icon"></i>
-                                        </a>
-                                        <div class="mt-2 d-flex flex-column justify-content-center">
-                                            <h5 class="card-title">{{doc.rxd_nombre}}</h5>
-                                            <small class="text-muted">{{doc.rxd_filename}}</small>
+                                        <div>
+                                            <div [title]="doc.rxd_nombre" (click)="descargar(doc)" class="hand">
+                                                <i class="far fa-3x" [ngClass]="doc.fa_icon"></i>
+                                            </div>
+                                            <!--
+                                            <a [href]="descargar(doc)" target="_blank" [title]="doc.rxd_nombre">
+                                                <i class="far fa-3x" [ngClass]="doc.fa_icon"></i>
+                                            </a>
+                                            -->
+                                            <div class="mt-2 d-flex flex-column justify-content-center">
+                                                <h5 class="card-title">{{doc.rxd_nombre}}</h5>
+                                                <small class="text-muted">{{doc.rxd_filename}}</small>
+                                            </div>
+                                            <p class="card-text mt-1">{{doc.rxd_nota}}</p>
                                         </div>
-                                        <p class="card-text mt-1">{{doc.rxd_nota}}</p>
-                                        <div class="d-flex justify-content-between">
-                                            <p>
-                                                <small class="text-muted">{{doc.rxd_fechacrea}}</small>
-                                            </p>
-                                            <div>
-                                                <div class="d-flex justify-content-end">
-                                                    <div class="d-flex">
-                                                        <a [href]="descargar(doc.rxd_id)" target="_blank"
-                                                           class="ml-2 btn btn-sm btn-outline-secondary">
-                                                            <i class="fa fa-download"></i></a>
-                                                        <button class="ml-2 btn btn-sm btn-outline-secondary btn-sm"
-                                                                (click)="editar(doc)"
-                                                                title="Editar ">
-                                                            <i class="fa fa-edit"></i>
-                                                        </button>
-                                                        <button class="ml-2 btn btn-sm btn-outline-secondary btn-sm"
-                                                                (click)="anular(doc)"
-                                                                title="Anular ">
-                                                            <i class="fa fa-trash"></i>
-                                                        </button>
+
+                                        <div>
+                                            <div class="mt-2 d-flex justify-content-between">
+                                                <p>
+                                                    <small class="text-muted">{{doc.rxd_fechacrea}}</small>
+                                                </p>
+                                                <div>
+                                                    <div class="d-flex justify-content-end">
+                                                        <div class="d-flex">
+                                                            <!--
+                                                            <a [href]="descargar(doc)" target="_blank"
+                                                               class="ml-2 btn btn-sm btn-outline-secondary">
+                                                                <i class="fa fa-download"></i></a>
+                                                                -->
+                                                            <button class="ml-2 btn btn-sm btn-outline-success"
+                                                                    (click)="descargar(doc)">
+                                                                <i class="fa fa-eye"></i>
+                                                            </button>
+                                                            <button class="ml-2 btn btn-sm btn-outline-success btn-sm"
+                                                                    (click)="editar(doc)"
+                                                                    title="Editar ">
+                                                                <i class="fa fa-edit"></i>
+                                                            </button>
+                                                            <button class="ml-2 btn btn-sm btn-outline-success btn-sm"
+                                                                    (click)="anular(doc)"
+                                                                    title="Anular ">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -187,8 +203,11 @@ export class RxdocsComponent implements OnInit, OnChanges {
         this.showForm = false;
     }
 
-    descargar(cod) {
-        return this.rxDocsServ.getDownloadUrl(cod);
+    descargar(doc) {
+        //return this.rxDocsServ.getDownloadUrlNode(doc);
+        const url = this.rxDocsServ.getDownloadUrlNode(doc);
+        const sqm = this.fautService.getEsquema();
+        window.open(url, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=600');
     }
 
     loadForm() {

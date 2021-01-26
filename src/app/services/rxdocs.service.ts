@@ -11,6 +11,7 @@ import {environment} from '../../environments/environment';
 export class RxdocsService extends BaseService {
 
     private baseUrlDwfile = environment.baseUrlDwfile;
+    private baseUrlDwFileNode = environment.baseUrlDwfileNode;
 
     constructor(
         protected http: HttpClient,
@@ -36,6 +37,12 @@ export class RxdocsService extends BaseService {
         const sqm = this.fautService.getEsquema();
         const burl = this.baseUrlDwfile;
         return `${burl}?sqm=${sqm}&codoc=${coddoc}`;
+    }
+
+    getDownloadUrlNode(doc: any) {
+        const sqm = this.fautService.getEsquema();
+        const burl = this.baseUrlDwFileNode;
+        return `${burl}/getrxdoc/${sqm}/${doc.rxd_id}/${doc.rxd_filename}`;
     }
 
     eliminar(codoc: any) {

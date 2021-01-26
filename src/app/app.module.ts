@@ -100,6 +100,14 @@ import {LoadingComponent} from './components/home/loading.component';
 import {FacturaslistComponent} from './components/transac/facturas/facturaslist/facturaslist.component';
 import {FacturasformComponent} from './components/transac/facturas/facturasform/facturasform.component';
 import {SidebarmenuComponent} from './components/shared/sidebarmenu/sidebarmenu.component';
+import {NewfacturaformComponent} from './components/transac/facturas/newfacturaform/newfacturaform.component';
+import {PlaneslistComponent} from './components/transac/planes/planeslist/planeslist.component';
+import {PlanesformComponent} from './components/transac/planes/planesform/planesform.component';
+import {ReferenteslistComponent} from './components/referentes/referenteslist.component';
+import {ResumenrefComponent} from './components/referentes/resumenref.component';
+import {ReferenteviewComponent} from './components/referentes/referenteview.component';
+import {SuscripcionComponent} from './components/referentes/suscripciones/suscripcion.component';
+import {SuscripviewComponent} from './components/referentes/suscripciones/suscripview.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -165,7 +173,15 @@ export function HttpLoaderFactory(http: HttpClient) {
         LoadingComponent,
         FacturaslistComponent,
         FacturasformComponent,
-        SidebarmenuComponent
+        SidebarmenuComponent,
+        NewfacturaformComponent,
+        PlaneslistComponent,
+        PlanesformComponent,
+        ReferenteslistComponent,
+        ResumenrefComponent,
+        ReferenteviewComponent,
+        SuscripcionComponent,
+        SuscripviewComponent
     ],
     imports: [
         CommonModule,

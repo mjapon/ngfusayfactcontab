@@ -367,7 +367,8 @@
 </div>
 
 <div *ngIf="isShowDetallesCredito" class="border mt-2 p-2 shadow-sm">
-    <app-abonosview [codCredito]="credsel.cre_codigo" [codFactura]="credsel.trn_codigo"></app-abonosview>
+    <app-abonosview [codCredito]="credsel.cre_codigo" [codFactura]="credsel.trn_codigo"
+                    (evDeudaChange)="onDeudasChange($event)"></app-abonosview>
 
     <div class="mt-4 text-center">
         <button class="btn btn-outline-secondary" (click)="hideDetCredito()"><i class="fa fa-times"></i> Cerrar</button>

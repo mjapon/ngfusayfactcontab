@@ -1,0 +1,64 @@
+<div>
+    <div *ngIf="isLoading">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="!isLoading" class="row">
+
+        <div class="offset-md-1 col-md-10">
+            <div class="border p-2">
+                <h4 class="border-bottom mt-2">
+                    {{title}}
+                </h4>
+                <div class="mt-4">
+                    <div class="row ">
+                        <div class="col-md-3">
+                            <span class="font-weight-light">Nombre:</span>
+                        </div>
+                        <div class="col-md">
+                            <input type="text" class="form form-control" [(ngModel)]="formplan.pln_nombre"
+                                   maxlength="90">
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-3">
+                            <span class="font-weight-light">Observación:</span>
+                        </div>
+                        <div class="col-md">
+                            <textarea class="form form-control" [(ngModel)]="formplan.pln_obs"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <app-facturasform [tracodigo]="traCodigoPlan" [tdvcodigo]="tdvCodigoPlan"
+                                  [form]="formfactura" [showbuttons]="false" [showreferente]="false"
+                                  [showtitulo]="false" [showtotales]="false" (evTotalesUpd)="onTotalUpdated($event)">
+                </app-facturasform>
+            </div>
+
+            <div class="mt-2 p-2">
+                <div class="row">
+                    <div class="col-md-6 d-flex">
+                        <span class="font-weight-bold mr-4">TOTAL $:</span>
+                        <span class="font-weight-bold">{{totalPlan}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border mt-2 p-2">
+                <p class="d-flex justify-content-start">
+                    <button class="btn btn-outline-secondary" (click)="cancelarCreaPlan()"><i
+                            class="fa fa-times"></i> Cancelar
+                    </button>
+
+                    <button class="ml-3 btn btn-outline-primary" (click)="crearPlan()"
+                            *ngIf="formfacturaev.detalles.length>0">
+                        <i class="fa fa-save"></i>
+                        Guardar
+                    </button>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+

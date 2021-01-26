@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AsientoService} from '../../../../services/asiento.service';
 import {NumberService} from '../../../../services/number.service';
 import {DomService} from '../../../../services/dom.service';
@@ -22,22 +22,28 @@ export class FacturasformComponent implements OnInit {
     isLoading: boolean;
 
     ttransacc: any;
-    formaspago: Array<any>;
     formdet: any;
     artsFiltrados: Array<any>;
-    detalles: Array<any>;
     impuestos: any;
     ivas: Array<any>;
-
-    formfact: any;
-    formpersona: any;
-    totales: any;
     currentdate: any;
     seccionSel: number;
     secciones: Array<any>;
     isConsumidorFinal: boolean;
     isDisabledFormRef: boolean;
     codConsFinal = -1;
+
+    @Input() form: any;
+    @Input() tracodigo: number;
+    @Input() tdvcodigo: number;
+
+    @Input() showtitulo = true;
+    @Input() showreferente = true;
+    @Input() showdetalles = true;
+    @Input() showtotales = true;
+    @Input() showbuttons = true;
+
+    @Output() evTotalesUpd = new EventEmitter<any>();
 
     constructor(private asientoService: AsientoService,
                 private numberService: NumberService,
@@ -54,7 +60,6 @@ export class FacturasformComponent implements OnInit {
 
     ngOnInit(): void {
         this.isLoading = true;
-        this.formpersona = {};
         this.initformfact();
         this.initTotales();
         this.currentdate = new Date();
@@ -68,7 +73,7 @@ export class FacturasformComponent implements OnInit {
 
 
     initTotales() {
-        this.totales = {
+        this.form.totales = {
             subtotal: 0.0,
             descuentos: 0.0,
             subtforiva: 0.0,
@@ -78,26 +83,28 @@ export class FacturasformComponent implements OnInit {
     }
 
     initformfact() {
-        this.formfact = {};
+        this.form = {
+            form_cab: {},
+            form_persona: {},
+            detalles: [],
+            pagos: [],
+            totales: {}
+        };
         this.ttransacc = {};
-        this.formaspago = [];
         this.formdet = {};
-        this.totales = {};
-        this.detalles = [];
-        this.formpersona = {};
     }
 
     totalizar() {
         this.initTotales();
-        this.totales = this.numberService.totalizar(this.detalles);
-        if (this.formaspago && this.formaspago.length > 0) {
-            this.formaspago[0].dt_valor = this.totales.total;
+        this.form.totales = this.numberService.totalizar(this.form.detalles);
+        if (this.form.pagos && this.form.pagos.length > 0) {
+            this.form.pagos[0].dt_valor = this.form.totales.total;
         }
-        if (this.formaspago && this.formaspago.length > 1) {
-            this.formaspago[1].dt_valor = 0.0;
+        if (this.form.pagos && this.form.pagos.length > 1) {
+            this.form.pagos[1].dt_valor = 0.0;
         }
+        this.evTotalesUpd.emit(this.form);
     }
-
 
     getNewEmptyRow(art) {
         const formDetalles = this.domService.clonarObjeto(this.formdet);
@@ -139,15 +146,14 @@ export class FacturasformComponent implements OnInit {
     }
 
     onServSelect($event: any) {
-        const prevserv = this.arrayService.getFirstResult(this.detalles, (it) => it.art_codigo === $event.ic_id);
+        const prevserv = this.arrayService.getFirstResult(this.form.detalles, (it) => it.art_codigo === $event.ic_id);
         if (prevserv) {
             prevserv.dt_cant += 1;
             this.recalcTotalFila(prevserv);
         } else {
-            this.detalles.push(this.getNewEmptyRow($event));
+            this.form.detalles.push(this.getNewEmptyRow($event));
         }
         this.totalizar();
-
         this.formdet.servicio = {};
         this.domService.setFocusTimeout('artsAutoCom', 100);
     }
@@ -156,7 +162,7 @@ export class FacturasformComponent implements OnInit {
         const msg = '¿Seguro que desea quitar este item de la factura?';
         this.swalService.fireDialog(msg).then(confirm => {
                 if (confirm.value) {
-                    this.arrayService.removeElement(this.detalles, fila);
+                    this.arrayService.removeElement(this.form.detalles, fila);
                     this.totalizar();
                 }
             }
@@ -164,25 +170,17 @@ export class FacturasformComponent implements OnInit {
     }
 
     crearFactura() {
-        if (this.detalles.length === 0) {
+        if (this.form.detalles.length === 0) {
             this.swalService.fireToastError('Debe agregar productos o servicios a la factura');
-        } else if (!this.formfact.trn_fecregobj) {
+        } else if (!this.form.form_cab.trn_fecregobj) {
             this.swalService.fireToastError('Debe especificar la fecha de la factura');
         } else {
-            this.formfact.trn_fecreg = this.fechasService.formatDate(this.formfact.trn_fecregobj);
-            const form = {
-                form_cab: this.formfact,
-                form_persona: this.formpersona,
-                detalles: this.detalles,
-                pagos: this.formaspago,
-                totales: this.totales
-            };
-
+            this.form.form_cab.trn_fecreg = this.fechasService.formatDate(this.form.form_cab.trn_fecregobj);
             const msg = '¿Seguro que desea crear la factura?';
             this.swalService.fireDialog(msg).then(confirm => {
                 if (confirm.value) {
                     this.loadingUiService.publishBlockMessage();
-                    this.asientoService.crearDocumento(form).subscribe(res => {
+                    this.asientoService.crearDocumento(this.form).subscribe(res => {
                         if (res.status === 200) {
                             this.swalService.fireToastSuccess(res.msg);
                             this.gotolist();
@@ -196,12 +194,12 @@ export class FacturasformComponent implements OnInit {
     calculaPagos(filapago) {
         try {
             const dtvalor = filapago.dt_valor;
-            const index = this.formaspago.indexOf(filapago);
+            const index = this.form.pagos.indexOf(filapago);
 
-            const sobrante = (this.totales.total - dtvalor).toFixed(2);
-            let itpago = this.formaspago[0];
+            const sobrante = (this.form.totales.total - dtvalor).toFixed(2);
+            let itpago = this.form.pagos[0];
             if (index === 0) {
-                itpago = this.formaspago[1];
+                itpago = this.form.pagos[1];
             }
             if (itpago) {
                 itpago.dt_valor = sobrante;
@@ -250,12 +248,12 @@ export class FacturasformComponent implements OnInit {
     }
 
     loadFormReferente() {
-        this.formpersona = {};
+        this.form.form_persona = {};
         this.isDisabledFormRef = false;
         this.isConsumidorFinal = false;
         this.personaServ.getForm().subscribe(res => {
             if (res.status === 200) {
-                this.formpersona = res.form;
+                this.form.form_persona = res.form;
                 this.domService.setFocusTimeout('per_ciruc', 100);
             }
         });
@@ -263,12 +261,9 @@ export class FacturasformComponent implements OnInit {
 
     showFormCreaFact() {
         this.isLoading = true;
-        const traCodigo = 1;
-        const tdvCodigo = 1;
         this.initformfact();
-
         this.loadingUiService.publishBlockMessage();
-        const formCabObs = this.asientoService.getFormCab(traCodigo, tdvCodigo);
+        const formCabObs = this.asientoService.getFormCab(this.tracodigo, this.tdvcodigo);
         const secObs = this.seccionService.listar();
         const perFormObs = this.personaServ.buscarPorCod(this.codConsFinal);
 
@@ -278,10 +273,10 @@ export class FacturasformComponent implements OnInit {
             const res2: any = res[2];
 
             if (res0.status === 200) {
-                this.formfact = res0.formcab;
-                this.formfact.trn_fecregobj = this.fechasService.parseString(this.formfact.trn_fecreg);
+                this.form.form_cab = res0.formcab;
+                this.form.form_cab.trn_fecregobj = this.fechasService.parseString(this.form.form_cab.trn_fecreg);
                 this.ttransacc = res0.ttransacc;
-                this.formaspago = res0.formaspago;
+                this.form.pagos = res0.formaspago;
                 this.formdet = res0.formdet;
                 this.impuestos = res0.impuestos;
                 this.numberService.setIva(this.impuestos.iva);
@@ -293,7 +288,7 @@ export class FacturasformComponent implements OnInit {
             }
 
             if (res2.status === 200) {
-                this.formpersona = res2.persona;
+                this.form.form_persona = res2.persona;
                 this.isConsumidorFinal = true;
                 this.isDisabledFormRef = true;
             }
@@ -304,7 +299,7 @@ export class FacturasformComponent implements OnInit {
     }
 
     verificaRefRegistrado() {
-        if (this.formpersona.per_id === 0) {
+        if (this.form.form_persona.per_id === 0) {
             this.buscarReferente();
         }
     }
@@ -312,7 +307,7 @@ export class FacturasformComponent implements OnInit {
     loadConsumidorFinal() {
         this.personaServ.buscarPorCod(this.codConsFinal).subscribe(res => {
             if (res.status === 200) {
-                this.formpersona = res.persona;
+                this.form.form_persona = res.persona;
                 this.isDisabledFormRef = true;
                 this.isConsumidorFinal = true;
             }
@@ -320,11 +315,11 @@ export class FacturasformComponent implements OnInit {
     }
 
     buscarReferente() {
-        const per_ciruc = this.formpersona.per_ciruc;
+        const per_ciruc = this.form.form_persona.per_ciruc;
         this.loadingUiService.publishBlockMessage();
         this.personaServ.buscarPorCi(per_ciruc).subscribe(res => {
                 if (res.status === 200) {
-                    this.formpersona = res.persona;
+                    this.form.form_persona = res.persona;
                     this.domService.setFocusTimeout('artsAutoCom', 100);
                     this.swalService.fireToastSuccess('El referente ya está registrado');
                 } else {

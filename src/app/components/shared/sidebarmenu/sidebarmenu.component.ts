@@ -1,7 +1,7 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {FautService} from '../../../services/faut.service';
 import {MenuItem} from 'primeng/api';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 declare var $: any;
 
@@ -25,7 +25,8 @@ declare var $: any;
         }
 
         .menumavil:hover {
-            background-image: linear-gradient(to right, #9D1F63, #D91C5C);
+            color: #1C75BC;
+            background: white;
         }
 
         .menuitemmavil {
@@ -34,11 +35,7 @@ declare var $: any;
         }
 
         .menuitemmavil:hover {
-            background-image: linear-gradient(to right, #9D1F63, #D91C5C);
-        }
-
-        .bordeb {
-            border-bottom: 1px solid white;
+            background: #1D76BB;
         }
 
         .menupopup {
@@ -58,11 +55,14 @@ declare var $: any;
             </ul>
         </div>
 
-        <div class="fondo border shadow" id="globalsidebarmenu">
-            <div class="text-center bordeb hand pt-2 pb-2" (click)="gotohome()" title="Inicio">
+        <div>
+            <div class="text-center hand border shadow pt-2 pb-2" (click)="gotohome()" title="Inicio">
                 <img src="/assets/imgs/logomavilsm.png" alt="Mavil">
-                <span class="textsm">Mavil</span>
+                <span class="textsm ml-1">Mavil</span>
             </div>
+        </div>
+
+        <div class="fondo border shadow" id="globalsidebarmenu">
             <ng-container *ngFor="let mi of menuApp; let i=index ">
                 <div class="menumavil noselect hand d-flex flex-column text-center" [title]="mi.label"
                      (click)="showPopup($event, mi)" (contextmenu)="showPopup($event, mi)"
@@ -82,7 +82,9 @@ export class SidebarmenuComponent implements OnInit {
     mousestate: number;
     popupstyle: any;
 
+
     constructor(private fautService: FautService,
+                private route: ActivatedRoute,
                 private router: Router) {
     }
 
@@ -107,6 +109,7 @@ export class SidebarmenuComponent implements OnInit {
         this.popupstyle = {};
         this.isShowPopupMenu = true;
     }
+
 
     showPopup($event: MouseEvent, mi: any) {
         if (mi.items.length === 1) {
@@ -135,7 +138,6 @@ export class SidebarmenuComponent implements OnInit {
         if (mi.routerLink) {
             this.router.navigate(mi.routerLink);
         }
-        $event.preventDefault();
     }
 
     gotohome() {

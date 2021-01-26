@@ -24,7 +24,7 @@ import {forkJoin} from 'rxjs';
         `],
     template: `
         <div>
-            <div *ngIf="!editando" class="ml-5">
+            <div *ngIf="!editando" class="ml-2">
                 <div class="row">
                     <div class="col-md-4 d-flex flex-column">
                         <div class="d-flex flex-column mt-2">
@@ -71,7 +71,7 @@ import {forkJoin} from 'rxjs';
                                 {{datosPacienteFull.genero}}
                             </span>
                         </div>
-                        <div class="d-flex flex-column mt-2">
+                        <div class="d-flex flex-column mt-2" *ngIf="datosmedicos">
                             <span class="text-muted">
                                 Tipo de sangre:
                             </span>
@@ -193,7 +193,7 @@ import {forkJoin} from 'rxjs';
                         </div>
                         <div class="row dato-fila">
                             <div class="col-12">
-                                <span class="required">*</span><span>Fecha de nacimiento (dd/mm/aaaa):</span>
+                                <span>Fecha de nacimiento (dd/mm/aaaa):</span>
                             </div>
                             <div class="col-12">
                                 <p-calendar id="per_fechanac"
@@ -230,7 +230,7 @@ import {forkJoin} from 'rxjs';
                                             [(ngModel)]="paciente.per_estadocivil"></p-dropdown>
                             </div>
                         </div>
-                        <div class="row dato-fila">
+                        <div class="row dato-fila" *ngIf="datosmedicos">
                             <div class="col-12">
                                 <span>Tipo de sangre :</span>
                             </div>
@@ -336,11 +336,12 @@ import {forkJoin} from 'rxjs';
 export class DatospacienteComponent implements OnInit, OnChanges {
 
     @Input() codPaciente: number;
+    @Input() datosmedicos = true;
+
     @Output() pacienteLoaded = new EventEmitter<any>();
     @Output() pacienteSaved = new EventEmitter<any>();
     @Output() creacionCancelada = new EventEmitter<any>();
     @Output() datosIncompletosEv = new EventEmitter<any>();
-
     paciente: any;
     datosPacienteFull: any;
     estadoCivilList: Array<any>;
@@ -548,17 +549,17 @@ export class DatospacienteComponent implements OnInit, OnChanges {
         const tiposangre = formPaciente.per_tiposangre;
 
         if (!genero) {
-            this.swalService.fireToastError('Debe seleccionar el genero del paciente');
+            this.swalService.fireToastError('Debe seleccionar el genero del referente');
             return;
         }
 
-        if (!estadoCivil) {
-            this.swalService.fireToastError('Debe seleccionar el estado civil del paciente');
+        if (this.datosmedicos && !estadoCivil) {
+            this.swalService.fireToastError('Debe seleccionar el estado civil del referente');
             return;
         }
 
-        if (!formPaciente.per_fechanac) {
-            this.swalService.fireToastError('Debe especificar la fecha de nacimiento del paciente');
+        if (this.datosmedicos && !formPaciente.per_fechanac) {
+            this.swalService.fireToastError('Debe especificar la fecha de nacimiento del referente');
             return;
         }
 

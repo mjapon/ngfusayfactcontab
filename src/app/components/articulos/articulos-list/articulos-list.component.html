@@ -1,12 +1,11 @@
 <div class="row align-items-end">
     <div class="col-md-8">
-        <h4>Productos y Servicios</h4>
+        <h4>Productos y Servicios ({{items.length}})</h4>
     </div>
     <div class="col">
 
     </div>
 </div>
-<hr>
 <div class="row">
     <div class="col-md-6">
         <div class="input-group">
@@ -33,7 +32,6 @@
         </div>
     </div>
 </div>
-
 <div *ngIf="loadingArts">
     <app-loading></app-loading>
 </div>
@@ -44,9 +42,11 @@
              (onRowSelect)="onRowSelect($event)"
              (onRowUnselect)="onUnRowSelect($event)"
              [contextMenu]="cm" tableStyleClass="fusay-table">
+        <!--
         <ng-template pTemplate="caption">
             Listado de productos y servicios ({{items.length}})
         </ng-template>
+        -->
         <ng-template pTemplate="header">
             <tr>
                 <th width="2%" class="fstbpadtitnumber">#</th>

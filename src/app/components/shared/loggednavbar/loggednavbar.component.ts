@@ -53,7 +53,6 @@ export class LoggednavbarComponent implements OnInit {
             }
 
             if (this.isLogged) {
-
             }
         });
         this.isLogged = this.fautService.isAuthenticated();
@@ -67,5 +66,9 @@ export class LoggednavbarComponent implements OnInit {
 
     goHome() {
         this.router.navigate(['lghome']);
+    }
+
+    hideAppMenu() {
+        this.fautService.publishMessage('hideappmenu');
     }
 }
