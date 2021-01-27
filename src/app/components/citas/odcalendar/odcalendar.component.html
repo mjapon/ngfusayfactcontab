@@ -44,6 +44,20 @@
                             class="fas fa-times"></i> Cancelar
                     </button>
                 </div>
+                <div class="mt-4">
+                    <div>
+                        <span class="font-weight-lighter"> Calendarios:</span>
+                    </div>
+                    <div class="p-fluid mt-1">
+                        <p-dropdown [options]="personsCita"
+                                    placeholder="Seleccione el calendario a mostrar"
+                                    filter="true"
+                                    (onChange)="onPersonCitaChange($event)"
+                                    optionLabel="referente" optionValue="pc_id"
+                                    [(ngModel)]="personCitaSel"></p-dropdown>
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="col-md-10">

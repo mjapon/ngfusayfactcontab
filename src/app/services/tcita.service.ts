@@ -47,6 +47,10 @@ export class TcitaService extends BaseService {
         return this._doGet(this.getHOT({accion: 'getproxvcita', pac: perId, tipo, fecha}));
     }
 
+    getPersonsCita() {
+        return this._doGet(this.getHOT({accion: 'gpercita'}));
+    }
+
     getFechaHoraStr(tcita: any) {
         const hora = tcita.ct_hora;
         const horaFin = tcita.ct_hora_fin;

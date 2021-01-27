@@ -8,7 +8,7 @@ import {DomService} from '../../../services/dom.service';
 import {MenuItem} from 'primeng/api';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {LocalStorageService} from '../../../services/local-storage.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-odcalendar',
@@ -60,6 +60,8 @@ export class OdcalendarComponent implements OnInit {
     datosCita: any;
     pacsFiltered: Array<any>;
     medicos: Array<any>;
+    personsCita: Array<any>;
+    personCitaSel: number;
     colorsMI: Array<MenuItem>;
     currentDate: Date;
     defEvColor: string;
@@ -69,7 +71,6 @@ export class OdcalendarComponent implements OnInit {
     @Output() evCreated = new EventEmitter<any>();
     @Output() evCancelar = new EventEmitter<any>();
 
-
     constructor(private fechasService: FechasService,
                 private swalService: SwalService,
                 private personaService: PersonaService,
@@ -77,10 +78,12 @@ export class OdcalendarComponent implements OnInit {
                 private tcitaService: TcitaService,
                 private loadinUiServ: LoadingUiService,
                 private route: ActivatedRoute,
-                private domService: DomService) {
+                private domService: DomService,
+                private router: Router) {
 
         this.route.paramMap.subscribe(params => {
             this.tipoCita = parseInt(params.get('tipo'), 10);
+            this.personCitaSel = this.tipoCita;
         });
     }
 
@@ -109,6 +112,7 @@ export class OdcalendarComponent implements OnInit {
         this.diasSemana = this.fechasService.getDiasSemana();
         this.pacsFiltered = [];
         this.loadMedicos();
+        this.loadPersonsCita();
         this.initListasForm();
         this.currentDate = new Date();
     }
@@ -127,6 +131,15 @@ export class OdcalendarComponent implements OnInit {
         this.personaService.listarMedicos(this.tipoCita).subscribe(res => {
             if (res.status === 200) {
                 this.medicos = res.medicos;
+            }
+        });
+    }
+
+    loadPersonsCita() {
+        this.personsCita = [];
+        this.tcitaService.getPersonsCita().subscribe(res => {
+            if (res.status === 200) {
+                this.personsCita = res.personscita;
             }
         });
     }
@@ -288,7 +301,7 @@ export class OdcalendarComponent implements OnInit {
         const horaStr = this.fechasService.getHoraStrFromNumber(hora);
         const horaFinStr = this.fechasService.getHoraStrFromNumber(horaFin);
         const paciente = `${tcita.per_nombres} ${tcita.per_apellidos}`;
-        const textoCita = `${horaStr} -${horaFinStr}: ${paciente} - ${tcita.ct_titulo}`;
+        const textoCita = `${horaStr} -${horaFinStr}: ${paciente} - ${tcita.ct_titulo} - ${tcita.ct_obs}`;
 
         let pxRow = 0;
         let pxRowEnd = 0;
@@ -735,5 +748,17 @@ export class OdcalendarComponent implements OnInit {
 
     raiseCancelClic() {
         this.evCancelar.emit('');
+    }
+
+    onPersonCitaChange($event: any) {
+        if (this.personCitaSel) {
+            if (this.personCitaSel !== this.tipoCita) {
+                this.router.navigate(['calendario', this.personCitaSel]);
+                this.tipoCita = this.personCitaSel;
+                this.loadMesArray();
+                this.loadMedicos();
+                this.loadCitas();
+            }
+        }
     }
 }
