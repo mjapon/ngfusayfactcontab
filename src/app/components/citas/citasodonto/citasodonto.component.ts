@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PersonaService} from '../../../services/persona.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-citasodonto',
@@ -15,8 +16,10 @@ export class CitasodontoComponent implements OnInit {
     datosIncompletos: boolean;
     datosPacienteFull: any;
     tipoOdontogramaSel: number;
+    isShowCalendar = false;
 
     constructor(private personaService: PersonaService,
+                private router: Router,
                 private loadUiService: LoadingUiService) {
     }
 
@@ -106,5 +109,14 @@ export class CitasodontoComponent implements OnInit {
 
     onEventoCreated($event: any) {
         this.selectedMasterTab = 1;
+    }
+
+    doGotoCalendar($event: any) {
+        this.isShowCalendar = true;
+        /*this.router.navigate(['calendario', $event]);*/
+    }
+
+    showListado($event: any) {
+        this.isShowCalendar = false;
     }
 }

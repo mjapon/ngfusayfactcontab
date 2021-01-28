@@ -1,30 +1,38 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {CitasMedicasService} from '../../../services/citas-medicas.service';
 import {ConsMedicaMsgService} from '../../../services/cons-medica-msg.service';
-import {Router} from '@angular/router';
+import {PersonaService} from '../../../services/persona.service';
+import {TcitaService} from '../../../services/tcita.service';
 
 @Component({
     selector: 'app-citasplaned',
     templateUrl: './citasplaned.component.html'
 })
-export class CitasplanedComponent implements OnInit {
+export class CitasplanedComponent implements OnInit, OnChanges {
 
     items: Array<any>;
     cols: Array<any>;
     selectedItem: any;
-    tipoFiltro: number;
+    tipoFiltro = 0;
     fechasstr: string;
+    personsCita: Array<any>;
+    personCitaSel: number;
+
     @Input() tipocita: number;
     @Output() registraAtencionEv = new EventEmitter<any>();
+    @Output() gotoCalendarEv = new EventEmitter<any>();
+    @Input() disablecals = true;
 
     rowHistoriaSel: any;
     showModalDet: boolean;
 
+
     constructor(private loadingUiService: LoadingUiService,
                 private citasMedicasService: CitasMedicasService,
                 private cosmedicamsgService: ConsMedicaMsgService,
-                private router: Router) {
+                private personaService: PersonaService,
+                private tcitaService: TcitaService) {
     }
 
     ngOnInit(): void {
@@ -32,7 +40,15 @@ export class CitasplanedComponent implements OnInit {
         this.cols = new Array<any>();
         this.tipoFiltro = 0;
         this.fechasstr = '';
-        this.loadGrid();
+        this.loadPersonsCita();
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        const tipcitaChange = changes.tipocita;
+        if (tipcitaChange.currentValue) {
+            this.personCitaSel = tipcitaChange.currentValue;
+            this.loadGrid();
+        }
     }
 
     loadGrid() {
@@ -52,10 +68,6 @@ export class CitasplanedComponent implements OnInit {
 
     }
 
-    crerCita(rowData) {
-        this.cosmedicamsgService.publishMessage({tipo: 1, msg: rowData});
-    }
-
     verCita(item: any) {
         this.rowHistoriaSel = item;
         this.showModalDet = true;
@@ -63,12 +75,12 @@ export class CitasplanedComponent implements OnInit {
 
     clickFiltro(tipo, event: Event) {
         event.preventDefault();
-        this.tipoFiltro = tipo;
-        this.loadGrid();
-    }
-
-    onCerrarDetHistoria($event: any) {
-        this.showModalDet = false;
+        if (this.tipoFiltro !== tipo) {
+            this.tipoFiltro = tipo;
+            this.loadGrid();
+        } else {
+            this.clearFiltro();
+        }
     }
 
     clearFiltro() {
@@ -82,7 +94,8 @@ export class CitasplanedComponent implements OnInit {
     }
 
     gotoCalendar() {
-        this.router.navigate(['calendario', this.tipocita]);
+        this.gotoCalendarEv.emit(this.tipocita);
+        /*this.router.navigate(['calendario', this.tipocita]);*/
     }
 
     onrowclic(rowData) {
@@ -93,5 +106,23 @@ export class CitasplanedComponent implements OnInit {
     onRegistraAtencionEv($event: any) {
         this.showModalDet = false;
         this.registraAtencionEv.emit($event);
+    }
+
+    loadPersonsCita() {
+        this.personsCita = [];
+        this.tcitaService.getPersonsCita().subscribe(res => {
+            if (res.status === 200) {
+                this.personsCita = res.personscita;
+            }
+        });
+    }
+
+    onPersonCitaChange($event: any) {
+        if (this.personCitaSel) {
+            if (this.personCitaSel !== this.tipocita) {
+                this.tipocita = this.personCitaSel;
+                this.loadGrid();
+            }
+        }
     }
 }

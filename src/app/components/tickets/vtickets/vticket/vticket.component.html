@@ -37,7 +37,6 @@
                 Buscar
             </button>
         </div>
-
     </div>
 
     <div class="col">
@@ -63,21 +62,24 @@
          (onRowUnselect)="onUnRowSelect($event)">
     <ng-template pTemplate="header">
         <tr>
-            <th *ngFor="let item of cols" [pSortableColumn]="item.field" [ngSwitch]="item.field">
-                {{item.label}}
+            <th *ngFor="let item of cols" [pSortableColumn]="item.field" [ngSwitch]="item.field" [width]="item.width">
+                <span class="fontsizesm">{{item.label}}</span>
                 <p-sortIcon [field]="item.field"></p-sortIcon>
             </th>
             <th>
-                Acción
+                <span class="font-weight-light">Acción</span>
             </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
-        <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
-            <td *ngFor="let item of cols">
-                {{rowData[item['field']]}}
+        <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="verDetalles(rowData)">
+            <td *ngFor="let item of cols" [width]="item.width">
+                <span class="fontsizesm">
+                    {{rowData[item['field']]}}
+                </span>
             </td>
             <td>
+                <!--
                 <button class="btn btn-sm btn-outline-dark" (click)="confirmarRow(rowData)" title="Confirmar"
                         *ngIf="rowData.vt_estado===0">
                     <i class="fa fa-check"></i>
@@ -85,6 +87,10 @@
                 <button class="btn btn-sm btn-outline-dark" (click)="anularRow(rowData)" title="Anular"
                         *ngIf="rowData.vt_estado===0">
                     <i class="fa fa-trash"></i>
+                </button>
+                -->
+                <button class="btn btn-sm btn-outline-dark" (click)="verDetalles(rowData)" title="Ver Detalles">
+                    <i class="fa fa-eye"></i>
                 </button>
             </td>
         </tr>
@@ -98,16 +104,22 @@
     </ng-template>
     <ng-template pTemplate="footer">
         <tr>
-            <td></td>
-            <td><span>Total:  </span></td>
-            <td>{{total}}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td colspan="2"><span class="font-weight-bold">Total:  </span></td>
+            <td colspan="4"><span class="font-weight-bold">{{total }}</span></td>
         </tr>
     </ng-template>
 
 </p-table>
 
 <p-contextMenu #cm [model]="itemsCtxMenu"></p-contextMenu>
+
+
+<div *ngIf="isShowDetalleRubro">
+    <p-dialog header="Detalles del rubro" [style]="{width: '80vw'}" [autoZIndex]="false"
+              [modal]="true"
+              [closeOnEscape]="true"
+              [(visible)]="isShowDetalleRubro">
+        <app-vticketview [vtickecod]="codvticektsel" (evCerrarBtn)="closeModalDet($event)"
+                         (evAnula)="onAnulaView($event)" (evConfirma)="onConfirmaView($event)"></app-vticketview>
+    </p-dialog>
+</div>

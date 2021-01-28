@@ -183,5 +183,4 @@ export class AbonosviewComponent implements OnInit, OnChanges {
             }
         });
     }
-
 }

@@ -8,8 +8,7 @@ import {ArrayutilService} from '../../../../services/arrayutil.service';
 
 @Component({
     selector: 'app-vticket',
-    templateUrl: './vticket.component.html',
-    styleUrls: ['./vticket.component.css']
+    templateUrl: './vticket.component.html'
 })
 export class VticketComponent implements OnInit {
     items: Array<any>;
@@ -22,6 +21,8 @@ export class VticketComponent implements OnInit {
     cuentas: Array<any>;
     tipoSel: any;
     cuentaSel: any;
+    isShowDetalleRubro = false;
+    codvticektsel: number;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -48,9 +49,11 @@ export class VticketComponent implements OnInit {
 
         this.itemsCtxMenu = [
             {label: 'Confirmar', icon: 'fa fa-check', command: (event) => this.confirmarRow(this.selectedItem)},
-            {label: 'Anular', icon: 'fa fa-trash', command: (event) => this.anularRow(this.selectedItem)}
+            {label: 'Anular', icon: 'fa fa-trash', command: (event) => this.anularRow(this.selectedItem)},
+            {label: 'Ver detalles', icon: 'fa fa-eye', command: (event) => this.verDetalles(this.selectedItem)}
         ];
     }
+
 
     nuevo() {
         this.router.navigate(['vticket', 'form']);
@@ -136,4 +139,24 @@ export class VticketComponent implements OnInit {
     goTipos() {
         this.router.navigate(['rubros']);
     }
+
+    verDetalles(rowData) {
+        this.codvticektsel = rowData.vt_id;
+        this.isShowDetalleRubro = true;
+    }
+
+    closeModalDet($event: any) {
+        this.isShowDetalleRubro = false;
+    }
+
+    onConfirmaView($event) {
+        this.isShowDetalleRubro = false;
+        this.loadGrid();
+    }
+
+    onAnulaView($event) {
+        this.isShowDetalleRubro = false;
+        this.loadGrid();
+    }
+
 }

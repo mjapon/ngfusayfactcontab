@@ -49,4 +49,9 @@ export class VentaticketService extends BaseService {
         return this.doPost(this.http, this.urlEndPoint, httpOptions, {vt_id: vtid});
     }
 
+    getDetalles(vtkcod: number) {
+        return this._doGet(this.getHOT({accion: 'gdet', vtkcod}));
+    }
+
+
 }

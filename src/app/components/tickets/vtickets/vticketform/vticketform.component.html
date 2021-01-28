@@ -2,14 +2,14 @@
     <div class="col-md-10">
         <div class="card">
             <div class="card-header">
-                <h4>Registrar {{this.tiposel.label}}</h4>
+                <h4>Registrar rubro</h4>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-9">
                         <form>
                             <div class="row">
-                                <div class="col">
+                                <div class="col-md">
                                     <div class="form-group">
                                         <label for="tipoInput">
                                             <span class="required">*</span>
@@ -22,55 +22,60 @@
                                                     [showClear]="false"
                                                     [(ngModel)]="tiposel"></p-dropdown>
                                     </div>
-
                                 </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="cuenta_id">
-                                            <span class="required">*</span>
-                                            Cuenta:</label>
-                                        <br>
-                                        <p-dropdown [options]="cuentasList" id="cuenta_id"
-                                                    [(ngModel)]="cuentasel"
-                                                    [virtualScroll]="true"
-                                                    (onChange)="onrubrosel($event)"
-                                                    placeholder="Seleccione el tipo de cuenta"
-                                                    [showClear]="true"
-                                                    [style]="{width:'100%', overflow:'visible'}"
-                                                    [filterMatchMode]="'startsWith'"
-                                                    filter="true"
-                                                    itemSize="50"
-                                                    name="cuenta_id"
-                                                    optionLabel="ic_nombre"
-                                                    inputId="cuenta_id"></p-dropdown>
-                                    </div>
+                                <div class="col-md">
+                                    <label for="vt_fecha">
+                                        <span class="required">*</span>
+                                        Fecha:</label>
+                                    <br>
+                                    <p-calendar id="vt_fecha"
+                                                [(ngModel)]="fechaRegistro"
+                                                inputId="vt_fecha" name="vt_fecha"
+                                                [monthNavigator]="true" [yearNavigator]="true"
+                                                [maxDate]="currentDate"
+                                                yearRange="2020:2100"
+                                                dateFormat="dd/mm/yy">
+                                    </p-calendar>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="vt_fecha">
-                                    <span class="required">*</span>
-                                    Fecha:</label>
-                                <br>
-                                <p-calendar id="vt_fecha"
-                                            [(ngModel)]="fechaRegistro"
-                                            inputId="vt_fecha" name="vt_fecha"
-                                            [monthNavigator]="true" [yearNavigator]="true"
-                                            [maxDate]="currentDate"
-                                            yearRange="2020:2100"
-                                            dateFormat="dd/mm/yy">
-                                </p-calendar>
+                            <div class="row">
+                                <div class="col-md">
+                                    <label for="cuenta_id">
+                                        <span class="required">*</span>
+                                        Cuenta:</label>
+                                    <br>
+                                    <p-dropdown [options]="cuentasList" id="cuenta_id"
+                                                [(ngModel)]="cuentasel"
+                                                [virtualScroll]="true"
+                                                (onChange)="onrubrosel($event)"
+                                                placeholder="Seleccione el tipo de cuenta"
+                                                [showClear]="true"
+                                                [style]="{width:'100%', overflow:'visible'}"
+                                                [filterMatchMode]="'startsWith'"
+                                                filter="true"
+                                                itemSize="50"
+                                                name="cuenta_id"
+                                                optionLabel="ic_nombre"
+                                                inputId="cuenta_id"></p-dropdown>
+                                </div>
+                                <div class="col-md">
+                                    <label for="costoInput">
+                                        <span class="required">*</span>
+                                        <i class="fa fa-usd"></i> Monto:</label>
+                                    <br>
+                                    <input type="text" class="form-control " id="costoInput" name="vt_monto"
+                                           [(ngModel)]="form.vt_monto" placeholder="" autocomplete="off">
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="costoInput">
-                                    <span class="required">*</span>
-                                    <i class="fa fa-usd"></i> Monto:</label>
-                                <input type="text" class="form-control " id="costoInput" name="vt_monto"
-                                       [(ngModel)]="form.vt_monto" placeholder="" autocomplete="off">
+                            <div class="mt-2 d-flex flex-column"><span>Adjunto:</span>
+                                <input type="file" id="archivoinput"
+                                       accept="image/*,application/pdf, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                       class="form-control-file"
+                                       (change)="onFileChange($event)"/>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group mt-3">
                                 <label for="obsInput">
                                     <i class="fa fa-sticky-note"></i>
                                     Observación</label>
@@ -89,6 +94,10 @@
                             <i class="fa fa-times"></i>
                             Cancelar
                         </button>
+                        <div class="mt-5" *ngIf="filepreview && adjisimage">
+                            <img [src]="filepreview" class="img-responsive" *ngIf="filepreview" width="220px"
+                                 height="200px"/>
+                        </div>
                     </div>
                 </div>
             </div>

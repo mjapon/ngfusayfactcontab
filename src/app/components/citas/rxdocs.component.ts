@@ -204,9 +204,7 @@ export class RxdocsComponent implements OnInit, OnChanges {
     }
 
     descargar(doc) {
-        //return this.rxDocsServ.getDownloadUrlNode(doc);
         const url = this.rxDocsServ.getDownloadUrlNode(doc);
-        const sqm = this.fautService.getEsquema();
         window.open(url, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=600');
     }
 

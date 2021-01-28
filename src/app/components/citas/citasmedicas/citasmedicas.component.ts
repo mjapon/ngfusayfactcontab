@@ -6,7 +6,7 @@ import {SwalService} from '../../../services/swal.service';
 import {ArrayutilService} from '../../../services/arrayutil.service';
 import {DomService} from '../../../services/dom.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {ConsMedicaMsgService} from '../../../services/cons-medica-msg.service';
 import {LocalStorageService} from '../../../services/local-storage.service';
@@ -40,6 +40,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     editando: boolean;
     codHistoriaEdit: number;
     pacienteSelected: any;
+    isShowCalendar = false;
 
     @ViewChild('mainDiv') mainDiv: any;
     @ViewChild('agendaDiv') agendaDiv: any;
@@ -59,6 +60,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 private domService: DomService,
                 private loadingUiService: LoadingUiService,
                 private route: ActivatedRoute,
+                private router: Router,
                 private cosMsgService: ConsMedicaMsgService,
                 private tcitaServ: TcitaService
     ) {
@@ -552,5 +554,13 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         } else {
             this.swalService.fireWarning('Esta cita no tiene registrado un paciente, no se puede ver la ficha clinica');
         }
+    }
+
+    doGotoCalendar($event: any) {
+        this.isShowCalendar = true;
+    }
+
+    showListado($event: any) {
+        this.isShowCalendar = false;
     }
 }

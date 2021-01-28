@@ -108,6 +108,8 @@ import {ResumenrefComponent} from './components/referentes/resumenref.component'
 import {ReferenteviewComponent} from './components/referentes/referenteview.component';
 import {SuscripcionComponent} from './components/referentes/suscripciones/suscripcion.component';
 import {SuscripviewComponent} from './components/referentes/suscripciones/suscripview.component';
+import {VticketviewComponent} from './components/tickets/vtickets/vticket/vticketview.component';
+import {AgendaComponent} from './components/citas/agenda.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -181,7 +183,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         ResumenrefComponent,
         ReferenteviewComponent,
         SuscripcionComponent,
-        SuscripviewComponent
+        SuscripviewComponent,
+        VticketviewComponent,
+        AgendaComponent
     ],
     imports: [
         CommonModule,

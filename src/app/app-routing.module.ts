@@ -23,13 +23,13 @@ import {UserformComponent} from './components/usuarios/userform/userform.compone
 import {TrubrosComponent} from './components/tickets/vtickets/trubros/trubros.component';
 import {TrubrosformComponent} from './components/tickets/vtickets/trubrosform/trubrosform.component';
 import {CitasodontoComponent} from './components/citas/citasodonto/citasodonto.component';
-import {OdcalendarComponent} from './components/citas/odcalendar/odcalendar.component';
 import {FacturaslistComponent} from './components/transac/facturas/facturaslist/facturaslist.component';
 import {NewfacturaformComponent} from './components/transac/facturas/newfacturaform/newfacturaform.component';
 import {PlaneslistComponent} from './components/transac/planes/planeslist/planeslist.component';
 import {PlanesformComponent} from './components/transac/planes/planesform/planesform.component';
 import {ReferenteslistComponent} from './components/referentes/referenteslist.component';
 import {ReferenteviewComponent} from './components/referentes/referenteview.component';
+import {AgendaComponent} from './components/citas/agenda.component';
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -53,7 +53,8 @@ const routes: Routes = [
     {path: 'usuarios/form/:us_id', component: UserformComponent},
     {path: 'rubros', component: TrubrosComponent},
     {path: 'rubros/form/:ic_id', component: TrubrosformComponent},
-    {path: 'calendario/:tipo', component: OdcalendarComponent},
+    /*{path: 'calendario/:tipo', component: OdcalendarComponent},*/
+    {path: 'agenda/:tipo', component: AgendaComponent},
     {path: 'trndocs', component: FacturaslistComponent},
     {path: 'trndocform', component: NewfacturaformComponent},
     {path: 'planes', component: PlaneslistComponent},

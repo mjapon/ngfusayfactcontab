@@ -8,8 +8,7 @@ import {FechasService} from '../../../../services/fechas.service';
 
 @Component({
     selector: 'app-vticketform',
-    templateUrl: './vticketform.component.html',
-    styleUrls: ['./vticketform.component.css']
+    templateUrl: './vticketform.component.html'
 })
 export class VticketformComponent implements OnInit {
     tiposList: any;
@@ -19,6 +18,11 @@ export class VticketformComponent implements OnInit {
     tiposel: any;
     currentDate = new Date();
     fechaRegistro = new Date();
+
+    datafile: any;
+    filepreview: any;
+    base64data: any = null;
+    adjisimage = false;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -42,7 +46,7 @@ export class VticketformComponent implements OnInit {
                 this.tiposel = this.tiposList[0];
             }
         });
-        this.uiService.setFocusById('costoInput', 1000);
+        this.uiService.setFocusById('tipoInput', 600);
     }
 
 
@@ -61,7 +65,24 @@ export class VticketformComponent implements OnInit {
                 this.form.vt_tipo = this.cuentasel.ic_id;
                 this.form.vt_fecha = fechaRegistroStr;
                 this.loadingUiService.publishBlockMessage();
-                this.vtService.guardar(this.form).subscribe(res => {
+
+                let filetopost = null;
+                if (this.datafile && this.base64data) {
+                    filetopost = {
+                        rxd_filename: this.datafile.name,
+                        archivo: this.base64data
+                    };
+                }
+                const formtopost = {
+                    form: this.form,
+                    archivo: null
+                };
+
+                if (filetopost) {
+                    formtopost.archivo = filetopost;
+                }
+
+                this.vtService.guardar(formtopost).subscribe(res => {
                     this.swalService.fireToastSuccess(res.msg);
                     if (res.status === 200) {
                         this.router.navigate(['vtickets']);
@@ -93,4 +114,45 @@ export class VticketformComponent implements OnInit {
             });
         }
     }
+
+    clearFile() {
+        this.filepreview = null;
+        this.base64data = null;
+    }
+
+    processFile() {
+        const mimeType = this.datafile.type;
+        const rega = /image|pdf|document/;
+        const regimg = /image/;
+        this.adjisimage = regimg.test(mimeType);
+        if (rega.test(mimeType)) {
+            const reader = new FileReader();
+            reader.readAsDataURL(this.datafile);
+            reader.onload = (e) => {
+                this.filepreview = reader.result;
+                this.base64data = this.filepreview;
+            };
+        } else {
+            this.clearFile();
+            this.swalService.fireError('Este tipo de archivo no esta admitido');
+        }
+    }
+
+    onFileChange(fileInput: any) {
+        this.datafile = fileInput.target.files[0];
+        this.adjisimage = false;
+        if (this.datafile) {
+            const length = (this.datafile.size / 1024) / 1024;
+            if (length > 10) {
+                this.clearFile();
+                this.swalService.fireError('El tamaño del archivo es muy grande, elija otro (Tamaño máximo 10MB)');
+            } else {
+                this.processFile();
+            }
+        } else {
+            this.filepreview = null;
+            this.base64data = null;
+        }
+    }
+
 }

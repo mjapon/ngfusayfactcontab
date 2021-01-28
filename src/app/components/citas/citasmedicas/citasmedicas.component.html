@@ -33,8 +33,15 @@
         </div>
 
         <div id="CitasPlanificadas" *ngIf="selectedSupTab===3">
-            <app-citasplaned [tipocita]="tipoHistoria"
-                             (registraAtencionEv)="onRegistrarAtencionEv($event)"></app-citasplaned>
+            <div *ngIf="!isShowCalendar">
+                <app-citasplaned [tipocita]="1"
+                                 (registraAtencionEv)="onRegistrarAtencionEv($event)"
+                                 (gotoCalendarEv)="doGotoCalendar($event)"></app-citasplaned>
+            </div>
+            <div *ngIf="isShowCalendar">
+                <app-odcalendar [tipoCita]="1" [showListado]="true"
+                                (evListado)="showListado($event)"></app-odcalendar>
+            </div>
         </div>
 
     </div>

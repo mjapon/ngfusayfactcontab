@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {SuscripcionService} from '../../../services/suscripcion.service';
 import {SwalService} from '../../../services/swal.service';
-import {AsientoService} from "../../../services/asiento.service";
+import {AsientoService} from '../../../services/asiento.service';
 
 @Component({
     selector: 'app-suscripview',
@@ -167,12 +167,10 @@ export class SuscripviewComponent implements OnInit, OnChanges {
     }
 
     duplicar() {
-        console.log('Valor de datos suscrip es:', this.datossuscrip);
         this.asientoService.duplicar(this.datossuscrip.trn_codigo).subscribe(res => {
             if (res.status === 200) {
                 this.swalService.fireToastSuccess(res.msg);
             }
         });
-        //this.asientoService.duplicar();
     }
 }

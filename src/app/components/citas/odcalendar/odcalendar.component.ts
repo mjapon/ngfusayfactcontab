@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {addDays, addMonths, addWeeks, getMonth, getYear, startOfWeek} from 'date-fns';
 import {FechasService} from '../../../services/fechas.service';
 import {SwalService} from '../../../services/swal.service';
@@ -8,16 +8,17 @@ import {DomService} from '../../../services/dom.service';
 import {MenuItem} from 'primeng/api';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {LocalStorageService} from '../../../services/local-storage.service';
-import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-odcalendar',
     templateUrl: './odcalendar.component.html',
     styleUrls: ['./odcalendar.component.css']
 })
-export class OdcalendarComponent implements OnInit {
+export class OdcalendarComponent implements OnInit, OnChanges {
     @Input() tipoCita: number;
     @Input() showCancelar = false;
+    @Input() showListado = false;
+    @Input() enableCalendars = false;
 
     calHoraIni: number;
     calHoraFin: number;
@@ -53,6 +54,7 @@ export class OdcalendarComponent implements OnInit {
     mesArray: Array<any>;
     diasSemana: Array<any>;
     mesString: string;
+    mesDateString: string;
     currentMonthDate: Date;
     currentMonthNumber: number;
     showModalCrea: boolean;
@@ -70,6 +72,7 @@ export class OdcalendarComponent implements OnInit {
     pacForCalendar: any;
     @Output() evCreated = new EventEmitter<any>();
     @Output() evCancelar = new EventEmitter<any>();
+    @Output() evListado = new EventEmitter<any>();
 
     constructor(private fechasService: FechasService,
                 private swalService: SwalService,
@@ -77,14 +80,15 @@ export class OdcalendarComponent implements OnInit {
                 private lclStrgService: LocalStorageService,
                 private tcitaService: TcitaService,
                 private loadinUiServ: LoadingUiService,
-                private route: ActivatedRoute,
-                private domService: DomService,
-                private router: Router) {
+                private domService: DomService) {
 
-        this.route.paramMap.subscribe(params => {
-            this.tipoCita = parseInt(params.get('tipo'), 10);
-            this.personCitaSel = this.tipoCita;
-        });
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        const tipcitaChange = changes.tipoCita;
+        if (tipcitaChange.currentValue) {
+            this.personCitaSel = tipcitaChange.currentValue;
+        }
     }
 
     ngOnInit(): void {
@@ -552,6 +556,10 @@ export class OdcalendarComponent implements OnInit {
         if (!sameMonth) {
             this.loadMesArray(date);
         }
+        const anio = getYear(this.currentMonthDate);
+        this.fechasService.getMesString(getMonth(this.selectedDate) + 1).then(res => {
+            this.mesDateString = `${res} de ${anio}`;
+        });
     }
 
     mustLoadNewWeek(date: Date) {
@@ -621,6 +629,22 @@ export class OdcalendarComponent implements OnInit {
             this.clearCssMonthCalc();
         }
         this.changeSelectedDate(fechaActual, sameMonth);
+        if (loadWeek) {
+            this.loadDias();
+        } else {
+            this.updateEstiloDia();
+        }
+    }
+
+    hoyplusdays(ndays) {
+        const fechaActual = this.fechasService.getCurrentDate();
+        const fechaIter = this.fechasService.sumarDias(fechaActual, ndays);
+        const loadWeek = this.mustLoadNewWeek(fechaIter);
+        const sameMonth = this.auxIsSameMonth(fechaIter);
+        if (sameMonth) {
+            this.clearCssMonthCalc();
+        }
+        this.changeSelectedDate(fechaIter, sameMonth);
         if (loadWeek) {
             this.loadDias();
         } else {
@@ -750,10 +774,13 @@ export class OdcalendarComponent implements OnInit {
         this.evCancelar.emit('');
     }
 
+    raiseListadoClic() {
+        this.evListado.emit(this.tipoCita);
+    }
+
     onPersonCitaChange($event: any) {
         if (this.personCitaSel) {
             if (this.personCitaSel !== this.tipoCita) {
-                this.router.navigate(['calendario', this.personCitaSel]);
                 this.tipoCita = this.personCitaSel;
                 this.loadMesArray();
                 this.loadMedicos();

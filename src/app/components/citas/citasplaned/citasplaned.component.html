@@ -1,30 +1,58 @@
-<div class="d-flex justify-content-between">
+<div class="d-flex justify-content-between pt-1 pb-3 pl-2">
     <div class="d-flex justify-content-start">
-        <div class="btn-group" role="group">
-            <button id="btnGroupDrop1" type="button"
-                    class="btn btn-outline-success dropdown-toggle dropdown-menu-md-left"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-filter"></i> Filtrar
-            </button>
-            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                <a class="dropdown-item" href="#" (click)="clickFiltro(1,$event)">Hoy</a>
-                <a class="dropdown-item" href="#" (click)="clickFiltro(2,$event)">Mañana</a>
-                <a class="dropdown-item" href="#" (click)="clickFiltro(3,$event)">Esta Semana</a>
-                <a class="dropdown-item" href="#" (click)="clickFiltro(4,$event)">Esta Mes</a>
+        <div class="d-flex">
+            <div class="btn-group btn-group-sm" role="group">
+                <button class="btn btn-outline-secondary btn-sm"><span><i
+                        class="fa fa-filter"></i> Filtro: </span>
+                </button>
+                <button class="btn btn-sm {{tipoFiltro===1?'btn-primary':'btn-outline-secondary'}}"
+                        (click)="clickFiltro(1,$event)">
+                    <i class="fa fa-check-circle" *ngIf="tipoFiltro===1"></i>
+                    Hoy
+                </button>
+                <button class="btn btn-sm {{tipoFiltro===2?'btn-primary':'btn-outline-secondary'}}"
+                        (click)="clickFiltro(2,$event)">
+                    <i class="fa fa-check-circle" *ngIf="tipoFiltro===2"></i>
+                    Mañana
+                </button>
+                <button class="btn btn-sm {{tipoFiltro===3?'btn-primary':'btn-outline-secondary'}}"
+                        (click)="clickFiltro(3,$event)">
+                    <i class="fa fa-check-circle" *ngIf="tipoFiltro===3"></i>
+                    Esta semana
+                </button>
+                <button class="btn btn-sm {{tipoFiltro===4?'btn-primary':'btn-outline-secondary'}}"
+                        (click)="clickFiltro(4,$event)">
+                    <i class="fa fa-check-circle" *ngIf="tipoFiltro===4"></i>
+                    Este mes
+                </button>
             </div>
         </div>
 
-        <div *ngIf="tipoFiltro>0" style="padding: 0 10px">
-        <span>
-        Filtro aplicado: {{fechasstr}}
-        </span>
-            <button class="btn btn-outline-success" style="margin: 0 10px" (click)="clearFiltro()">Limpiar</button>
+        <div *ngIf="tipoFiltro>0" class="ml-3">
+            <span class="fontsizesm">Filtro aplicado: {{fechasstr}}</span>
+            <button class="btn btn-sm btn-outline-secondary ml-2" title="Limpiar filtro"
+                    (click)="clearFiltro()">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+        <div class="ml-3">
+            <div class="p-fluid">
+                <p-dropdown [options]="personsCita"
+                            placeholder="Seleccione el calendario a mostrar"
+                            filter="true"
+                            [disabled]="disablecals"
+                            (onChange)="onPersonCitaChange($event)"
+                            optionLabel="referente" optionValue="pc_id"
+                            [(ngModel)]="personCitaSel"></p-dropdown>
+            </div>
         </div>
     </div>
-    <button class="btn btn-outline-success" (click)="gotoCalendar()"><i class="fa fa-calendar"></i> Ver calendario
+    <button class="btn btn-sm btn-outline-primary" (click)="gotoCalendar()"><i class="fa fa-calendar"></i> Ver
+        calendario
     </button>
 </div>
 
+<h6 class="fontsizexsm font-italic">Total registros: {{items.length}}</h6>
 <p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
          (onRowSelect)="onRowSelect($event)"
          [autoLayout]="true"
