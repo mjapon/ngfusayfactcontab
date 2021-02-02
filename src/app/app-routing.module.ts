@@ -30,6 +30,7 @@ import {PlanesformComponent} from './components/transac/planes/planesform/planes
 import {ReferenteslistComponent} from './components/referentes/referenteslist.component';
 import {ReferenteviewComponent} from './components/referentes/referenteview.component';
 import {AgendaComponent} from './components/citas/agenda.component';
+import {PlanctaslistComponent} from './components/contabilidad/plancuentas/planctaslist.component';
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -61,6 +62,7 @@ const routes: Routes = [
     {path: 'planesform', component: PlanesformComponent},
     {path: 'referentes', component: ReferenteslistComponent},
     {path: 'referentes/:codref', component: ReferenteviewComponent},
+    {path: 'plancuentas', component: PlanctaslistComponent},
     {path: '**', component: HomeComponent}
 ];
 

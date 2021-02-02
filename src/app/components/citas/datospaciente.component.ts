@@ -399,7 +399,7 @@ export class DatospacienteComponent implements OnInit, OnChanges {
     logicaDatosIncompletos(showMessage) {
         this.domService.setFocusTimeout('perNombresInput', 600);
         if (showMessage) {
-            this.swalService.fireToastWarn('Datos incompletos del paciente, favor completar');
+            this.swalService.fireToastWarn('Datos incompletos del referente, favor completar');
         }
     }
 

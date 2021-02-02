@@ -112,4 +112,29 @@ export class ArticuloService extends BaseService {
     getImpuestos() {
         return this._doGet(this.getHOT({accion: 'gimpuestos'}));
     }
+
+    getRaizPlanCuentas(padrexpand) {
+        return this._doGet(this.getHOT({accion: 'gplanc', padrexpand}));
+    }
+
+    getHijosPlanCuentas(padre) {
+        return this._doGet(this.getHOT({accion: 'gplancchild', padre}));
+    }
+
+    getFormPlanCuenta(padre) {
+        return this._doGet(this.getHOT({accion: 'gformplancta', padre}));
+    }
+
+    crearCtaContable(form) {
+        return this._doPost(this.getHOT({accion: 'guardaplancta'}), form);
+    }
+
+    getDetCtaContable(codcta) {
+        return this._doGet(this.getHOT({accion: 'gdetctacontable', codcta}));
+    }
+
+    actualizarPlanCta(form) {
+        return this._doPost(this.getHOT({accion: 'updatectacontable'}), form);
+    }
+
 }

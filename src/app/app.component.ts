@@ -30,7 +30,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
-        this.stylemaindiv = 'width: 92%;';
+        this.stylemaindiv = 'width: 100%;';
         this.classrouteroutlet = '';
         this.isshowAppMenu = true;
         this.blocked = false;
@@ -38,7 +38,16 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.translate('es');
         this.isLogged = this.fautService.isAuthenticated();
         if (this.isLogged) {
-            this.classrouteroutlet = 'ml-2 mt-2 mr-0';
+            if (this.isshowAppMenu) {
+                this.classrouteroutlet = 'ml-2 mt-2 mr-0';
+                this.stylemaindiv = 'width: 92%;';
+            } else {
+                this.classrouteroutlet = '';
+                this.stylemaindiv = 'width: 100%;';
+            }
+        } else {
+            this.classrouteroutlet = '';
+            this.stylemaindiv = 'width: 100%;';
         }
         this.fautService.source.subscribe(msg => {
             if (msg === 'logout') {
@@ -51,7 +60,16 @@ export class AppComponent implements OnInit, AfterViewInit {
                 this.hideMenu();
             }
             if (this.isLogged) {
-                //
+                if (this.isshowAppMenu) {
+                    this.stylemaindiv = 'width: 92%;';
+                    this.classrouteroutlet = 'ml-2 mt-2 mr-0';
+                } else {
+                    this.stylemaindiv = 'width: 100%;';
+                    this.classrouteroutlet = '';
+                }
+            } else {
+                this.classrouteroutlet = '';
+                this.stylemaindiv = 'width: 100%;';
             }
         });
 
@@ -65,11 +83,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     hideMenu() {
         if (this.isshowAppMenu) {
-            this.stylemaindiv = 'width: 100%;';
             this.isshowAppMenu = false;
+            this.stylemaindiv = 'width: 100%;';
+            this.classrouteroutlet = '';
         } else {
-            this.stylemaindiv = 'width: 92%;';
             this.isshowAppMenu = true;
+            this.stylemaindiv = 'width: 92%;';
+            this.classrouteroutlet = 'ml-2 mt-2 mr-0';
         }
     }
 

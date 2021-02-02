@@ -70,6 +70,7 @@ export class LoginComponent implements OnInit {
             return;
         }
 
+
         const form = this.loginForm.value;
         this.loadingServ.publishBlockMessage();
         this.fautService.autenticar(form.empresa, form.username, form.password).subscribe(

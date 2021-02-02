@@ -110,6 +110,9 @@ import {SuscripcionComponent} from './components/referentes/suscripciones/suscri
 import {SuscripviewComponent} from './components/referentes/suscripciones/suscripview.component';
 import {VticketviewComponent} from './components/tickets/vtickets/vticket/vticketview.component';
 import {AgendaComponent} from './components/citas/agenda.component';
+import {PlanctaslistComponent} from './components/contabilidad/plancuentas/planctaslist.component';
+import {TreeModule} from 'primeng/tree';
+import {LibrodiariolistComponent} from './components/contabilidad/librodiario/librodiariolist/librodiariolist.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -185,7 +188,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         SuscripcionComponent,
         SuscripviewComponent,
         VticketviewComponent,
-        AgendaComponent
+        AgendaComponent,
+        PlanctaslistComponent,
+        LibrodiariolistComponent
     ],
     imports: [
         CommonModule,
@@ -221,6 +226,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         AutoCompleteModule,
         SliderModule,
         ColorPickerModule,
+        TreeModule,
         TranslateModule.forRoot({
             defaultLanguage: 'es', loader: {
                 provide: TranslateLoader,
