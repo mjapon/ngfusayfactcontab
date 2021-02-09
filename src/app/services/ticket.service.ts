@@ -14,8 +14,8 @@ export class TicketService extends BaseService {
         super('/tticket', localStrgServ, http);
     }
 
-    listar(dia: string): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'listar', dia});
+    listar(dia: string, desde: string, hasta: string, seccion: number, servicios: string): Observable<any> {
+        const httpOptions = this.getHOT({accion: 'listar', dia, desde, hasta, seccion, servicios});
         return this._doGet(httpOptions);
     }
 

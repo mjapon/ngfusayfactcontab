@@ -1,0 +1,180 @@
+<div class="p-4">
+    <div *ngIf="isLoading">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="!isLoading">
+
+        <div>
+            <h3 class="quitaPaddingMargin">Crear Asiento Contable</h3>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3"><span class="font-weight-light">Fecha:</span></div>
+                    <div class="col-md">
+                        <p-calendar [(ngModel)]="formasiento.trn_fecregobj"
+                                    [showIcon]="false"
+                                    class="ml-2 p-inputtext-sm"
+                                    [maxDate]="currentdate"
+                                    inputId="trn_fecregobj"
+                                    [monthNavigator]="true" [yearNavigator]="true"
+                                    yearRange="1900:2100"
+                                    dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3"><span class="font-weight-light">Número:</span></div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control form-control-sm  ml-2"
+                               [(ngModel)]="formasiento.secuencia"
+                               disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div>
+                            <span>Cuenta Contable:</span>
+                        </div>
+                        <div class="p-fluid">
+                            <p-autoComplete [(ngModel)]="ctacontablesel" [suggestions]="ctasFiltrados"
+                                            (completeMethod)="buscaCtasContables($event)" field="ic_nombre"
+                                            (keyup.enter)="onEnterFiltroCtas($event)"
+                                            inputId="ctasAutoCom"
+                                            placeholder="Digite el nombre o el código de la cuenta contable"
+                                            (onSelect)="onCtaContableSelect($event)">
+                            </p-autoComplete>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <span>Tipo:</span>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn {{formdetinst.dt_debito===1?'btn-outline-primary':'btn-outline-secondary'}}"
+                                    (click)="formdetinst.dt_debito=1">
+                                Debe <i class="fa fa-check-circle" *ngIf="formdetinst.dt_debito===1"> </i>
+                            </button>
+                            <button class="btn {{formdetinst.dt_debito===-1?'btn-outline-primary':'btn-outline-secondary'}}"
+                                    (click)="formdetinst.dt_debito=-1">
+                                Haber <i class="fa fa-check-circle" *ngIf="formdetinst.dt_debito===-1"> </i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <span>Monto:</span>
+                        </div>
+                        <input type="text" class="form-control" [(ngModel)]="formdetinst.dt_valor">
+                    </div>
+                    <div class="col-md-1 d-flex flex-column-reverse">
+                        <div>
+                            <button class="btn btn-outline-primary" (click)="agregar()">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-2">
+            <div class="table-responsive mt-2">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col" style="width: 3%">
+                            <span class="font-weight-normal">#</span>
+                        </th>
+                        <th scope="col" style="width: 33%">
+                            <span class="font-weight-normal">
+                                Cuenta Contable </span>
+                        </th>
+                        <th scope="col" style="width: 10%">
+                            <span class="font-weight-normal">
+                                Debe </span></th>
+                        <th scope="col" style="width: 10%">
+                            <span class="font-weight-normal">
+                                Haber </span></th>
+                        <th scope="col" style="width: 10%">
+                            <span class="font-weight-normal">
+                                Acción</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ng-container *ngIf="detalles.length>0">
+                        <tr *ngFor="let fila of detalles">
+                            <th scope="row">
+                                <span class="font-weight-normal fontsizesm">{{detalles.indexOf(fila) + 1}}</span>
+                            </th>
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <span class="font-weight-lighter fontsizenr">{{fila.ic_code}}</span>
+                                    <span class="font-weight-light fontsizenr">{{fila.ic_nombre}}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div *ngIf="fila.dt_debito===1">
+                                    <input type="text" class="form-control" [(ngModel)]="fila.dt_valor">
+                                </div>
+                            </td>
+                            <td>
+                                <div *ngIf="fila.dt_debito===-1">
+                                    <input type="text" class="form-control" [(ngModel)]="fila.dt_valor">
+                                </div>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-secondary" (click)="quitarItem(fila)"
+                                        title="Quitar">
+                                    <i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <tr>
+                        <th>
+
+                        </th>
+                        <td>
+                            <span class="font-weight-bold">TOTAL:</span>
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">{{totales.debe}}</span>
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">{{totales.haber}}</span>
+                        </td>
+                        <td></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row mt-1">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="obsTA">Observación:</label>
+                    <textarea rows="3" class="form-control" id="obsTA">
+                </textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <div>
+                <button class="btn btn-outline-primary"><i class="fa fa-save"></i> Guardar</button>
+                <button class="btn btn-outline-secondary ml-3" (click)="cancelar()"><i class="fa fa-times"></i>
+                    Cancelar
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+</div>

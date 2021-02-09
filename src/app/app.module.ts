@@ -76,6 +76,7 @@ import {BlockUIModule} from 'primeng/blockui';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {SliderModule} from 'primeng/slider';
+import {MultiSelectModule} from 'primeng/multiselect';
 import {MessageService} from 'primeng/api';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
@@ -113,6 +114,7 @@ import {AgendaComponent} from './components/citas/agenda.component';
 import {PlanctaslistComponent} from './components/contabilidad/plancuentas/planctaslist.component';
 import {TreeModule} from 'primeng/tree';
 import {LibrodiariolistComponent} from './components/contabilidad/librodiario/librodiariolist/librodiariolist.component';
+import {LibrodiarioformComponent} from './components/contabilidad/librodiario/librodiarioform/librodiarioform.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -190,7 +192,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         VticketviewComponent,
         AgendaComponent,
         PlanctaslistComponent,
-        LibrodiariolistComponent
+        LibrodiariolistComponent,
+        LibrodiarioformComponent
     ],
     imports: [
         CommonModule,
@@ -227,6 +230,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         SliderModule,
         ColorPickerModule,
         TreeModule,
+        MultiSelectModule,
         TranslateModule.forRoot({
             defaultLanguage: 'es', loader: {
                 provide: TranslateLoader,

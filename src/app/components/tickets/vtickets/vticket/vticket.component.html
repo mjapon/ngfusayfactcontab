@@ -79,16 +79,6 @@
                 </span>
             </td>
             <td>
-                <!--
-                <button class="btn btn-sm btn-outline-dark" (click)="confirmarRow(rowData)" title="Confirmar"
-                        *ngIf="rowData.vt_estado===0">
-                    <i class="fa fa-check"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-dark" (click)="anularRow(rowData)" title="Anular"
-                        *ngIf="rowData.vt_estado===0">
-                    <i class="fa fa-trash"></i>
-                </button>
-                -->
                 <button class="btn btn-sm btn-outline-dark" (click)="verDetalles(rowData)" title="Ver Detalles">
                     <i class="fa fa-eye"></i>
                 </button>
@@ -112,7 +102,6 @@
 </p-table>
 
 <p-contextMenu #cm [model]="itemsCtxMenu"></p-contextMenu>
-
 
 <div *ngIf="isShowDetalleRubro">
     <p-dialog header="Detalles del rubro" [style]="{width: '80vw'}" [autoZIndex]="false"

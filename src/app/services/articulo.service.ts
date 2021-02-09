@@ -87,6 +87,10 @@ export class ArticuloService extends BaseService {
         return this._doGet(this.getHOT({accion: 'gartsserv', filtro, sec: secid}));
     }
 
+    busCtasContables(filtro: string) {
+        return this._doGet((this.getHOT({accion: 'gctascontables', filtro})));
+    }
+
     buscaAllServDentalles() {
         return this._doGet(this.getHOT({accion: 'gservdentall'}));
     }

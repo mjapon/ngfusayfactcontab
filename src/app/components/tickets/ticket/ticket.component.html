@@ -1,75 +1,116 @@
-<div class="row">
-    <div class="col-md-4">
-        <h4>Tickets</h4>
-    </div>
-    <div class="col d-flex justify-content-end">
-        <div class="btn-group" role="group" aria-label="Default button group">
-            <button type="button" class="btn btn-outline-success" (click)="nuevo()">
-                <i class="fa fa-plus-circle"></i>
-                Crear
-            </button>
+<h4>Tickets</h4>
+
+<div *ngIf="isLoading">
+    <app-loading></app-loading>
+</div>
+<div *ngIf="!isLoading">
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <div class="d-flex">
+                <div>
+                    <p class="quitaPaddingMargin font-weight-light">Desde:</p>
+                    <p-calendar [showIcon]="false"
+                                [(ngModel)]="desde"
+                                [monthNavigator]="true" [yearNavigator]="true"
+                                yearRange="2019:2050"
+                                dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+                <div>
+                    <p class="quitaPaddingMargin font-weight-light">Hasta:</p>
+                    <p-calendar [showIcon]="false"
+                                [(ngModel)]="hasta"
+                                [monthNavigator]="true" [yearNavigator]="true" [minDate]="desde"
+                                yearRange="2019:2050"
+                                dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div>
+                <p class="quitaPaddingMargin font-weight-light">Tipo:</p>
+                <div class="p-fluid">
+                    <p-multiSelect [options]="servicios" [(ngModel)]="selectedServices" [filter]="false"
+                                   defaultLabel="Filtrar por tipo de servicio"
+                                   optionLabel="ic_nombre" optionValue="ic_id"></p-multiSelect>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div>
+                <p class="quitaPaddingMargin font-weight-light">Sección:</p>
+                <div class="p-fluid">
+                    <p-dropdown [options]="secciones" [(ngModel)]="selectedSection"
+                                optionLabel="sec_nombre"
+                                optionValue="sec_id">
+                    </p-dropdown>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-end align-items-end">
+            <div class="btn-group" role="group" aria-label="Default button group">
+                <button type="button" class="btn btn-outline-secondary" (click)="loadGrid()">
+                    <i class="fa fa-search"></i> Buscar
+                </button>
+                <button type="button" class="btn btn-outline-primary" (click)="nuevo()">
+                    <i class="fa fa-plus-circle"></i> Crear
+                </button>
+            </div>
         </div>
     </div>
-</div>
-<hr class="quitaPaddingMargin">
-<div class="row mt-1 mb-2">
-    <div class="col">
-        <p-calendar showButtonBar="true" [(ngModel)]="dia" (onSelect)="loadGrid()" [showIcon]="true"
-                    dateFormat="dd/mm/yy"></p-calendar>
-    </div>
+
+    <p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
+             (onRowSelect)="onRowSelect($event)"
+             [autoLayout]="true"
+             [resizableColumns]="true"
+             [(contextMenuSelection)]="selectedItem"
+             [contextMenu]="cm"
+             (onRowUnselect)="onUnRowSelect($event)">
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let item of cols" [pSortableColumn]="item.field" [ngSwitch]="item.field">
+                    {{item.label}}
+                    <p-sortIcon [field]="item.field"></p-sortIcon>
+                </th>
+                <th>
+                    Acción
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData>
+            <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
+                <td *ngFor="let item of cols" [width]="item.width">
+                    <span class="fontsizesm">
+                    {{rowData[item['field']]}}
+                    </span>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-outline-dark" (click)="imprimirRow(rowData)" title="Imprimir">
+                        <i class="fa fa-print"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-dark" (click)="anularRow(rowData)" title="Anular">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <tr>
+                <td colspan="6">
+                    <span class="font-weight-bold">Total:  </span>
+                </td>
+                <td>{{total}}</td>
+                <td></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+                <td [attr.colspan]="cols.length+1">
+                    <span class="text-muted">No hay registros</span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
 </div>
 
-
-<p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
-         (onRowSelect)="onRowSelect($event)"
-         [autoLayout]="true"
-         [resizableColumns]="true"
-         [(contextMenuSelection)]="selectedItem"
-         [contextMenu]="cm"
-         (onRowUnselect)="onUnRowSelect($event)">
-    <ng-template pTemplate="header">
-        <tr>
-            <th *ngFor="let item of cols" [pSortableColumn]="item.field" [ngSwitch]="item.field">
-                {{item.label}}
-                <p-sortIcon [field]="item.field"></p-sortIcon>
-            </th>
-            <th>
-                Acción
-            </th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData>
-        <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
-            <td *ngFor="let item of cols">
-                {{rowData[item['field']]}}
-            </td>
-            <td>
-                <button class="btn btn-sm btn-outline-dark" (click)="imprimirRow(rowData)" title="Imprimir">
-                    <i class="fa fa-print"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-dark" (click)="anularRow(rowData)" title="Anular">
-                    <i class="fa fa-trash"></i>
-                </button>
-            </td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="footer">
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><span>Total:  </span></td>
-            <td>{{total}}</td>
-            <td></td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage" let-columns>
-        <tr>
-            <td [attr.colspan]="cols.length+1">
-                <span class="text-muted">No hay registros</span>
-            </td>
-        </tr>
-    </ng-template>
-</p-table>
 
 <p-contextMenu #cm [model]="itemsCtxMenu"></p-contextMenu>

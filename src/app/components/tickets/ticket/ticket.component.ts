@@ -21,6 +21,13 @@ export class TicketComponent implements OnInit {
 
     itemsCtxMenu: MenuItem[];
     total: any;
+    desde: Date;
+    hasta: Date;
+    servicios: Array<any>;
+    selectedServices: Array<any>;
+    selectedSection: any;
+    secciones: Array<any>;
+    isLoading = false;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -31,11 +38,22 @@ export class TicketComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.items = new Array<any>();
-        this.cols = new Array<any>();
+        this.selectedServices = [];
+        this.selectedSection = 0;
+        this.items = [];
+        this.cols = [];
+        this.servicios = [];
         this.total = 0.0;
+
+        this.isLoading = true;
         this.ticketService.getFormListado().subscribe(res => {
             this.dia = parse(res.dia, 'd/M/yyyy', new Date());
+            this.desde = parse(res.desde, 'd/M/yyyy', new Date());
+            this.hasta = parse(res.hasta, 'd/M/yyyy', new Date());
+            this.selectedSection = res.sec_def;
+            this.secciones = res.secciones;
+            this.servicios = res.prods;
+            this.isLoading = false;
             this.loadGrid();
         });
 
@@ -55,11 +73,16 @@ export class TicketComponent implements OnInit {
     }
 
     loadGrid() {
+        this.isLoading = true;
         const diaStr = this.fechasService.formatDate(this.dia);
-        this.ticketService.listar(diaStr).subscribe(res => {
+        const desdeStr = this.fechasService.formatDate(this.desde);
+        const hastaStr = this.fechasService.formatDate(this.hasta);
+        const servicios = this.selectedServices ? this.selectedServices.toString() : '';
+        this.ticketService.listar(diaStr, desdeStr, hastaStr, this.selectedSection, servicios).subscribe(res => {
             this.cols = res.res.cols;
             this.items = res.res.data;
             this.total = res.suma;
+            this.isLoading = false;
         });
     }
 
@@ -116,5 +139,10 @@ export class TicketComponent implements OnInit {
 
     rubros() {
         this.router.navigate(['vtickets']);
+    }
+
+    onFiltroServChange($event: any) {
+        console.log('on filtro serv change:', $event);
+        this.loadGrid();
     }
 }

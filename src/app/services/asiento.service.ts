@@ -47,4 +47,8 @@ export class AsientoService extends BaseService {
         return this._doPost(this.getHOT({accion: 'duplicar'}), {trn_codigo: trncod});
     }
 
+    getAsientoForm() {
+        return this._doGet(this.getHOT({accion: 'formasiento'}));
+    }
+
 }

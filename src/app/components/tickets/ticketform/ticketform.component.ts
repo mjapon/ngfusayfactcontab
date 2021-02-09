@@ -5,6 +5,9 @@ import {PersonaService} from '../../../services/persona.service';
 import {SwalService} from '../../../services/swal.service';
 import {UiService} from '../../../services/ui.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
+import {LugarService} from '../../../services/lugar.service';
+import {ArrayutilService} from '../../../services/arrayutil.service';
+import {forkJoin} from 'rxjs';
 
 @Component({
     selector: 'app-ticketform',
@@ -15,6 +18,9 @@ export class TicketformComponent implements OnInit {
     servicios: Array<any>;
     form: any;
     formcli: any;
+    seccion: any;
+    lugares: Array<any>;
+    isLoading = false;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -22,28 +28,37 @@ export class TicketformComponent implements OnInit {
                 private swalService: SwalService,
                 private uiService: UiService,
                 private personaService: PersonaService,
+                private arrayUtil: ArrayutilService,
+                private lugarService: LugarService,
                 private loadingUiService: LoadingUiService) {
     }
 
     ngOnInit() {
+        this.isLoading = true;
         this.servicios = new Array<any>();
         this.formcli = {};
         this.form = {};
+        this.seccion = {};
 
-        this.ticketService.getFormCrea().subscribe(res => {
-            if (res.status === 200) {
-                this.form = res.form;
-                this.formcli = res.formcli;
+        const formCreaObs = this.ticketService.getFormCrea();
+        const servObs = this.ticketService.getProdsForTickets();
+        const lugsObs = this.lugarService.listarTodos();
+
+        forkJoin([formCreaObs, servObs, lugsObs]).subscribe(res => {
+            if (res[0].status === 200) {
+                this.form = res[0].form;
+                this.formcli = res[0].formcli;
+                this.seccion = res[0].seccion;
             }
-        });
-
-        this.ticketService.getProdsForTickets().subscribe(res2 => {
-            if (res2.status === 200) {
-                this.servicios = res2.items;
+            if (res[1].status === 200) {
+                this.servicios = res[1].items;
             }
+            if (res[2].status === 200) {
+                this.lugares = res[2].items;
+            }
+            this.isLoading = false;
+            this.uiService.setFocusById('ciPasInput', 300);
         });
-
-        this.uiService.setFocusById('ciPasInput');
     }
 
     buscarPersona() {
@@ -56,6 +71,16 @@ export class TicketformComponent implements OnInit {
                     this.formcli.per_apellidos = res.persona.per_apellidos;
                     this.formcli.per_movil = res.persona.per_movil;
                     this.formcli.per_email = res.persona.per_email;
+                    this.formcli.per_lugresidencia = null;
+                    this.formcli.per_direccion = res.persona.per_direccion;
+                    if (res.persona.per_lugresidencia) {
+                        this.formcli.per_lugresidencia = this.arrayUtil.getFirstResult(
+                            this.lugares,
+                            (el, idx, array) => {
+                                return el.lug_id === res.persona.per_lugresidencia;
+                            }
+                        );
+                    }
                 }
             });
         }
@@ -74,15 +99,15 @@ export class TicketformComponent implements OnInit {
     }
 
     guardar() {
-        let filtrados = this.servicios.filter(item => {
+        const filtrados = this.servicios.filter(item => {
             return item.ic_marca;
         });
 
-        let codigos = filtrados.map(e => {
+        const codigos = filtrados.map(e => {
             return e.ic_id;
         });
 
-        let codservicios: string = codigos.toString();
+        const codservicios: string = codigos.toString();
         this.form.tk_servicios = codservicios;
 
         if (this.form.tk_nro === null || this.form.tk_nro.toString().trim().length === 0) {
@@ -104,8 +129,5 @@ export class TicketformComponent implements OnInit {
                 }
             });
         }
-
-
     }
-
 }
