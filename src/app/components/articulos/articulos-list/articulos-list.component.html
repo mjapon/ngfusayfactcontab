@@ -12,7 +12,7 @@
             <input type="text" class="form-control" id="buscaInput" (keyup)="doFilter($event)" [(ngModel)]="filtro"
                    placeholder="Buscar artículo por codigo de barra o por nombre">
             <div class="input-group-append">
-                <button class="btn btn-outline-success" type="button" id="buttonSearh" (click)="listar()"
+                <button class="btn btn-outline-primary" type="button" id="buttonSearh" (click)="listar()"
                         title="Buscar producto o servicio">
                     <i class="fa fa-search"></i>
                 </button>
@@ -23,9 +23,18 @@
         <p-dropdown [options]="sections" optionLabel="sec_nombre" [(ngModel)]="selectedSection"
                     (onChange)="listar()"></p-dropdown>
     </div>
+    <div class="col">
+        <p-dropdown [options]="categorias" id="catic_id"
+                    [(ngModel)]="selectedCat"
+                    filter="true"
+                    optionLabel="catic_nombre"
+                    optionValue="catic_id"
+                    (onChange)="listar()"
+                    inputId="catic_id"></p-dropdown>
+    </div>
     <div class="col d-flex justify-content-end">
         <div class="btn-group" role="group" aria-label="Default button group">
-            <button type="button" class="btn btn-outline-success" (click)="goToForm()"
+            <button type="button" class="btn btn-outline-primary" (click)="goToForm()"
                     title="Registrar un nuevo producto o servicio">
                 Crear <i class="fa fa-plus-circle"></i>
             </button>
@@ -59,7 +68,7 @@
                 </td>
                 <td colspan="6" class="fstbpadtit"> {{rowData.ic_nombre}} </td>
                 <td rowspan="2" class="fstbpadtit">
-                    <button (click)="viewItem(rowData)" class="btn btn-outline-success btn-sm"
+                    <button (click)="viewItem(rowData)" class="btn btn-outline-primary btn-sm"
                             title="Ver detalles del producto o servicio"><i class="fa fa-eye"></i></button>
                 </td>
             </tr>
@@ -67,6 +76,30 @@
                 <td *ngFor="let item of cols" class="fstbpaddet">
                     {{rowData[item['field']]}}
                 </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <tr>
+                <th width="2%"></th>
+                <th>
+
+                </th>
+                <th>
+                    <span class="font-weight-bold">TOTAL:</span>
+                </th>
+                <th>
+                    <span> {{totales.tpciva}} </span>
+                </th>
+                <th>
+                    <span> {{totales.tpviva}}</span>
+                </th>
+                <th>
+
+                </th>
+                <th>
+                    <span> {{totales.toti}}</span>
+                </th>
+                <th width="4%"></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage" let-columns>
@@ -77,6 +110,9 @@
             </tr>
         </ng-template>
     </p-table>
+    <div>
+
+    </div>
 </div>
 
 <p-contextMenu #cm [model]="itemsCtxMenu"></p-contextMenu>

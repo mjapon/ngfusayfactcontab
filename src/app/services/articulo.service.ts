@@ -64,12 +64,13 @@ export class ArticuloService extends BaseService {
         return this.doPost(this.http, endpoint, httpOptions, {dato: 'datoval'});
     }
 
-    listar(pfiltro: string, sec_id: number): Observable<any> {
+    listar(pfiltro: string, sec_id: number, codcat: number): Observable<any> {
         const endopoint = this.urlEndPoint;
         const httpOptions = this.getHOT({
             accion: 'listar',
             filtro: pfiltro,
-            sec_id
+            sec_id,
+            codcat
         });
         return this.http.get(endopoint, httpOptions).pipe(
             map((response: any) => {

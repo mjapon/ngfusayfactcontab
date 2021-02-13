@@ -3,6 +3,8 @@ import {AsientoService} from '../../../../services/asiento.service';
 import {Router} from '@angular/router';
 import {ArticuloService} from '../../../../services/articulo.service';
 import {DomService} from '../../../../services/dom.service';
+import {ArrayutilService} from '../../../../services/arrayutil.service';
+import {SwalService} from "../../../../services/swal.service";
 
 @Component({
     selector: 'app-librodiarioform',
@@ -23,6 +25,8 @@ export class LibrodiarioformComponent implements OnInit {
     constructor(private asientoService: AsientoService,
                 private artService: ArticuloService,
                 private domService: DomService,
+                private swalService: SwalService,
+                private arrayService: ArrayutilService,
                 private router: Router) {
 
     }
@@ -46,20 +50,34 @@ export class LibrodiarioformComponent implements OnInit {
                 this.formref = res.form.formref;
                 this.formdet = res.form.formdet;
                 this.formdetinst = this.domService.clonarObjeto(this.formdet);
-                this.domService.setFocusTimeout('ctasAutoCom', 100);
+                this.setFocusInCtaConta();
             }
         });
     }
 
+    setFocusInCtaConta() {
+        this.domService.setFocusTimeout('ctasAutoCom', 100);
+    }
+
     cancelar() {
+        this.gotoLibroDiario();
+    }
+
+    gotoLibroDiario() {
         this.router.navigate(['librodiario']);
     }
 
     agregar() {
+        let dtValor = Number(this.formdetinst.dt_valor_in);
+        if (!dtValor) {
+            dtValor = 0.0;
+        }
+        this.formdetinst.dt_valor = dtValor;
         this.detalles.push(this.formdetinst);
         this.formdetinst = this.domService.clonarObjeto(this.formdet);
         this.ctacontablesel = null;
         this.totalizar();
+        this.setFocusInCtaConta();
     }
 
     buscaCtasContables($event: any) {
@@ -80,24 +98,82 @@ export class LibrodiarioformComponent implements OnInit {
     }
 
     onEnterFiltroCtas($event) {
-        console.log('onEnterFiltroCtas---> ', $event);
+        this.setFocusInMonto();
     }
 
     onCtaContableSelect($event: any) {
-        console.log('cuenta contable select:', $event);
         this.setCtaContableSel($event);
     }
 
     quitarItem(fila: any) {
-        console.log('Logica para quitar item');
+        this.swalService.fireDialog('¿Seguro que desea eliminar esta fila?').then(confirm => {
+            if (confirm.value) {
+                this.arrayService.removeElement(this.detalles, fila);
+                this.totalizar();
+            }
+        });
     }
 
     totalizar() {
-        let total = 0.0;
+        let totaldebe = 0.0;
+        let totalhaber = 0.0;
         this.detalles.forEach(item => {
-            total += item.dt_valor;
+            if (item.dt_debito === 1) {
+                totaldebe += Number(item.dt_valor);
+            } else {
+                totalhaber += Number(item.dt_valor);
+            }
         });
+        this.totales.debe = totaldebe;
+        this.totales.haber = totalhaber;
+    }
 
-        this.totales.debe = total;
+    setFocusInMonto() {
+        this.domService.setFocusTimeout('montoInput', 100);
+    }
+
+    setDtDebitoValue(value: number) {
+        this.formdetinst.dt_debito = value;
+        this.setFocusInMonto();
+    }
+
+    onEnterMonto() {
+        this.agregar();
+    }
+
+    guardar() {
+        if (this.detalles.length === 0) {
+            this.swalService.fireToastError('Debe agregar items al asiento contable');
+        }
+        const formtopost = {
+            formcab: this.formasiento,
+            formref: this.formref,
+            detalles: this.detalles
+        };
+
+        this.swalService.fireDialog('¿Confirma la creación de este asiento?').then(confirm => {
+            if (confirm.value) {
+                this.asientoService.crearAsiento(formtopost).subscribe(res => {
+                    if (res.status === 200) {
+                        this.swalService.fireToastSuccess(res.msg);
+                        this.gotoLibroDiario();
+                    }
+                });
+            }
+        });
+    }
+
+    onDtValorChange(fila) {
+        let dtValor = Number(fila.dt_valor_in);
+        if (!dtValor) {
+            dtValor = 0.0;
+        }
+        fila.dt_valor = dtValor;
+        this.totalizar();
+    }
+
+    switchDebeHaber(fila: any) {
+        fila.dt_debito = fila.dt_debito * -1;
+        this.totalizar();
     }
 }

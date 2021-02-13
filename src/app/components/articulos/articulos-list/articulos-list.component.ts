@@ -6,6 +6,8 @@ import {MenuItem} from 'primeng/api';
 import {SwalService} from '../../../services/swal.service';
 import {SeccionService} from '../../../services/seccion.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
+import {CategoriasService} from '../../../services/categorias.service';
+import {forkJoin} from 'rxjs';
 
 @Component({
     selector: 'app-articulos-list',
@@ -25,8 +27,14 @@ export class ArticulosListComponent implements OnInit {
     selectedSection: any;
     previustimer: any = 0;
     loadingArts: boolean;
+    selectedCat = 0;
+    categorias: Array<any>;
+    totales: any;
+
+    isLoading: boolean;
 
     constructor(private artsService: ArticuloService,
+                private catsService: CategoriasService,
                 private domService: DomService,
                 private swalService: SwalService,
                 private loadinUiServ: LoadingUiService,
@@ -35,7 +43,10 @@ export class ArticulosListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadingArts = false;
+        this.loadingArts = true;
+        this.isLoading = true;
+        this.totales = {};
+        this.categorias = [];
         this.items = new Array<any>();
         this.cols = new Array<any>();
         this.filtro = '';
@@ -45,12 +56,18 @@ export class ArticulosListComponent implements OnInit {
             {label: 'Editar', icon: 'fa fa-pencil', command: (event) => this.editItem(this.selectedItem)},
             {label: 'Eliminar', icon: 'fa fa-trash', command: (event) => this.deleteItem(this.selectedItem)}
         ];
-        this.seccionService.listar().subscribe(res => {
-            if (res.status === 200) {
-                this.sections = res.items;
+        const seccionObs = this.seccionService.listar();
+        const catsObs = this.catsService.listar();
+        forkJoin([seccionObs, catsObs]).subscribe(res => {
+            if (res[0].status === 200) {
+                this.sections = res[0].items;
                 this.selectedSection = this.sections[0];
-                this.listar();
             }
+            if (res[1].status === 200) {
+                this.categorias = res[1].items;
+            }
+            this.listar();
+            this.isLoading = false;
         });
     }
 
@@ -89,8 +106,8 @@ export class ArticulosListComponent implements OnInit {
     }
 
     deleteItem(rowItem: any) {
-        let nombreProd = rowItem.ic_nombre;
-        let msg = '¿Seguro que desea eliminar ' + nombreProd + ' ?';
+        const nombreProd = rowItem.ic_nombre;
+        const msg = '¿Seguro que desea eliminar ' + nombreProd + ' ?';
 
         this.swalService.fireDialog(msg).then(confirm => {
             if (confirm.value) {
@@ -110,11 +127,16 @@ export class ArticulosListComponent implements OnInit {
     listar() {
         const secId = this.selectedSection.sec_id;
         this.loadingArts = true;
-        this.artsService.listar(this.filtro, secId)
+        let codcat = 0;
+        if (this.selectedCat) {
+            codcat = this.selectedCat;
+        }
+        this.artsService.listar(this.filtro, secId, codcat)
             .subscribe(response => {
                 this.loadingArts = false;
                 if (response.status === 200) {
                     const grid = response.data;
+                    this.totales = response.tot;
                     this.items = grid.data;
                     this.cols = grid.cols;
                 }

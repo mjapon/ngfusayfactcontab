@@ -58,7 +58,16 @@ export class FacturaslistComponent implements OnInit {
     }
 
     anularRow(rowData) {
-        this.swalService.fireToastInfo('En construccion ;-)');
+        this.swalService.fireDialog('¿Seguro que desea eliminar esta factura?').then(confirm => {
+            if (confirm.value) {
+                this.asientoService.anular(rowData.trn_codigo, '').subscribe(res => {
+                    if (res.status === 200) {
+                        this.swalService.fireToastSuccess(res.msg);
+                        this.listar();
+                    }
+                });
+            }
+        });
     }
 
     verRow(rowData) {

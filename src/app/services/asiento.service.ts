@@ -51,4 +51,12 @@ export class AsientoService extends BaseService {
         return this._doGet(this.getHOT({accion: 'formasiento'}));
     }
 
+    crearAsiento(form: any) {
+        return this._doPost(this.getHOT({accion: 'creasiento'}), form);
+    }
+
+    getAsientos() {
+        return this._doGet(this.getHOT({accion: 'getasientos'}));
+    }
+
 }

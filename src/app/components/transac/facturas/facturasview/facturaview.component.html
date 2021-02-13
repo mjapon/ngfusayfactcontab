@@ -77,28 +77,28 @@
             <tbody>
             <tr *ngFor="let fila of doc.detalles" class="hand">
                 <td style="width: 5%">
-                    <span class="text-muted">{{doc.detalles.indexOf(fila) + 1}}</span>
+                    <span class="text-muted fontsizesm">{{doc.detalles.indexOf(fila) + 1}}</span>
                 </td>
                 <td>
                     <div class="d-flex flex-column">
-                        <span class="font-weight-lighter">{{fila.ic_code}}</span>
-                        <span class="font-weight-light">{{fila.ic_nombre}}</span>
+                        <span class="font-weight-lighter fontsizesm">{{fila.ic_code}}</span>
+                        <span class="font-weight-light fontsizesm">{{fila.ic_nombre}}</span>
                     </div>
                 </td>
                 <td>
-                    {{fila.dt_cant}}
+                    <span class="fontsizesm">{{fila.dt_cant}}</span>
                 </td>
                 <td>
-                    {{fila.dt_precio}}
+                    <span class="fontsizesm">{{fila.dt_precio}}</span>
                 </td>
                 <td>
-                    {{fila.icdp_grabaiva}}
+                    <span class="fontsizesm">{{fila.icdp_grabaiva}}</span>
                 </td>
                 <td>
-                    {{fila.dt_decto}}
+                    <span class="fontsizesm">{{fila.dt_decto}}</span>
                 </td>
                 <td>
-                    {{fila.dt_valor}}
+                    <span class="fontsizesm">{{fila.dt_valor}}</span>
                 </td>
             </tr>
             </tbody>
