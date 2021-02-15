@@ -95,7 +95,8 @@
 
                             </td>
                             <td class="border">
-                                <span class="text-muted fontsizesm">{{fila.ic_code}}</span>
+                                <span class="text-muted fontsizesm"
+                                      [ngClass]="{'haberl':fila.dt_debito===-1}">{{fila.ic_code}}</span>
                             </td>
                             <td class="border">
                                 <span class="fontsizesm" [ngClass]="{'haberl':fila.dt_debito===-1}">

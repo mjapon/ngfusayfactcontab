@@ -4,11 +4,19 @@ import {Router} from '@angular/router';
 import {ArticuloService} from '../../../../services/articulo.service';
 import {DomService} from '../../../../services/dom.service';
 import {ArrayutilService} from '../../../../services/arrayutil.service';
-import {SwalService} from "../../../../services/swal.service";
+import {SwalService} from '../../../../services/swal.service';
+import {NumberService} from '../../../../services/number.service';
+import {FechasService} from '../../../../services/fechas.service';
 
 @Component({
     selector: 'app-librodiarioform',
-    templateUrl: './librodiarioform.component.html'
+    templateUrl: './librodiarioform.component.html',
+    styles: [
+        `
+            .haberl {
+                margin-left: 70px;
+            }
+        `]
 })
 export class LibrodiarioformComponent implements OnInit {
     isLoading = true;
@@ -25,6 +33,8 @@ export class LibrodiarioformComponent implements OnInit {
     constructor(private asientoService: AsientoService,
                 private artService: ArticuloService,
                 private domService: DomService,
+                private fechasService: FechasService,
+                private numberServ: NumberService,
                 private swalService: SwalService,
                 private arrayService: ArrayutilService,
                 private router: Router) {
@@ -91,6 +101,7 @@ export class LibrodiarioformComponent implements OnInit {
     setCtaContableSel(art) {
         this.formdetinst.cta_codigo = art.ic_id;
         this.formdetinst.ic_nombre = art.ic_nombre;
+        this.formdetinst.ic_code = art.ic_code;
         this.formdetinst.per_codigo = 0;
         this.formdetinst.dt_cant = 1;
         this.formdetinst.dt_valor = 0.0;
@@ -124,8 +135,8 @@ export class LibrodiarioformComponent implements OnInit {
                 totalhaber += Number(item.dt_valor);
             }
         });
-        this.totales.debe = totaldebe;
-        this.totales.haber = totalhaber;
+        this.totales.debe = this.numberServ.round2(totaldebe);
+        this.totales.haber = this.numberServ.round2(totalhaber);
     }
 
     setFocusInMonto() {
@@ -145,6 +156,11 @@ export class LibrodiarioformComponent implements OnInit {
         if (this.detalles.length === 0) {
             this.swalService.fireToastError('Debe agregar items al asiento contable');
         }
+
+        if (this.formasiento.trn_fecregobj) {
+            this.formasiento.trn_fecreg = this.fechasService.formatDate(this.formasiento.trn_fecregobj);
+        }
+
         const formtopost = {
             formcab: this.formasiento,
             formref: this.formref,

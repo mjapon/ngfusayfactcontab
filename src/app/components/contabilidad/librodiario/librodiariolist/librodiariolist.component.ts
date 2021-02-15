@@ -1,17 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AsientoService} from '../../../../services/asiento.service';
-import {SwalService} from "../../../../services/swal.service";
+import {SwalService} from '../../../../services/swal.service';
 
 @Component({
     selector: 'app-librodiariolist',
     templateUrl: './librodiariolist.component.html',
     styles: [
         `
-            .haber {
-                margin-left: 50px;
-            }
-
             .haberl {
                 margin-left: 70px;
             }

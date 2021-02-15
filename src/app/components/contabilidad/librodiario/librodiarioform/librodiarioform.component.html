@@ -46,7 +46,7 @@
                             </div>
                             <div class="p-fluid">
                                 <p-autoComplete [(ngModel)]="ctacontablesel" [suggestions]="ctasFiltrados"
-                                                (completeMethod)="buscaCtasContables($event)" field="ic_nombre"
+                                                (completeMethod)="buscaCtasContables($event)" field="ctacontab"
                                                 (keyup.enter)="onEnterFiltroCtas($event)"
                                                 inputId="ctasAutoCom"
                                                 placeholder="Digite el nombre o el código de la cuenta contable"
@@ -120,8 +120,10 @@
                                 </th>
                                 <td>
                                     <div class="d-flex flex-column">
-                                        <span class="font-weight-lighter fontsizenr">{{fila.ic_code}}</span>
-                                        <span class="font-weight-light fontsizenr">{{fila.ic_nombre}}</span>
+                                        <span class="font-weight-lighter fontsizenr"
+                                              [ngClass]="{'haberl':fila.dt_debito===-1}">{{fila.ic_code}}</span>
+                                        <span class="font-weight-light fontsizenr"
+                                              [ngClass]="{'haberl':fila.dt_debito===-1}">{{fila.ic_nombre}}</span>
                                     </div>
                                 </td>
                                 <td>

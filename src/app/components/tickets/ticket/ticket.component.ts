@@ -142,7 +142,6 @@ export class TicketComponent implements OnInit {
     }
 
     onFiltroServChange($event: any) {
-        console.log('on filtro serv change:', $event);
         this.loadGrid();
     }
 }
