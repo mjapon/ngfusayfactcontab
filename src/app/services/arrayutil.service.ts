@@ -17,6 +17,10 @@ export class ArrayutilService {
         array.splice(index, 1);
     }
 
+    moveElement(array: Array<any>, oldIndex: number, newIndex: number): any {
+        array.splice(newIndex, 0, array.splice(oldIndex, 1)[0]);
+    }
+
     /**
      * Verifica si un arreglo tiene un item con el valor 'value'
      * @param arreglo

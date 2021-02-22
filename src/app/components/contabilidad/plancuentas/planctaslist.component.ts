@@ -235,6 +235,7 @@ export class PlanctaslistComponent implements OnInit {
         this.isShowCrearPlanCta = true;
         this.isLoadingForm = true;
         this.setCodCtaContableSel();
+        this.loadingUiService.publishBlockMessage();
         this.artService.getFormPlanCuenta(this.padreexp).subscribe(res => {
             this.isLoadingForm = false;
             if (res.status === 200) {
@@ -256,7 +257,8 @@ export class PlanctaslistComponent implements OnInit {
             const msg = `¿Seguro que desea eliminar ${nombreProd} ?`;
             this.swalService.fireDialog(msg).then(confirm => {
                 if (confirm.value) {
-                    this.artService.anularArticulo(this.padreexp).subscribe(res => {
+                    this.loadingUiService.publishBlockMessage();
+                    this.artService.anularCtaContable(this.padreexp).subscribe(res => {
                         if (res.status === 200) {
                             this.swalService.fireToastSuccess(res.msg);
                             this.loadPlanCuentas();

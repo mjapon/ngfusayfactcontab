@@ -55,8 +55,24 @@ export class AsientoService extends BaseService {
         return this._doPost(this.getHOT({accion: 'creasiento'}), form);
     }
 
+    editarAsiento(form: any) {
+        return this._doPost(this.getHOT({accion: 'editasiento'}), form);
+    }
+
     getAsientos() {
         return this._doGet(this.getHOT({accion: 'getasientos'}));
+    }
+
+    listarMovsCtaContable(cta, desde, hasta) {
+        return this._doGet(this.getHOT({accion: 'getmovscta', cta, desde, hasta}));
+    }
+
+    getFormLibroMayor() {
+        return this._doGet(this.getHOT({accion: 'getformlibromayor'}));
+    }
+
+    getDatosAsientoContable(cod: number) {
+        return this._doGet(this.getHOT({accion: 'getdatosasiconta', cod}));
     }
 
 }

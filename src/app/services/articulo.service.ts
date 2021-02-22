@@ -64,6 +64,12 @@ export class ArticuloService extends BaseService {
         return this.doPost(this.http, endpoint, httpOptions, {dato: 'datoval'});
     }
 
+    anularCtaContable(icid: number) {
+        const endpoint = this.urlEndPoint + '/' + icid;
+        const httpOptions = this.getHOT({accion: 'anulactacontab'});
+        return this.doPost(this.http, endpoint, httpOptions, {dato: 'datoval'});
+    }
+
     listar(pfiltro: string, sec_id: number, codcat: number): Observable<any> {
         const endopoint = this.urlEndPoint;
         const httpOptions = this.getHOT({
@@ -90,6 +96,10 @@ export class ArticuloService extends BaseService {
 
     busCtasContables(filtro: string) {
         return this._doGet((this.getHOT({accion: 'gctascontables', filtro})));
+    }
+
+    getAllCtasContables() {
+        return this._doGet(this.getHOT({accion: 'gallctascontables'}));
     }
 
     buscaAllServDentalles() {

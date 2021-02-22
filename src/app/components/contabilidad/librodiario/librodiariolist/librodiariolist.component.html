@@ -29,6 +29,9 @@
         </div>
         -->
         <div>
+            <button class="btn btn-outline-primary" (click)="loadLibroDiario()"><i
+                    class="fas fa-sync-alt"></i>
+            </button>
             <button class="btn btn-outline-primary" (click)="gotoFormAsiento()"><i
                     class="fa fa-plus-circle"></i>
                 Nuevo Asiento
@@ -117,6 +120,10 @@
                                     <button class="btn btn-sm btn-outline-secondary" title="Anular"
                                             (click)="anular(fila)">
                                         <i class="fa fa-trash"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary" title="Editar"
+                                            (click)="gotoEditAsiento(fila)">
+                                        <i class="fa fa-edit"></i>
                                     </button>
                                     <!--
                                     <button class="btn btn-sm btn-outline-secondary" title="Ver Detalles"

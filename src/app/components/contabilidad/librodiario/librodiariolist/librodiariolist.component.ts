@@ -31,7 +31,11 @@ export class LibrodiariolistComponent implements OnInit {
     }
 
     gotoFormAsiento() {
-        this.router.navigate(['newasiento']);
+        this.router.navigate(['newasiento', 0]);
+    }
+
+    gotoEditAsiento(fila) {
+        this.router.navigate(['newasiento', fila.trn_codigo]);
     }
 
     loadLibroDiario() {

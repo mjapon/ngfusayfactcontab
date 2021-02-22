@@ -1,21 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {AsientoService} from '../../../../services/asiento.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ArticuloService} from '../../../../services/articulo.service';
 import {DomService} from '../../../../services/dom.service';
 import {ArrayutilService} from '../../../../services/arrayutil.service';
 import {SwalService} from '../../../../services/swal.service';
 import {NumberService} from '../../../../services/number.service';
 import {FechasService} from '../../../../services/fechas.service';
+import {LoadingUiService} from "../../../../services/loading-ui.service";
 
 @Component({
     selector: 'app-librodiarioform',
     templateUrl: './librodiarioform.component.html',
     styles: [
-        `
-            .haberl {
-                margin-left: 70px;
-            }
+        `.haberl {
+            margin-left: 70px;
+        }
         `]
 })
 export class LibrodiarioformComponent implements OnInit {
@@ -29,6 +29,7 @@ export class LibrodiarioformComponent implements OnInit {
     ctacontablesel: any;
     formdetinst: any;
     totales: any;
+    codasi: number;
 
     constructor(private asientoService: AsientoService,
                 private artService: ArticuloService,
@@ -37,8 +38,12 @@ export class LibrodiarioformComponent implements OnInit {
                 private numberServ: NumberService,
                 private swalService: SwalService,
                 private arrayService: ArrayutilService,
+                private loadingServ: LoadingUiService,
+                private route: ActivatedRoute,
                 private router: Router) {
-
+        this.route.paramMap.subscribe(params => {
+            this.codasi = parseInt(params.get('cod'), 10);
+        });
     }
 
     ngOnInit(): void {
@@ -54,13 +59,29 @@ export class LibrodiarioformComponent implements OnInit {
     loadForm() {
         this.isLoading = true;
         this.asientoService.getAsientoForm().subscribe(res => {
-            this.isLoading = false;
             if (res.status === 200) {
                 this.formasiento = res.form.formasiento;
+                this.formasiento.trn_fecregobj = this.fechasService.parseString(this.formasiento.trn_fecreg);
                 this.formref = res.form.formref;
                 this.formdet = res.form.formdet;
                 this.formdetinst = this.domService.clonarObjeto(this.formdet);
                 this.setFocusInCtaConta();
+                if (this.codasi > 0) {
+                    this.asientoService.getDatosAsientoContable(this.codasi).subscribe(resasi => {
+                        this.isLoading = false;
+                        if (resasi.status === 200) {
+                            this.detalles = resasi.datoasi.detalles;
+                            const auxformasiento = this.domService.clonarObjeto(this.formasiento);
+                            this.formasiento = resasi.datoasi.cabecera;
+                            this.formasiento.trn_fecregobj = this.fechasService.parseString(this.formasiento.trn_fecreg);
+                            this.formasiento.estabptoemi = auxformasiento.estabptoemi;
+                            this.formasiento.impuestos = auxformasiento.impuestos;
+                            this.totalizar();
+                        }
+                    });
+                } else {
+                    this.isLoading = false;
+                }
             }
         });
     }
@@ -78,16 +99,24 @@ export class LibrodiarioformComponent implements OnInit {
     }
 
     agregar() {
-        let dtValor = Number(this.formdetinst.dt_valor_in);
-        if (!dtValor) {
-            dtValor = 0.0;
+        if (this.ctacontablesel) {
+            let dtValor = Number(this.formdetinst.dt_valor_in);
+            if (!dtValor) {
+                dtValor = 0.0;
+            }
+            if (dtValor > 0) {
+                this.formdetinst.dt_valor = dtValor;
+                this.detalles.push(this.formdetinst);
+                this.formdetinst = this.domService.clonarObjeto(this.formdet);
+                this.ctacontablesel = null;
+                this.totalizar();
+                this.setFocusInCtaConta();
+            } else {
+                this.swalService.fireToastError('Monto incorrecto');
+            }
+        } else {
+            this.swalService.fireToastError('Seleccione la cuenta contable');
         }
-        this.formdetinst.dt_valor = dtValor;
-        this.detalles.push(this.formdetinst);
-        this.formdetinst = this.domService.clonarObjeto(this.formdet);
-        this.ctacontablesel = null;
-        this.totalizar();
-        this.setFocusInCtaConta();
     }
 
     buscaCtasContables($event: any) {
@@ -167,14 +196,28 @@ export class LibrodiarioformComponent implements OnInit {
             detalles: this.detalles
         };
 
-        this.swalService.fireDialog('¿Confirma la creación de este asiento?').then(confirm => {
+        let msg = '¿Confirma el registro de este asiento?';
+        if (this.codasi > 0) {
+            msg = '¿Confirma la actualización de este asiento?';
+        }
+        this.swalService.fireDialog(msg).then(confirm => {
             if (confirm.value) {
-                this.asientoService.crearAsiento(formtopost).subscribe(res => {
-                    if (res.status === 200) {
-                        this.swalService.fireToastSuccess(res.msg);
-                        this.gotoLibroDiario();
-                    }
-                });
+                this.loadingServ.publishBlockMessage();
+                if (this.codasi > 0) {
+                    this.asientoService.editarAsiento(formtopost).subscribe(res => {
+                        if (res.status === 200) {
+                            this.swalService.fireToastSuccess(res.msg);
+                            this.gotoLibroDiario();
+                        }
+                    });
+                } else {
+                    this.asientoService.crearAsiento(formtopost).subscribe(res => {
+                        if (res.status === 200) {
+                            this.swalService.fireToastSuccess(res.msg);
+                            this.gotoLibroDiario();
+                        }
+                    });
+                }
             }
         });
     }
@@ -191,5 +234,27 @@ export class LibrodiarioformComponent implements OnInit {
     switchDebeHaber(fila: any) {
         fila.dt_debito = fila.dt_debito * -1;
         this.totalizar();
+    }
+
+    movUp(fila: any) {
+        const findex = this.detalles.indexOf(fila);
+        if (findex > 0) {
+            this.arrayService.moveElement(this.detalles, findex, findex - 1);
+        } else {
+            this.swalService.fireToastWarn('No se posible');
+        }
+    }
+
+    movDown(fila: any) {
+        const findex = this.detalles.indexOf(fila);
+        if (findex < this.detalles.length - 1) {
+            this.arrayService.moveElement(this.detalles, findex, findex + 1);
+        } else {
+            this.swalService.fireToastWarn('No se posible');
+        }
+    }
+
+    marcarTexto($event: any) {
+        $event.target.select();
     }
 }

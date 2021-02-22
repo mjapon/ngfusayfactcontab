@@ -115,6 +115,7 @@ import {PlanctaslistComponent} from './components/contabilidad/plancuentas/planc
 import {TreeModule} from 'primeng/tree';
 import {LibrodiariolistComponent} from './components/contabilidad/librodiario/librodiariolist/librodiariolist.component';
 import {LibrodiarioformComponent} from './components/contabilidad/librodiario/librodiarioform/librodiarioform.component';
+import {LibromayorlistComponent} from './components/contabilidad/libromayor/libromayorlist/libromayorlist.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -193,7 +194,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         AgendaComponent,
         PlanctaslistComponent,
         LibrodiariolistComponent,
-        LibrodiarioformComponent
+        LibrodiarioformComponent,
+        LibromayorlistComponent
     ],
     imports: [
         CommonModule,

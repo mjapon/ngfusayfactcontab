@@ -1,0 +1,125 @@
+<h4>Libro Mayor</h4>
+<div *ngIf="isLoading">
+    <app-loading></app-loading>
+</div>
+<div *ngIf="!isLoading">
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <div class="d-flex">
+                <div>
+                    <div class="d-flex">
+                        <p class="quitaPaddingMargin font-weight-light">Desde:</p>
+                    </div>
+                    <p-calendar [showIcon]="false"
+                                [(ngModel)]="form.desde"
+                                [monthNavigator]="true" [yearNavigator]="true"
+                                (ngModelChange)="loadMovs()"
+                                yearRange="2019:2050"
+                                dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+                <div>
+                    <div class="d-flex justify-content-between">
+                        <p class="quitaPaddingMargin font-weight-light">Hasta:</p>
+                        <div class="dropdown">
+                            <button class="quitaPaddingMargin btn btn-sm btn-outline-info dropdown-toggle" type="button"
+                                    id="dropdownMB"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-filter"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMB">
+                                <a href="#" (click)="doFilterFec(1, $event)" class="dropdown-item"> Esta Semana </a>
+                                <a href="#" (click)="doFilterFec(2, $event)" class="dropdown-item"> Este Mes </a>
+                                <a href="#" (click)="doFilterFec(3, $event)" class="dropdown-item"> Este Año </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p-calendar [showIcon]="false"
+                                [(ngModel)]="form.hasta"
+                                [monthNavigator]="true" [yearNavigator]="true" [minDate]="form.desde"
+                                (ngModelChange)="loadMovs()"
+                                yearRange="2019:2050"
+                                dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div>
+                <p class="quitaPaddingMargin font-weight-light">Cuenta Contable:</p>
+                <div class="p-fluid">
+                    <p-dropdown [options]="ctasContables" id="cta_codigo"
+                                [(ngModel)]="form.cta_codigo"
+                                placeholder="Seleccione la cuenta contable"
+                                [showClear]="true"
+                                [style]="{width:'100%', overflow:'visible'}"
+                                (ngModelChange)="onModelChange($event)"
+                                [filterMatchMode]="'contains'"
+                                filter="true"
+                                optionLabel="ctacontab"
+                                optionValue="ic_id"
+                                inputId="cta_codigo"></p-dropdown>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 d-flex justify-content-end align-items-end">
+            <button type="button" class="btn btn-outline-primary" (click)="loadMovs()">
+                <i class="fa fa-search"></i> Buscar
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="isLoadingData">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="!isLoadingData">
+        <p-table [value]="grid.data" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
+                 (onRowSelect)="onRowSelect($event)"
+                 [resizableColumns]="true"
+                 [(contextMenuSelection)]="selectedItem">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th *ngFor="let item of grid.cols" [pSortableColumn]="item.field" [ngSwitch]="item.field">
+                        {{item.label}}
+                        <p-sortIcon [field]="item.field"></p-sortIcon>
+                    </th>
+                    <th>
+                        Acción
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+                <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
+                    <td *ngFor="let item of grid.cols" [width]="item.width">
+                        <p class="fontsizesm" style="white-space: pre-line">
+                            {{rowData[item['field']]}}
+                        </p>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-dark" (click)="verDetalles(rowData)" title="Ver Detalles">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <tr>
+                    <td colspan="3">
+                        <span class="font-weight-bold">Total:  </span>
+                    </td>
+                    <td>{{totales.totdebe}}</td>
+                    <td>{{totales.tothaber}}</td>
+                    <td>{{totales.resta}}</td>
+                    <td></td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td [attr.colspan]="grid.cols.length+1">
+                        <span class="text-muted">No hay registros</span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+</div>

@@ -4,7 +4,8 @@
     </div>
     <div *ngIf="!isLoading">
         <div>
-            <h4 class="quitaPaddingMargin">Crear Asiento Contable</h4>
+            <h4 class="quitaPaddingMargin">
+                {{codasi > 0 ? 'Editar Asiento Contable' : 'Crear asiento contable'}}</h4>
         </div>
         <div class="mt-2 border pl-3 pr-3 pt-3">
             <div class="row">
@@ -14,6 +15,7 @@
                         <div class="col-md">
                             <p-calendar [(ngModel)]="formasiento.trn_fecregobj"
                                         [showIcon]="false"
+                                        [disabled]="codasi>0"
                                         class="ml-2 p-inputtext-sm"
                                         [maxDate]="currentdate"
                                         inputId="trn_fecregobj"
@@ -74,6 +76,7 @@
                                 <span>Monto:</span>
                             </div>
                             <input type="text" class="form-control" id="montoInput"
+                                   (focusin)="marcarTexto($event)"
                                    (keyup.enter)="onEnterMonto()"
                                    [(ngModel)]="formdetinst.dt_valor_in">
                         </div>
@@ -139,12 +142,30 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <button class="btn btn-sm btn-outline-secondary" (click)="quitarItem(fila)"
-                                            title="Quitar">
-                                        <i class="fa fa-trash"></i></button>
-                                    <button class="ml-2 btn btn-sm btn-outline-secondary"
-                                            (click)="switchDebeHaber(fila)"
-                                            title="Intercambiar Debe/Haber"><i class="fa fa-toggle-on"></i></button>
+                                    <div class="text-center">
+                                        <div class="btn-group" role="group" aria-label="Herramientas">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                    (click)="quitarItem(fila)"
+                                                    title="Quitar">
+                                                <i class="fa fa-trash"></i></button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                    (click)="switchDebeHaber(fila)"
+                                                    title="Intercambiar Debe/Haber"><i class="fa fa-toggle-on"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                    [disabled]="detalles.indexOf(fila)===0"
+                                                    (click)="movUp(fila)"
+                                                    title="Mover hacia arriba"><i
+                                                    class="fas fa-arrow-alt-circle-up"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                    (click)="movDown(fila)"
+                                                    [disabled]="detalles.indexOf(fila)===detalles.length-1"
+                                                    title="Mover hacia arriba"><i
+                                                    class="fas fa-arrow-alt-circle-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </ng-container>
