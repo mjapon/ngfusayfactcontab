@@ -78,7 +78,8 @@
                  [(contextMenuSelection)]="selectedItem">
             <ng-template pTemplate="header">
                 <tr>
-                    <th *ngFor="let item of grid.cols" [pSortableColumn]="item.field" [ngSwitch]="item.field">
+                    <th *ngFor="let item of grid.cols" [pSortableColumn]="item.field"
+                        [ngSwitch]="item.field" [width]="item.width">
                         {{item.label}}
                         <p-sortIcon [field]="item.field"></p-sortIcon>
                     </th>
@@ -89,7 +90,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-rowData>
                 <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
-                    <td *ngFor="let item of grid.cols" [width]="item.width">
+                    <td *ngFor="let item of grid.cols">
                         <p class="fontsizesm" style="white-space: pre-line">
                             {{rowData[item['field']]}}
                         </p>

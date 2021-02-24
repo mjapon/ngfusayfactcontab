@@ -1,0 +1,266 @@
+import {Component, OnInit} from '@angular/core';
+import {AsientoService} from '../../../../services/asiento.service';
+import {FechasService} from '../../../../services/fechas.service';
+import {startOfMonth, startOfWeek, startOfYear} from 'date-fns';
+import {LoadingUiService} from '../../../../services/loading-ui.service';
+import {registerLocaleData} from '@angular/common';
+import es from '@angular/common/locales/es';
+
+@Component({
+    selector: 'app-balancegeneral',
+    template: `
+        <div>
+            <h2>Balance general</h2>
+
+            <div class="row mt-3 mb-3">
+                <div class="col-md-8">
+                    <div class="d-flex">
+                        <div>
+                            <div class="d-flex">
+                                <p class="quitaPaddingMargin font-weight-light">Desde:</p>
+                            </div>
+                            <p-calendar [showIcon]="false"
+                                        [(ngModel)]="form.desde"
+                                        (ngModelChange)="onDesdeChange($event)"
+                                        [monthNavigator]="true" [yearNavigator]="true"
+                                        yearRange="2019:2050"
+                                        dateFormat="dd/mm/yy"></p-calendar>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <p class="quitaPaddingMargin font-weight-light">Hasta:</p>
+                                <div class="dropdown">
+                                    <button class="quitaPaddingMargin btn btn-sm btn-outline-info dropdown-toggle"
+                                            type="button"
+                                            id="dropdownMB"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-filter"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMB">
+                                        <a href="#" (click)="doFilterFec(1, $event)" class="dropdown-item"> Esta
+                                            Semana </a>
+                                        <a href="#" (click)="doFilterFec(2, $event)" class="dropdown-item"> Este
+                                            Mes </a>
+                                        <a href="#" (click)="doFilterFec(3, $event)" class="dropdown-item"> Este
+                                            Año </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p-calendar [showIcon]="false"
+                                        [(ngModel)]="form.hasta"
+                                        (ngModelChange)="onHastaChange($event)"
+                                        [monthNavigator]="true" [yearNavigator]="true" [minDate]="form.desde"
+                                        yearRange="2019:2050"
+                                        dateFormat="dd/mm/yy"></p-calendar>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex flex-column justify-content-end">
+                    <div class="d-flex">
+                        <div class="btn-group btn-block">
+                            <button class="btn btn-outline-primary" (click)="loadBalance()">
+                                <i class="fa fa-play-circle"></i>
+                                Generar
+                            </button>
+                            <button class="btn btn-outline-primary" title="Exportar a pdf">
+                                <i class="fa fa-file-pdf"></i>
+                            </button>
+                            <button class="btn btn-outline-primary" title="Exportar a excel">
+                                <i class="fa fa-file-excel"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="mt-2 border" *ngIf="datosbalance.length>0">
+
+                <div class="text-center mt-2 mb-2">
+                    <h5>BALANCE GENERAL</h5>
+                    <h6> {{form.desdestr}} - {{form.hastastr}} </h6>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th scope="col" style="width: 10%">Código</th>
+                            <th scope="col" style="width: 55%">Nombre</th>
+                            <th scope="col" style="width: 35%">Saldo</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let fila of datosbalance" class="hand">
+                            <td><span [style]="getfuente(fila)"> {{fila.dbdata.ic_code}} </span>
+                            </td>
+                            <td><span [style]="getfuente(fila)"> {{fila.dbdata.ic_nombre}} </span>
+                            </td>
+                            <td class="d-flex flex-row-reverse">
+                                <span [style]="getestilo(fila)"> $ {{fila.total| number: '.2'}} </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <div class="mt-2" *ngIf="datosbalance.length>0">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="mt-2 mb-2">
+                            <h5>Ecuación Contable</h5>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th width="50%">
+
+                                    </th>
+                                    <th width="50%">
+
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <span class="font-weight-bold">ACTIVOS:</span>
+                                    </td>
+                                    <td>
+                                        <span class="font-weight-bold"> {{parents['1'].total| number: '.2'}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="font-weight-bold">PASIVOS:</span>
+                                    </td>
+                                    <td>
+                                        <span class="font-weight-bold">{{getabs(parents['2'].total)| number: '.2'}} </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="font-weight-bold">PATRIMONIO:</span>
+                                    </td>
+                                    <td>
+                                        <span class="font-weight-bold">{{ getabs(parents['3'].total) | number: '.2'}} </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="font-weight-bold">RESULTADO DEL EJERCICIO:</span>
+                                    </td>
+                                    <td>
+                                        <span class="font-weight-bold">{{ getabs(resultadoejercicio)  | number: '.2'}} </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="font-weight-bold">ACTIVO = PASIVO + PATRIMONIO:</span>
+                                    </td>
+                                    <td>
+                                        <span class="font-weight-bold">{{parents['1'].total| number: '.2'}}
+                                            = {{getabs(parents['2'].total)| number: '.2'}}
+                                            + {{getabs(parents['3'].total)| number: '.2'}}
+                                            + {{getabs(resultadoejercicio)| number: '.2'}}
+                                            ({{(getabs(parents['2'].total) + getabs(parents['3'].total) + getabs(resultadoejercicio))| number: '.2'}}
+                                            )
+                                             </span>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `
+})
+export class BalancegeneralComponent implements OnInit {
+    datosbalance: any;
+    parents: any;
+    form: any;
+    parentres: any;
+    resultadoejercicio = 0.0;
+
+    constructor(private asientoService: AsientoService,
+                private loadingUiServ: LoadingUiService,
+                private fechasService: FechasService) {
+    }
+
+    ngOnInit(): void {
+        this.datosbalance = [];
+        this.form = {desde: null, hasta: null, desdestr: '', hastastr: ''};
+        registerLocaleData(es);
+    }
+
+    loadBalance() {
+        const desdestr = this.fechasService.formatDate(this.form.desde);
+        const hastastr = this.fechasService.formatDate(this.form.hasta);
+        this.loadingUiServ.publishBlockMessage();
+        this.asientoService.getBalanceGeneral(desdestr, hastastr).subscribe(res => {
+            if (res.status === 200) {
+                this.datosbalance = res.balance;
+                this.parents = res.parents;
+                this.parentres = res.parentres;
+                this.resultadoejercicio = this.getabs(this.parentres['5'].total) - this.getabs(this.parentres['4'].total);
+            }
+        });
+    }
+
+    doFilterFec(tipo: number, event) {
+        event.preventDefault();
+        const hoy = new Date();
+        let start = hoy;
+        if (tipo === 1) {
+            start = startOfWeek(hoy);
+        } else if (tipo === 2) {
+            start = startOfMonth(hoy);
+        } else if (tipo === 3) {
+            start = startOfYear(hoy);
+        }
+        this.form.desde = start;
+        this.form.hasta = hoy;
+
+        this.onDesdeChange(null);
+        this.onHastaChange(null);
+    }
+
+    onDesdeChange($event: any) {
+        this.form.desdestr = this.fechasService.formatDate(this.form.desde);
+    }
+
+    onHastaChange($event: any) {
+        this.form.hastastr = this.fechasService.formatDate(this.form.hasta);
+    }
+
+    getestilo(fila: any) {
+        const npuntos = fila.dbdata.ic_code.split('.').length;
+        const mg = 50 * npuntos;
+        let font = 1000 - (100 * npuntos);
+        if (font < 200) {
+            font = 200;
+        }
+        return `margin-right: ${mg}px; font-weight: ${font}`;
+    }
+
+    getfuente(fila: any) {
+        const npuntos = fila.dbdata.ic_code.split('.').length;
+        let font = 1000 - (100 * npuntos);
+        if (font < 200) {
+            font = 200;
+        }
+        return `font-weight: ${font}`;
+    }
+
+    getabs(valor) {
+        return Math.abs(valor);
+    }
+
+}

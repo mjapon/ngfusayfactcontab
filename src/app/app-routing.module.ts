@@ -34,6 +34,8 @@ import {PlanctaslistComponent} from './components/contabilidad/plancuentas/planc
 import {LibrodiariolistComponent} from './components/contabilidad/librodiario/librodiariolist/librodiariolist.component';
 import {LibrodiarioformComponent} from './components/contabilidad/librodiario/librodiarioform/librodiarioform.component';
 import {LibromayorlistComponent} from './components/contabilidad/libromayor/libromayorlist/libromayorlist.component';
+import {BalancegeneralComponent} from './components/contabilidad/reportes/balancegeneral/balancegeneral.component';
+import {EstadoresultadosComponent} from "./components/contabilidad/reportes/estadoresultados/estadoresultados.component";
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -69,6 +71,8 @@ const routes: Routes = [
     {path: 'librodiario', component: LibrodiariolistComponent},
     {path: 'newasiento/:cod', component: LibrodiarioformComponent},
     {path: 'libromayor', component: LibromayorlistComponent},
+    {path: 'contabilidad/balancegeneral', component: BalancegeneralComponent},
+    {path: 'contabilidad/estadoresultados', component: EstadoresultadosComponent},
     {path: '**', component: HomeComponent}
 ];
 

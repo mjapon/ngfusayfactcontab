@@ -75,4 +75,12 @@ export class AsientoService extends BaseService {
         return this._doGet(this.getHOT({accion: 'getdatosasiconta', cod}));
     }
 
+    getBalanceGeneral(desde, hasta) {
+        return this._doGet(this.getHOT({accion: 'getbalancegeneral', desde, hasta}));
+    }
+
+    getEstadoResultados(desde, hasta) {
+        return this._doGet(this.getHOT({accion: 'getestadoresultados', desde, hasta}));
+    }
+
 }
