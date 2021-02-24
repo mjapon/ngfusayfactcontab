@@ -35,7 +35,7 @@ import {LibrodiariolistComponent} from './components/contabilidad/librodiario/li
 import {LibrodiarioformComponent} from './components/contabilidad/librodiario/librodiarioform/librodiarioform.component';
 import {LibromayorlistComponent} from './components/contabilidad/libromayor/libromayorlist/libromayorlist.component';
 import {BalancegeneralComponent} from './components/contabilidad/reportes/balancegeneral/balancegeneral.component';
-import {EstadoresultadosComponent} from "./components/contabilidad/reportes/estadoresultados/estadoresultados.component";
+import {EstadoresultadosComponent} from './components/contabilidad/reportes/estadoresultados/estadoresultados.component';
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},

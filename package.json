@@ -31,7 +31,10 @@
     "bootstrap": "4.5.3",
     "chart.js": "^2.8.0",
     "date-fns": "^2.16.1",
+    "file-saver": "^2.0.5",
     "jquery": "3.4.1",
+    "jspdf": "^2.3.0",
+    "jspdf-autotable": "^3.5.14",
     "ngx-webstorage-service": "^4.1.0",
     "node-pre-gyp": "^0.10.3",
     "popper.js": "^1.15.0",
@@ -41,6 +44,7 @@
     "rxjs": "~6.5.5",
     "sweetalert2": "^8.13.2",
     "tslib": "^2.0.0",
+    "xlsx": "^0.16.9",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
@@ -62,6 +66,6 @@
     "protractor": "~7.0.0",
     "ts-node": "~7.0.0",
     "tslint": "~6.1.0",
-    "typescript": "^4.0.5"
+    "typescript": "4.0.7"
   }
 }
