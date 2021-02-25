@@ -62,7 +62,7 @@ export class VticketformComponent implements OnInit {
                 this.swalService.fireToastWarn('Debe ingresar la fecha del registro');
             } else {
                 const fechaRegistroStr = this.fechasService.formatDate(this.fechaRegistro);
-                this.form.vt_tipo = this.cuentasel.ic_id;
+                this.form.vt_tipo = this.cuentasel;
                 this.form.vt_fecha = fechaRegistroStr;
                 this.loadingUiService.publishBlockMessage();
 

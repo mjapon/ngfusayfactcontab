@@ -90,7 +90,7 @@ export class VticketComponent implements OnInit {
         const tipoIdSel = this.tipoSel;
         let cuentaIdSel = 0;
         if (this.cuentaSel) {
-            cuentaIdSel = this.cuentaSel.ic_id;
+            cuentaIdSel = this.cuentaSel;
         }
         this.loadingUiService.publishBlockMessage();
         this.vtService.listar(tipoIdSel, cuentaIdSel).subscribe(res => {

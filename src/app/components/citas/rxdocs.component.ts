@@ -4,6 +4,7 @@ import {DomService} from '../../services/dom.service';
 import {SwalService} from '../../services/swal.service';
 import {LoadingUiService} from '../../services/loading-ui.service';
 import {FautService} from '../../services/faut.service';
+import {CitasMedicasService} from '../../services/citas-medicas.service';
 
 @Component({
     selector: 'app-rxdocs',
@@ -12,7 +13,7 @@ import {FautService} from '../../services/faut.service';
             <div *ngIf="showForm" class="mb-3">
                 <div class="row">
                     <div class="col-md-8 offset-md-2">
-                        <div class="card border-success">
+                        <div class="card border-primary">
                             <div class="card-header">
                                 <span class="font-weight-bold">
                                     {{form.rxd_id > 0 ? 'Editar documento' : 'Crear documento'}}
@@ -20,8 +21,9 @@ import {FautService} from '../../services/faut.service';
                             </div>
                             <div class="card-body">
                                 <div class="mt-2 d-flex flex-column" *ngIf="form.rxd_id===0"><span>Archivo:</span>
-                                    <input type="file" id="archivoinput" accept="image/*,application/pdf, application/msword,
-  application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                    <input type="file" id="archivoinput"
+                                           accept="image/*,application/pdf, application/msword,
+                                                    application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                            class="form-control-file"
                                            (change)="onFileChange($event)"/>
 
@@ -43,7 +45,7 @@ import {FautService} from '../../services/faut.service';
                             </div>
                             <div class="card-footer">
                                 <div class="d-flex justify-content-around">
-                                    <button class="btn btn-outline-success" (click)="guardar()"><i
+                                    <button class="btn btn-outline-primary" (click)="guardar()"><i
                                             class="fa fa-save"></i> Guardar
                                     </button>
                                     <button class="btn btn-outline-secondary" (click)="cancelar()"><i
@@ -66,18 +68,12 @@ import {FautService} from '../../services/faut.service';
                                             <div [title]="doc.rxd_nombre" (click)="descargar(doc)" class="hand">
                                                 <i class="far fa-3x" [ngClass]="doc.fa_icon"></i>
                                             </div>
-                                            <!--
-                                            <a [href]="descargar(doc)" target="_blank" [title]="doc.rxd_nombre">
-                                                <i class="far fa-3x" [ngClass]="doc.fa_icon"></i>
-                                            </a>
-                                            -->
                                             <div class="mt-2 d-flex flex-column justify-content-center">
                                                 <h5 class="card-title">{{doc.rxd_nombre}}</h5>
                                                 <small class="text-muted">{{doc.rxd_filename}}</small>
                                             </div>
                                             <p class="card-text mt-1">{{doc.rxd_nota}}</p>
                                         </div>
-
                                         <div>
                                             <div class="mt-2 d-flex justify-content-between">
                                                 <p>
@@ -86,11 +82,6 @@ import {FautService} from '../../services/faut.service';
                                                 <div>
                                                     <div class="d-flex justify-content-end">
                                                         <div class="d-flex">
-                                                            <!--
-                                                            <a [href]="descargar(doc)" target="_blank"
-                                                               class="ml-2 btn btn-sm btn-outline-secondary">
-                                                                <i class="fa fa-download"></i></a>
-                                                                -->
                                                             <button class="ml-2 btn btn-sm btn-outline-success"
                                                                     (click)="descargar(doc)">
                                                                 <i class="fa fa-eye"></i>
@@ -123,12 +114,20 @@ import {FautService} from '../../services/faut.service';
                         </div>
                     </div>
                     <div class="col-md-2" *ngIf="!showForm">
-                        <button class="btn btn-outline-success" (click)="loadForm()">Crear <i
-                                class="fa fa-plus-circle"></i></button>
+                        <div>
+                            <button class="btn btn-outline-primary"
+                                    title="Cargar un nuevo examen al sistema"
+                                    (click)="loadForm()">Crear <i
+                                    class="fa fa-plus-circle"></i></button>
+                        </div>
+                        <div *ngIf="tipo===1" class="mt-4">
+                            <button class="btn btn-outline-secondary" (click)="imprimirRecetario()"
+                                    title="Imprimir recetario en blanco">Recetario <i
+                                    class="fas fa-print"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
     `
 })
@@ -146,6 +145,7 @@ export class RxdocsComponent implements OnInit, OnChanges {
                 private domService: DomService,
                 private loadingServ: LoadingUiService,
                 private fautService: FautService,
+                private citasMedicasServ: CitasMedicasService,
                 private swalService: SwalService) {
         this.docs = [];
     }
@@ -285,4 +285,9 @@ export class RxdocsComponent implements OnInit, OnChanges {
             }
         }
     }
+
+    imprimirRecetario() {
+        this.citasMedicasServ.imprimirRecBlank();
+    }
+
 }

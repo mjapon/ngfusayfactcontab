@@ -5,6 +5,7 @@
         <div>
             <span>Tipo</span><br>
             <p-dropdown [options]="tipos" optionLabel="label"
+                        optionValue="value"
                         placeholder="Seleccione el tipo ingreso o egreso"
                         (onChange)="onTipoCuentaChange($event)"
                         [showClear]="false"
@@ -26,13 +27,14 @@
                         filter="true"
                         itemSize="50"
                         optionLabel="ic_nombre"
+                        optionValue="ic_id"
                         inputId="cuenta_id"></p-dropdown>
         </div>
     </div>
     <div class="col-md-3">
         <span>&nbsp;</span><br>
         <div class="btn-group" role="group" aria-label="Default button group">
-            <button type="button" class="btn btn-outline-success" (click)="loadGrid()">
+            <button type="button" class="btn btn-outline-primary" (click)="loadGrid()">
                 <i class="fas fa-search"></i>
                 Buscar
             </button>
@@ -43,7 +45,7 @@
         <span>&nbsp;</span><br>
         <div class="d-flex justify-content-end">
             <div class="btn-group" role="group" aria-label="Default button group">
-                <button type="button" class="btn btn-outline-success" (click)="nuevo()">
+                <button type="button" class="btn btn-outline-primary" (click)="nuevo()">
                     <i class="fas fa-plus-circle"></i>
                     Crear
                 </button>

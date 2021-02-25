@@ -16,6 +16,7 @@
                                             Tipo:</label>
                                         <br>
                                         <p-dropdown [options]="tiposList" optionLabel="label" id="tipoInput"
+                                                    optionValue="value"
                                                     placeholder="Seleccione el tipo de ingreso"
                                                     (onChange)="ontiposel($event)"
                                                     name="vt_clase"
@@ -56,6 +57,7 @@
                                                 itemSize="50"
                                                 name="cuenta_id"
                                                 optionLabel="ic_nombre"
+                                                optionValue="ic_id"
                                                 inputId="cuenta_id"></p-dropdown>
                                 </div>
                                 <div class="col-md">
@@ -86,7 +88,7 @@
                         </form>
                     </div>
                     <div class="col-md-3">
-                        <button type="button" class="btn btn-outline-success btn-block" (click)="guardar()">
+                        <button type="button" class="btn btn-outline-primary btn-block" (click)="guardar()">
                             <i class="fa fa-save"></i>
                             Guardar
                         </button>

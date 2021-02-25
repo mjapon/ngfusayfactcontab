@@ -54,6 +54,12 @@ export class CitasMedicasService extends BaseService {
         window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=600');
     }
 
+    imprimirRecBlank() {
+        const sqm = this.fautService.getEsquema();
+        const rutaserver = 'https://mavil.site/tomcat/imprentas/RecetaEmptyServlet?sqm=' + sqm;
+        window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=600');
+    }
+
     imprimirHistoria(ch: any) {
         const sqm = this.fautService.getEsquema();
         const rutaserver = 'https://mavil.site/tomcat/imprentas/HistoriaClinicaServlet?ch=' + ch + '&sqm=' + sqm;
