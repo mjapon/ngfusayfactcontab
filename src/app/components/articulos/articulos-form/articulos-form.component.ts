@@ -69,6 +69,7 @@ export class ArticulosFormComponent implements OnInit {
         private domService: DomService,
         private personaService: PersonaService
     ) {
+        this.artFromDb = {};
         this.tiposArt = [
             {label: 'Bien', value: 1},
             {label: 'Servicio', value: 2}

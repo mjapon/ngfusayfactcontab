@@ -45,6 +45,10 @@ export class FacturasformComponent implements OnInit {
 
     @Output() evTotalesUpd = new EventEmitter<any>();
 
+    buscaArtPromise: Promise<any>;
+    artsearched: boolean;
+    artsearchedcount: number;
+
     constructor(private asientoService: AsientoService,
                 private numberService: NumberService,
                 private domService: DomService,
@@ -68,9 +72,10 @@ export class FacturasformComponent implements OnInit {
         this.showFormCreaFact();
         this.isConsumidorFinal = false;
         this.isDisabledFormRef = false;
+        this.artsearchedcount = 0;
+        this.artsearched = false;
         registerLocaleData(es);
     }
-
 
     initTotales() {
         this.form.totales = {
@@ -132,17 +137,73 @@ export class FacturasformComponent implements OnInit {
         return formDetalles;
     }
 
+
+    checkInventarios(fila): boolean {
+        let continuar = true;
+        if (fila.servicio.tipic_id === 1) {
+            if (fila.dt_cant > fila.servicio.ice_stock) {
+                continuar = false;
+                this.swalService.fireToastError(`No hay unidades disponibles para ${fila.servicio.ic_nombre}, el total disponible actual es de: ${fila.servicio.ice_stock}`);
+            }
+        }
+        return continuar;
+    }
+
     recalcTotalFila(fila) {
+        const continuar = this.checkInventarios(fila);
         this.numberService.recalcTotalFila(fila);
         this.totalizar();
     }
 
     buscaServs(event) {
-        this.artService.busArtsForTransacc(this.seccionSel, event.query).subscribe(res => {
-            if (res.status === 200) {
-                this.artsFiltrados = res.items;
-            }
+        this.artsearched = false;
+        this.artsearchedcount = 0;
+        this.buscaArtPromise = new Promise((resolve) => {
+            this.artService.busArtsForTransacc(this.seccionSel, event.query).subscribe(res => {
+                if (res.status === 200) {
+                    this.artsFiltrados = res.items;
+                }
+                resolve(true);
+                this.artsearched = true;
+            });
         });
+    }
+
+    onEnterFiltroArts($event) {
+        setTimeout(() => {
+            if (this.artsearched) {
+                this.logicaSelectArticulo();
+            } else {
+                this.logicaEnterFiltro();
+            }
+        }, 200);
+    }
+
+    logicaSelectArticulo() {
+        if (this.artsFiltrados.length > 0) {
+            this.onServSelect(this.artsFiltrados[0]);
+            this.artsFiltrados = [];
+            this.artsearched = false;
+        }
+    }
+
+    logicaEnterFiltro() {
+        if (this.artsearchedcount < 5) {
+            if (this.artsearched) {
+                this.artsearchedcount = 5;
+                this.logicaSelectArticulo();
+            } else {
+                setTimeout(() => {
+                    this.artsearchedcount += 1;
+                    this.logicaEnterFiltro();
+                }, 500);
+            }
+        } else {
+            if (this.artsearched) {
+                this.artsearchedcount = 5;
+                this.logicaSelectArticulo();
+            }
+        }
     }
 
     onServSelect($event: any) {
@@ -151,7 +212,9 @@ export class FacturasformComponent implements OnInit {
             prevserv.dt_cant += 1;
             this.recalcTotalFila(prevserv);
         } else {
-            this.form.detalles.push(this.getNewEmptyRow($event));
+            const newrow = this.getNewEmptyRow($event);
+            this.checkInventarios(newrow);
+            this.form.detalles.push(newrow);
         }
         this.totalizar();
         this.formdet.servicio = {};
@@ -294,7 +357,7 @@ export class FacturasformComponent implements OnInit {
             }
 
             this.isLoading = false;
-            this.domService.setFocusTimeout('artsAutoCom', 100);
+            this.domService.setFocusTimeout('artsAutoCom', 300);
         });
     }
 
@@ -355,8 +418,8 @@ export class FacturasformComponent implements OnInit {
         this.recalcTotalFila(fila);
     }
 
-    onEnterFiltroArts($event) {
-
+    onServFilaSelected($event: any) {
+        this.artsFiltrados = [];
+        this.onServSelect($event);
     }
-
 }

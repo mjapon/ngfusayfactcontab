@@ -1,308 +1,322 @@
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <h4>{{editing ? 'Editar ' + artFromDb.ic_nombre : 'Crear Producto o Servicio'}} </h4>
-        </div>
-        <div class="col-3 d-flex justify-content-end">
-            <div class="btn-group" role="group" aria-label="Default button group">
-                <button type="button" class="btn btn-outline-primary" (click)="cancelar()"
-                        title="Retornar a listado de productos y servicios">
-                    <i class="fa fa-arrow-left"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    <hr>
+
     <div *ngIf="isLoading">
         <app-loading></app-loading>
     </div>
-    <div class="row" *ngIf="!isLoading">
-        <div class="col">
-            <p-tabView [(activeIndex)]="activeTabIndex">
-                <p-tabPanel header="Detalles">
-                    <div>
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label>Tipo:</label>
-                                            <br>
-                                            <p-selectButton [options]="tiposArt" [(ngModel)]="artForm.tipic_id.value"
-                                                            optionLabel="label"
-                                                            [disabled]="artForm.tipic_id.disabled"
-                                                            (onChange)="onTipoArtChange($event)"></p-selectButton>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label>Graba Iva:</label>
-                                            <br>
-                                            <p-selectButton [options]="ivas" [(ngModel)]="artForm.icdp_grabaiva.value"
-                                                            (onChange)="onTipoIvaChange($event)"
-                                                            optionLabel="label"></p-selectButton>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="codbarraInput">
-                                        <span class="required">*</span>Código: <span *ngIf="!editing"
-                                                                                     class="hand badge {{artCodAutomatic?'badge-primary':'badge-secondary'}} "
-                                                                                     (click)="generarCodigoBarra()"
-                                                                                     title="Seleccione esta opción si desea que el sistema genere el código para el producto o servicio">
+    <div *ngIf="!isLoading">
+        <div class="row">
+            <div class="col">
+                <h4>{{editing ? 'Editar ' + artFromDb.ic_nombre : 'Crear Producto o Servicio'}} </h4>
+            </div>
+            <div class="col-3 d-flex justify-content-end">
+                <div class="btn-group" role="group" aria-label="Default button group">
+                    <button type="button" class="btn btn-outline-primary" (click)="cancelar()"
+                            title="Retornar a listado de productos y servicios">
+                        <i class="fa fa-arrow-left"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col">
+                <p-tabView [(activeIndex)]="activeTabIndex">
+                    <p-tabPanel header="Detalles">
+                        <div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label>Tipo:</label>
+                                                <br>
+                                                <p-selectButton [options]="tiposArt"
+                                                                [(ngModel)]="artForm.tipic_id.value"
+                                                                optionLabel="label"
+                                                                [disabled]="artForm.tipic_id.disabled"
+                                                                (onChange)="onTipoArtChange($event)"></p-selectButton>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label>Graba Iva:</label>
+                                                <br>
+                                                <p-selectButton [options]="ivas"
+                                                                [(ngModel)]="artForm.icdp_grabaiva.value"
+                                                                (onChange)="onTipoIvaChange($event)"
+                                                                optionLabel="label"></p-selectButton>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="codbarraInput">
+                                            <span class="required">*</span>Código: <span *ngIf="!editing"
+                                                                                         class="hand badge {{artCodAutomatic?'badge-primary':'badge-secondary'}} "
+                                                                                         (click)="generarCodigoBarra()"
+                                                                                         title="Seleccione esta opción si desea que el sistema genere el código para el producto o servicio">
                                         <i class="fa fa-check" *ngIf="artCodAutomatic"></i>Automático </span>
-                                        <span *ngIf="editing" (click)="showModalEditBarcode()" class="badge badge-info"
-                                              title="Editar el código de barra"> <i
-                                                class="fa fa-edit hand"> </i> </span>
-                                    </label>
-                                    <br>
-                                    <input type="text" class="form-control" id="codbarraInput"
-                                           aria-describedby="Código de barra"
-                                           maxlength="80"
-                                           autocomplete="off"
-                                           (keydown.enter)="onEnterCodBarra($event)"
-                                           placeholder="Ingrese el código del producto o servicio" name="ic_code"
-                                           [(ngModel)]="artForm.ic_code.value"
-                                           [disabled]="artForm.ic_code.disabled"
-                                           [ngClass]="{'is-invalid':submited && fieldHasError('ic_code')}">
-                                </div>
+                                            <span *ngIf="editing" (click)="showModalEditBarcode()"
+                                                  class="badge badge-info"
+                                                  title="Editar el código de barra"> <i
+                                                    class="fa fa-edit hand"> </i> </span>
+                                        </label>
+                                        <br>
+                                        <input type="text" class="form-control" id="codbarraInput"
+                                               aria-describedby="Código de barra"
+                                               maxlength="80"
+                                               autocomplete="off"
+                                               (keydown.enter)="onEnterCodBarra($event)"
+                                               placeholder="Ingrese el código del producto o servicio" name="ic_code"
+                                               [(ngModel)]="artForm.ic_code.value"
+                                               [disabled]="artForm.ic_code.disabled"
+                                               [ngClass]="{'is-invalid':submited && fieldHasError('ic_code')}">
+                                    </div>
 
-                                <div class="form-group">
-                                    <label for="nombreInput">
-                                        <span class="required">*</span>Nombre:</label>
-                                    <br>
-                                    <input type="text" class="form-control" id="nombreInput"
-                                           aria-describedby="emailHelp"
-                                           autocomplete="off"
-                                           maxlength="150"
-                                           (keydown.enter)="onEnterNombre($event)"
-                                           (keyup)="$event.target.value=$event.target.value.toUpperCase()"
-                                           placeholder="Ingrese el nombre del producto o servicio" name="ic_nombre"
-                                           [(ngModel)]="artForm.ic_nombre.value"
-                                           [ngClass]="{'is-invalid':submited && fieldHasError('ic_nombre')}">
-                                </div>
+                                    <div class="form-group">
+                                        <label for="nombreInput">
+                                            <span class="required">*</span>Nombre:</label>
+                                        <br>
+                                        <input type="text" class="form-control" id="nombreInput"
+                                               aria-describedby="emailHelp"
+                                               autocomplete="off"
+                                               maxlength="150"
+                                               (keydown.enter)="onEnterNombre($event)"
+                                               (keyup)="$event.target.value=$event.target.value.toUpperCase()"
+                                               placeholder="Ingrese el nombre del producto o servicio" name="ic_nombre"
+                                               [(ngModel)]="artForm.ic_nombre.value"
+                                               [ngClass]="{'is-invalid':submited && fieldHasError('ic_nombre')}">
+                                    </div>
 
-                                <div class="row" *ngIf="artForm.tipic_id && artForm.tipic_id.value===1">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label for="precioCompraInput">
-                                                <span class="required">*</span>
-                                                Precio Compra <span class="badge badge-light"
-                                                                    *ngIf="artForm.icdp_grabaiva && artForm.icdp_grabaiva.value">(Sin Iva)</span>:</label>
-                                            <br>
-                                            <input type="text"
-                                                   maxlength="10"
-                                                   autocomplete="off"
-                                                   class="form-control" id="precioCompraInput"
-                                                   aria-describedby="emailHelp"
-                                                   [pattern]="numbersPattern"
-                                                   placeholder="Precio de compra" name="icdp_preciocompra"
-                                                   (keyup)="onKeyupPrecioCompra($event)"
-                                                   (keydown.enter)="onEnterPrecioCompra($event)"
-                                                   [(ngModel)]="artForm.icdp_preciocompra.value"
-                                                   [ngClass]="{'is-invalid':(submited && fieldHasError('icdp_preciocompra')||evalPattern('icdp_preciocompra',numbersPattern))}">
-                                            <div *ngIf="evalPattern('icdp_preciocompra',numbersPattern)">
-                                                <small class="text-danger">Valor incorrecto</small>
+                                    <div class="row" *ngIf="artForm.tipic_id && artForm.tipic_id.value===1">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="precioCompraInput">
+                                                    <span class="required">*</span>
+                                                    Precio Compra <span class="badge badge-light"
+                                                                        *ngIf="artForm.icdp_grabaiva && artForm.icdp_grabaiva.value">(Sin Iva)</span>:</label>
+                                                <br>
+                                                <input type="text"
+                                                       maxlength="10"
+                                                       autocomplete="off"
+                                                       class="form-control" id="precioCompraInput"
+                                                       aria-describedby="emailHelp"
+                                                       [pattern]="numbersPattern"
+                                                       placeholder="Precio de compra" name="icdp_preciocompra"
+                                                       (keyup)="onKeyupPrecioCompra($event)"
+                                                       (keydown.enter)="onEnterPrecioCompra($event)"
+                                                       [(ngModel)]="artForm.icdp_preciocompra.value"
+                                                       [ngClass]="{'is-invalid':(submited && fieldHasError('icdp_preciocompra')||evalPattern('icdp_preciocompra',numbersPattern))}">
+                                                <div *ngIf="evalPattern('icdp_preciocompra',numbersPattern)">
+                                                    <small class="text-danger">Valor incorrecto</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col" *ngIf="artForm.icdp_grabaiva && artForm.icdp_grabaiva.value">
+                                            <div class="form-group">
+                                                <label for="precioCompraInput">
+                                                    <span class="required">*</span>
+                                                    Precio Compra <span class="badge badge-light"> (Con Iva) </span>
+                                                    :</label>
+                                                <br>
+                                                <input type="text"
+                                                       maxlength="10"
+                                                       autocomplete="off"
+                                                       class="form-control" id="precioCompraIvaInput"
+                                                       aria-describedby="emailHelp"
+                                                       placeholder="Precio de compra con iva"
+                                                       name="icdp_preciocompra_iva"
+                                                       [disabled]="artForm.icdp_preciocompra_iva.disabled"
+                                                       [(ngModel)]="artForm.icdp_preciocompra_iva.value">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col" *ngIf="artForm.icdp_grabaiva && artForm.icdp_grabaiva.value">
-                                        <div class="form-group">
-                                            <label for="precioCompraInput">
-                                                <span class="required">*</span>
-                                                Precio Compra <span class="badge badge-light"> (Con Iva) </span>
-                                                :</label>
-                                            <br>
-                                            <input type="text"
-                                                   maxlength="10"
-                                                   autocomplete="off"
-                                                   class="form-control" id="precioCompraIvaInput"
-                                                   aria-describedby="emailHelp"
-                                                   placeholder="Precio de compra con iva" name="icdp_preciocompra_iva"
-                                                   [disabled]="artForm.icdp_preciocompra_iva.disabled"
-                                                   [(ngModel)]="artForm.icdp_preciocompra_iva.value">
+
+                                    <div class="form-group">
+                                        <label for="precioVentaInput">
+                                            <span class="required">*</span>Precio Venta: <span
+                                                *ngIf="artForm.tipic_id && artForm.tipic_id.value===1"
+                                                (click)="toggleAsistentePrecios()"
+                                                class="hand badge {{isShowAsistPre?'badge-primary':'badge-secondary'}}"
+                                                title="Muestra el asitente para establecimiento de precios de un producto">Asistente de precios</span>
+                                        </label>
+                                        <br>
+                                        <input type="text"
+                                               maxlength="10"
+                                               autocomplete="off"
+                                               class="form-control" id="precioVentaInput" aria-describedby="emailHelp"
+                                               placeholder="Precio de venta" name="icdp_precioventa"
+                                               (keydown.enter)="onEnterPrecioVenta($event)"
+                                               [(ngModel)]="artForm.icdp_precioventa.value"
+                                               [pattern]="numbersPattern"
+                                               [ngClass]="{'is-invalid':(submited && fieldHasError('icdp_precioventa')||evalPattern('icdp_precioventa', numbersPattern))}">
+                                        <div *ngIf="evalPattern('icdp_precioventa', numbersPattern)">
+                                            <small class="text-danger">Valor incorrecto</small>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="precioVentaInput">
-                                        <span class="required">*</span>Precio Venta: <span
-                                            *ngIf="artForm.tipic_id && artForm.tipic_id.value===1"
-                                            (click)="toggleAsistentePrecios()"
-                                            class="hand badge {{isShowAsistPre?'badge-primary':'badge-secondary'}}"
-                                            title="Muestra el asitente para establecimiento de precios de un producto">Asistente de precios</span>
-                                    </label>
-                                    <br>
-                                    <input type="text"
-                                           maxlength="10"
-                                           autocomplete="off"
-                                           class="form-control" id="precioVentaInput" aria-describedby="emailHelp"
-                                           placeholder="Precio de venta" name="icdp_precioventa"
-                                           (keydown.enter)="onEnterPrecioVenta($event)"
-                                           [(ngModel)]="artForm.icdp_precioventa.value"
-                                           [pattern]="numbersPattern"
-                                           [ngClass]="{'is-invalid':(submited && fieldHasError('icdp_precioventa')||evalPattern('icdp_precioventa', numbersPattern))}">
-                                    <div *ngIf="evalPattern('icdp_precioventa', numbersPattern)">
-                                        <small class="text-danger">Valor incorrecto</small>
+                                    <div class="card border-primary" *ngIf="isShowAsistPre">
+                                        <small>
+                                            Este asistente calcula el precio de venta, incrementando el precio de compra
+                                            en el porcentaje ingresado.
+                                        </small>
+                                        <table class="table table-borderless table-sm">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col"><small>% Incremento </small></th>
+                                                <th scope="col"><small>Utilidad </small></th>
+                                                <th scope="col"><small>Precio Venta Sugerido </small></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <input type="text" (keyup)="onKeyupPorcentajeIncr($event)"
+                                                           autocomplete="false"
+                                                           [(ngModel)]="artForm.asist_pre_porc.value"
+                                                           id="porcIncAsistPre"
+                                                           class="form-control form-control-sm">
+                                                </td>
+                                                <td>
+                                                    <input type="text" [(ngModel)]="artForm.asist_pre_util.value"
+                                                           [disabled]="artForm.asist_pre_util.disabled"
+                                                           class="form-control form-control-sm">
+                                                </td>
+                                                <td>
+                                                    <input type="text" [(ngModel)]="artForm.asist_pre_prevsug.value"
+                                                           [disabled]="artForm.asist_pre_prevsug.disabled"
+                                                           class="form-control form-control-sm">
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <span class="hand badge badge-primary" (click)="toggleAsistentePrecios()"
+                                              title="Cierra el asistente de precios">Cerrar</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ic_nota">Observación:</label>
+                                        <br>
+                                        <textarea pInputTextarea maxlength="1000" class="form-control"
+                                                  [(ngModel)]="artForm.ic_nota.value"
+                                                  name="ic_nota" id="ic_nota"
+                                                  rows="5"></textarea>
+                                        <br>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
 
-                                <div class="card border-primary" *ngIf="isShowAsistPre">
-                                    <small>
-                                        Este asistente calcula el precio de venta, incrementando el precio de compra
-                                        en el porcentaje ingresado.
-                                    </small>
-                                    <table class="table table-borderless table-sm">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col"><small>% Incremento </small></th>
-                                            <th scope="col"><small>Utilidad </small></th>
-                                            <th scope="col"><small>Precio Venta Sugerido </small></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>
-                                                <input type="text" (keyup)="onKeyupPorcentajeIncr($event)"
-                                                       autocomplete="false"
-                                                       [(ngModel)]="artForm.asist_pre_porc.value" id="porcIncAsistPre"
-                                                       class="form-control form-control-sm">
-                                            </td>
-                                            <td>
-                                                <input type="text" [(ngModel)]="artForm.asist_pre_util.value"
-                                                       [disabled]="artForm.asist_pre_util.disabled"
-                                                       class="form-control form-control-sm">
-                                            </td>
-                                            <td>
-                                                <input type="text" [(ngModel)]="artForm.asist_pre_prevsug.value"
-                                                       [disabled]="artForm.asist_pre_prevsug.disabled"
-                                                       class="form-control form-control-sm">
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <span class="hand badge badge-primary" (click)="toggleAsistentePrecios()"
-                                          title="Cierra el asistente de precios">Cerrar</span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="ic_nota">Observación:</label>
-                                    <br>
-                                    <textarea pInputTextarea maxlength="1000" class="form-control"
-                                              [(ngModel)]="artForm.ic_nota.value"
-                                              name="ic_nota" id="ic_nota"
-                                              rows="5"></textarea>
-                                    <br>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-
-                                <div class="form-group">
-                                    <label for="catic_id">Categoría:
-                                        <span class="btn btn-sm btn-outline-secondary hand" title="Crear categoría"
-                                              (click)="showModalCreaCateg()"> <i class="fa fa-plus-circle"></i> </span>
-                                    </label>
-                                    <br>
-                                    <p-dropdown [options]="categorias" id="catic_id"
-                                                [(ngModel)]="artForm.catic_id.value"
-                                                filter="true"
-                                                optionLabel="catic_nombre"
-                                                inputId="catic_id"></p-dropdown>
-                                </div>
-
-                                <div class="form-group" *ngIf="artForm.tipic_id && artForm.tipic_id.value===1">
-                                    <label for="icdp_proveedor">Proveedor:</label>
-                                    <br>
-                                    <p-dropdown [options]="proveedores" id="icdp_proveedor"
-                                                [(ngModel)]="artForm.icdp_proveedor.value"
-                                                optionLabel="per_nombres" filter="true"
-                                                optionValue="per_id" inputId="icdp_proveedor"></p-dropdown>
-                                </div>
-
-                                <div class="form-group" *ngIf="artForm.tipic_id && artForm.tipic_id.value===1">
-                                    <label for="icdp_fechacaducidad">Fecha de caducidad:</label>
-                                    <br>
-                                    <p-calendar [(ngModel)]="artForm.icdp_fechacaducidad.value" id="icdp_fechacaducidad"
-                                                [showIcon]="true"
-                                                inputId="icdp_fechacaducidad"
-                                                [monthNavigator]="true" [yearNavigator]="true" [minDate]="minimumDate"
-                                                yearRange="2019:2050"
-                                                dateFormat="dd/mm/yy"></p-calendar>
-                                    <br>
-                                </div>
-
-                                <div class="form-check" *ngIf="!editing && aplicaDental">
-                                    <input type="checkbox" class="form-check-input" id="dentalcheckinput"
-                                           [(ngModel)]="artForm.ic_dental.value">
-                                    <label for="dentalcheckinput" class="form-check-label">
-                                        Dental
-                                    </label>
-                                </div>
-
-                                <div class="font-weight-light mt-2"
-                                     title="Elija las secciones en las que va ha estar disponible este producto o servicio">
-                                    Secciones:
-                                </div>
-                                <div>
-                                    <div *ngFor="let itsec of artForm.seccionesf.value" class="d-flex flex-row">
-                                        <p-checkbox [inputId]="itsec.seccion.sec_id" binary="true"
-                                                    [(ngModel)]="itsec.value"></p-checkbox>
-                                        <label [for]="itsec.seccion.sec_id"
-                                               class="ml-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
+                                    <div class="form-group">
+                                        <label for="catic_id">Categoría:
+                                            <span class="btn btn-sm btn-outline-secondary hand" title="Crear categoría"
+                                                  (click)="showModalCreaCateg()"> <i
+                                                    class="fa fa-plus-circle"></i> </span>
+                                        </label>
+                                        <br>
+                                        <p-dropdown [options]="categorias" id="catic_id"
+                                                    [(ngModel)]="artForm.catic_id.value"
+                                                    filter="true"
+                                                    optionLabel="catic_nombre"
+                                                    inputId="catic_id"></p-dropdown>
                                     </div>
-                                </div>
 
-                                <div class="mt-2">
-                                    <button type="button" class="btn btn-outline-primary  btn-block"
-                                            (click)="procesaForm()">
-                                        <i class="fa fa-save"></i>
-                                        Guardar
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary  btn-block"
-                                            (click)="cancelar()">
-                                        <i class="fa fa-times"></i>
-                                        Cancelar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                    <div class="form-group" *ngIf="artForm.tipic_id && artForm.tipic_id.value===1">
+                                        <label for="icdp_proveedor">Proveedor:</label>
+                                        <br>
+                                        <p-dropdown [options]="proveedores" id="icdp_proveedor"
+                                                    [(ngModel)]="artForm.icdp_proveedor.value"
+                                                    optionLabel="per_nombres" filter="true"
+                                                    optionValue="per_id" inputId="icdp_proveedor"></p-dropdown>
+                                    </div>
 
-                </p-tabPanel>
-                <p-tabPanel header="Stock" *ngIf="editing && artFromDb.tipic_id===1">
-                    <h5> Stock para: {{artFromDb.ic_nombre}} </h5>
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="card border-primary">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item" *ngFor="let item of stock">
-                                        <div class="row">
-                                            <div class="col">
-                                                {{item.sec_nombre}}
-                                            </div>
-                                            <div class="col">
-                                                <input type="text" class="form form-control"
-                                                       [(ngModel)]="item.ice_stock">
-                                            </div>
+                                    <div class="form-group" *ngIf="artForm.tipic_id && artForm.tipic_id.value===1">
+                                        <label for="icdp_fechacaducidad">Fecha de caducidad:</label>
+                                        <br>
+                                        <p-calendar [(ngModel)]="artForm.icdp_fechacaducidad.value"
+                                                    id="icdp_fechacaducidad"
+                                                    [showIcon]="true"
+                                                    inputId="icdp_fechacaducidad"
+                                                    [monthNavigator]="true" [yearNavigator]="true"
+                                                    [minDate]="minimumDate"
+                                                    yearRange="2019:2050"
+                                                    dateFormat="dd/mm/yy"></p-calendar>
+                                        <br>
+                                    </div>
+
+                                    <div class="form-check" *ngIf="!editing && aplicaDental">
+                                        <input type="checkbox" class="form-check-input" id="dentalcheckinput"
+                                               [(ngModel)]="artForm.ic_dental.value">
+                                        <label for="dentalcheckinput" class="form-check-label">
+                                            Dental
+                                        </label>
+                                    </div>
+
+                                    <div class="font-weight-light mt-2"
+                                         title="Elija las secciones en las que va ha estar disponible este producto o servicio">
+                                        Secciones:
+                                    </div>
+                                    <div>
+                                        <div *ngFor="let itsec of artForm.seccionesf.value" class="d-flex flex-row">
+                                            <p-checkbox [inputId]="itsec.seccion.sec_id" binary="true"
+                                                        [(ngModel)]="itsec.value"></p-checkbox>
+                                            <label [for]="itsec.seccion.sec_id"
+                                                   class="ml-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
                                         </div>
-                                    </li>
-                                </ul>
+                                    </div>
+
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-outline-primary  btn-block"
+                                                (click)="procesaForm()">
+                                            <i class="fa fa-save"></i>
+                                            Guardar
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary  btn-block"
+                                                (click)="cancelar()">
+                                            <i class="fa fa-times"></i>
+                                            Cancelar
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <button type="button" class="btn btn-outline-primary  btn-block" (click)="guardarStock()">
-                                <i class="fa fa-save"></i>
-                                Guardar
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary  btn-block" (click)="cancelar()">
-                                <i class="fa fa-times"></i>
-                                Cancelar
-                            </button>
+
+                    </p-tabPanel>
+                    <p-tabPanel header="Stock" *ngIf="editing && artFromDb.tipic_id===1">
+                        <h5> Stock para: {{artFromDb.ic_nombre}} </h5>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="card border-primary">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item" *ngFor="let item of stock">
+                                            <div class="row">
+                                                <div class="col">
+                                                    {{item.sec_nombre}}
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text" class="form form-control"
+                                                           [(ngModel)]="item.ice_stock">
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <button type="button" class="btn btn-outline-primary  btn-block"
+                                        (click)="guardarStock()">
+                                    <i class="fa fa-save"></i>
+                                    Guardar
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary  btn-block" (click)="cancelar()">
+                                    <i class="fa fa-times"></i>
+                                    Cancelar
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </p-tabPanel>
-            </p-tabView>
+                    </p-tabPanel>
+                </p-tabView>
+            </div>
         </div>
     </div>
 
@@ -377,5 +391,4 @@
             </div>
         </div>
     </div>
-
 </div>

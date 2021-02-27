@@ -132,14 +132,27 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <div class="p-fluid">
                             <p-autoComplete [(ngModel)]="formdet.servicio" [suggestions]="artsFiltrados"
+                                            autofocus="true"
                                             (completeMethod)="buscaServs($event)" field="ic_nombre"
                                             (keyup.enter)="onEnterFiltroArts($event)"
+                                            (onSelect)="onServFilaSelected($event)"
                                             inputId="artsAutoCom"
-                                            placeholder="Digite el nombre o el codigo del producto o servicio"
-                                            (onSelect)="onServSelect($event)">
+                                            placeholder="Digite el nombre o el codigo del producto o servicio">
+                                <ng-template let-art pTemplate="item">
+                                    <div>
+                                        <div class="fontsizexsm text-muted quitaPaddingMargin">BC:{{art.ic_code}}</div>
+                                        <div class="d-flex justify-content-between">
+                                            <span>{{art.ic_nombre}}</span>
+                                            <span class="text-muted fontsizexsm"
+                                                  *ngIf="art.tipic_id==1">#:{{art.ice_stock}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </ng-template>
+
                             </p-autoComplete>
                         </div>
                     </div>
@@ -150,32 +163,32 @@
                 <table class="table table-bordered table-sm">
                     <thead>
                     <tr>
-                        <th scope="col" style="width: 3%">
+                        <th scope="col" width="3%">
                             <span class="font-weight-normal">#</span>
                         </th>
-                        <th scope="col" style="width: 33%">
+                        <th scope="col" width="33%">
                             <span class="font-weight-normal">
                                 Servicio </span>
                         </th>
-                        <th scope="col" style="width: 10%">
+                        <th scope="col" width="10%">
                             <span class="font-weight-normal">
                                 Cantidad </span></th>
-                        <th scope="col" style="width: 10%">
+                        <th scope="col" width="10%">
                             <span class="font-weight-normal">
                                 P. Uni. </span></th>
-                        <th scope="col" style="width: 10%">
+                        <th scope="col" width="10%">
                             <span class="font-weight-normal">
                                 Subt.</span></th>
-                        <th scope="col" style="width: 9%">
+                        <th scope="col" width="9%">
                             <span class="font-weight-normal">
                                 Desc </span></th>
-                        <th scope="col" style="width: 10%">
+                        <th scope="col" width="10%">
                             <span class="font-weight-normal">
                                 Iva </span></th>
-                        <th scope="col" style="width: 10%">
+                        <th scope="col" width="10%">
                             <span class="font-weight-normal">
                                 Total </span></th>
-                        <th scope="col" style="width: 5%">
+                        <th scope="col" width="5%">
                             <span class="font-weight-normal">
                                 .</span></th>
                     </tr>
