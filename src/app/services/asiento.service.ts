@@ -26,8 +26,8 @@ export class AsientoService extends BaseService {
         return this._doGet(this.getHOT({accion: 'gfact', per: perCodigo}));
     }
 
-    listarGridVentas() {
-        return this._doGet(this.getHOT({accion: 'gridventas'}));
+    listarGridVentas(desde, hasta, filtro, tracod) {
+        return this._doGet(this.getHOT({accion: 'gridventas', desde, hasta, filtro, tracod}));
     }
 
     crearDocumento(form: any) {

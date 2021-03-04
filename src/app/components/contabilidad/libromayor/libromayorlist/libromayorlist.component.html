@@ -5,43 +5,9 @@
 <div *ngIf="!isLoading">
     <div class="row mb-3">
         <div class="col-md-3">
-            <div class="d-flex">
-                <div>
-                    <div class="d-flex">
-                        <p class="quitaPaddingMargin font-weight-light">Desde:</p>
-                    </div>
-                    <p-calendar [showIcon]="false"
-                                [(ngModel)]="form.desde"
-                                [monthNavigator]="true" [yearNavigator]="true"
-                                (ngModelChange)="loadMovs()"
-                                yearRange="2019:2050"
-                                dateFormat="dd/mm/yy"></p-calendar>
-                </div>
-                <div>
-                    <div class="d-flex justify-content-between">
-                        <p class="quitaPaddingMargin font-weight-light">Hasta:</p>
-                        <div class="dropdown">
-                            <button class="quitaPaddingMargin btn btn-sm btn-outline-info dropdown-toggle" type="button"
-                                    id="dropdownMB"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-filter"></i>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMB">
-                                <a href="#" (click)="doFilterFec(1, $event)" class="dropdown-item"> Esta Semana </a>
-                                <a href="#" (click)="doFilterFec(2, $event)" class="dropdown-item"> Este Mes </a>
-                                <a href="#" (click)="doFilterFec(3, $event)" class="dropdown-item"> Este Año </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <p-calendar [showIcon]="false"
-                                [(ngModel)]="form.hasta"
-                                [monthNavigator]="true" [yearNavigator]="true" [minDate]="form.desde"
-                                (ngModelChange)="loadMovs()"
-                                yearRange="2019:2050"
-                                dateFormat="dd/mm/yy"></p-calendar>
-                </div>
-            </div>
+            <app-rangofechas [form]="form" (evFilterSel)="loadMovs()"
+                             (evDesdeChange)="loadMovs()"
+                             (evHastaChange)="loadMovs()"></app-rangofechas>
         </div>
         <div class="col-md-7">
             <div>
@@ -52,7 +18,7 @@
                                 placeholder="Seleccione la cuenta contable"
                                 [showClear]="true"
                                 [style]="{width:'100%', overflow:'visible'}"
-                                (ngModelChange)="onModelChange($event)"
+                                (ngModelChange)="onCuentaContableChange($event)"
                                 [filterMatchMode]="'contains'"
                                 filter="true"
                                 optionLabel="ctacontab"

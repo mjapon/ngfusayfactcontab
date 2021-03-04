@@ -36,6 +36,7 @@ import {LibrodiarioformComponent} from './components/contabilidad/librodiario/li
 import {LibromayorlistComponent} from './components/contabilidad/libromayor/libromayorlist/libromayorlist.component';
 import {BalancegeneralComponent} from './components/contabilidad/reportes/balancegeneral/balancegeneral.component';
 import {EstadoresultadosComponent} from './components/contabilidad/reportes/estadoresultados/estadoresultados.component';
+import {CategoriasComponent} from './components/articulos/categorias/categorias.component';
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -47,6 +48,7 @@ const routes: Routes = [
     {path: 'mercaderiaForm/:art_id', component: ArticulosFormComponent},
     {path: 'mercaderiaView/:art_id', component: ArticulosViewComponent},
     {path: 'mercaderiaIngrRapid', component: ArticulosBatchComponent},
+    {path: 'categorias', component: CategoriasComponent},
     {path: 'tickets', component: TicketComponent},
     {path: 'ticket/form', component: TicketformComponent},
     {path: 'vtickets', component: VticketComponent},

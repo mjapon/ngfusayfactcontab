@@ -82,16 +82,16 @@ import {CitasMedicasService} from '../../services/citas-medicas.service';
                                                 <div>
                                                     <div class="d-flex justify-content-end">
                                                         <div class="d-flex">
-                                                            <button class="ml-2 btn btn-sm btn-outline-success"
+                                                            <button class="ml-2 btn btn-sm btn-outline-primary"
                                                                     (click)="descargar(doc)">
                                                                 <i class="fa fa-eye"></i>
                                                             </button>
-                                                            <button class="ml-2 btn btn-sm btn-outline-success btn-sm"
+                                                            <button class="ml-2 btn btn-sm btn-outline-primary btn-sm"
                                                                     (click)="editar(doc)"
                                                                     title="Editar ">
                                                                 <i class="fa fa-edit"></i>
                                                             </button>
-                                                            <button class="ml-2 btn btn-sm btn-outline-success btn-sm"
+                                                            <button class="ml-2 btn btn-sm btn-outline-primary btn-sm"
                                                                     (click)="anular(doc)"
                                                                     title="Anular ">
                                                                 <i class="fa fa-trash"></i>

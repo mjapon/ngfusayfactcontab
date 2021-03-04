@@ -1,10 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AsientoService} from '../../../../services/asiento.service';
 import {FechasService} from '../../../../services/fechas.service';
-import {startOfMonth, startOfWeek, startOfYear} from 'date-fns';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
-import {registerLocaleData} from '@angular/common';
-import es from '@angular/common/locales/es';
 import {TreeNode} from 'primeng/api';
 import {ReportscontaService} from '../../../../services/reportsconta.service';
 import {SwalService} from '../../../../services/swal.service';
@@ -17,47 +14,11 @@ import {SwalService} from '../../../../services/swal.service';
 
             <div class="row mt-3 mb-3">
                 <div class="col-md-8">
-                    <div class="d-flex">
-                        <div>
-                            <div class="d-flex">
-                                <p class="quitaPaddingMargin font-weight-light">Desde:</p>
-                            </div>
-                            <p-calendar [showIcon]="false"
-                                        [(ngModel)]="form.desde"
-                                        (ngModelChange)="onDesdeChange($event)"
-                                        [monthNavigator]="true" [yearNavigator]="true"
-                                        yearRange="2019:2050"
-                                        dateFormat="dd/mm/yy"></p-calendar>
-                        </div>
-                        <div>
-                            <div class="d-flex justify-content-between">
-                                <p class="quitaPaddingMargin font-weight-light">Hasta:</p>
-                                <div class="dropdown">
-                                    <button class="quitaPaddingMargin btn btn-sm btn-outline-info dropdown-toggle"
-                                            type="button"
-                                            id="dropdownMB"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-filter"></i>
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMB">
-                                        <a href="#" (click)="doFilterFec(1, $event)" class="dropdown-item"> Esta
-                                            Semana </a>
-                                        <a href="#" (click)="doFilterFec(2, $event)" class="dropdown-item"> Este
-                                            Mes </a>
-                                        <a href="#" (click)="doFilterFec(3, $event)" class="dropdown-item"> Este
-                                            Año </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <p-calendar [showIcon]="false"
-                                        [(ngModel)]="form.hasta"
-                                        (ngModelChange)="onHastaChange($event)"
-                                        [monthNavigator]="true" [yearNavigator]="true" [minDate]="form.desde"
-                                        yearRange="2019:2050"
-                                        dateFormat="dd/mm/yy"></p-calendar>
-                        </div>
-                    </div>
+                    <app-rangofechas [form]="form"
+                                     (evDesdeChange)="onDesdeChange($event)"
+                                     (evHastaChange)="onHastaChange($event)"
+                                     (evFilterSel)="onTipoFiltroChange()">
+                    </app-rangofechas>
                 </div>
                 <div class="col-md-4 d-flex flex-column justify-content-end">
                     <div class="d-flex">
@@ -176,7 +137,6 @@ export class EstadoresultadosComponent implements OnInit {
     ngOnInit(): void {
         this.datosbalance = [];
         this.form = {desde: null, hasta: null, desdestr: '', hastastr: ''};
-        registerLocaleData(es);
     }
 
     loadBalance() {
@@ -197,20 +157,7 @@ export class EstadoresultadosComponent implements OnInit {
         });
     }
 
-    doFilterFec(tipo: number, event) {
-        event.preventDefault();
-        const hoy = new Date();
-        let start = hoy;
-        if (tipo === 1) {
-            start = startOfWeek(hoy);
-        } else if (tipo === 2) {
-            start = startOfMonth(hoy);
-        } else if (tipo === 3) {
-            start = startOfYear(hoy);
-        }
-        this.form.desde = start;
-        this.form.hasta = hoy;
-
+    onTipoFiltroChange() {
         this.onDesdeChange(null);
         this.onHastaChange(null);
     }

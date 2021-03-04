@@ -7,7 +7,7 @@
             <input type="text" class="form-control" id="buscaInput" (keyup)="doFilter($event)" [(ngModel)]="filtro"
                    placeholder="Buscar plan por nombre">
             <div class="input-group-append">
-                <button class="btn btn-outline-success" type="button" id="buttonSearh" (click)="listar()"
+                <button class="btn btn-outline-primary" type="button" id="buttonSearh" (click)="listar()"
                         title="Buscar plan">
                     <i class="fa fa-search"></i>
                 </button>
@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="col-md-4 d-flex flex-row-reverse">
-        <button type="button" class="btn btn-outline-success" (click)="goToForm()"
+        <button type="button" class="btn btn-outline-primary" (click)="goToForm()"
                 title="Registrar un nuevo plan">
             Crear <i class="fa fa-plus-circle"></i>
         </button>

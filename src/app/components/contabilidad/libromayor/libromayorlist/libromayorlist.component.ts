@@ -4,7 +4,6 @@ import {AsientoService} from '../../../../services/asiento.service';
 import {forkJoin} from 'rxjs';
 import {FechasService} from '../../../../services/fechas.service';
 import {SwalService} from '../../../../services/swal.service';
-import {startOfMonth, startOfWeek, startOfYear} from 'date-fns';
 
 @Component({
     selector: 'app-libromayorlist',
@@ -75,23 +74,7 @@ export class LibromayorlistComponent implements OnInit {
         this.swalService.fireToastSuccess('Acción ver detalles');
     }
 
-    onModelChange($event: any) {
-        this.loadMovs();
-    }
-
-    doFilterFec(tipo: number, event) {
-        event.preventDefault();
-        const hoy = new Date();
-        let start = hoy;
-        if (tipo === 1) {
-            start = startOfWeek(hoy);
-        } else if (tipo === 2) {
-            start = startOfMonth(hoy);
-        } else if (tipo === 3) {
-            start = startOfYear(hoy);
-        }
-        this.form.desde = start;
-        this.form.hasta = hoy;
+    onCuentaContableChange($event: any) {
         this.loadMovs();
     }
 }

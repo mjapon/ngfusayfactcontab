@@ -20,14 +20,19 @@ export class CategoriasService extends BaseService {
         return this.doGet(this.http, endpoint, httpOptions);
     }
 
-    crear(nombre: string): Observable<any> {
+    getFormCrea(): Observable<any> {
+        const httpOptions = this.getHOT({accion: 'formcrea'});
+        return this._doGet(httpOptions);
+    }
+
+    crear(form): Observable<any> {
         const endpoint = this.urlEndPoint + '/0';
         const httpOptions = this.getHOT({accion: 'crear'});
-        return this.doPost(this.http, endpoint, httpOptions, {'catic_nombre': nombre});
+        return this.doPost(this.http, endpoint, httpOptions, form);
     }
 
     actualizar(form: any): Observable<any> {
-        const endpoint = this.urlEndPoint + '/' + form['catic_id'];
+        const endpoint = this.urlEndPoint + '/' + form.catic_id;
         const httpOptions = this.getHOT({accion: 'actualizar'});
         return this.doPost(this.http, endpoint, httpOptions, form);
     }

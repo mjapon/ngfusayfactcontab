@@ -12,7 +12,7 @@ import {forkJoin} from 'rxjs';
 @Component({
     selector: 'app-datospaciente',
     styles: [
-            `.dato-fila {
+        `.dato-fila {
             margin: 15px 5px;
         }
 
@@ -52,7 +52,7 @@ import {forkJoin} from 'rxjs';
                                 {{datosPacienteFull.per_apellidos}}
                             </span>
                         </div>
-                        <div class="d-flex flex-column mt-2">
+                        <div class="d-flex flex-column mt-2" *ngIf="!isProveedorPacFull()">
                             <span class="text-muted">
                                 Fecha de nacimiento:
                             </span>
@@ -63,7 +63,7 @@ import {forkJoin} from 'rxjs';
                                 dia(s)</small>
                             </span>
                         </div>
-                        <div class="d-flex flex-column mt-2">
+                        <div class="d-flex flex-column mt-2" *ngIf="!isProveedorPacFull()">
                             <span class="text-muted">
                                 Sexo:
                             </span>
@@ -71,7 +71,7 @@ import {forkJoin} from 'rxjs';
                                 {{datosPacienteFull.genero}}
                             </span>
                         </div>
-                        <div class="d-flex flex-column mt-2" *ngIf="datosmedicos">
+                        <div class="d-flex flex-column mt-2" *ngIf="datosmedicos && !isProveedorPacFull()">
                             <span class="text-muted">
                                 Tipo de sangre:
                             </span>
@@ -79,12 +79,20 @@ import {forkJoin} from 'rxjs';
                                 {{datosPacienteFull.tiposangre}}
                             </span>
                         </div>
-                        <div class="d-flex flex-column mt-2">
+                        <div class="d-flex flex-column mt-2" *ngIf="!isProveedorPacFull()">
                             <span class="text-muted">
                                 Estado Civil:
                             </span>
                             <span class="datopac">
                                 {{datosPacienteFull.estadocivil}}
+                            </span>
+                        </div>
+                        <div class="d-flex flex-column mt-2" *ngIf="!datosmedicos">
+                            <span class="text-muted">
+                                Tipo:
+                            </span>
+                            <span class="datopac">
+                                {{datosPacienteFull.tiporef}}
                             </span>
                         </div>
                     </div>
@@ -105,7 +113,7 @@ import {forkJoin} from 'rxjs';
                                 {{datosPacienteFull.per_direccion}}
                             </span>
                         </div>
-                        <div class="d-flex flex-column mt-2">
+                        <div class="d-flex flex-column mt-2" *ngIf="!isProveedorPacFull()">
                             <span class="text-muted">
                                 Profesión/Ocupación:
                             </span>
@@ -171,6 +179,17 @@ import {forkJoin} from 'rxjs';
                                 </div>
                             </div>
                         </div>
+                        <div class="row dato-fila" *ngIf="!datosmedicos">
+                            <div class="col-12">
+                                <span>Tipo:</span>
+                            </div>
+                            <div class="col-12">
+                                <p-dropdown [options]="tiposRefList" optionLabel="lval_nombre"
+                                            placeholder="Seleccione el tipo de referente"
+                                            [showClear]="false"
+                                            [(ngModel)]="paciente.per_tipo"></p-dropdown>
+                            </div>
+                        </div>
                         <div class="row dato-fila">
                             <div class="col-12">
                                 <span class="required">*</span><span>Nombres:</span>
@@ -191,7 +210,7 @@ import {forkJoin} from 'rxjs';
                                        autocomplete="false">
                             </div>
                         </div>
-                        <div class="row dato-fila">
+                        <div class="row dato-fila" *ngIf="!isProveedor()">
                             <div class="col-12">
                                 <span>Fecha de nacimiento (dd/mm/aaaa):</span>
                             </div>
@@ -208,7 +227,7 @@ import {forkJoin} from 'rxjs';
                                 <span> {{paciente.per_edad.years}} año(s) </span>
                             </div>
                         </div>
-                        <div class="row dato-fila">
+                        <div class="row dato-fila" *ngIf="!isProveedor()">
                             <div class="col-12">
                                 <span class="required">*</span><span>Sexo:</span>
                             </div>
@@ -219,7 +238,7 @@ import {forkJoin} from 'rxjs';
                                                [(ngModel)]="paciente.per_genero"></p-radioButton>
                             </div>
                         </div>
-                        <div class="row dato-fila">
+                        <div class="row dato-fila" *ngIf="!isProveedor()">
                             <div class="col-12">
                                 <span>Estado Civil:</span>
                             </div>
@@ -271,7 +290,7 @@ import {forkJoin} from 'rxjs';
                                        autocomplete="false" maxlength="80">
                             </div>
                         </div>
-                        <div class="row dato-fila">
+                        <div class="row dato-fila" *ngIf="!isProveedor()">
                             <div class="col-12">
                                 <span>Profesión/Ocupación:</span>
                             </div>
@@ -291,7 +310,7 @@ import {forkJoin} from 'rxjs';
                         </div>
                         <div class="row dato-fila">
                             <div class="col-12">
-                                <span class="required">*</span><span>Correo Electrónico:</span>
+                                <span>Correo Electrónico:</span>
                             </div>
                             <div class="col-12">
                                 <input type="text" class="form-control"
@@ -311,7 +330,7 @@ import {forkJoin} from 'rxjs';
                         </div>
                         <div class="row dato-fila">
                             <div class="col-12">
-                                <span class="required">*</span><span>Celular:</span>
+                                <span>Celular:</span>
                             </div>
                             <div class="col-12">
                                 <input type="text" class="form-control" [autocomplete]="false"
@@ -349,6 +368,7 @@ export class DatospacienteComponent implements OnInit, OnChanges {
     generosList: Array<any>;
     lugares: Array<any>;
     ocupaciones: Array<any>;
+    tiposRefList: Array<any>;
     currentDate = new Date();
 
     datosIncompletos: boolean;
@@ -373,6 +393,14 @@ export class DatospacienteComponent implements OnInit, OnChanges {
         this.datosPacienteFull = {per_edad: {}};
         this.datosIncompletos = false;
         this.paciente = {per_edad: {}};
+    }
+
+    isProveedor() {
+        return this.paciente ? (this.paciente.per_tipo ? this.paciente.per_tipo.lval_valor === '3' : false) : false;
+    }
+
+    isProveedorPacFull() {
+        return this.datosPacienteFull ? (this.datosPacienteFull.per_tipo ? this.datosPacienteFull.per_tipo === 3 : false) : false;
     }
 
     editar() {
@@ -408,12 +436,22 @@ export class DatospacienteComponent implements OnInit, OnChanges {
     }
 
     loadDataPerson(persona: any) {
+        /*
         const personaProps = ['per_ciruc', 'per_id', 'per_nombres', 'per_apellidos', 'per_direccion', 'per_telf',
-            'per_movil', 'per_email', 'per_tipo', 'per_lugnac', 'per_nota', 'per_edad'];
+            'per_movil', 'per_email', 'per_tipo', 'per_lugnac', 'per_nota', 'per_edad', 'per_genero'];
+         */
+        for (const prop in persona) {
+            if (persona.hasOwnProperty(prop)) {
+                this.paciente[prop] = persona[prop];
+            }
+        }
 
+        /*
         personaProps.forEach(prop => {
             this.paciente[prop] = persona[prop];
         });
+         */
+
         this.paciente.per_fechanac = null;
 
         if (persona.per_fechanac && persona.per_fechanac.trim().length > 0) {
@@ -421,7 +459,10 @@ export class DatospacienteComponent implements OnInit, OnChanges {
             this.paciente.per_fechanac = this.fechasService.parseString(persona.per_fechanac);
         }
 
-        this.paciente.per_genero = persona.per_genero.toString();
+        if (this.paciente.per_genero) {
+            this.paciente.per_genero = persona.per_genero.toString();
+        }
+
         this.paciente.per_estadocivil = null;
         if (persona.per_estadocivil) {
             this.paciente.per_estadocivil = this.arrayUtil.getFirstResult(
@@ -431,11 +472,20 @@ export class DatospacienteComponent implements OnInit, OnChanges {
                 }
             );
         }
+
         if (persona.per_tiposangre) {
             this.paciente.per_tiposangre = this.arrayUtil.getFirstResult(
                 this.tipoSangreList,
                 (el, idx, array) => {
                     return el.lval_id === persona.per_tiposangre;
+                }
+            );
+        }
+        if (persona.per_tipo) {
+            this.paciente.per_tipo = this.arrayUtil.getFirstResult(
+                this.tiposRefList,
+                (el, idx, array) => {
+                    return parseInt(el.lval_valor, 10) === persona.per_tipo;
                 }
             );
         }
@@ -468,7 +518,9 @@ export class DatospacienteComponent implements OnInit, OnChanges {
             if (res.status === 200) {
                 this.datosPacienteFull = res.persona;
                 this.pacienteLoaded.emit(res.persona);
-                this.datosIncompletos = this.isPersonDataIncomplete(res.persona);
+                if (res.persona.per_tipo !== 3) {
+                    this.datosIncompletos = this.isPersonDataIncomplete(res.persona);
+                }
                 if (this.datosIncompletos) {
                     this.datosIncompletosEv.emit(res.persona);
                     this.logicaDatosIncompletos(true);
@@ -485,10 +537,11 @@ export class DatospacienteComponent implements OnInit, OnChanges {
         const estCivilObs = this.catalogosServ.getCatalogos(2);
         const ocupObs = this.catalogosServ.getCatalogos(3);
         const tipsangObs = this.catalogosServ.getCatalogos(4);
+        const tiposRefObs = this.catalogosServ.getCatalogos(5);
         const lugObs = this.lugarService.listarTodos();
         const formObs = this.personaService.getForm();
 
-        forkJoin([genObs, estCivilObs, ocupObs, tipsangObs, lugObs, formObs]).subscribe(res => {
+        forkJoin([genObs, estCivilObs, ocupObs, tipsangObs, lugObs, tiposRefObs, formObs]).subscribe(res => {
             if (res[0].status === 200) {
                 this.generosList = res[0].items;
             }
@@ -505,13 +558,16 @@ export class DatospacienteComponent implements OnInit, OnChanges {
                 this.lugares = res[4].items;
             }
             if (res[5].status === 200) {
-                this.paciente = res[5].form;
+                this.tiposRefList = res[5].items;
+            }
+            if (res[6].status === 200) {
+                this.paciente = res[6].form;
                 this.domService.setFocusTimeout('perCirucInput', 100);
             }
-
             if (this.datosPacienteFull.per_id) {
                 this.loadDataPerson(this.datosPacienteFull);
             } else {
+                this.loadDataPerson(this.paciente);
                 this.editando = true;
             }
         });
@@ -520,24 +576,26 @@ export class DatospacienteComponent implements OnInit, OnChanges {
     buscarPaciente(showMessage, focusInput) {
         const per_ciruc = this.paciente.per_ciruc;
         this.datosIncompletos = false;
-        this.loadingUiService.publishBlockMessage();
-        this.personaService.buscarPorCifull(per_ciruc).subscribe(res => {
-                if (res.status === 200) {
-                    if (showMessage) {
-                        this.swalService.fireToastInfo('El paciente ya está registrado');
+        if (per_ciruc && per_ciruc.trim().length > 0) {
+            this.loadingUiService.publishBlockMessage();
+            this.personaService.buscarPorCifull(per_ciruc).subscribe(res => {
+                    if (res.status === 200) {
+                        if (showMessage) {
+                            this.swalService.fireToastInfo('El paciente ya está registrado');
+                        }
+                        this.loadDataPerson(res.persona);
+                        this.datosPacienteFull = res.persona;
+                        this.pacienteLoaded.emit(res.persona);
+                    } else {
+                        this.domService.setFocusTimeout(focusInput, 600);
+                        if (showMessage) {
+                            this.swalService.fireToastWarn('Nuevo paciente, debe ingresar los datos de filiación');
+                        }
+                        this.paciente.per_ciruc = per_ciruc;
                     }
-                    this.loadDataPerson(res.persona);
-                    this.datosPacienteFull = res.persona;
-                    this.pacienteLoaded.emit(res.persona);
-                } else {
-                    this.domService.setFocusTimeout(focusInput, 600);
-                    if (showMessage) {
-                        this.swalService.fireToastWarn('Nuevo paciente, debe ingresar los datos de filiación');
-                    }
-                    this.paciente.per_ciruc = per_ciruc;
                 }
-            }
-        );
+            );
+        }
     }
 
     guardaDatosPaciente() {
@@ -547,23 +605,24 @@ export class DatospacienteComponent implements OnInit, OnChanges {
         const residencia = formPaciente.per_lugresidencia;
         const genero = formPaciente.per_genero;
         const tiposangre = formPaciente.per_tiposangre;
+        const tiporef = formPaciente.per_tipo;
 
-        if (!genero) {
+        if (!genero && !this.isProveedor()) {
             this.swalService.fireToastError('Debe seleccionar el genero del referente');
             return;
         }
 
-        if (this.datosmedicos && !estadoCivil) {
+        if (this.datosmedicos && !estadoCivil && !this.isProveedor()) {
             this.swalService.fireToastError('Debe seleccionar el estado civil del referente');
             return;
         }
 
-        if (this.datosmedicos && !formPaciente.per_fechanac) {
+        if (this.datosmedicos && !formPaciente.per_fechanac && !this.isProveedor()) {
             this.swalService.fireToastError('Debe especificar la fecha de nacimiento del referente');
             return;
         }
 
-        const perEstadocivil = estadoCivil.lval_id;
+        const perEstadocivil = estadoCivil ? estadoCivil.lval_id : 0;
         const perGenero = genero;
         const perLugresidencia = residencia ? residencia.lug_id : 0;
 
@@ -574,8 +633,13 @@ export class DatospacienteComponent implements OnInit, OnChanges {
         formToPost.per_estadocivil = perEstadocivil;
         formToPost.per_genero = perGenero;
         formToPost.per_lugresidencia = perLugresidencia;
-        formToPost.per_fechanacp = this.fechasService.formatDate(formPaciente.per_fechanac);
+
+        if (formPaciente.per_fechanac) {
+            formToPost.per_fechanacp = this.fechasService.formatDate(formPaciente.per_fechanac);
+        }
+
         formToPost.per_tiposangre = tiposangre ? tiposangre.lval_id : 0;
+        formToPost.per_tipo = tiporef ? tiporef.lval_valor : 1;
 
         this.loadingUiService.publishBlockMessage();
         this.personaService.actualizar(perId, formToPost).subscribe(res => {

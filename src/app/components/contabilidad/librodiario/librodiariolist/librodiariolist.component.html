@@ -3,31 +3,6 @@
         <div>
             <h4 class="quitaPaddingMargin">Libro Diario</h4>
         </div>
-        <!--
-        <div>
-            <div class="d-flex">
-                <div class="p-fluid">
-                    <p-calendar [showIcon]="false"
-                                [(ngModel)]="desde"
-                                styleClass="form-control-sm"
-                                title="Filtrar por fechas: Fecha inicial"
-                                [monthNavigator]="true" [yearNavigator]="true"
-                                yearRange="2019:2050"
-                                dateFormat="dd/mm/yy"></p-calendar>
-                </div>
-                <div class="p-fluid">
-                    <p-calendar [showIcon]="false"
-                                [(ngModel)]="hasta"
-                                title="Filtrar por fechas: Fecha final"
-                                [monthNavigator]="true" [yearNavigator]="true" [minDate]="desde"
-                                yearRange="2019:2050"
-                                dateFormat="dd/mm/yy"></p-calendar>
-                </div>
-                <button class="btn btn-sm  btn-outline-secondary" (click)="loadLibroDiario()"><i
-                        class="fa fa-search"></i></button>
-            </div>
-        </div>
-        -->
         <div>
             <button class="btn btn-outline-primary" (click)="loadLibroDiario()"><i
                     class="fas fa-sync-alt"></i>
@@ -76,7 +51,6 @@
                     </thead>
                     <tbody>
                     <ng-container *ngFor="let fila of librodiario">
-
                         <tr *ngIf="fila.tr===0">
                             <td>
                                 {{fila.trn_fecreg}}
@@ -125,14 +99,7 @@
                                             (click)="gotoEditAsiento(fila)">
                                         <i class="fa fa-edit"></i>
                                     </button>
-                                    <!--
-                                    <button class="btn btn-sm btn-outline-secondary" title="Ver Detalles"
-                                            (click)="verDetalles(fila)">
-                                        <i class="fa fa-eye"></i>
-                                    </button>
-                                    -->
                                 </div>
-
                             </td>
                             <td class="border">
 
@@ -149,7 +116,6 @@
 
                             </td>
                         </tr>
-
                     </ng-container>
                     <tr>
                         <td colspan="3">

@@ -12,7 +12,7 @@ import {PersonaService} from '../../services/persona.service';
                            (keyup)="onFiltroTyped()">
                 </div>
                 <div class="col-3">
-                    <button class="btn btn-outline-success btn-block" (click)="crearPaciente()"> Nuevo <span
+                    <button class="btn btn-outline-primary btn-block" (click)="crearPaciente()"> Nuevo <span
                             class="fa fa-plus-circle"></span></button>
                 </div>
             </div>

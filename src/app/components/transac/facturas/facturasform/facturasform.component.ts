@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {AsientoService} from '../../../../services/asiento.service';
 import {NumberService} from '../../../../services/number.service';
 import {DomService} from '../../../../services/dom.service';
@@ -10,15 +10,16 @@ import {FechasService} from '../../../../services/fechas.service';
 import {Router} from '@angular/router';
 import {SeccionService} from '../../../../services/seccion.service';
 import {PersonaService} from '../../../../services/persona.service';
-import {forkJoin} from 'rxjs';
+import {forkJoin, Subscription} from 'rxjs';
 import es from '@angular/common/locales/es';
 import {registerLocaleData} from '@angular/common';
+import {FacturasmsgService} from '../../../../services/facturasmsg.service';
 
 @Component({
     selector: 'app-facturasform',
     templateUrl: './facturasform.component.html'
 })
-export class FacturasformComponent implements OnInit {
+export class FacturasformComponent implements OnInit, OnDestroy {
     isLoading: boolean;
 
     ttransacc: any;
@@ -44,10 +45,14 @@ export class FacturasformComponent implements OnInit {
     @Input() showbuttons = true;
 
     @Output() evTotalesUpd = new EventEmitter<any>();
+    @Output() evGuardarOk = new EventEmitter<any>();
+    @Output() evCancela = new EventEmitter<any>();
+    @Output() evFormLoaded = new EventEmitter<any>();
 
     buscaArtPromise: Promise<any>;
     artsearched: boolean;
     artsearchedcount: number;
+    factMsgSubs: Subscription;
 
     constructor(private asientoService: AsientoService,
                 private numberService: NumberService,
@@ -58,6 +63,7 @@ export class FacturasformComponent implements OnInit {
                 private arrayService: ArrayutilService,
                 private fechasService: FechasService,
                 private swalService: SwalService,
+                private facturaMsgService: FacturasmsgService,
                 private router: Router,
                 private personaServ: PersonaService) {
     }
@@ -75,6 +81,15 @@ export class FacturasformComponent implements OnInit {
         this.artsearchedcount = 0;
         this.artsearched = false;
         registerLocaleData(es);
+
+        this.factMsgSubs = this.facturaMsgService.message.subscribe(msg => {
+            if (msg) {
+                if (msg.tipo === 1) {// Carga de referente
+                    this.form.form_persona = msg.form_persona;
+                    this.isConsumidorFinal = false;
+                }
+            }
+        });
     }
 
     initTotales() {
@@ -246,8 +261,8 @@ export class FacturasformComponent implements OnInit {
                     this.asientoService.crearDocumento(this.form).subscribe(res => {
                         if (res.status === 200) {
                             this.swalService.fireToastSuccess(res.msg);
-                            this.gotolist();
                         }
+                        this.evGuardarOk.emit(res);
                     });
                 }
             });
@@ -302,12 +317,8 @@ export class FacturasformComponent implements OnInit {
         this.recalcTotalFila(fila);
     }
 
-    gotolist() {
-        this.router.navigate(['trndocs']);
-    }
-
     cancelarCreaFactura() {
-        this.gotolist();
+        this.evCancela.emit('');
     }
 
     loadFormReferente() {
@@ -358,6 +369,8 @@ export class FacturasformComponent implements OnInit {
 
             this.isLoading = false;
             this.domService.setFocusTimeout('artsAutoCom', 300);
+
+            this.evFormLoaded.emit(this.form);
         });
     }
 
@@ -421,5 +434,11 @@ export class FacturasformComponent implements OnInit {
     onServFilaSelected($event: any) {
         this.artsFiltrados = [];
         this.onServSelect($event);
+    }
+
+    ngOnDestroy(): void {
+        if (this.factMsgSubs) {
+            this.factMsgSubs.unsubscribe();
+        }
     }
 }

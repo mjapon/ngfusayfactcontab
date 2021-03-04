@@ -31,7 +31,7 @@ export class FacturaviewComponent implements OnInit, OnChanges {
     loadDatosFactura() {
         this.showAnim = true;
         this.tasientoService.getDoc(this.trncod).subscribe(res => {
-            this.showAnim = false
+            this.showAnim = false;
             if (res.status === 200) {
                 this.doc = res.doc;
                 this.evFacturaLoaded.emit(this.doc);

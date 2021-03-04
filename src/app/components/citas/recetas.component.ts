@@ -51,7 +51,7 @@ import {DomService} from '../../services/dom.service';
                             </div>
                             <div class="card-footer">
                                 <div class="d-flex justify-content-around">
-                                    <button class="btn btn-outline-success" (click)="guardar()"><i
+                                    <button class="btn btn-outline-primary" (click)="guardar()"><i
                                             class="fa fa-save"></i> Guardar
                                     </button>
                                     <button class="btn btn-outline-secondary" (click)="cancelar()"><i
@@ -117,7 +117,7 @@ import {DomService} from '../../services/dom.service';
                         </div>
                     </div>
                     <div class="col-md-2" *ngIf="!showForm">
-                        <button class="btn btn-outline-success" (click)="loadForm()">Crear <i
+                        <button class="btn btn-outline-primary" (click)="loadForm()">Crear <i
                                 class="fa fa-plus-circle"></i></button>
                     </div>
                 </div>

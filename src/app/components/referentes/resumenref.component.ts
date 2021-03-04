@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {PersonaService} from '../../services/persona.service';
 import {registerLocaleData} from '@angular/common';
 import es from '@angular/common/locales/es';
-import {PersonEvService} from "../../services/personev.service";
+import {PersonEvService} from '../../services/personev.service';
 
 @Component({
     selector: 'app-resumenref',
@@ -55,7 +55,7 @@ import {PersonEvService} from "../../services/personev.service";
                                (click)="selectMasterTab(1, $event)">
                                 Datos </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" *ngIf="empHasPlanes">
                             <a class="nav-link hand" [ngClass]="{'active':2===selectedMasterTab}"
                                (click)="selectMasterTab(2, $event)">
                                 Suscripciones</a>
@@ -87,6 +87,7 @@ export class ResumenrefComponent implements OnInit, OnChanges {
     @Output() evBtnCerrar = new EventEmitter<any>();
     selectedMasterTab: number;
     totaldeuda: number;
+    empHasPlanes = false;
 
     constructor(private personService: PersonaService,
                 private personEvService: PersonEvService) {

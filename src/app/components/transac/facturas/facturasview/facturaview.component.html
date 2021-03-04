@@ -4,21 +4,29 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-md-4">
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <span class="font-weight-light">Número:</span>
                         </div>
                         <div class="col-md">
-                            <span class="font-weight-normal">{{doc.tasiento.trn_compro}}</span>
+                            <span class="font-weight-bold quitaPaddingMargin">{{doc.tasiento.trn_compro}}</span>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5">
-                            <span class="font-weight-light">Fecha comprobante:</span>
+                        <div class="col-md-3">
+                            <span class="font-weight-light">Fecha:</span>
                         </div>
                         <div class="col-md">
-                            <span class="font-weight-normal">{{doc.tasiento.trn_fecreg}}</span>
+                            <span class="font-weight-bold">{{doc.tasiento.trn_fecreg}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="font-weight-light">Estado:</span>
+                        </div>
+                        <div class="col-md">
+                            <span class="font-weight-bold">{{doc.tasiento.estado}}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -26,25 +34,51 @@
                             <span class="font-weight-light">Registrado el:</span>
                         </div>
                         <div class="col-md">
-                            <span class="font-weight-normal">{{doc.tasiento.trn_fecha}}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <span class="font-weight-light">Referente:</span>
-                        </div>
-                        <div class="col-md">
-                            <span class="font-weight-normal">{{doc.tasiento.referente}}</span>
+                            <span class="font-weight-bold quitaPaddingMargin">{{doc.tasiento.trn_fecha}}</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
+                            <span class="font-weight-light">Referente:</span>
+                        </div>
+                        <div class="col-md quitaPaddingMargin">
+                            <span class="font-weight-bold">{{doc.tasiento.referente}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <span class="font-weight-light">Ci/Ruc:</span>
+                        </div>
+                        <div class="col-md quitaPaddingMargin">
+                            <span class="font-weight-bold">{{doc.tasiento.per_ciruc}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <span class="font-weight-light">Telf:</span>
+                        </div>
+                        <div class="col-md quitaPaddingMargin">
+                            <span class="font-weight-bold">{{doc.tasiento.per_telf}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <span class="font-weight-light">Dirección:</span>
+                        </div>
+                        <div class="col-md quitaPaddingMargin">
+                            <span class="font-weight-bold">{{doc.tasiento.per_direccion}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-6">
                             <span class="font-weight-light">Creado por:</span>
                         </div>
                         <div class="col-md">
-                            <span class="font-weight-normal">{{doc.tasiento.us_id}}</span>
+                            <span class="font-weight-bold quitaPaddingMargin">{{doc.tasiento.us_cuenta}}</span>
                         </div>
                     </div>
                     <div class="row">

@@ -119,6 +119,8 @@ import {LibromayorlistComponent} from './components/contabilidad/libromayor/libr
 import {BalancegeneralComponent} from './components/contabilidad/reportes/balancegeneral/balancegeneral.component';
 import {EstadoresultadosComponent} from './components/contabilidad/reportes/estadoresultados/estadoresultados.component';
 import {TreeTableModule} from 'primeng/treetable';
+import {ApprangofechasComponent} from './components/shared/apprangofechas/apprangofechas.component';
+import {CategoriasComponent} from './components/articulos/categorias/categorias.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -200,7 +202,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         LibrodiarioformComponent,
         LibromayorlistComponent,
         BalancegeneralComponent,
-        EstadoresultadosComponent
+        EstadoresultadosComponent,
+        ApprangofechasComponent,
+        CategoriasComponent
     ],
     imports: [
         CommonModule,

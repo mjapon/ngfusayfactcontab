@@ -2,7 +2,10 @@
     {{title}}
 </h4>
 <div class="row mt-1 mb-1">
-    <div class="col-md-8">
+    <div class="col-md-3">
+        <app-rangofechas [form]="form" (evFilterSel)="listar()" [showlabels]="false"></app-rangofechas>
+    </div>
+    <div class="col-md-6">
         <div class="input-group">
             <input type="text" class="form-control" id="buscaInput" (keyup)="doFilter($event)" [(ngModel)]="filtro"
                    autocomplete="false"
@@ -15,7 +18,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4 d-flex flex-row-reverse">
+    <div class="col-md-3 d-flex flex-row-reverse">
         <button type="button" class="btn btn-outline-primary" (click)="goToForm()"
                 title="Registrar un nuevo producto o servicio">
             Crear <i class="fa fa-plus-circle"></i>
@@ -45,7 +48,7 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rowData>
-                <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
+                <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="verRow(rowData)">
                     <td *ngFor="let item of grid.cols">
                         <span class="fontsizesm">{{rowData[item['field']]}}</span>
                     </td>
@@ -60,7 +63,34 @@
                     </td>
                 </tr>
             </ng-template>
+            <ng-template pTemplate="footer">
+                <tr>
+                    <th>
 
+                    </th>
+                    <th>
+
+                    </th>
+                    <th>
+                        <span class="font-weight-bold">TOTAL:</span>
+                    </th>
+                    <th>
+                        <span> {{totales.efectivo}}</span>
+                    </th>
+                    <th>
+                        <span> {{totales.credito}}</span>
+                    </th>
+                    <th>
+                        <span> {{totales.saldopend}}</span>
+                    </th>
+                    <th>
+                        <span> {{totales.total}}</span>
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </ng-template>
             <ng-template pTemplate="emptymessage" let-columns>
                 <tr>
                     <td [attr.colspan]="grid.cols.length+1">

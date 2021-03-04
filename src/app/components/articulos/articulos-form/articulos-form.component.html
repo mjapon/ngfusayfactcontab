@@ -35,6 +35,7 @@
                                                 <p-selectButton [options]="tiposArt"
                                                                 [(ngModel)]="artForm.tipic_id.value"
                                                                 optionLabel="label"
+                                                                optionValue="value"
                                                                 [disabled]="artForm.tipic_id.disabled"
                                                                 (onChange)="onTipoArtChange($event)"></p-selectButton>
                                             </div>
@@ -46,7 +47,8 @@
                                                 <p-selectButton [options]="ivas"
                                                                 [(ngModel)]="artForm.icdp_grabaiva.value"
                                                                 (onChange)="onTipoIvaChange($event)"
-                                                                optionLabel="label"></p-selectButton>
+                                                                optionLabel="label"
+                                                                optionValue="value"></p-selectButton>
                                             </div>
                                         </div>
                                     </div>
@@ -105,6 +107,7 @@
                                                        aria-describedby="emailHelp"
                                                        [pattern]="numbersPattern"
                                                        placeholder="Precio de compra" name="icdp_preciocompra"
+                                                       (focusin)="marcarTexto($event)"
                                                        (keyup)="onKeyupPrecioCompra($event)"
                                                        (keydown.enter)="onEnterPrecioCompra($event)"
                                                        [(ngModel)]="artForm.icdp_preciocompra.value"
@@ -146,6 +149,7 @@
                                         <input type="text"
                                                maxlength="10"
                                                autocomplete="off"
+                                               (focusin)="marcarTexto($event)"
                                                class="form-control" id="precioVentaInput" aria-describedby="emailHelp"
                                                placeholder="Precio de venta" name="icdp_precioventa"
                                                (keydown.enter)="onEnterPrecioVenta($event)"
@@ -391,4 +395,44 @@
             </div>
         </div>
     </div>
+
+
+    <div *ngIf="isModalCatVisible">
+        <p-dialog header="Datos de la categoría" [modal]="true" [style]="{width: '70vw'}" [baseZIndex]="10000"
+                  [(visible)]="isModalCatVisible">
+            <div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Nombre: </span>
+                    </div>
+                    <div class="col-md">
+                        <input type="text" class="form-control" [(ngModel)]="formcat.catic_nombre">
+                    </div>
+                </div>
+
+                <div class="row mt-2 mb-4">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Caja: </span>
+                    </div>
+                    <div class="col-md">
+                        <p-dropdown [options]="tiposcajas" optionLabel="ic_nombre"
+                                    optionValue="ic_id"
+                                    placeholder="Seleccione el tipo de caja"
+                                    [(ngModel)]="formcat.catic_caja"></p-dropdown>
+                    </div>
+                </div>
+
+                <div class="mt-5 text-center">
+                    <button class="btn btn-outline-primary" (click)="doSaveCat()"><i class="fa fa-save"></i>
+                        Guardar
+                    </button>
+                    <button class="ml-3 btn btn-outline-secondary" (click)="cancelSaveCat()"><i
+                            class="fa fa-times"></i> Cancelar
+                    </button>
+                </div>
+            </div>
+
+        </p-dialog>
+    </div>
+
 </div>

@@ -5,11 +5,9 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <button class="btn btn-sm btn-outline-success" style="margin-right: 5px" (click)="goHome()"><span
+    <button class="btn btn-sm btn-outline-primary" style="margin-right: 5px" (click)="goHome()"><span
             class="fa fa-home"></span></button>
     <!--
-    <button class="btn btn-sm btn-outline-success" (click)="themenu.toggle($event)"><span class="fa fa-bars"></span>
-    </button>
     <p-menu #themenu [popup]="true" [model]="menuApp"></p-menu>
     -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -19,14 +17,14 @@
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="#" title="{{userinfo['per_nombres'] +' '+ userinfo['per_apellidos']}}">
-                    <span class="font-weight-bold text-success">{{userinfo['per_nombres'].charAt(0) + userinfo['per_apellidos'].charAt(0)}}
+                    <span class="font-weight-bold text-primary">{{userinfo['per_nombres'].charAt(0) + userinfo['per_apellidos'].charAt(0)}}
                         <i class="fas fa-user"></i>
                     </span>
                 </a>
             </li>
             <li class="nav-item">
                 <div class="form-inline my-2 my-lg-0">
-                    <button class="btn btn-sm btn-outline-success" (click)="logout()"><span
+                    <button class="btn btn-sm btn-outline-primary" (click)="logout()"><span
                             class="fas fa-sign-out-alt"></span> Salir
                     </button>
                 </div>

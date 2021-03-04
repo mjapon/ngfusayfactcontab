@@ -152,4 +152,8 @@ export class ArticuloService extends BaseService {
         return this._doPost(this.getHOT({accion: 'updatectacontable'}), form);
     }
 
+    listarTiposCajas() {
+        return this._doGet(this.getHOT({accion: 'listatiposcaja'}));
+    }
+
 }

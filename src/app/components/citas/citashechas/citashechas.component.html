@@ -1,6 +1,6 @@
 <div style="margin-bottom: 10px">
     <div *ngIf="!showfiltro" class="d-flex justify-content-start">
-        <button class="btn btn-outline-success" (click)="toggleShowFiltro()"><i class="fa fa-filter"></i> Filtrar
+        <button class="btn btn-outline-primary" (click)="toggleShowFiltro()"><i class="fa fa-filter"></i> Filtrar
         </button>
     </div>
     <div class="row d-flex align-items-end" *ngIf="showfiltro">
@@ -31,9 +31,9 @@
         </div>
         <div class="col-md-3">
             <div class="d-flex justify-content-around">
-                <button class="btn btn-success" (click)="buscar()"><i class="fa fa-search"></i> Buscar
+                <button class="btn btn-primary" (click)="buscar()"><i class="fa fa-search"></i> Buscar
                 </button>
-                <button class="btn btn-outline-success" (click)="toggleShowFiltro()"><i class="fa fa-times"></i>
+                <button class="btn btn-outline-primary" (click)="toggleShowFiltro()"><i class="fa fa-times"></i>
                     Cancelar
                 </button>
             </div>

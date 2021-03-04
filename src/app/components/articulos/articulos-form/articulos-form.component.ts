@@ -51,6 +51,9 @@ export class ArticulosFormComponent implements OnInit {
     secciones: Array<any>;
     impuestos: any;
     isLoading: boolean;
+    isModalCatVisible: any;
+    formcat: any;
+    tiposcajas: Array<any>;
 
     constructor(
         private artService: ArticuloService,
@@ -69,6 +72,8 @@ export class ArticulosFormComponent implements OnInit {
         private domService: DomService,
         private personaService: PersonaService
     ) {
+        this.isModalCatVisible = false;
+        this.tiposcajas = [];
         this.artFromDb = {};
         this.tiposArt = [
             {label: 'Bien', value: 1},
@@ -116,6 +121,16 @@ export class ArticulosFormComponent implements OnInit {
             setTimeout(() => {
                 $('.auxNuevoBarcode').focus();
             }, 500);
+        });
+
+        this.loadTiposCajas();
+    }
+
+    loadTiposCajas() {
+        this.artService.listarTiposCajas().subscribe(res => {
+            if (res.status === 200) {
+                this.tiposcajas = res.tiposcajas;
+            }
         });
     }
 
@@ -265,7 +280,7 @@ export class ArticulosFormComponent implements OnInit {
 
         this.secciones.forEach(e => {
             this.artForm.seccionesf.value.push({
-                value: e.marca,
+                value: this.secciones.length === 1 ? true : e.marca,
                 sec_id: e.sec_id,
                 seccion: e
             });
@@ -442,7 +457,7 @@ export class ArticulosFormComponent implements OnInit {
         const icNombre = this.artForm.ic_nombre.value;
         const tipicId = this.artForm.tipic_id.value;
         if (icNombre && icNombre.trim().length > 0) {
-            if (tipicId && tipicId.value === 1) {
+            if (tipicId && tipicId === 1) {
                 this.domService.setFocus('precioCompraInput');
             } else {
                 this.domService.setFocus('precioVentaInput');
@@ -546,7 +561,21 @@ export class ArticulosFormComponent implements OnInit {
     }
 
     showModalCreaCateg() {
-        $('#modalCreaCateg').modal();
+        this.loadingService.publishBlockMessage();
+        this.catsService.getFormCrea().subscribe(res => {
+            if (res.status === 200) {
+                this.formcat = res.form;
+                if (this.tiposcajas.length > 0) {
+                    this.formcat.catic_caja = this.tiposcajas[0].ic_id;
+                }
+                this.isModalCatVisible = true;
+            }
+        });
+        // $('#modalCreaCateg').modal();
+    }
+
+    marcarTexto($event: any) {
+        $event.target.select();
     }
 
     showModalEditBarcode() {
@@ -579,5 +608,38 @@ export class ArticulosFormComponent implements OnInit {
         } else {
             this.swalService.fireWarning('Debe ingresar el nuevo código de barra');
         }
+    }
+
+    doSaveCat() {
+        if (this.formcat.catic_nombre.trim().length === 0) {
+            this.swalService.fireToastError('Ingrese el nombre de la categoría');
+            return;
+        }
+        if (this.formcat.catic_caja === 0) {
+            this.swalService.fireToastError('Debe seleccionar el tipo de caja');
+            return;
+        }
+        if (this.formcat.catic_id > 0) {
+            this.catsService.actualizar(this.formcat).subscribe(res => {
+                if (res.status === 200) {
+                    this.swalService.fireToastSuccess(res.msg);
+                    this.isModalCatVisible = false;
+                    this.loadCategorias();
+                }
+            });
+        } else {
+            this.loadingService.publishBlockMessage();
+            this.catsService.crear(this.formcat).subscribe(res => {
+                this.isModalCatVisible = false;
+                if (res.status === 200) {
+                    this.swalService.fireToastSuccess(res.msg);
+                    this.loadCategorias();
+                }
+            });
+        }
+    }
+
+    cancelSaveCat() {
+        this.isModalCatVisible = false;
     }
 }

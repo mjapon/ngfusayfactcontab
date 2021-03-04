@@ -95,6 +95,14 @@
                                             {{artFromDb.proveedor}}
                                         </div>
                                     </div>
+                                    <div class="row" *ngIf="artFromDb.tipic_id===1">
+                                        <div class="col-3">
+                                            <span class="font-weight-lighter">Fecha de caducidad:</span>
+                                        </div>
+                                        <div class="col">
+                                            <p class="text-justify"> {{artFromDb.icdp_fechacaducidad}} </p>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-3">
                                             <span class="font-weight-lighter">Nota:</span>
