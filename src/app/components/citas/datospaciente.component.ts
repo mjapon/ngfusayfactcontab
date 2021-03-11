@@ -157,7 +157,7 @@ import {forkJoin} from 'rxjs';
             </div>
             <div *ngIf="editando">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-md">
                         <div class="row dato-fila">
                             <div class="col-12">
                                 <span class="required">*</span><span>Ci/RUC/Pasaporte:</span>
@@ -261,7 +261,7 @@ import {forkJoin} from 'rxjs';
                             </div>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-md">
                         <div class="row dato-fila">
                             <div class="col-12">
                                 <span>Lugar de residencia:</span>

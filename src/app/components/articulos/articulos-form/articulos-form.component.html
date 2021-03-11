@@ -71,6 +71,7 @@
                                                maxlength="80"
                                                autocomplete="off"
                                                (keydown.enter)="onEnterCodBarra($event)"
+                                               (focusout)="checkExisteCodBarra()"
                                                placeholder="Ingrese el código del producto o servicio" name="ic_code"
                                                [(ngModel)]="artForm.ic_code.value"
                                                [disabled]="artForm.ic_code.disabled"

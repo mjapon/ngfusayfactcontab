@@ -50,7 +50,6 @@ export class ArticulosListComponent implements OnInit {
         this.items = new Array<any>();
         this.cols = new Array<any>();
         this.filtro = '';
-        this.domService.setFocus('buscaInput');
         this.itemsCtxMenu = [
             {label: 'Ver detalles', icon: 'fa fa-eye', command: (event) => this.viewItem(this.selectedItem)},
             {label: 'Editar', icon: 'fa fa-pencil', command: (event) => this.editItem(this.selectedItem)},
@@ -68,6 +67,7 @@ export class ArticulosListComponent implements OnInit {
             }
             this.listar();
             this.isLoading = false;
+            this.domService.setFocusTimeout('buscaInput', 300);
         });
     }
 

@@ -3,6 +3,8 @@ import {ArticuloService} from '../../../services/articulo.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SwalService} from '../../../services/swal.service';
 import {ArticulostockService} from '../../../services/articulostock.service';
+import {KardexProdService} from '../../../services/kardex-prod.service';
+import {LoadingUiService} from "../../../services/loading-ui.service";
 
 @Component({
     selector: 'app-articulos-view',
@@ -14,11 +16,15 @@ export class ArticulosViewComponent implements OnInit {
     artFromDb: any;
     stock: Array<any> = [];
     isLoading: boolean;
+    isShowKardex = false;
+    kardex: [];
 
     constructor(private artService: ArticuloService,
                 private router: Router,
                 private swalService: SwalService,
+                private loadingServ: LoadingUiService,
                 private artStockService: ArticulostockService,
+                private kardexProdService: KardexProdService,
                 private route: ActivatedRoute) {
     }
 
@@ -62,6 +68,17 @@ export class ArticulosViewComponent implements OnInit {
                         }
                     }
                 });
+            }
+        });
+    }
+
+    verKardex() {
+        this.kardex = [];
+        this.loadingServ.publishBlockMessage();
+        this.kardexProdService.getKardex(this.artFromDb.ic_id).subscribe(res => {
+            this.isShowKardex = true;
+            if (res.status === 200) {
+                this.kardex = res.items;
             }
         });
     }

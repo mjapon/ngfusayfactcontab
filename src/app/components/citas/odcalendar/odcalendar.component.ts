@@ -73,6 +73,8 @@ export class OdcalendarComponent implements OnInit, OnChanges {
     @Output() evCreated = new EventEmitter<any>();
     @Output() evCancelar = new EventEmitter<any>();
     @Output() evListado = new EventEmitter<any>();
+    isShowFormCreaRef = false;
+    codreferenteform = 0;
 
     constructor(private fechasService: FechasService,
                 private swalService: SwalService,
@@ -92,37 +94,47 @@ export class OdcalendarComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
+
         this.form = {};
         this.pacForCalendar = null;
         this.datosCita = {};
         this.defEvColor = '#039BE5';
         this.colores = [];
         this.colorsMI = [];
-        this.anchoCeldaHora = 70;
-        this.altoCeltaDia = 50;
-        this.calHoraIni = 8.0;
-        this.calHoraFin = 19.0;
-        this.intervalo = 0.25; // 15minutos
-        this.parteshora = 1 / this.intervalo;
-        this.columnas = 7;
-        this.filas = (this.calHoraFin - this.calHoraIni) * this.parteshora;
-        this.changeSelectedDate(this.fechasService.getCurrentDate(), true);
-        this.loadDias();
         this.pixelsselected = [];
         this.cssform = {};
         this.textoNewEv = '';
         this.currentMonthDate = this.selectedDate;
-        this.loadMesArray();
         this.diasSemana = this.fechasService.getDiasSemana();
         this.pacsFiltered = [];
-        this.loadMedicos();
-        this.loadPersonsCita();
-        this.initListasForm();
         this.currentDate = new Date();
+        this.calHoraIni = 8.0;
+        this.calHoraFin = 19.0;
+        this.anchoCeldaHora = 70;
+        this.altoCeltaDia = 50;
+        this.intervalo = 0.25; // 15minutos
+        this.parteshora = 1 / this.intervalo;
+        this.columnas = 7;
+
+        this.loadinUiServ.publishBlockMessage();
+        this.tcitaService.getDatosTipoCita(this.tipoCita).subscribe(res => {
+            if (res.status === 200) {
+                const dtipcita = res.dtipcita;
+                this.calHoraIni = dtipcita.tipc_calini;
+                this.calHoraFin = dtipcita.tipc_calfin;
+                this.filas = (this.calHoraFin - this.calHoraIni) * this.parteshora;
+                this.changeSelectedDate(this.fechasService.getCurrentDate(), true);
+                this.loadDias();
+                this.loadMesArray();
+                this.loadMedicos();
+                this.loadPersonsCita();
+                this.initListasForm();
+            }
+        });
     }
 
     initListasForm() {
-        this.tcitaService.getForm().subscribe(res => {
+        this.tcitaService.getForm(this.tipoCita).subscribe(res => {
             if (res.status === 200) {
                 this.horasList = res.horas;
                 this.colores = res.colores;
@@ -363,16 +375,21 @@ export class OdcalendarComponent implements OnInit, OnChanges {
             border,
             opacity: opacidad
         };
+        try {
+            const fila = this.citasmatrix[pixel.px_row - 1];
+            const col = fila[pxX - 1];
+            const fila2 = this.citasmatrix[pixel.px_row_end - 1];
+            const col2 = fila2[pxX - 1];
+            const hora = col.hora;
+            const horaFin = col2.hora + this.intervalo;
+            const horaStr = this.fechasService.getHoraStrFromNumber(hora);
+            const horaFinStr = this.fechasService.getHoraStrFromNumber(horaFin);
+            this.textoNewEv = `${horaStr} -${horaFinStr}`;
+        } catch (err) {
+            this.textoNewEv = 'err';
+            console.log('Error al obtener string de fechas');
+        }
 
-        const fila = this.citasmatrix[pixel.px_row - 1];
-        const col = fila[pxX - 1];
-        const fila2 = this.citasmatrix[pixel.px_row_end - 1];
-        const col2 = fila2[pxX - 1];
-        const hora = col.hora;
-        const horaFin = col2.hora + this.intervalo;
-        const horaStr = this.fechasService.getHoraStrFromNumber(hora);
-        const horaFinStr = this.fechasService.getHoraStrFromNumber(horaFin);
-        this.textoNewEv = `${horaStr} -${horaFinStr}`;
         return cssg;
     }
 
@@ -393,7 +410,7 @@ export class OdcalendarComponent implements OnInit, OnChanges {
 
     buildEmptyPixelsArray() {
         this.citasmatrix = [];
-        for (let i = 1; i <= this.filas; i++) {
+        for (let i = 1; i <= this.filas + 1; i++) {
             const pixelr = [];
             for (let j = 1; j <= this.columnas; j++) {
                 pixelr.push(this.getNewPixelEmpty(j, i));
@@ -782,10 +799,39 @@ export class OdcalendarComponent implements OnInit, OnChanges {
         if (this.personCitaSel) {
             if (this.personCitaSel !== this.tipoCita) {
                 this.tipoCita = this.personCitaSel;
-                this.loadMesArray();
-                this.loadMedicos();
-                this.loadCitas();
+                this.tcitaService.getDatosTipoCita(this.tipoCita).subscribe(res => {
+                    if (res.status === 200) {
+                        const dtipcita = res.dtipcita;
+                        this.calHoraIni = dtipcita.tipc_calini;
+                        this.calHoraFin = dtipcita.tipc_calfin;
+                        this.filas = (this.calHoraFin - this.calHoraIni) * this.parteshora;
+                        this.changeSelectedDate(this.fechasService.getCurrentDate(), true);
+                        this.loadDias();
+                        this.loadMesArray();
+                        this.loadMedicos();
+                        this.loadCitas();
+                        this.initListasForm();
+                    }
+                });
             }
         }
+    }
+
+    showFormCreaRef() {
+        this.isShowFormCreaRef = true;
+    }
+
+    onCancelaCreacionRef($event: any) {
+        this.isShowFormCreaRef = false;
+    }
+
+    onReferenteCreado($event: any) {
+        this.personaService.buscarPorCod($event).subscribe(res => {
+            this.isShowFormCreaRef = false;
+            if (res.status === 200) {
+                this.pacForCalendar = res.persona;
+                this.form.paciente = this.pacForCalendar;
+            }
+        });
     }
 }

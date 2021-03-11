@@ -9,8 +9,7 @@ import {ArrayutilService} from '../../../../services/arrayutil.service';
 
 @Component({
     selector: 'app-trubrosform',
-    templateUrl: './trubrosform.component.html',
-    styleUrls: ['./trubrosform.component.css']
+    templateUrl: './trubrosform.component.html'
 })
 export class TrubrosformComponent implements OnInit {
 
@@ -84,6 +83,9 @@ export class TrubrosformComponent implements OnInit {
         } else {
             this.loadingUiService.publishBlockMessage();
             this.form.clsic_id = this.tiposel;
+            if (this.tiposel.value) {
+                this.form.clsic_id = this.tiposel.value;
+            }
             this.artService.guardarRubro(this.form).subscribe(res => {
                 this.swalService.fireToastSuccess(res.msg);
                 if (res.status === 200) {

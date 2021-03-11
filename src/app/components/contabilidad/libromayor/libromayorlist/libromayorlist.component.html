@@ -38,6 +38,11 @@
         <app-loading></app-loading>
     </div>
     <div *ngIf="!isLoadingData">
+        <div class="d-flex flex-row-reverse" *ngIf="grid.data && grid.data.length>0">
+            <h4 class="ml-3 quitaPaddingMargin font-weight-bolder text-success"> {{totales.resta}}</h4>
+            <h4>SALDO:</h4>
+        </div>
+
         <p-table [value]="grid.data" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
                  (onRowSelect)="onRowSelect($event)"
                  [resizableColumns]="true"
@@ -75,7 +80,7 @@
                     </td>
                     <td>{{totales.totdebe}}</td>
                     <td>{{totales.tothaber}}</td>
-                    <td>{{totales.resta}}</td>
+                    <td><span class="font-weight-bolder text-success"> {{totales.resta}}</span></td>
                     <td></td>
                 </tr>
             </ng-template>

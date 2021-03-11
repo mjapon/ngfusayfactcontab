@@ -6,8 +6,7 @@ import {ArticuloService} from '../../../../services/articulo.service';
 
 @Component({
     selector: 'app-trubros',
-    templateUrl: './trubros.component.html',
-    styleUrls: ['./trubros.component.css']
+    templateUrl: './trubros.component.html'
 })
 export class TrubrosComponent implements OnInit {
 
@@ -43,7 +42,7 @@ export class TrubrosComponent implements OnInit {
     }
 
     anularRow(rowData) {
-        this.swalService.fireToastInfo('Logica anulacion de usuario no implementado');
+        this.swalService.fireToastInfo('Logica anulacion de rubro no iplementado');
     }
 
     loadGrid() {

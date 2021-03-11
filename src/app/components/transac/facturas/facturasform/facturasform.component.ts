@@ -139,6 +139,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
         formDetalles.ic_nombre = art.ic_nombre;
         formDetalles.dt_precio = art.icdp_precioventa;
         formDetalles.ic_code = art.ic_code;
+        formDetalles.dt_preref = art.icdp_preciocompra;
         formDetalles.dt_precioiva = precio;
         formDetalles.per_codigo = 0;
         formDetalles.dt_cant = 1;

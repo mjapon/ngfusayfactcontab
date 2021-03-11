@@ -127,7 +127,7 @@
                         <div [style]="cssform" class="nuevoev noselect" *ngIf="clicfinish">
                             <span class="textoEv text-muted"> {{textoNewEv}} </span>
                         </div>
-                        <tr *ngFor="let pxrow of citasmatrix;">
+                        <tr *ngFor="let pxrow of citasmatrix ? citasmatrix.slice(0,citasmatrix.length-1):[];">
                             <td class="hand celdacal celdahora noselect limitedia" *ngIf="addCol(pxrow)" rowspan="4">
                                 <div class="d-flex align-items-start w-100 h-100 noselect">
                                     <span>{{gethoraStr(pxrow)}} </span>
@@ -147,7 +147,7 @@
         </div>
     </div>
 
-    <p-dialog [header]="titEvNewEdCita" [modal]="true" [style]="{width: '60vw'}"
+    <p-dialog [header]="titEvNewEdCita" [modal]="true" [style]="{width: '70vw'}"
               [(visible)]="showModalCrea" #detdialog id="detdialog"
               (onShow)="onModalNewEvShow($event)">
         <div class="row">
@@ -200,9 +200,11 @@
             <div class="col-md-4">
                 <div class="d-flex flex-row">
                     <p-dropdown [options]="horasList" optionLabel="label"
+                                optionValue="value"
                                 placeholder="Desde" [appendTo]="detdialog"
                                 [(ngModel)]="form.ct_hora"></p-dropdown>
                     <p-dropdown [options]="horasList" optionLabel="label"
+                                optionValue="value"
                                 placeholder="Hasta" [appendTo]="detdialog"
                                 [(ngModel)]="form.ct_hora_fin"></p-dropdown>
                 </div>
@@ -220,16 +222,41 @@
                                 class="fa fa-times"></i>
                         </button>
                     </div>
-                    <div class="p-fluid" *ngIf="!pacForCalendar">
-                        <p-autoComplete [appendTo]="detdialog" [(ngModel)]="form.paciente" [suggestions]="pacsFiltered"
-                                        (completeMethod)="buscaPacs($event)" field="nomapel" inputId="pacAutoCom"
-                                        placeholder="Digite los nombres o el número de cédula del paciente"
-                                        (onSelect)="onPacSelect($event)">
-
-                        </p-autoComplete>
+                    <div *ngIf="!pacForCalendar && !isShowFormCreaRef">
+                        <div class="w-100 d-flex">
+                            <div class="p-fluid" style="width: 93% !important;">
+                                <p-autoComplete [appendTo]="detdialog" [(ngModel)]="form.paciente"
+                                                [suggestions]="pacsFiltered"
+                                                (completeMethod)="buscaPacs($event)" field="nomapel"
+                                                inputId="pacAutoCom"
+                                                placeholder="Digite los nombres o el número de cédula del paciente"
+                                                (onSelect)="onPacSelect($event)">
+                                    <ng-template let-ref pTemplate="item">
+                                        <div>
+                                            <div class="d-flex justify-content-between">
+                                                <span>{{ref.nomapel}}</span>
+                                                <span>{{ref.per_ciruc}}</span>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </p-autoComplete>
+                            </div>
+                            <div style="width: 7% !important;">
+                                <button class="btn btn-outline-secondary btn-block" (click)="showFormCreaRef()"
+                                        title="Crear un nuevo referente"><i class="fa fa-plus-circle"></i></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div *ngIf="isShowFormCreaRef" class="border mt-1 mb-2 pb-1">
+                <app-datospaciente [codPaciente]="codreferenteform" [datosmedicos]="false"
+                                   (pacienteSaved)="onReferenteCreado($event)"
+                                   (creacionCancelada)="onCancelaCreacionRef($event)">
+                </app-datospaciente>
+            </div>
+
             <div class="row mt-2">
                 <div class="col-md-3">
                     <span class="text-rojo">*</span>

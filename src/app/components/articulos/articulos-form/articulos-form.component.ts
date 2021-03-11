@@ -361,6 +361,7 @@ export class ArticulosFormComponent implements OnInit {
     }
 
     guardarStock() {
+        this.loadingService.publishBlockMessage();
         this.artStockService.guardar(this.stock).subscribe(res => {
             if (res.status === 200) {
                 this.swalService.fireToastSuccess(res.msg);
@@ -402,6 +403,7 @@ export class ArticulosFormComponent implements OnInit {
         this.swalService.fireDialog(msg).then(confirm => {
             if (confirm.value) {
                 const formtoPost = this.getFormToPost();
+                this.loadingService.publishBlockMessage();
                 this.artService.guardarArticulo(formtoPost).subscribe(res => {
                     if (res.status === 200) {
                         this.swalService.fireToastSuccess(res.msg);
@@ -438,19 +440,22 @@ export class ArticulosFormComponent implements OnInit {
         this.router.navigate(['mercaderia']);
     }
 
-    onEnterCodBarra($event) {
+    checkExisteCodBarra() {
         const icCode = this.artForm.ic_code.value;
         if (icCode && icCode.trim().length > 0) {
             this.artService.existeCodbar(icCode).subscribe(res => {
                 if (res.existe) {
-                    this.swalService.fireWarning('Ya existe un producto o servicio registrado (' + res.nombreart + ') con el código:' +
+                    this.swalService.fireError('Ya existe un producto o servicio registrado (' + res.nombreart + ') con el código:' +
                         icCode + ', favor ingrese otro');
-                    this.domService.setFocus('codbarraInput');
                 } else {
                     this.domService.setFocus('nombreInput');
                 }
             });
         }
+    }
+
+    onEnterCodBarra($event) {
+        this.domService.setFocusTimeout('nombreInput', 100);
     }
 
     onEnterNombre($event) {

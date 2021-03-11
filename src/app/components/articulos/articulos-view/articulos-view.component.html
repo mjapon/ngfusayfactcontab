@@ -24,155 +24,222 @@
     <div *ngIf="isLoading">
         <app-loading></app-loading>
     </div>
-    <div class="row" *ngIf="!isLoading">
-        <div class="col">
-            <div class="card border-secondary">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-2">
-                            <img src="assets/imgs/producto.png" alt="Imagen del producto o servicio"
-                                 class="img-thumbnail">
+    <div *ngIf="!isLoading">
+        <div class="card border-secondary">
+            <div class="card-header">
+                Datos del producto o servicio
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3">
+                        <span class="font-weight-lighter">Tipo:</span>
+                    </div>
+                    <div class="col">
+                        {{artFromDb.tipic_nombre}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <span class="font-weight-lighter">Nombre:</span>
+                    </div>
+                    <div class="col">
+                        {{artFromDb.ic_nombre}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <span class="font-weight-lighter">Código:</span>
+                    </div>
+                    <div class="col">
+                        {{artFromDb.ic_code}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <span class="font-weight-lighter">Fecha de ingreso:</span>
+                    </div>
+                    <div class="col">
+                        {{artFromDb.ic_fechacrea}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <span class="font-weight-lighter">Graba Iva:</span>
+                    </div>
+                    <div class="col">
+                        {{artFromDb.icdp_grabaiva ? 'Si' : 'No'}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <span class="font-weight-lighter">Categoría:</span>
+                    </div>
+                    <div class="col">
+                        {{artFromDb.catic_nombre}}
+                    </div>
+                </div>
+                <div class="row" *ngIf="artFromDb.tipic_id===1">
+                    <div class="col-3">
+                        <span class="font-weight-lighter">Proveedor:</span>
+                    </div>
+                    <div class="col">
+                        {{artFromDb.proveedor}}
+                    </div>
+                </div>
+                <div class="row" *ngIf="artFromDb.tipic_id===1">
+                    <div class="col-3">
+                        <span class="font-weight-lighter">Fecha de caducidad:</span>
+                    </div>
+                    <div class="col">
+                        <p class="text-justify"> {{artFromDb.icdp_fechacaducidad}} </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <span class="font-weight-lighter">Nota:</span>
+                    </div>
+                    <div class="col">
+                        <p class="text-justify"> {{artFromDb.ic_nota}} </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card border-secondary">
+            <div class="card-header">
+                Precios
+            </div>
+            <div class="card-body">
+                <div class="row" *ngIf="artFromDb.tipic_id===1">
+                    <div class="col-md">
+                        <div class="row">
+                            <div class="col-md-8">
+                                            <span class="font-weight-lighter">Precio de compra
+                                                <span class="badge badge-light" *ngIf="artFromDb.icdp_grabaiva"> (Sin Iva) </span>:
+                                            </span>
+                            </div>
+                            <div class="col-md">
+                                {{artFromDb.icdp_preciocompra}} $
+                            </div>
                         </div>
-                        <div class="col">
-                            <div class="card border-secondary">
-                                <div class="card-header">
-                                    Datos del producto o servicio
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <span class="font-weight-lighter">Tipo:</span>
-                                        </div>
-                                        <div class="col">
-                                            {{artFromDb.tipic_nombre}}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <span class="font-weight-lighter">Nombre:</span>
-                                        </div>
-                                        <div class="col">
-                                            {{artFromDb.ic_nombre}}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <span class="font-weight-lighter">Código:</span>
-                                        </div>
-                                        <div class="col">
-                                            {{artFromDb.ic_code}}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <span class="font-weight-lighter">Fecha de ingreso:</span>
-                                        </div>
-                                        <div class="col">
-                                            {{artFromDb.ic_fechacrea}}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <span class="font-weight-lighter">Graba Iva:</span>
-                                        </div>
-                                        <div class="col">
-                                            {{artFromDb.icdp_grabaiva ? 'Si' : 'No'}}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <span class="font-weight-lighter">Categoría:</span>
-                                        </div>
-                                        <div class="col">
-                                            {{artFromDb.catic_nombre}}
-                                        </div>
-                                    </div>
-                                    <div class="row" *ngIf="artFromDb.tipic_id===1">
-                                        <div class="col-3">
-                                            <span class="font-weight-lighter">Proveedor:</span>
-                                        </div>
-                                        <div class="col">
-                                            {{artFromDb.proveedor}}
-                                        </div>
-                                    </div>
-                                    <div class="row" *ngIf="artFromDb.tipic_id===1">
-                                        <div class="col-3">
-                                            <span class="font-weight-lighter">Fecha de caducidad:</span>
-                                        </div>
-                                        <div class="col">
-                                            <p class="text-justify"> {{artFromDb.icdp_fechacaducidad}} </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <span class="font-weight-lighter">Nota:</span>
-                                        </div>
-                                        <div class="col">
-                                            <p class="text-justify"> {{artFromDb.ic_nota}} </p>
-                                        </div>
-                                    </div>
-                                </div>
+                    </div>
+                    <div class="col-md" *ngIf="artFromDb.tipic_id===1 && artFromDb.icdp_grabaiva">
+                        <div class="row">
+                            <div class="col-md-8">
+                                            <span class="font-weight-lighter">Precio de compra
+                                                <span class="badge badge-light"> (Con Iva) </span>:
+                                            </span>
                             </div>
-                            <br>
-                            <div class="card border-secondary">
-                                <div class="card-header">
-                                    Precios
-                                </div>
-                                <div class="card-body">
-
-                                    <div class="row" *ngIf="artFromDb.tipic_id===1">
-                                        <div class="col-6">
-                                            <span class="font-weight-lighter">Precio de compra <span
-                                                    class="badge badge-light"> (Sin Iva) </span>:</span>
-                                        </div>
-                                        <div class="col">
-                                            {{artFromDb.icdp_preciocompra}} $
-                                        </div>
-                                    </div>
-                                    <div class="row" *ngIf="artFromDb.tipic_id===1">
-                                        <div class="col-6">
-                                            <span class="font-weight-lighter">Precio de compra <span
-                                                    class="badge badge-light"> (Con Iva) </span>:</span>
-                                        </div>
-                                        <div class="col">
-                                            {{artFromDb.icdp_preciocompra_iva}} $
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <span class="font-weight-lighter">Precio de venta<span
-                                                    class="badge badge-light"> (Con Iva) </span>:</span>
-                                        </div>
-                                        <div class="col">
-                                            {{artFromDb.icdp_precioventa}} $
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-md">
+                                {{artFromDb.icdp_preciocompra_iva}} $
                             </div>
-                            <br>
-                            <div class="card border-secondary" *ngIf="artFromDb.tipic_id===1">
-                                <div class="card-header">
-                                    Stock
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item quitaPaddingMargin" *ngFor="let item of stock">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    {{item.sec_nombre}}
-                                                </div>
-                                                <div class="col-md">
-                                                    <span> {{item.ice_stock}}  </span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md">
+                        <div class="row">
+                            <div class="col-md-8">
+                                            <span class="font-weight-lighter">Precio de venta
+                                                <span class="badge badge-light" *ngIf="artFromDb.icdp_grabaiva"> (Con Iva) </span>:
+                                            </span>
+                            </div>
+                            <div class="col-md">
+                                {{artFromDb.icdp_precioventa}} $
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md" *ngIf="artFromDb.icdp_grabaiva">
+                        <div class="row">
+                            <div class="col-md-8">
+                                            <span class="font-weight-lighter">Precio de venta
+                                                <span class="badge badge-light"> (Sin Iva) </span>:
+                                            </span>
+                            </div>
+                            <div class="col-md">
+                                {{artFromDb.icdp_precioventasiniva}} $
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card border-secondary" *ngIf="artFromDb.tipic_id===1">
+            <div class="card-header">
+                Stock
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item quitaPaddingMargin" *ngFor="let item of stock">
+                        <div class="row">
+                            <div class="col-md-4">
+                                {{item.sec_nombre}}
+                            </div>
+                            <div class="col-md">
+                                <span> {{item.ice_stock}}  </span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-2">
+            <button class="btn btn-outline-info" (click)="verKardex()">Ver Kardex</button>
+        </div>
+        <div class="mt-2 card border-secondary" *ngIf="isShowKardex">
+            <div class="card-header">
+                Kardex
+            </div>
+            <div class="table table-responsive">
+                <table class="table table-sm table-bordered">
+                    <thead>
+                    <tr>
+                        <th>
+                            <span class="fontsizesm">Fecha</span>
+                        </th>
+                        <th>
+                            <span class="fontsizesm">Evento</span>
+                        </th>
+                        <th>
+                            <span class="fontsizesm">Valor Antes</span>
+                        </th>
+                        <th>
+                            <span class="fontsizesm">Valor Despues</span>
+                        </th>
+                        <th>
+                            <span class="fontsizesm">Referencia</span>
+                        </th>
+                        <th>
+                            <span class="fontsizesm">Observación</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let fila of kardex">
+                        <td>
+                            <span class="fontsizexsm">{{fila.fecha_crea}}</span>
+                        </td>
+                        <td>
+                            <span class="fontsizexsm">{{fila.evento}}</span>
+                        </td>
+                        <td>
+                            <span class="fontsizexsm">{{fila.ica_valantes}}</span>
+                        </td>
+                        <td>
+                            <span class="fontsizexsm">{{fila.ica_valdespues}}</span>
+                        </td>
+                        <td>
+                            <span class="fontsizexsm">{{fila.referente}}</span>
+                        </td>
+                        <td>
+                            <span class="fontsizexsm">{{fila.ica_obs}}</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>

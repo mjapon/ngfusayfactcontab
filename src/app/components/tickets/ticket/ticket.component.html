@@ -7,6 +7,13 @@
 <div *ngIf="!isLoading">
     <div class="row mb-3">
         <div class="col-md-3">
+            <app-rangofechas [form]="form"
+                             (evDesdeChange)="onDesdeChange($event)"
+                             (evHastaChange)="onHastaChange($event)"
+                             (evFilterSel)="onTipoFiltroChange()">
+            </app-rangofechas>
+
+            <!--
             <div class="d-flex">
                 <div>
                     <p class="quitaPaddingMargin font-weight-light">Desde:</p>
@@ -25,6 +32,7 @@
                                 dateFormat="dd/mm/yy"></p-calendar>
                 </div>
             </div>
+            -->
         </div>
         <div class="col-md-5">
             <div>

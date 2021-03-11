@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BaseService} from './base-service';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
-import {FechasService} from "./fechas.service";
+import {FechasService} from './fechas.service';
 
 @Injectable({
     providedIn: 'root'
@@ -15,8 +15,8 @@ export class TcitaService extends BaseService {
         super('/tcita', localStrgServ, http);
     }
 
-    getForm() {
-        return this._doGet(this.getHOT({accion: 'form'}));
+    getForm(tipocita) {
+        return this._doGet(this.getHOT({accion: 'form', tipocita}));
     }
 
     listar(desde: string, hasta: string, tipo: number) {
@@ -59,5 +59,9 @@ export class TcitaService extends BaseService {
         const horaFinStr = this.fechasService.getHoraStrFromNumber(horaFin);
         const textoCita = `${cFecha}: ${horaStr} -${horaFinStr}`;
         return textoCita;
+    }
+
+    getDatosTipoCita(tipcita) {
+        return this._doGet(this.getHOT({accion: 'gdatostipcita', tipcita}));
     }
 }

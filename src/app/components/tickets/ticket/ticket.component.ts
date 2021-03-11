@@ -28,6 +28,7 @@ export class TicketComponent implements OnInit {
     selectedSection: any;
     secciones: Array<any>;
     isLoading = false;
+    form: any;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -38,6 +39,7 @@ export class TicketComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.form = {desde: new Date(), hasta: new Date(), desdestr: '', hastastr: ''}
         this.selectedServices = [];
         this.selectedSection = 0;
         this.items = [];
@@ -50,6 +52,11 @@ export class TicketComponent implements OnInit {
             this.dia = parse(res.dia, 'd/M/yyyy', new Date());
             this.desde = parse(res.desde, 'd/M/yyyy', new Date());
             this.hasta = parse(res.hasta, 'd/M/yyyy', new Date());
+
+            this.form.desde = this.desde;
+            this.form.hasta = this.hasta;
+            this.form.desdestr = res.desde;
+            this.form.hastastr = res.hasta;
             this.selectedSection = res.sec_def;
             this.secciones = res.secciones;
             this.servicios = res.prods;
@@ -75,10 +82,8 @@ export class TicketComponent implements OnInit {
     loadGrid() {
         this.isLoading = true;
         const diaStr = this.fechasService.formatDate(this.dia);
-        const desdeStr = this.fechasService.formatDate(this.desde);
-        const hastaStr = this.fechasService.formatDate(this.hasta);
         const servicios = this.selectedServices ? this.selectedServices.toString() : '';
-        this.ticketService.listar(diaStr, desdeStr, hastaStr, this.selectedSection, servicios).subscribe(res => {
+        this.ticketService.listar(diaStr, this.form.desdestr, this.form.hastastr, this.selectedSection, servicios).subscribe(res => {
             this.cols = res.res.cols;
             this.items = res.res.data;
             this.total = res.suma;
@@ -89,7 +94,6 @@ export class TicketComponent implements OnInit {
     selectItem(item: any) {
         this.selectedItem = item;
     }
-
 
     nuevo() {
         this.router.navigate(['ticket', 'form']);
@@ -143,5 +147,18 @@ export class TicketComponent implements OnInit {
 
     onFiltroServChange($event: any) {
         this.loadGrid();
+    }
+
+    onDesdeChange($event: any) {
+        this.form.desdestr = this.fechasService.formatDate(this.form.desde);
+    }
+
+    onHastaChange($event: any) {
+        this.form.hastastr = this.fechasService.formatDate(this.form.hasta);
+    }
+
+    onTipoFiltroChange() {
+        this.onDesdeChange(null);
+        this.onHastaChange(null);
     }
 }
