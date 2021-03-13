@@ -140,6 +140,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
         formDetalles.dt_precio = art.icdp_precioventa;
         formDetalles.ic_code = art.ic_code;
         formDetalles.dt_preref = art.icdp_preciocompra;
+        formDetalles.icdp_modcontab = art.icdp_modcontab;
         formDetalles.dt_precioiva = precio;
         formDetalles.per_codigo = 0;
         formDetalles.dt_cant = 1;
@@ -152,7 +153,6 @@ export class FacturasformComponent implements OnInit, OnDestroy {
         formDetalles.dt_valor = formDetalles.subtforiva;
         return formDetalles;
     }
-
 
     checkInventarios(fila): boolean {
         let continuar = true;

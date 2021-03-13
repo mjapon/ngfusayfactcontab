@@ -142,4 +142,8 @@ export class FactpagosComponent implements OnInit, OnChanges {
     onformloaded($event: any) {
         this.facturaMsgService.publishMessage({tipo: 1, form_persona: this.formpersona});
     }
+
+    closeModalFact() {
+        this.isShowDetallesFactura = false;
+    }
 }

@@ -186,6 +186,7 @@
 
 <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
           [(visible)]="isShowFactura">
-    <app-facturaview [trncod]="codFactura" (evFacturaLoaded)="onFacturaLoaded($event)"></app-facturaview>
+    <app-facturaview [trncod]="codFactura" (evBtnClosed)="closeDetallesFact()"
+                     (evFacturaLoaded)="onFacturaLoaded($event)"></app-facturaview>
 </p-dialog>
 

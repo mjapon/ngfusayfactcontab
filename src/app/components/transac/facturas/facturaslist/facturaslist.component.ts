@@ -118,4 +118,8 @@ export class FacturaslistComponent implements OnInit {
         this.codFacturaSel = rowData.trn_codigo;
         this.isShowDetallesFactura = true;
     }
+
+    closeDetFact() {
+        this.isShowDetallesFactura = false;
+    }
 }

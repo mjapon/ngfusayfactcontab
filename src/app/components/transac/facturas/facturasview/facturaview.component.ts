@@ -12,6 +12,7 @@ export class FacturaviewComponent implements OnInit, OnChanges {
     showAnim: boolean;
 
     @Output() evFacturaLoaded = new EventEmitter<any>();
+    @Output() evBtnClosed = new EventEmitter<any>();
 
     constructor(private tasientoService: AsientoService) {
     }
@@ -37,5 +38,9 @@ export class FacturaviewComponent implements OnInit, OnChanges {
                 this.evFacturaLoaded.emit(this.doc);
             }
         });
+    }
+
+    onCloseClick() {
+        this.evBtnClosed.emit();
     }
 }

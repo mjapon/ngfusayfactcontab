@@ -106,6 +106,6 @@
 <div *ngIf="isShowDetallesFactura">
     <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
               [(visible)]="isShowDetallesFactura">
-        <app-facturaview [trncod]="codFacturaSel"></app-facturaview>
+        <app-facturaview [trncod]="codFacturaSel" (evBtnClosed)="closeDetFact()"></app-facturaview>
     </p-dialog>
 </div>

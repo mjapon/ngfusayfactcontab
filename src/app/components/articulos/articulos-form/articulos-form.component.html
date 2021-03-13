@@ -270,6 +270,15 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group mt-2">
+                                        <label for="icdp_proveedor">Modelo Contable:</label>
+                                        <br>
+                                        <p-dropdown [options]="modscontabs" id="icdp_modcontab"
+                                                    [(ngModel)]="artForm.icdp_modcontab.value"
+                                                    optionLabel="mc_nombre" filter="true"
+                                                    optionValue="mc_id" inputId="icdp_modcontab"></p-dropdown>
+                                    </div>
+
                                     <div class="mt-2">
                                         <button type="button" class="btn btn-outline-primary  btn-block"
                                                 (click)="procesaForm()">

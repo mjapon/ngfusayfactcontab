@@ -15,6 +15,7 @@ import {LocalStorageService} from '../../../services/local-storage.service';
 import {ArticulostockService} from '../../../services/articulostock.service';
 import {forkJoin} from 'rxjs';
 import {LoadingUiService} from '../../../services/loading-ui.service';
+import {ModelocontabService} from '../../../services/modelocontab.service';
 
 declare var $: any;
 
@@ -28,6 +29,7 @@ export class ArticulosFormComponent implements OnInit {
 
     categorias: Array<any> = [];
     proveedores: Array<any> = [];
+    modscontabs: Array<any> = [];
     stock: Array<any> = [];
 
     tiposArt: SelectItem[];
@@ -70,7 +72,8 @@ export class ArticulosFormComponent implements OnInit {
         private fechasService: FechasService,
         private messageService: MessageService,
         private domService: DomService,
-        private personaService: PersonaService
+        private personaService: PersonaService,
+        private modcontabService: ModelocontabService
     ) {
         this.isModalCatVisible = false;
         this.tiposcajas = [];
@@ -124,12 +127,21 @@ export class ArticulosFormComponent implements OnInit {
         });
 
         this.loadTiposCajas();
+        this.loadModelosContables();
     }
 
     loadTiposCajas() {
         this.artService.listarTiposCajas().subscribe(res => {
             if (res.status === 200) {
                 this.tiposcajas = res.tiposcajas;
+            }
+        });
+    }
+
+    loadModelosContables() {
+        this.modcontabService.listar().subscribe(res => {
+            if (res.status === 200) {
+                this.modscontabs = res.items;
             }
         });
     }
@@ -296,7 +308,7 @@ export class ArticulosFormComponent implements OnInit {
                 this.artForm.tipic_id.disabled = true;
             }, 100);
         } else {
-            //Si solo hay una seccion, se la marca por defecto
+            // Si solo hay una seccion, se la marca por defecto
             if (this.artForm.seccionesf.value.length === 1) {
                 this.artForm.seccionesf.value[0].value = true;
             }

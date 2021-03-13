@@ -183,4 +183,8 @@ export class AbonosviewComponent implements OnInit, OnChanges {
             }
         });
     }
+
+    closeDetallesFact() {
+        this.isShowFactura = false;
+    }
 }
