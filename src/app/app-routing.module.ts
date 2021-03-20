@@ -14,8 +14,6 @@ import {TicketformComponent} from './components/tickets/ticketform/ticketform.co
 import {ArticulosViewComponent} from './components/articulos/articulos-view/articulos-view.component';
 import {ArticulosBatchComponent} from './components/articulos/articulos-batch/articulos-batch.component';
 import {CitasmedicasComponent} from './components/citas/citasmedicas/citasmedicas.component';
-import {VticketComponent} from './components/tickets/vtickets/vticket/vticket.component';
-import {VticketformComponent} from './components/tickets/vtickets/vticketform/vticketform.component';
 import {RoleslistComponent} from './components/usuarios/roles/roleslist/roleslist.component';
 import {RolesformComponent} from './components/usuarios/roles/rolesform/rolesform.component';
 import {UserlistComponent} from './components/usuarios/userlist/userlist.component';
@@ -23,7 +21,6 @@ import {UserformComponent} from './components/usuarios/userform/userform.compone
 import {TrubrosComponent} from './components/tickets/vtickets/trubros/trubros.component';
 import {TrubrosformComponent} from './components/tickets/vtickets/trubrosform/trubrosform.component';
 import {CitasodontoComponent} from './components/citas/citasodonto/citasodonto.component';
-import {FacturaslistComponent} from './components/transac/facturas/facturaslist/facturaslist.component';
 import {NewfacturaformComponent} from './components/transac/facturas/newfacturaform/newfacturaform.component';
 import {PlaneslistComponent} from './components/transac/planes/planeslist/planeslist.component';
 import {PlanesformComponent} from './components/transac/planes/planesform/planesform.component';
@@ -37,6 +34,10 @@ import {LibromayorlistComponent} from './components/contabilidad/libromayor/libr
 import {BalancegeneralComponent} from './components/contabilidad/reportes/balancegeneral/balancegeneral.component';
 import {EstadoresultadosComponent} from './components/contabilidad/reportes/estadoresultados/estadoresultados.component';
 import {CategoriasComponent} from './components/articulos/categorias/categorias.component';
+import {FacturaslistgenComponent} from './components/transac/facturas/facturaslistgen.component';
+import {CuentasxcpComponent} from './components/transac/facturas/cuentasxcp.component';
+import {IngegrComponent} from './components/ingresosegresos/ingegr/ingegr.component';
+import {IngegrformComponent} from './components/ingresosegresos/ingegrform/ingegrform.component';
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -51,8 +52,10 @@ const routes: Routes = [
     {path: 'categorias', component: CategoriasComponent},
     {path: 'tickets', component: TicketComponent},
     {path: 'ticket/form', component: TicketformComponent},
-    {path: 'vtickets', component: VticketComponent},
-    {path: 'vticket/form', component: VticketformComponent},
+    /*{path: 'vtickets', component: VticketComponent},*/
+    {path: 'vtickets', component: IngegrComponent},
+    /*{path: 'vticket/form', component: VticketformComponent},*/
+    {path: 'vtickets/form/:tipo', component: IngegrformComponent},
     {path: 'historiaclinica/:tipo', component: CitasmedicasComponent},
     {path: 'odonto', component: CitasodontoComponent},
     {path: 'roles', component: RoleslistComponent},
@@ -63,8 +66,9 @@ const routes: Routes = [
     {path: 'rubros/form/:ic_id', component: TrubrosformComponent},
     /*{path: 'calendario/:tipo', component: OdcalendarComponent},*/
     {path: 'agenda/:tipo', component: AgendaComponent},
-    {path: 'trndocs', component: FacturaslistComponent},
-    {path: 'trndocform', component: NewfacturaformComponent},
+    {path: 'trndocs/:tipo', component: FacturaslistgenComponent},
+    {path: 'cuentasxcp/:tipo', component: CuentasxcpComponent},
+    {path: 'trndocform/:tracodigo', component: NewfacturaformComponent},
     {path: 'planes', component: PlaneslistComponent},
     {path: 'planesform', component: PlanesformComponent},
     {path: 'referentes', component: ReferenteslistComponent},

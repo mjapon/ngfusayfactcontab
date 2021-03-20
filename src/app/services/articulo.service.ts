@@ -90,8 +90,8 @@ export class ArticuloService extends BaseService {
         return this._doGet(this.getHOT({accion: 'gservdent', filtro}));
     }
 
-    busArtsForTransacc(secid: number, filtro: string) {
-        return this._doGet(this.getHOT({accion: 'gartsserv', filtro, sec: secid}));
+    busArtsForTransacc(secid: number, filtro: string, tracod: number) {
+        return this._doGet(this.getHOT({accion: 'gartsserv', filtro, sec: secid, tracod}));
     }
 
     busCtasContables(filtro: string) {

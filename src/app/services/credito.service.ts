@@ -22,4 +22,7 @@ export class CreditoService extends BaseService {
         return this._doGet(this.getHOT({accion: 'gdet', codcred}));
     }
 
+    listarGrid(tipo, desde, hasta, filtro) {
+        return this._doGet(this.getHOT({accion: 'listargrid', tipo, desde, hasta, filtro}));
+    }
 }

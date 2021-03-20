@@ -121,6 +121,10 @@ import {EstadoresultadosComponent} from './components/contabilidad/reportes/esta
 import {TreeTableModule} from 'primeng/treetable';
 import {ApprangofechasComponent} from './components/shared/apprangofechas/apprangofechas.component';
 import {CategoriasComponent} from './components/articulos/categorias/categorias.component';
+import {FacturaslistgenComponent} from './components/transac/facturas/facturaslistgen.component';
+import {CuentasxcpComponent} from './components/transac/facturas/cuentasxcp.component';
+import {IngegrComponent} from './components/ingresosegresos/ingegr/ingegr.component';
+import {IngegrformComponent} from './components/ingresosegresos/ingegrform/ingegrform.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -204,7 +208,11 @@ export function HttpLoaderFactory(http: HttpClient) {
         BalancegeneralComponent,
         EstadoresultadosComponent,
         ApprangofechasComponent,
-        CategoriasComponent
+        CategoriasComponent,
+        FacturaslistgenComponent,
+        CuentasxcpComponent,
+        IngegrComponent,
+        IngegrformComponent
     ],
     imports: [
         CommonModule,

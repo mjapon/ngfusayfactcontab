@@ -97,7 +97,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
         this.zonasProtesis = [{label: 'Palatino', value: 1}, {label: 'Lingual', value: 2}];
         this.tiposPiezas = [{label: 'Protesis', value: 1}, {label: 'Retenedor', value: 2}];
         this.estadosProtesis = [{label: 'Realizado', value: 1}, {label: 'Por realizar', value: 2}];
-        this.estadoProtesisSel = this.estadosProtesis[0];
+        this.estadoProtesisSel = this.estadosProtesis[0].value;
         this.obsodontograma = '';
         this.menuItemsDiente = [];
 

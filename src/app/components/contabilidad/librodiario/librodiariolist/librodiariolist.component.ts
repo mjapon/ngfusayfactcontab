@@ -41,7 +41,7 @@ export class LibrodiariolistComponent implements OnInit {
     loadLibroDiario() {
         this.isLoading = true;
         this.asientoService.getAsientos().subscribe(res => {
-            this.isLoading = false
+            this.isLoading = false;
             if (res.status === 200) {
                 this.librodiario = res.items;
                 this.totales = res.totales;

@@ -19,7 +19,7 @@
 
 <p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
          (onRowSelect)="onRowSelect($event)"
-         [autoLayout]="true"
+         [autoLayout]="false"
          [resizableColumns]="true"
          [(contextMenuSelection)]="selectedItem"
          (onRowUnselect)="onUnRowSelect($event)">

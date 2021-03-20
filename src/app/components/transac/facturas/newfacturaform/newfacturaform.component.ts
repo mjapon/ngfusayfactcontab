@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-newfacturaform',
     template: `
-        <app-facturasform tracodigo="1" tdvcodigo="1" [form]="form"
+        <app-facturasform [tracodigo]="tracodigo" tdvcodigo="1" [form]="form"
                           (evCancela)="oncancelar()"
                           (evGuardarOk)="onguardar()">
         </app-facturasform>
@@ -13,8 +13,13 @@ import {Router} from '@angular/router';
 export class NewfacturaformComponent implements OnInit {
 
     form: any;
+    tracodigo: number;
 
-    constructor(private router: Router) {
+    constructor(private router: Router,
+                private route: ActivatedRoute) {
+        this.route.paramMap.subscribe(params => {
+            this.tracodigo = parseInt(params.get('tracodigo'), 10);
+        });
     }
 
     ngOnInit(): void {
@@ -28,7 +33,11 @@ export class NewfacturaformComponent implements OnInit {
     }
 
     gotolist() {
-        this.router.navigate(['trndocs']);
+        let tipo = 1;
+        if (this.tracodigo !== 1) {
+            tipo = 2;
+        }
+        this.router.navigate(['trndocs', tipo]);
     }
 
     onguardar() {

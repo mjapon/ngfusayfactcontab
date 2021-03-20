@@ -30,4 +30,12 @@ export class DomService {
         return Object.assign({}, obj);
     }
 
+    txtInputFieldHasValue(input: any) {
+        return input.value.toString().trim().length > 0;
+    }
+
+    cmbInputFieldHasValue(input: any) {
+        return !(input.value === 0);
+    }
+
 }

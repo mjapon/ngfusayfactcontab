@@ -1,0 +1,205 @@
+<h4 class="quitaPaddingMargin border-bottom">
+    <i class="far fa-money-bill-alt"></i>
+    Ingresos y Gastos
+</h4>
+<div class="mt-3 w-100">
+    <div *ngIf="isLoading">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="!isLoading">
+        <div class="d-flex justify-content-between">
+            <div class="d-flex flex-row">
+                <h6>Billeteras <i class="fa fa-wallet"></i></h6>
+                <button class="ml-4 btn btn-sm btn-outline-primary" (click)="crearBilletera()"><i
+                        class="fa fa-plus-circle"></i>
+                    Nuevo
+                </button>
+            </div>
+
+        </div>
+        <div class="p-3">
+            <div class="row" *ngIf="billeteras.length>0">
+                <div class="col-md-3 quitaPaddingMargin" *ngFor="let bill of billeteras">
+                    <div class="pt-3 pb-1 pl-3 pr-3 mr-4 mb-2 hand  border rounded shadow-sm d-flex flex-column">
+                        <span class="fontsizenr">{{bill.bil_code}}</span>
+                        <h6 class="quitaPaddingMargin font-weight-bold">{{bill.bil_nombre}}</h6>
+                        <div class="d-flex">
+                            <span class="font-weight-bold" style="font-size: large">SALDO:</span>
+                            <span class="ml-2 font-weight-bold text-success"
+                                  style="font-size: large">{{bill.bil_saldo| number: '.2'}}</span>
+                        </div>
+                        <div class="d-flex flex-row-reverse">
+                            <span class="fa fa-eye text-muted" (click)="showDetBill(bill)"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="billeteras.length===0">
+                <h6 class="text-muted"> No tiene billeteras registradas </h6>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <div class="d-flex flex-row">
+                <h6>Movimientos <i class="fa fa-comments-dollar"></i></h6>
+
+                <button class="btn btn-outline-primary btn-sm ml-4"><i class="fa fa-filter"></i> Filtrar</button>
+
+                <div class="ml-2 btn-group btn-group-sm dropright">
+                    <button type="button" class="btn btn-outline-primary dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-plus-circle"></i> Crear
+                    </button>
+                    <div class="dropdown-menu" style="">
+                        <a href="#" class="dropdown-item" (click)="goToForm(1, $event)"> Ingreso </a>
+                        <a href="#" class="dropdown-item" (click)="goToForm(2, $event)"> Gasto </a>
+                        <a href="#" class="dropdown-item" (click)="goToForm(3, $event)"> Transferencia </a>
+                    </div>
+                </div>
+            </div>
+
+            <!--
+            <div class="row">
+                <div class="col-md-4">
+                    <button class="btn btn-sm"><i class="fa fa-filter"></i> Filtrar</button>
+                </div>
+            </div>
+            -->
+
+            <div class="mt-2">
+                <p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single"
+                         [resizableColumns]="true">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th *ngFor="let item of cols" [pSortableColumn]="item.field" [ngSwitch]="item.field"
+                                [width]="item.width">
+                                <span class="fontsizesm">{{item.label}}</span>
+                                <p-sortIcon [field]="item.field"></p-sortIcon>
+                            </th>
+                            <th>
+                                <span class="font-weight-light">Acción</span>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData>
+                        <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="verDetalles(rowData)">
+                            <td *ngFor="let item of cols" [width]="item.width">
+                <span class="fontsizesm">
+                    {{rowData[item['field']]}}
+                </span>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-dark" (click)="verDetalles(rowData)"
+                                        title="Ver Detalles">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage" let-columns>
+                        <tr>
+                            <td [attr.colspan]="cols.length+1">
+                                <span class="text-muted">No hay registros</span>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="footer">
+                        <tr>
+                            <td colspan="2"><span class="font-weight-bold">Total:  </span></td>
+                            <td colspan="4"><span class="font-weight-bold">{{total }}</span></td>
+                        </tr>
+                    </ng-template>
+
+                </p-table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<p-dialog *ngIf="isShowNewBill" [header]="titleFormBill" [modal]="true" [style]="{width:'70vw'}"
+          [(visible)]="isShowNewBill">
+    <div *ngIf="isLoadingFormBill">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="!isLoadingFormBill">
+        <div class="row">
+            <div class="col-md-3">
+                <span class="font-weight-normal"> <span class="text-danger">*</span> Número: </span>
+            </div>
+            <div class="col-md">
+                <div class="input-group">
+                    <input type="text" class="form-control"
+                           [disabled]="formbill.bil_autogencode===1 && formbill.bil_id===0"
+                           [ngClass]="{'is-invalid':(isFormBillSubmit && fieldHasError('bil_code'))}"
+                           [(ngModel)]="formbill.bil_code.value" id="bil_code">
+                    <div class="input-group-append" *ngIf="formbill.bil_id===0">
+                        <button class="btn btn-outline-secondary" (click)="toggleAutogencode()"><i
+                                class="fa fa-edit"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <span class="font-weight-normal"> <span class="text-danger">*</span> Nombre: </span>
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control"
+                       [(ngModel)]="formbill.bil_nombre.value"
+                       [ngClass]="{'is-invalid':(isFormBillSubmit && fieldHasError('bil_nombre'))}"
+                       id="bil_nombre">
+            </div>
+        </div>
+        <div class="row mt-2" *ngIf="formbill.bil_id===0">
+            <div class="col-md-3">
+                <span class="font-weight-normal"> <span class="text-danger">*</span> Saldo Inicial: </span>
+            </div>
+            <div class="col-md">
+                <input type="text" class="form-control"
+                       (focusin)="$event.target.select()"
+                       [ngClass]="{'is-invalid':(isFormBillSubmit && fieldHasError('bil_saldoini')||evalPattern('bil_saldoini',numbersPattern))}"
+                       [(ngModel)]="formbill.bil_saldoini.value">
+            </div>
+        </div>
+        <div class="row mt-2" *ngIf="formbill.haycajasdisp===1 && formbill.bil_id===0">
+            <div class="col-md-3">
+                <span class="font-weight-normal"> <span class="text-danger">*</span> Cta Contable: </span>
+            </div>
+            <div class="col-md">
+                <p-dropdown [options]="cajasdisp" optionLabel="ic_nombre"
+                            optionValue="ic_id"
+                            [ngClass]="{'ng-invalid ng-dirty':(isFormBillSubmit && ctacontabhaserror())}"
+                            placeholder="Seleccione la cuenta contable para esta billetera"
+                            [(ngModel)]="formbill.ic_id.value"></p-dropdown>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <span class="font-weight-normal">Observación: </span>
+            </div>
+            <div class="col-md">
+                <textarea pInputTextarea maxlength="1000" class="form-control"
+                          [(ngModel)]="formbill.bil_obs.value"
+                          name="bil_obs" id="bil_obs"
+                          rows="5"></textarea>
+            </div>
+        </div>
+    </div>
+    <p-footer *ngIf="!isLoadingFormBill">
+        <button class="btn btn-outline-primary" (click)="doSaveBill()">
+            <i class="fa fa-save"></i>
+            {{formbill.bil_id === 0 ? 'Crear' : 'Actualizar'}}
+        </button>
+        <button class="btn btn-outline-primary" *ngIf="formbill.bil_id>0" (click)="doDeleteBill()">
+            <i class="fa fa-trash"></i>
+            Borrar
+        </button>
+        <button class="btn btn-outline-secondary" (click)="cancelCreaBill()">
+            <i class="fa fa-times"></i>
+            Cancelar
+        </button>
+    </p-footer>
+</p-dialog>
+
+

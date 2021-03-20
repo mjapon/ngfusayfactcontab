@@ -35,7 +35,7 @@ export class AsientoService extends BaseService {
     }
 
     anular(trncod: number, obs: string) {
-        const form = {trncod, obs}
+        const form = {trncod, obs};
         return this._doPost(this.getHOT({accion: 'anular'}), form);
     }
 

@@ -343,7 +343,7 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
         let dtDecto = 0.0;
         fila.dt_dectoerr = false;
         const numberdtdecto = Number(fila.dt_dectoin);
-        if (numberdtdecto >= 0 && this.numberService.round2(numberdtdecto) <= this.numberService.round2(fila.dt_precio)) {
+        if (numberdtdecto >= 0 && this.numberService.round2(numberdtdecto) <= this.numberService.round2(fila.dt_precio * fila.dt_cant)) {
             dtDecto = numberdtdecto;
         } else {
             fila.dt_dectoerr = true;

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {CategoriasService} from '../../../services/categorias.service';
-import {ArticuloService} from '../../../services/articulo.service';
 import {SwalService} from '../../../services/swal.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
+import {ModelocontabService} from '../../../services/modelocontab.service';
 
 @Component({
     selector: 'app-categorias',
@@ -27,7 +27,7 @@ import {LoadingUiService} from '../../../services/loading-ui.service';
                         <tr>
                             <th scope="col">Código</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col">Caja</th>
+                            <th scope="col">Modelo Contable</th>
                             <th>
                                 Acción
                             </th>
@@ -59,30 +59,32 @@ import {LoadingUiService} from '../../../services/loading-ui.service';
             </div>
 
             <div *ngIf="isModalVisible">
-                <p-dialog header="Datos de la categoría" [modal]="true" [style]="{width: '70vw'}" [baseZIndex]="10000"
+                <p-dialog header="Datos de la categoría" [modal]="true" [style]="{width: '70vw'}"
+                          [closeOnEscape]="true"
+                          [autoZIndex]="false"
                           [(visible)]="isModalVisible">
                     <div *ngIf="isformloading">
                         <app-loading></app-loading>
                     </div>
                     <div *ngIf="!isformloading">
+                        <div class="row mt-2 mb-4">
+                            <div class="col-md-4">
+                                <span class="font-weight-light"> Modelo Contable: </span>
+                            </div>
+                            <div class="col-md">
+                                <p-dropdown [options]="modscontabs" id="icdp_modcontab"
+                                            [(ngModel)]="formcat.catic_mc"
+                                            optionLabel="mc_nombre" [filter]="false"
+                                            optionValue="mc_id" inputId="icdp_modcontab"></p-dropdown>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-4">
                                 <span class="font-weight-light"> Nombre: </span>
                             </div>
                             <div class="col-md">
                                 <input type="text" class="form-control" [(ngModel)]="formcat.catic_nombre">
-                            </div>
-                        </div>
-
-                        <div class="row mt-2 mb-4">
-                            <div class="col-md-4">
-                                <span class="font-weight-light"> Caja: </span>
-                            </div>
-                            <div class="col-md">
-                                <p-dropdown [options]="tiposcajas" optionLabel="ic_nombre"
-                                            optionValue="ic_id"
-                                            placeholder="Seleccione el tipo de caja"
-                                            [(ngModel)]="formcat.catic_caja"></p-dropdown>
                             </div>
                         </div>
 
@@ -95,27 +97,23 @@ import {LoadingUiService} from '../../../services/loading-ui.service';
                             </button>
                         </div>
                     </div>
-
                 </p-dialog>
             </div>
-
         </div>
     `
 })
 export class CategoriasComponent implements OnInit {
-
-    tiposcajas: Array<any>;
     categorias: Array<any>;
     isloading: boolean;
     isModalVisible: boolean;
     formcat: any;
-
+    modscontabs: Array<any> = [];
     isformloading: boolean;
 
     constructor(private categoriaService: CategoriasService,
                 private swalService: SwalService,
-                private loadingService: LoadingUiService,
-                private articuloService: ArticuloService) {
+                private modcontabService: ModelocontabService,
+                private loadingService: LoadingUiService) {
         this.categorias = [];
         this.formcat = {};
     }
@@ -125,13 +123,13 @@ export class CategoriasComponent implements OnInit {
         this.isModalVisible = false;
         this.isloading = false;
         this.loadCategorias();
-        this.loadTiposCajas();
+        this.loadModelosContables();
     }
 
-    loadTiposCajas() {
-        this.articuloService.listarTiposCajas().subscribe(res => {
+    loadModelosContables() {
+        this.modcontabService.listar().subscribe(res => {
             if (res.status === 200) {
-                this.tiposcajas = res.tiposcajas;
+                this.modscontabs = res.items;
             }
         });
     }
@@ -151,8 +149,8 @@ export class CategoriasComponent implements OnInit {
         this.categoriaService.getFormCrea().subscribe(res => {
             if (res.status === 200) {
                 this.formcat = res.form;
-                if (this.tiposcajas.length > 0) {
-                    this.formcat.catic_caja = this.tiposcajas[0].ic_id;
+                if (this.modscontabs.length > 0) {
+                    this.formcat.catic_caja = this.modscontabs[0].mc_id;
                 }
                 this.isModalVisible = true;
             }
@@ -164,8 +162,8 @@ export class CategoriasComponent implements OnInit {
             this.swalService.fireToastError('Ingrese el nombre de la categoría');
             return;
         }
-        if (this.formcat.catic_caja === 0) {
-            this.swalService.fireToastError('Debe seleccionar el tipo de caja');
+        if (this.formcat.catic_mc === 0) {
+            this.swalService.fireToastError('Debe seleccionar el modelo contable');
             return;
         }
         if (this.formcat.catic_id > 0) {

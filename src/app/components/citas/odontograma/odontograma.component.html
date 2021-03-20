@@ -417,16 +417,19 @@
                 <div class="d-flex flex-row">
                     <span class="mr-2">Tipo:</span>
                     <p-selectButton [options]="tiposProtesis" [(ngModel)]="tipoProtesisSel" optionLabel="label"
+                                    optionValue="value"
                                     (onChange)="onTipoProtesisChange($event)"></p-selectButton>
                 </div>
                 <div class="d-flex flex-row" *ngIf="tipoProtesisSel">
                     <span class="mr-2">Estado:</span>
                     <p-selectButton [options]="estadosProtesis" [(ngModel)]="estadoProtesisSel" optionLabel="label"
+                                    optionValue="value"
                                     (onChange)="onEstadoProtesisSel($event)"></p-selectButton>
                 </div>
                 <div class="d-flex flex-row" *ngIf="estadoProtesisSel">
                     <span class="mr-2">Zona:</span>
                     <p-selectButton [options]="zonasProtesis" [(ngModel)]="zonaProtesisSel" optionLabel="label"
+                                    optionValue="value"
                                     (onChange)="onZonaProtChange($event)"></p-selectButton>
                 </div>
 

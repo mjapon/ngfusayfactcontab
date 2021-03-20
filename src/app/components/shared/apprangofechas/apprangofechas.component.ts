@@ -41,6 +41,7 @@ import es from '@angular/common/locales/es';
                             <i class="fa fa-filter"></i>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMB">
+                            <a href="#" (click)="doFilterFec(5, $event)" class="dropdown-item"> Hoy </a>
                             <a href="#" (click)="doFilterFec(1, $event)" class="dropdown-item"> Esta Semana </a>
                             <a href="#" (click)="doFilterFec(2, $event)" class="dropdown-item"> Este Mes </a>
                             <a href="#" (click)="doFilterFec(3, $event)" class="dropdown-item"> Mes anterior </a>
@@ -80,6 +81,8 @@ export class ApprangofechasComponent implements OnInit {
             end = endOfMonth(start);
         } else if (tipo === 4) {// Este año
             start = startOfYear(hoy);
+        } else if (tipo === 5) {// Hoy
+            start = hoy;
         }
         this.form.desde = start;
         this.form.hasta = end;

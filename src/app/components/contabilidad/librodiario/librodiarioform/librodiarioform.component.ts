@@ -7,7 +7,7 @@ import {ArrayutilService} from '../../../../services/arrayutil.service';
 import {SwalService} from '../../../../services/swal.service';
 import {NumberService} from '../../../../services/number.service';
 import {FechasService} from '../../../../services/fechas.service';
-import {LoadingUiService} from "../../../../services/loading-ui.service";
+import {LoadingUiService} from '../../../../services/loading-ui.service';
 
 @Component({
     selector: 'app-librodiarioform',

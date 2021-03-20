@@ -53,6 +53,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     artsearched: boolean;
     artsearchedcount: number;
     factMsgSubs: Subscription;
+    isfacturacompra: boolean;
 
     constructor(private asientoService: AsientoService,
                 private numberService: NumberService,
@@ -66,6 +67,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
                 private facturaMsgService: FacturasmsgService,
                 private router: Router,
                 private personaServ: PersonaService) {
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
 
     ngOnInit(): void {
@@ -103,6 +105,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     }
 
     initformfact() {
+        this.isfacturacompra = false;
         this.form = {
             form_cab: {},
             form_persona: {},
@@ -128,16 +131,21 @@ export class FacturasformComponent implements OnInit, OnDestroy {
 
     getNewEmptyRow(art) {
         const formDetalles = this.domService.clonarObjeto(this.formdet);
-        let precio = art.icdp_precioventa;
+        let icdpPrecio = art.icdp_precioventa;
+        if (this.ttransacc.tra_tipdoc === 2) {
+            icdpPrecio = art.icdp_preciocompra;
+        }
+
         let ivaval = 0.0;
+        let precio = icdpPrecio;
         if (art.icdp_grabaiva) {
-            precio = this.numberService.ponerIva(art.icdp_precioventa);
-            ivaval = this.numberService.getValorIva(art.icdp_precioventa);
+            precio = this.numberService.ponerIva(icdpPrecio);
+            ivaval = this.numberService.getValorIva(icdpPrecio);
         }
         formDetalles.icdp_grabaiva = art.icdp_grabaiva;
         formDetalles.art_codigo = art.ic_id;
         formDetalles.ic_nombre = art.ic_nombre;
-        formDetalles.dt_precio = art.icdp_precioventa;
+        formDetalles.dt_precio = icdpPrecio;
         formDetalles.ic_code = art.ic_code;
         formDetalles.dt_preref = art.icdp_preciocompra;
         formDetalles.icdp_modcontab = art.icdp_modcontab;
@@ -145,6 +153,8 @@ export class FacturasformComponent implements OnInit, OnDestroy {
         formDetalles.per_codigo = 0;
         formDetalles.dt_cant = 1;
         formDetalles.dt_decto = 0.0;
+        formDetalles.cta_codigo = art.cta_codigo;
+        formDetalles.dt_debito = art.mcd_signo;
         formDetalles.dai_impg = art.icdp_grabaiva ? this.numberService.getIva() : 0.0;
         formDetalles.subtotal = formDetalles.dt_cant * formDetalles.dt_precio;
         formDetalles.subtforiva = formDetalles.subtotal - formDetalles.dt_decto;
@@ -156,17 +166,19 @@ export class FacturasformComponent implements OnInit, OnDestroy {
 
     checkInventarios(fila): boolean {
         let continuar = true;
-        if (fila.servicio.tipic_id === 1) {
-            if (fila.dt_cant > fila.servicio.ice_stock) {
-                continuar = false;
-                this.swalService.fireToastError(`No hay unidades disponibles para ${fila.servicio.ic_nombre}, el total disponible actual es de: ${fila.servicio.ice_stock}`);
+        if (this.ttransacc.tra_tipdoc === 1) {
+            if (fila.servicio.tipic_id === 1) {
+                if (fila.dt_cant > fila.servicio.ice_stock) {
+                    continuar = false;
+                    this.swalService.fireToastError(`No hay unidades disponibles para ${fila.servicio.ic_nombre}, el total disponible actual es de: ${fila.servicio.ice_stock}`);
+                }
             }
         }
         return continuar;
     }
 
     recalcTotalFila(fila) {
-        const continuar = this.checkInventarios(fila);
+        this.checkInventarios(fila);
         this.numberService.recalcTotalFila(fila);
         this.totalizar();
     }
@@ -175,7 +187,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
         this.artsearched = false;
         this.artsearchedcount = 0;
         this.buscaArtPromise = new Promise((resolve) => {
-            this.artService.busArtsForTransacc(this.seccionSel, event.query).subscribe(res => {
+            this.artService.busArtsForTransacc(this.seccionSel, event.query, this.tracodigo).subscribe(res => {
                 if (res.status === 200) {
                     this.artsFiltrados = res.items;
                 }
@@ -249,11 +261,30 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     }
 
     crearFactura() {
-        if (this.form.detalles.length === 0) {
+        if (this.form.form_cab.secuencia.length === 0) {
+            this.swalService.fireToastError('Debe ingresar el número de la factura');
+        } else if (this.form.detalles.length === 0) {
             this.swalService.fireToastError('Debe agregar productos o servicios a la factura');
         } else if (!this.form.form_cab.trn_fecregobj) {
             this.swalService.fireToastError('Debe especificar la fecha de la factura');
+        } else if (this.isfacturacompra && (this.form.form_persona.per_ciruc.trim().length === 0)) {
+            this.swalService.fireToastError('Debe ingresar los datos del referente');
         } else {
+            let pagocredito = 0.0;
+            this.form.pagos.forEach(pago => {
+                if (pago.ic_clasecc === 'XC' || pago.ic_clasecc === 'XP') {
+                    pagocredito = Number(pago.dt_valor);
+                }
+            });
+
+            // Verificar si hay pagos a credito, en tal caso se debe verificar que se ingrese el referente
+            if (pagocredito !== 0.0) {
+                if (this.form.form_persona.per_id === -1) {
+                    this.swalService.fireToastError('Factura a crédito, se debe especificar el referente');
+                    return;
+                }
+            }
+
             this.form.form_cab.trn_fecreg = this.fechasService.formatDate(this.form.form_cab.trn_fecregobj);
             const msg = '¿Seguro que desea crear la factura?';
             this.swalService.fireDialog(msg).then(confirm => {
@@ -329,7 +360,11 @@ export class FacturasformComponent implements OnInit, OnDestroy {
         this.personaServ.getForm().subscribe(res => {
             if (res.status === 200) {
                 this.form.form_persona = res.form;
-                this.domService.setFocusTimeout('per_ciruc', 100);
+                if (!this.isfacturacompra) {
+                    this.domService.setFocusTimeout('per_ciruc', 100);
+                } else {
+                    this.domService.setFocusTimeout('fc_secuencia', 100);
+                }
             }
         });
     }
@@ -369,7 +404,13 @@ export class FacturasformComponent implements OnInit, OnDestroy {
             }
 
             this.isLoading = false;
-            this.domService.setFocusTimeout('artsAutoCom', 300);
+            this.isfacturacompra = this.ttransacc.tra_tipdoc === 2;
+
+            if (this.isfacturacompra) {
+                this.loadFormReferente();
+            } else {
+                this.domService.setFocusTimeout('artsAutoCom', 300);
+            }
 
             this.evFormLoaded.emit(this.form);
         });
@@ -422,8 +463,9 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     onFilaDescChange(fila: any) {
         let dtDecto = 0.0;
         fila.dt_dectoerr = false;
+        const subt = fila.dt_cant * fila.dt_precioiva;
         const numberdtdecto = Number(fila.dt_dectoin);
-        if (numberdtdecto >= 0 && this.numberService.round2(numberdtdecto) <= this.numberService.round2(fila.dt_precio)) {
+        if (numberdtdecto >= 0 && this.numberService.round2(numberdtdecto) <= this.numberService.round2(subt)) {
             dtDecto = numberdtdecto;
         } else {
             fila.dt_dectoerr = true;

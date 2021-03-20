@@ -55,7 +55,6 @@ export class ArticulosFormComponent implements OnInit {
     isLoading: boolean;
     isModalCatVisible: any;
     formcat: any;
-    tiposcajas: Array<any>;
 
     constructor(
         private artService: ArticuloService,
@@ -75,8 +74,8 @@ export class ArticulosFormComponent implements OnInit {
         private personaService: PersonaService,
         private modcontabService: ModelocontabService
     ) {
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.isModalCatVisible = false;
-        this.tiposcajas = [];
         this.artFromDb = {};
         this.tiposArt = [
             {label: 'Bien', value: 1},
@@ -95,6 +94,7 @@ export class ArticulosFormComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.submited = false;
         this.nombreNuevaCatg = '';
         this.artFromDb = {};
         this.editing = false;
@@ -109,15 +109,9 @@ export class ArticulosFormComponent implements OnInit {
             if (this.localStrgServ.getItem('insertStock')) {
                 setTimeout(() => {
                     this.activeTabIndex = 1;
-                    this.localStrgServ.removeItem('insertStock');
                 }, 500);
+                this.domService.setFocusTimeout('stock_0', 600);
             }
-        });
-
-        $('#modalCreaCateg').on('show.bs.modal', () => {
-            setTimeout(() => {
-                $('.auxNombreNuevaCatg').focus();
-            }, 500);
         });
 
         $('#modalEditBarcode').on('show.bs.modal', () => {
@@ -126,16 +120,7 @@ export class ArticulosFormComponent implements OnInit {
             }, 500);
         });
 
-        this.loadTiposCajas();
         this.loadModelosContables();
-    }
-
-    loadTiposCajas() {
-        this.artService.listarTiposCajas().subscribe(res => {
-            if (res.status === 200) {
-                this.tiposcajas = res.tiposcajas;
-            }
-        });
     }
 
     loadModelosContables() {
@@ -219,6 +204,17 @@ export class ArticulosFormComponent implements OnInit {
                     this.aplicaDental = res3.form.aplicadental;
                     this.secciones = res3.form.secciones;
                     this.buildForm(res3.form);
+                    if (this.localStrgServ.getItem('mercformdef_cat')) {
+                        try {
+                            this.artForm.catic_id.value = JSON.parse(this.localStrgServ.getItem('mercformdef_cat'));
+                        } catch (e) {
+                        }
+                        this.localStrgServ.removeItem('mercformdef_cat');
+                    }
+                    if (this.localStrgServ.getItem('mercformdef_prov')) {
+                        this.artForm.icdp_proveedor.value = this.localStrgServ.getItem('mercformdef_prov');
+                        this.localStrgServ.removeItem('mercformdef_prov');
+                    }
                     this.domService.setFocusTimeout('codbarraInput', 200);
                 }
             }
@@ -238,14 +234,14 @@ export class ArticulosFormComponent implements OnInit {
         const catid = form.catic_id;
         const dbcat = this.arrayUtil.getFirstResult(
             this.categorias,
-            (el, idx, array) => {
+            (el) => {
                 return el.catic_id === catid;
             }
         );
 
         const dbprov = this.arrayUtil.getFirstResult(
             this.proveedores,
-            (el, idx, array) => {
+            (el) => {
                 return el.per_id === provid;
             }
         );
@@ -377,7 +373,12 @@ export class ArticulosFormComponent implements OnInit {
         this.artStockService.guardar(this.stock).subscribe(res => {
             if (res.status === 200) {
                 this.swalService.fireToastSuccess(res.msg);
-                this.cancelar();
+                if (this.localStrgServ.getItem('insertStock')) {
+                    this.localStrgServ.removeItem('insertStock');
+                    this.router.navigate(['mercaderiaForm', 0]);
+                } else {
+                    this.cancelar();
+                }
             }
         });
     }
@@ -421,9 +422,18 @@ export class ArticulosFormComponent implements OnInit {
                         this.swalService.fireToastSuccess(res.msg);
                         if (formtoPost.tipic_id === 1 && !this.editing) {
                             this.localStrgServ.setItem('insertStock', 'true');
-                            this.router.navigate(['mercaderiaForm', res.ic_id]);
-                        } else {
+                            this.localStrgServ.setItem('mercformdef_cat', JSON.stringify(this.artForm.catic_id.value));
+                            this.localStrgServ.setItem('mercformdef_prov', this.artForm.icdp_proveedor.value);
+                        }
+                        if (this.editing) {
                             this.router.navigate(['mercaderia']);
+                        } else {
+                            if (formtoPost.tipic_id === 1) {
+                                this.router.navigate(['mercaderiaForm', res.ic_id]);
+                            } else {
+                                this.localStrgServ.setItem('mercformdef_cat', JSON.stringify(this.artForm.catic_id.value));
+                                this.ngOnInit();
+                            }
                         }
                     }
                 });
@@ -439,7 +449,7 @@ export class ArticulosFormComponent implements OnInit {
         } else {
             this.artService.getNextCodbar().subscribe(res => {
                 if (res.status === 200) {
-                    this.artForm.ic_code.value = res.codbar;
+                    this.artForm.ic_code.value = res.codbar.toString();
                     this.domService.setFocus('nombreInput');
                     this.artForm.ic_code.disabled = true;
                 }
@@ -453,8 +463,8 @@ export class ArticulosFormComponent implements OnInit {
     }
 
     checkExisteCodBarra() {
-        const icCode = this.artForm.ic_code.value;
-        if (icCode && icCode.trim().length > 0) {
+        const icCode = this.artForm.ic_code.value || '';
+        if (icCode && icCode.length > 0) {
             this.artService.existeCodbar(icCode).subscribe(res => {
                 if (res.existe) {
                     this.swalService.fireError('Ya existe un producto o servicio registrado (' + res.nombreart + ') con el código:' +
@@ -466,11 +476,11 @@ export class ArticulosFormComponent implements OnInit {
         }
     }
 
-    onEnterCodBarra($event) {
+    onEnterCodBarra() {
         this.domService.setFocusTimeout('nombreInput', 100);
     }
 
-    onEnterNombre($event) {
+    onEnterNombre() {
         const icNombre = this.artForm.ic_nombre.value;
         const tipicId = this.artForm.tipic_id.value;
         if (icNombre && icNombre.trim().length > 0) {
@@ -482,11 +492,11 @@ export class ArticulosFormComponent implements OnInit {
         }
     }
 
-    onEnterPrecioVenta($event) {
+    onEnterPrecioVenta() {
         this.domService.setFocus('ic_nota');
     }
 
-    onEnterPrecioCompra($event) {
+    onEnterPrecioCompra() {
         this.domService.setFocus('precioVentaInput');
     }
 
@@ -495,7 +505,7 @@ export class ArticulosFormComponent implements OnInit {
         this.artForm.icdp_preciocompra_iva.value = precioConIva.toString();
     }
 
-    onKeyupPrecioCompra($event) {
+    onKeyupPrecioCompra() {
         this.calculaPrecioCompraConIva();
         this.calculaPrecioVenta();
     }
@@ -532,14 +542,16 @@ export class ArticulosFormComponent implements OnInit {
         return precioConIva.toFixed(2);
     }
 
-    onTipoArtChange($event: any) {
+    onTipoArtChange() {
         const tipoSel = this.artForm.tipic_id.value;
         if (tipoSel === 2) {
             this.artForm.icdp_preciocompra.value = 0.0;
+            this.artForm.icdp_proveedor.value = -2;
         }
+        this.artForm.icdp_modcontab.value = tipoSel;
     }
 
-    onTipoIvaChange($event: any) {
+    onTipoIvaChange() {
         this.calculaPrecioCompraConIva();
         this.calculaPrecioVenta();
     }
@@ -557,23 +569,15 @@ export class ArticulosFormComponent implements OnInit {
         }
     }
 
-    catIsDefault(element, index, array) {
+    catIsDefault(element) {
         return element.catic_id === 1;
     }
 
-    provIsDefault(element, index, array) {
+    provIsDefault(element) {
         return element.per_id === -2;
     }
 
-    tipCjIsDefault(element, index, array) {
-        return element.tipcj_id === 1;
-    }
-
-    unidIsDefault(element, index, array) {
-        return element.uni_id === -1;
-    }
-
-    onKeyupPorcentajeIncr($event: KeyboardEvent) {
+    onKeyupPorcentajeIncr() {
         this.calculaPrecioVenta();
     }
 
@@ -582,13 +586,12 @@ export class ArticulosFormComponent implements OnInit {
         this.catsService.getFormCrea().subscribe(res => {
             if (res.status === 200) {
                 this.formcat = res.form;
-                if (this.tiposcajas.length > 0) {
-                    this.formcat.catic_caja = this.tiposcajas[0].ic_id;
+                if (this.modscontabs.length > 0) {
+                    this.formcat.catic_caja = this.modscontabs[0].mc_id;
                 }
                 this.isModalCatVisible = true;
             }
         });
-        // $('#modalCreaCateg').modal();
     }
 
     marcarTexto($event: any) {
@@ -597,20 +600,6 @@ export class ArticulosFormComponent implements OnInit {
 
     showModalEditBarcode() {
         $('#modalEditBarcode').modal();
-    }
-
-    guardaCreaCatg() {
-        if (this.nombreNuevaCatg.trim().length > 0) {
-            this.catsService.crear(this.nombreNuevaCatg).subscribe(res => {
-                if (res.status === 200) {
-                    $('#modalCreaCateg').modal('hide');
-                    this.swalService.fireToastSuccess(res.msg);
-                    this.loadCategorias();
-                }
-            });
-        } else {
-            this.swalService.fireWarning('Debe ingresar el nombre de la categoría');
-        }
     }
 
     guardaNuevoBarcode() {
@@ -632,8 +621,8 @@ export class ArticulosFormComponent implements OnInit {
             this.swalService.fireToastError('Ingrese el nombre de la categoría');
             return;
         }
-        if (this.formcat.catic_caja === 0) {
-            this.swalService.fireToastError('Debe seleccionar el tipo de caja');
+        if (this.formcat.catic_mc === 0) {
+            this.swalService.fireToastError('Debe seleccionar el modelo contable');
             return;
         }
         if (this.formcat.catic_id > 0) {
@@ -658,5 +647,11 @@ export class ArticulosFormComponent implements OnInit {
 
     cancelSaveCat() {
         this.isModalCatVisible = false;
+    }
+
+    oncatselchange($event: any) {
+        if ($event.value.catic_mc) {
+            this.artForm.icdp_modcontab.value = $event.value.catic_mc;
+        }
     }
 }

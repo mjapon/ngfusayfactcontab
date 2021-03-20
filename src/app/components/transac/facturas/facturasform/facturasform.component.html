@@ -7,7 +7,7 @@
         <div class="border p-2 mb-2" *ngIf="showtitulo">
             <div class="row">
                 <div class="col-md-4">
-                    <h4 class="quitaPaddingMargin font-weight-bold">FACTURA DE VENTA</h4>
+                    <h4 class="quitaPaddingMargin font-weight-bold">{{ttransacc.tra_nombre}}</h4>
                 </div>
                 <div class="col-md-4">
                     <div class="d-flex flex-row">
@@ -15,8 +15,9 @@
                         <div class="ml-2 d-flex">
                             <span> {{form.form_cab.estabptoemi}}</span>
                             <input type="text" class="form-control form-control-sm  ml-2"
+                                   id="fc_secuencia"
                                    [(ngModel)]="form.form_cab.secuencia"
-                                   disabled>
+                                   [disabled]="ttransacc.tra_tipdoc===1">
                         </div>
                     </div>
                 </div>
@@ -35,9 +36,8 @@
                 </div>
             </div>
         </div>
-
         <div class="border p-2" *ngIf="showreferente">
-            <div class="row">
+            <div class="row" *ngIf="ttransacc.tra_tipdoc === 1">
                 <div class="col-md">
                     <div class="d-flex flex-row p-field-checkbox">
                         <p-checkbox id="consfinalinput" binary="true" name="consfinalinput" inputId="binary"
@@ -222,6 +222,7 @@
                         <td>
                             <input type="text" class="form-control form-control-sm"
                                    (keyup)="onFilaDescChange(fila)" [ngClass]="{'is-invalid':fila.dt_dectoerr}"
+                                   (focusin)="$event.target.select()"
                                    [(ngModel)]="fila.dt_dectoin"></td>
                         <td>
                             <select class="form-control" [(ngModel)]="fila.icdp_grabaiva"
@@ -298,7 +299,7 @@
                             <span class="font-weight-bold">{{pago.ic_nombre}} $:</span>
                         </div>
                         <div class="col-md">
-                            <input type="number" class="form-control form-control-sm"
+                            <input type="number" class="form-control form-control-sm" (focusin)="$event.target.select()"
                                    [(ngModel)]="pago.dt_valor" (keyup)="calculaPagos(pago)">
                         </div>
                     </div>

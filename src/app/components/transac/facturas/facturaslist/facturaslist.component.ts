@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AsientoService} from '../../../../services/asiento.service';
 import {SwalService} from '../../../../services/swal.service';
@@ -18,19 +18,23 @@ export class FacturaslistComponent implements OnInit {
     isShowDetallesFactura: boolean;
     codFacturaSel: number;
     form: any;
-    tracod: number;
     previustimer: any = 0;
     totales: any;
+
+    @Input() tracodigo: number;
 
     constructor(private router: Router,
                 private asientoService: AsientoService,
                 private fechasservice: FechasService,
                 private swalService: SwalService) {
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
 
     ngOnInit(): void {
-        this.tracod = 1;
-        this.title = 'Ventas';
+        this.title = 'Compras';
+        if (this.tracodigo === 1) {
+            this.title = 'Ventas';
+        }
         this.filtro = '';
         this.isLoading = true;
         this.grid = {};
@@ -80,7 +84,7 @@ export class FacturaslistComponent implements OnInit {
             hasta = this.fechasservice.formatDate(this.form.hasta);
         }
 
-        this.asientoService.listarGridVentas(desde, hasta, this.filtro, this.tracod).subscribe(res => {
+        this.asientoService.listarGridVentas(desde, hasta, this.filtro, this.tracodigo).subscribe(res => {
             if (res.status === 200) {
                 this.grid = res.grid;
                 this.totales = res.totales;
@@ -90,7 +94,7 @@ export class FacturaslistComponent implements OnInit {
     }
 
     goToForm() {
-        this.router.navigate(['trndocform']);
+        this.router.navigate(['trndocform', this.tracodigo]);
     }
 
     onRowSelect($event: any) {
