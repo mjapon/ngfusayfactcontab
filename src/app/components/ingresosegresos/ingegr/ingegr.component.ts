@@ -7,6 +7,7 @@ import es from '@angular/common/locales/es';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {VentaticketService} from '../../../services/ventaticket.service';
 import {Router} from '@angular/router';
+import {BilleteramovService} from "../../../services/billeteramov.service";
 
 @Component({
     selector: 'app-ingegr',
@@ -23,12 +24,11 @@ export class IngegrComponent implements OnInit {
     numbersPattern = '^[0-9]*\\.*[0-9]*$';
     titleFormBill = '';
 
-
-    items: Array<any> = [];
-    cols: Array<any> = [];
+    grid: any = {};
     total = 0.0;
 
     constructor(private billeteraService: BilleteraService,
+                private billmovService: BilleteramovService,
                 private vtService: VentaticketService,
                 private domService: DomService,
                 private router: Router,
@@ -168,11 +168,18 @@ export class IngegrComponent implements OnInit {
     }
 
     loadMovimientos() {
+        this.billmovService.listargrid('', '', 0, 0).subscribe(res => {
+            if (res.status === 200) {
+                this.grid = res.grid;
+            }
+        });
+        /*
         this.vtService.listar(0, 0).subscribe(res => {
             this.cols = res.res.cols;
             this.items = res.res.data;
             this.total = res.suma;
         });
+         */
     }
 
     goToForm(tipo: number, $event: MouseEvent) {

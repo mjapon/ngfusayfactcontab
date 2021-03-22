@@ -13,32 +13,6 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-10">
-                            <!--
-                            <div class="row">
-                                <div class="col-md">
-                                    <div class="d-flex">
-                                        <div>
-                                            <span class="font-weight-normal"> #Transacción: </span>
-                                        </div>
-                                        <div>
-                                            <input type="text" class="ml-2 form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md">
-                                    <div class="d-flex">
-                                        <div>
-                                            <span class="font-weight-normal"> <i
-                                                    class="fa fa-calendar"></i> Fecha: </span>
-                                        </div>
-                                        <div>
-                                            <input type="text" class="ml-1 form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            -->
-
                             <div class="row quitaPaddingMargin">
                                 <div class="col-md-6 quitaPaddingMargin">
                                     <div class="row mt-2">
@@ -46,35 +20,33 @@
                                             <span class="font-weight-normal"> Número: </span>
                                         </div>
                                         <div class="col-md">
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" disabled
+                                                   [(ngModel)]="form.bmo_numero">
                                         </div>
                                     </div>
-
                                     <div class="row mt-2">
                                         <div class="col-md-4">
                                             <span class="font-weight-normal"> Fecha: </span>
                                         </div>
                                         <div class="col-md">
-                                            <div class="d-flex flex-row">
-                                                <p-calendar id="vt_fecha"
-                                                            [(ngModel)]="form.bmo_fechatransacc"
-                                                            inputId="bmo_fechatransacc"
-                                                            [monthNavigator]="true" [yearNavigator]="true"
-                                                            [maxDate]="currentDate"
-                                                            [showIcon]="true"
-                                                            yearRange="2020:2100"
-                                                            dateFormat="dd/mm/yy">
-                                                </p-calendar>
-                                            </div>
+                                            <p-calendar id="vt_fecha"
+                                                        [(ngModel)]="form.bmo_fechatransacc"
+                                                        inputId="bmo_fechatransacc"
+                                                        [monthNavigator]="true" [yearNavigator]="true"
+                                                        [maxDate]="currentDate"
+                                                        yearRange="2020:2100"
+                                                        dateFormat="dd/mm/yy">
+                                            </p-calendar>
                                         </div>
                                     </div>
-
                                     <div class="row mt-2">
                                         <div class="col-md-4">
                                             <span class="font-weight-normal"> <i class="fa fa-dollar"></i> Monto Total: </span>
                                         </div>
                                         <div class="col-md">
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" id="bmo_monto"
+                                                   (focusin)="$event.target.select();" (keyup.enter)="onMontoEnter()"
+                                                   [(ngModel)]="form.bmo_monto">
                                         </div>
                                     </div>
                                 </div>
@@ -85,71 +57,119 @@
                                     <span class="font-weight-normal">
                                         Tipo {{titulo}}:
                                     </span>
-                                    <div class="d-flex flex-row">
-                                        <div>
-                                            <p-dropdown [options]="tiposList" optionLabel="label" id="tipoInput"
-                                                        optionValue="value"
-                                                        placeholder="Seleccione el tipo de ingreso"
-                                                        (onChange)="ontiposel($event)"
-                                                        name="vt_clase"
-                                                        [showClear]="false"
-                                                        [(ngModel)]="form.bmo_clase"></p-dropdown>
+                                    <div>
+                                        <div class="d-flex flex-column"
+                                             *ngFor="let fcuenta of form.cuentas; let i=index">
+                                            <div class="d-flex flex-row">
+                                                <div>
+                                                    <p-dropdown [options]="cuentasformov" optionLabel="ic_nombre"
+                                                                id="tipoInput_{{i}}"
+                                                                inputId="tipoInput_{{i}}"
+                                                                filter="true"
+                                                                optionValue="ic_id"
+                                                                placeholder="Seleccione el tipo de {{titulo}}"
+                                                                (onChange)="ontiposel(fcuenta, $event)"
+                                                                [showClear]="false"
+                                                                [(ngModel)]="fcuenta.cta_codigo"></p-dropdown>
+                                                </div>
+                                                <div>
+                                                    <input type="text" class="ml-1 form-control" id="tipo_valor_{{i}}"
+                                                           [(ngModel)]="fcuenta.dt_valor" [disabled]="fcuenta.cta_codigo===0"
+                                                           (focusin)="$event.target.select();">
+                                                </div>
+                                                <div>
+                                                    <div class="ml-1 btn-group btn-group-sm" role="group">
+                                                        <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1"  *ngIf="i>0"
+                                                                title="Agregar tipo de ingreso">
+                                                            <i class="fa fa-minus-circle"
+                                                               (click)="removeCuenta(fcuenta)"> </i>
+                                                        </button>
+                                                        <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1" *ngIf="i===form.cuentas.length-1"
+                                                                title="Quitar esta fila">
+                                                            <i class="fa fa-plus-circle" (click)="addcuentas()"> </i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <input type="text" class="ml-1 form-control">
+                                        <!--
+                                        <div class="d-flex flex-row flex-row-reverse" *ngIf="form.cuentas?.length>1">
+                                            <span class="fontsizexsm font-weight-bold">Total: </span>
+                                            <span>{{form.totalc}}</span>
                                         </div>
-                                        <div>
-                                            <button class="ml-2 btn btn-outline-secondary btn-sm"><i
-                                                    class="fa fa-plus-circle"></i></button>
-                                        </div>
+                                        -->
                                     </div>
                                 </div>
                                 <div class="col-md">
-
                                     <div class="d-flex flex-column">
                                         <span class="font-weight-normal">
                                             <i class="fa fa-wallet"></i> Billetera Afectada:
                                         </span>
-                                        <div class="d-flex flex-row">
-                                            <div>
-                                                <p-dropdown [options]="tiposList" optionLabel="label" id="billInput"
-                                                            optionValue="value"
-                                                            placeholder="Seleccione el tipo de ingreso"
-                                                            (onChange)="ontiposel($event)"
-                                                            name="vt_clase"
-                                                            [showClear]="false"
-                                                            [(ngModel)]="form.bmo_clase"></p-dropdown>
+                                        <div class="d-flex flex-column"
+                                             *ngFor="let fbill of form.billeteras; let i=index">
+                                            <div class="d-flex flex-row">
+                                                <div>
+                                                    <p-dropdown [options]="billeteras" optionLabel="bil_nombre"
+                                                                optionValue="ic_id"
+                                                                placeholder="Seleccione la billetera afectada"
+                                                                filter="true"
+                                                                (onChange)="onbillsel(fbill, $event)"
+                                                                [showClear]="false"
+                                                                [(ngModel)]="fbill.cta_codigo"></p-dropdown>
+                                                </div>
+                                                <div>
+                                                    <input type="text" class="ml-1 form-control" id="bill_valor_{{i}}"
+                                                           (focusin)="$event.target.select();"
+                                                           [(ngModel)]="fbill.dt_valor" [disabled]="fbill.cta_codigo===0">
+                                                </div>
+                                                <div>
+                                                    <div class="ml-1 btn-group btn-group-sm" role="group">
+                                                        <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1" *ngIf="i>0"
+                                                                title="Agregar billetera afectada">
+                                                            <i class="fa fa-minus-circle"
+                                                               (click)="removeBilletera(fbill)"> </i>
+                                                        </button>
+                                                        <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1"
+                                                                *ngIf="i==form.billeteras.length-1"
+                                                                title="Quitar billetera afectada"
+                                                                (click)="addbilleteras()">
+                                                            <i class="fa fa-plus-circle"> </i>
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <input type="text" class="ml-1 form-control">
-                                            </div>
-
-                                            <div>
-                                                <button class="ml-2 btn btn-outline-secondary btn-sm"><i
-                                                        class="fa fa-plus-circle"></i></button>
-                                            </div>
-
                                         </div>
+                                        <!--
+                                        <div class="d-flex flex-row flex-row-reverse" *ngIf="form.billeteras?.length>1">
+                                            <span>{{form.totalb}}</span>
+                                            <span class="fontsizexsm font-weight-bold">Total:</span>
+                                        </div>
+                                        -->
                                     </div>
-
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md ml-3 quitaPaddingMargin">
+                                    <div class="mt-3 d-flex flex-column"><span> <i class="fa fa-paperclip"></i> Adjunto:</span>
+                                        <input type="file" id="archivoinput"
+                                               accept="image/*,application/pdf, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                               class="form-control-file"
+                                               (change)="onFileChange($event)"/>
+                                    </div>
 
-                            <div class="mt-3 d-flex flex-column"><span> <i class="fa fa-paperclip"></i> Adjunto:</span>
-                                <input type="file" id="archivoinput"
-                                       accept="image/*,application/pdf, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                                       class="form-control-file"
-                                       (change)="onFileChange($event)"/>
+                                    <div class="form-group mt-3">
+                                        <label for="obsInput">
+                                            <i class="fa fa-sticky-note"></i>
+                                            Observación</label>
+                                        <textarea class="form-control" id="obsInput" maxlength="800" name="tk_obs"
+                                                  [(ngModel)]="form.bmo_obs" rows="5"></textarea>
+                                    </div>
+                                </div>
+                                <div class="ml-1 mt-1 col-md-4 quitaPaddingMargin" *ngIf="filepreview && adjisimage">
+                                        <img [src]="filepreview" class="img-responsive" *ngIf="filepreview" width="260px"
+                                             height="270px"/>
+                                </div>
                             </div>
-
-                            <div class="form-group mt-3">
-                                <label for="obsInput">
-                                    <i class="fa fa-sticky-note"></i>
-                                    Observación</label>
-                                <textarea class="form-control" id="obsInput" maxlength="800" name="tk_obs"
-                                          [(ngModel)]="form.vt_obs" rows="5"></textarea>
-                            </div>
-
                         </div>
                         <div class="col-md-2">
                             <button type="button" class="btn btn-outline-primary btn-block" (click)="guardar()">
@@ -160,11 +180,6 @@
                                 <i class="fa fa-times"></i>
                                 Cancelar
                             </button>
-                            <div class="mt-5" *ngIf="filepreview && adjisimage">
-                                <img [src]="filepreview" class="img-responsive" *ngIf="filepreview" width="220px"
-                                     height="200px"/>
-                            </div>
-
                         </div>
                     </div>
                 </div>

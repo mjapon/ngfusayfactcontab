@@ -53,7 +53,9 @@
                     <div class="dropdown-menu" style="">
                         <a href="#" class="dropdown-item" (click)="goToForm(1, $event)"> Ingreso </a>
                         <a href="#" class="dropdown-item" (click)="goToForm(2, $event)"> Gasto </a>
+                        <!--
                         <a href="#" class="dropdown-item" (click)="goToForm(3, $event)"> Transferencia </a>
+                        -->
                     </div>
                 </div>
             </div>
@@ -67,11 +69,11 @@
             -->
 
             <div class="mt-2">
-                <p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single"
+                <p-table [value]="grid.data" [paginator]="true" [rows]="50" selectionMode="single"
                          [resizableColumns]="true">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th *ngFor="let item of cols" [pSortableColumn]="item.field" [ngSwitch]="item.field"
+                            <th *ngFor="let item of grid.cols" [pSortableColumn]="item.field" [ngSwitch]="item.field"
                                 [width]="item.width">
                                 <span class="fontsizesm">{{item.label}}</span>
                                 <p-sortIcon [field]="item.field"></p-sortIcon>
