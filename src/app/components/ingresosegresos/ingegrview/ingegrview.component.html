@@ -1,0 +1,184 @@
+<div>
+    <div *ngIf="isLoading">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="!isLoading">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Número: </span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="font-weight-bold"> {{datosmov.bmo_numero}} </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Tipo: </span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="font-weight-bold"> {{datosmov.clase}} </span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Fecha: </span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="font-weight-bold"> {{datosmov.bmo_fechatransacc}} </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Monto Total: </span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="font-weight-bold"> $ {{datosmov.bmo_monto}} </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Estado: </span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="font-weight-bold"> {{datosmov.estado}} </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Registrado por: </span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="font-weight-bold"> {{datosmov.refusercrea}} </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Fecha de registro: </span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="font-weight-bold"> {{datosmov.bmo_fechacrea}} </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Adjunto: </span>
+                    </div>
+                    <div class="col-md-8">
+                        <div *ngIf="datosmov.rxd_id>0">
+                                    <span class="font-weight-bold"> <i
+                                            class="fas fa-paperclip"></i> {{datosmov.rxd_filename}} </span>
+                            <button class="btn btn-outline-secondary btn-sm ml-3" (click)="showAdjunto()"> Ver
+                            </button>
+                        </div>
+                        <span class="text-muted" *ngIf="!datosmov.rxd_id>0"> Sin adjunto </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <span class="font-weight-light"> Observación: </span>
+            </div>
+            <div class="col-md">
+                <p style="white-space: pre-line"> {{datosasiento.cabecera.trn_observ}} </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-head">
+                <div class="col-md">
+                    <span class="font-weight-bold"> Cuentas Afectadas: </span>
+                </div>
+                <div class="row quitaPaddingMargin">
+                    <div class="col-md"><span class="font-weight-bold">Débito:</span></div>
+                    <div class="col-md"><span class="font-weight-bold">Crédito:</span></div>
+                </div>
+            </div>
+            <div>
+                <div class="row quitaPaddingMargin">
+                    <div class="col-md quitaPaddingMargin ml-3">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Cuenta</th>
+                                    <th scope="col">Monto</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let fila of filasdebe">
+                                    <td>
+                                        <span class="text-muted fontsizenr"> {{fila.ic_nombre}} </span>
+                                    </td>
+                                    <td>
+                                        <span class="font-weight-bold">
+                                            ${{fila.dt_valor | number: '.2'}}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md ml-2 quitaPaddingMargin">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Cuenta</th>
+                                    <th scope="col">Monto</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let fila of filashaber">
+                                    <td>
+                                        <span class="text-muted fontsizenr"> {{fila.ic_nombre}} </span>
+                                    </td>
+                                    <td>
+                                        <span class="font-weight-bold">
+                                            ${{fila.dt_valor | number: '.2'}}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--
+        <div class="row" *ngIf="adjisimage">
+            <div class="col">
+                <div style="width: 100%; height: 300px; overflow: auto">
+                    <img [src]="urlimgadj" class="img-responsive"/>
+                </div>
+            </div>
+        </div>
+        -->
+        <div class="row">
+            <div class="col">
+                <div class="mt-2 d-flex flex-row-reverse">
+                    <button class="btn btn-outline-primary ml-1" (click)="onCerraBtn()"><i
+                            class="fa fa-times"></i>
+                        Cerrar
+                    </button>
+                    <button class="btn btn-outline-primary ml-1" (click)="onConfirmarBtn()"
+                            *ngIf="datosmov.bmo_estado===0">
+                        <i class="fa fa-check"></i>
+                        Confirmar
+                    </button>
+                    <button class="btn btn-outline-primary" (click)="onAnularBtn()"
+                            *ngIf="datosmov.bmo_estado===0">
+                        <i class="fa fa-trash"></i>
+                        Anular
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

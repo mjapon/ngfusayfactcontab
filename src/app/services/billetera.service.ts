@@ -34,7 +34,11 @@ export class BilleteraService extends BaseService {
     }
 
     anular(bilid) {
-        return this._doPost(this.getHOT({accion: 'anular'}), {'bil_id': bilid});
+        return this._doPost(this.getHOT({accion: 'anular'}), {bil_id: bilid});
+    }
+
+    hasMoves(bilid) {
+        return this._doGet(this.getHOT({accion: 'bilhasmov', bilid}));
     }
 
 }

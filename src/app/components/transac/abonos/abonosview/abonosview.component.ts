@@ -31,6 +31,8 @@ export class AbonosviewComponent implements OnInit, OnChanges {
     saldopendiente: number;
     totalabonos: number;
 
+    tracodabono = 0;
+
     constructor(private abonoService: AbonoService,
                 private domService: DomService,
                 private swalService: SwalService,
@@ -62,6 +64,10 @@ export class AbonosviewComponent implements OnInit, OnChanges {
     onFacturaLoaded($event) {
         this.isFacturaLoaded = true;
         this.datosFactura = $event;
+        this.tracodabono = 8; // Por defecto abono de factura de venta
+        if (this.datosFactura.tasiento.tra_codigo === 7) {
+            this.tracodabono = 9;
+        }
     }
 
     loadDatosCredito() {
@@ -99,8 +105,7 @@ export class AbonosviewComponent implements OnInit, OnChanges {
         this.valorabono = 0.0;
         this.saldopendiente = this.datosCredito.cre_saldopen;
         this.detallesabono = [];
-        const traCodAboVenta = 8;
-        this.abonoService.getform(traCodAboVenta).subscribe(res => {
+        this.abonoService.getform(this.tracodabono).subscribe(res => {
             this.isShowFormAbonar = true;
             if (res.status === 200) {
                 this.formAbono = res.form;

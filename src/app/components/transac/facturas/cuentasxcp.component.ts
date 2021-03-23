@@ -103,14 +103,14 @@ import {ActivatedRoute, Router} from '@angular/router';
             </div>
         </div>
         <div *ngIf="isShowDetallesFactura">
-            <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
+            <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="9"
                       [(visible)]="isShowDetallesFactura">
                 <app-facturaview [trncod]="codFacturaSel" (evBtnClosed)="closeDetFact()"></app-facturaview>
             </p-dialog>
         </div>
 
         <div *ngIf="isShowDetallesCred">
-            <p-dialog header="Detalles del crédito" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="100"
+            <p-dialog header="Detalles del crédito" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10"
                       [(visible)]="isShowDetallesCred">
                 <app-abonosview [codCredito]="credsel.cre_codigo" [codFactura]="credsel.trn_codigo"
                                 (evDeudaChange)="onDeudasChange($event)"></app-abonosview>
@@ -154,7 +154,7 @@ export class CuentasxcpComponent implements OnInit {
     ngOnInit(): void {
         this.title = 'Cuentas por cobrar';
         if (this.tipo === 2) {
-            this.title = 'Cuenas por pagar';
+            this.title = 'Cuentas por pagar';
         }
         this.filtro = '';
         this.isLoading = true;

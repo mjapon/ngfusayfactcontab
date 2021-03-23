@@ -15,7 +15,7 @@
                         <div class="ml-2 d-flex">
                             <span> {{form.form_cab.estabptoemi}}</span>
                             <input type="text" class="form-control form-control-sm  ml-2"
-                                   id="fc_secuencia"
+                                   id="fc_secuencia" maxlength="15"
                                    [(ngModel)]="form.form_cab.secuencia"
                                    [disabled]="ttransacc.tra_tipdoc===1">
                         </div>

@@ -7,7 +7,8 @@ import es from '@angular/common/locales/es';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {VentaticketService} from '../../../services/ventaticket.service';
 import {Router} from '@angular/router';
-import {BilleteramovService} from "../../../services/billeteramov.service";
+import {BilleteramovService} from '../../../services/billeteramov.service';
+import {FechasService} from '../../../services/fechas.service';
 
 @Component({
     selector: 'app-ingegr',
@@ -26,12 +27,22 @@ export class IngegrComponent implements OnInit {
 
     grid: any = {};
     total = 0.0;
+    isLoadingMovs = false;
+    isShowFilter = false;
+
+    formfiltros: any = {};
+    tipos: Array<any> = [];
+    cuentas: Array<any> = [];
+    isShowDetalleMov = false;
+    codmovsel: number;
+    selBillHasMoves = false;
 
     constructor(private billeteraService: BilleteraService,
                 private billmovService: BilleteramovService,
                 private vtService: VentaticketService,
                 private domService: DomService,
                 private router: Router,
+                private fechasService: FechasService,
                 private loadingUiService: LoadingUiService,
                 private swalService: SwalService) {
         registerLocaleData(es);
@@ -55,6 +66,7 @@ export class IngegrComponent implements OnInit {
 
     crearBilletera() {
         this.isLoadingFormBill = true;
+        this.selBillHasMoves = false;
         this.titleFormBill = 'Nueva Billetera';
         this.billeteraService.getForm().subscribe(res => {
             if (res.status === 200) {
@@ -134,6 +146,7 @@ export class IngegrComponent implements OnInit {
 
     showDetBill(bill) {
         this.titleFormBill = 'Datos de la billetera';
+        this.selBillHasMoves = false;
         this.billeteraService.getForm().subscribe(res => {
             if (res.status === 200) {
                 this.formbill = res.form;
@@ -145,7 +158,14 @@ export class IngegrComponent implements OnInit {
             this.formbill.bil_nombre.value = bill.bil_nombre;
             this.formbill.bil_saldoini.value = bill.bil_saldoini;
             this.formbill.bil_obs.value = bill.bil_obs;
+            this.formbill.ic_nombre = bill.ic_nombre;
             this.isShowNewBill = true;
+        });
+
+        this.billeteraService.hasMoves(bill.bil_id).subscribe(resb => {
+            if (resb.status === 200) {
+                this.selBillHasMoves = resb.hasmoves;
+            }
         });
     }
 
@@ -164,26 +184,122 @@ export class IngegrComponent implements OnInit {
     }
 
     verDetalles(rowData) {
-
+        this.codmovsel = rowData.bmo_id;
+        this.isShowDetalleMov = true;
     }
 
     loadMovimientos() {
-        this.billmovService.listargrid('', '', 0, 0).subscribe(res => {
+        this.isLoadingMovs = true;
+        let desde = '';
+        let hasta = '';
+        let tipo = 0;
+        let cuenta = 0;
+
+        if (this.formfiltros?.desde) {
+            desde = this.fechasService.formatDate(this.formfiltros.desde);
+        }
+        if (this.formfiltros?.hasta) {
+            hasta = this.fechasService.formatDate(this.formfiltros.hasta);
+        }
+        if (this.formfiltros?.tipo) {
+            tipo = this.formfiltros.tipo;
+        }
+        if (this.formfiltros?.cuenta) {
+            cuenta = this.formfiltros.cuenta;
+        }
+
+        this.billmovService.listargrid(desde, hasta, tipo, cuenta).subscribe(res => {
             if (res.status === 200) {
                 this.grid = res.grid;
             }
+            this.isLoadingMovs = false;
         });
-        /*
-        this.vtService.listar(0, 0).subscribe(res => {
-            this.cols = res.res.cols;
-            this.items = res.res.data;
-            this.total = res.suma;
-        });
-         */
     }
 
     goToForm(tipo: number, $event: MouseEvent) {
         $event.preventDefault();
         this.router.navigate(['vtickets', 'form', tipo]);
+    }
+
+    toggleShowFilter() {
+        this.isShowFilter = !this.isShowFilter;
+        if (this.isShowFilter) {
+            this.loadFormFiltros();
+        }
+    }
+
+    cancelFiltro() {
+        this.isShowFilter = false;
+        this.formfiltros = {};
+        this.loadMovimientos();
+    }
+
+    loadFormFiltros() {
+        this.formfiltros = {};
+        this.loadingUiService.publishBlockMessage();
+        this.billmovService.getFormFiltros().subscribe(res => {
+            if (res.status === 200) {
+                this.formfiltros = res.formfiltro;
+                this.tipos = res.tiposmovs;
+            }
+        });
+    }
+
+    loadCuentas() {
+        const tiposel = this.formfiltros.tipo;
+        this.cuentas = [];
+        if (tiposel > 0) {
+            this.loadingUiService.publishBlockMessage();
+            this.billmovService.getCuentasBytTipo(tiposel).subscribe(res => {
+                if (res.status === 200) {
+                    this.cuentas = res.cuentas;
+                }
+            });
+        }
+    }
+
+    onDesdeChange($event: any) {
+
+    }
+
+    onHastaChange($event: any) {
+
+    }
+
+    onTipoFechaSel() {
+
+    }
+
+    onFiltroTipoSel($event: any) {
+        this.cuentas = [];
+        if (this.formfiltros?.tipo > 0) {
+            this.billmovService.getCuentasBytTipo(this.formfiltros.tipo).subscribe(res => {
+                if (res.status === 200) {
+                    this.cuentas = res.cuentas;
+                }
+            });
+        } else {
+            this.formfiltros.cuenta = 0;
+        }
+    }
+
+    onFiltroCuentaSel($event: any) {
+
+    }
+
+    closeModalDet($event: any) {
+        this.isShowDetalleMov = false;
+    }
+
+    onAnulaView($event: any) {
+        this.isShowDetalleMov = false;
+        this.loadMovimientos();
+        this.loadBilleteras();
+    }
+
+    onConfirmaView($event: any) {
+        this.isShowDetalleMov = false;
+        this.loadMovimientos();
+        this.loadBilleteras();
     }
 }

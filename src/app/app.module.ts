@@ -125,6 +125,8 @@ import {FacturaslistgenComponent} from './components/transac/facturas/facturasli
 import {CuentasxcpComponent} from './components/transac/facturas/cuentasxcp.component';
 import {IngegrComponent} from './components/ingresosegresos/ingegr/ingegr.component';
 import {IngegrformComponent} from './components/ingresosegresos/ingegrform/ingegrform.component';
+import {AsientoviewComponent} from './components/contabilidad/librodiario/asientoview/asientoview.component';
+import {IngegrviewComponent} from './components/ingresosegresos/ingegrview/ingegrview.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -212,7 +214,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         FacturaslistgenComponent,
         CuentasxcpComponent,
         IngegrComponent,
-        IngegrformComponent
+        IngegrformComponent,
+        AsientoviewComponent,
+        IngegrviewComponent
     ],
     imports: [
         CommonModule,

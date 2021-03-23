@@ -75,9 +75,6 @@ export class IngegrformComponent implements OnInit {
         });
 
         if (this.numberService.round2(totalcuentas) !== this.numberService.round2(totalbill)) {
-            console.log('Valores comparados:',
-                this.numberService.round2(totalcuentas),
-                this.numberService.round2(totalbill));
             this.swalService.fireToastError('Los valores no coinciden, favor verificar');
         } else {
             if (this.numberService.round2(montotal) === this.numberService.round2(totalcuentas)) {
@@ -98,12 +95,12 @@ export class IngegrformComponent implements OnInit {
                 if (filetopost) {
                     formtopost.archivo = filetopost;
                 }
-                this.swalService.fireDialog('¿Seguro?').then(confirm => {
+                this.swalService.fireDialog('¿Confirma que desea crear este registro?', '').then(confirm => {
                     if (confirm.value) {
                         this.loadingService.publishBlockMessage();
                         this.billMovService.crear(formtopost).subscribe(res => {
                             if (res.status === 200) {
-                                this.swalService.fireSuccess(res.msg);
+                                this.swalService.fireToastSuccess(res.msg);
                                 this.gotolist();
                             }
                         });
@@ -198,6 +195,7 @@ export class IngegrformComponent implements OnInit {
     }
 
     loadForm() {
+        this.isLoading = true;
         this.billMovService.getForm(this.tiporouting).subscribe(res => {
             if (res.status === 200) {
                 this.form = res.form.formbillmov;
@@ -205,11 +203,8 @@ export class IngegrformComponent implements OnInit {
                 this.billeteras = res.form.billeterasformov;
                 this.formasiento = res.form.formasiento;
                 this.domService.setFocusTimeout('bmo_monto', 300);
-                /*
-                this.form.totalc = 0.0;
-                this.form.totalb = 0.0;
-                 */
             }
+            this.isLoading = false;
         });
     }
 
