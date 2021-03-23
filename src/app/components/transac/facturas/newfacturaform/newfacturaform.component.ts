@@ -33,9 +33,9 @@ export class NewfacturaformComponent implements OnInit {
     }
 
     gotolist() {
-        let tipo = 1;
-        if (this.tracodigo !== 1) {
-            tipo = 2;
+        let tipo = 2;
+        if (this.tracodigo !== 7) {
+            tipo = 1;
         }
         this.router.navigate(['trndocs', tipo]);
     }

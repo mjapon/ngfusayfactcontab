@@ -17,7 +17,7 @@ import {PersonEvService} from '../../services/personev.service';
                     </div>
                     <div style="width: 90%">
                         <div class="d-flex flex-row">
-                            <div class="w-50">
+                            <div class="w-75">
                                 <h5 class="quitaPaddingMargin">
                                     {{referente.per_nombres + ' ' + referente.per_apellidos}}
                                 </h5>
@@ -31,15 +31,20 @@ import {PersonEvService} from '../../services/personev.service';
                                     {{referente.per_movil}}
                                 </h6>
                             </div>
-                            <div class="w-50">
+                            <div class="w-25">
                                 <div *ngIf="totaldeuda>=0">
                                     <div *ngIf="totaldeuda>0">
                                         <span class="text-warning"> <i
-                                                class="fa fa-warning"></i> Registra deudas:  </span>
+                                                class="fa fa-warning"></i> Cuentas por cobrar:  </span>
                                         <span class="text-warning font-weight-bold">$ {{totaldeuda| number: '.2'}} </span>
                                     </div>
-                                    <div *ngIf="totaldeuda===0">
-                                        <span class="font-weight-lighter"> No registra deudas </span>
+                                </div>
+
+                                <div *ngIf="totalcxp>=0">
+                                    <div *ngIf="totalcxp>0">
+                                        <span class="text-warning"> <i
+                                                class="fa fa-warning"></i> Cuentas por pagar:  </span>
+                                        <span class="text-warning font-weight-bold">$ {{totalcxp| number: '.2'}} </span>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +68,12 @@ import {PersonEvService} from '../../services/personev.service';
                         <li class="nav-item">
                             <a class="nav-link hand" [ngClass]="{'active':3===selectedMasterTab}"
                                (click)="selectMasterTab(3, $event)">
-                                Facturación y Pagos</a>
+                                Facturas Venta</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link hand" [ngClass]="{'active':5===selectedMasterTab}"
+                               (click)="selectMasterTab(5, $event)">
+                                Facturas Compra</a>
                         </li>
                     </ul>
                 </div>
@@ -87,6 +97,7 @@ export class ResumenrefComponent implements OnInit, OnChanges {
     @Output() evBtnCerrar = new EventEmitter<any>();
     selectedMasterTab: number;
     totaldeuda: number;
+    totalcxp: number;
     empHasPlanes = false;
 
     constructor(private personService: PersonaService,
@@ -111,6 +122,7 @@ export class ResumenrefComponent implements OnInit, OnChanges {
         this.personService.getTotalDeudas(this.referente.per_id).subscribe(res => {
             if (res.status === 200) {
                 this.totaldeuda = res.deudas;
+                this.totalcxp = res.totalcxp;
             }
         });
     }

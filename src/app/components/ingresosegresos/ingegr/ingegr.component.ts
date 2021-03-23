@@ -106,25 +106,25 @@ export class IngegrComponent implements OnInit {
             msg = '¿Confirma la actualización de esta billetera?';
         }
 
-        this.swalService.fireDialog(msg).then(confirm => {
-            if (confirm.value) {
-                this.loadingUiService.publishBlockMessage();
-                let billsaveobs = null;
-                if (this.formbill.bil_id > 0) {
-                    billsaveobs = this.billeteraService.actualizar(this.formbill);
-                } else {
-                    billsaveobs = this.billeteraService.crear(this.formbill);
-                }
-                billsaveobs.subscribe(res => {
-                    if (res.status === 200) {
-                        this.swalService.fireToastSuccess(res.msg);
-                        this.isShowNewBill = false;
-                        this.loadBilleteras();
-                        this.isFormBillSubmit = false;
-                    }
-                });
+        // this.swalService.fireDialog(msg).then(confirm => {
+        if (confirm(msg)) {
+            this.loadingUiService.publishBlockMessage();
+            let billsaveobs = null;
+            if (this.formbill.bil_id > 0) {
+                billsaveobs = this.billeteraService.actualizar(this.formbill);
+            } else {
+                billsaveobs = this.billeteraService.crear(this.formbill);
             }
-        });
+            billsaveobs.subscribe(res => {
+                if (res.status === 200) {
+                    this.swalService.fireToastSuccess(res.msg);
+                    this.isShowNewBill = false;
+                    this.loadBilleteras();
+                    this.isFormBillSubmit = false;
+                }
+            });
+        }
+        // });
     }
 
     ctacontabhaserror() {
@@ -170,17 +170,17 @@ export class IngegrComponent implements OnInit {
     }
 
     doDeleteBill() {
-        this.swalService.fireDialog('¿Confirma que desea anular esta billetera?').then(confirm => {
-            if (confirm.value) {
-                this.billeteraService.anular(this.formbill.bil_id).subscribe(res => {
-                    if (res.status === 200) {
-                        this.swalService.fireToastSuccess(res.msg);
-                        this.loadBilleteras();
-                        this.isShowNewBill = false;
-                    }
-                });
-            }
-        });
+        // this.swalService.fireDialog('¿Confirma que desea anular esta billetera?').then(confirm => {
+        if (confirm('¿Confirma que desea anular esta billetera?')) {
+            this.billeteraService.anular(this.formbill.bil_id).subscribe(res => {
+                if (res.status === 200) {
+                    this.swalService.fireToastSuccess(res.msg);
+                    this.loadBilleteras();
+                    this.isShowNewBill = false;
+                }
+            });
+        }
+        // });
     }
 
     verDetalles(rowData) {

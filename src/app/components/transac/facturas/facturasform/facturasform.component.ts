@@ -54,6 +54,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     artsearchedcount: number;
     factMsgSubs: Subscription;
     isfacturacompra: boolean;
+    formisloaded = false;
 
     constructor(private asientoService: AsientoService,
                 private numberService: NumberService,
@@ -71,6 +72,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.formisloaded = false;
         this.isLoading = true;
         this.initformfact();
         this.initTotales();
@@ -375,7 +377,13 @@ export class FacturasformComponent implements OnInit, OnDestroy {
         this.loadingUiService.publishBlockMessage();
         const formCabObs = this.asientoService.getFormCab(this.tracodigo, this.tdvcodigo);
         const secObs = this.seccionService.listar();
-        const perFormObs = this.personaServ.buscarPorCod(this.codConsFinal);
+
+        let perFormObs = null;
+        if (this.tracodigo === 7) {
+            perFormObs = this.personaServ.getForm();
+        } else {
+            perFormObs = this.personaServ.buscarPorCod(this.codConsFinal);
+        }
 
         forkJoin([formCabObs, secObs, perFormObs]).subscribe(res => {
             const res0: any = res[0];
@@ -386,6 +394,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
                 this.form.form_cab = res0.formcab;
                 this.form.form_cab.trn_fecregobj = this.fechasService.parseString(this.form.form_cab.trn_fecreg);
                 this.ttransacc = res0.ttransacc;
+                this.isfacturacompra = this.ttransacc.tra_tipdoc === 2;
                 this.form.pagos = res0.formaspago;
                 this.formdet = res0.formdet;
                 this.impuestos = res0.impuestos;
@@ -398,16 +407,22 @@ export class FacturasformComponent implements OnInit, OnDestroy {
             }
 
             if (res2.status === 200) {
-                this.form.form_persona = res2.persona;
-                this.isConsumidorFinal = true;
-                this.isDisabledFormRef = true;
+                if (this.isfacturacompra) {
+                    this.form.form_persona = res2.form;
+                    this.isConsumidorFinal = false;
+                    this.isDisabledFormRef = false;
+                } else {
+                    this.form.form_persona = res2.persona;
+                    this.isConsumidorFinal = true;
+                    this.isDisabledFormRef = true;
+                }
+                this.formisloaded = true;
             }
 
             this.isLoading = false;
-            this.isfacturacompra = this.ttransacc.tra_tipdoc === 2;
 
             if (this.isfacturacompra) {
-                this.loadFormReferente();
+                this.domService.setFocusTimeout('fc_secuencia', 100);
             } else {
                 this.domService.setFocusTimeout('artsAutoCom', 300);
             }

@@ -6,8 +6,16 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="row">
-                        <div class="col-md-4">
-                            <span class="font-weight-light">Número:</span>
+                        <div class="col-md-3">
+                            <span class="font-weight-light">Tipo:</span>
+                        </div>
+                        <div class="col-md">
+                            <span class="font-weight-bold quitaPaddingMargin">{{doc.tasiento.tra_nombre}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 quitaPaddingMargin">
+                            <span class="font-weight-light ml-3">Número:</span>
                         </div>
                         <div class="col-md">
                             <span class="font-weight-bold quitaPaddingMargin">{{doc.tasiento.trn_compro}}</span>
@@ -194,7 +202,11 @@
         </div>
     </div>
     <div class="mt-2 d-flex flex-row-reverse" style="margin-bottom: -20px">
-        <button class="btn btn-outline-secondary" (click)="onCloseClick()"><i class="fa fa-times"></i> Cerrar</button>
+        <button class="btn btn-outline-secondary ml-2" (click)="onCloseClick()"><i class="fa fa-times"></i> Cerrar
+        </button>
+        <button class="btn btn-outline-secondary" *ngIf="isShowImprimir" (click)="imprimir()"><i
+                class="fa fa-print"></i> Imprimir
+        </button>
     </div>
 </div>
 

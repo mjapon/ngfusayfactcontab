@@ -5,21 +5,42 @@
     <div class="col-md-3">
         <app-rangofechas [form]="form" (evFilterSel)="listar()" [showlabels]="false"></app-rangofechas>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-3">
+        <p-dropdown [options]="transaccs" optionLabel="tra_nombre"
+                    filter="false"
+                    optionValue="tra_codigo"
+                    placeholder="Seleccione el tipo de transacción"
+                    [showClear]="false"
+                    (onChange)="listar()"
+                    [(ngModel)]="form.tracod"></p-dropdown>
+    </div>
+    <div class="col-md-4">
         <div class="input-group">
             <input type="text" class="form-control" id="buscaInput" (keyup)="doFilter($event)" [(ngModel)]="filtro"
                    autocomplete="false"
                    placeholder="Buscar comprobante por número o por referente">
             <div class="input-group-append">
                 <button class="btn btn-outline-primary" type="button" id="buttonSearh" (click)="listar()"
-                        title="Buscar producto o servicio">
+                        title="Buscar comprobante">
                     <i class="fa fa-search"></i>
                 </button>
             </div>
         </div>
     </div>
-    <div class="col-md-3 d-flex flex-row-reverse">
-        <button type="button" class="btn btn-outline-primary" (click)="goToForm()"
+    <div class="col-md-2 d-flex flex-row-reverse">
+
+        <div class="ml-1 btn-group btn-group-sm dropright" *ngIf="tracodigo!==7">
+            <button type="button" class="btn btn-outline-primary dropdown-toggle"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-plus-circle"></i> Crear
+            </button>
+            <div class="dropdown-menu" style="">
+                <a href="#" class="dropdown-item" (click)="goToFormFact(1, $event)"> Factura </a>
+                <a href="#" class="dropdown-item" (click)="goToFormFact(2, $event)"> Nota de venta </a>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-outline-primary" (click)="goToForm()" *ngIf="tracodigo===7"
                 title="Registrar un nuevo producto o servicio">
             Crear <i class="fa fa-plus-circle"></i>
         </button>

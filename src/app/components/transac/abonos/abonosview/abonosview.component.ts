@@ -139,19 +139,20 @@ export class AbonosviewComponent implements OnInit, OnChanges {
             detalles: this.detallesabono
         };
         const msg = '¿Confirma que desea registrar este abono?';
-        this.swalService.fireDialog(msg).then(confirm => {
-            if (confirm.value) {
-                this.loadingService.publishBlockMessage();
-                this.abonoService.crear(formpost).subscribe(res => {
-                    if (res.status === 200) {
-                        this.swalService.fireToastSuccess(res.msg);
-                        this.isShowFormAbonar = false;
-                        this.loadDatosCredito();
-                        this.evDeudaChange.emit('');
-                    }
-                });
-            }
-        });
+        // this.swalService.fireDialog(msg).then(confirm => {
+        //    if (confirm.value) {
+        if (confirm(msg)) {
+            this.loadingService.publishBlockMessage();
+            this.abonoService.crear(formpost).subscribe(res => {
+                if (res.status === 200) {
+                    this.swalService.fireToastSuccess(res.msg);
+                    this.isShowFormAbonar = false;
+                    this.loadDatosCredito();
+                    this.evDeudaChange.emit('');
+                }
+            });
+        }
+        // });
     }
 
     cancelarGuardaAbono() {
@@ -164,18 +165,19 @@ export class AbonosviewComponent implements OnInit, OnChanges {
 
     anularAbono(abono) {
         const msg = '¿Confirma que desea anular este abono?';
-        this.swalService.fireDialog(msg).then(confirm => {
-            if (confirm.value) {
-                this.abonoService.anularAbono(abono.abo_codigo, '').subscribe(res => {
-                    if (res.status === 200) {
-                        this.swalService.fireToastSuccess(res.msg);
-                        this.loadAbonos();
-                        this.loadDatosCredito();
-                        this.evDeudaChange.emit('');
-                    }
-                });
-            }
-        });
+        // this.swalService.fireDialog(msg).then(confirm => {
+        // if (confirm.value) {
+        if (confirm(msg)) {
+            this.abonoService.anularAbono(abono.abo_codigo, '').subscribe(res => {
+                if (res.status === 200) {
+                    this.swalService.fireToastSuccess(res.msg);
+                    this.loadAbonos();
+                    this.loadDatosCredito();
+                    this.evDeudaChange.emit('');
+                }
+            });
+        }
+        // });
     }
 
     loadAbonos() {

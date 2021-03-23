@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PersonaService} from '../../services/persona.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PersonEvService} from "../../services/personev.service";
+import {PersonEvService} from '../../services/personev.service';
 
 @Component({
     selector: 'app-referenteview',
@@ -30,7 +30,12 @@ import {PersonEvService} from "../../services/personev.service";
                 <app-suscripcion [codref]="codref"></app-suscripcion>
             </div>
             <div *ngIf="tabactive ===3">
-                <app-factpagos [codpaciente]="codref" (evDeudasChange)="reloadStatusDeudas($event)"></app-factpagos>
+                <app-factpagos [codpaciente]="codref" [clase]="1"
+                               (evDeudasChange)="reloadStatusDeudas($event)"></app-factpagos>
+            </div>
+            <div *ngIf="tabactive ===5">
+                <app-factpagos [codpaciente]="codref" [clase]="2"
+                               (evDeudasChange)="reloadStatusDeudas($event)"></app-factpagos>
             </div>
         </div>
     `

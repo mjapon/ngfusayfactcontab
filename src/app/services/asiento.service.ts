@@ -23,11 +23,19 @@ export class AsientoService extends BaseService {
     }
 
     listarFacturas(perCodigo: number) {
-        return this._doGet(this.getHOT({accion: 'gfact', per: perCodigo}));
+        return this.auxListarFacturas(perCodigo, 1);
     }
 
-    listarGridVentas(desde, hasta, filtro, tracod) {
-        return this._doGet(this.getHOT({accion: 'gridventas', desde, hasta, filtro, tracod}));
+    listarFacturasCompra(perCodigo) {
+        return this.auxListarFacturas(perCodigo, 2);
+    }
+
+    auxListarFacturas(per, clase) {
+        return this._doGet(this.getHOT({accion: 'gfact', per, clase}));
+    }
+
+    listarGridVentas(desde, hasta, filtro, tracod, tipo) {
+        return this._doGet(this.getHOT({accion: 'gridventas', desde, hasta, filtro, tracod, tipo}));
     }
 
     crearDocumento(form: any) {
@@ -81,6 +89,10 @@ export class AsientoService extends BaseService {
 
     getEstadoResultados(desde, hasta) {
         return this._doGet(this.getHOT({accion: 'getestadoresultados', desde, hasta}));
+    }
+
+    listarTransaccsBytTipo(tipo) {
+        return this._doGet(this.getHOT({accion: 'gettransaccs', tipo}));
     }
 
 }

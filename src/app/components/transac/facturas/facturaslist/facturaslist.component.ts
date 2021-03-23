@@ -17,11 +17,12 @@ export class FacturaslistComponent implements OnInit {
     selectedItem: any;
     isShowDetallesFactura: boolean;
     codFacturaSel: number;
-    form: any;
+    form: any = {};
     previustimer: any = 0;
     totales: any;
-
+    transaccs: Array<any> = [];
     @Input() tracodigo: number;
+    @Input() tipo: number;
 
     constructor(private router: Router,
                 private asientoService: AsientoService,
@@ -32,7 +33,7 @@ export class FacturaslistComponent implements OnInit {
 
     ngOnInit(): void {
         this.title = 'Compras';
-        if (this.tracodigo === 1) {
+        if (this.tipo === 1) {
             this.title = 'Ventas';
         }
         this.filtro = '';
@@ -41,9 +42,16 @@ export class FacturaslistComponent implements OnInit {
         this.isShowDetallesFactura = false;
         const hasta = new Date();
         const desde = startOfMonth(hasta);
-        this.form = {desde, hasta};
-        this.listar();
+        this.form = {desde, hasta, tipo: this.tipo};
+        this.asientoService.listarTransaccsBytTipo(this.tipo).subscribe(res => {
+            if (res.status === 200) {
+                this.transaccs = res.items;
+            }
+            this.form.tracod = 0;
+            this.listar();
+        });
     }
+
 
     ondesdechange() {
 
@@ -84,7 +92,7 @@ export class FacturaslistComponent implements OnInit {
             hasta = this.fechasservice.formatDate(this.form.hasta);
         }
 
-        this.asientoService.listarGridVentas(desde, hasta, this.filtro, this.tracodigo).subscribe(res => {
+        this.asientoService.listarGridVentas(desde, hasta, this.filtro, this.form.tracod, this.tipo).subscribe(res => {
             if (res.status === 200) {
                 this.grid = res.grid;
                 this.totales = res.totales;
@@ -95,6 +103,11 @@ export class FacturaslistComponent implements OnInit {
 
     goToForm() {
         this.router.navigate(['trndocform', this.tracodigo]);
+    }
+
+    goToFormFact(tipo, $event: MouseEvent) {
+        $event.preventDefault();
+        this.router.navigate(['trndocform', tipo]);
     }
 
     onRowSelect($event: any) {

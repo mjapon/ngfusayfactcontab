@@ -20,4 +20,8 @@ export class PersonEvService {
     publishUpdateDeudaMsg() {
         this.publishMessage({tipo: 1});
     }
+
+    publishUpdateCxPagar() {
+        this.publishMessage({tipo: 2});
+    }
 }

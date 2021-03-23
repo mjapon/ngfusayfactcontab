@@ -6,11 +6,11 @@ import {AsientoService} from '../../../../services/asiento.service';
     templateUrl: './facturaview.component.html'
 })
 export class FacturaviewComponent implements OnInit, OnChanges {
-
-    @Input() trncod: number;
     doc: any;
     showAnim: boolean;
+    isShowImprimir = false;
 
+    @Input() trncod: number;
     @Output() evFacturaLoaded = new EventEmitter<any>();
     @Output() evBtnClosed = new EventEmitter<any>();
 
@@ -36,11 +36,16 @@ export class FacturaviewComponent implements OnInit, OnChanges {
             if (res.status === 200) {
                 this.doc = res.doc;
                 this.evFacturaLoaded.emit(this.doc);
+                this.isShowImprimir = this.doc.tasiento.tra_codigo === 1 || this.doc.tasiento.tra_codigo === 2;
             }
         });
     }
 
     onCloseClick() {
         this.evBtnClosed.emit();
+    }
+
+    imprimir() {
+
     }
 }

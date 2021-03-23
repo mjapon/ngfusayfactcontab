@@ -8,6 +8,7 @@ import {PersonaService} from '../../services/persona.service';
             <div class="row">
                 <div class="col">
                     <input class="form-control form-rounded" id="buscaPacNomCiInput" type="text"
+                           autocomplete="false"
                            placeholder="Buscar referente por nombres o número de cédula" [(ngModel)]="filtro"
                            (keyup)="onFiltroTyped()">
                 </div>

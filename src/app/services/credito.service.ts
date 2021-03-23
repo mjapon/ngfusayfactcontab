@@ -14,8 +14,8 @@ export class CreditoService extends BaseService {
         super('/tasicredito', localStrgServ, http);
     }
 
-    listarCreditos(tracod: number, codper: number) {
-        return this._doGet(this.getHOT({accion: 'listarcreds', tracod, per: codper}));
+    listarCreditos(tracod: number, codper: number, clase: number) {
+        return this._doGet(this.getHOT({accion: 'listarcreds', tracod, per: codper, clase}));
     }
 
     getDatosCredito(codcred: number) {

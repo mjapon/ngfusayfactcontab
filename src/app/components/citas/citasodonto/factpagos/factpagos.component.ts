@@ -18,9 +18,6 @@ export class FactpagosComponent implements OnInit, OnChanges {
     isShowFormCreaFact: boolean;
     formfact: any;
     formpersona: any;
-
-    @Input()
-    codpaciente: number;
     currentdate: any;
     isShowDetallesFactura: boolean;
     isShowDetallesCredito: boolean;
@@ -33,6 +30,9 @@ export class FactpagosComponent implements OnInit, OnChanges {
 
     tracodigofact = 1;
     tdvcodigofact = 1;
+
+    @Input() codpaciente: number;
+    @Input() clase: number;
 
     @Output() evDeudasChange = new EventEmitter<any>();
 
@@ -76,7 +76,7 @@ export class FactpagosComponent implements OnInit, OnChanges {
 
     loadFacturas() {
         this.loadingFacturas = true;
-        this.asientoServ.listarFacturas(this.codpaciente).subscribe(res => {
+        this.asientoServ.auxListarFacturas(this.codpaciente, this.clase).subscribe(res => {
             this.loadingFacturas = false;
             if (res.status === 200) {
                 this.facturasList = res.docs;
@@ -87,7 +87,7 @@ export class FactpagosComponent implements OnInit, OnChanges {
     loadCreditos() {
         const tracod = 1;
         this.loadingCreditos = true;
-        this.creditoService.listarCreditos(tracod, this.codpaciente).subscribe(resc => {
+        this.creditoService.listarCreditos(tracod, this.codpaciente, this.clase).subscribe(resc => {
             this.loadingCreditos = false;
             if (resc.status === 200) {
                 this.creditosList = resc.creds;
@@ -101,7 +101,9 @@ export class FactpagosComponent implements OnInit, OnChanges {
         this.loadCreditos();
     }
 
-    showFormCreaFact() {
+    showFormCreaFact(tracod, $event: MouseEvent) {
+        $event.preventDefault();
+        this.tracodigofact = tracod;
         this.formfact = {};
         this.isShowFormCreaFact = true;
     }

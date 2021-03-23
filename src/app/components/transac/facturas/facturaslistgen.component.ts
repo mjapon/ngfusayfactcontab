@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 @Component({
     selector: 'app-facturaslistgen',
     template: `
-        <app-facturaslist [tracodigo]="tracodigo"></app-facturaslist>
+        <app-facturaslist [tracodigo]="tracodigo" [tipo]="tipo"></app-facturaslist>
     `
 })
 export class FacturaslistgenComponent implements OnInit {
