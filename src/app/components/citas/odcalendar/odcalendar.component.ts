@@ -387,9 +387,7 @@ export class OdcalendarComponent implements OnInit, OnChanges {
             this.textoNewEv = `${horaStr} -${horaFinStr}`;
         } catch (err) {
             this.textoNewEv = 'err';
-            console.log('Error al obtener string de fechas');
         }
-
         return cssg;
     }
 
