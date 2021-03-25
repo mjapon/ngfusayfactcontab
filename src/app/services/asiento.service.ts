@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {BaseService} from './base-service';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
+import {FautService} from './faut.service';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +10,8 @@ import {LocalStorageService} from './local-storage.service';
 export class AsientoService extends BaseService {
     constructor(
         protected http: HttpClient,
-        protected localStrgServ: LocalStorageService
+        protected localStrgServ: LocalStorageService,
+        private fautService: FautService
     ) {
         super('/tasiento', localStrgServ, http);
     }
@@ -93,6 +95,12 @@ export class AsientoService extends BaseService {
 
     listarTransaccsBytTipo(tipo) {
         return this._doGet(this.getHOT({accion: 'gettransaccs', tipo}));
+    }
+
+    imprimirFactura(trncod) {
+        const sqm = this.fautService.getEsquema();
+        const rutaserver = 'https://mavil.site/tomcat/imprentas/Factura?trn=' + trncod + '&sqm=' + sqm;
+        window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=600');
     }
 
 }

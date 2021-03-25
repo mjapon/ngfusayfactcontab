@@ -46,6 +46,6 @@ export class FacturaviewComponent implements OnInit, OnChanges {
     }
 
     imprimir() {
-
+        this.tasientoService.imprimirFactura(this.trncod);
     }
 }
