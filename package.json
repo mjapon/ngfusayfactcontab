@@ -27,7 +27,7 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "bootstrap": "4.5.3",
     "date-fns": "^2.16.1",
-    "jquery": "3.4.1",
+    "jquery": "3.5.0",
     "popper.js": "^1.15.0",
     "primeicons": "^4.1.0",
     "primeng": "^11.0.0",
