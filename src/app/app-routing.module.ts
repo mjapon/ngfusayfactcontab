@@ -38,6 +38,7 @@ import {FacturaslistgenComponent} from './components/transac/facturas/facturasli
 import {CuentasxcpComponent} from './components/transac/facturas/cuentasxcp.component';
 import {IngegrComponent} from './components/ingresosegresos/ingegr/ingegr.component';
 import {IngegrformComponent} from './components/ingresosegresos/ingegrform/ingegrform.component';
+import {UtilidadesComponent} from "./components/transac/facturas/utilidades/utilidades.component";
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -79,6 +80,7 @@ const routes: Routes = [
     {path: 'libromayor', component: LibromayorlistComponent},
     {path: 'contabilidad/balancegeneral', component: BalancegeneralComponent},
     {path: 'contabilidad/estadoresultados', component: EstadoresultadosComponent},
+    {path: 'utilventas', component: UtilidadesComponent},
     {path: '**', component: HomeComponent}
 ];
 

@@ -74,17 +74,20 @@
                                                 </div>
                                                 <div>
                                                     <input type="text" class="ml-1 form-control" id="tipo_valor_{{i}}"
-                                                           [(ngModel)]="fcuenta.dt_valor" [disabled]="fcuenta.cta_codigo===0"
+                                                           [(ngModel)]="fcuenta.dt_valor"
+                                                           [disabled]="fcuenta.cta_codigo===0"
                                                            (focusin)="$event.target.select();">
                                                 </div>
                                                 <div>
                                                     <div class="ml-1 btn-group btn-group-sm" role="group">
-                                                        <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1"  *ngIf="i>0"
+                                                        <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1"
+                                                                *ngIf="i>0"
                                                                 title="Agregar tipo de ingreso">
                                                             <i class="fa fa-minus-circle"
                                                                (click)="removeCuenta(fcuenta)"> </i>
                                                         </button>
-                                                        <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1" *ngIf="i===form.cuentas.length-1"
+                                                        <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1"
+                                                                *ngIf="i===form.cuentas.length-1"
                                                                 title="Quitar esta fila">
                                                             <i class="fa fa-plus-circle" (click)="addcuentas()"> </i>
                                                         </button>
@@ -100,6 +103,8 @@
                                         -->
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row mt-3">
                                 <div class="col-md">
                                     <div class="d-flex flex-column">
                                         <span class="font-weight-normal">
@@ -120,11 +125,13 @@
                                                 <div>
                                                     <input type="text" class="ml-1 form-control" id="bill_valor_{{i}}"
                                                            (focusin)="$event.target.select();"
-                                                           [(ngModel)]="fbill.dt_valor" [disabled]="fbill.cta_codigo===0">
+                                                           [(ngModel)]="fbill.dt_valor"
+                                                           [disabled]="fbill.cta_codigo===0">
                                                 </div>
                                                 <div>
                                                     <div class="ml-1 btn-group btn-group-sm" role="group">
-                                                        <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1" *ngIf="i>0"
+                                                        <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1"
+                                                                *ngIf="i>0"
                                                                 title="Agregar billetera afectada">
                                                             <i class="fa fa-minus-circle"
                                                                (click)="removeBilletera(fbill)"> </i>
@@ -166,8 +173,8 @@
                                     </div>
                                 </div>
                                 <div class="ml-1 mt-1 col-md-4 quitaPaddingMargin" *ngIf="filepreview && adjisimage">
-                                        <img [src]="filepreview" class="img-responsive" *ngIf="filepreview" width="260px"
-                                             height="270px"/>
+                                    <img [src]="filepreview" class="img-responsive" *ngIf="filepreview" width="260px"
+                                         height="270px"/>
                                 </div>
                             </div>
                         </div>

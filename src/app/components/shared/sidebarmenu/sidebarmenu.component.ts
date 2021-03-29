@@ -120,7 +120,8 @@ export class SidebarmenuComponent implements OnInit {
             this.isShowPopupMenu = true;
             this.menuItems = mi.items;
             const offset = $($event.target).offset();
-            offset.top += 20;
+            offset.top = $event.y;
+            offset.top += 10;
             offset.left += 1;
             this.mousestate = 1;
             this.popupstyle = {

@@ -127,6 +127,7 @@ import {IngegrComponent} from './components/ingresosegresos/ingegr/ingegr.compon
 import {IngegrformComponent} from './components/ingresosegresos/ingegrform/ingegrform.component';
 import {AsientoviewComponent} from './components/contabilidad/librodiario/asientoview/asientoview.component';
 import {IngegrviewComponent} from './components/ingresosegresos/ingegrview/ingegrview.component';
+import {UtilidadesComponent} from './components/transac/facturas/utilidades/utilidades.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -216,7 +217,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         IngegrComponent,
         IngegrformComponent,
         AsientoviewComponent,
-        IngegrviewComponent
+        IngegrviewComponent,
+        UtilidadesComponent
     ],
     imports: [
         CommonModule,

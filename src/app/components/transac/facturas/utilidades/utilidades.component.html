@@ -1,0 +1,106 @@
+<h4 class="mt-2">Utilidades</h4>
+<div>
+    <div *ngIf="isLoading">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="!isLoading">
+
+        <div class="row">
+            <div class="col-md-3 d-flex flex-column">
+                <span class="font-weight-bold">Fechas:</span>
+                <app-rangofechas [form]="form"
+                                 [showlabels]="false"
+                                 (evDesdeChange)="onDesdeChange($event)"
+                                 (evHastaChange)="onHastaChange($event)"
+                                 (evFilterSel)="onTipoFechaSel()">
+                </app-rangofechas>
+            </div>
+            <div class="col-md-3 d-flex flex-column">
+                <span class="font-weight-bold">Tipo:</span>
+                <p-dropdown [options]="transaccs" optionLabel="tra_nombre"
+                            optionValue="tra_codigo"
+                            placeholder="Seleccione el tipo"
+                            (onChange)="onFiltroTipoTransaccSel($event)"
+                            [(ngModel)]="form.tipotra"></p-dropdown>
+
+            </div>
+            <div class="col-md-3 d-flex flex-column">
+                <span class="font-weight-bold">Forma Pago:</span>
+                <p-dropdown [options]="formpaspago" optionLabel="label"
+                            optionValue="value"
+                            placeholder="Seleccione la forma de pago"
+                            (onChange)="onFormaPagoChange($event)"
+                            [(ngModel)]="form.tipopago"></p-dropdown>
+
+            </div>
+            <div class="col-md-2 d-flex flex-column">
+                <span class="font-weight-bold">Tipo Prod/Serv</span>
+                <p-dropdown [options]="tiposprod" optionLabel="label"
+                            optionValue="value"
+                            placeholder="Seleccione el tipo de prod/serv"
+                            (onChange)="onTipoProdChange($event)"
+                            [(ngModel)]="form.tipoprod"></p-dropdown>
+            </div>
+            <div class="col-md-1 d-flex align-items-end">
+                <button class="btn btn-outline-primary" (click)="loadGrid()">
+                    Buscar
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-2">
+            <div *ngIf=" isLoadingGrid">
+                <app-loading></app-loading>
+            </div>
+            <p-table *ngIf="!isLoadingGrid" [value]="grid.data" [paginator]="true" [rows]="50"
+                     selectionMode="single"
+                     [resizableColumns]="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th *ngFor="let item of grid.cols" [pSortableColumn]="item.field" [ngSwitch]="item.field"
+                            [width]="item.width">
+                            <span class="fontsizesm">{{item.label}}</span>
+                            <p-sortIcon [field]="item.field"></p-sortIcon>
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData>
+                    <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
+                        <td *ngFor="let item of grid.cols" [width]="item.width">
+                                <span class="fontsizesm">
+                                    {{rowData[item['field']]}}
+                                </span>
+                        </td>
+                        <!--
+                        <td>
+                            <button class="btn btn-sm btn-outline-dark" (click)="verDetalles(rowData)"
+                                    title="Ver Detalles">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </td>
+                        -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                    <tr>
+                        <td [attr.colspan]="grid.cols?.length+1">
+                            <span class="text-muted">No hay registros</span>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="footer">
+                    <tr>
+                        <td colspan="12"><span class="font-weight-bold">Total:  </span></td>
+                        <td><span class="font-weight-bold">{{totales.utilidad}}</span></td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+        </div>
+
+    </div>
+</div>
