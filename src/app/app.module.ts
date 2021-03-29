@@ -2,7 +2,6 @@ import {CommonModule, DatePipe, registerLocaleData} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {LOCALE_ID, NgModule} from '@angular/core';
 
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './components/login/login.component';
@@ -223,7 +222,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     imports: [
         CommonModule,
         BrowserModule,
-        FlexLayoutModule,
         BrowserAnimationsModule,
         AppRoutingModule,
         HttpClientModule,

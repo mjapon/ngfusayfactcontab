@@ -62,7 +62,7 @@
                                              *ngFor="let fcuenta of form.cuentas; let i=index">
                                             <div class="d-flex flex-row">
                                                 <div>
-                                                    <p-dropdown [options]="cuentasformov" optionLabel="ic_nombre"
+                                                    <p-dropdown [options]="cuentasformov" optionLabel="codnombre"
                                                                 id="tipoInput_{{i}}"
                                                                 inputId="tipoInput_{{i}}"
                                                                 filter="true"
@@ -114,7 +114,7 @@
                                              *ngFor="let fbill of form.billeteras; let i=index">
                                             <div class="d-flex flex-row">
                                                 <div>
-                                                    <p-dropdown [options]="billeteras" optionLabel="bil_nombre"
+                                                    <p-dropdown [options]="billeteras" optionLabel="bilnomcodsald"
                                                                 optionValue="ic_id"
                                                                 placeholder="Seleccione la billetera afectada"
                                                                 filter="true"

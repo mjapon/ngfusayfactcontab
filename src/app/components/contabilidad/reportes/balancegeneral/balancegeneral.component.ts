@@ -3,7 +3,6 @@ import {AsientoService} from '../../../../services/asiento.service';
 import {FechasService} from '../../../../services/fechas.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
 import {TreeNode} from 'primeng/api';
-import 'jspdf-autotable';
 import {ReportscontaService} from '../../../../services/reportsconta.service';
 import {SwalService} from '../../../../services/swal.service';
 
@@ -235,11 +234,13 @@ export class BalancegeneralComponent implements OnInit {
     }
 
     exportPdf() {
-        this.reportsContaServ.exportPdf(this.datosbalance, this.form, this.getnombrearchivo(), 'BALANCE GENERAL');
+        this.swalService.fireToastInfo('En construcción');
+        // this.reportsContaServ.exportPdf(this.datosbalance, this.form, this.getnombrearchivo(), 'BALANCE GENERAL');
     }
 
     exportExcel() {
-        this.reportsContaServ.exportExcel(this.datosbalance, this.getnombrearchivo());
+        this.swalService.fireToastInfo('En construcción');
+        // this.reportsContaServ.exportExcel(this.datosbalance, this.getnombrearchivo());
     }
 
 }

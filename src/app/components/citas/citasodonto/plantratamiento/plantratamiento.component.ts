@@ -15,7 +15,6 @@ import es from '@angular/common/locales/es';
 })
 export class PlantratamientoComponent implements OnInit, OnChanges {
     form: any;
-    servsFiltered: Array<any>;
     detalles: Array<any>;
     totales: any;
     medicos: Array<any>;
