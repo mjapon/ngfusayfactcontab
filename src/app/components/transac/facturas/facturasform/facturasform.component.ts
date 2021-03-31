@@ -296,7 +296,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
                         if (res.status === 200) {
                             this.swalService.fireToastSuccess(res.msg);
                             if (!this.isfacturacompra) {
-                                this.swalService.fireDialog('¿Desea imprimir?').then(confprint => {
+                                this.swalService.fireDialog('¿Desea imprimir?', '').then(confprint => {
                                     if (confprint.value) {
                                         this.asientoService.imprimirFactura(res.trn_codigo);
                                     }

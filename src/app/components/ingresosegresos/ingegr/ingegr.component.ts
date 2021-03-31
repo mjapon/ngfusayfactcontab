@@ -194,6 +194,7 @@ export class IngegrComponent implements OnInit {
         let hasta = '';
         let tipo = 0;
         let cuenta = 0;
+        let cuentabill = 0;
 
         if (this.formfiltros?.desde) {
             desde = this.fechasService.formatDate(this.formfiltros.desde);
@@ -207,8 +208,11 @@ export class IngegrComponent implements OnInit {
         if (this.formfiltros?.cuenta) {
             cuenta = this.formfiltros.cuenta;
         }
+        if (this.formfiltros?.cuentabill) {
+            cuentabill = this.formfiltros.cuentabill;
+        }
 
-        this.billmovService.listargrid(desde, hasta, tipo, cuenta).subscribe(res => {
+        this.billmovService.listargrid(desde, hasta, tipo, cuenta, cuentabill).subscribe(res => {
             if (res.status === 200) {
                 this.grid = res.grid;
             }
@@ -301,5 +305,11 @@ export class IngegrComponent implements OnInit {
         this.isShowDetalleMov = false;
         this.loadMovimientos();
         this.loadBilleteras();
+    }
+
+    showMovsBill(bill: any) {
+        this.cancelFiltro();
+        this.formfiltros.cuentabill = bill.ic_id;
+        this.loadMovimientos();
     }
 }

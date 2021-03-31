@@ -20,8 +20,8 @@ export class BilleteramovService extends BaseService {
         return this._doPost(this.getHOT({accion: 'crear'}), form);
     }
 
-    listargrid(desde, hasta, tipo, cuenta) {
-        return this._doGet(this.getHOT({accion: 'listargrid', desde, hasta, tipo, cuenta}));
+    listargrid(desde, hasta, tipo, cuenta, cuentabill) {
+        return this._doGet(this.getHOT({accion: 'listargrid', desde, hasta, tipo, cuenta, cuentabill}));
     }
 
     getFormFiltros() {

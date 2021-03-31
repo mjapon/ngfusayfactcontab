@@ -90,7 +90,7 @@
 
                         <tr *ngIf="fila.tr===2">
                             <td class="border-0 h-100">
-                                <div class="h-100 d-flex" *ngIf="fila.tra_codigo===13">
+                                <div class="h-100 d-flex" *ngIf="fila.tra_codigo===13 && fila.bmo_id===0">
                                     <button class="btn btn-sm btn-outline-secondary" title="Anular"
                                             (click)="anular(fila)">
                                         <i class="fa fa-trash"></i>

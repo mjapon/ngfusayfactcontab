@@ -4,6 +4,7 @@ import {AsientoService} from '../../../../services/asiento.service';
 import {SwalService} from '../../../../services/swal.service';
 import {startOfMonth} from 'date-fns';
 import {FechasService} from '../../../../services/fechas.service';
+import {LoadingUiService} from '../../../../services/loading-ui.service';
 
 @Component({
     selector: 'app-facturaslist',
@@ -27,6 +28,7 @@ export class FacturaslistComponent implements OnInit {
     constructor(private router: Router,
                 private asientoService: AsientoService,
                 private fechasservice: FechasService,
+                private loadingUiServ: LoadingUiService,
                 private swalService: SwalService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
@@ -81,8 +83,6 @@ export class FacturaslistComponent implements OnInit {
     }
 
     listar() {
-        this.isLoading = true;
-
         let desde = '';
         let hasta = '';
         if (this.form.desde) {
@@ -91,7 +91,7 @@ export class FacturaslistComponent implements OnInit {
         if (this.form.hasta) {
             hasta = this.fechasservice.formatDate(this.form.hasta);
         }
-
+        this.isLoading = true;
         this.asientoService.listarGridVentas(desde, hasta, this.filtro, this.form.tracod, this.tipo).subscribe(res => {
             if (res.status === 200) {
                 this.grid = res.grid;
@@ -121,6 +121,7 @@ export class FacturaslistComponent implements OnInit {
     anularRow(rowData) {
         this.swalService.fireDialog('¿Seguro que desea eliminar esta factura?').then(confirm => {
             if (confirm.value) {
+                this.loadingUiServ.publishBlockMessage();
                 this.asientoService.anular(rowData.trn_codigo, '').subscribe(res => {
                     if (res.status === 200) {
                         this.swalService.fireToastSuccess(res.msg);
