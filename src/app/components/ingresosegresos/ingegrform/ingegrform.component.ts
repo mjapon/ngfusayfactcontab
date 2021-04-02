@@ -6,6 +6,7 @@ import {DomService} from '../../../services/dom.service';
 import {ArrayutilService} from '../../../services/arrayutil.service';
 import {NumberService} from '../../../services/number.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
+import {FechasService} from '../../../services/fechas.service';
 
 @Component({
     selector: 'app-ingegrform',
@@ -31,6 +32,7 @@ export class IngegrformComponent implements OnInit {
                 private route: ActivatedRoute,
                 private domService: DomService,
                 private numberService: NumberService,
+                private fechasService: FechasService,
                 private loadingService: LoadingUiService,
                 private arrayService: ArrayutilService,
                 private billMovService: BilleteramovService,
@@ -73,6 +75,13 @@ export class IngegrformComponent implements OnInit {
         this.form.billeteras.forEach(bill => {
             totalbill += Number(bill.dt_valor);
         });
+
+        // Verificar fecha ingresada
+        if (!this.form.bmo_fechatransaccobj) {
+            this.swalService.fireToastError('Debe ingresar la fecha de la transacción');
+            return;
+        }
+        this.form.bmo_fechatransacc = this.fechasService.formatDate(this.form.bmo_fechatransaccobj);
 
         if (this.numberService.round2(totalcuentas) !== this.numberService.round2(totalbill)) {
             this.swalService.fireToastError('Los valores no coinciden, favor verificar');
@@ -199,6 +208,7 @@ export class IngegrformComponent implements OnInit {
         this.billMovService.getForm(this.tiporouting).subscribe(res => {
             if (res.status === 200) {
                 this.form = res.form.formbillmov;
+                this.form.bmo_fechatransaccobj = this.fechasService.parseString(this.form.bmo_fechatransacc);
                 this.cuentasformov = res.form.cuentasformov;
                 this.billeteras = res.form.billeterasformov;
                 this.formasiento = res.form.formasiento;
