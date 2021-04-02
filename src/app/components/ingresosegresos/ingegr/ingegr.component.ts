@@ -211,6 +211,7 @@ export class IngegrComponent implements OnInit {
         if (this.formfiltros?.cuentabill) {
             cuentabill = this.formfiltros.cuentabill;
         }
+        console.log('parametros enviados es:', desde, hasta, tipo, cuenta, cuentabill);
 
         this.billmovService.listargrid(desde, hasta, tipo, cuenta, cuentabill).subscribe(res => {
             if (res.status === 200) {
@@ -308,7 +309,7 @@ export class IngegrComponent implements OnInit {
     }
 
     showMovsBill(bill: any) {
-        this.cancelFiltro();
+        // this.cancelFiltro();
         this.formfiltros.cuentabill = bill.ic_id;
         this.loadMovimientos();
     }
