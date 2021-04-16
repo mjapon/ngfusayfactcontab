@@ -64,13 +64,13 @@
              *ngIf="form.paciente.per_id>0 && datosPacienteFull.per_id>0">
             <div class="card-body">
                 <div class="d-flex w-100 justify-content-between align-items-center">
-                    <div style="padding:1px 20px !important; width: 10%">
+                    <div style="padding:1px 10px !important; width: 10%">
                         <img src="assets/imgs/{{datosPacienteFull.per_genero===2?'female.png':'male.png'}}"
-                             alt="Avatar">
+                             alt="Avatar" class="img-fluid">
                     </div>
                     <div style="width: 90%">
-                        <div class="d-flex flex-row">
-                            <div class="w-50">
+                        <div class="row d-flex flex-row">
+                            <div class="col-md-6">
                                 <h5>
                                     {{datosPacienteFull.per_nombres + ' ' + datosPacienteFull.per_apellidos}}
                                 </h5>
@@ -84,37 +84,37 @@
                                     dia(s)</small>
                                 </h6>
                             </div>
-                            <div class="w-50">
+                            <div class="col-md-6">
                                 <div class="row">
-                                    <div class="col-sm-3">
+                                    <div class="col-md-3">
                                         <span class="text-muted">Dirección:</span>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md">
                                         <span> {{datosPacienteFull.residencia}} {{datosPacienteFull.per_direccion ? ('-' + datosPacienteFull.per_direccion) : ''}}</span>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-sm-3">
+                                    <div class="col-md-3">
                                         <span class="text-muted">Celular:</span>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md">
                                         <span> {{datosPacienteFull.per_movil}}</span>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-3">
+                                    <div class="col-md-3">
                                         <span class="text-muted">Email:</span>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md">
                                         <span> {{datosPacienteFull.per_email}}</span>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-3">
+                                    <div class="col-md-3">
                                         <span class="text-muted">Estado Civil:</span>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md">
                                         <span> {{datosPacienteFull.estadocivil}}</span>
                                     </div>
                                 </div>

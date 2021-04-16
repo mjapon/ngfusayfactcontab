@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="prod-fusay">
+  <component name="PublishConfigData" serverName="mavil_dicitalocean">
     <serverData>
-      <paths name="prod-fusay">
+      <paths name="mavil_dicitalocean">
         <serverdata>
           <mappings>
-            <mapping deploy="/opt/sysprintngjs" local="$PROJECT_DIR$" web="/opt/sysprintngjs" />
+            <mapping deploy="/var/www/html/fusay" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

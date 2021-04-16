@@ -42,7 +42,7 @@ export class BaseService {
             if (e.msg) {
                 swal.fire('Error al procesar petición', e.msg, 'error');
             } else {
-                swal.fire('Error al procesar petición', '--', 'error');
+                swal.fire('Error al procesar petición', 'Verifique su conexión a internet', 'error');
             }
         } else {
             swal.fire('Error al procesar petición', 'Error desconocido', 'error');

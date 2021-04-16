@@ -60,11 +60,13 @@ import {PersonEvService} from '../../services/personev.service';
                                (click)="selectMasterTab(1, $event)">
                                 Datos </a>
                         </li>
+                        <!--
                         <li class="nav-item" *ngIf="empHasPlanes">
                             <a class="nav-link hand" [ngClass]="{'active':2===selectedMasterTab}"
                                (click)="selectMasterTab(2, $event)">
                                 Suscripciones</a>
                         </li>
+                        -->
                         <li class="nav-item">
                             <a class="nav-link hand" [ngClass]="{'active':3===selectedMasterTab}"
                                (click)="selectMasterTab(3, $event)">

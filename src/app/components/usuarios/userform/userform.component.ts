@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SwalService} from '../../../services/swal.service';
 import {CadenasutilService} from '../../../services/cadenasutil.service';
-import {UiService} from '../../../services/ui.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {UsertokenService} from '../../../services/usertoken.service';
 import {PersonaService} from '../../../services/persona.service';
+import {DomService} from '../../../services/dom.service';
 
 @Component({
     selector: 'app-userform',
@@ -22,7 +22,7 @@ export class UserformComponent implements OnInit {
                 private swalService: SwalService,
                 private fautService: UsertokenService,
                 private cadsUtilService: CadenasutilService,
-                private uiService: UiService,
+                private domService: DomService,
                 private personaService: PersonaService,
                 private loadingUiService: LoadingUiService) {
     }
@@ -66,7 +66,7 @@ export class UserformComponent implements OnInit {
                 this.form = res.form;
                 this.roles = res.form.roles;
                 this.formcli = res.formcli;
-                this.uiService.setFocusById('ciPasInput', 800);
+                this.domService.setFocusTimeout('ciPasInput', 800);
             });
         } else {
             this.fautService.getFormEdita(this.usId).subscribe(res => {
@@ -80,7 +80,7 @@ export class UserformComponent implements OnInit {
     }
 
     setFocus(nomApelInput: string) {
-        this.uiService.setFocusById(nomApelInput);
+        this.domService.setFocus(nomApelInput);
     }
 
     selectRol(item: any) {

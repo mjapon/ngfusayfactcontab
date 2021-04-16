@@ -21,14 +21,14 @@
         <hr>
 
         <div class="row">
-            <div class="col">
+            <div class="col-md">
                 <p-tabView [(activeIndex)]="activeTabIndex">
                     <p-tabPanel header="Detalles">
                         <div>
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col-md">
                                             <div class="form-group">
                                                 <label>Tipo:</label>
                                                 <br>
@@ -40,7 +40,7 @@
                                                                 (onChange)="onTipoArtChange()"></p-selectButton>
                                             </div>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-md">
                                             <div class="form-group">
                                                 <label>Graba Iva:</label>
                                                 <br>
@@ -94,7 +94,7 @@
                                     </div>
 
                                     <div class="row" *ngIf="artForm.tipic_id && artForm.tipic_id.value===1">
-                                        <div class="col">
+                                        <div class="col-md">
                                             <div class="form-group">
                                                 <label for="precioCompraInput">
                                                     <span class="required">*</span>
@@ -118,7 +118,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col" *ngIf="artForm.icdp_grabaiva && artForm.icdp_grabaiva.value">
+                                        <div class="col-md"
+                                             *ngIf="artForm.icdp_grabaiva && artForm.icdp_grabaiva.value">
                                             <div class="form-group">
                                                 <label for="precioCompraInput">
                                                     <span class="required">*</span>
@@ -300,7 +301,7 @@
                     <p-tabPanel header="Stock" *ngIf="editing && artFromDb.tipic_id===1">
                         <h5> Stock para: {{artFromDb.ic_nombre}} </h5>
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-md-8">
                                 <div class="card border-primary">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item" *ngFor="let item of stock; index as i">
@@ -317,7 +318,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col-md">
                                 <button type="button" class="btn btn-outline-primary  btn-block"
                                         (click)="guardarStock()">
                                     <i class="fa fa-save"></i>
@@ -346,18 +347,18 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-md-4">
                             <label> Codigo anterior: </label>
                         </div>
-                        <div class="col">
+                        <div class="col-md">
                             <span> {{artFromDb.ic_code}} </span>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-md-4">
                             <label> Nuevo Código: </label>
                         </div>
-                        <div class="col">
+                        <div class="col-md">
                             <input type="text" class="form-control auxNuevoBarcode"
                                    aria-describedby="Código de barra"
                                    maxlength="80"

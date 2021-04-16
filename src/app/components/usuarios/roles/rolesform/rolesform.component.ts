@@ -3,8 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {SwalService} from '../../../../services/swal.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
 import {RolService} from '../../../../services/rol.service';
-import {UiService} from '../../../../services/ui.service';
 import {CadenasutilService} from '../../../../services/cadenasutil.service';
+import {DomService} from '../../../../services/dom.service';
 
 @Component({
     selector: 'app-rolesform',
@@ -21,7 +21,7 @@ export class RolesformComponent implements OnInit {
                 private swalService: SwalService,
                 private rolesService: RolService,
                 private cadsUtilService: CadenasutilService,
-                private uiService: UiService,
+                private domService: DomService,
                 private loadingUiService: LoadingUiService) {
     }
 
@@ -46,7 +46,7 @@ export class RolesformComponent implements OnInit {
                 if (res.status === 200) {
                     this.form = res.form;
                     this.permisos = res.permisos;
-                    this.uiService.setFocusById('rlNombre', 500);
+                    this.domService.setFocusTimeout('rlNombre', 500);
                 }
             });
         } else {
@@ -54,14 +54,14 @@ export class RolesformComponent implements OnInit {
                 if (res.status === 200) {
                     this.form = res.form;
                     this.permisos = res.form.permisos;
-                    this.uiService.setFocusById('rlNombre', 500);
+                    this.domService.setFocusTimeout('rlNombre', 500);
                 }
             });
         }
     }
 
     setFocus(nomApelInput: string) {
-        this.uiService.setFocusById(nomApelInput);
+        this.domService.setFocus(nomApelInput);
     }
 
     selectPermiso(item: any) {

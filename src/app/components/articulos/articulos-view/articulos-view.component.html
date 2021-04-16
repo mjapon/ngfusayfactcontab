@@ -31,82 +31,82 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <span class="font-weight-lighter">Tipo:</span>
                     </div>
-                    <div class="col">
+                    <div class="col-md">
                         {{artFromDb.tipic_nombre}}
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <span class="font-weight-lighter">Nombre:</span>
                     </div>
-                    <div class="col">
+                    <div class="col-md">
                         {{artFromDb.ic_nombre}}
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <span class="font-weight-lighter">Código:</span>
                     </div>
-                    <div class="col">
+                    <div class="col-md">
                         {{artFromDb.ic_code}}
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <span class="font-weight-lighter">Fecha de ingreso:</span>
                     </div>
-                    <div class="col">
+                    <div class="col-md">
                         {{artFromDb.ic_fechacrea}}
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <span class="font-weight-lighter">Graba Iva:</span>
                     </div>
-                    <div class="col">
+                    <div class="col-md">
                         {{artFromDb.icdp_grabaiva ? 'Si' : 'No'}}
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <span class="font-weight-lighter">Categoría:</span>
                     </div>
-                    <div class="col">
+                    <div class="col-md">
                         {{artFromDb.catic_nombre}}
                     </div>
                 </div>
                 <div class="row" *ngIf="artFromDb.tipic_id===1">
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <span class="font-weight-lighter">Proveedor:</span>
                     </div>
-                    <div class="col">
+                    <div class="col-md">
                         {{artFromDb.proveedor}}
                     </div>
                 </div>
                 <div class="row" *ngIf="artFromDb.tipic_id===1">
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <span class="font-weight-lighter">Fecha de caducidad:</span>
                     </div>
-                    <div class="col">
+                    <div class="col-md">
                         <p class="text-justify"> {{artFromDb.icdp_fechacaducidad}} </p>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <span class="font-weight-lighter">Modelo Contable:</span>
                     </div>
-                    <div class="col">
+                    <div class="col-md">
                         <p class="text-justify"> {{artFromDb.mc_nombre}} </p>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <span class="font-weight-lighter">Nota:</span>
                     </div>
-                    <div class="col">
+                    <div class="col-md">
                         <p class="text-justify"> {{artFromDb.ic_nota}} </p>
                     </div>
                 </div>

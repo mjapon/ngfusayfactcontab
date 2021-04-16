@@ -33,7 +33,9 @@ import es from '@angular/common/locales/es';
                                 (ngModelChange)="onHastaChange()"
                                 yearRange="2019:2050"
                                 dateFormat="dd/mm/yy"></p-calendar>
-                    <div class="dropdown">
+
+
+                    <div class="ml-1 btn-group btn-group-sm dropright">
                         <button class="btn btn-light dropdown-toggle" style="padding: 5px 1px !important;"
                                 type="button"
                                 id="dropdownMB"

@@ -1,34 +1,86 @@
-<div>
-    <div class="mt-4">
-        <div class="row">
-            <div class="col-md-6" style="position: relative">
-                <div class="row d-flex" style="justify-content: center">
-                    <div style="width: 60%; height: 100%;">
-                        <img src="assets/imgs/Mavil.png" class="img-fluid"
-                             alt="Sistema de facturación, contable, citas médicas y citas odontológicas">
+<div class="mt-2">
+    <div class="row">
+        <div class="col-md">
+            <div class="row quitaPaddingMargin mt-2">
+                <div class="col-md-3 quitaPaddingMargin">
+                    <div class="d-flex">
+                        <span class="mr-2">Sección:</span>
+                        <span class="datouser rounded px-2"> {{seccion.sec_nombre}} </span>
                     </div>
                 </div>
-
-                <div style="position: absolute; bottom: 0px; width: 100%">
-                    <ul class="mt-5 list-group">
-                        <li class="list-group-item hand list-group-item-action d-flex"
-                            *ngFor="let item of secciones" (click)="cambiarSeccion(item)">
-                            <i class="fa  {{item.sec_id==seccion.sec_id?'fa-check':''}}"></i>
-                            <span class="ml-3">{{item.sec_nombre}}</span>
-                        </li>
-                    </ul>
+                <div class="col-md-5 quitaPaddingMargin">
+                    <div class="d-flex">
+                        <span class="text-primary mr-2">Bienvenid@</span>
+                        <span class="datouser rounded px-2"> {{userinfo.per_nombres}} {{userinfo.per_apellidos}} </span>
+                    </div>
+                </div>
+                <div class="col-md-4 quitaPaddingMargin">
+                    <div class="d-md-flex flex-md-row-reverse">
+                        <span class="mr-2 datouser px-2"> {{fechaactualstr}} </span>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-1">
 
+            <div class="mt-4">
+                <span class="text-muted">Accesos Directos:</span>
             </div>
-            <div class="col-md-5">
-                <p-panelMenu [model]="menuApp" [transitionOptions]="'0ms'" [style]="{'width':'100%'}"
-                             [multiple]="false"></p-panelMenu>
+            <div *ngIf="isLoading">
+                <app-loading></app-loading>
+            </div>
+            <div class="mt-1 border rounded" *ngIf="!isLoading">
+                <div class="row my-3">
+                    <div class="col-md-3" *ngFor="let acc of accesosdir">
+                        <div class="mx-2 my-1">
+                            <button (mouseover)="onAccDirOver(acc)"
+                                    (mouseout)="onAccDirOut(acc)"
+                                    (click)="doroute(acc)"
+                                    class="btn d-flex flex-column w-100" [ngClass]="acc.css" [title]="acc.title">
+                                <div class="w-100">
+                                    <div class="d-flex justify-content-center">
+                                        <span style="font-size: 2rem" [class]="acc.icon"></span>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <span>{{acc.label}}</span>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div>
+                        <span class="text-muted"> Secciones Disponibles: </span>
+                    </div>
+                    <div class="card mt-2">
+                        <ul class="list-group">
+                            <li class="list-group-item hand list-group-item-action d-flex flex-row justify-content-between"
+                                *ngFor="let item of secciones" (click)="cambiarSeccion(item)">
+                                <span>{{item.sec_nombre}}</span>
+                                <i class="fa  {{item.sec_id==seccion.sec_id?'fa-check':''}}"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md mt-lg-auto">
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-row-reverse">
+                            <h1 class="colormavil">MAVIL</h1>
+                        </div>
+                        <div class="d-flex flex-row-reverse" *ngIf="!isLoading">
+                        <span class="fontsizesm">
+                            Registrado a nombre de: {{datosempresa.emp_razonsocial}}
+                        </span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 <div class="mt-5">
     <app-appfooter></app-appfooter>
 </div>

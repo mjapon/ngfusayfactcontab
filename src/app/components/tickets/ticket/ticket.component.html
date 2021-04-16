@@ -48,6 +48,7 @@
 
     <p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
              (onRowSelect)="onRowSelect($event)"
+             [responsive]="true"
              [autoLayout]="false"
              [resizableColumns]="true"
              [(contextMenuSelection)]="selectedItem"
@@ -68,6 +69,7 @@
         <ng-template pTemplate="body" let-rowData>
             <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
                 <td *ngFor="let item of cols">
+                    <span class="p-column-title">{{item.label}}</span>
                     <span class="fontsizesm">
                     {{rowData[item['field']]}}
                     </span>
@@ -84,7 +86,7 @@
         </ng-template>
         <ng-template pTemplate="footer">
             <tr>
-                <td colspan="6">
+                <td [colSpan]="cols.length-1">
                     <span class="font-weight-bold">Total:  </span>
                 </td>
                 <td>{{total}}</td>

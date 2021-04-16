@@ -38,6 +38,17 @@
                     </div>
                 </div>
             </div>
+            <div class="row" *ngIf="billeteras.length>1">
+                <div class="col quitaPaddingMargin d-flex flex-row">
+                    <div class="px-2 pt-2 d-flex flex-row"
+                         title="Saldo total en todas las billeteras">
+                        <h6 class="font-weight-normal">TOTAL: </h6>
+                        <h6 class="font-weight-normal ml-2">{{saldotot}}</h6>
+                    </div>
+                </div>
+            </div>
+
+
             <div *ngIf="billeteras.length===0">
                 <h6 class="text-muted"> No tiene billeteras registradas </h6>
             </div>
@@ -135,6 +146,7 @@
 
                 <p-table *ngIf="!isLoadingMovs" [value]="grid.data" [paginator]="true" [rows]="50"
                          selectionMode="single"
+                         [responsive]="true"
                          [resizableColumns]="true">
                     <ng-template pTemplate="header">
                         <tr>
@@ -151,6 +163,7 @@
                     <ng-template pTemplate="body" let-rowData>
                         <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="verDetalles(rowData)">
                             <td *ngFor="let item of grid.cols" [width]="item.width">
+                                <span class="p-column-title">{{item.label}}</span>
                                 <span class="fontsizesm">
                                     {{rowData[item['field']]}}
                                 </span>

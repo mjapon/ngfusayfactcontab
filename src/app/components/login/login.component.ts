@@ -6,8 +6,8 @@ import {LocalStorageService} from '../../services/local-storage.service';
 import {FautService} from '../../services/faut.service';
 import {SeccionService} from '../../services/seccion.service';
 import {UsertokenService} from '../../services/usertoken.service';
-import {UiService} from '../../services/ui.service';
 import {LoadingUiService} from '../../services/loading-ui.service';
+import {DomService} from '../../services/dom.service';
 
 @Component({
     selector: 'app-login',
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private localStorageService: LocalStorageService,
         private seccionService: SeccionService,
-        private uiService: UiService,
+        private domService: DomService,
         private userTokenService: UsertokenService,
         private loadingServ: LoadingUiService
     ) {
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
             username: ['', Validators.required],
             password: ['', Validators.required]
         });
-        this.uiService.setFocusById(codFocus, 1500);
+        this.domService.setFocusTimeout(codFocus, 1500);
     }
 
     onclickSubmit() {

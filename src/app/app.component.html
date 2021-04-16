@@ -1,7 +1,7 @@
 <app-fusaynavbar *ngIf="!isLogged"></app-fusaynavbar>
 <app-loggednavbar *ngIf="isLogged"></app-loggednavbar>
 
-<div class="{{isLogged?'':'container'}}">
+<div>
     <p-toast position="top-right"></p-toast>
     <p-blockUI [blocked]="blocked">
         <div class="loading-container">
@@ -11,19 +11,12 @@
             </div>
         </div>
     </p-blockUI>
+</div>
+
+<div class="{{isLogged?'container-fluid':'container'}}">
     <div class="mt-2">
-        <div class="{{isLogged?'d-flex':''}}">
-            <div *ngIf="isLogged && isshowAppMenu" style="width: 6%; margin-top: -10px !important;">
-                <app-sidebarmenu></app-sidebarmenu>
-            </div>
-            <div [style]="stylemaindiv">
-                <div [ngClass]="classrouteroutlet">
-                    <router-outlet></router-outlet>
-                </div>
-            </div>
-        </div>
+        <router-outlet></router-outlet>
     </div>
 </div>
 
 <app-fusayfooter *ngIf="!isLogged"></app-fusayfooter>
-

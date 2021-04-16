@@ -102,15 +102,15 @@ export class FechasService {
     getDayString(date: Date): Promise<any> {
         const diasemana = getDay(date);
         const diames = format(date, 'd', {locale: es});
-        const respuesta = {diames, fecha: date};
+        const respuesta: any = {diames, fecha: date};
         return new Promise((resolve) => {
             if (this.loaded) {
-                respuesta['diastr'] = this.dayNamesShort[diasemana];
+                respuesta.diastr = this.dayNamesShort[diasemana];
                 resolve(respuesta);
             } else {
                 this.promiseDateShort.then(res => {
                     this.resolvePromiseFechas(res);
-                    respuesta['diastr'] = this.dayNamesShort[diasemana];
+                    respuesta.diastr = this.dayNamesShort[diasemana];
                     resolve(respuesta);
                 });
             }
@@ -157,7 +157,7 @@ export class FechasService {
         return matrix.map(week => {
             return week.map(tday => {
                 csstd = isToday(tday) ? 'smDiaCalHoy' : '';
-                const dcal = {
+                const dcal: any = {
                     num: getDate(tday),
                     fecha: tday,
                     sm: isSameMonth(tday, initDate),
@@ -167,7 +167,7 @@ export class FechasService {
                 };
 
                 if (slctdDate && isEqual(slctdDate, tday)) {
-                    dcal['selected'] = true;
+                    dcal.selected = true;
                 }
                 return dcal;
             });

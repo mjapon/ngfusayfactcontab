@@ -6,13 +6,13 @@ import {PersonaService} from '../../services/persona.service';
     template: `
         <div>
             <div class="row">
-                <div class="col">
+                <div class="col-md">
                     <input class="form-control form-rounded" id="buscaPacNomCiInput" type="text"
                            autocomplete="false"
                            placeholder="Buscar referente por nombres o número de cédula" [(ngModel)]="filtro"
                            (keyup)="onFiltroTyped()">
                 </div>
-                <div class="col-3">
+                <div class="col-md-3">
                     <button class="btn btn-outline-primary btn-block" (click)="crearPaciente()"> Nuevo <span
                             class="fa fa-plus-circle"></span></button>
                 </div>
@@ -33,7 +33,8 @@ import {PersonaService} from '../../services/persona.service';
                            (click)="selectPaciente(item)">
                             <div class="d-flex w-100 justify-content-between align-items-center">
                                 <div style="padding-right:20px !important; width: 6%">
-                                    <img src="assets/imgs/{{item.per_genero===2?'female.png':'male.png'}}" alt="Avatar">
+                                    <img src="assets/imgs/{{item.per_genero===2?'female.png':'male.png'}}"
+                                         alt="Avatar" class="img-fluid">
                                 </div>
                                 <div style="width: 90%">
                                     <h6 class="mb-0">{{item.nomapel}}</h6>

@@ -506,4 +506,9 @@ export class FacturasformComponent implements OnInit, OnDestroy {
             this.factMsgSubs.unsubscribe();
         }
     }
+
+    toggleConsFinal() {
+        this.isConsumidorFinal = !this.isConsumidorFinal;
+        this.onConsFinalChange();
+    }
 }

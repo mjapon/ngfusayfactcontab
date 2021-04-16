@@ -5,7 +5,6 @@ import {DomService} from '../../../services/dom.service';
 import {registerLocaleData} from '@angular/common';
 import es from '@angular/common/locales/es';
 import {LoadingUiService} from '../../../services/loading-ui.service';
-import {VentaticketService} from '../../../services/ventaticket.service';
 import {Router} from '@angular/router';
 import {BilleteramovService} from '../../../services/billeteramov.service';
 import {FechasService} from '../../../services/fechas.service';
@@ -36,10 +35,10 @@ export class IngegrComponent implements OnInit {
     isShowDetalleMov = false;
     codmovsel: number;
     selBillHasMoves = false;
+    saldotot: number = 0.0;
 
     constructor(private billeteraService: BilleteraService,
                 private billmovService: BilleteramovService,
-                private vtService: VentaticketService,
                 private domService: DomService,
                 private router: Router,
                 private fechasService: FechasService,
@@ -59,6 +58,7 @@ export class IngegrComponent implements OnInit {
         this.billeteraService.listar().subscribe(res => {
             if (res.status === 200) {
                 this.billeteras = res.billeteras;
+                this.saldotot = res.saldotot;
             }
             this.isLoading = false;
         });
@@ -211,7 +211,6 @@ export class IngegrComponent implements OnInit {
         if (this.formfiltros?.cuentabill) {
             cuentabill = this.formfiltros.cuentabill;
         }
-        console.log('parametros enviados es:', desde, hasta, tipo, cuenta, cuentabill);
 
         this.billmovService.listargrid(desde, hasta, tipo, cuenta, cuentabill).subscribe(res => {
             if (res.status === 200) {

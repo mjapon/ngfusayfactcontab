@@ -154,6 +154,15 @@ import {SwalService} from '../../../services/swal.service';
                                                [(ngModel)]="formCrea.ic_clasecc">
                                     </div>
                                 </div>
+                                <div class="row" *ngIf="editandoCta">
+                                    <div class="col-md-4">
+                                        <span class="font-weight-bold">Alias:</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" maxlength="80"
+                                               [(ngModel)]="formCrea.ic_alias">
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <span class="font-weight-bold">Observación:</span>
@@ -188,7 +197,7 @@ export class PlanctaslistComponent implements OnInit {
     itemsMenu: MenuItem[];
     isShowCrearPlanCta = false;
     isShowDet = false;
-    formCrea: any;
+    formCrea: any = {};
     padreexp = 0;
 
     isLoadingForm = false;

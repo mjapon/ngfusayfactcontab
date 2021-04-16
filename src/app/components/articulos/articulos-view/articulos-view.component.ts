@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {SwalService} from '../../../services/swal.service';
 import {ArticulostockService} from '../../../services/articulostock.service';
 import {KardexProdService} from '../../../services/kardex-prod.service';
-import {LoadingUiService} from "../../../services/loading-ui.service";
+import {LoadingUiService} from '../../../services/loading-ui.service';
 
 @Component({
     selector: 'app-articulos-view',

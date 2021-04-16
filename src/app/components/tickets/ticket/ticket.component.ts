@@ -39,7 +39,7 @@ export class TicketComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.form = {desde: new Date(), hasta: new Date(), desdestr: '', hastastr: ''}
+        this.form = {desde: new Date(), hasta: new Date(), desdestr: '', hastastr: ''};
         this.selectedServices = [];
         this.selectedSection = 0;
         this.items = [];

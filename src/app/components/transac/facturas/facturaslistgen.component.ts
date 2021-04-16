@@ -8,7 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
     `
 })
 export class FacturaslistgenComponent implements OnInit {
-    tipo: number;// 1-ventas//2-compras
+    tipo: number; // 1-ventas//2-compras
     tracodigo: number;
 
     constructor(private router: Router,

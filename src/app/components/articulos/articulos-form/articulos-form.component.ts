@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ArticuloService} from '../../../services/articulo.service';
 import {CategoriasService} from '../../../services/categorias.service';
-import {TipoCajaService} from '../../../services/tipocaja.service';
 import {UnidadesService} from '../../../services/unidades.service';
 import {MessageService, SelectItem} from 'primeng/api';
 import {SwalService} from '../../../services/swal.service';
@@ -60,7 +59,6 @@ export class ArticulosFormComponent implements OnInit {
         private artService: ArticuloService,
         private artStockService: ArticulostockService,
         private catsService: CategoriasService,
-        private tipoCajaService: TipoCajaService,
         private unidadesService: UnidadesService,
         private swalService: SwalService,
         private arrayUtil: ArrayutilService,
@@ -101,7 +99,10 @@ export class ArticulosFormComponent implements OnInit {
         this.proveedores = new Array<any>();
         this.artCodAutomatic = false;
 
+        // console.log('Valor de parammap es:', this.route.paramMap);
+
         this.route.paramMap.subscribe(params => {
+            // console.log('Valor de params es:', params);
             this.buildDefForm();
             this.artId = parseInt(params.get('art_id'), 10);
             this.editing = this.artId > 0;

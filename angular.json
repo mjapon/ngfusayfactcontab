@@ -13,6 +13,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "date-fns"
+            ],
             "outputPath": "dist/sysprint",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -29,8 +32,6 @@
               "primeicons/primeicons.css",
               "primeng/resources/primeng.min.css",
               "primeng/resources/themes/saga-blue/theme.css",
-              /*"primeng/resources/themes/mdc-light-indigo/theme.css",*/
-              /*"node_modules/primeng/resources/themes/bootstrap4-light-blue/theme.css",*/
               "@fortawesome/fontawesome-free/css/all.min.css"
             ],
             "scripts": [

@@ -82,13 +82,13 @@
                                                     <div class="ml-1 btn-group btn-group-sm" role="group">
                                                         <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1"
                                                                 *ngIf="i>0"
-                                                                title="Agregar tipo de ingreso">
+                                                                title="Quitar esta fila">
                                                             <i class="fa fa-minus-circle"
                                                                (click)="removeCuenta(fcuenta)"> </i>
                                                         </button>
                                                         <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1"
                                                                 *ngIf="i===form.cuentas.length-1"
-                                                                title="Quitar esta fila">
+                                                                title="Agregar otro ingreso">
                                                             <i class="fa fa-plus-circle" (click)="addcuentas()"> </i>
                                                         </button>
                                                     </div>
@@ -132,13 +132,13 @@
                                                     <div class="ml-1 btn-group btn-group-sm" role="group">
                                                         <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1"
                                                                 *ngIf="i>0"
-                                                                title="Agregar billetera afectada">
+                                                                title="Quitar billetera afectada">
                                                             <i class="fa fa-minus-circle"
                                                                (click)="removeBilletera(fbill)"> </i>
                                                         </button>
                                                         <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1"
                                                                 *ngIf="i==form.billeteras.length-1"
-                                                                title="Quitar billetera afectada"
+                                                                title="Agregar otra billetera"
                                                                 (click)="addbilleteras()">
                                                             <i class="fa fa-plus-circle"> </i>
                                                         </button>

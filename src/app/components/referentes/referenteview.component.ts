@@ -26,9 +26,11 @@ import {PersonEvService} from '../../services/personev.service';
                                    [datosmedicos]="false"
                                    (creacionCancelada)="cancelCreaRef()"></app-datospaciente>
             </div>
+            <!--
             <div *ngIf="tabactive ===2">
                 <app-suscripcion [codref]="codref"></app-suscripcion>
             </div>
+            -->
             <div *ngIf="tabactive ===3">
                 <app-factpagos [codpaciente]="codref" [clase]="1"
                                (evDeudasChange)="reloadStatusDeudas($event)"></app-factpagos>

@@ -12,7 +12,7 @@ import {forkJoin} from 'rxjs';
 @Component({
     selector: 'app-datospaciente',
     styles: [
-        `.dato-fila {
+            `.dato-fila {
             margin: 15px 5px;
         }
 
@@ -436,21 +436,11 @@ export class DatospacienteComponent implements OnInit, OnChanges {
     }
 
     loadDataPerson(persona: any) {
-        /*
-        const personaProps = ['per_ciruc', 'per_id', 'per_nombres', 'per_apellidos', 'per_direccion', 'per_telf',
-            'per_movil', 'per_email', 'per_tipo', 'per_lugnac', 'per_nota', 'per_edad', 'per_genero'];
-         */
         for (const prop in persona) {
             if (persona.hasOwnProperty(prop)) {
                 this.paciente[prop] = persona[prop];
             }
         }
-
-        /*
-        personaProps.forEach(prop => {
-            this.paciente[prop] = persona[prop];
-        });
-         */
 
         this.paciente.per_fechanac = null;
 
@@ -519,6 +509,7 @@ export class DatospacienteComponent implements OnInit, OnChanges {
                 this.datosPacienteFull = res.persona;
                 this.pacienteLoaded.emit(res.persona);
                 if (res.persona.per_tipo !== 3) {
+                    // TODO: Verificar si tipo de empresa es solo comercial no debe pedir fecha de nacimiento
                     this.datosIncompletos = this.isPersonDataIncomplete(res.persona);
                 }
                 if (this.datosIncompletos) {

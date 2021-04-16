@@ -21,11 +21,6 @@ export class ArrayutilService {
         array.splice(newIndex, 0, array.splice(oldIndex, 1)[0]);
     }
 
-    /**
-     * Verifica si un arreglo tiene un item con el valor 'value'
-     * @param arreglo
-     * @param value
-     */
     contains(arreglo: Array<any>, value) {
         let contains = false;
         if (arreglo) {

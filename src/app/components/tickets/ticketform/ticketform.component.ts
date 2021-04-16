@@ -3,11 +3,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TicketService} from '../../../services/ticket.service';
 import {PersonaService} from '../../../services/persona.service';
 import {SwalService} from '../../../services/swal.service';
-import {UiService} from '../../../services/ui.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {LugarService} from '../../../services/lugar.service';
 import {ArrayutilService} from '../../../services/arrayutil.service';
 import {forkJoin} from 'rxjs';
+import {DomService} from '../../../services/dom.service';
 
 @Component({
     selector: 'app-ticketform',
@@ -26,7 +26,7 @@ export class TicketformComponent implements OnInit {
                 private route: ActivatedRoute,
                 private ticketService: TicketService,
                 private swalService: SwalService,
-                private uiService: UiService,
+                private domService: DomService,
                 private personaService: PersonaService,
                 private arrayUtil: ArrayutilService,
                 private lugarService: LugarService,
@@ -57,7 +57,7 @@ export class TicketformComponent implements OnInit {
                 this.lugares = res[2].items;
             }
             this.isLoading = false;
-            this.uiService.setFocusById('ciPasInput', 300);
+            this.domService.setFocusTimeout('ciPasInput', 300);
         });
     }
 
@@ -87,7 +87,7 @@ export class TicketformComponent implements OnInit {
     }
 
     setFocus(inputid) {
-        this.uiService.setFocusById(inputid);
+        this.domService.setFocus(inputid);
     }
 
     selectService(item: any) {

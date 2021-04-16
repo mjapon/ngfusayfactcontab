@@ -45,6 +45,14 @@ export class FautService extends BaseService {
         return this.localStorageService.getItem('sqm');
     }
 
+    getVersionApp() {
+        return this.localStorageService.getItem('versionApp');
+    }
+
+    setVersionApp(version) {
+        this.localStorageService.setItem('versionApp', JSON.stringify(version));
+    }
+
     setMenuApp(menu) {
         this.localStorageService.setItem('menuApp', JSON.stringify(menu));
     }
@@ -95,18 +103,6 @@ export class FautService extends BaseService {
         return this.localStorageService.getItem('empNombreComercial');
     }
 
-    saveManuCli(menu: any) {
-        this.localStorageService.setItem('menuCliApp', JSON.stringify(menu));
-    }
-
-    getMenuCli() {
-        const menuCliApp = this.localStorageService.getItem('menuCliApp');
-        if (menuCliApp) {
-            return JSON.parse(menuCliApp);
-        }
-        return null;
-    }
-
     getAuToken() {
         const auToken: string = this.localStorageService.getItem('auToken');
         return auToken;
@@ -115,6 +111,5 @@ export class FautService extends BaseService {
     publishMessage(message: string) {
         this.bssource.next(message);
     }
-
 
 }

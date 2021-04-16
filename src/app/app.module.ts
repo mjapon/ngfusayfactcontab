@@ -16,15 +16,10 @@ import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/h
 import {TableModule} from 'primeng/table';
 import {MenubarModule} from 'primeng/menubar';
 import {SelectButtonModule} from 'primeng/selectbutton';
-import {ButtonModule} from 'primeng/button';
-import {AccordionModule} from 'primeng/accordion';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {AuthService} from './services/auth.service';
 import {StartComponent} from './components/start/start.component';
 import {ToastModule} from 'primeng/toast';
-
-import {AperturaCajaComponent} from './components/cajas/apertura-caja/apertura-caja.component';
-import {CierreCajaComponent} from './components/cajas/cierre-caja/cierre-caja.component';
+import {SidebarModule} from 'primeng/sidebar';
 import {ArticulosListComponent} from './components/articulos/articulos-list/articulos-list.component';
 
 import {ArticulosFormComponent} from './components/articulos/articulos-form/articulos-form.component';
@@ -38,20 +33,14 @@ import {AppfooterComponent} from './components/shared/loggedfooter/appfooter.com
 import {TicketComponent} from './components/tickets/ticket/ticket.component';
 import {TicketformComponent} from './components/tickets/ticketform/ticketform.component';
 import {ArticulosViewComponent} from './components/articulos/articulos-view/articulos-view.component';
-import {ArticulosBatchComponent} from './components/articulos/articulos-batch/articulos-batch.component';
-import {ArticuloItemBatchComponent} from './components/articulos/articulo-item-batch/articulo-item-batch.component';
 import localeEs from '@angular/common/locales/es-EC';
 
 import {CitasmedicasComponent} from './components/citas/citasmedicas/citasmedicas.component';
-import {VticketComponent} from './components/tickets/vtickets/vticket/vticket.component';
-import {VticketformComponent} from './components/tickets/vtickets/vticketform/vticketform.component';
 import {OdontogramaComponent} from './components/citas/odontograma/odontograma.component';
 import {RoleslistComponent} from './components/usuarios/roles/roleslist/roleslist.component';
 import {RolesformComponent} from './components/usuarios/roles/rolesform/rolesform.component';
 import {UserlistComponent} from './components/usuarios/userlist/userlist.component';
 import {UserformComponent} from './components/usuarios/userform/userform.component';
-import {TrubrosComponent} from './components/tickets/vtickets/trubros/trubros.component';
-import {TrubrosformComponent} from './components/tickets/vtickets/trubrosform/trubrosform.component';
 import {CitashechasComponent} from './components/citas/citashechas/citashechas.component';
 import {CitasplanedComponent} from './components/citas/citasplaned/citasplaned.component';
 import {CitaMedDetComponent} from './components/citas/citameddet/cita-med-det.component';
@@ -61,20 +50,16 @@ import {PiezadentalComponent} from './components/citas/odontograma/piezadental.c
 import {CaraspdComponent} from './components/citas/odontograma/caraspd.component';
 import {NumpiezaComponent} from './components/citas/odontograma/numpieza.component';
 import {GrppiezadentComponent} from './components/citas/odontograma/grppiezadent.component';
-import {ToolbarModule} from 'primeng/toolbar';
 import {DialogModule} from 'primeng/dialog';
-import {SplitButtonModule} from 'primeng/splitbutton';
 import {InputMaskModule} from 'primeng/inputmask';
 import {MessageModule} from 'primeng/message';
 import {CheckboxModule} from 'primeng/checkbox';
-import {MegaMenuModule} from 'primeng/megamenu';
 import {ContextMenuModule} from 'primeng/contextmenu';
 import {TabViewModule} from 'primeng/tabview';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {BlockUIModule} from 'primeng/blockui';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {AutoCompleteModule} from 'primeng/autocomplete';
-import {SliderModule} from 'primeng/slider';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {MessageService} from 'primeng/api';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
@@ -86,7 +71,6 @@ import {CitasodontoComponent} from './components/citas/citasodonto/citasodonto.c
 import {OdatencionesComponent} from './components/citas/odatenciones.component';
 import {ResumenPacienteComponent} from './components/citas/resumenpac.component';
 import {OdcalendarComponent} from './components/citas/odcalendar/odcalendar.component';
-import {ColorPickerModule} from 'primeng/colorpicker';
 import {CitaodontodetComponent} from './components/citas/odontograma/citaodontodet.component';
 import {DetallescitacalComponent} from './components/citas/odcalendar/detallescitacal.component';
 import {RecetasComponent} from './components/citas/recetas.component';
@@ -99,16 +83,10 @@ import {AbonosviewComponent} from './components/transac/abonos/abonosview/abonos
 import {LoadingComponent} from './components/home/loading.component';
 import {FacturaslistComponent} from './components/transac/facturas/facturaslist/facturaslist.component';
 import {FacturasformComponent} from './components/transac/facturas/facturasform/facturasform.component';
-import {SidebarmenuComponent} from './components/shared/sidebarmenu/sidebarmenu.component';
 import {NewfacturaformComponent} from './components/transac/facturas/newfacturaform/newfacturaform.component';
-import {PlaneslistComponent} from './components/transac/planes/planeslist/planeslist.component';
-import {PlanesformComponent} from './components/transac/planes/planesform/planesform.component';
 import {ReferenteslistComponent} from './components/referentes/referenteslist.component';
 import {ResumenrefComponent} from './components/referentes/resumenref.component';
 import {ReferenteviewComponent} from './components/referentes/referenteview.component';
-import {SuscripcionComponent} from './components/referentes/suscripciones/suscripcion.component';
-import {SuscripviewComponent} from './components/referentes/suscripciones/suscripview.component';
-import {VticketviewComponent} from './components/tickets/vtickets/vticket/vticketview.component';
 import {AgendaComponent} from './components/citas/agenda.component';
 import {PlanctaslistComponent} from './components/contabilidad/plancuentas/planctaslist.component';
 import {TreeModule} from 'primeng/tree';
@@ -141,8 +119,6 @@ export function HttpLoaderFactory(http: HttpClient) {
         LoginComponent,
         HomeComponent,
         StartComponent,
-        AperturaCajaComponent,
-        CierreCajaComponent,
         ArticulosListComponent,
         ArticulosFormComponent,
         FusaynavbarComponent,
@@ -153,18 +129,12 @@ export function HttpLoaderFactory(http: HttpClient) {
         TicketComponent,
         TicketformComponent,
         ArticulosViewComponent,
-        ArticulosBatchComponent,
-        ArticuloItemBatchComponent,
         CitasmedicasComponent,
-        VticketComponent,
-        VticketformComponent,
         OdontogramaComponent,
         RoleslistComponent,
         RolesformComponent,
         UserlistComponent,
         UserformComponent,
-        TrubrosComponent,
-        TrubrosformComponent,
         CitashechasComponent,
         CitasplanedComponent,
         CitaMedDetComponent,
@@ -192,16 +162,10 @@ export function HttpLoaderFactory(http: HttpClient) {
         LoadingComponent,
         FacturaslistComponent,
         FacturasformComponent,
-        SidebarmenuComponent,
         NewfacturaformComponent,
-        PlaneslistComponent,
-        PlanesformComponent,
         ReferenteslistComponent,
         ResumenrefComponent,
         ReferenteviewComponent,
-        SuscripcionComponent,
-        SuscripviewComponent,
-        VticketviewComponent,
         AgendaComponent,
         PlanctaslistComponent,
         LibrodiariolistComponent,
@@ -232,26 +196,20 @@ export function HttpLoaderFactory(http: HttpClient) {
         TableModule,
         MenubarModule,
         SelectButtonModule,
-        ToolbarModule,
         DialogModule,
-        ButtonModule,
-        SplitButtonModule,
         InputMaskModule,
         MessageModule,
         CheckboxModule,
         ToastModule,
         DropdownModule,
         CalendarModule,
-        MegaMenuModule,
         ContextMenuModule,
         TabViewModule,
-        AccordionModule,
         RadioButtonModule,
         BlockUIModule,
         ProgressSpinnerModule,
         AutoCompleteModule,
-        SliderModule,
-        ColorPickerModule,
+        SidebarModule,
         TreeModule,
         MultiSelectModule,
         TranslateModule.forRoot({
@@ -265,7 +223,6 @@ export function HttpLoaderFactory(http: HttpClient) {
         TreeTableModule
     ],
     providers: [
-        AuthService,
         MessageService,
         DatePipe,
         {

@@ -1,12 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 import {FautService} from '../../../services/faut.service';
-import {Router} from '@angular/router';
+import {NavigationEnd, NavigationStart, Router, RouterEvent} from '@angular/router';
 import {MenuItem} from 'primeng/api';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'app-loggednavbar',
     templateUrl: './loggednavbar.component.html',
-    styleUrls: ['./loggednavbar.component.css']
+    styles: [
+            `.leftpanel {
+            overflow-y: scroll;
+            height: calc(100vh - 85px);
+        }
+        `]
 })
 export class LoggednavbarComponent implements OnInit {
     userinfo: any;
@@ -14,11 +20,24 @@ export class LoggednavbarComponent implements OnInit {
     empNombreComercial: any;
     menuApp: MenuItem[];
     isLogged: boolean;
+    isSideVisible = false;
+    versionApp = '';
 
     constructor(private fautService: FautService,
                 private router: Router) {
         this.userinfo = {};
         this.menuApp = [];
+        router.events.pipe(
+            filter((ev): ev is RouterEvent => {
+                return ev instanceof RouterEvent;
+            })
+        ).subscribe((evn: RouterEvent) => {
+            if (evn instanceof NavigationStart) {
+                this.isSideVisible = false;
+            } else if (evn instanceof NavigationEnd) {
+                // console.log('Evento NavigationEnd: ', evn);
+            }
+        });
     }
 
     ngOnInit() {
@@ -50,6 +69,8 @@ export class LoggednavbarComponent implements OnInit {
                 if (menu) {
                     this.menuApp = menu;
                 }
+            } else if (msg === 'loadvapp') {
+                this.versionApp = this.fautService.getVersionApp() || '';
             }
 
             if (this.isLogged) {
@@ -70,5 +91,9 @@ export class LoggednavbarComponent implements OnInit {
 
     hideAppMenu() {
         this.fautService.publishMessage('hideappmenu');
+    }
+
+    toggleSidebar() {
+        this.isSideVisible = !this.isSideVisible;
     }
 }

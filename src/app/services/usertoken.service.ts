@@ -37,7 +37,7 @@ export class UsertokenService extends BaseService {
     }
 
     crearUsuario(form: any, formcli: any): Observable<any> {
-        const theform = {form, formcli};//Editado
+        const theform = {form, formcli};
         const httpOptions = this.getHOT({accion: 'creauser'});
         return this.doPost(this.http, this.urlEndPoint, httpOptions, theform);
     }
