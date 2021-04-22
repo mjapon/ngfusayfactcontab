@@ -31,14 +31,40 @@ export class FautService extends BaseService {
         return this.localStorageService.getItem('fIsLogged') != null;
     }
 
-    setAsAuthenticated(userinfo: any, token: any, menu: any, seccion: any, empNombreComercial, sqm: string) {
+    setAsAuthenticated(userinfo: any, token: any, menu: any, seccion: any, empNombreComercial, sqm: string, tdvcodigo: any) {
         this.localStorageService.setItem('fIsLogged', 'true');
         this.localStorageService.setItem('infoUserFLogged', JSON.stringify(userinfo));
         this.localStorageService.setItem('menuApp', JSON.stringify(menu));
         this.localStorageService.setItem('auToken', token);
         this.localStorageService.setItem('seccion', JSON.stringify(seccion));
+        this.localStorageService.setItem('tdvcodigo', JSON.stringify(tdvcodigo));
         this.localStorageService.setItem('empNombreComercial', empNombreComercial);
         this.localStorageService.setItem('sqm', sqm);
+    }
+
+    updateTokenAndTdvcod(token: any, tdvcodigo: any) {
+        this.localStorageService.setItem('auToken', token);
+        this.localStorageService.setItem('tdvcodigo', tdvcodigo);
+    }
+
+    isTdvCodSaved() {
+        const tdvcod = this.localStorageService.getItem('tdvcodigo');
+        return tdvcod !== null;
+    }
+
+    setTdvCodigo(tdvcod) {
+        this.localStorageService.setItem('tdvcodigo', JSON.stringify(tdvcod));
+    }
+
+    getTdvCodigo(): number {
+        const tdvcod = this.localStorageService.getItem('tdvcodigo');
+        let tdvcodproc = 0;
+        if (tdvcod) {
+            tdvcodproc = parseInt(tdvcod, 10);
+        } else {
+            tdvcodproc = 1;
+        }
+        return tdvcodproc;
     }
 
     getEsquema() {
@@ -69,12 +95,25 @@ export class FautService extends BaseService {
         this.localStorageService.setItem('secciones', JSON.stringify(secciones));
     }
 
+    setTtpdvs(ttpdvs: any) {
+        this.localStorageService.setItem('ttpdvs', JSON.stringify(ttpdvs));
+    }
+
     getSecciones(): any {
         const infoSecciones: string = this.localStorageService.getItem('secciones');
         return JSON.parse(infoSecciones);
     }
 
-    updateToken(token: any, seccion: any) {
+    getTtpdvs(): any {
+        const infoTtpdvs: string = this.localStorageService.getItem('ttpdvs');
+        if (!infoTtpdvs) {
+            return [{tdv_codigo: 1, tdv_numero: '001', tdv_nombre: 'PRINCIPAL'}];
+        } else {
+            return JSON.parse(infoTtpdvs);
+        }
+    }
+
+    updateTokenAndSec(token: any, seccion: any) {
         this.localStorageService.setItem('auToken', token);
         this.localStorageService.setItem('seccion', JSON.stringify(seccion));
     }
@@ -86,6 +125,9 @@ export class FautService extends BaseService {
         this.localStorageService.removeItem('menuApp');
         this.localStorageService.removeItem('seccion');
         this.localStorageService.removeItem('secciones');
+        this.localStorageService.removeItem('tdvcodigo');
+        this.localStorageService.removeItem('sqm');
+        this.localStorageService.removeItem('versionApp');
         this.localStorageService.removeItem('empNombreComercial');
     }
 

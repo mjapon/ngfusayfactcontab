@@ -20,8 +20,8 @@ export class AsientoService extends BaseService {
         return this._doGet(this.getHOT({accion: 'gdetdoc', trncod}));
     }
 
-    getFormCab(traCod: number, tdvCod: number) {
-        return this._doGet(this.getHOT({accion: 'formcab', tra_cod: traCod, tdv_codigo: tdvCod}));
+    getFormCab(traCod: number) {
+        return this._doGet(this.getHOT({accion: 'formcab', tra_cod: traCod}));
     }
 
     listarFacturas(perCodigo: number) {

@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 @Component({
     selector: 'app-newfacturaform',
     template: `
-        <app-facturasform [tracodigo]="tracodigo" tdvcodigo="1" [form]="form"
+        <app-facturasform [tracodigo]="tracodigo" [form]="form"
                           (evCancela)="oncancelar()"
                           (evGuardarOk)="onguardar()">
         </app-facturasform>

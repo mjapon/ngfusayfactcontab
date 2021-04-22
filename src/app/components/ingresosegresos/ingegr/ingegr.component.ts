@@ -92,7 +92,6 @@ export class IngegrComponent implements OnInit {
 
     doSaveBill() {
         this.isFormBillSubmit = true;
-        // Verificar que ningun campo tenga error
 
         if (!this.domService.txtInputFieldHasValue(this.formbill.bil_code) ||
             !this.domService.txtInputFieldHasValue(this.formbill.bil_nombre) ||
@@ -106,7 +105,6 @@ export class IngegrComponent implements OnInit {
             msg = '¿Confirma la actualización de esta billetera?';
         }
 
-        // this.swalService.fireDialog(msg).then(confirm => {
         if (confirm(msg)) {
             this.loadingUiService.publishBlockMessage();
             let billsaveobs = null;
@@ -124,7 +122,6 @@ export class IngegrComponent implements OnInit {
                 }
             });
         }
-        // });
     }
 
     ctacontabhaserror() {
@@ -147,7 +144,7 @@ export class IngegrComponent implements OnInit {
     showDetBill(bill) {
         this.titleFormBill = 'Datos de la billetera';
         this.selBillHasMoves = false;
-        this.billeteraService.getForm().subscribe(res => {
+        this.billeteraService.getFormSecs(bill.ic_id).subscribe(res => {
             if (res.status === 200) {
                 this.formbill = res.form;
                 this.cajasdisp = res.form.cajas;
@@ -170,7 +167,6 @@ export class IngegrComponent implements OnInit {
     }
 
     doDeleteBill() {
-        // this.swalService.fireDialog('¿Confirma que desea anular esta billetera?').then(confirm => {
         if (confirm('¿Confirma que desea anular esta billetera?')) {
             this.billeteraService.anular(this.formbill.bil_id).subscribe(res => {
                 if (res.status === 200) {
@@ -180,7 +176,6 @@ export class IngegrComponent implements OnInit {
                 }
             });
         }
-        // });
     }
 
     verDetalles(rowData) {
@@ -308,7 +303,6 @@ export class IngegrComponent implements OnInit {
     }
 
     showMovsBill(bill: any) {
-        // this.cancelFiltro();
         this.formfiltros.cuentabill = bill.ic_id;
         this.loadMovimientos();
     }

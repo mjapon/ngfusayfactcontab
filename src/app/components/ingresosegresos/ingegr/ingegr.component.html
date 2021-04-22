@@ -278,6 +278,22 @@
                           rows="5"></textarea>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                        <span class="font-weight-bold"
+                              title="Selecciones las secciones donde esta cuenta contable es visible">Secciones:</span>
+            </div>
+            <div class="col-md">
+                <div *ngFor="let itsec of formbill.secciones" class="d-flex flex-row">
+                    <p-checkbox [inputId]="itsec.seccion.sec_id" binary="true"
+                                [(ngModel)]="itsec.value"></p-checkbox>
+                    <label [for]="itsec.seccion.sec_id"
+                           class="ml-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
+                </div>
+            </div>
+        </div>
+
     </div>
     <p-footer *ngIf="!isLoadingFormBill">
         <button class="btn btn-outline-primary" (click)="doSaveBill()">

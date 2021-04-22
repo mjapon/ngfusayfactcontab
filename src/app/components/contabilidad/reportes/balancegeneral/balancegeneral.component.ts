@@ -3,7 +3,6 @@ import {AsientoService} from '../../../../services/asiento.service';
 import {FechasService} from '../../../../services/fechas.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
 import {TreeNode} from 'primeng/api';
-import {ReportscontaService} from '../../../../services/reportsconta.service';
 import {SwalService} from '../../../../services/swal.service';
 
 @Component({
@@ -157,8 +156,7 @@ export class BalancegeneralComponent implements OnInit {
     constructor(private asientoService: AsientoService,
                 private loadingUiServ: LoadingUiService,
                 private fechasService: FechasService,
-                private swalService: SwalService,
-                private reportsContaServ: ReportscontaService) {
+                private swalService: SwalService) {
     }
 
     ngOnInit(): void {

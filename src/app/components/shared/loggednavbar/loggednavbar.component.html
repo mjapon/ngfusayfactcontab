@@ -15,30 +15,75 @@
     <button class="btn btn-sm btn-outline-primary ml-2" (click)="goHome()" title="Ir al inicio">
         <span class="fa fa-home"></span>
     </button>
-    <div class="collapse navbar-collapse d-flex flex-row-reverse" id="navbarSupportedContent">
-        <ul class="navbar-nav d-none d-md-block d-lg-block d-xl-block">
-            <li class="nav-item">
-                <a class="nav-link text-primary dropdown-toggle" href="#" id="navbarDropdown"
-                   role="button" data-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false" title="{{userinfo?.per_nombres + ' ' + userinfo?.per_apellidos}}">
-                    <i class="fas fa-user"></i>
-                    {{userinfo?.per_nombres?.charAt(0) + userinfo?.per_apellidos?.charAt(0)}}
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <li>
-                        <button class="dropdown-item"
-                                type="button">{{userinfo.per_nombres + ' ' + userinfo.per_apellidos}}</button>
-                    </li>
-                    <li>
-                        <button class="dropdown-item" type="button" (click)="logout()">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Salir
-                        </button>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+    <div class="w-100 d-flex flex-row-reverse">
+        <div class="d-none d-md-inline d-lg-inline-block d-xl-inline-block" id="navbarSupportedContent">
+            <ul class="navbar-nav d-flex flex-row">
+                <li class="nav-item dropdown">
+                    <a class="nav-link text-primary dropdown-toggle" href="#" id="dropdownPtoEmi"
+                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false" title="PtoEmision">
+                        PtoEmi
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownPtoEmi">
+                        <li *ngFor="let ttpdv of ttpdvs">
+                            <button class="dropdown-item" type="button" (click)="cambiarTtpdv(ttpdv)">
+                                <i *ngIf="ttpdv.tdv_codigo === currTdvcod" class="fa fa-check"></i>
+                                {{ttpdv.tdv_numero}}- {{ttpdv.tdv_nombre}}
+                            </button>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link text-primary dropdown-toggle" href="#" id="dropdownSeccion"
+                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false" title="Seccion">
+                        Sección
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownSeccion">
+                        <li *ngFor="let sec of secciones">
+                            <button class="dropdown-item" type="button" (click)="cambiarSeccion(sec)">
+                                <i *ngIf="sec.sec_id === seccion.sec_id" class="fa fa-check"></i>
+                                {{sec.sec_nombre}}
+                            </button>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link text-primary dropdown-toggle" href="#" id="navbarDropdown"
+                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false" title="{{userinfo?.per_nombres + ' ' + userinfo?.per_apellidos}}">
+                        <i class="fas fa-user"></i>
+                        {{userinfo?.per_nombres?.charAt(0) + userinfo?.per_apellidos?.charAt(0)}}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <li>
+                            <button class="dropdown-item"
+                                    type="button">{{userinfo.per_nombres + ' ' + userinfo.per_apellidos}}</button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item" type="button" (click)="logout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Salir
+                            </button>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <!--
+            <ul class="navbar-nav d-none d-md-block d-lg-block d-xl-block">
+
+            </ul>
+            <ul class="navbar-nav d-none d-md-block d-lg-block d-xl-block">
+
+            </ul>
+            -->
+
+        </div>
     </div>
+
 </nav>
 <div>
     <p-sidebar [(visible)]="isSideVisible" styleClass="quitaPaddingMargin" [blockScroll]="true" position="left"

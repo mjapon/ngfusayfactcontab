@@ -6,6 +6,7 @@ import {SwalService} from '../../../services/swal.service';
 import {MenuItem} from 'primeng/api';
 import {FechasService} from '../../../services/fechas.service';
 import {DatosloggedService} from '../../../services/datoslogged.service';
+import {TtpdvService} from '../../../services/ttpdv.service';
 
 @Component({
     selector: 'app-logged-home',
@@ -33,6 +34,7 @@ export class LoggedHomeComponent implements OnInit {
                 private router: Router,
                 private fechasService: FechasService,
                 private seccionService: SeccionService,
+                private ttpdvService: TtpdvService,
                 private datosLoggedServ: DatosloggedService,
                 private swalService: SwalService) {
         this.menuApp = [];
@@ -52,6 +54,8 @@ export class LoggedHomeComponent implements OnInit {
                 if (menu) {
                     this.menuApp = menu;
                 }
+            } else if (msg === 'updateSeccion') {
+                this.seccion = this.fautService.getSeccionInfoSaved();
             }
         });
 
@@ -63,6 +67,30 @@ export class LoggedHomeComponent implements OnInit {
         this.fechaactualstr = '';
 
         this.loadDatosLogged();
+
+        // Verificar si se debe traer la informacion del punto de emision
+        this.checkTtpdv();
+
+    }
+
+    checkTtpdv() {
+        if (!this.fautService.isTdvCodSaved()) {
+            this.ttpdvService.listarMin().subscribe(restpdv => {
+                if (restpdv.status === 200) {
+                    if (restpdv.ttpdvs) {
+                        this.fautService.setTtpdvs(restpdv.ttpdvs);
+                        const tdvcod = restpdv.ttpdvs[0].tdv_codigo;
+                        this.ttpdvService.setTdvcodigo(tdvcod).subscribe(res => {
+                            if (res.status === 200) {
+                                this.swalService.fireToastSuccess('Nuevo punto de emisión seleccionado');
+                                this.fautService.updateTokenAndTdvcod(res.token, tdvcod);
+                            }
+                        });
+                    }
+                    this.fautService.publishMessage('updateTtpdvs');
+                }
+            });
+        }
     }
 
     loadDatosLogged() {
@@ -90,9 +118,12 @@ export class LoggedHomeComponent implements OnInit {
         this.seccionService.setSeccion(seccion.sec_id).subscribe(res => {
             if (res.status === 200) {
                 this.swalService.fireToastSuccess('Nueva sección seleccionada');
-                this.fautService.updateToken(res.token, res.seccion);
+                this.fautService.updateTokenAndSec(res.token, res.seccion);
                 this.seccion = res.seccion;
                 this.fautService.publishMessage('updateSeccion');
+                this.fautService.setTtpdvs(res.ttpdvs);
+                this.fautService.updateTokenAndTdvcod(res.token, res.tdv_codigo);
+                this.fautService.publishMessage('updateTtpdvs');
             }
         });
     }

@@ -17,6 +17,10 @@ export class BilleteraService extends BaseService {
         return this._doGet(this.getHOT({accion: 'form'}));
     }
 
+    getFormSecs(ic) {
+        return this._doGet(this.getHOT({accion: 'formsecs', ic}));
+    }
+
     listar() {
         return this._doGet(this.getHOT({accion: 'listar'}));
     }

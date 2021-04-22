@@ -80,12 +80,26 @@ import {SwalService} from '../../../services/swal.service';
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <span class="font-weight-bold"> Observacion: </span>
+                                <span class="font-weight-bold"> Observación: </span>
                             </div>
                             <div class="col-md-8">
                                 <p style="white-space: pre-line">
                                     {{datosCtaContable.ic_nota}}
                                 </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                        <span class="font-weight-bold"
+                                              title="Selecciones las secciones donde esta cuenta contable es visible">Secciones:</span>
+                            </div>
+                            <div class="col-md-8">
+                                <div *ngFor="let itsec of datosCtaContable.secciones" class="d-flex flex-row">
+                                    <p-checkbox [inputId]="itsec.seccion.sec_id" binary="true" [disabled]="true"
+                                                [(ngModel)]="itsec.value"></p-checkbox>
+                                    <label [for]="itsec.seccion.sec_id"
+                                           class="ml-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
+                                </div>
                             </div>
                         </div>
                         <div class="text-center pt-3">
@@ -172,6 +186,22 @@ import {SwalService} from '../../../services/swal.service';
                                                   [(ngModel)]="formCrea.ic_nota" rows="5"></textarea>
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <span class="font-weight-bold"
+                                              title="Selecciones las secciones donde esta cuenta contable es visible">Secciones:</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div *ngFor="let itsec of formCrea.secciones" class="d-flex flex-row">
+                                            <p-checkbox [inputId]="itsec.seccion.sec_id" binary="true"
+                                                        [(ngModel)]="itsec.value"></p-checkbox>
+                                            <label [for]="itsec.seccion.sec_id"
+                                                   class="ml-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="text-center pt-3">
                                     <button class="btn btn-outline-primary mr-2" (click)="guardarCta()"><i
                                             class="fa fa-save"></i> Guardar
@@ -206,6 +236,7 @@ export class PlanctaslistComponent implements OnInit {
     titlecreaedit: string;
     editandoCta = false;
     selectedPlanDbdata: any;
+    secciones: Array<any> = [];
 
     constructor(private artService: ArticuloService,
                 private domService: DomService,
@@ -286,9 +317,10 @@ export class PlanctaslistComponent implements OnInit {
             this.isShowCrearPlanCta = true;
             this.titlecreaedit = 'Editar cuenta contable';
             this.editandoCta = true;
-
+            this.isLoadingForm = true;
             this.artService.getDetCtaContable(this.padreexp).subscribe(res => {
                 this.isLoadingDet = false;
+                this.isLoadingForm = false;
                 if (res.status === 200) {
                     this.formCrea = res.datoscta;
                 }

@@ -8,6 +8,8 @@ import {SeccionService} from '../../../services/seccion.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {CategoriasService} from '../../../services/categorias.service';
 import {forkJoin} from 'rxjs';
+import {FautService} from '../../../services/faut.service';
+import {ArrayutilService} from '../../../services/arrayutil.service';
 
 @Component({
     selector: 'app-articulos-list',
@@ -39,6 +41,8 @@ export class ArticulosListComponent implements OnInit {
                 private swalService: SwalService,
                 private loadinUiServ: LoadingUiService,
                 private seccionService: SeccionService,
+                private arrayService: ArrayutilService,
+                private fautService: FautService,
                 private router: Router) {
     }
 
@@ -61,6 +65,17 @@ export class ArticulosListComponent implements OnInit {
             if (res[0].status === 200) {
                 this.sections = res[0].items;
                 this.selectedSection = this.sections[0];
+
+                const infoSecSaved = this.fautService.getSeccionInfoSaved();
+                if (infoSecSaved) {
+                    const result = this.arrayService.getFirstResult(this.sections, el => {
+                            return el.sec_id === infoSecSaved.sec_id;
+                        }
+                    );
+                    if (result) {
+                        this.selectedSection = result;
+                    }
+                }
             }
             if (res[1].status === 200) {
                 this.categorias = res[1].items;

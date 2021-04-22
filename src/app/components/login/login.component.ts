@@ -8,6 +8,7 @@ import {SeccionService} from '../../services/seccion.service';
 import {UsertokenService} from '../../services/usertoken.service';
 import {LoadingUiService} from '../../services/loading-ui.service';
 import {DomService} from '../../services/dom.service';
+import {TtpdvService} from '../../services/ttpdv.service';
 
 @Component({
     selector: 'app-login',
@@ -26,6 +27,7 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private localStorageService: LocalStorageService,
         private seccionService: SeccionService,
+        private ttpdvService: TtpdvService,
         private domService: DomService,
         private userTokenService: UsertokenService,
         private loadingServ: LoadingUiService
@@ -79,7 +81,7 @@ export class LoginComponent implements OnInit {
                     this.localStorageService.setItem('GLOBAL_COD_EMPRESA', form.empresa);
                     this.fautService.publishMessage('login');
                     this.fautService.setAsAuthenticated(res.userinfo, res.token, res.menu, res.seccion,
-                        res.empNombreComercial, res.sqm);
+                        res.empNombreComercial, res.sqm, res.tdv_codigo);
                     this.swalService.fireToastSuccess('', 'Bienvenido: ' + res.userinfo.per_nombres);
                     this.router.navigate(['lghome']);
                     this.seccionService.listar().subscribe(ressec => {
@@ -87,6 +89,12 @@ export class LoginComponent implements OnInit {
                             this.secciones = ressec.items;
                             this.fautService.setSecciones(this.secciones);
                             this.fautService.publishMessage('updateSecciones');
+                        }
+                    });
+                    this.ttpdvService.listarMin().subscribe(restpdv => {
+                        if (restpdv.status === 200) {
+                            this.fautService.setTtpdvs(restpdv.ttpdvs);
+                            this.fautService.publishMessage('updateTtpdvs');
                         }
                     });
                     this.userTokenService.getMenu(res.userinfo.us_id).subscribe(resMenu => {

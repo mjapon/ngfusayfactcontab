@@ -29,7 +29,6 @@ export class FactpagosComponent implements OnInit, OnChanges {
     totalescred: any;
 
     tracodigofact = 1;
-    tdvcodigofact = 1;
 
     @Input() codpaciente: number;
     @Input() clase: number;

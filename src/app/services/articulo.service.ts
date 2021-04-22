@@ -106,24 +106,6 @@ export class ArticuloService extends BaseService {
         return this._doGet(this.getHOT({accion: 'gservdentall'}));
     }
 
-    listarRubros(): Observable<any> {
-        const endpoint = this.urlEndPoint;
-        const httpOptions = this.getHOT({accion: 'rubrosgrid'});
-        return this.doGet(this.http, endpoint, httpOptions);
-    }
-
-    getFormRubro(): Observable<any> {
-        const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHOT({accion: 'formrubros'});
-        return this.doGet(this.http, endopoint, httpOptions);
-    }
-
-    guardarRubro(form: any) {
-        const endopoint = this.urlEndPoint + '/' + form.ic_id;
-        const httpOptions = this.getHOT({accion: 'guardarubro'});
-        return this.doPost(this.http, endopoint, httpOptions, form);
-    }
-
     getImpuestos() {
         return this._doGet(this.getHOT({accion: 'gimpuestos'}));
     }

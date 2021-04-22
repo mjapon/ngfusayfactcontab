@@ -456,8 +456,7 @@ export class DatospacienteComponent implements OnInit, OnChanges {
         this.paciente.per_estadocivil = null;
         if (persona.per_estadocivil) {
             this.paciente.per_estadocivil = this.arrayUtil.getFirstResult(
-                this.estadoCivilList,
-                (el, idx, array) => {
+                this.estadoCivilList, el => {
                     return el.lval_id === persona.per_estadocivil;
                 }
             );
@@ -465,16 +464,14 @@ export class DatospacienteComponent implements OnInit, OnChanges {
 
         if (persona.per_tiposangre) {
             this.paciente.per_tiposangre = this.arrayUtil.getFirstResult(
-                this.tipoSangreList,
-                (el, idx, array) => {
+                this.tipoSangreList, el => {
                     return el.lval_id === persona.per_tiposangre;
                 }
             );
         }
         if (persona.per_tipo) {
             this.paciente.per_tipo = this.arrayUtil.getFirstResult(
-                this.tiposRefList,
-                (el, idx, array) => {
+                this.tiposRefList, el => {
                     return parseInt(el.lval_valor, 10) === persona.per_tipo;
                 }
             );
@@ -483,8 +480,7 @@ export class DatospacienteComponent implements OnInit, OnChanges {
         this.paciente.per_lugresidencia = null;
         if (persona.per_lugresidencia) {
             this.paciente.per_lugresidencia = this.arrayUtil.getFirstResult(
-                this.lugares,
-                (el, idx, array) => {
+                this.lugares, el => {
                     return el.lug_id === persona.per_lugresidencia;
                 }
             );
@@ -493,8 +489,7 @@ export class DatospacienteComponent implements OnInit, OnChanges {
         this.paciente.per_ocupacion = null;
         if (persona.per_ocupacion) {
             this.paciente.per_ocupacion = this.arrayUtil.getFirstResult(
-                this.ocupaciones,
-                (el, idx, array) => {
+                this.ocupaciones, el => {
                     return el.lval_id === persona.per_ocupacion;
                 }
             );

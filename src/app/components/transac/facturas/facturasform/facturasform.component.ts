@@ -36,7 +36,6 @@ export class FacturasformComponent implements OnInit, OnDestroy {
 
     @Input() form: any;
     @Input() tracodigo: number;
-    @Input() tdvcodigo: number;
 
     @Input() showtitulo = true;
     @Input() showreferente = true;
@@ -382,7 +381,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         this.initformfact();
         this.loadingUiService.publishBlockMessage();
-        const formCabObs = this.asientoService.getFormCab(this.tracodigo, this.tdvcodigo);
+        const formCabObs = this.asientoService.getFormCab(this.tracodigo);
         const secObs = this.seccionService.listar();
 
         let perFormObs = null;

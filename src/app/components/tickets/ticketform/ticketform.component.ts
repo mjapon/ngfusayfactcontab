@@ -75,8 +75,7 @@ export class TicketformComponent implements OnInit {
                     this.formcli.per_direccion = res.persona.per_direccion;
                     if (res.persona.per_lugresidencia) {
                         this.formcli.per_lugresidencia = this.arrayUtil.getFirstResult(
-                            this.lugares,
-                            (el, idx, array) => {
+                            this.lugares, el => {
                                 return el.lug_id === res.persona.per_lugresidencia;
                             }
                         );

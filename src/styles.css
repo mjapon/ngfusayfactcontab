@@ -4,8 +4,11 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
 /*Estilos agregados de la pagin del blog*/
-body {
+html {
     font-size: 17px;
+}
+
+body {
     color: #212529;
     font-family: 'Poppins', 'Times New Roman', serif !important;
 }

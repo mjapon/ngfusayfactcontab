@@ -191,8 +191,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                                 const diagsNumberArray = cosm_diagnosticos.split(',');
                                 for (const codDiag of diagsNumberArray) {
                                     const ciedDiag = this.arrayUtil.getFirstResult(
-                                        this.ciedataArray,
-                                        (el, idx, array) => {
+                                        this.ciedataArray, el => {
                                             return parseInt(el.cie_id, 10) === parseInt(codDiag, 10);
                                         }
                                     );

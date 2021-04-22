@@ -3,6 +3,9 @@ import {FautService} from '../../../services/faut.service';
 import {NavigationEnd, NavigationStart, Router, RouterEvent} from '@angular/router';
 import {MenuItem} from 'primeng/api';
 import {filter} from 'rxjs/operators';
+import {TtpdvService} from '../../../services/ttpdv.service';
+import {SwalService} from '../../../services/swal.service';
+import {SeccionService} from '../../../services/seccion.service';
 
 @Component({
     selector: 'app-loggednavbar',
@@ -22,8 +25,14 @@ export class LoggednavbarComponent implements OnInit {
     isLogged: boolean;
     isSideVisible = false;
     versionApp = '';
+    secciones: Array<any> = [];
+    ttpdvs: Array<any> = [];
+    currTdvcod = 1;
 
     constructor(private fautService: FautService,
+                private swalService: SwalService,
+                private seccionService: SeccionService,
+                private ttpdvService: TtpdvService,
                 private router: Router) {
         this.userinfo = {};
         this.menuApp = [];
@@ -45,7 +54,9 @@ export class LoggednavbarComponent implements OnInit {
         if (userInfoSaved) {
             this.userinfo = userInfoSaved;
         }
-        this.seccion = this.fautService.getSeccionInfoSaved();
+        this.loadSeciones();
+        this.loadTtpdvs();
+
         this.empNombreComercial = this.fautService.getNombreComercialSaved();
         if (!this.empNombreComercial) {
             this.empNombreComercial = 'SmartFact';
@@ -59,8 +70,9 @@ export class LoggednavbarComponent implements OnInit {
         this.fautService.source.subscribe(msg => {
             if (msg === 'updateSeccion') {
                 this.seccion = this.fautService.getSeccionInfoSaved();
-            }
-            if (msg === 'logout') {
+            } else if (msg === 'updateTdvcod') {
+                this.currTdvcod = this.fautService.getTdvCodigo();
+            } else if (msg === 'logout') {
                 this.isLogged = false;
             } else if (msg === 'login') {
                 this.isLogged = true;
@@ -71,6 +83,10 @@ export class LoggednavbarComponent implements OnInit {
                 }
             } else if (msg === 'loadvapp') {
                 this.versionApp = this.fautService.getVersionApp() || '';
+            } else if (msg === 'updateSecciones') {
+                this.loadSeciones();
+            } else if (msg === 'updateTtpdvs') {
+                this.loadTtpdvs();
             }
 
             if (this.isLogged) {
@@ -89,8 +105,52 @@ export class LoggednavbarComponent implements OnInit {
         this.router.navigate(['lghome']);
     }
 
+    cambiarTtpdv(ttpdv) {
+        this.ttpdvService.setTdvcodigo(ttpdv.tdv_codigo).subscribe(res => {
+            if (res.status === 200) {
+                this.swalService.fireToastSuccess('Nuevo punto de emisión seleccionado');
+                this.fautService.updateTokenAndTdvcod(res.token, ttpdv.tdv_codigo);
+            }
+        });
+    }
+
+    cambiarSeccion(seccion) {
+        this.seccionService.setSeccion(seccion.sec_id).subscribe(res => {
+            if (res.status === 200) {
+                /*
+                this.swalService.fireToastSuccess('Nueva sección seleccionada y punto de emisión seleccionado');
+                this.fautService.updateTokenAndSec(res.token, res.seccion);
+                this.seccion = res.seccion;
+                this.fautService.publishMessage('updateSeccion');
+                this.fautService.setTtpdvs(res.ttpdvs);
+                this.ttpdvs = res.ttpdvs;
+                this.fautService.updateTokenAndTdvcod(res.token, res.tdv_codigo);
+                 */
+                this.swalService.fireToastSuccess('Nueva sección seleccionada');
+                this.fautService.updateTokenAndSec(res.token, res.seccion);
+                this.seccion = res.seccion;
+                this.fautService.publishMessage('updateSeccion');
+                this.fautService.setTtpdvs(res.ttpdvs);
+                this.fautService.updateTokenAndTdvcod(res.token, res.tdv_codigo);
+                this.fautService.publishMessage('updateTtpdvs');
+            }
+        });
+    }
+
     hideAppMenu() {
         this.fautService.publishMessage('hideappmenu');
+    }
+
+    loadSeciones() {
+        this.secciones = this.fautService.getSecciones();
+        this.seccion = this.fautService.getSeccionInfoSaved();
+    }
+
+    loadTtpdvs() {
+        this.ttpdvs = this.fautService.getTtpdvs();
+        this.currTdvcod = this.fautService.getTdvCodigo();
+        console.log('valor de this.currTdvcod es:' + this.currTdvcod);
+
     }
 
     toggleSidebar() {
