@@ -63,12 +63,12 @@
         <div class="card border-primary" style="margin-bottom: 20px"
              *ngIf="form.paciente.per_id>0 && datosPacienteFull.per_id>0">
             <div class="card-body">
-                <div class="d-flex w-100 justify-content-between align-items-center">
-                    <div style="padding:1px 10px !important; width: 10%">
+                <div class="d-flex row justify-content-between align-items-center">
+                    <div class="col-md-1">
                         <img src="assets/imgs/{{datosPacienteFull.per_genero===2?'female.png':'male.png'}}"
                              alt="Avatar" class="img-fluid">
                     </div>
-                    <div style="width: 90%">
+                    <div class="col-md-11">
                         <div class="row d-flex flex-row">
                             <div class="col-md-6">
                                 <h5>
@@ -125,7 +125,7 @@
                             <span>{{datosPacienteFull.profesion}}</span>
                         </div>
 
-                        <div class="w-100" style="margin-top: 20px" *ngIf="historias.length>0">
+                        <div class="w-100 mt-4" *ngIf="historias.length>0">
                             <div>
                                 <button class="btn btn-link btn-sm" (click)="toggleAcordion('citasPanel')"
                                         *ngIf="historias.length>0">
@@ -135,40 +135,43 @@
                             </div>
 
                             <div id="citasPanel" class="collapse">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col" class="quitaPaddingTB">Día</th>
-                                        <th scope="col" class="quitaPaddingTB">Motivo</th>
-                                        <th scope="col" class="quitaPaddingTB">Próxima Cita</th>
-                                        <th scope="col" class="quitaPaddingTB">
-                                            <button type="button" class="btn btn-sm btn-outline-primary"
-                                                    (click)="toggleAcordion('citasPanel')"
-                                                    title="Cerrar ">
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr *ngFor="let row of historias" (click)="selectHistoriaAnt(row)" class="hand">
-                                        <td width="30%">
-                                            {{row.cosm_fechacrea}}
-                                        </td>
-                                        <td width="40%">
-                                            {{row.cosm_motivo}}
-                                        </td>
-                                        <td width="20%">
-                                            {{row.cosm_fechaproxcita}}
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary" title="Ver detalles"><i
-                                                    class="fa fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" class="quitaPaddingTB">Día</th>
+                                            <th scope="col" class="quitaPaddingTB">Motivo</th>
+                                            <th scope="col" class="quitaPaddingTB">Próxima Cita</th>
+                                            <th scope="col" class="quitaPaddingTB">
+                                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                                        (click)="toggleAcordion('citasPanel')"
+                                                        title="Cerrar ">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let row of historias" (click)="selectHistoriaAnt(row)"
+                                            class="hand ">
+                                            <td>
+                                                {{row.cosm_fechacrea}}
+                                            </td>
+                                            <td>
+                                                {{row.cosm_motivo}}
+                                            </td>
+                                            <td>
+                                                {{row.cosm_fechaproxcita}}
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary" title="Ver detalles"><i
+                                                        class="fa fa-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -199,7 +202,7 @@
             </p-tabPanel>
 
             <p-tabPanel header="2. Motivo">
-                <div class="row dato-adc-fila">
+                <div class="row my-1 mx-md-3">
                     <div class="col-12">
                         <span class="required">*</span><span>Motivo Consulta:</span>
                     </div>
@@ -209,7 +212,7 @@
                         </textarea>
                     </div>
                 </div>
-                <div class="row dato-adc-fila">
+                <div class="row my-1 mx-md-3">
                     <div class="col-12">
                         <span class="required">*</span><span>Enfermedad actual:</span>
                     </div>
@@ -229,7 +232,7 @@
                 <div class="row">
                     <div class="col">
                         <div *ngFor="let it of form.antecedentes.slice(0,4);">
-                            <div class="row dato-adc-fila" *ngIf="showExamFisico(it)">
+                            <div class="row my-1 mx-md-3" *ngIf="showExamFisico(it)">
                                 <div class="col-12">
                                     <span>{{it.cmtv_valor}}:</span>
                                 </div>
@@ -255,7 +258,7 @@
                     </div>
                     <div class="col" *ngIf="datosPacienteFull.per_genero===2">
                         <div *ngFor="let it of form.antecedentes.slice(4,10);">
-                            <div class="row dato-adc-fila">
+                            <div class="row my-1 mx-md-3">
                                 <div class="col-12">
                                     <span>{{it.cmtv_valor}}:</span>
                                 </div>
@@ -270,7 +273,7 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div class="row dato-adc-fila"
+                        <div class="row my-1 mx-md-3"
                              *ngFor="let it of form.antecedentes.slice(10,11);">
                             <div class="col-12">
                                 <span>{{it.cmtv_valor}}:</span>
@@ -302,7 +305,7 @@
             <p-tabPanel header="4. Rev x Sistemas">
                 <div class="row">
                     <div class="col">
-                        <div class="row dato-adc-fila" *ngFor="let it of form.revxsistemas.slice(0,5)">
+                        <div class="row my-1 mx-md-3" *ngFor="let it of form.revxsistemas.slice(0,5)">
                             <div class="col-12">
                                 <span>{{it.cmtv_valor}}:</span>
                             </div>
@@ -321,7 +324,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="row dato-adc-fila" *ngFor="let it of form.revxsistemas.slice(5,9)">
+                        <div class="row my-1 mx-md-3" *ngFor="let it of form.revxsistemas.slice(5,9)">
                             <div class="col-12">
                                 <span>{{it.cmtv_valor}}:</span>
                             </div>
@@ -351,7 +354,7 @@
                 <div>
                     <div class="row">
                         <div class="col">
-                            <div class="row dato-adc-fila" *ngFor="let it of form.examsfisicos.slice(0,4)">
+                            <div class="row my-1 mx-md-3" *ngFor="let it of form.examsfisicos.slice(0,4)">
                                 <div class="col-12">
                                     <span>{{it.cmtv_valor}}</span>
                                     <span class="badge badge-light">{{it.cmtv_unidad}}</span>:
@@ -382,7 +385,7 @@
                             </div>
                         </div>
                         <div class="col">
-                            <div class="row dato-adc-fila"
+                            <div class="row my-1 mx-md-3"
                                  *ngFor="let it of form.examsfisicos.slice(4,9)">
                                 <div class="col-12">
                                     <span>{{it.cmtv_valor}}</span>
@@ -415,7 +418,7 @@
                         </div>
                     </div>
 
-                    <div class="row dato-fila">
+                    <div class="row my-1 mx-md-3">
                         <div class="col-12">
                             <span>Descripción de Hallazgos:</span>
                         </div>
@@ -443,13 +446,13 @@
 
             <p-tabPanel header="7. Diagnóstico">
                 <div #diagnosticoDiv id="diagnosticoDiv" *ngIf="!showCalendar">
-                    <div class="row dato-fila">
+                    <div class="row my-1 mx-md-3">
                         <div class="col-12">
                             <span class="required">*</span><span>Diagnóstico:</span>
                         </div>
                     </div>
-                    <div class="dato-fila">
-                        <div class="row dato-fila-diag"
+                    <div class="my-1 mx-md-3">
+                        <div class="row mx-md-3"
                              *ngFor="let sdiag of selectedDiags; let i=index">
                             <div class="col-11">
                                 <p-dropdown [options]="ciedataArray" id="diagnostico_id_{{i}}"
@@ -478,7 +481,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row dato-fila">
+                    <div class="row mx-md-3">
                         <div class="col-12">
                             <span>Diagnóstico Alternativo:</span>
                         </div>
@@ -489,7 +492,7 @@
                         </div>
                     </div>
 
-                    <div class="row dato-fila" *ngIf="tipoHistoria === 1">
+                    <div class="row mx-md-3" *ngIf="tipoHistoria === 1">
                         <div class="col-12">
                             <span class="required">*</span><span>Tratamiento:</span>
                         </div>
@@ -499,7 +502,7 @@
                     </textarea>
                         </div>
                     </div>
-                    <div class="row dato-fila">
+                    <div class="row mx-md-3">
                         <div class="col-12">
                             <span class="required">*</span><span>Receta:</span>
                         </div>
@@ -509,7 +512,7 @@
                     </textarea>
                         </div>
                     </div>
-                    <div class="row dato-fila">
+                    <div class="row mx-md-3">
                         <div class="col-12">
                             <span class="required">*</span><span>Indicaciones Receta:</span>
                         </div>
@@ -519,7 +522,7 @@
                     </textarea>
                         </div>
                     </div>
-                    <div class="row dato-fila">
+                    <div class="row mx-md-3">
                         <div class="col-12">
                             <span>Recomendaciones:</span>
                         </div>
@@ -529,7 +532,7 @@
                     </textarea>
                         </div>
                     </div>
-                    <div class="row dato-fila" #proxcitaDiv id="proxcitaDiv">
+                    <div class="row mx-md-3" #proxcitaDiv id="proxcitaDiv">
                         <div class="col-12">
                             <span>Próxima Cita:</span>
                         </div>

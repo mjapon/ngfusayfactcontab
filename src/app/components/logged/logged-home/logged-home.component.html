@@ -21,13 +21,15 @@
                 </div>
             </div>
 
+            <!--
             <div class="mt-4">
                 <span class="text-muted">Accesos Directos:</span>
             </div>
+            -->
             <div *ngIf="isLoading">
                 <app-loading></app-loading>
             </div>
-            <div class="mt-1 border rounded" *ngIf="!isLoading">
+            <div class="mt-4 border rounded" *ngIf="!isLoading">
                 <div class="row my-3">
                     <div class="col-md-3" *ngFor="let acc of accesosdir">
                         <div class="mx-2 my-1">
@@ -35,9 +37,9 @@
                                     (mouseout)="onAccDirOut(acc)"
                                     (click)="doroute(acc)"
                                     class="btn d-flex flex-column w-100" [ngClass]="acc.css" [title]="acc.title">
-                                <div class="w-100">
+                                <div class="w-100 my-2">
                                     <div class="d-flex justify-content-center">
-                                        <span style="font-size: 2rem" [class]="acc.icon"></span>
+                                        <span style="font-size: 1.5rem" [class]="acc.icon"></span>
                                     </div>
                                     <div class="d-flex justify-content-center">
                                         <span>{{acc.label}}</span>
@@ -49,6 +51,7 @@
                 </div>
             </div>
 
+
             <div class="row mt-4">
                 <div class="col-md-4">
                     <div>
@@ -56,7 +59,7 @@
                     </div>
                     <div class="card mt-2">
                         <ul class="list-group">
-                            <li class="list-group-item hand list-group-item-action d-flex flex-row justify-content-between"
+                            <li class="list-group-item hand quitaPaddingMargin py-1 px-3 list-group-item-action d-flex flex-row justify-content-between"
                                 *ngFor="let item of secciones" (click)="cambiarSeccion(item)">
                                 <span>{{item.sec_nombre}}</span>
                                 <i class="fa  {{item.sec_id==seccion.sec_id?'fa-check':''}}"></i>
@@ -77,6 +80,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

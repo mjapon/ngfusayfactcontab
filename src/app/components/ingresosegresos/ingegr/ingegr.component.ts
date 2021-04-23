@@ -113,10 +113,10 @@ export class IngegrComponent implements OnInit {
             } else {
                 billsaveobs = this.billeteraService.crear(this.formbill);
             }
+            this.isShowNewBill = false;
             billsaveobs.subscribe(res => {
                 if (res.status === 200) {
                     this.swalService.fireToastSuccess(res.msg);
-                    this.isShowNewBill = false;
                     this.loadBilleteras();
                     this.isFormBillSubmit = false;
                 }
