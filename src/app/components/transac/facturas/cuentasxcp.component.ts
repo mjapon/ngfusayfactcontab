@@ -41,6 +41,7 @@ import {ActivatedRoute, Router} from '@angular/router';
                          [(selection)]="selectedItem"
                          (onRowSelect)="onRowSelect($event)"
                          [resizableColumns]="true"
+                         [autoLayout]="false"
                          [(contextMenuSelection)]="selectedItem"
                          (onRowUnselect)="onUnRowSelect($event)">
                     <ng-template pTemplate="header">
@@ -50,7 +51,7 @@ import {ActivatedRoute, Router} from '@angular/router';
                                 {{item.label}}
                                 <p-sortIcon [field]="item.field"></p-sortIcon>
                             </th>
-                            <th style="width: 10%">
+                            <th>
                                 Acción
                             </th>
                         </tr>
@@ -69,23 +70,20 @@ import {ActivatedRoute, Router} from '@angular/router';
                     </ng-template>
                     <ng-template pTemplate="footer">
                         <tr>
-                            <th>
-
+                            <th [attr.colspan]="grid.cols.length-2">
+                                <div class="d-flex flex-row-reverse">
+                                    <span class="font-weight-bold">TOTAL:</span>
+                                </div>
                             </th>
                             <th>
-
+                                <div class="d-flex flex-row-reverse">
+                                    <span> {{totales.credito|number:'.2'}}</span>
+                                </div>
                             </th>
                             <th>
-
-                            </th>
-                            <th>
-                                <span class="font-weight-bold">TOTAL:</span>
-                            </th>
-                            <th>
-                                <span> {{totales.credito}}</span>
-                            </th>
-                            <th>
-                                <span> {{totales.saldopend}}</span>
+                                <div class="d-flex flex-row-reverse">
+                                    <span> {{totales.saldopend|number:'.2'}}</span>
+                                </div>
                             </th>
                             <th>
 
@@ -131,7 +129,7 @@ export class CuentasxcpComponent implements OnInit {
     title: any;
     filtro: string;
     isLoading: boolean;
-    grid: any;
+    grid: any = {};
     selectedItem: any;
     isShowDetallesFactura: boolean;
     codFacturaSel: number;

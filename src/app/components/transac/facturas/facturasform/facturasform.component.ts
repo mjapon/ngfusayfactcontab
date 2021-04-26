@@ -133,15 +133,17 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     getNewEmptyRow(art) {
         const formDetalles = this.domService.clonarObjeto(this.formdet);
         let icdpPrecio = art.icdp_precioventa;
-        if (this.ttransacc.tra_tipdoc === 2) {
+        if (this.isfacturacompra) {
             icdpPrecio = art.icdp_preciocompra;
         }
 
         let ivaval = 0.0;
         let precio = icdpPrecio;
         if (art.icdp_grabaiva) {
-            precio = this.numberService.ponerIva(icdpPrecio);
             ivaval = this.numberService.getValorIva(icdpPrecio);
+            if (!this.isfacturacompra) {
+                precio = this.numberService.ponerIva(icdpPrecio);
+            }
         }
         formDetalles.icdp_grabaiva = art.icdp_grabaiva;
         formDetalles.art_codigo = art.ic_id;
@@ -345,7 +347,9 @@ export class FacturasformComponent implements OnInit, OnDestroy {
             dtPrecio = 0.0;
         }
         if (fila.icdp_grabaiva) {
-            dtPrecio = this.numberService.quitarIva(dtPrecio);
+            if (!this.isfacturacompra) {
+                dtPrecio = this.numberService.quitarIva(dtPrecio);
+            }
         }
         fila.dt_precio = dtPrecio;
 

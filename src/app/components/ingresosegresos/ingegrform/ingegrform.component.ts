@@ -7,6 +7,8 @@ import {ArrayutilService} from '../../../services/arrayutil.service';
 import {NumberService} from '../../../services/number.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {FechasService} from '../../../services/fechas.service';
+import {registerLocaleData} from '@angular/common';
+import es from '@angular/common/locales/es';
 
 @Component({
     selector: 'app-ingegrform',
@@ -42,6 +44,7 @@ export class IngegrformComponent implements OnInit {
             this.setTitle();
             this.loadForm();
         });
+        registerLocaleData(es);
     }
 
     ngOnInit(): void {
@@ -148,7 +151,7 @@ export class IngegrformComponent implements OnInit {
             });
             const diff = Number(this.form.bmo_monto) - suma;
             if (diff >= 0) {
-                suma = diff;
+                suma = this.numberService.round2(diff);
             } else {
                 suma = 0.0;
             }
@@ -217,24 +220,6 @@ export class IngegrformComponent implements OnInit {
             this.isLoading = false;
         });
     }
-
-    /*
-    totalizarCuentas() {
-        this.form.totalc = 0.0;
-        this.form.cuentas.forEach(item => {
-            this.form.totalc += Number(item.dt_valor);
-        });
-        this.form.totalc = this.numberService.round2(this.form.totalc);
-    }
-
-    totalizarBilleteras() {
-        this.form.totalb = 0.0;
-        this.form.billeteras.forEach(item => {
-            this.form.totalb += Number(item.dt_valor);
-        });
-        this.form.totalb = this.numberService.round2(this.form.totalb);
-    }
-     */
 
     addcuentas() {
         this.form.cuentas.push({cta_codigo: 0, dt_valor: 0.0});

@@ -507,7 +507,7 @@ export class DatospacienteComponent implements OnInit, OnChanges {
                     // TODO: Verificar si tipo de empresa es solo comercial no debe pedir fecha de nacimiento
                     this.datosIncompletos = this.isPersonDataIncomplete(res.persona);
                 }
-                if (this.datosIncompletos) {
+                if (this.datosIncompletos && this.datosmedicos) {
                     this.datosIncompletosEv.emit(res.persona);
                     this.logicaDatosIncompletos(true);
                     this.editando = true;
