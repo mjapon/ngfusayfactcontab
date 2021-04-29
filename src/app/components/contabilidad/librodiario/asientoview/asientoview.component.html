@@ -1,1 +1,146 @@
-<p>asientoview works!</p>
+<div>
+    <div *ngIf="isLoading">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="!isLoading">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Número: </span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="font-weight-bold"> {{datosasi.cabecera.trn_compro}} </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Tipo: </span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="font-weight-bold"> {{datosasi.cabecera.tra_nombre}} </span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Fecha: </span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="font-weight-bold"> {{datosasi.cabecera.trn_fecreg}} </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Estado: </span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="font-weight-bold"> {{datosasi.cabecera.estado}} </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Registrado por: </span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="font-weight-bold"> {{datosasi.cabecera.refusercrea}} </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="font-weight-light"> Fecha de registro: </span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="font-weight-bold"> {{datosasi.cabecera.trn_fecha}} </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <span class="font-weight-light"> Observación: </span>
+            </div>
+            <div class="col-md">
+                <p style="white-space: pre-line"> {{datosasi.cabecera.trn_observ}} </p>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col" width="10%" class="border-right">
+                        <div class="font-weight-light text-center">
+                            Código
+                        </div>
+                    </th>
+                    <th scope="col" width="50%" class="border-right">
+                        <div class="font-weight-light text-center">
+                            Cuenta Contable
+                        </div>
+                    </th>
+                    <th scope="col" width="15%" class="border-right">
+                        <div class="font-weight-light d-flex flex-row-reverse">Debe</div>
+                    </th>
+                    <th scope="col" width="15%">
+                        <div class="font-weight-light d-flex flex-row-reverse">Haber</div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let fila of detalles">
+                    <tr>
+                        <td class="border">
+                                <span class="text-muted fontsizesm"
+                                      [ngClass]="{'haberl':fila.dt_debito===-1}">{{fila.ic_code}}</span>
+                        </td>
+                        <td class="border">
+                                <span class="fontsizesm" [ngClass]="{'haberl':fila.dt_debito===-1}">
+                                {{fila.ic_nombre}}
+                                </span>
+                        </td>
+                        <td class="border">
+                            <div *ngIf="fila.dt_debito===1"
+                                 class="d-flex flex-row-reverse fontsizesm">{{fila.dt_valor|number:'.2'}}</div>
+                        </td>
+                        <td class="border">
+                            <div *ngIf="fila.dt_debito===-1"
+                                 class="d-flex flex-row-reverse fontsizesm">{{fila.dt_valor|number:'.2'}}</div>
+                        </td>
+                    </tr>
+                </ng-container>
+                <tr>
+                    <td colspan="2">
+                        <div class="d-flex flex-row-reverse font-weight-bold">TOTAL:</div>
+                    </td>
+                    <td>
+                        <div class="d-flex flex-row-reverse font-weight-bold"> {{totales.debe|number:'.2'}} </div>
+                    </td>
+                    <td>
+                        <div class="d-flex flex-row-reverse font-weight-bold"> {{totales.haber|number:'.2'}} </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row" *ngIf="showBtns">
+            <div class="col">
+                <div class="mt-2 d-flex flex-row-reverse">
+                    <button class="btn btn-outline-primary ml-1" (click)="onCerraBtn()"><i
+                            class="fa fa-times"></i>
+                        Cerrar
+                    </button>
+                    <!--
+                    <button class="btn btn-outline-primary" (click)="onAnularBtn()"
+                            *ngIf="datosasi.cabecera.trn_valido===0">
+                        <i class="fa fa-trash"></i>
+                        Anular
+                    </button>
+                    -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

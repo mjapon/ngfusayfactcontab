@@ -35,7 +35,10 @@ export class IngegrComponent implements OnInit {
     isShowDetalleMov = false;
     codmovsel: number;
     selBillHasMoves = false;
-    saldotot: number = 0.0;
+    saldotot = 0.0;
+    isShowDetAsi = false;
+    isShowFactura = false;
+    filasel: any = {};
 
     constructor(private billeteraService: BilleteraService,
                 private billmovService: BilleteramovService,
@@ -179,8 +182,18 @@ export class IngegrComponent implements OnInit {
     }
 
     verDetalles(rowData) {
-        this.codmovsel = rowData.bmo_id;
-        this.isShowDetalleMov = true;
+        this.filasel = rowData;
+        const isinggas = this.filasel.bmo_id > 0;
+        const isfactura = this.filasel.tra_codigo === 1 || this.filasel.tra_codigo === 2 || this.filasel.tra_codigo === 7;
+
+        if (isinggas) {
+            this.codmovsel = rowData.bmo_id;
+            this.isShowDetalleMov = true;
+        } else if (isfactura) {
+            this.isShowFactura = true;
+        } else {
+            this.isShowDetAsi = true;
+        }
     }
 
     loadMovimientos() {
@@ -305,5 +318,13 @@ export class IngegrComponent implements OnInit {
     showMovsBill(bill: any) {
         this.formfiltros.cuentabill = bill.ic_id;
         this.loadMovimientos();
+    }
+
+    hideDetAsi() {
+        this.isShowDetAsi = false;
+    }
+
+    closeDetallesFact() {
+        this.isShowFactura = false;
     }
 }

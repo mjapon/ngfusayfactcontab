@@ -13,7 +13,7 @@ import {LoadingUiService} from '../../../../services/loading-ui.service';
     selector: 'app-librodiarioform',
     templateUrl: './librodiarioform.component.html',
     styles: [
-        `.haberl {
+            `.haberl {
             margin-left: 70px;
         }
         `]
@@ -67,7 +67,7 @@ export class LibrodiarioformComponent implements OnInit {
                 this.formdetinst = this.domService.clonarObjeto(this.formdet);
                 this.setFocusInCtaConta();
                 if (this.codasi > 0) {
-                    this.asientoService.getDatosAsientoContable(this.codasi).subscribe(resasi => {
+                    this.asientoService.getDatosAsiContab(this.codasi).subscribe(resasi => {
                         this.isLoading = false;
                         if (resasi.status === 200) {
                             this.detalles = resasi.datoasi.detalles;

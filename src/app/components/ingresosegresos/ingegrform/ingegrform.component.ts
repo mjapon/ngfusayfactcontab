@@ -142,21 +142,7 @@ export class IngegrformComponent implements OnInit {
     }
 
     auxGetMontoFila(thearray, idx) {
-        let suma = this.form.bmo_monto;
-        if (idx > 0) {
-            const arrsuma = thearray.slice(0, idx);
-            suma = Number(0.0);
-            arrsuma.forEach(item => {
-                suma += Number(item.dt_valor);
-            });
-            const diff = Number(this.form.bmo_monto) - suma;
-            if (diff >= 0) {
-                suma = this.numberService.round2(diff);
-            } else {
-                suma = 0.0;
-            }
-        }
-        return suma;
+        return this.arrayService.getMontoFila(thearray, idx, this.form.bmo_monto);
     }
 
     onbillsel(fila: any, $event: any) {

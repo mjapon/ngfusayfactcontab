@@ -105,6 +105,8 @@ import {IngegrformComponent} from './components/ingresosegresos/ingegrform/ingeg
 import {AsientoviewComponent} from './components/contabilidad/librodiario/asientoview/asientoview.component';
 import {IngegrviewComponent} from './components/ingresosegresos/ingegrview/ingegrview.component';
 import {UtilidadesComponent} from './components/transac/facturas/utilidades/utilidades.component';
+import {CredreflistComponent} from './components/transac/creditos/creditosref/credreflist/credreflist.component';
+import {CredrefformComponent} from './components/transac/creditos/creditosref/credrefform/credrefform.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -181,7 +183,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         IngegrformComponent,
         AsientoviewComponent,
         IngegrviewComponent,
-        UtilidadesComponent
+        UtilidadesComponent,
+        CredreflistComponent,
+        CredrefformComponent
     ],
     imports: [
         CommonModule,

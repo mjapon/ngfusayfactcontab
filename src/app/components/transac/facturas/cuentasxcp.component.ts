@@ -71,19 +71,13 @@ import {ActivatedRoute, Router} from '@angular/router';
                     <ng-template pTemplate="footer">
                         <tr>
                             <th [attr.colspan]="grid.cols.length-2">
-                                <div class="d-flex flex-row-reverse">
-                                    <span class="font-weight-bold">TOTAL:</span>
-                                </div>
+                                <span class="font-weight-bold">TOTAL:</span>
                             </th>
                             <th>
-                                <div class="d-flex flex-row-reverse">
-                                    <span> {{totales.credito|number:'.2'}}</span>
-                                </div>
+                                <span> {{totales.credito|number:'.2'}}</span>
                             </th>
                             <th>
-                                <div class="d-flex flex-row-reverse">
-                                    <span> {{totales.saldopend|number:'.2'}}</span>
-                                </div>
+                                <span> {{totales.saldopend|number:'.2'}}</span>
                             </th>
                             <th>
 
@@ -111,14 +105,7 @@ import {ActivatedRoute, Router} from '@angular/router';
             <p-dialog header="Detalles del crédito" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10"
                       [(visible)]="isShowDetallesCred">
                 <app-abonosview [codCredito]="credsel.cre_codigo" [codFactura]="credsel.trn_codigo"
-                                (evDeudaChange)="onDeudasChange($event)"></app-abonosview>
-                <!--
-                <div class="mt-4 text-center">
-                    <button class="btn btn-outline-secondary" (click)="hideDetCredito()"><i class="fa fa-times"></i>
-                        Cerrar
-                    </button>
-                </div>
-                -->
+                                (evDeudaChange)="onDeudasChange($event)" (evCerrar)="hideDetCredito()"></app-abonosview>
             </p-dialog>
         </div>
 
@@ -226,11 +213,6 @@ export class CuentasxcpComponent implements OnInit {
     verRow(rowData) {
         this.credsel = rowData;
         this.isShowDetallesCred = true;
-
-        /*
-        this.codFacturaSel = rowData.trn_codigo;
-        this.isShowDetallesFactura = true;
-         */
     }
 
     hideDetCredito() {

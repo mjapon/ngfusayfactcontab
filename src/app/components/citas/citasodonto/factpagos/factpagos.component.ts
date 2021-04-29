@@ -3,7 +3,6 @@ import {AsientoService} from '../../../../services/asiento.service';
 import {PersonaService} from '../../../../services/persona.service';
 import {DomService} from '../../../../services/dom.service';
 import {SwalService} from '../../../../services/swal.service';
-import {CreditoService} from '../../../../services/credito.service';
 import {registerLocaleData} from '@angular/common';
 import es from '@angular/common/locales/es';
 import {FacturasmsgService} from '../../../../services/facturasmsg.service';
@@ -14,21 +13,15 @@ import {FacturasmsgService} from '../../../../services/facturasmsg.service';
 })
 export class FactpagosComponent implements OnInit, OnChanges {
     facturasList: Array<any>;
-    creditosList: Array<any>;
     isShowFormCreaFact: boolean;
     formfact: any;
     formpersona: any;
     currentdate: any;
     isShowDetallesFactura: boolean;
-    isShowDetallesCredito: boolean;
     codFacturaSel: number;
-    credsel: any;
-
     loadingFacturas: boolean;
-    loadingCreditos: boolean;
-    totalescred: any;
-
     tracodigofact = 1;
+    totales: any = {};
 
     @Input() codpaciente: number;
     @Input() clase: number;
@@ -39,21 +32,17 @@ export class FactpagosComponent implements OnInit, OnChanges {
                 private personaService: PersonaService,
                 private domService: DomService,
                 private swalService: SwalService,
-                private creditoService: CreditoService,
                 private facturaMsgService: FacturasmsgService) {
     }
 
     ngOnInit(): void {
         this.facturasList = [];
-        this.creditosList = [];
         this.isShowFormCreaFact = false;
         this.formpersona = {};
         this.currentdate = new Date();
         this.isShowDetallesFactura = false;
         this.codFacturaSel = null;
         this.loadingFacturas = true;
-        this.loadingCreditos = true;
-        this.totalescred = {};
         registerLocaleData(es);
     }
 
@@ -79,25 +68,13 @@ export class FactpagosComponent implements OnInit, OnChanges {
             this.loadingFacturas = false;
             if (res.status === 200) {
                 this.facturasList = res.docs;
-            }
-        });
-    }
-
-    loadCreditos() {
-        const tracod = 1;
-        this.loadingCreditos = true;
-        this.creditoService.listarCreditos(tracod, this.codpaciente, this.clase).subscribe(resc => {
-            this.loadingCreditos = false;
-            if (resc.status === 200) {
-                this.creditosList = resc.creds;
-                this.totalescred = resc.totales;
+                this.totales = res.totales;
             }
         });
     }
 
     loadFacturasCreditos() {
         this.loadFacturas();
-        this.loadCreditos();
     }
 
     showFormCreaFact(tracod, $event: MouseEvent) {
@@ -112,24 +89,6 @@ export class FactpagosComponent implements OnInit, OnChanges {
         this.codFacturaSel = fila.trn_codigo;
     }
 
-    showDetallesCredito(fila: any) {
-        this.credsel = fila;
-        this.isShowDetallesCredito = true;
-    }
-
-    hideDetCredito() {
-        this.isShowDetallesCredito = false;
-        this.loadCreditos();
-    }
-
-    onDeudasChange($event: any) {
-        this.evDeudasChange.emit($event);
-    }
-
-    onTotalUpdated($event: any) {
-        console.log('on totales upd');
-    }
-
     oncancelarCreaFact($event: any) {
         this.isShowFormCreaFact = false;
     }
@@ -137,7 +96,7 @@ export class FactpagosComponent implements OnInit, OnChanges {
     onguardarFact($event: any) {
         this.isShowFormCreaFact = false;
         this.loadFacturas();
-        this.loadCreditos();
+        this.evDeudasChange.emit($event);
     }
 
     onformloaded($event: any) {
@@ -146,5 +105,9 @@ export class FactpagosComponent implements OnInit, OnChanges {
 
     closeModalFact() {
         this.isShowDetallesFactura = false;
+    }
+
+    onTotalUpdated($event: any) {
+
     }
 }

@@ -149,8 +149,6 @@ export class LoggednavbarComponent implements OnInit {
     loadTtpdvs() {
         this.ttpdvs = this.fautService.getTtpdvs();
         this.currTdvcod = this.fautService.getTdvCodigo();
-        console.log('valor de this.currTdvcod es:' + this.currTdvcod);
-
     }
 
     toggleSidebar() {

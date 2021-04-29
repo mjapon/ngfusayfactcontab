@@ -15,6 +15,7 @@ export class AbonosviewComponent implements OnInit, OnChanges {
     @Input() codFactura: number;
     @Input() codCredito: number;
     @Output() evDeudaChange = new EventEmitter<any>();
+    @Output() evCerrar = new EventEmitter<any>();
 
     isShowFactura: boolean;
     isShowFormAbonar: boolean;
@@ -30,8 +31,10 @@ export class AbonosviewComponent implements OnInit, OnChanges {
     abonosList: Array<any>;
     saldopendiente: number;
     totalabonos: number;
+    isTransaccFact = false;
 
     tracodabono = 0;
+    isShowAsiento = false;
 
     constructor(private abonoService: AbonoService,
                 private domService: DomService,
@@ -65,9 +68,12 @@ export class AbonosviewComponent implements OnInit, OnChanges {
         this.isFacturaLoaded = true;
         this.datosFactura = $event;
         this.tracodabono = 8; // Por defecto abono de factura de venta
-        if (this.datosFactura.tasiento.tra_codigo === 7) {
+
+        const tracod = this.datosFactura.tasiento.tra_codigo;
+        if (tracod === 7) {
             this.tracodabono = 9;
         }
+        this.isTransaccFact = tracod === 1 || tracod === 2 || tracod === 7;
     }
 
     loadDatosCredito() {
@@ -139,8 +145,6 @@ export class AbonosviewComponent implements OnInit, OnChanges {
             detalles: this.detallesabono
         };
         const msg = '¿Confirma que desea registrar este abono?';
-        // this.swalService.fireDialog(msg).then(confirm => {
-        //    if (confirm.value) {
         if (confirm(msg)) {
             this.loadingService.publishBlockMessage();
             this.abonoService.crear(formpost).subscribe(res => {
@@ -152,7 +156,6 @@ export class AbonosviewComponent implements OnInit, OnChanges {
                 }
             });
         }
-        // });
     }
 
     cancelarGuardaAbono() {
@@ -160,13 +163,18 @@ export class AbonosviewComponent implements OnInit, OnChanges {
     }
 
     showFactura() {
-        this.isShowFactura = true;
+        const tracod = this.datosFactura.tasiento.tra_codigo;
+        const isfactura = tracod === 1 || tracod === 2 || tracod === 7;
+
+        if (isfactura) {
+            this.isShowFactura = true;
+        } else {
+            this.isShowAsiento = true;
+        }
     }
 
     anularAbono(abono) {
         const msg = '¿Confirma que desea anular este abono?';
-        // this.swalService.fireDialog(msg).then(confirm => {
-        // if (confirm.value) {
         if (confirm(msg)) {
             this.abonoService.anularAbono(abono.abo_codigo, '').subscribe(res => {
                 if (res.status === 200) {
@@ -177,7 +185,6 @@ export class AbonosviewComponent implements OnInit, OnChanges {
                 }
             });
         }
-        // });
     }
 
     loadAbonos() {
@@ -193,5 +200,13 @@ export class AbonosviewComponent implements OnInit, OnChanges {
 
     closeDetallesFact() {
         this.isShowFactura = false;
+    }
+
+    hideDetAsi() {
+        this.isShowAsiento = false;
+    }
+
+    cerrarView() {
+        this.evCerrar.emit('');
     }
 }

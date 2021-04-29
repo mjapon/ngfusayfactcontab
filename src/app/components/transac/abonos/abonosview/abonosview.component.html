@@ -1,48 +1,141 @@
 <div>
-    <!--<h5 class="mt-1 ml-1 font-weight-light"> Datos del crédito: </h5>-->
     <div class="card">
         <div class="card-body">
             <div *ngIf="!isShowAnim && isFacturaLoaded">
-                <div class="row mt-1 mb-2">
-                    <div class="col-md-4">
-                        <span class="font-weight-light">Nro:</span>
-                        <span class="ml-3 font-weight-normal">{{datosFactura.tasiento.trn_compro}}</span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>
+                            <span class="font-weight-normal">Nro:</span>
+                            <span class="ml-3 font-weight-bold">{{datosFactura.tasiento.trn_compro}}</span>
+                        </div>
+                        <div>
+                            <span class="font-weight-normal">Tipo:</span>
+                            <span class="ml-3 font-weight-normal">{{datosFactura.tasiento.tra_nombre}}</span>
+                        </div>
+                        <div>
+                            <span class="font-weight-normal">Fecha registro:</span>
+                            <span class="ml-3 font-weight-normal">{{datosFactura.tasiento.trn_fecha}}</span>
+                        </div>
+                        <div>
+                            <span class="font-weight-normal">Estado:</span>
+                            <span class="ml-3 font-weight-normal">{{datosFactura.tasiento.estado}}</span>
+                        </div>
+                        <div>
+                            <span class="font-weight-normal">Referente:</span>
+                            <span class="ml-3 font-weight-normal">{{datosFactura.tasiento.referente}}</span>
+                        </div>
+                        <div class="d-flex">
+                            <span class="font-weight-light">Observación:</span>
+                            <div class="ml-md-3 col-md">
+                                <p style="white-space: pre-line">{{datosFactura.tasiento.trn_observ}}</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <span class="font-weight-light">Fecha registro:</span>
-                        <span class="ml-3 font-weight-normal">{{datosFactura.tasiento.trn_fecha}}</span>
-                    </div>
-                    <div class="col-md-4">
-                        <span class="font-weight-light">Referente:</span>
-                        <span class="ml-3 font-weight-normal">{{datosFactura.tasiento.referente}}</span>
+
+                    <div class="col-md-6">
+                        <div *ngIf="isTransaccFact">
+                            <div>
+                                <span class="font-weight-light">Total:</span>
+                                <span class="ml-3 font-weight-bold">${{datosFactura.totales.total}}</span>
+                            </div>
+                            <div>
+                                <span class="font-weight-light">Efectivo:</span>
+                                <span class="ml-3 font-weight-bold">${{datosFactura.pagosobj.efectivo}}</span>
+                            </div>
+                            <div>
+                                <span class="font-weight-light">Credito:</span>
+                                <span class="ml-3 font-weight-bold">${{datosFactura.pagosobj.credito}}</span>
+                            </div>
+                        </div>
+                        <div *ngIf="!isTransaccFact">
+                            <div>
+                                <span class="font-weight-light">Total:</span>
+                                <span class="ml-3 font-weight-bold">${{datosCredito.dt_valor}}</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="font-weight-bold"> Saldo Pendiente: </span>
+                            <span class="font-weight-bolder">${{datosCredito.cre_saldopen}} </span>
+                        </div>
+
+                        <div class="mt-1">
+                            <button class="btn btn-outline-info" title="Ver detalles de la transacción"
+                                    (click)="showFactura()">Ver Detalles <i class="fas fa-eye"></i>
+                            </button>
+
+                            <button class="ml-md-3 btn btn-outline-primary"
+                                    title="Registrar un nuevo abono para este crédito"
+                                    *ngIf="datosCredito.cre_saldopen>0 && !isShowFormAbonar"
+                                    (click)="showFormAbonar()"> Abonar <i class="fas fa-arrow-circle-down"></i>
+                            </button>
+
+                            <button class="ml-md-3 btn btn-outline-secondary"
+                                    title="Cerrar"
+                                    (click)="cerrarView()"> Cerrar <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="row mb-2">
-                    <div class="col-md-4">
-                        <span class="font-weight-light">Total:</span>
-                        <span class="ml-3 font-weight-bold">${{datosFactura.totales.total}}</span>
+                <div class="mt-2" *ngIf="isShowFormAbonar">
+                    <div class="mb-2">
+                        <h7 class="font-weight-lighter">Registrar nuevo abono:</h7>
                     </div>
-                    <div class="col-md-4">
-                        <span class="font-weight-light">Efectivo:</span>
-                        <span class="ml-3 font-weight-bold">${{datosFactura.pagosobj.efectivo}}</span>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="row ">
+                                <div class="col-md-4">
+                                    <span class="font-weight-normal">Fecha abono: </span>
+                                </div>
+                                <div class="col-md">
+                                    <input type="text" class="form-control" [(ngModel)]="formAbono.formcab.trn_fecreg"
+                                           disabled>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-md-4">
+                                    <span class="font-weight-normal">Saldo pendiente: </span>
+                                </div>
+                                <div class="col-md">
+                                    <input type="text" class="form-control" [(ngModel)]="saldopendiente" disabled>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-md-4">
+                                    <span class="font-weight-normal">Monto a abonar: </span>
+                                </div>
+                                <div class="col-md">
+                                    <input type="text" class="form-control" [(ngModel)]="valorabono"
+                                           (keyup)="onValorAbonoChange($event)" id="montoaboinput">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div>
+                            <textarea placeholder="Observación" class="form-control"
+                                      [(ngModel)]="formAbono.formcab.trn_observ" rows="4"
+                                      autocomplete="off"
+                                      id="abo_trn_observ" maxlength="1000"></textarea>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <span class="font-weight-light">Credito:</span>
-                        <span class="ml-3 font-weight-bold">${{datosFactura.pagosobj.credito}}</span>
-
-                        <button class="ml-5 btn btn-sm btn-outline-secondary" title="Ver detalles de la factura"
-                                (click)="showFactura()">Ver Factura
+                    <div class="d-flex justify-content-center m-2">
+                        <button class="btn btn-outline-primary" (click)="guardarAbono()"><i
+                                class="fa fa-save"></i> Guardar
+                        </button>
+                        <button class="ml-md-3 btn btn-outline-secondary" (click)="cancelarGuardaAbono()"><i
+                                class="fa fa-times"></i> Cancelar
                         </button>
                     </div>
                 </div>
 
-                <div class="row mt-5">
+                <div class="row mt-3">
                     <div class="col-md">
                         <div class="table-responsive " *ngIf="abonosList.length>0">
-                            <p class="font-weight-light quitaPaddingMargin">Abonos realizados ({{abonosList.length}}
-                                ):</p>
-                            <table class="table table-sm table-bordered">
+                            <p class="quitaPaddingMargin">Abonos realizados <span
+                                    class="badge badge-info">{{abonosList.length}}</span>:</p>
+                            <table class="table table-sm table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th scope="col" style="width: 5%">
@@ -82,7 +175,7 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <button class="btn btn-outline-secondary" (click)="anularAbono(abo)"
+                                        <button class="btn btn-sm btn-outline-primary" (click)="anularAbono(abo)"
                                                 title="Anular abono"><i
                                                 class="fa fa-trash"></i></button>
                                     </td>
@@ -108,85 +201,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-5 d-flex">
-                        <div style="font-size: 20px">
-                            <span class="font-weight-bold"> Saldo Pendiente: </span>
-                            <span class="font-weight-bolder">${{datosCredito.cre_saldopen}} </span>
-                        </div>
-                        <div class="ml-3">
-                            <button class="btn btn-outline-primary"
-                                    *ngIf="datosCredito.cre_saldopen>0 && !isShowFormAbonar"
-                                    (click)="showFormAbonar()"> Abonar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
             <app-loading *ngIf="isShowAnim || !isFacturaLoaded"></app-loading>
 
-            <div class="mt-3" *ngIf="isShowFormAbonar">
-                <hr class="quitaPaddingMargin text-muted mb-4">
-                <div class="mb-2">
-                    <h7 class="font-weight-lighter">Registrar nuevo abono:</h7>
-                </div>
-                <div class="row">
-                    <div class="col-md-7">
-                        <div class="row ">
-                            <div class="col-md-4">
-                                <span class="font-weight-normal">Fecha abono: </span>
-                            </div>
-                            <div class="col-md">
-                                <input type="text" class="form-control" [(ngModel)]="formAbono.formcab.trn_fecreg"
-                                       disabled>
-                            </div>
-                        </div>
-                        <div class="row mt-1">
-                            <div class="col-md-4">
-                                <span class="font-weight-normal">Saldo pendiente: </span>
-                            </div>
-                            <div class="col-md">
-                                <input type="text" class="form-control" [(ngModel)]="saldopendiente" disabled>
-                            </div>
-                        </div>
-                        <div class="row mt-1">
-                            <div class="col-md-4">
-                                <span class="font-weight-normal">Monto a abonar: </span>
-                            </div>
-                            <div class="col-md">
-                                <input type="text" class="form-control" [(ngModel)]="valorabono"
-                                       (keyup)="onValorAbonoChange($event)" id="montoaboinput">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md">
-                        <div>
-                            <textarea placeholder="Observación" class="form-control"
-                                      [(ngModel)]="formAbono.formcab.trn_observ" rows="4"
-                                      autocomplete="off"
-                                      id="abo_trn_observ" maxlength="1000"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center m-2">
-                    <button class="btn btn-outline-primary" (click)="guardarAbono()"><i
-                            class="fa fa-save"></i> Guardar
-                    </button>
-                    <button class="ml-3 btn btn-outline-secondary" (click)="cancelarGuardaAbono()"><i
-                            class="fa fa-times"></i> Cancelar
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 </div>
 
 
-<p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
+<p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '95vw'}" [baseZIndex]="10000"
           [(visible)]="isShowFactura">
     <app-facturaview [trncod]="codFactura" (evBtnClosed)="closeDetallesFact()"
                      (evFacturaLoaded)="onFacturaLoaded($event)"></app-facturaview>
+</p-dialog>
+
+<p-dialog header="Detalles del asiento" [style]="{width: '95vw'}" [autoZIndex]="false"
+          [modal]="true"
+          [closeOnEscape]="true"
+          [(visible)]="isShowAsiento">
+    <app-asientoview [trncod]="codFactura" (evCerrar)="hideDetAsi()"></app-asientoview>
 </p-dialog>
 

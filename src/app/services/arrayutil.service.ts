@@ -1,10 +1,13 @@
 import {Injectable} from '@angular/core';
+import {NumberService} from './number.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ArrayutilService {
-    constructor() {
+    constructor(
+        private numberService: NumberService
+    ) {
     }
 
     getFirstResult(array: Array<any>, fnFilter: any): any {
@@ -32,5 +35,30 @@ export class ArrayutilService {
         }
         return contains;
     }
+
+    /**
+     * Se usa en transacciones que involucran cuentas contables
+     * @param thearray El array que tiene todas la cuentas
+     * @param idx el indice actual de la fila a analizar
+     * @param total el total del importe
+     */
+    getMontoFila(thearray, idx, total) {
+        let suma = total;
+        if (idx > 0) {
+            const arrsuma = thearray.slice(0, idx);
+            suma = Number(0.0);
+            arrsuma.forEach(item => {
+                suma += Number(item.dt_valor);
+            });
+            const diff = Number(total) - suma;
+            if (diff >= 0) {
+                suma = this.numberService.round2(diff);
+            } else {
+                suma = 0.0;
+            }
+        }
+        return suma;
+    }
+
 
 }

@@ -14,8 +14,8 @@ export class CreditoService extends BaseService {
         super('/tasicredito', localStrgServ, http);
     }
 
-    listarCreditos(tracod: number, codper: number, clase: number) {
-        return this._doGet(this.getHOT({accion: 'listarcreds', tracod, per: codper, clase}));
+    listarCreditos(codper: number, clase: number) {
+        return this._doGet(this.getHOT({accion: 'listarcreds', per: codper, clase}));
     }
 
     getDatosCredito(codcred: number) {
@@ -24,5 +24,13 @@ export class CreditoService extends BaseService {
 
     listarGrid(tipo, desde, hasta, filtro) {
         return this._doGet(this.getHOT({accion: 'listargrid', tipo, desde, hasta, filtro}));
+    }
+
+    getFormCrea(clase, ref) {
+        return this._doGet(this.getHOT({accion: 'gformcrea', clase, ref}));
+    }
+
+    guardaCredRef(form: any) {
+        return this._doPost(this.getHOT({accion: 'crea'}), form);
     }
 }

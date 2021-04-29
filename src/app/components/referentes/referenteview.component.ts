@@ -17,7 +17,7 @@ import {PersonEvService} from '../../services/personev.service';
 
             <div *ngIf="referente">
                 <app-resumenref [referente]="referente" (evBtnTabClic)="onTabRefClic($event)"
-                                (evBtnCerrar)="cancelCreaRef()"></app-resumenref>
+                                (evBtnCerrar)="cancelCreaRef()" [totalestrns]="tottrns"></app-resumenref>
             </div>
             <div *ngIf="tabactive===1">
                 <app-datospaciente [codPaciente]="codref" (pacienteLoaded)="onReferenteLoaded($event)"
@@ -26,11 +26,6 @@ import {PersonEvService} from '../../services/personev.service';
                                    [datosmedicos]="false"
                                    (creacionCancelada)="cancelCreaRef()"></app-datospaciente>
             </div>
-            <!--
-            <div *ngIf="tabactive ===2">
-                <app-suscripcion [codref]="codref"></app-suscripcion>
-            </div>
-            -->
             <div *ngIf="tabactive ===3">
                 <app-factpagos [codpaciente]="codref" [clase]="1"
                                (evDeudasChange)="reloadStatusDeudas($event)"></app-factpagos>
@@ -38,6 +33,14 @@ import {PersonEvService} from '../../services/personev.service';
             <div *ngIf="tabactive ===5">
                 <app-factpagos [codpaciente]="codref" [clase]="2"
                                (evDeudasChange)="reloadStatusDeudas($event)"></app-factpagos>
+            </div>
+            <div *ngIf="tabactive ===6">
+                <app-credreflist [codref]="codref" [clase]="1"
+                                 (evDeudasChange)="reloadStatusDeudas($event)"></app-credreflist>
+            </div>
+            <div *ngIf="tabactive ===7">
+                <app-credreflist [codref]="codref" [clase]="2"
+                                 (evDeudasChange)="reloadStatusDeudas($event)"></app-credreflist>
             </div>
         </div>
     `
@@ -47,6 +50,7 @@ export class ReferenteviewComponent implements OnInit {
     isLoading: boolean;
     referente: any;
     tabactive: number;
+    tottrns: any = {};
 
     constructor(private personaService: PersonaService,
                 private route: ActivatedRoute,
@@ -56,6 +60,7 @@ export class ReferenteviewComponent implements OnInit {
         this.route.paramMap.subscribe(params => {
             this.codref = parseInt(params.get('codref'), 10);
             this.isLoading = false;
+            this.loadTotalesTransacc();
         });
     }
 
@@ -68,11 +73,11 @@ export class ReferenteviewComponent implements OnInit {
     }
 
     onReferenteSaved($event: any) {
-        console.log('Logica saved ref:', $event);
+
     }
 
     onDatosIncompletos($event: any) {
-        console.log('Logica datos incomplentos referente:', $event);
+
     }
 
     cancelCreaRef() {
@@ -85,5 +90,14 @@ export class ReferenteviewComponent implements OnInit {
 
     reloadStatusDeudas($event: any) {
         this.personEvService.publishUpdateDeudaMsg();
+        this.loadTotalesTransacc();
+    }
+
+    loadTotalesTransacc() {
+        this.personaService.getTotalesTransacc(this.codref).subscribe(res => {
+            if (res.status === 200) {
+                this.tottrns = res.totales;
+            }
+        });
     }
 }

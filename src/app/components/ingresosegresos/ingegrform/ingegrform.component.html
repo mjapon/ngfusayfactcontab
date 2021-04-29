@@ -80,16 +80,16 @@
                                                 </div>
                                                 <div>
                                                     <div class="ml-1 btn-group btn-group-sm" role="group">
-                                                        <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1"
+                                                        <button class="btn btn-outline-secondary btn-sm  p-1"
                                                                 *ngIf="i>0"
-                                                                title="Quitar esta fila">
-                                                            <i class="fa fa-minus-circle"
-                                                               (click)="removeCuenta(fcuenta)"> </i>
+                                                                title="Quitar esta fila"
+                                                                (click)="removeCuenta(fcuenta)">
+                                                            <i class="fa fa-minus-circle"> </i>
                                                         </button>
-                                                        <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1"
+                                                        <button class="btn btn-outline-secondary btn-sm  p-1"
                                                                 *ngIf="i===form.cuentas.length-1"
-                                                                title="Agregar otro ingreso">
-                                                            <i class="fa fa-plus-circle" (click)="addcuentas()"> </i>
+                                                                title="Agregar otro ingreso" (click)="addcuentas()">
+                                                            <i class="fa fa-plus-circle"> </i>
                                                         </button>
                                                     </div>
                                                 </div>

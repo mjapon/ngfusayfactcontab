@@ -78,4 +78,8 @@ export class PersonaService extends BaseService {
     getTotalDeudas(codper: number) {
         return this._doGet(this.getHOT({accion: 'gtotaldeudas', codper}));
     }
+
+    getTotalesTransacc(codper: number) {
+        return this._doGet(this.getHOT({accion: 'gcuentafacts', codper}));
+    }
 }

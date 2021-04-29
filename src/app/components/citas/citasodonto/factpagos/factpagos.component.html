@@ -1,15 +1,12 @@
-<div *ngIf="!isShowFormCreaFact && !isShowDetallesCredito">
+<div *ngIf="!isShowFormCreaFact">
     <div class="card rounded mt-2">
         <div class="m-1 d-flex justify-content-between">
-            <span class="font-weight-light">Facturas
-                <span *ngIf="facturasList.length>0">({{facturasList.length}})</span>
-            </span>
-
-            <button class="btn btn-outline-primary btn-sm" (click)="showFormCreaFact(7, $event)" *ngIf="clase===2">
+            <span class="font-weight-light">Facturas de {{clase === 1 ? 'venta' : 'compra'}}</span>
+            <button class="ml-md-3 btn btn-outline-primary btn-sm" (click)="showFormCreaFact(7, $event)"
+                    *ngIf="clase===2">
                 <i class="fa fa-plus-circle"></i> Crear
             </button>
-
-            <div class="ml-1 btn-group btn-group-sm dropright" *ngIf="clase===1">
+            <div class="ml-md-3 btn-group btn-group-sm dropright" *ngIf="clase===1">
                 <button type="button" class="btn btn-outline-primary dropdown-toggle"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-plus-circle"></i> Crear
@@ -19,13 +16,12 @@
                     <a href="#" class="dropdown-item" (click)="showFormCreaFact(2, $event)"> Nota de venta </a>
                 </div>
             </div>
-
         </div>
         <!--<div class="card-body">-->
         <app-loading *ngIf="loadingFacturas"></app-loading>
         <div *ngIf="!loadingFacturas">
             <div class="table-responsive" *ngIf="facturasList.length>0">
-                <table class="table table-bordered table-sm">
+                <table class="table table-bordered table-hover table-sm">
                     <thead>
                     <tr>
                         <th scope="col" style="width: 5%"><span class="fontsizesm">#</span></th>
@@ -41,6 +37,9 @@
                         <th scope="col">
                             <span class="fontsizesm">
                                 Crédito </span></th>
+                        <th scope="col">
+                            <span class="fontsizesm">
+                                Total </span></th>
                         <th scope="col">
                             <span class="fontsizesm">
                                 Observación </span></th>
@@ -71,12 +70,46 @@
                                 {{fila.credito}} </span>
                         </td>
                         <td>
+                            <span class="fontsizesm">
+                                {{fila.total}} </span>
+                        </td>
+                        <td>
                             <span class="fontsizesm">{{fila.trn_observ}}</span>
                         </td>
                         <td>
                             <button class="btn btn-outline-secondary btn-sm">
                                 <i class="fa fa-eye"></i>
                             </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="d-flex flex-row-reverse">
+                                <span class="fontsizenr font-weight-bold">
+                                Total: </span>
+                            </div>
+
+                        </td>
+                        <td>
+                            <span class="fontsizenr font-weight-bold">
+                                {{totales.efectivo}} </span>
+                        </td>
+                        <td>
+                            <span class="fontsizenr font-weight-bold">
+                                {{totales.credito}} </span>
+                        </td>
+                        <td>
+                            <span class="fontsizenr font-weight-bold">
+                                {{totales.total}} </span>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
                         </td>
                     </tr>
                     </tbody>
@@ -85,97 +118,6 @@
             <div class="card-body" *ngIf="facturasList.length===0">
                 <div class="p-5 d-flex justify-content-center">
                     <h2 class="text-muted"> No registra facturas </h2>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card rounded mt-3 mb-3" *ngIf="creditosList.length>0">
-        <div class="m-1">
-            <span class="font-weight-light">
-                Cuentas por {{clase === 1 ? 'cobrar' : 'pagar'}} <span
-                    *ngIf="creditosList.length>0">({{creditosList.length}})</span>
-            </span>
-        </div>
-
-        <app-loading *ngIf="loadingCreditos"></app-loading>
-
-        <div *ngIf="!loadingCreditos">
-            <div *ngIf="creditosList.length>0" class="table-responsive">
-                <table class="table table-bordered table-sm">
-                    <thead>
-                    <tr>
-                        <th scope="col" style="width: 5%">
-                            <span class="fontsizesm">
-                                #</span></th>
-                        <th scope="col">
-                            <span class="fontsizesm">
-                                Fecha </span></th>
-                        <th scope="col"><span class="fontsizesm"> Nro factura </span></th>
-                        <th scope="col"><span class="fontsizesm"> Observación </span></th>
-                        <th scope="col"><span class="fontsizesm"> Total Crédito </span></th>
-                        <th scope="col"><span class="fontsizesm"> Saldo Pendiente </span></th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let fila of creditosList" class="hand" (click)="showDetallesCredito(fila)">
-                        <th scope="row" style="width: 5%">
-                            <span class="fontsizesm">
-                            {{creditosList.indexOf(fila) + 1}}
-                            </span>
-                        </th>
-                        <td>
-                            <span class="fontsizesm">
-                                {{fila.trn_fecreg}}</span>
-                        </td>
-                        <td>
-                            <span class="fontsizesm">
-                                {{fila.trn_compro}}</span>
-                        </td>
-                        <td>
-                            <span class="fontsizesm">{{fila.trn_observ}}</span>
-                        </td>
-                        <td>
-                            <span class="fontsizesm">
-                                {{fila.dt_valor}}</span>
-                        </td>
-                        <td>
-                            <span class="fontsizesm">
-                                {{fila.cre_saldopen}} </span>
-                        </td>
-                        <td>
-                            <button class="btn btn-outline-secondary btn-sm">
-                                <i class="fa fa-eye"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">
-                            <div class="d-flex flex-row-reverse">
-                                <span class="font-weight-bold">TOTAL:</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                <span class="font-weight-bold">{{totalescred.totalcred}}</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                <span class="font-weight-bold">{{totalescred.totalsalpend}}</span>
-                            </div>
-                        </td>
-                        <td>
-
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="card-body" *ngIf="creditosList.length===0">
-                <div class="p-5 d-flex justify-content-center">
-                    <h2 class="text-muted">No registra créditos</h2>
                 </div>
             </div>
         </div>
@@ -193,16 +135,8 @@
 </div>
 
 <div *ngIf="isShowDetallesFactura">
-    <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
+    <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '95vw'}" [baseZIndex]="10000"
               [(visible)]="isShowDetallesFactura">
         <app-facturaview [trncod]="codFacturaSel" (evBtnClosed)="closeModalFact()"></app-facturaview>
     </p-dialog>
-</div>
-
-<div *ngIf="isShowDetallesCredito" class="border mt-2 p-2 shadow-sm">
-    <app-abonosview [codCredito]="credsel.cre_codigo" [codFactura]="credsel.trn_codigo"
-                    (evDeudaChange)="onDeudasChange($event)"></app-abonosview>
-    <div class="mt-4 text-center">
-        <button class="btn btn-outline-secondary" (click)="hideDetCredito()"><i class="fa fa-times"></i> Cerrar</button>
-    </div>
 </div>

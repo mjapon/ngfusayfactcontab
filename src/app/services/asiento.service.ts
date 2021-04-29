@@ -24,14 +24,6 @@ export class AsientoService extends BaseService {
         return this._doGet(this.getHOT({accion: 'formcab', tra_cod: traCod}));
     }
 
-    listarFacturas(perCodigo: number) {
-        return this.auxListarFacturas(perCodigo, 1);
-    }
-
-    listarFacturasCompra(perCodigo) {
-        return this.auxListarFacturas(perCodigo, 2);
-    }
-
     auxListarFacturas(per, clase) {
         return this._doGet(this.getHOT({accion: 'gfact', per, clase}));
     }
@@ -47,10 +39,6 @@ export class AsientoService extends BaseService {
     anular(trncod: number, obs: string) {
         const form = {trncod, obs};
         return this._doPost(this.getHOT({accion: 'anular'}), form);
-    }
-
-    marcarErrado(trncod: number) {
-        return this._doPost(this.getHOT({accion: 'errar'}), {trncod});
     }
 
     duplicar(trncod: number) {
@@ -69,8 +57,8 @@ export class AsientoService extends BaseService {
         return this._doPost(this.getHOT({accion: 'editasiento'}), form);
     }
 
-    getAsientos() {
-        return this._doGet(this.getHOT({accion: 'getasientos'}));
+    getAsientos(desde, hasta) {
+        return this._doGet(this.getHOT({accion: 'getasientos', desde, hasta}));
     }
 
     listarMovsCtaContable(cta, desde, hasta) {
@@ -81,7 +69,7 @@ export class AsientoService extends BaseService {
         return this._doGet(this.getHOT({accion: 'getformlibromayor'}));
     }
 
-    getDatosAsientoContable(cod: number) {
+    getDatosAsiContab(cod: number) {
         return this._doGet(this.getHOT({accion: 'getdatosasiconta', cod}));
     }
 
@@ -101,6 +89,10 @@ export class AsientoService extends BaseService {
         const sqm = this.fautService.getEsquema();
         const rutaserver = 'https://mavil.site/tomcat/imprentas/Factura?trn=' + trncod + '&sqm=' + sqm;
         window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=600');
+    }
+
+    getFormFiltroLibroDiario() {
+        return this._doGet(this.getHOT({accion: 'formfiltrolibd'}));
     }
 
 }

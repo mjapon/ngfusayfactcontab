@@ -14,6 +14,8 @@ export class FacturaviewComponent implements OnInit, OnChanges {
     @Output() evFacturaLoaded = new EventEmitter<any>();
     @Output() evBtnClosed = new EventEmitter<any>();
 
+    @Input() showBtns = true;
+
     constructor(private tasientoService: AsientoService) {
     }
 

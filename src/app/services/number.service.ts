@@ -109,13 +109,15 @@ export class NumberService {
                 console.error('Error al totalizar', e);
             }
         });
+
+        const recaltotal = this.round2(subtotal) - this.round2(descuentos) + this.round2(ivaval);
         return {
             subtotal: this.round2(subtotal),
             subtotal12: this.round2(subtotal12),
             subtotal0: this.round2(subtotal0),
             iva: this.round2(ivaval),
             descuentos: this.round2(descuentos),
-            total: this.round2(total)
+            total: recaltotal
         };
     }
 

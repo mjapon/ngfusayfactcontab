@@ -201,7 +201,7 @@
             </div>
         </div>
     </div>
-    <div class="mt-2 d-flex flex-row-reverse" style="margin-bottom: -20px">
+    <div *ngIf="showBtns" class="mt-2 d-flex flex-row-reverse" style="margin-bottom: -20px">
         <button class="btn btn-outline-secondary ml-2" (click)="onCloseClick()"><i class="fa fa-times"></i> Cerrar
         </button>
         <button class="btn btn-outline-secondary" *ngIf="isShowImprimir" (click)="imprimir()"><i

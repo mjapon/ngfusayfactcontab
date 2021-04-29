@@ -18,6 +18,8 @@ export class LibromayorlistComponent implements OnInit {
     grid: any;
     selectedItem: any;
     isLoadingData: any;
+    isShowDetAsi = false;
+    asisel: any = {};
 
     constructor(private artService: ArticuloService,
                 private fechasService: FechasService,
@@ -71,10 +73,15 @@ export class LibromayorlistComponent implements OnInit {
     }
 
     verDetalles(rowData: any) {
-        this.swalService.fireToastSuccess('Acción ver detalles');
+        this.asisel = rowData;
+        this.isShowDetAsi = true;
     }
 
     onCuentaContableChange($event: any) {
         this.loadMovs();
+    }
+
+    hideDetAsi() {
+        this.isShowDetAsi = false;
     }
 }

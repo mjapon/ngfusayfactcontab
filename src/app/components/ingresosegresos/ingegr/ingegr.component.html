@@ -169,7 +169,7 @@
                                 </span>
                             </td>
                             <td>
-                                <button class="btn btn-sm btn-outline-dark" *ngIf="rowData.bmo_id>0"
+                                <button class="btn btn-sm btn-outline-dark"
                                         (click)="verDetalles(rowData)"
                                         title="Ver Detalles">
                                     <i class="fa fa-eye"></i>
@@ -313,12 +313,24 @@
 </p-dialog>
 
 <div *ngIf="isShowDetalleMov">
-    <p-dialog header="Detalles de la transacción" [style]="{width: '80vw'}" [autoZIndex]="false"
+    <p-dialog header="Detalles de la transacción" [style]="{width: '95vw'}" [autoZIndex]="false"
               [modal]="true"
-              [closeOnEscape]="true"
               [(visible)]="isShowDetalleMov">
         <app-ingegrview [codmov]="codmovsel" (evCerrarBtn)="closeModalDet($event)"
                         (evAnula)="onAnulaView($event)" (evConfirma)="onConfirmaView($event)"></app-ingegrview>
     </p-dialog>
 </div>
 
+<div *ngIf="isShowDetAsi">
+    <p-dialog header="Detalles del asiento" [style]="{width: '95vw'}" [autoZIndex]="false"
+              [modal]="true"
+              [(visible)]="isShowDetAsi">
+        <app-asientoview [trncod]="filasel.trn_codigo" (evCerrar)="hideDetAsi()"></app-asientoview>
+    </p-dialog>
+</div>
+
+
+<p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '95vw'}" [baseZIndex]="10000"
+          [(visible)]="isShowFactura">
+    <app-facturaview [trncod]="filasel.trn_codigo" (evBtnClosed)="closeDetallesFact()"></app-facturaview>
+</p-dialog>
