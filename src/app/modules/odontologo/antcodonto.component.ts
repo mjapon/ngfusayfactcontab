@@ -138,8 +138,6 @@ export class AntcodontoComponent implements OnInit, OnChanges {
     datosAlertaImc: any;
     datosAlertaPresion: any;
     editando: boolean;
-
-    // historicos: Array<any>;
     hallazgosfisicos: string;
 
     constructor(private antecService: OdAntecService,
@@ -151,7 +149,6 @@ export class AntcodontoComponent implements OnInit, OnChanges {
     ngOnInit(): void {
         this.cabecera = {};
         this.detalles = [];
-        // this.historicos = [];
         this.lastValid = false;
         this.hallazgosfisicos = '';
         this.datosAlertaImc = {};
@@ -164,7 +161,6 @@ export class AntcodontoComponent implements OnInit, OnChanges {
         if (codcurrentvalue !== null) {
             if (pacchange.currentValue > 0) {
                 this.loadLastOrForm();
-                // this.loadHistoricos();
             }
         }
     }
@@ -194,16 +190,6 @@ export class AntcodontoComponent implements OnInit, OnChanges {
             }
         });
     }
-
-    /*
-    loadHistoricos() {
-        this.antecService.getHistoricos(this.codPaciente, this.tipo).subscribe(res => {
-            if (res.status === 200) {
-                this.historicos = res.items;
-            }
-        });
-    }
-     */
 
     guardar() {
         const form = {cabecera: this.cabecera, detalles: this.detalles};

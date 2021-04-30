@@ -36,6 +36,7 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
     @Input()
     codpaciente: number;
     filtroserv: any;
+    tracodFact = 1;
 
     constructor(private artService: ArticuloService,
                 private domService: DomService,
@@ -84,11 +85,8 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
     }
 
     loadForm() {
-        const traCodigo = 1;
-        const tdvCodigo = 1;
-
         this.loadinUIServ.publishBlockMessage();
-        this.planService.getForm(this.codpaciente, traCodigo, tdvCodigo).subscribe(res => {
+        this.planService.getForm(this.codpaciente, this.tracodFact).subscribe(res => {
             if (res.status === 200) {
                 this.formcab = res.formcab;
                 this.formplan = res.formplan;
@@ -292,6 +290,38 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
                     }
                 });
             }
+        });
+    }
+
+    editarPlan() {
+        this.loadinUIServ.publishBlockMessage();
+        this.planService.getForm(this.codpaciente, this.tracodFact).subscribe(res => {
+            this.showForm = true;
+            this.detalles = this.datosDocPlan.doc.detalles;
+            if (res.status === 200) {
+                this.formcab = res.formcab;
+                this.formplan = res.formplan;
+                this.medicos = res.medicos;
+                this.ttransacc = res.ttransacc;
+                this.formaspago = res.formaspago;
+                this.formdet = res.formdet;
+                this.formpago = res.formpago;
+                this.domService.setFocusTimeout('pnt_nombre', 100);
+                this.impuestos = res.formcab.impuestos;
+                this.numberService.setIva(this.impuestos.iva);
+            }
+            this.detalles.forEach(det => {
+                this.recalcTotalFila(det);
+            });
+            this.totalizar();
+            this.formplan = this.datosDocPlan.plan;
+            this.formcab = this.datosDocPlan.doc.tasiento;
+
+            console.log('valor de detalles es:', this.detalles);
+            console.log('Valor de formplan es:', this.formplan);
+            console.log('Valor de formcab es:', this.formcab);
+            console.log('datosdocplan plan:', this.datosDocPlan.plan);
+            console.log('this.datosDocPlan.doc:', this.datosDocPlan.doc);
         });
     }
 

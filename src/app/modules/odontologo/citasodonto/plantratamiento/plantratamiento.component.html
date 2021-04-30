@@ -143,6 +143,12 @@
                                     <i class="fa fa-trash"></i>
                                     Anular
                                 </button>
+                                <button type="button" class="btn btn-outline-primary" (click)="editarPlan()"
+                                        title="Modificar este plan de tratamiento"
+                                        *ngIf="datosDocPlan.plan.pnt_estado <= 2">
+                                    <i class="fa fa-edit"></i>
+                                    Editar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -213,35 +219,38 @@
         </div>
     </div>
     <div *ngIf="showForm" class="shadow border mt-1 p-3">
-        <p class="font-weight-light">Nuevo plan de tratamiento, ingrese la información que se solicita:</p>
+        <p class="alert" [ngClass]="formcab.trn_codigo === 0 ? 'alert-info':'alert-warning'">
+            {{formcab.trn_codigo === 0 ? 'Nuevo plan de tratamiento, ingrese la información que se solicita:' : 'Editando plan de tratamiento'}}
+        </p>
         <div class="mt-4">
             <div class="row">
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <span class="text-rojo">*</span> <span>Nro Plan:</span>
+                <div class="col-md-6">
+                    <div class="row my-2">
+                        <div class="col-md-3">
+                            <span class="text-rojo">*</span> <span>Nro:</span>
                         </div>
                         <div class="col-md">
-                            <input type="text" class="form-control" [(ngModel)]="formcab.secuencia" disabled>
+                            <span class="font-weight-bold">{{formcab.secuencia}}</span>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-4">
-                            <span class="text-rojo">*</span><span>Nombre del plan:</span>
+                        <div class="col-md-3">
+                            <span class="text-rojo">*</span><span>Nombre:</span>
                         </div>
                         <div class="col-md">
-                            <input type="text" class="form-control" id="pnt_nombre" [(ngModel)]="formplan.pnt_nombre"
+                            <input type="text" class="form-control" id="pnt_nombre" [readOnly]="formcab.trn_codigo>0"
+                                   [(ngModel)]="formplan.pnt_nombre" placeholder="Nombre para el plan de tratamiento"
                                    maxlength="40">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
-                            <span class="text-rojo">*</span><span>Profesional a cargo:</span>
+                        <div class="col-md-3">
+                            <span class="text-rojo">*</span><span>Responsable:</span>
                         </div>
                         <div class="col-md">
                             <div class="p-fluid">
-                                <p-dropdown [options]="medicos"
+                                <p-dropdown [options]="medicos" [disabled]="formcab.trn_codigo>0"
                                             [showClear]="true"
                                             placeholder="Seleccione el/la profesional a cargo"
                                             filter="true"
@@ -252,23 +261,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 d-flex flex-column justify-content-between">
+                <div class="col-md-6 d-flex flex-column justify-content-between">
                     <div class="d-flex flex-column">
                         <span>Observación:</span>
                         <textarea class="form-control" [(ngModel)]="formplan.pnt_obs" rows="3" autocomplete="off"
+                                  placeholder="Ingrese una observación para este nuevo plan de tratamiento"
                                   id="pnt_obs">
                 </textarea>
                     </div>
                 </div>
             </div>
 
-            <div class="row mt-2">
+            <div class="row mt-4">
                 <div class="col-md-4 quitaPaddingMargin">
                     <div class="card">
-                        <div class="card-header">
-                            <span class="text-primary">Servicios</span>
+                        <div class="card-header quitaPaddingMargin p-1">
+                            <span class="text-primary fontsizesm">Buscar procedimiento a realizar:</span>
                             <input type="text" class="form-control form-control-sm" [(ngModel)]="filtroserv"
-                                   (keyup)="doFilter()" placeholder="Buscar por nombre">
+                                   (keyup)="doFilter()" placeholder="Buscar por nombre o por código">
                         </div>
 
                         <ul class="list-group list-group-flush scrol-list-dental">
@@ -291,38 +301,38 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md quitaPaddingMargin">
-                    <div class="table-responsive">
+                <div class="col-md quitaPaddingMargin ml-md-2">
+                    <div class="table-responsive shadow-sm">
                         <table class="table table-bordered table-sm">
                             <thead>
                             <tr>
                                 <th scope="col" style="width: 3%">
-                                    <span class="font-weight-normal">#</span>
+                                    <span class="font-weight-normal fontsizesm">#</span>
                                 </th>
-                                <th scope="col" style="width: 33%">
-                            <span class="font-weight-normal">
+                                <th scope="col" style="width: 31%">
+                            <span class="font-weight-bold fontsizesm">
                                 Servicio </span>
                                 </th>
-                                <th scope="col" style="width: 10%">
-                            <span class="font-weight-normal">
+                                <th scope="col" style="width: 12%">
+                            <span class="font-weight-bold fontsizesm">
                                 Cant. </span></th>
                                 <th scope="col" style="width: 10%">
-                            <span class="font-weight-normal">
+                            <span class="font-weight-bold fontsizesm">
                                 P. Uni. </span></th>
                                 <th scope="col" style="width: 10%">
-                            <span class="font-weight-normal">
+                            <span class="font-weight-bold fontsizesm">
                                 Subt.</span></th>
                                 <th scope="col" style="width: 9%">
-                            <span class="font-weight-normal">
+                            <span class="font-weight-bold fontsizesm">
                                 Desc </span></th>
                                 <th scope="col" style="width: 10%">
-                            <span class="font-weight-normal">
+                            <span class="font-weight-bold fontsizesm">
                                 Iva </span></th>
                                 <th scope="col" style="width: 10%">
-                            <span class="font-weight-normal">
+                            <span class="font-weight-bold fontsizesm">
                                 Total </span></th>
                                 <th scope="col" style="width: 5%">
-                                    <span class="font-weight-normal"></span></th>
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -332,13 +342,14 @@
                                 </th>
                                 <td>
                                     <div class="d-flex flex-column">
-                                        <span class="font-weight-lighter fontsizenr">{{fila.ic_code}}</span>
-                                        <span class="font-weight-light fontsizenr">{{fila.ic_nombre}}</span>
+                                        <span class="font-weight-light fontsizesm">{{fila.ic_code}}</span>
+                                        <span class="font-weight-bold fontsizesm">{{fila.ic_nombre}}</span>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="p-fluid">
                                         <p-inputNumber [(ngModel)]="fila.dt_cant" [min]="1" [max]="1000"
+                                                       styleClass="form-control-sm"
                                                        [showButtons]="true"
                                                        (ngModelChange)="recalcTotalFila(fila)"></p-inputNumber>
                                     </div>
@@ -356,12 +367,12 @@
                                            (keyup)="onFilaDescChange(fila)" [ngClass]="{'is-invalid':fila.dt_dectoerr}"
                                            [(ngModel)]="fila.dt_dectoin"></td>
                                 <td>
-                                    <select class="form-control" [(ngModel)]="fila.icdp_grabaiva"
+                                    <select class="form-control form-control-sm" [(ngModel)]="fila.icdp_grabaiva"
                                             (ngModelChange)="onFilaIvaChange(fila)">
                                         <option *ngFor="let iv of ivas" [ngValue]="iv.value">{{iv.label}}</option>
                                     </select>
                                 <td>
-                                    ${{fila.total | number: '.2'}}
+                                    <span class="fontsizesm font-weight-bold">${{fila.total | number: '.2'}}</span>
                                 </td>
                                 <td>
                                     <button class="btn btn-sm btn-outline-secondary" (click)="quitarItem(fila)"
@@ -373,46 +384,42 @@
                         </table>
                     </div>
 
-                    <div class="border p-2 mt-2" *ngIf="detalles.length>0">
+                    <div class="border shadow-sm p-2 mt-2" *ngIf="detalles.length>0">
                         <div class="row">
-                            <hr class="text-muted quitaPaddingMargin">
-                            <div class="col-md-1">
-
-
-                            </div>
                             <div class="col-md-6">
                                 <div class="row">
-                                    <div class="col-sm-7 quitaPaddingMargin"><span
-                                            class="font-weight-light">Subtotal $:</span>
+                                    <div class="col-md-5"><span
+                                            class="font-weight-bold">Subtotal $:</span>
                                     </div>
-                                    <div class="col-sm-5 ">
+                                    <div class="col-md">
                                         <input type="text" class="form-control form-control-sm" disabled
                                                [(ngModel)]="totales.subtotal">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-7 quitaPaddingMargin"><span
-                                            class="font-weight-light">(-)Descuento $:</span>
+                                    <div class="col-md-5"><span
+                                            class="font-weight-bold">(-)Descuento $:</span>
                                     </div>
-                                    <div class="col-sm-5">
+                                    <div class="col-md">
                                         <input type="text" class="form-control form-control-sm" disabled
                                                [(ngModel)]="totales.descuentos">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-7 quitaPaddingMargin"><span
-                                            class="font-weight-light">(+)Iva {{impuestos.iva * 100}}%
-                            de ${{totales.subtotal12}}:</span></div>
-                                    <div class="col-sm-5">
+                                    <div class="col-md-5">
+                                        <span class="font-weight-bold">(+)Iva {{impuestos?.iva * 100}}
+                                            % de ${{totales.subtotal12}}:</span>
+                                    </div>
+                                    <div class="col-md">
                                         <input type="text" class="form-control form-control-sm" disabled
                                                [(ngModel)]="totales.iva">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-7 quitaPaddingMargin"><span
-                                            class="font-weight-bold">Total $:</span>
+                                    <div class="col-md-5"><span
+                                            class="font-weight-bolder">Total $:</span>
                                     </div>
-                                    <div class="col-sm-5">
+                                    <div class="col-md">
                                         <input type="text" class="form-control form-control-sm" disabled
                                                [(ngModel)]="totales.total">
                                     </div>
@@ -420,13 +427,13 @@
                             </div>
                             <div class="col-md-5">
                                 <div>
-                                    <span class="text-muted">PAGOS:</span>
+                                    <span class="text-muted">FORMAS DE PAGO:</span>
                                 </div>
                                 <div class="row" *ngFor="let pago of formaspago">
-                                    <div class="col-md">
+                                    <div class="col-md-5">
                                         <span class="font-weight-bold">{{pago.ic_nombre}} $:</span>
                                     </div>
-                                    <div class="col-md">
+                                    <div class="col-md-7">
                                         <input type="number" class="form-control form-control-sm"
                                                [(ngModel)]="pago.dt_valor" (keyup)="calculaPagos(pago)">
                                     </div>
@@ -434,14 +441,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mt-2 d-flex">
-                        <button class="btn btn-outline-primary" (click)="creaPlanTratamiento()">
-                            <i class="fa fa-save"></i>
-                            Guardar
-                        </button>
-                        <button class="ml-3 btn btn-outline-secondary" (click)="cancelarCreaPlan()"><i
-                                class="fa fa-times"></i> Cancelar
-                        </button>
+                    <div class="mt-2 d-flex justify-content-around">
+                        <div>
+                            <button class="btn btn-outline-primary" (click)="creaPlanTratamiento()"
+                                    *ngIf="detalles.length>0">
+                                <i class="fa fa-save"></i>
+                                Guardar
+                            </button>
+                            <button class="ml-3 btn btn-outline-secondary" (click)="cancelarCreaPlan()"><i
+                                    class="fa fa-times"></i> Cancelar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

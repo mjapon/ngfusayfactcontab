@@ -24,8 +24,8 @@
         </ul>
 
         <div id="RegistrarHistoria" *ngIf="selectedSupTab===1">
-            <app-listadopacientes (evCrearPaciente)="onCreaPaciente($event)"
-                                  (evSelPaciente)="selPacFromLista($event)"></app-listadopacientes>
+            <app-listadorefs (evCrearPaciente)="onCreaPaciente($event)"
+                             (evSelPaciente)="selPacFromLista($event)"></app-listadorefs>
         </div>
 
         <div id="AtencionesHechas" *ngIf="selectedSupTab===2">
@@ -39,8 +39,8 @@
                                  (gotoCalendarEv)="doGotoCalendar($event)"></app-citasplaned>
             </div>
             <div *ngIf="isShowCalendar">
-                <app-odcalendar [tipoCita]="1" [showListado]="true"
-                                (evListado)="showListado($event)"></app-odcalendar>
+                <app-mvcalendar [tipoCita]="1" [showListado]="true"
+                                (evListado)="showListado($event)"></app-mvcalendar>
             </div>
         </div>
 
@@ -195,10 +195,10 @@
 
         <p-tabView [(activeIndex)]="selectedTab" (onChange)="onTabChange($event)">
             <p-tabPanel header="1. Datos del Paciente">
-                <app-datospaciente [codPaciente]="pacienteSelected.per_id" (pacienteLoaded)="onPacienteLoaded($event)"
-                                   (pacienteSaved)="onPacienteSaved($event)"
-                                   (datosIncompletosEv)="onDatosIncompletos($event)"
-                                   (creacionCancelada)="limpiar()"></app-datospaciente>
+                <app-datosref [codPaciente]="pacienteSelected.per_id" (pacienteLoaded)="onPacienteLoaded($event)"
+                              (pacienteSaved)="onPacienteSaved($event)"
+                              (datosIncompletosEv)="onDatosIncompletos($event)"
+                              (creacionCancelada)="limpiar()"></app-datosref>
             </p-tabPanel>
 
             <p-tabPanel header="2. Motivo">
@@ -571,8 +571,8 @@
 
                 <div class="mt-3" #agendaDiv>
                     <div *ngIf="showCalendar" class="pb-2">
-                        <app-odcalendar [tipoCita]="1" (evCreated)="onCitaCreated($event)"
-                                        (evCancelar)="closeModalCalendar()" [showCancelar]="true"></app-odcalendar>
+                        <app-mvcalendar [tipoCita]="1" (evCreated)="onCitaCreated($event)"
+                                        (evCancelar)="closeModalCalendar()" [showCancelar]="true"></app-mvcalendar>
                     </div>
                 </div>
 

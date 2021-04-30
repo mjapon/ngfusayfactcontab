@@ -20,11 +20,11 @@ import {PersonEvService} from '../../services/personev.service';
                                 (evBtnCerrar)="cancelCreaRef()" [totalestrns]="tottrns"></app-resumenref>
             </div>
             <div *ngIf="tabactive===1">
-                <app-datospaciente [codPaciente]="codref" (pacienteLoaded)="onReferenteLoaded($event)"
-                                   (pacienteSaved)="onReferenteSaved($event)"
-                                   (datosIncompletosEv)="onDatosIncompletos($event)"
-                                   [datosmedicos]="false"
-                                   (creacionCancelada)="cancelCreaRef()"></app-datospaciente>
+                <app-datosref [codPaciente]="codref" (pacienteLoaded)="onReferenteLoaded($event)"
+                              (pacienteSaved)="onReferenteSaved($event)"
+                              (datosIncompletosEv)="onDatosIncompletos($event)"
+                              [datosmedicos]="false"
+                              (creacionCancelada)="cancelCreaRef()"></app-datosref>
             </div>
             <div *ngIf="tabactive ===3">
                 <app-factpagos [codpaciente]="codref" [clase]="1"

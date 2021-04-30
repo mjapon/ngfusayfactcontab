@@ -46,6 +46,11 @@ import {LocalStorageService} from '../../services/local-storage.service';
                                (click)="selectMasterTab(3, $event)">
                                 Facturación y Pagos</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" [ngClass]="{'active':5===selectedMasterTab}"
+                               (click)="selectMasterTab(5, $event)">
+                                Cuentas por cobrar</a>
+                        </li>
                     </ul>
                 </div>
                 <div>

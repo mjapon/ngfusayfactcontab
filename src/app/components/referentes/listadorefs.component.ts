@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {PersonaService} from '../../services/persona.service';
 
 @Component({
-    selector: 'app-listadopacientes',
+    selector: 'app-listadorefs',
     template: `
         <div>
             <div class="row">
@@ -62,7 +62,7 @@ import {PersonaService} from '../../services/persona.service';
         </div>
     `
 })
-export class ListadopacientesComponent implements OnInit {
+export class ListadorefsComponent implements OnInit {
 
     @Output() evCrearPaciente = new EventEmitter<any>();
     @Output() evSelPaciente = new EventEmitter<any>();

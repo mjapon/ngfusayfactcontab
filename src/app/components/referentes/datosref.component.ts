@@ -10,7 +10,7 @@ import {LugarService} from '../../services/lugar.service';
 import {forkJoin} from 'rxjs';
 
 @Component({
-    selector: 'app-datospaciente',
+    selector: 'app-datosref',
     styles: [
             `.dato-fila {
             margin: 15px 5px;
@@ -352,7 +352,7 @@ import {forkJoin} from 'rxjs';
         </div>
     `
 })
-export class DatospacienteComponent implements OnInit, OnChanges {
+export class DatosrefComponent implements OnInit, OnChanges {
 
     @Input() codPaciente: number;
     @Input() datosmedicos = true;

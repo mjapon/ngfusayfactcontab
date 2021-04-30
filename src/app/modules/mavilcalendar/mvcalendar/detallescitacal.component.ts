@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TcitaService} from '../../../services/tcita.service';
-import {SwalService} from '../../../services/swal.service';
 
 @Component({
     selector: 'app-detcitacal',
@@ -59,14 +58,6 @@ import {SwalService} from '../../../services/swal.service';
                     Atención
                 </button>
             </div>
-            <!--
-            <div class="d-flex justify-content-around">
-                <button class="btn btn-outline-secondary" (click)="anularEv()"><i class="fa fa-trash"></i> Anular
-                </button>
-                <button class="btn btn-outline-secondary" (click)="editarEv()"><i class="fa fa-edit"></i> Editar
-                </button>
-            </div>
-            -->
         </div>
     `
 })
@@ -76,15 +67,9 @@ export class DetallescitacalComponent implements OnInit {
     @Output() cerrarModalEv = new EventEmitter<any>();
     @Output() registraAtencionEv = new EventEmitter<any>();
     showAnim: boolean;
-    /*
-    @Output() anularCitaEv = new EventEmitter<any>();
-    @Output() editarCitaEv = new EventEmitter<any>();
-     */
     datosCita: any;
 
-    constructor(private tcitaServ: TcitaService,
-                private swalService: SwalService) {
-
+    constructor(private tcitaServ: TcitaService) {
     }
 
     ngOnInit(): void {
@@ -100,27 +85,6 @@ export class DetallescitacalComponent implements OnInit {
             }
         });
     }
-
-    /*
-    anularEv() {
-        const msg = '¿Seguro que desea anular este evento?';
-        this.swalService.fireDialog(msg).then(confirm => {
-                if (confirm.value) {
-                    this.tcitaServ.anular(this.datosCita.ct_id).subscribe(res => {
-                        if (res.status === 200) {
-                            this.swalService.fireToastSuccess(res.msg);
-                            //this.anularCitaEv.emit('');
-                        }
-                    });
-                }
-            }
-        );
-    }
-
-    editarEv() {
-        //this.editarCitaEv.emit('');
-    }
-     */
 
     registraAtencion() {
         this.registraAtencionEv.emit(this.datosCita);

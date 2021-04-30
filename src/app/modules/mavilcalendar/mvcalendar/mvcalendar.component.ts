@@ -10,11 +10,11 @@ import {LoadingUiService} from '../../../services/loading-ui.service';
 import {LocalStorageService} from '../../../services/local-storage.service';
 
 @Component({
-    selector: 'app-odcalendar',
+    selector: 'app-mvcalendar',
     templateUrl: './odcalendar.component.html',
     styleUrls: ['./odcalendar.component.css']
 })
-export class OdcalendarComponent implements OnInit, OnChanges {
+export class MvcalendarComponent implements OnInit, OnChanges {
     @Input() tipoCita: number;
     @Input() showCancelar = false;
     @Input() showListado = false;

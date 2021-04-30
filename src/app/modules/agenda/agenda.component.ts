@@ -8,8 +8,8 @@ import {SwalService} from '../../services/swal.service';
     template: `
         <div>
             <div *ngIf="!isShowLista">
-                <app-odcalendar [tipoCita]="tipoCita" [showListado]="true" [enableCalendars]="true"
-                                (evListado)="showListado($event)"></app-odcalendar>
+                <app-mvcalendar [tipoCita]="tipoCita" [showListado]="true" [enableCalendars]="true"
+                                (evListado)="showListado($event)"></app-mvcalendar>
             </div>
             <div *ngIf="isShowLista">
                 <app-citasplaned [disablecals]="false" [tipocita]="tipoCita" (gotoCalendarEv)="gotoCalendar($event)"

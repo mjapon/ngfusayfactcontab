@@ -231,8 +231,8 @@
                                     (ngModelChange)="onFilaIvaChange(fila)">
                                 <option *ngFor="let iv of ivas" [ngValue]="iv.value">{{iv.label}}</option>
                             </select>
-                        <td>
-                            ${{fila.total | number: '.2'}}
+                        <td class="d-flex flex-row-reverse">
+                            <span>${{fila.total | number: '.2'}}</span>
                         </td>
                         <td>
                             <button class="btn btn-sm btn-outline-secondary" (click)="quitarItem(fila)"

@@ -16,8 +16,8 @@ export class PlantratamientoService extends BaseService {
         super('/todplantrata', localStrgServ, http);
     }
 
-    getForm(pac: number, traCod: number, tdvCodigo: number) {
-        return this._doGet(this.getHOT({accion: 'form', pac, tra_cod: traCod, tdv_codigo: tdvCodigo}));
+    getForm(pac: number, traCod: number) {
+        return this._doGet(this.getHOT({accion: 'form', pac, tra_cod: traCod}));
     }
 
     listar(pac: number) {

@@ -7,8 +7,8 @@ import {Router} from '@angular/router';
         <h5 class="quitaPaddingMargin mb-2 mt-1 ml-2">
             <span class="fas fa-users"></span> Referentes
         </h5>
-        <app-listadopacientes (evSelPaciente)="onSelPaciente($event)"
-                              (evCrearPaciente)="onCreaPaciente($event)"></app-listadopacientes>
+        <app-listadorefs (evSelPaciente)="onSelPaciente($event)"
+                         (evCrearPaciente)="onCreaPaciente($event)"></app-listadorefs>
 
     `
 })

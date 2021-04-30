@@ -2798,7 +2798,7 @@ form .form-group:first-child .floating-label-form-group {
 }
 
 .scrol-list-dental {
-    max-height: 600px;
+    max-height: 500px;
     margin-bottom: 0;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;

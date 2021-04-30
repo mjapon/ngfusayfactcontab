@@ -251,10 +251,10 @@
             </div>
 
             <div *ngIf="isShowFormCreaRef" class="border mt-1 mb-2 pb-1">
-                <app-datospaciente [codPaciente]="codreferenteform" [datosmedicos]="false"
-                                   (pacienteSaved)="onReferenteCreado($event)"
-                                   (creacionCancelada)="onCancelaCreacionRef($event)">
-                </app-datospaciente>
+                <app-datosref [codPaciente]="codreferenteform" [datosmedicos]="false"
+                              (pacienteSaved)="onReferenteCreado($event)"
+                              (creacionCancelada)="onCancelaCreacionRef($event)">
+                </app-datosref>
             </div>
 
             <div class="row mt-2">
