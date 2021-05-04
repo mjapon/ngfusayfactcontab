@@ -117,7 +117,7 @@ export class NumberService {
             subtotal0: this.round2(subtotal0),
             iva: this.round2(ivaval),
             descuentos: this.round2(descuentos),
-            total: recaltotal
+            total: this.round2(recaltotal)
         };
     }
 

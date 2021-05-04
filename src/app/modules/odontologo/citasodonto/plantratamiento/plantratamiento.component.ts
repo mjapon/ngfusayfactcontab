@@ -32,11 +32,12 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
     filteredServ: Array<any>;
     plansel: any;
     ivas: Array<any>;
+    filtroserv: any;
+    tracodFact = 1;
+    isLoadingPlanes = false;
 
     @Input()
     codpaciente: number;
-    filtroserv: any;
-    tracodFact = 1;
 
     constructor(private artService: ArticuloService,
                 private domService: DomService,
@@ -77,7 +78,9 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
     }
 
     loadPlanes() {
+        this.isLoadingPlanes = true;
         this.planService.listar(this.codpaciente).subscribe(res => {
+            this.isLoadingPlanes = false;
             if (res.status === 200) {
                 this.listaPlanes = res.items;
             }
@@ -161,6 +164,23 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
         this.totalizar();
     }
 
+    checkPagosPrevios() {
+        const isedit = this.formcab.trn_codigo > 0;
+        let totalcred = 0.0;
+        let totalefec = 0.0;
+        if (isedit) {
+            const filtered = this.datosDocPlan.doc.pagos.filter(row => row.ic_clasecc === 'XC');
+            if (filtered && filtered.length > 0) {
+                totalcred = filtered[0].dt_valor;
+                if (totalcred < this.totales.total) {
+                    totalefec = this.numberService.round2(this.totales.total - totalcred);
+                }
+                this.formaspago[0].dt_valor = totalefec;
+                this.formaspago[1].dt_valor = totalcred;
+            }
+        }
+    }
+
     totalizar() {
         this.initTotales();
         this.totales = this.numberService.totalizar(this.detalles);
@@ -173,36 +193,49 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
     }
 
     creaPlanTratamiento() {
-        // Verificar que haya ingresado el nombre y haya seleccionado el profesional a cargo
         if (this.formplan.pnt_nombre.trim().length === 0) {
             this.swalService.fireToastError('Debe ingresar el nombre del plan');
         } else if (this.detalles.length === 0) {
             this.swalService.fireToastError('Debe agregar items al plan de tratamiento');
         } else {
-            this.formcab.trn_docpen = 'T';
-            const form = {
-                formplan: this.formplan,
-                form_cab: this.formcab,
-                form_persona: {per_id: this.codpaciente},
-                detalles: this.detalles,
-                pagos: this.formaspago,
-                totales: this.totales
-            };
-
-            this.loadinUIServ.publishBlockMessage();
-            this.planService.crear(form).subscribe(res => {
-                if (res.status === 200) {
-                    this.swalService.fireToastSuccess(res.msg);
-                    this.showForm = false;
-                    this.loadPlanes();
+            const isedit = this.formcab.trn_codigo > 0;
+            const tipo = isedit ? 'actualización' : 'creación';
+            const msg = `¿Confirma la ${tipo} de este plan de tratamiento?`;
+            this.swalService.fireDialog(msg).then(confirm => {
+                if (confirm.value) {
+                    this.formcab.trn_docpen = 'T';
+                    const form = {
+                        formplan: this.formplan,
+                        form_cab: this.formcab,
+                        form_persona: {per_id: this.codpaciente},
+                        detalles: this.detalles,
+                        pagos: this.formaspago,
+                        totales: this.totales
+                    };
+                    this.loadinUIServ.publishBlockMessage();
+                    this.planService.crear(form).subscribe(res => {
+                        if (res.status === 200) {
+                            this.swalService.fireToastSuccess(res.msg);
+                            this.showForm = false;
+                            this.loadPlanes();
+                            if (isedit) {
+                                this.loadDatosPlan(this.plansel.pnt_id);
+                            }
+                        }
+                    });
                 }
             });
         }
     }
 
     quitarItem(fila: any) {
-        this.arrayService.removeElement(this.detalles, fila);
-        this.totalizar();
+        const msg = '¿Seguro que desea quitar este item?';
+        this.swalService.fireDialog(msg).then(confirm => {
+            if (confirm.value) {
+                this.arrayService.removeElement(this.detalles, fila);
+                this.totalizar();
+            }
+        });
     }
 
     onMedicoChange($event: any) {
@@ -224,15 +257,19 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
         this.showForm = false;
     }
 
-    showDetallesPlan(plan) {
-        this.plansel = plan;
+    loadDatosPlan(pntid) {
         this.loadinUIServ.publishBlockMessage();
-        this.planService.getDetallesPlan(this.plansel.pnt_id).subscribe(res => {
+        this.planService.getDetallesPlan(pntid).subscribe(res => {
             if (res.status === 200) {
                 this.datosDocPlan.plan = res.plan;
                 this.datosDocPlan.doc = res.doc;
             }
         });
+    }
+
+    showDetallesPlan(plan) {
+        this.plansel = plan;
+        this.loadDatosPlan(this.plansel.pnt_id);
     }
 
     cerrarVerDetallesFact() {
@@ -313,15 +350,10 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
             this.detalles.forEach(det => {
                 this.recalcTotalFila(det);
             });
-            this.totalizar();
             this.formplan = this.datosDocPlan.plan;
             this.formcab = this.datosDocPlan.doc.tasiento;
-
-            console.log('valor de detalles es:', this.detalles);
-            console.log('Valor de formplan es:', this.formplan);
-            console.log('Valor de formcab es:', this.formcab);
-            console.log('datosdocplan plan:', this.datosDocPlan.plan);
-            console.log('this.datosDocPlan.doc:', this.datosDocPlan.doc);
+            this.totalizar();
+            this.checkPagosPrevios();
         });
     }
 

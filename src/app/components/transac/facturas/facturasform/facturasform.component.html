@@ -92,8 +92,6 @@
                                    maxlength="60">
                         </div>
                     </div>
-                    <!--</div>
-                    <div class="row">-->
                     <div class="col-md-2">
                         <div class="form-group">
                             <span class="fontsizenr">Dirección: </span>
@@ -119,12 +117,11 @@
                                    maxlength="40">
                         </div>
                     </div>
-                    <!--</div>-->
                 </div>
             </div>
         </div>
 
-        <div class="border mt-2 p-2" *ngIf="showdetalles">
+        <div class="mt-2" *ngIf="showdetalles">
             <div>
                 <div *ngIf="form.detalles.length===0">
                     <h5 class="p-1 text-muted"> Agrege un producto o servicio</h5>
@@ -163,33 +160,32 @@
                     <thead>
                     <tr>
                         <th scope="col" width="3%">
-                            <span class="font-weight-normal">#</span>
+                            <span class="font-weight-normal fontsizenr">#</span>
                         </th>
                         <th scope="col" width="33%">
-                            <span class="font-weight-normal">
+                            <span class="font-weight-normal fontsizenr">
                                 Servicio </span>
                         </th>
                         <th scope="col" width="10%">
-                            <span class="font-weight-normal">
+                            <span class="font-weight-normal fontsizenr">
                                 Cantidad </span></th>
                         <th scope="col" width="10%">
-                            <span class="font-weight-normal">
+                            <span class="font-weight-normal fontsizenr">
                                 P. Uni. </span></th>
                         <th scope="col" width="10%">
-                            <span class="font-weight-normal">
+                            <span class="font-weight-normal fontsizenr">
                                 Subt.</span></th>
                         <th scope="col" width="9%">
-                            <span class="font-weight-normal">
+                            <span class="font-weight-normal fontsizenr">
                                 Desc </span></th>
                         <th scope="col" width="10%">
-                            <span class="font-weight-normal">
+                            <span class="font-weight-normal fontsizenr">
                                 Iva </span></th>
                         <th scope="col" width="10%">
-                            <span class="font-weight-normal">
+                            <span class="font-weight-normal fontsizenr">
                                 Total </span></th>
                         <th scope="col" width="5%">
-                            <span class="font-weight-normal">
-                                .</span></th>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -199,14 +195,15 @@
                         </th>
                         <td>
                             <div class="d-flex flex-column">
-                                <span class="font-weight-lighter fontsizenr">{{fila.ic_code}}</span>
-                                <span class="font-weight-light fontsizenr">{{fila.ic_nombre}}</span>
+                                <span class="font-weight-bolder fontsizenr">{{fila.ic_nombre}}</span>
+                                <span class="font-weight-normal fontsizenr">{{fila.ic_code}}</span>
                             </div>
                         </td>
                         <td>
                             <div class="p-fluid">
                                 <p-inputNumber [(ngModel)]="fila.dt_cant"
                                                [min]="0" [max]="1000"
+                                               styleClass="form-control-sm"
                                                (focusin)="$event.target.select()"
                                                [showButtons]="true" mode="decimal"
                                                [minFractionDigits]="1" maxFractionDigits="3"
@@ -218,8 +215,7 @@
                                    (keyup)="onFilaPrecioChange(fila)"
                                    [(ngModel)]="fila.dt_precioiva"></td>
                         <td>
-                            <input type="text" class="form-control form-control-sm" [(ngModel)]="fila.subtotal"
-                                   disabled>
+                            <input class="form-control form-control-sm" [(ngModel)]="fila.subtotal" disabled>
                         </td>
                         <td>
                             <input type="text" class="form-control form-control-sm"
@@ -227,12 +223,14 @@
                                    (focusin)="$event.target.select()"
                                    [(ngModel)]="fila.dt_dectoin"></td>
                         <td>
-                            <select class="form-control" [(ngModel)]="fila.icdp_grabaiva"
+                            <select class="form-control form-control-sm" [(ngModel)]="fila.icdp_grabaiva"
                                     (ngModelChange)="onFilaIvaChange(fila)">
                                 <option *ngFor="let iv of ivas" [ngValue]="iv.value">{{iv.label}}</option>
                             </select>
-                        <td class="d-flex flex-row-reverse">
-                            <span>${{fila.total | number: '.2'}}</span>
+                        <td>
+                            <div class="d-flex flex-row-reverse">
+                                <span class="font-weight-bold">${{fila.total | number: '.2'}}</span>
+                            </div>
                         </td>
                         <td>
                             <button class="btn btn-sm btn-outline-secondary" (click)="quitarItem(fila)"
@@ -310,7 +308,6 @@
                 </div>
             </div>
         </div>
-
         <div class="p-2 mt-3" *ngIf="showbuttons">
             <p class="d-flex justify-content-center">
                 <button class="btn btn-outline-secondary" (click)="cancelarCreaFactura()"><i
