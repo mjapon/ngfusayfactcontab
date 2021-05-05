@@ -112,6 +112,7 @@ import {IngegrviewComponent} from './components/ingresosegresos/ingegrview/ingeg
 import {UtilidadesComponent} from './components/transac/facturas/utilidades/utilidades.component';
 import {CredreflistComponent} from './components/transac/creditos/creditosref/credreflist/credreflist.component';
 import {CredrefformComponent} from './components/transac/creditos/creditosref/credrefform/credrefform.component';
+import {TicketviewComponent} from './components/tickets/ticketview/ticketview.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -190,7 +191,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         IngegrviewComponent,
         UtilidadesComponent,
         CredreflistComponent,
-        CredrefformComponent
+        CredrefformComponent,
+        TicketviewComponent
     ],
     imports: [
         CommonModule,

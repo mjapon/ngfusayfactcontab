@@ -27,7 +27,7 @@
             <div>
                 <p class="quitaPaddingMargin font-weight-light">Sección:</p>
                 <div class="p-fluid">
-                    <p-dropdown [options]="secciones" [(ngModel)]="selectedSection"
+                    <p-dropdown [options]="secciones" [(ngModel)]="selectedSection" (onChange)="loadGrid()"
                                 optionLabel="sec_nombre"
                                 optionValue="sec_id">
                     </p-dropdown>
@@ -67,7 +67,7 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowData>
-            <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
+            <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="onRowDblClick(rowData)">
                 <td *ngFor="let item of cols">
                     <span class="p-column-title">{{item.label}}</span>
                     <span class="fontsizesm">
@@ -75,11 +75,8 @@
                     </span>
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-outline-dark" (click)="imprimirRow(rowData)" title="Imprimir">
-                        <i class="fa fa-print"></i>
-                    </button>
-                    <button class="btn btn-sm btn-outline-dark" (click)="anularRow(rowData)" title="Anular">
-                        <i class="fa fa-trash"></i>
+                    <button class="btn btn-sm btn-outline-dark" (click)="verDetalles(rowData)" title="Ver Detalles">
+                        <i class="fa fa-eye"></i>
                     </button>
                 </td>
             </tr>
@@ -105,3 +102,9 @@
 
 
 <p-contextMenu #cm [model]="itemsCtxMenu"></p-contextMenu>
+
+<p-dialog header="Detalles del ticket" [modal]="true" [style]="{width: '90vw'}" [autoZIndex]="true"
+          [(visible)]="isShowDetTk">
+    <app-ticketview [tkid]="tksel.tk_id" (evCerrar)="closeModalTicket()" (evReload)="loadGrid()"></app-ticketview>
+</p-dialog>
+

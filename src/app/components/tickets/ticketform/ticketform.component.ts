@@ -24,7 +24,7 @@ export class TicketformComponent implements OnInit {
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
-                private ticketService: TicketService,
+                private tkService: TicketService,
                 private swalService: SwalService,
                 private domService: DomService,
                 private personaService: PersonaService,
@@ -40,8 +40,8 @@ export class TicketformComponent implements OnInit {
         this.form = {};
         this.seccion = {};
 
-        const formCreaObs = this.ticketService.getFormCrea();
-        const servObs = this.ticketService.getProdsForTickets();
+        const formCreaObs = this.tkService.getFormCrea();
+        const servObs = this.tkService.getProdsForTickets();
         const lugsObs = this.lugarService.listarTodos();
 
         forkJoin([formCreaObs, servObs, lugsObs]).subscribe(res => {
@@ -98,17 +98,32 @@ export class TicketformComponent implements OnInit {
     }
 
     guardar() {
+        /*
         const filtrados = this.servicios.filter(item => {
             return item.ic_marca;
         });
-
         const codigos = filtrados.map(e => {
             return e.ic_id;
         });
+         */
 
-        const codservicios: string = codigos.toString();
+        // const codservicios: string = codigos.toString();
+        const codservicios = this.tkService.getCodServicios(this.servicios);
         this.form.tk_servicios = codservicios;
 
+        if (this.tkService.isDataValid(this.form, this.formcli, this.swalService)) {
+            this.loadingUiService.publishBlockMessage();
+            this.tkService.guardar(this.form, this.formcli).subscribe(res => {
+                this.swalService.fireToastSuccess(res.msg);
+                if (res.status === 200) {
+                    this.tkService.imprimir(res.tk_id);
+                    this.router.navigate(['tickets']);
+                }
+            });
+        }
+
+
+        /*
         if (this.form.tk_nro === null || this.form.tk_nro.toString().trim().length === 0) {
             this.swalService.fireError('Debe ingresar el número del ticket');
             return;
@@ -120,13 +135,14 @@ export class TicketformComponent implements OnInit {
             return;
         } else {
             this.loadingUiService.publishBlockMessage();
-            this.ticketService.guardar(this.form, this.formcli).subscribe(res => {
+            this.tkService.guardar(this.form, this.formcli).subscribe(res => {
                 this.swalService.fireToastSuccess(res.msg);
                 if (res.status === 200) {
-                    this.ticketService.imprimir(res.tk_id);
+                    this.tkService.imprimir(res.tk_id);
                     this.router.navigate(['tickets']);
                 }
             });
         }
+         */
     }
 }

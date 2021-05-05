@@ -29,6 +29,8 @@ export class TicketComponent implements OnInit {
     secciones: Array<any>;
     isLoading = false;
     form: any;
+    isShowDetTk = false;
+    tksel: any = {};
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -105,6 +107,11 @@ export class TicketComponent implements OnInit {
         }
     }
 
+    verDetalles(row) {
+        this.tksel = row;
+        this.showModalTicket();
+    }
+
     imprimirRow(row) {
         this.ticketService.imprimir(row.tk_id);
     }
@@ -127,6 +134,8 @@ export class TicketComponent implements OnInit {
     }
 
     anularRow(row) {
+        this.tksel = row;
+        this.showModalTicket();
         this.swalService.fireDialog('¿Confirma que desea anular este ticket?', '').then(confirm => {
                 if (confirm.value) {
                     this.loadingUiService.publishBlockMessage();
@@ -160,5 +169,18 @@ export class TicketComponent implements OnInit {
     onTipoFiltroChange() {
         this.onDesdeChange(null);
         this.onHastaChange(null);
+        this.loadGrid();
+    }
+
+    closeModalTicket() {
+        this.isShowDetTk = false;
+    }
+
+    showModalTicket() {
+        this.isShowDetTk = true;
+    }
+
+    onRowDblClick(rowData) {
+        this.verDetalles(rowData);
     }
 }
