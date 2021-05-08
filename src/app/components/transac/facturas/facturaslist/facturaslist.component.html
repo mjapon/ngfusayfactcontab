@@ -60,11 +60,11 @@
                 <tr>
                     <th *ngFor="let item of grid.cols" [pSortableColumn]="item.field" [ngSwitch]="item.field"
                         [width]="item.width">
-                        {{item.label}}
+                        <span class="fontsizenr">{{item.label}}</span>
                         <p-sortIcon [field]="item.field"></p-sortIcon>
                     </th>
-                    <th style="width: 10%">
-                        Acción
+                    <th>
+
                     </th>
                 </tr>
             </ng-template>
@@ -74,10 +74,12 @@
                         <span class="fontsizesm">{{rowData[item['field']]}}</span>
                     </td>
                     <td>
+                        <!--
                         <button class="btn btn-sm btn-outline-dark mr-3" (click)="anularRow(rowData)"
                                 title="Anular">
                             <i class="fas fa-trash"></i>
                         </button>
+                        -->
                         <button class="btn btn-sm btn-outline-dark" (click)="verRow(rowData)" title="Editar">
                             <i class="fas fa-eye"></i>
                         </button>
@@ -127,6 +129,7 @@
 <div *ngIf="isShowDetallesFactura">
     <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
               [(visible)]="isShowDetallesFactura">
-        <app-facturaview [trncod]="codFacturaSel" (evBtnClosed)="closeDetFact()"></app-facturaview>
+        <app-facturaview [trncod]="codFacturaSel" (evBtnClosed)="closeDetFact()" (evAnulado)="listar()"
+                         (evEditar)="onEditar($event)"></app-facturaview>
     </p-dialog>
 </div>

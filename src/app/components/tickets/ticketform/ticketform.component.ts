@@ -98,16 +98,6 @@ export class TicketformComponent implements OnInit {
     }
 
     guardar() {
-        /*
-        const filtrados = this.servicios.filter(item => {
-            return item.ic_marca;
-        });
-        const codigos = filtrados.map(e => {
-            return e.ic_id;
-        });
-         */
-
-        // const codservicios: string = codigos.toString();
         const codservicios = this.tkService.getCodServicios(this.servicios);
         this.form.tk_servicios = codservicios;
 

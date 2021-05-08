@@ -51,9 +51,7 @@ import {ActivatedRoute, Router} from '@angular/router';
                                 {{item.label}}
                                 <p-sortIcon [field]="item.field"></p-sortIcon>
                             </th>
-                            <th>
-                                Acción
-                            </th>
+                            <th></th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-rowData>

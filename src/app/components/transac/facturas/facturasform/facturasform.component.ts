@@ -14,6 +14,7 @@ import {forkJoin, Subscription} from 'rxjs';
 import es from '@angular/common/locales/es';
 import {registerLocaleData} from '@angular/common';
 import {FacturasmsgService} from '../../../../services/facturasmsg.service';
+import {LocalStorageService} from '../../../../services/local-storage.service';
 
 @Component({
     selector: 'app-facturasform',
@@ -33,9 +34,11 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     isConsumidorFinal: boolean;
     isDisabledFormRef: boolean;
     codConsFinal = -1;
+    trncodedit = 0;
 
     @Input() form: any;
     @Input() tracodigo: number;
+    @Input() isedit = false;
 
     @Input() showtitulo = true;
     @Input() showreferente = true;
@@ -65,6 +68,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
                 private fechasService: FechasService,
                 private swalService: SwalService,
                 private facturaMsgService: FacturasmsgService,
+                private localStrgService: LocalStorageService,
                 private router: Router,
                 private personaServ: PersonaService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -132,38 +136,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
 
     getNewEmptyRow(art) {
         const formDetalles = this.domService.clonarObjeto(this.formdet);
-        let icdpPrecio = art.icdp_precioventa;
-        if (this.isfacturacompra) {
-            icdpPrecio = art.icdp_preciocompra;
-        }
-
-        let ivaval = 0.0;
-        let precio = icdpPrecio;
-        if (art.icdp_grabaiva) {
-            ivaval = this.numberService.getValorIva(icdpPrecio);
-            if (!this.isfacturacompra) {
-                precio = this.numberService.ponerIva(icdpPrecio);
-            }
-        }
-        formDetalles.icdp_grabaiva = art.icdp_grabaiva;
-        formDetalles.art_codigo = art.ic_id;
-        formDetalles.ic_nombre = art.ic_nombre;
-        formDetalles.dt_precio = icdpPrecio;
-        formDetalles.ic_code = art.ic_code;
-        formDetalles.dt_preref = art.icdp_preciocompra;
-        formDetalles.icdp_modcontab = art.icdp_modcontab;
-        formDetalles.dt_precioiva = precio;
-        formDetalles.per_codigo = 0;
-        formDetalles.dt_cant = 1;
-        formDetalles.dt_decto = 0.0;
-        formDetalles.cta_codigo = art.cta_codigo;
-        formDetalles.dt_debito = art.mcd_signo;
-        formDetalles.dai_impg = art.icdp_grabaiva ? this.numberService.getIva() : 0.0;
-        formDetalles.subtotal = formDetalles.dt_cant * formDetalles.dt_precio;
-        formDetalles.subtforiva = formDetalles.subtotal - formDetalles.dt_decto;
-        formDetalles.ivaval = ivaval;
-        formDetalles.total = formDetalles.subtotal + ivaval;
-        formDetalles.dt_valor = formDetalles.subtforiva;
+        this.artService.initFormDetalles(formDetalles, art, this.isfacturacompra);
         return formDetalles;
     }
 
@@ -280,7 +253,6 @@ export class FacturasformComponent implements OnInit, OnDestroy {
                 }
             });
 
-            // Verificar si hay pagos a credito, en tal caso se debe verificar que se ingrese el referente
             if (pagocredito !== 0.0) {
                 if (this.form.form_persona.per_id === -1) {
                     this.swalService.fireToastError('Factura a crédito, se debe especificar el referente');
@@ -375,7 +347,11 @@ export class FacturasformComponent implements OnInit, OnDestroy {
                 if (!this.isfacturacompra) {
                     this.domService.setFocusTimeout('per_ciruc', 100);
                 } else {
-                    this.domService.setFocusTimeout('fc_secuencia', 100);
+                    if (this.form.form_cab.secuencia) {
+                        this.domService.setFocusTimeout('per_ciruc', 100);
+                    } else {
+                        this.domService.setFocusTimeout('fc_secuencia', 100);
+                    }
                 }
             }
         });
@@ -384,7 +360,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     showFormCreaFact() {
         this.isLoading = true;
         this.initformfact();
-        this.loadingUiService.publishBlockMessage();
+        // this.loadingUiService.publishBlockMessage();
         const formCabObs = this.asientoService.getFormCab(this.tracodigo);
         const secObs = this.seccionService.listar();
 
@@ -393,6 +369,17 @@ export class FacturasformComponent implements OnInit, OnDestroy {
             perFormObs = this.personaServ.getForm();
         } else {
             perFormObs = this.personaServ.buscarPorCod(this.codConsFinal);
+        }
+
+        this.trncodedit = 0;
+        if (this.isedit) {
+            const keystrg = 'trncoded';
+            const auxtrncoded = this.localStrgService.getItem(keystrg);
+            this.localStrgService.removeItem(keystrg);
+            if (auxtrncoded) {
+                this.trncodedit = parseInt(auxtrncoded, 10);
+                console.log('Valor de trncod a editar es:', this.trncodedit);
+            }
         }
 
         forkJoin([formCabObs, secObs, perFormObs]).subscribe(res => {
@@ -438,6 +425,21 @@ export class FacturasformComponent implements OnInit, OnDestroy {
             }
 
             this.evFormLoaded.emit(this.form);
+
+            if (this.isedit && this.trncodedit > 0) {
+                this.swalService.fireToastSuccess('Editando comprobante');
+                console.log('valor de foredit es ', 1);
+                this.asientoService.getDoc(this.trncodedit, 1).subscribe(resedit => {
+                    this.isConsumidorFinal = false;
+                    this.form.detalles = resedit.doc.detalles;
+                    this.form.form_cab = resedit.doc.tasiento;
+                    this.form.form_persona = resedit.doc.tasiento;
+                    this.form.detalles.forEach(det => {
+                        this.recalcTotalFila(det);
+                    });
+                    this.totalizar();
+                });
+            }
         });
     }
 

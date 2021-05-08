@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {LocalStorageService} from './local-storage.service';
+import {NumberService} from './number.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +12,8 @@ import {LocalStorageService} from './local-storage.service';
 export class ArticuloService extends BaseService {
     constructor(
         protected http: HttpClient,
-        protected localStrgServ: LocalStorageService
+        protected localStrgServ: LocalStorageService,
+        protected numberService: NumberService
     ) {
         super('/titemconfig', localStrgServ, http);
     }
@@ -23,12 +25,6 @@ export class ArticuloService extends BaseService {
     getByCod(artId: number): Observable<any> {
         const endopoint = this.urlEndPoint + '/' + artId;
         return this.http.get(endopoint, this.getHOT({}));
-    }
-
-    getFormEditRubro(icId: number): Observable<any> {
-        const endopoint = this.urlEndPoint + '/' + icId;
-        const httpOptions = this.getHOT({accion: 'formrubroedit'});
-        return this.doGet(this.http, endopoint, httpOptions);
     }
 
     getNextCodbar(): Observable<any> {
@@ -86,10 +82,6 @@ export class ArticuloService extends BaseService {
         );
     }
 
-    buscaServDentales(filtro: string) {
-        return this._doGet(this.getHOT({accion: 'gservdent', filtro}));
-    }
-
     busArtsForTransacc(secid: number, filtro: string, tracod: number) {
         return this._doGet(this.getHOT({accion: 'gartsserv', filtro, sec: secid, tracod}));
     }
@@ -114,10 +106,6 @@ export class ArticuloService extends BaseService {
         return this._doGet(this.getHOT({accion: 'gplanc', padrexpand}));
     }
 
-    getHijosPlanCuentas(padre) {
-        return this._doGet(this.getHOT({accion: 'gplancchild', padre}));
-    }
-
     getFormPlanCuenta(padre) {
         return this._doGet(this.getHOT({accion: 'gformplancta', padre}));
     }
@@ -130,12 +118,40 @@ export class ArticuloService extends BaseService {
         return this._doGet(this.getHOT({accion: 'gdetctacontable', codcta}));
     }
 
-    actualizarPlanCta(form) {
-        return this._doPost(this.getHOT({accion: 'updatectacontable'}), form);
-    }
+    initFormDetalles(formdet, datosart, isfacturacompra = false) {
+        let icdpPrecio = datosart.icdp_precioventa;
+        if (isfacturacompra) {
+            icdpPrecio = datosart.icdp_preciocompra;
+        }
 
-    listarTiposCajas() {
-        return this._doGet(this.getHOT({accion: 'listatiposcaja'}));
+        let ivaval = 0.0;
+        let precio = icdpPrecio;
+        if (datosart.icdp_grabaiva) {
+            ivaval = this.numberService.getValorIva(icdpPrecio);
+            if (!isfacturacompra) {
+                precio = this.numberService.ponerIva(icdpPrecio);
+            }
+        }
+
+        formdet.icdp_grabaiva = datosart.icdp_grabaiva;
+        formdet.art_codigo = datosart.ic_id;
+        formdet.ic_nombre = datosart.ic_nombre;
+        formdet.dt_precio = icdpPrecio;
+        formdet.ic_code = datosart.ic_code;
+        formdet.dt_preref = datosart.icdp_preciocompra;
+        formdet.icdp_modcontab = datosart.icdp_modcontab;
+        formdet.dt_precioiva = precio;
+        formdet.per_codigo = 0;
+        formdet.dt_cant = 1;
+        formdet.dt_decto = 0.0;
+        formdet.cta_codigo = datosart.cta_codigo;
+        formdet.dt_debito = datosart.mcd_signo;
+        formdet.dai_impg = datosart.icdp_grabaiva ? this.numberService.getIva() : 0.0;
+        formdet.subtotal = formdet.dt_cant * formdet.dt_precio;
+        formdet.subtforiva = formdet.subtotal - formdet.dt_decto;
+        formdet.ivaval = ivaval;
+        formdet.total = formdet.subtotal + ivaval;
+        formdet.dt_valor = formdet.subtforiva;
     }
 
 }

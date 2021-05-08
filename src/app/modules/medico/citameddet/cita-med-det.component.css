@@ -5,9 +5,3 @@
 .dato-adc-fila {
     margin: 6px 1px;
 }
-
-.padflex {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}

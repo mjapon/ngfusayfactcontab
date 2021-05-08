@@ -117,15 +117,6 @@ export class LoggednavbarComponent implements OnInit {
     cambiarSeccion(seccion) {
         this.seccionService.setSeccion(seccion.sec_id).subscribe(res => {
             if (res.status === 200) {
-                /*
-                this.swalService.fireToastSuccess('Nueva sección seleccionada y punto de emisión seleccionado');
-                this.fautService.updateTokenAndSec(res.token, res.seccion);
-                this.seccion = res.seccion;
-                this.fautService.publishMessage('updateSeccion');
-                this.fautService.setTtpdvs(res.ttpdvs);
-                this.ttpdvs = res.ttpdvs;
-                this.fautService.updateTokenAndTdvcod(res.token, res.tdv_codigo);
-                 */
                 this.swalService.fireToastSuccess('Nueva sección seleccionada');
                 this.fautService.updateTokenAndSec(res.token, res.seccion);
                 this.seccion = res.seccion;

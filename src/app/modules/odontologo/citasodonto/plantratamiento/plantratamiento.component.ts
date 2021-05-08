@@ -135,27 +135,7 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
 
     getNewEmptyRow(art) {
         const formDetalles = this.domService.clonarObjeto(this.formdet);
-        let precio = art.icdp_precioventa;
-        let ivaval = 0.0;
-        if (art.icdp_grabaiva) {
-            precio = this.numberService.ponerIva(art.icdp_precioventa);
-            ivaval = this.numberService.getValorIva(art.icdp_precioventa);
-        }
-        formDetalles.icdp_grabaiva = art.icdp_grabaiva;
-        formDetalles.art_codigo = art.ic_id;
-        formDetalles.ic_nombre = art.ic_nombre;
-        formDetalles.dt_precio = art.icdp_precioventa;
-        formDetalles.ic_code = art.ic_code;
-        formDetalles.dt_precioiva = precio;
-        formDetalles.per_codigo = 0;
-        formDetalles.dt_cant = 1;
-        formDetalles.dt_decto = 0.0;
-        formDetalles.dai_impg = art.icdp_grabaiva ? this.numberService.getIva() : 0.0;
-        formDetalles.subtotal = formDetalles.dt_cant * formDetalles.dt_precio;
-        formDetalles.subtforiva = formDetalles.subtotal - formDetalles.dt_decto;
-        formDetalles.ivaval = ivaval;
-        formDetalles.total = formDetalles.subtotal + ivaval;
-        formDetalles.dt_valor = formDetalles.subtforiva;
+        this.artService.initFormDetalles(formDetalles, art, false);
         return formDetalles;
     }
 

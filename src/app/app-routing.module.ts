@@ -69,7 +69,7 @@ const routes: Routes = [
     {path: 'agenda/:tipo', component: AgendaComponent},
     {path: 'trndocs/:tipo', component: FacturaslistgenComponent},
     {path: 'cuentasxcp/:tipo', component: CuentasxcpComponent},
-    {path: 'trndocform/:tracodigo', component: NewfacturaformComponent},
+    {path: 'trndocform/:tracodigo/:acc', component: NewfacturaformComponent},
     {path: 'referentes', component: ReferenteslistComponent},
     {path: 'referentes/:codref', component: ReferenteviewComponent},
     {path: 'plancuentas', component: PlanctaslistComponent},

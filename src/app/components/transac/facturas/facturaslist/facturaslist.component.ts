@@ -5,6 +5,8 @@ import {SwalService} from '../../../../services/swal.service';
 import {startOfMonth} from 'date-fns';
 import {FechasService} from '../../../../services/fechas.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
+import {FacturasmsgService} from '../../../../services/facturasmsg.service';
+import {LocalStorageService} from '../../../../services/local-storage.service';
 
 @Component({
     selector: 'app-facturaslist',
@@ -27,7 +29,9 @@ export class FacturaslistComponent implements OnInit {
 
     constructor(private router: Router,
                 private asientoService: AsientoService,
+                private localStgServ: LocalStorageService,
                 private fechasservice: FechasService,
+                private facturaMsgService: FacturasmsgService,
                 private loadingUiServ: LoadingUiService,
                 private swalService: SwalService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -102,12 +106,12 @@ export class FacturaslistComponent implements OnInit {
     }
 
     goToForm() {
-        this.router.navigate(['trndocform', this.tracodigo]);
+        this.router.navigate(['trndocform', this.tracodigo, 'c']);
     }
 
     goToFormFact(tipo, $event: MouseEvent) {
         $event.preventDefault();
-        this.router.navigate(['trndocform', tipo]);
+        this.router.navigate(['trndocform', tipo, 'c']);
     }
 
     onRowSelect($event: any) {
@@ -139,5 +143,17 @@ export class FacturaslistComponent implements OnInit {
 
     closeDetFact() {
         this.isShowDetallesFactura = false;
+    }
+
+    onEditar($event: any) {
+        this.closeDetFact();
+        this.localStgServ.setItem('trncoded', $event);
+        this.router.navigate(['trndocform', this.tracodigo, 'e']);
+        /*
+        setTimeout(() => {
+            console.log('Se ejecuta timeout');
+            this.facturaMsgService.publishMessage({tipo: 2, trncod: $event});
+        }, 5000);
+         */
     }
 }
