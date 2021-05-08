@@ -143,6 +143,8 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     checkInventarios(fila): boolean {
         let continuar = true;
         if (this.ttransacc.tra_tipdoc === 1) {
+            console.log('Valor de fila es:', fila);
+
             if (fila.servicio.tipic_id === 1) {
                 if (fila.dt_cant > fila.servicio.ice_stock) {
                     continuar = false;
@@ -211,12 +213,14 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     }
 
     onServSelect($event: any) {
+        console.log('Valor de event es:', $event);
         const prevserv = this.arrayService.getFirstResult(this.form.detalles, (it) => it.art_codigo === $event.ic_id);
         if (prevserv) {
             prevserv.dt_cant += 1;
             this.recalcTotalFila(prevserv);
         } else {
             const newrow = this.getNewEmptyRow($event);
+            console.log('Valor de newrow es:', newrow);
             this.checkInventarios(newrow);
             this.form.detalles.push(newrow);
         }
