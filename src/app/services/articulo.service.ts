@@ -143,6 +143,8 @@ export class ArticuloService extends BaseService {
         formdet.dt_precioiva = precio;
         formdet.per_codigo = 0;
         formdet.dt_cant = 1;
+        formdet.tipic_id = datosart.tipic_id;
+        formdet.ice_stock = datosart.ice_stock;
         formdet.dt_decto = 0.0;
         formdet.cta_codigo = datosart.cta_codigo;
         formdet.dt_debito = datosart.mcd_signo;

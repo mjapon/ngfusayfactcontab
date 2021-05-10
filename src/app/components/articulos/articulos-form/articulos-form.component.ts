@@ -99,10 +99,7 @@ export class ArticulosFormComponent implements OnInit {
         this.proveedores = new Array<any>();
         this.artCodAutomatic = false;
 
-        // console.log('Valor de parammap es:', this.route.paramMap);
-
         this.route.paramMap.subscribe(params => {
-            // console.log('Valor de params es:', params);
             this.buildDefForm();
             this.artId = parseInt(params.get('art_id'), 10);
             this.editing = this.artId > 0;

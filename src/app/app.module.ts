@@ -113,6 +113,7 @@ import {UtilidadesComponent} from './components/transac/facturas/utilidades/util
 import {CredreflistComponent} from './components/transac/creditos/creditosref/credreflist/credreflist.component';
 import {CredrefformComponent} from './components/transac/creditos/creditosref/credrefform/credrefform.component';
 import {TicketviewComponent} from './components/tickets/ticketview/ticketview.component';
+import {DetfactviewComponent} from './components/transac/facturas/facturasview/detfactview.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -166,6 +167,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         PlantratamientoComponent,
         FactpagosComponent,
         FacturaviewComponent,
+        DetfactviewComponent,
         AbonosviewComponent,
         LoadingComponent,
         FacturaslistComponent,

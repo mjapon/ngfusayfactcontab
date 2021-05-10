@@ -146,6 +146,10 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
 
     checkPagosPrevios() {
         const isedit = this.formcab.trn_codigo > 0;
+        if (isedit) {
+            this.numberService.checkPagosPrevios(this.datosDocPlan.doc.pagos, this.totales, this.formaspago);
+        }
+        /*
         let totalcred = 0.0;
         let totalefec = 0.0;
         if (isedit) {
@@ -159,6 +163,7 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
                 this.formaspago[1].dt_valor = totalcred;
             }
         }
+         */
     }
 
     totalizar() {

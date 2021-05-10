@@ -149,11 +149,5 @@ export class FacturaslistComponent implements OnInit {
         this.closeDetFact();
         this.localStgServ.setItem('trncoded', $event);
         this.router.navigate(['trndocform', this.tracodigo, 'e']);
-        /*
-        setTimeout(() => {
-            console.log('Se ejecuta timeout');
-            this.facturaMsgService.publishMessage({tipo: 2, trncod: $event});
-        }, 5000);
-         */
     }
 }

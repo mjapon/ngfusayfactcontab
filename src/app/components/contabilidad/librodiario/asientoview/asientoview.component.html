@@ -7,63 +7,63 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Número: </span>
+                        <span class="font-weight-normal fontsizenr"> Número: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold"> {{datosasi.cabecera.trn_compro}} </span>
+                        <span class="font-weight-bold fontsizenr"> {{datosasi.cabecera.trn_compro}} </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Tipo: </span>
+                        <span class="font-weight-normal fontsizenr"> Tipo: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold"> {{datosasi.cabecera.tra_nombre}} </span>
+                        <span class="font-weight-bold fontsizenr"> {{datosasi.cabecera.tra_nombre}} </span>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Fecha: </span>
+                        <span class="font-weight-normal fontsizenr"> Fecha: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold"> {{datosasi.cabecera.trn_fecreg}} </span>
+                        <span class="font-weight-bold fontsizenr"> {{datosasi.cabecera.trn_fecreg}} </span>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Estado: </span>
+                        <span class="font-weight-normal fontsizenr"> Estado: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold"> {{datosasi.cabecera.estado}} </span>
+                        <span class="font-weight-bold fontsizenr"> {{datosasi.cabecera.estado}} </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Registrado por: </span>
+                        <span class="font-weight-normal fontsizenr"> Registrado por: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold"> {{datosasi.cabecera.refusercrea}} </span>
+                        <span class="font-weight-bold fontsizenr"> {{datosasi.cabecera.refusercrea}} </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Fecha de registro: </span>
+                        <span class="font-weight-normal fontsizenr"> Fecha de registro: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold"> {{datosasi.cabecera.trn_fecha}} </span>
+                        <span class="font-weight-bold fontsizenr"> {{datosasi.cabecera.trn_fecha}} </span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-2">
-                <span class="font-weight-light"> Observación: </span>
+                <span class="font-weight-normal fontsizenr"> Observación: </span>
             </div>
             <div class="col-md">
-                <p style="white-space: pre-line"> {{datosasi.cabecera.trn_observ}} </p>
+                <p style="white-space: pre-line" class="fontsizenr"> {{datosasi.cabecera.trn_observ}} </p>
             </div>
         </div>
         <div class="table-responsive">
@@ -71,20 +71,18 @@
                 <thead>
                 <tr>
                     <th scope="col" width="10%" class="border-right">
-                        <div class="font-weight-light text-center">
-                            Código
-                        </div>
+                        <span class="fontsizesm">Código</span>
                     </th>
                     <th scope="col" width="50%" class="border-right">
-                        <div class="font-weight-light text-center">
+                        <div class="fontsizesm text-center">
                             Cuenta Contable
                         </div>
                     </th>
                     <th scope="col" width="15%" class="border-right">
-                        <div class="font-weight-light d-flex flex-row-reverse">Debe</div>
+                        <div class="fontsizesm d-flex flex-row-reverse">Debe</div>
                     </th>
                     <th scope="col" width="15%">
-                        <div class="font-weight-light d-flex flex-row-reverse">Haber</div>
+                        <div class="fontsizesm d-flex flex-row-reverse">Haber</div>
                     </th>
                 </tr>
                 </thead>
@@ -92,7 +90,7 @@
                 <ng-container *ngFor="let fila of detalles">
                     <tr>
                         <td class="border">
-                                <span class="text-muted fontsizesm"
+                                <span class="fontsizesm"
                                       [ngClass]="{'haberl':fila.dt_debito===-1}">{{fila.ic_code}}</span>
                         </td>
                         <td class="border">

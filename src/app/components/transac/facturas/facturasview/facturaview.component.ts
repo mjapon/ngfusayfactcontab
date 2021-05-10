@@ -13,6 +13,8 @@ export class FacturaviewComponent implements OnInit, OnChanges {
     isLoading = false;
 
     @Input() trncod: number;
+    @Input() isPermEdit = false;
+    @Input() isPermAnul = false;
     @Output() evFacturaLoaded = new EventEmitter<any>();
     @Output() evBtnClosed = new EventEmitter<any>();
     @Output() evAnulado = new EventEmitter<any>();

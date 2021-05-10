@@ -17,7 +17,6 @@ export class AsientoService extends BaseService {
     }
 
     getDoc(trncod: number, foredit = 0) {
-        console.log('Valor de foredit es:', foredit);
         return this._doGet(this.getHOT({accion: 'gdetdoc', trncod, foredit}));
     }
 

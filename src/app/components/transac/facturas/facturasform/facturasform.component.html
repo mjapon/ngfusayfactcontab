@@ -4,6 +4,10 @@
 
 <div *ngIf="!isLoading">
     <div class="mt-3">
+        <p class="alert alert-warning mt-2" *ngIf="isedit && trncodedit>0 && datosdocedit">
+            Editando comprobante Nro {{datosdocedit?.tasiento?.trn_compro}}
+        </p>
+
         <div class="border p-2 mb-2" *ngIf="showtitulo">
             <div class="row">
                 <div class="col-md-4">
@@ -130,7 +134,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="p-fluid">
-                            <p-autoComplete [(ngModel)]="formdet.servicio" [suggestions]="artsFiltrados"
+                            <p-autoComplete [(ngModel)]="artFiltrado" [suggestions]="artsFiltrados"
                                             autofocus="true"
                                             (completeMethod)="buscaServs($event)" field="ic_nombre"
                                             (keyup.enter)="onEnterFiltroArts($event)"

@@ -60,7 +60,7 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rowData>
-                <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
+                <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="verDetalles(rowData)">
                     <td *ngFor="let item of grid.cols">
                         <p class="fontsizesm" style="white-space: pre-line">
                             {{rowData[item['field']]}}

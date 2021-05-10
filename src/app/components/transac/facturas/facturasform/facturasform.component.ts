@@ -26,6 +26,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     ttransacc: any;
     formdet: any;
     artsFiltrados: Array<any>;
+    artFiltrado: any;
     impuestos: any;
     ivas: Array<any>;
     currentdate: any;
@@ -35,6 +36,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     isDisabledFormRef: boolean;
     codConsFinal = -1;
     trncodedit = 0;
+    datosdocedit: any = {};
 
     @Input() form: any;
     @Input() tracodigo: number;
@@ -75,6 +77,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.artFiltrado = {};
         this.formisloaded = false;
         this.isLoading = true;
         this.initformfact();
@@ -125,11 +128,15 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     totalizar() {
         this.initTotales();
         this.form.totales = this.numberService.totalizar(this.form.detalles);
-        if (this.form.pagos && this.form.pagos.length > 0) {
-            this.form.pagos[0].dt_valor = this.form.totales.total;
-        }
-        if (this.form.pagos && this.form.pagos.length > 1) {
-            this.form.pagos[1].dt_valor = 0.0;
+        if (this.isedit && this.trncodedit > 0) {
+            this.numberService.checkPagosPrevios(this.datosdocedit.pagos, this.form.totales, this.form.pagos);
+        } else {
+            if (this.form.pagos && this.form.pagos.length > 0) {
+                this.form.pagos[0].dt_valor = this.form.totales.total;
+            }
+            if (this.form.pagos && this.form.pagos.length > 1) {
+                this.form.pagos[1].dt_valor = 0.0;
+            }
         }
         this.evTotalesUpd.emit(this.form);
     }
@@ -143,12 +150,10 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     checkInventarios(fila): boolean {
         let continuar = true;
         if (this.ttransacc.tra_tipdoc === 1) {
-            console.log('Valor de fila es:', fila);
-
-            if (fila.servicio.tipic_id === 1) {
-                if (fila.dt_cant > fila.servicio.ice_stock) {
+            if (fila.tipic_id === 1) {
+                if (fila.dt_cant > fila.ice_stock) {
                     continuar = false;
-                    this.swalService.fireToastError(`No hay unidades disponibles para ${fila.servicio.ic_nombre}, el total disponible actual es de: ${fila.servicio.ice_stock}`);
+                    this.swalService.fireToastError(`No hay unidades disponibles para ${fila.ic_nombre}, el total disponible actual es de: ${fila.ice_stock}`);
                 }
             }
         }
@@ -213,19 +218,17 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     }
 
     onServSelect($event: any) {
-        console.log('Valor de event es:', $event);
         const prevserv = this.arrayService.getFirstResult(this.form.detalles, (it) => it.art_codigo === $event.ic_id);
         if (prevserv) {
             prevserv.dt_cant += 1;
             this.recalcTotalFila(prevserv);
         } else {
             const newrow = this.getNewEmptyRow($event);
-            console.log('Valor de newrow es:', newrow);
             this.checkInventarios(newrow);
             this.form.detalles.push(newrow);
         }
         this.totalizar();
-        this.formdet.servicio = {};
+        this.artFiltrado = {};
         this.domService.setFocusTimeout('artsAutoCom', 100);
     }
 
@@ -265,7 +268,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
             }
 
             this.form.form_cab.trn_fecreg = this.fechasService.formatDate(this.form.form_cab.trn_fecregobj);
-            const msg = '¿Seguro que desea crear la factura?';
+            const msg = '¿Seguro que desea guardar el comprobante?';
             this.swalService.fireDialog(msg).then(confirm => {
                 if (confirm.value) {
                     this.loadingUiService.publishBlockMessage();
@@ -382,7 +385,6 @@ export class FacturasformComponent implements OnInit, OnDestroy {
             this.localStrgService.removeItem(keystrg);
             if (auxtrncoded) {
                 this.trncodedit = parseInt(auxtrncoded, 10);
-                console.log('Valor de trncod a editar es:', this.trncodedit);
             }
         }
 
@@ -432,16 +434,17 @@ export class FacturasformComponent implements OnInit, OnDestroy {
 
             if (this.isedit && this.trncodedit > 0) {
                 this.swalService.fireToastSuccess('Editando comprobante');
-                console.log('valor de foredit es ', 1);
                 this.asientoService.getDoc(this.trncodedit, 1).subscribe(resedit => {
-                    this.isConsumidorFinal = false;
+                    this.datosdocedit = resedit.doc;
                     this.form.detalles = resedit.doc.detalles;
                     this.form.form_cab = resedit.doc.tasiento;
-                    this.form.form_persona = resedit.doc.tasiento;
+                    this.form.form_cab.trn_fecregobj = this.fechasService.parseString(this.form.form_cab.trn_fecreg);
+                    this.form.form_persona = resedit.doc.datosref;
                     this.form.detalles.forEach(det => {
                         this.recalcTotalFila(det);
                     });
                     this.totalizar();
+                    this.isConsumidorFinal = this.form.form_cab.per_codigo === -1;
                 });
             }
         });

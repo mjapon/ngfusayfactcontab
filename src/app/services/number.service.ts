@@ -125,5 +125,25 @@ export class NumberService {
         return [{label: 'Si', value: true}, {label: 'No', value: false}];
     }
 
+    checkPagosPrevios(docpagos, totales, formaspago) {
+        const filtered = docpagos.filter(row => (row.ic_clasecc === 'XC' || row.ic_clasecc === 'XP'));
+        let totalcred = 0.0;
+        let totalefec = 0.0;
+        if (filtered && filtered.length > 0) {
+            totalcred = filtered[0].dt_valor;
+            if (totalcred < totales.total) {
+                totalefec = this.round2(totales.total - totalcred);
+            } else {
+                totalcred = totales.total;
+            }
+
+        } else {
+            totalefec = totales.total;
+        }
+
+        formaspago[0].dt_valor = totalefec;
+        formaspago[1].dt_valor = totalcred;
+    }
+
 }
 
