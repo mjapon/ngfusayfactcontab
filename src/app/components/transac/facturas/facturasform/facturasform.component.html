@@ -61,19 +61,17 @@
                                        (blur)="verificaRefRegistrado()" autocomplete="false" id="per_ciruc"
                                        (keydown.enter)="buscarReferente()" [disabled]="form.form_persona.per_id>0"
                                        tabindex="10">
-                                <div class="input-group-append">
-                                    <button class="btn btn-sm btn-outline-secondary" type="button"
-                                            (click)="buscarReferente()" [disabled]="isDisabledFormRef"
-                                            title="Presiona este botón para buscar el referente por número de cédula, ruc o pasaporte ">
-                                        <span class="fa fa-search"></span>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-secondary"
-                                            title="Buscar otro referente" type="button"
-                                            *ngIf="form.form_persona.per_id>0"
-                                            (click)="clearFormPersona()">
-                                        <span class="fa fa-times"></span>
-                                    </button>
-                                </div>
+                                <button class="btn btn-sm btn-outline-secondary" type="button"
+                                        (click)="buscarReferente()" [disabled]="isDisabledFormRef"
+                                        title="Presiona este botón para buscar el referente por número de cédula, ruc o pasaporte ">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary"
+                                        title="Buscar otro referente" type="button"
+                                        *ngIf="form.form_persona.per_id>0"
+                                        (click)="clearFormPersona()">
+                                    <span class="fa fa-times"></span>
+                                </button>
                             </div>
                         </div>
                     </div>
