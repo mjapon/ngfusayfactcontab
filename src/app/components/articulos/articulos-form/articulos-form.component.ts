@@ -16,7 +16,6 @@ import {forkJoin} from 'rxjs';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {ModelocontabService} from '../../../services/modelocontab.service';
 
-declare var $: any;
 
 @Component({
     selector: 'app-articulos-form',
@@ -53,7 +52,10 @@ export class ArticulosFormComponent implements OnInit {
     impuestos: any;
     isLoading: boolean;
     isModalCatVisible: any;
+    isModalEditBC = false;
     formcat: any;
+
+    // modalRef: any;
 
     constructor(
         private artService: ArticuloService,
@@ -111,13 +113,6 @@ export class ArticulosFormComponent implements OnInit {
                 this.domService.setFocusTimeout('stock_0', 600);
             }
         });
-
-        $('#modalEditBarcode').on('show.bs.modal', () => {
-            setTimeout(() => {
-                $('.auxNuevoBarcode').focus();
-            }, 500);
-        });
-
         this.loadModelosContables();
     }
 
@@ -597,14 +592,14 @@ export class ArticulosFormComponent implements OnInit {
     }
 
     showModalEditBarcode() {
-        $('#modalEditBarcode').modal();
+        this.isModalEditBC = true;
     }
 
     guardaNuevoBarcode() {
         if (this.nuevoBarcode.trim().length > 0) {
             this.artService.actualizaBarcode(this.artId, this.nuevoBarcode.trim()).subscribe(res => {
                 if (res.status === 200) {
-                    $('#modalEditBarcode').modal('hide');
+                    this.isModalEditBC = false;
                     this.swalService.fireToastSuccess(res.msg);
                     this.artForm.ic_code.value = this.nuevoBarcode.trim();
                 }

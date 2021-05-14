@@ -11,14 +11,14 @@
         <div class="border p-2 mb-2" *ngIf="showtitulo">
             <div class="row">
                 <div class="col-md-4">
-                    <h4 class="quitaPaddingMargin font-weight-bold">{{ttransacc.tra_nombre}}</h4>
+                    <h4 class="quitaPaddingMargin fw-bold">{{ttransacc.tra_nombre}}</h4>
                 </div>
                 <div class="col-md-4">
                     <div class="d-flex flex-row">
-                        <span class="font-weight-bold">Nro: </span>
-                        <div class="ml-2 d-flex">
+                        <span class="fw-bold">Nro: </span>
+                        <div class="ms-2 d-flex">
                             <span> {{form.form_cab.estabptoemi}}</span>
-                            <input type="text" class="form-control form-control-sm  ml-2"
+                            <input type="text" class="form-control form-control-sm  ms-2"
                                    id="fc_secuencia" maxlength="15"
                                    [(ngModel)]="form.form_cab.secuencia"
                                    [disabled]="ttransacc.tra_tipdoc===1">
@@ -27,10 +27,10 @@
                 </div>
                 <div class="col-md-4">
                     <div class="d-flex flex-row">
-                        <span class="font-weight-bold">Fecha:</span>
+                        <span class="fw-bold">Fecha:</span>
                         <p-calendar [(ngModel)]="form.form_cab.trn_fecregobj"
                                     [showIcon]="false"
-                                    class="ml-2 p-inputtext-sm"
+                                    class="ms-2 p-inputtext-sm"
                                     [maxDate]="currentdate"
                                     inputId="trn_fecregobj"
                                     [monthNavigator]="true" [yearNavigator]="true"
@@ -46,15 +46,15 @@
                     <div class="d-flex flex-row p-field-checkbox">
                         <p-checkbox id="consfinalinput" binary="true" name="consfinalinput" inputId="binary"
                                     [(ngModel)]="isConsumidorFinal" (onChange)="onConsFinalChange()"></p-checkbox>
-                        <label class="ml-1 mt-2 hand" (click)="toggleConsFinal()">Consumidor Final</label>
+                        <label class="ms-1 mt-2 hand" (click)="toggleConsFinal()">Consumidor Final</label>
                     </div>
                 </div>
             </div>
             <div *ngIf="!isConsumidorFinal">
                 <div class="row">
                     <div class="col-md-2">
-                        <div class="form-group">
-                            <span class="fontsizenr font-weight-light">CI/Ruc: </span>
+                        <div class="mb-3">
+                            <span class="fontsizenr fw-light">CI/Ruc: </span>
                             <div class="input-group">
                                 <input type="text" class="form-control form-control-sm"
                                        [(ngModel)]="form.form_persona.per_ciruc"
@@ -76,7 +76,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="mb-3">
                             <span class="fontsizenr">Nombres: </span>
                             <input type="text" class="form-control form-control-sm" id="perNombresInput"
                                    tabindex="11"
@@ -86,7 +86,7 @@
 
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="mb-3">
                             <span class="fontsizenr">Apellidos: </span>
                             <input type="text" class="form-control form-control-sm" id="perApellidosInput"
                                    tabindex="12"
@@ -95,7 +95,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="mb-3">
                             <span class="fontsizenr">Dirección: </span>
                             <input type="text" class="form-control form-control-sm" id="perDireccionInput"
                                    tabindex="13"
@@ -104,7 +104,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="mb-3">
                             <span class="fontsizenr">Teléfono: </span>
                             <input type="text" class="form-control form-control-sm" id="perTelfInput" tabindex="14"
                                    [(ngModel)]="form.form_persona.per_telf" [disabled]="isDisabledFormRef"
@@ -112,7 +112,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group">
+                        <div class="mb-3">
                             <span class="fontsizenr">Email: </span>
                             <input type="text" class="form-control form-control-sm" id="perEamilInput" tabindex="15"
                                    [(ngModel)]="form.form_persona.per_email" [disabled]="isDisabledFormRef"
@@ -162,29 +162,29 @@
                     <thead>
                     <tr>
                         <th scope="col" width="3%">
-                            <span class="font-weight-normal fontsizenr">#</span>
+                            <span class="fw-normal fontsizenr">#</span>
                         </th>
                         <th scope="col" width="33%">
-                            <span class="font-weight-normal fontsizenr">
+                            <span class="fw-normal fontsizenr">
                                 Servicio </span>
                         </th>
                         <th scope="col" width="10%">
-                            <span class="font-weight-normal fontsizenr">
+                            <span class="fw-normal fontsizenr">
                                 Cantidad </span></th>
                         <th scope="col" width="10%">
-                            <span class="font-weight-normal fontsizenr">
+                            <span class="fw-normal fontsizenr">
                                 P. Uni. </span></th>
                         <th scope="col" width="10%">
-                            <span class="font-weight-normal fontsizenr">
+                            <span class="fw-normal fontsizenr">
                                 Subt.</span></th>
                         <th scope="col" width="9%">
-                            <span class="font-weight-normal fontsizenr">
+                            <span class="fw-normal fontsizenr">
                                 Desc </span></th>
                         <th scope="col" width="10%">
-                            <span class="font-weight-normal fontsizenr">
+                            <span class="fw-normal fontsizenr">
                                 Iva </span></th>
                         <th scope="col" width="10%">
-                            <span class="font-weight-normal fontsizenr">
+                            <span class="fw-normal fontsizenr">
                                 Total </span></th>
                         <th scope="col" width="5%">
                         </th>
@@ -193,12 +193,12 @@
                     <tbody>
                     <tr *ngFor="let fila of form.detalles">
                         <th scope="row">
-                            <span class="font-weight-normal fontsizesm">{{form.detalles.indexOf(fila) + 1}}</span>
+                            <span class="fw-normal fontsizesm">{{form.detalles.indexOf(fila) + 1}}</span>
                         </th>
                         <td>
                             <div class="d-flex flex-column">
-                                <span class="font-weight-bolder fontsizenr">{{fila.ic_nombre}}</span>
-                                <span class="font-weight-normal fontsizenr">{{fila.ic_code}}</span>
+                                <span class="fw-bolder fontsizenr">{{fila.ic_nombre}}</span>
+                                <span class="fw-normal fontsizenr">{{fila.ic_code}}</span>
                             </div>
                         </td>
                         <td>
@@ -231,7 +231,7 @@
                             </select>
                         <td>
                             <div class="d-flex flex-row-reverse">
-                                <span class="font-weight-bold">${{fila.total | number: '.2'}}</span>
+                                <span class="fw-bold">${{fila.total | number: '.2'}}</span>
                             </div>
                         </td>
                         <td>
@@ -248,8 +248,8 @@
             <div class="row">
                 <hr class="text-muted quitaPaddingMargin">
                 <div class="col-md-5">
-                    <div class="form-group">
-                        <span class="font-weight-lighter">Observación:</span>
+                    <div class="mb-3">
+                        <span class="fw-lighter">Observación:</span>
                         <textarea class="form-control" [(ngModel)]="form.form_cab.trn_observ" rows="3"
                                   autocomplete="off"
                                   id="trn_observ"></textarea>
@@ -259,7 +259,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <span
-                                    class="font-weight-light">Subtotal $:</span>
+                                    class="fw-light">Subtotal $:</span>
                         </div>
                         <div class="col-md-6">
                             <input type="text" class="form-control form-control-sm" disabled
@@ -268,7 +268,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6"><span
-                                class="font-weight-light">(-)Descuento $:</span>
+                                class="fw-light">(-)Descuento $:</span>
                         </div>
                         <div class="col-md-6">
                             <input type="text" class="form-control form-control-sm" disabled
@@ -277,7 +277,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 "><span
-                                class="font-weight-light">(+)Iva {{impuestos.iva * 100}}%
+                                class="fw-light">(+)Iva {{impuestos.iva * 100}}%
                             de ${{form.totales.subtotal12}}:</span></div>
                         <div class="col-md-6">
                             <input type="text" class="form-control form-control-sm" disabled
@@ -286,7 +286,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <span class="font-weight-bold">Total $:</span>
+                            <span class="fw-bold">Total $:</span>
                         </div>
                         <div class="col-md-6">
                             <input type="text" class="form-control form-control-sm" disabled
@@ -300,7 +300,7 @@
                     </div>
                     <div class="row" *ngFor="let pago of form.pagos">
                         <div class="col-md-6">
-                            <span class="font-weight-bold">{{pago.ic_nombre}} $:</span>
+                            <span class="fw-bold">{{pago.ic_nombre}} $:</span>
                         </div>
                         <div class="col-md-6">
                             <input type="number" class="form-control form-control-sm" (focusin)="$event.target.select()"
@@ -315,7 +315,7 @@
                 <button class="btn btn-outline-secondary" (click)="cancelarCreaFactura()"><i
                         class="fa fa-times"></i> Cancelar
                 </button>
-                <button class="ml-3 btn btn-outline-primary" (click)="crearFactura()" *ngIf="form.detalles.length>0">
+                <button class="ms-3 btn btn-outline-primary" (click)="crearFactura()" *ngIf="form.detalles.length>0">
                     <i class="fa fa-save"></i>
                     Guardar
                 </button>

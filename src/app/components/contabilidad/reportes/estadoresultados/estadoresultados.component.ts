@@ -62,7 +62,7 @@ import {SwalService} from '../../../../services/swal.service';
                         <tr class="hand" [ttSelectableRow]="rowNode">
                             <td class="quitaPadding">
                                 <span [style]="getfuente(rowNode.node)"
-                                      class="ml-3"> {{rowNode.node.dbdata.ic_code}} </span>
+                                      class="ms-3"> {{rowNode.node.dbdata.ic_code}} </span>
                             </td>
                             <td class="quitaPadding">
                                 <span [style]="getfuente(rowNode.node)"> {{rowNode.node.dbdata.ic_nombre}} </span>
@@ -87,26 +87,26 @@ import {SwalService} from '../../../../services/swal.service';
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <span class="font-weight-bold">INGRESOS:</span>
+                                        <span class="fw-bold">INGRESOS:</span>
                                     </td>
                                     <td>
-                                        <span class="font-weight-bold"> {{getabs(parents['5'].total)| number: '.2'}}</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="font-weight-bold">GASTOS:</span>
-                                    </td>
-                                    <td>
-                                        <span class="font-weight-bold">{{getabs(parents['4'].total)| number: '.2'}} </span>
+                                        <span class="fw-bold"> {{getabs(parents['5'].total)| number: '.2'}}</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <span class="font-weight-bold">UTILIDAD O PÉRDIDA:</span>
+                                        <span class="fw-bold">GASTOS:</span>
                                     </td>
                                     <td>
-                                        <span class="font-weight-bold">{{getabs(parents['5'].total)| number: '.2'}}
+                                        <span class="fw-bold">{{getabs(parents['4'].total)| number: '.2'}} </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="fw-bold">UTILIDAD O PÉRDIDA:</span>
+                                    </td>
+                                    <td>
+                                        <span class="fw-bold">{{getabs(parents['5'].total)| number: '.2'}}
                                             - {{getabs(parents['4'].total)| number: '.2'}}
                                             = {{(getabs(parents['5'].total) - getabs(parents['4'].total))| number: '.2'}} </span>
                                     </td>

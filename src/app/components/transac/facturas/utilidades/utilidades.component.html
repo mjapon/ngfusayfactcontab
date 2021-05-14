@@ -7,7 +7,7 @@
 
         <div class="row">
             <div class="col-md-3 d-flex flex-column">
-                <span class="font-weight-bold">Fechas:</span>
+                <span class="fw-bold">Fechas:</span>
                 <app-rangofechas [form]="form"
                                  [showlabels]="false"
                                  (evDesdeChange)="onDesdeChange($event)"
@@ -16,7 +16,7 @@
                 </app-rangofechas>
             </div>
             <div class="col-md-3 d-flex flex-column">
-                <span class="font-weight-bold">Tipo:</span>
+                <span class="fw-bold">Tipo:</span>
                 <p-dropdown [options]="transaccs" optionLabel="tra_nombre"
                             optionValue="tra_codigo"
                             placeholder="Seleccione el tipo"
@@ -25,7 +25,7 @@
 
             </div>
             <div class="col-md-3 d-flex flex-column">
-                <span class="font-weight-bold">Forma Pago:</span>
+                <span class="fw-bold">Forma Pago:</span>
                 <p-dropdown [options]="formpaspago" optionLabel="label"
                             optionValue="value"
                             placeholder="Seleccione la forma de pago"
@@ -34,7 +34,7 @@
 
             </div>
             <div class="col-md-2 d-flex flex-column">
-                <span class="font-weight-bold">Tipo Prod/Serv</span>
+                <span class="fw-bold">Tipo Prod/Serv</span>
                 <p-dropdown [options]="tiposprod" optionLabel="label"
                             optionValue="value"
                             placeholder="Seleccione el tipo de prod/serv"
@@ -94,8 +94,8 @@
 
                 <ng-template pTemplate="footer">
                     <tr>
-                        <td colspan="12"><span class="font-weight-bold">Total:  </span></td>
-                        <td><span class="font-weight-bold">{{totales.utilidad}}</span></td>
+                        <td colspan="12"><span class="fw-bold">Total:  </span></td>
+                        <td><span class="fw-bold">{{totales.utilidad}}</span></td>
                     </tr>
                 </ng-template>
 

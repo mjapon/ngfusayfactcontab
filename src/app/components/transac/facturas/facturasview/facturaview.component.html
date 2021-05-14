@@ -5,79 +5,79 @@
         <div class="col-md-4">
             <div class="row">
                 <div class="col-md-3">
-                    <span class="font-weight-normal fontsizenr">Tipo:</span>
+                    <span class="fw-normal fontsizenr">Tipo:</span>
                 </div>
                 <div class="col-md">
-                    <span class="font-weight-bold  fontsizenr">{{doc.tasiento.tra_nombre}}</span>
+                    <span class="fw-bold  fontsizenr">{{doc.tasiento.tra_nombre}}</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <span class="font-weight-normal fontsizenr">Número:</span>
+                    <span class="fw-normal fontsizenr">Número:</span>
                 </div>
                 <div class="col-md">
-                    <span class="font-weight-bold  fontsizenr">{{doc.tasiento.trn_compro}}</span>
+                    <span class="fw-bold  fontsizenr">{{doc.tasiento.trn_compro}}</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <span class="font-weight-normal fontsizenr">Fecha:</span>
+                    <span class="fw-normal fontsizenr">Fecha:</span>
                 </div>
                 <div class="col-md">
-                    <span class="font-weight-bold fontsizenr">{{doc.tasiento.trn_fecreg}}</span>
+                    <span class="fw-bold fontsizenr">{{doc.tasiento.trn_fecreg}}</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <span class="font-weight-normal fontsizenr">Estado:</span>
+                    <span class="fw-normal fontsizenr">Estado:</span>
                 </div>
                 <div class="col-md">
-                    <span class="font-weight-bold fontsizenr">{{doc.tasiento.estado}}</span>
+                    <span class="fw-bold fontsizenr">{{doc.tasiento.estado}}</span>
                 </div>
             </div>
         </div>
         <div class="col-md-5">
             <div class="row">
                 <div class="col-md-3">
-                    <span class="font-weight-normal fontsizenr">Referente:</span>
+                    <span class="fw-normal fontsizenr">Referente:</span>
                 </div>
                 <div class="col-md">
-                    <span class="font-weight-bold fontsizenr">{{doc.tasiento.referente}}</span>
+                    <span class="fw-bold fontsizenr">{{doc.tasiento.referente}}</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <span class="font-weight-normal fontsizenr">Ci/Ruc:</span>
+                    <span class="fw-normal fontsizenr">Ci/Ruc:</span>
                 </div>
                 <div class="col-md">
-                    <span class="font-weight-bold fontsizenr">{{doc.tasiento.per_ciruc}}</span>
+                    <span class="fw-bold fontsizenr">{{doc.tasiento.per_ciruc}}</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <span class="font-weight-normal fontsizenr">Telf:</span>
+                    <span class="fw-normal fontsizenr">Telf:</span>
                 </div>
                 <div class="col-md">
-                    <span class="font-weight-bold fontsizenr">{{doc.tasiento.per_telf}}</span>
+                    <span class="fw-bold fontsizenr">{{doc.tasiento.per_telf}}</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <span class="font-weight-normal fontsizenr">Dirección:</span>
+                    <span class="fw-normal fontsizenr">Dirección:</span>
                 </div>
                 <div class="col-md">
-                    <span class="font-weight-bold fontsizenr">{{doc.tasiento.per_direccion}}</span>
+                    <span class="fw-bold fontsizenr">{{doc.tasiento.per_direccion}}</span>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div>
-                <span class="font-weight-normal fontsizenr">Creado por: </span>
+                <span class="fw-normal fontsizenr">Creado por: </span>
             </div>
             <div>
-                <span class="font-weight-bold fontsizenr">{{doc.tasiento.us_cuenta}}</span>
-                <span class="font-weight-normal fontsizenr"> el </span>
-                <span class="font-weight-bold fontsizenr">{{doc.tasiento.trn_fecha}}</span>
+                <span class="fw-bold fontsizenr">{{doc.tasiento.us_cuenta}}</span>
+                <span class="fw-normal fontsizenr"> el </span>
+                <span class="fw-bold fontsizenr">{{doc.tasiento.trn_fecha}}</span>
             </div>
         </div>
     </div>
@@ -85,78 +85,15 @@
         <app-detfactview [detalles]="doc.detalles"></app-detfactview>
     </div>
 
-    <!--
-    <div class="table-responsive mt-1">
-        <table class="table table-sm table-bordered">
-            <thead>
-            <tr>
-                <th scope="col"><span class="fontsizesm">Código</span></th>
-                <th scope="col"><span class="fontsizesm">Producto/Servicio <span
-                        class="badge badge-pill badge-primary"> {{doc.detalles.length}} </span> </span></th>
-                <th scope="col"><span class="fontsizesm">Cant.</span></th>
-                <th scope="col">
-                    <div class="d-flex flex-row-reverse">
-                        <span class="fontsizesm">Precio U.</span>
-                    </div>
-                </th>
-                <th scope="col"><span class="fontsizesm">Iva</span></th>
-                <th scope="col">
-                    <div class="d-flex flex-row-reverse">
-                        <span class="fontsizesm">Desc.</span>
-                    </div>
-                </th>
-                <th scope="col">
-                    <div class="d-flex flex-row-reverse">
-                        <span class="fontsizesm">Precio T.</span>
-                    </div>
-                </th>
-
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let fila of doc.detalles" class="hand">
-                <td>
-                    <span class="font-weight-normal fontsizesm">{{fila.ic_code}}</span>
-                </td>
-                <td>
-                    <span class="font-weight-bold fontsizesm">{{fila.ic_nombre}}</span>
-                </td>
-                <td>
-                    <span class="fontsizesm">{{fila.dt_cant}}</span>
-                </td>
-                <td>
-                    <div class="d-flex flex-row-reverse">
-                        <span class="fontsizesm">{{fila.dt_precio}}</span>
-                    </div>
-                </td>
-                <td>
-                    <span class="fontsizesm">{{fila.icdp_grabaiva ? 'S' : 'N'}}</span>
-                </td>
-                <td>
-                    <div class="d-flex flex-row-reverse">
-                        <span class="fontsizesm">{{fila.dt_decto}}</span>
-                    </div>
-                </td>
-                <td>
-                    <div class="d-flex flex-row-reverse">
-                        <span class="fontsizesm font-weight-bold">{{fila.dt_valor|number:'.2'}}</span>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    -->
-
     <div class="mt-1">
         <div class="row">
             <div class="col-md-5">
                 <div>
-                    <span class="font-weight-normal">Observación:</span>
+                    <span class="fw-normal">Observación:</span>
                 </div>
                 <p class="text-muted" *ngIf="doc.tasiento.trn_observ.length===0"> No registra observación </p>
                 <p *ngIf="doc.tasiento.trn_observ.length>0" style="white-space: pre-line"
-                   class="fontsizenr font-weight-normal">{{doc.tasiento.trn_observ}}</p>
+                   class="fontsizenr fw-normal">{{doc.tasiento.trn_observ}}</p>
             </div>
             <div class="col-md-3 border">
                 <div>
@@ -165,10 +102,10 @@
                 <div class="d-flex flex-column">
                     <div class="row" *ngFor="let pago of doc.pagos">
                         <div class="col-md-7">
-                            <span class="font-weight-bold fontsizenr">{{pago.ic_nombre}} $:</span>
+                            <span class="fw-bold fontsizenr">{{pago.ic_nombre}} $:</span>
                         </div>
                         <div class="col-md-5">
-                            <span class="font-weight-bold text-success">{{pago.dt_valor|number:'.2'}}</span>
+                            <span class="fw-bold text-success">{{pago.dt_valor|number:'.2'}}</span>
                         </div>
                     </div>
                 </div>
@@ -176,34 +113,34 @@
             <div class="col-md-4 border">
                 <div class="d-flex flex-column">
                     <div class="row">
-                        <div class="col-md-8"><span class="font-weight-bold fontsizenr">Subtotal $:</span></div>
+                        <div class="col-md-8"><span class="fw-bold fontsizenr">Subtotal $:</span></div>
                         <div class="col-md"><span
-                                class="font-weight-bold fontsizenr"> {{doc.totales.subtotal|number:'.2'}} </span>
+                                class="fw-bold fontsizenr"> {{doc.totales.subtotal|number:'.2'}} </span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-8">
-                            <span class="font-weight-bold fontsizenr">(-)Descuento $:</span>
+                            <span class="fw-bold fontsizenr">(-)Descuento $:</span>
                         </div>
                         <div class="col-md">
-                            <span class="font-weight-bold fontsizenr"> {{doc.totales.descuentos|number:'.2'}} </span>
+                            <span class="fw-bold fontsizenr"> {{doc.totales.descuentos|number:'.2'}} </span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-8">
-                                <span class="font-weight-bold fontsizenr">(+)Iva {{doc.tasiento.trn_impref * 100}}%
+                                <span class="fw-bold fontsizenr">(+)Iva {{doc.tasiento.trn_impref * 100}}%
                             de ${{doc.totales.subtotal12}}:</span>
                         </div>
                         <div class="col-md">
-                            <span class="font-weight-bold fontsizenr"> {{doc.totales.iva|number:'.2'}} </span>
+                            <span class="fw-bold fontsizenr"> {{doc.totales.iva|number:'.2'}} </span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-8">
-                            <span class="font-weight-bold">Total $:</span>
+                            <span class="fw-bold">Total $:</span>
                         </div>
                         <div class="col-md">
-                            <span class="font-weight-bold"> {{doc.totales.total|number:'.2'}} </span>
+                            <span class="fw-bold"> {{doc.totales.total|number:'.2'}} </span>
                         </div>
                     </div>
                 </div>
@@ -217,14 +154,14 @@
                         (click)="anular()" *ngIf="isPermAnul"><i
                         class="fa fa-trash"></i> Anular
                 </button>
-                <button class="btn btn-outline-primary mr-md-1" [disabled]="isLoading"
+                <button class="btn btn-outline-primary me-md-1" [disabled]="isLoading"
                         (click)="editar()" *ngIf="isPermAnul"><i
                         class="fa fa-edit"></i> Editar
                 </button>
             </div>
 
             <div class="d-flex flex-row-reverse">
-                <button class="btn btn-outline-primary ml-2" [disabled]="isLoading" (click)="onCloseClick()"><i
+                <button class="btn btn-outline-primary ms-2" [disabled]="isLoading" (click)="onCloseClick()"><i
                         class="fa fa-times"></i> Cerrar
                 </button>
                 <button class="btn btn-outline-primary" [disabled]="isLoading" *ngIf="isShowImprimir"

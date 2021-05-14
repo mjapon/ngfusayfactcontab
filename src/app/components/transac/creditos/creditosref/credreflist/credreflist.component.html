@@ -1,7 +1,7 @@
 <div class="card rounded mt-2" *ngIf="!isShowDetCred && !isShowCreaCred">
 
     <div class="m-2 d-flex justify-content-between">
-        <span class="font-weight-light">
+        <span class="fw-light">
                 Cuentas por {{clase === 1 ? 'cobrar' : 'pagar'}} </span>
 
         <button class="btn btn-outline-primary btn-sm" (click)="showFormCrea()">
@@ -64,17 +64,17 @@
                 <tr>
                     <td colspan="4">
                         <div class="d-flex flex-row-reverse">
-                            <span class="font-weight-bold">Total:</span>
+                            <span class="fw-bold">Total:</span>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <span class="font-weight-bold">{{totalescred.totalcred}}</span>
+                            <span class="fw-bold">{{totalescred.totalcred}}</span>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <span class="font-weight-bold">{{totalescred.totalsalpend}}</span>
+                            <span class="fw-bold">{{totalescred.totalsalpend}}</span>
                         </div>
                     </td>
                     <td>

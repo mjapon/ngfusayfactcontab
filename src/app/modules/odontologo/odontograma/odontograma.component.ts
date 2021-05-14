@@ -6,8 +6,6 @@ import {ToolsDienteService} from '../../../services/toolsdiente.service';
 import {OdontogramaService} from '../../../services/odontograma.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 
-declare var $: any;
-
 @Component({
     selector: 'app-odontograma',
     templateUrl: './odontograma.component.html',

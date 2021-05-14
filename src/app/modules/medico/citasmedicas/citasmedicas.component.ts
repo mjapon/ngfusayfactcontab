@@ -12,7 +12,6 @@ import {ConsMedicaMsgService} from '../../../services/cons-medica-msg.service';
 import {LocalStorageService} from '../../../services/local-storage.service';
 import {TcitaService} from '../../../services/tcita.service';
 
-declare var $: any;
 
 @Component({
     selector: 'app-citasmedicas',
@@ -364,10 +363,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 }
             }
         });
-    }
-
-    toggleAcordion(inputid) {
-        $('#' + inputid).collapse('toggle');
     }
 
     limpiar() {

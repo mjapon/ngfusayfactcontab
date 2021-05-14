@@ -10,35 +10,35 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-light"> Sección: </span>
+                        <span class="fw-light"> Sección: </span>
                     </div>
                     <div class="col-md">
-                        <span class="font-weight-bold">{{datostk.sec_nombre}}</span>
+                        <span class="fw-bold">{{datostk.sec_nombre}}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-light"> Nro: </span>
+                        <span class="fw-light"> Nro: </span>
                     </div>
                     <div class="col-md">
-                        <span class="font-weight-bold">{{datostk.tk_nro}}</span>
+                        <span class="fw-bold">{{datostk.tk_nro}}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-light"> Dia: </span>
+                        <span class="fw-light"> Dia: </span>
                     </div>
                     <div class="col-md">
-                        <span class="font-weight-bold">{{datostk.tk_dia}}</span>
+                        <span class="fw-bold">{{datostk.tk_dia}}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-light"> Costo: </span>
+                        <span class="fw-light"> Costo: </span>
                     </div>
                     <div class="col-md">
                         <div *ngIf="!isEdit">
-                            <span class="font-weight-bold">{{datostk.tk_costo}} $</span>
+                            <span class="fw-bold">{{datostk.tk_costo}} $</span>
                         </div>
                         <div *ngIf="isEdit">
                             <input type="text" class="form-control " id="costoInput" name="tk_costo"
@@ -48,76 +48,76 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-light"> Estado: </span>
+                        <span class="fw-light"> Estado: </span>
                     </div>
                     <div class="col-md">
-                        <span class="font-weight-bold">{{datostk.estado}}</span>
+                        <span class="fw-bold">{{datostk.estado}}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-light"> Referente: </span>
+                        <span class="fw-light"> Referente: </span>
                     </div>
                     <div class="col-md">
-                        <span class="font-weight-bold">{{datostk.referente}}</span>
+                        <span class="fw-bold">{{datostk.referente}}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-light"> Ci/Ruc: </span>
+                        <span class="fw-light"> Ci/Ruc: </span>
                     </div>
                     <div class="col-md">
-                        <span class="font-weight-bold">{{datostk.per_ciruc}}</span>
+                        <span class="fw-bold">{{datostk.per_ciruc}}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-light"> Dirección: </span>
+                        <span class="fw-light"> Dirección: </span>
                     </div>
                     <div class="col-md">
-                        <span class="font-weight-bold">{{datostk.per_direccion}}</span>
+                        <span class="fw-bold">{{datostk.per_direccion}}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-light"> Móvil: </span>
+                        <span class="fw-light"> Móvil: </span>
                     </div>
                     <div class="col-md">
-                        <span class="font-weight-bold">{{datostk.per_movil}}</span>
+                        <span class="fw-bold">{{datostk.per_movil}}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-light"> Email: </span>
+                        <span class="fw-light"> Email: </span>
                     </div>
                     <div class="col-md">
-                        <span class="font-weight-bold">{{datostk.per_email}}</span>
+                        <span class="fw-bold">{{datostk.per_email}}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-light"> Residencia: </span>
+                        <span class="fw-light"> Residencia: </span>
                     </div>
                     <div class="col-md">
-                        <span class="font-weight-bold">{{datostk.residencia}}</span>
+                        <span class="fw-bold">{{datostk.residencia}}</span>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Fecha de creación: </span>
+                        <span class="fw-light"> Fecha de creación: </span>
                     </div>
                     <div class="col-md">
-                        <span class="font-weight-bold">{{datostk.tk_fechahora}}</span>
+                        <span class="fw-bold">{{datostk.tk_fechahora}}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Creado por: </span>
+                        <span class="fw-light"> Creado por: </span>
                     </div>
                     <div class="col-md">
-                        <span class="font-weight-bold fontsizesm">{{datostk.refuser}}</span>
+                        <span class="fw-bold fontsizesm">{{datostk.refuser}}</span>
                     </div>
                 </div>
                 <div class="card mt-3" *ngIf="!isEdit">
@@ -149,15 +149,15 @@
 
         <div class="mt-3 d-flex justify-content-between">
             <div class="d-flex" *ngIf="!isLoading && !isEdit">
-                <button class="btn btn-outline-primary mr-md-1" (click)="doDelete()"><i class="fa fa-trash"></i> Anular
+                <button class="btn btn-outline-primary me-md-1" (click)="doDelete()"><i class="fa fa-trash"></i> Anular
                 </button>
-                <button class="btn btn-outline-primary mr-md-1" (click)="doPrint()"><i class="fa fa-print"></i> Imprimir
+                <button class="btn btn-outline-primary me-md-1" (click)="doPrint()"><i class="fa fa-print"></i> Imprimir
                 </button>
                 <button class="btn btn-outline-primary" (click)="editar()"><i class="fa fa-edit"></i> Editar
                 </button>
             </div>
             <div class="d-flex" *ngIf="isEdit">
-                <button class="btn btn-outline-primary mr-md-1" (click)="actualizar()"><i class="fa fa-save"></i>
+                <button class="btn btn-outline-primary me-md-1" (click)="actualizar()"><i class="fa fa-save"></i>
                     Actualizar
                 </button>
                 <button class="btn btn-outline-primary" *ngIf="isEdit" (click)="cancelEdit()">Cancelar

@@ -7,10 +7,10 @@
         <div class="d-flex justify-content-between">
             <div class="d-flex flex-row">
                 <h6>Billeteras <i class="fa fa-wallet"></i></h6>
-                <button class="ml-4 btn btn-sm btn-outline-primary" (click)="loadBilleteras()">
+                <button class="ms-4 btn btn-sm btn-outline-primary" (click)="loadBilleteras()">
                     <i class="fa fa-sync"></i>
                 </button>
-                <button class="ml-2 btn btn-sm btn-outline-primary" (click)="crearBilletera()"><i
+                <button class="ms-2 btn btn-sm btn-outline-primary" (click)="crearBilletera()"><i
                         class="fa fa-plus-circle"></i>
                     Nuevo
                 </button>
@@ -22,13 +22,13 @@
         <div class="p-3" *ngIf="!isLoading">
             <div class="row" *ngIf="billeteras.length>0">
                 <div class="col-md-3 quitaPaddingMargin" *ngFor="let bill of billeteras">
-                    <div class="pt-3 pb-1 pl-3 pr-3 mr-4 mb-2 hand  border rounded shadow d-flex flex-column">
+                    <div class="pt-3 pb-1 ps-3 pe-3 me-4 mb-2 hand  border rounded shadow d-flex flex-column">
                         <div (click)="showMovsBill(bill)">
                             <span class="fontsizenr">{{bill.bil_code}}</span>
-                            <h6 class="quitaPaddingMargin font-weight-bold">{{bill.bil_nombre}}</h6>
+                            <h6 class="quitaPaddingMargin fw-bold">{{bill.bil_nombre}}</h6>
                             <div class="d-flex">
-                                <span class="font-weight-bold" style="font-size: large">SALDO:</span>
-                                <span class="ml-2 font-weight-bold text-success"
+                                <span class="fw-bold" style="font-size: large">SALDO:</span>
+                                <span class="ms-2 fw-bold text-success"
                                       style="font-size: large">{{bill.bil_saldo | number: '.2'}}</span>
                             </div>
                         </div>
@@ -42,8 +42,8 @@
                 <div class="col quitaPaddingMargin d-flex flex-row">
                     <div class="px-2 pt-2 d-flex flex-row"
                          title="Saldo total en todas las billeteras">
-                        <h6 class="font-weight-bold">TOTAL: </h6>
-                        <h6 class="font-weight-bold ml-2 text-success">{{saldotot}}</h6>
+                        <h6 class="fw-bold">TOTAL: </h6>
+                        <h6 class="fw-bold ms-2 text-success">{{saldotot}}</h6>
                     </div>
                 </div>
             </div>
@@ -56,17 +56,17 @@
                 <h6>Movimientos <i class="fa fa-comments-dollar"></i></h6>
 
                 <div class="d-flex flex-row" *ngIf="!isShowFilter">
-                    <button class="btn btn-outline-primary btn-sm ml-4" (click)="loadMovimientos()"
+                    <button class="btn btn-outline-primary btn-sm ms-4" (click)="loadMovimientos()"
                             title="Actualizar listado">
                         <i class="fa fa-sync"></i>
                     </button>
-                    <button class="btn btn-outline-primary btn-sm ml-1" (click)="toggleShowFilter()">
+                    <button class="btn btn-outline-primary btn-sm ms-1" (click)="toggleShowFilter()">
                         <i class="fa fa-filter"></i> Filtrar
                     </button>
 
-                    <div class="ml-1 btn-group btn-group-sm dropright">
+                    <div class="ms-1 btn-group btn-group-sm dropend">
                         <button type="button" class="btn btn-outline-primary dropdown-toggle"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-plus-circle"></i> Crear
                         </button>
                         <div class="dropdown-menu" style="">
@@ -84,7 +84,7 @@
                 <div class="col-md-7 offset-md-3">
                     <div class="row">
                         <div class="col-md-2">
-                            <span class="font-weight-normal">Fechas:</span>
+                            <span class="fw-normal">Fechas:</span>
                         </div>
                         <div class="col-md">
                             <app-rangofechas [form]="formfiltros"
@@ -98,7 +98,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2">
-                            <span class="font-weight-normal">Tipo:</span>
+                            <span class="fw-normal">Tipo:</span>
                         </div>
                         <div class="col-md">
                             <p-dropdown [options]="tipos" optionLabel="label"
@@ -110,7 +110,7 @@
                     </div>
                     <div class="row" *ngIf="formfiltros.tipo>0">
                         <div class="col-md-2">
-                            <span class="font-weight-normal">Cuenta:</span>
+                            <span class="fw-normal">Cuenta:</span>
                         </div>
                         <div class="col-md">
                             <p-dropdown [options]="cuentas" optionLabel="ic_nombre"
@@ -128,7 +128,7 @@
                                 <button class="btn btn-sm btn-outline-primary" (click)="loadMovimientos()"><i
                                         class="fa fa-search"></i> Buscar
                                 </button>
-                                <button class="ml-2 btn btn-sm btn-outline-secondary" (click)="cancelFiltro()"><i
+                                <button class="ms-2 btn btn-sm btn-outline-secondary" (click)="cancelFiltro()"><i
                                         class="fa fa-times"></i> Cancelar
                                 </button>
                             </div>
@@ -196,7 +196,7 @@
     <div *ngIf="!isLoadingFormBill">
         <div class="row">
             <div class="col-md-3">
-                <span class="font-weight-normal"> <span class="text-danger">*</span> Número: </span>
+                <span class="fw-normal"> <span class="text-danger">*</span> Número: </span>
             </div>
             <div class="col-md">
                 <div class="input-group">
@@ -211,7 +211,7 @@
         </div>
         <div class="row mt-2">
             <div class="col-md-3">
-                <span class="font-weight-normal"> <span class="text-danger">*</span> Nombre: </span>
+                <span class="fw-normal"> <span class="text-danger">*</span> Nombre: </span>
             </div>
             <div class="col-md">
                 <input type="text" class="form-control"
@@ -222,7 +222,7 @@
         </div>
         <div class="row mt-2">
             <div class="col-md-3">
-                <span class="font-weight-normal"> <span class="text-danger">*</span> Saldo Inicial: </span>
+                <span class="fw-normal"> <span class="text-danger">*</span> Saldo Inicial: </span>
             </div>
             <div class="col-md">
                 <input type="text" class="form-control"
@@ -234,7 +234,7 @@
         </div>
         <div class="row mt-2" *ngIf="formbill.haycajasdisp===1 && formbill.bil_id===0">
             <div class="col-md-3">
-                <span class="font-weight-normal"> <span class="text-danger">*</span> Cta Contable: </span>
+                <span class="fw-normal"> <span class="text-danger">*</span> Cta Contable: </span>
             </div>
             <div class="col-md">
                 <p-dropdown [options]="cajasdisp" optionLabel="ic_nombre"
@@ -247,7 +247,7 @@
 
         <div class="row mt-2" *ngIf="formbill.bil_id>0">
             <div class="col-md-3">
-                <span class="font-weight-normal"> <span class="text-danger">*</span> Cta Contable: </span>
+                <span class="fw-normal"> <span class="text-danger">*</span> Cta Contable: </span>
             </div>
             <div class="col-md">
                 <input type="text" class="form-control" disabled [(ngModel)]="formbill.ic_nombre">
@@ -256,7 +256,7 @@
 
         <div class="row mt-2">
             <div class="col-md-3">
-                <span class="font-weight-normal">Observación: </span>
+                <span class="fw-normal">Observación: </span>
             </div>
             <div class="col-md">
                 <textarea pInputTextarea maxlength="1000" class="form-control"
@@ -268,7 +268,7 @@
 
         <div class="row">
             <div class="col-md-3">
-                        <span class="font-weight-bold"
+                        <span class="fw-bold"
                               title="Selecciones las secciones donde esta cuenta contable es visible">Secciones:</span>
             </div>
             <div class="col-md">
@@ -276,7 +276,7 @@
                     <p-checkbox [inputId]="itsec.seccion.sec_id" binary="true"
                                 [(ngModel)]="itsec.value"></p-checkbox>
                     <label [for]="itsec.seccion.sec_id"
-                           class="ml-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
+                           class="ms-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
                 </div>
             </div>
         </div>

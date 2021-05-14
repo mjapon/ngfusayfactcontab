@@ -7,72 +7,72 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Número: </span>
+                        <span class="fw-light"> Número: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold"> {{datosmov.bmo_numero}} </span>
+                        <span class="fw-bold"> {{datosmov.bmo_numero}} </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Tipo: </span>
+                        <span class="fw-light"> Tipo: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold"> {{datosmov.clase}} </span>
+                        <span class="fw-bold"> {{datosmov.clase}} </span>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Fecha: </span>
+                        <span class="fw-light"> Fecha: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold"> {{datosmov.bmo_fechatransacc}} </span>
+                        <span class="fw-bold"> {{datosmov.bmo_fechatransacc}} </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Monto Total: </span>
+                        <span class="fw-light"> Monto Total: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold"> $ {{datosmov.bmo_monto}} </span>
+                        <span class="fw-bold"> $ {{datosmov.bmo_monto}} </span>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Estado: </span>
+                        <span class="fw-light"> Estado: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold"> {{datosmov.estado}} </span>
+                        <span class="fw-bold"> {{datosmov.estado}} </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Registrado por: </span>
+                        <span class="fw-light"> Registrado por: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold"> {{datosmov.refusercrea}} </span>
+                        <span class="fw-bold"> {{datosmov.refusercrea}} </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Fecha de registro: </span>
+                        <span class="fw-light"> Fecha de registro: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold"> {{datosmov.bmo_fechacrea}} </span>
+                        <span class="fw-bold"> {{datosmov.bmo_fechacrea}} </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Adjunto: </span>
+                        <span class="fw-light"> Adjunto: </span>
                     </div>
                     <div class="col-md-8">
                         <div *ngIf="datosmov.rxd_id>0">
-                                    <span class="font-weight-bold"> <i
+                                    <span class="fw-bold"> <i
                                             class="fas fa-paperclip"></i> {{datosmov.rxd_filename}} </span>
-                            <button class="btn btn-outline-secondary btn-sm ml-3" (click)="showAdjunto()"> Ver
+                            <button class="btn btn-outline-secondary btn-sm ms-3" (click)="showAdjunto()"> Ver
                             </button>
                         </div>
                         <span class="text-muted" *ngIf="!datosmov.rxd_id>0"> Sin adjunto </span>
@@ -82,7 +82,7 @@
         </div>
         <div class="row">
             <div class="col-md-2">
-                <span class="font-weight-light"> Observación: </span>
+                <span class="fw-light"> Observación: </span>
             </div>
             <div class="col-md">
                 <p style="white-space: pre-line"> {{datosasiento.cabecera.trn_observ}} </p>
@@ -92,16 +92,16 @@
         <div class="card">
             <div class="card-head">
                 <div class="col-md">
-                    <span class="font-weight-bold"> Cuentas Afectadas: </span>
+                    <span class="fw-bold"> Cuentas Afectadas: </span>
                 </div>
                 <div class="row quitaPaddingMargin">
-                    <div class="col-md"><span class="font-weight-bold">Crédito:</span></div>
-                    <div class="col-md"><span class="font-weight-bold">Débito:</span></div>
+                    <div class="col-md"><span class="fw-bold">Crédito:</span></div>
+                    <div class="col-md"><span class="fw-bold">Débito:</span></div>
                 </div>
             </div>
             <div>
                 <div class="row quitaPaddingMargin">
-                    <div class="col-md quitaPaddingMargin ml-3">
+                    <div class="col-md quitaPaddingMargin ms-3">
                         <div class="table-responsive">
                             <table class="table table-sm table-bordered">
                                 <thead>
@@ -116,7 +116,7 @@
                                         <span class="text-muted fontsizenr"> {{fila.ic_nombre}} </span>
                                     </td>
                                     <td>
-                                        <span class="font-weight-bold">
+                                        <span class="fw-bold">
                                             ${{fila.dt_valor | number: '.2'}}
                                         </span>
                                     </td>
@@ -124,7 +124,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-md ml-2 quitaPaddingMargin">
+                    <div class="col-md ms-2 quitaPaddingMargin">
                         <div class="table-responsive">
                             <table class="table table-sm table-bordered">
                                 <thead>
@@ -139,7 +139,7 @@
                                         <span class="text-muted fontsizenr"> {{fila.ic_nombre}} </span>
                                     </td>
                                     <td>
-                                        <span class="font-weight-bold">
+                                        <span class="fw-bold">
                                             ${{fila.dt_valor | number: '.2'}}
                                         </span>
                                     </td>
@@ -163,11 +163,11 @@
         <div class="row">
             <div class="col">
                 <div class="mt-2 d-flex flex-row-reverse">
-                    <button class="btn btn-outline-primary ml-1" (click)="onCerraBtn()"><i
+                    <button class="btn btn-outline-primary ms-1" (click)="onCerraBtn()"><i
                             class="fa fa-times"></i>
                         Cerrar
                     </button>
-                    <button class="btn btn-outline-primary ml-1" (click)="onConfirmarBtn()"
+                    <button class="btn btn-outline-primary ms-1" (click)="onConfirmarBtn()"
                             *ngIf="datosmov.bmo_estado===0">
                         <i class="fa fa-check"></i>
                         Confirmar

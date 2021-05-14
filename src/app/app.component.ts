@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.isLogged = this.fautService.isAuthenticated();
         if (this.isLogged) {
             if (this.isshowAppMenu) {
-                this.classrouteroutlet = 'ml-2 mt-2 mr-0';
+                this.classrouteroutlet = 'ms-2 mt-2 me-0';
                 this.stylemaindiv = 'width: 92%;';
             } else {
                 this.classrouteroutlet = '';
@@ -53,14 +53,14 @@ export class AppComponent implements OnInit, AfterViewInit {
                 this.classrouteroutlet = '';
             } else if (msg === 'login') {
                 this.isLogged = true;
-                this.classrouteroutlet = 'ml-2 mt-2 mr-0';
+                this.classrouteroutlet = 'ms-2 mt-2 me-0';
             } else if (msg === 'hideappmenu') {
                 this.hideMenu();
             }
             if (this.isLogged) {
                 if (this.isshowAppMenu) {
                     this.stylemaindiv = 'width: 92%;';
-                    this.classrouteroutlet = 'ml-2 mt-2 mr-0';
+                    this.classrouteroutlet = 'ms-2 mt-2 me-0';
                 } else {
                     this.stylemaindiv = 'width: 100%;';
                     this.classrouteroutlet = '';
@@ -87,7 +87,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         } else {
             this.isshowAppMenu = true;
             this.stylemaindiv = 'width: 92%;';
-            this.classrouteroutlet = 'ml-2 mt-2 mr-0';
+            this.classrouteroutlet = 'ms-2 mt-2 me-0';
         }
     }
 

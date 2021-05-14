@@ -3,6 +3,7 @@
         <h4 class="text-muted"> Favor registre primero los datos del paciente </h4>
     </div>
     <div *ngIf="codpaciente>0">
+
         <p-contextMenu #contextMenuDiente [model]="menuItemsDiente" id="contextmenumj"></p-contextMenu>
 
         <div class="d-flex flex-row-reverse mb-2" style="margin-top: -40px">
@@ -22,10 +23,9 @@
         <div class="row">
             <div class="col">
                 <div class="row">
-                    <div id="tr" class="col-6 text-right">
+                    <div id="tr" class="col-6 text-end">
                         <ng-container *ngFor="let diente of dentadura.A">
                             <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
-                                              [contextMenuDiente]="contextMenuDiente"
                                               (ondntstatechange)="saveOdontoSilent()"
                                               (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                         </ng-container>
@@ -33,16 +33,14 @@
                     <div id="tl" class="col-6">
                         <ng-container *ngFor="let diente of dentadura.B">
                             <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
-                                              [contextMenuDiente]="contextMenuDiente"
                                               (ondntstatechange)="saveOdontoSilent()"
                                               (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                         </ng-container>
                     </div>
 
-                    <div id="br" class="col-6 text-right" style="padding-top: 30px">
+                    <div id="br" class="col-6 text-end" style="padding-top: 30px">
                         <ng-container *ngFor="let diente of dentadura.C">
                             <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
-                                              [contextMenuDiente]="contextMenuDiente"
                                               (ondntstatechange)="saveOdontoSilent()"
                                               (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                         </ng-container>
@@ -50,7 +48,6 @@
                     <div id="bl" class="col-6" style="padding-top: 30px">
                         <ng-container *ngFor="let diente of dentadura.D">
                             <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
-                                              [contextMenuDiente]="contextMenuDiente"
                                               (ondntstatechange)="saveOdontoSilent()"
                                               (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                         </ng-container>
@@ -62,8 +59,8 @@
         <div style="margin-top: 20px">
             <div class="row">
                 <div class="col">
-                    <div class="form-group">
-                        <label for="obsOdontograma" class="font-weight-bold">Observación:</label>
+                    <div class="mb-3">
+                        <label for="obsOdontograma" class="fw-bold">Observación:</label>
                         <textarea id="obsOdontograma" class="form-control" rows="2" [(ngModel)]="obsodontograma"
                                   placeholder="Ingrese una observación al odontograma">  </textarea>
                     </div>
@@ -201,7 +198,7 @@
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row">
                                                 <span class=" text-rojo">*</span>
-                                                <span class="ml-2">
+                                                <span class="ms-2">
                                             Sellante necesario
                                         </span>
                                             </div>
@@ -214,7 +211,7 @@
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row">
                                                 <span class="text-azul">*</span>
-                                                <span class="ml-2">
+                                                <span class="ms-2">
                                             Sellante realizado
                                         </span>
                                             </div>
@@ -228,7 +225,7 @@
                                             <div class="d-flex flex-row">
                                         <span class="text-rojo"><span class="fa fa-times text-danger"></span>
                                         </span>
-                                                <span class="ml-2">
+                                                <span class="ms-2">
                                             Extracción indicada
                                         </span>
                                             </div>
@@ -241,7 +238,7 @@
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row">
                                                 <span class="text-azul"><span class="fa fa-times"></span></span>
-                                                <span class="ml-2">
+                                                <span class="ms-2">
                                         Pérdida por caries
                                     </span>
                                             </div>
@@ -255,7 +252,7 @@
                                             <div class="d-flex flex-row">
                                     <span>
                                         <p class="endonecesaria"></p></span>
-                                                <span class="ml-2">
+                                                <span class="ms-2">
                                         Endodoncia necesaria
                                     </span>
                                             </div>
@@ -269,7 +266,7 @@
                                             <div class="d-flex flex-row">
                                     <span>
                                         <p class="endorealizada"></p></span>
-                                                <span class="ml-2">
+                                                <span class="ms-2">
                                         Endodoncia realizada
                                     </span>
                                             </div>
@@ -284,7 +281,7 @@
                                     <span class="text-rojo">
                                         O
                                     </span>
-                                                <span class="ml-2">
+                                                <span class="ms-2">
                                         Corona necesaria
                                     </span>
                                             </div>
@@ -297,7 +294,7 @@
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row">
                                                 <span class="text-azul">O</span>
-                                                <span class="ml-2">
+                                                <span class="ms-2">
                                         Corona realizada
                                         </span>
                                             </div>
@@ -383,7 +380,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="obsPiezaDental">Observación:</label>
                                 <textarea id="obsPiezaDental" class="form-control" rows="8"
                                           [(ngModel)]="dienteSelected.texto"
@@ -419,19 +416,19 @@
                   [(visible)]="modalCreaProtesis">
             <div class="container-fluid">
                 <div class="d-flex flex-row">
-                    <span class="mr-2">Tipo:</span>
+                    <span class="me-2">Tipo:</span>
                     <p-selectButton [options]="tiposProtesis" [(ngModel)]="tipoProtesisSel" optionLabel="label"
                                     optionValue="value"
                                     (onChange)="onTipoProtesisChange($event)"></p-selectButton>
                 </div>
                 <div class="d-flex flex-row" *ngIf="tipoProtesisSel">
-                    <span class="mr-2">Estado:</span>
+                    <span class="me-2">Estado:</span>
                     <p-selectButton [options]="estadosProtesis" [(ngModel)]="estadoProtesisSel" optionLabel="label"
                                     optionValue="value"
                                     (onChange)="onEstadoProtesisSel($event)"></p-selectButton>
                 </div>
                 <div class="d-flex flex-row" *ngIf="estadoProtesisSel">
-                    <span class="mr-2">Zona:</span>
+                    <span class="me-2">Zona:</span>
                     <p-selectButton [options]="zonasProtesis" [(ngModel)]="zonaProtesisSel" optionLabel="label"
                                     optionValue="value"
                                     (onChange)="onZonaProtChange($event)"></p-selectButton>
@@ -440,7 +437,7 @@
                 <div *ngIf="zonaProtesisSel">
                     <div *ngIf="tipoProtesisSel<=2">
                         <div class="mt-3 d-flex justify-content-between">
-                            <span class="font-weight-bold">Seleccione las piezas dentales de la prótesis:</span>
+                            <span class="fw-bold">Seleccione las piezas dentales de la prótesis:</span>
                             <button class="btn bt-sm btn-outline-primary" (click)="limpiarSelProtesis()">
                                 <i class="fas fa-eraser"></i> Limpiar
                             </button>
@@ -457,7 +454,7 @@
                              (mouseover)="onMouseOverProtDiente(it)"
                              (mouseup)="onMouseUpProtDiente(it)"
                              *ngFor="let it of dientesProtesis">
-                            <span class="font-weight-bold">{{it.value}}</span>
+                            <span class="fw-bold">{{it.value}}</span>
                         </div>
                     </div>
                 </div>

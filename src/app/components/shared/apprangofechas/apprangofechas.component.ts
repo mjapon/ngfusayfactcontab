@@ -9,7 +9,7 @@ import es from '@angular/common/locales/es';
         <div class="d-flex">
             <div>
                 <div class="d-flex" *ngIf="showlabels">
-                    <p class="quitaPaddingMargin font-weight-light">Desde:</p>
+                    <p class="quitaPaddingMargin fw-light">Desde:</p>
                 </div>
                 <div class="p-fluid">
                     <p-calendar [showIcon]="showicons"
@@ -23,7 +23,7 @@ import es from '@angular/common/locales/es';
             </div>
             <div>
                 <div class="d-flex justify-content-between" *ngIf="showlabels">
-                    <p class="quitaPaddingMargin font-weight-light">Hasta:</p>
+                    <p class="quitaPaddingMargin fw-light">Hasta:</p>
                 </div>
                 <div class="p-fluid d-flex">
                     <p-calendar [showIcon]="showicons"
@@ -35,11 +35,11 @@ import es from '@angular/common/locales/es';
                                 dateFormat="dd/mm/yy"></p-calendar>
 
 
-                    <div class="ml-1 btn-group btn-group-sm dropright">
+                    <div class="ms-1 btn-group btn-group-sm dropend">
                         <button class="btn btn-light dropdown-toggle" style="padding: 5px 1px !important;"
                                 type="button"
                                 id="dropdownMB"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-filter"></i>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMB">

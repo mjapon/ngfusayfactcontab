@@ -7,60 +7,60 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-normal fontsizenr"> Número: </span>
+                        <span class="fw-normal fontsizenr"> Número: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold fontsizenr"> {{datosasi.cabecera.trn_compro}} </span>
+                        <span class="fw-bold fontsizenr"> {{datosasi.cabecera.trn_compro}} </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-normal fontsizenr"> Tipo: </span>
+                        <span class="fw-normal fontsizenr"> Tipo: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold fontsizenr"> {{datosasi.cabecera.tra_nombre}} </span>
+                        <span class="fw-bold fontsizenr"> {{datosasi.cabecera.tra_nombre}} </span>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-normal fontsizenr"> Fecha: </span>
+                        <span class="fw-normal fontsizenr"> Fecha: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold fontsizenr"> {{datosasi.cabecera.trn_fecreg}} </span>
+                        <span class="fw-bold fontsizenr"> {{datosasi.cabecera.trn_fecreg}} </span>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-normal fontsizenr"> Estado: </span>
+                        <span class="fw-normal fontsizenr"> Estado: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold fontsizenr"> {{datosasi.cabecera.estado}} </span>
+                        <span class="fw-bold fontsizenr"> {{datosasi.cabecera.estado}} </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-normal fontsizenr"> Registrado por: </span>
+                        <span class="fw-normal fontsizenr"> Registrado por: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold fontsizenr"> {{datosasi.cabecera.refusercrea}} </span>
+                        <span class="fw-bold fontsizenr"> {{datosasi.cabecera.refusercrea}} </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-normal fontsizenr"> Fecha de registro: </span>
+                        <span class="fw-normal fontsizenr"> Fecha de registro: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="font-weight-bold fontsizenr"> {{datosasi.cabecera.trn_fecha}} </span>
+                        <span class="fw-bold fontsizenr"> {{datosasi.cabecera.trn_fecha}} </span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-2">
-                <span class="font-weight-normal fontsizenr"> Observación: </span>
+                <span class="fw-normal fontsizenr"> Observación: </span>
             </div>
             <div class="col-md">
                 <p style="white-space: pre-line" class="fontsizenr"> {{datosasi.cabecera.trn_observ}} </p>
@@ -70,15 +70,15 @@
             <table class="table table-sm table-bordered">
                 <thead>
                 <tr>
-                    <th scope="col" width="10%" class="border-right">
+                    <th scope="col" width="10%" class="border-end">
                         <span class="fontsizesm">Código</span>
                     </th>
-                    <th scope="col" width="50%" class="border-right">
+                    <th scope="col" width="50%" class="border-end">
                         <div class="fontsizesm text-center">
                             Cuenta Contable
                         </div>
                     </th>
-                    <th scope="col" width="15%" class="border-right">
+                    <th scope="col" width="15%" class="border-end">
                         <div class="fontsizesm d-flex flex-row-reverse">Debe</div>
                     </th>
                     <th scope="col" width="15%">
@@ -110,13 +110,13 @@
                 </ng-container>
                 <tr>
                     <td colspan="2">
-                        <div class="d-flex flex-row-reverse font-weight-bold">TOTAL:</div>
+                        <div class="d-flex flex-row-reverse fw-bold">TOTAL:</div>
                     </td>
                     <td>
-                        <div class="d-flex flex-row-reverse font-weight-bold"> {{totales.debe|number:'.2'}} </div>
+                        <div class="d-flex flex-row-reverse fw-bold"> {{totales.debe|number:'.2'}} </div>
                     </td>
                     <td>
-                        <div class="d-flex flex-row-reverse font-weight-bold"> {{totales.haber|number:'.2'}} </div>
+                        <div class="d-flex flex-row-reverse fw-bold"> {{totales.haber|number:'.2'}} </div>
                     </td>
                 </tr>
                 </tbody>
@@ -126,7 +126,7 @@
         <div class="row" *ngIf="showBtns">
             <div class="col">
                 <div class="mt-2 d-flex flex-row-reverse">
-                    <button class="btn btn-outline-primary ml-1" (click)="onCerraBtn()"><i
+                    <button class="btn btn-outline-primary ms-1" (click)="onCerraBtn()"><i
                             class="fa fa-times"></i>
                         Cerrar
                     </button>

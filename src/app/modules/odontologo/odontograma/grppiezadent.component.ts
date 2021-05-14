@@ -3,13 +3,12 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ToolsDienteService} from '../../../services/toolsdiente.service';
 import {MenuItem} from 'primeng/api';
 
-declare var $: any;
+// declare var $: any;
 
 @Component({
     selector: 'app-grppiezadent',
     template: `
         <div style="display: inline-block" class="dntc_{{diente.numero}}"
-             (contextmenu)="onContextMenuDiente(diente, $event)"
              (mouseenter)="onmousenter()"
              (mouseleave)="onmouseleave()"
              [title]="titulo">
@@ -25,7 +24,6 @@ declare var $: any;
 export class GrppiezadentComponent {
     @Input() diente: any;
     @Input() menuItemsDiente: MenuItem[];
-    @Input() contextMenuDiente: any;
     @Output() ongrpdntclic = new EventEmitter<any>();
     @Output() ondntstatechange = new EventEmitter<any>();
     titulo: string;
@@ -39,6 +37,7 @@ export class GrppiezadentComponent {
         if (!this.loaded) {
             this.titulo = this.getTitulo();
             this.loaded = true;
+            // this.loadContexMenu(this.diente);
         }
     }
 
@@ -143,16 +142,26 @@ export class GrppiezadentComponent {
                 state: diente
             });
         }
+
+        console.log('Valor de this.menuItemsDiente es:', this.menuItemsDiente);
     }
 
     onContextMenuDiente(diente: any, event: MouseEvent) {
         this.loadContexMenu(diente);
-        const offset = $(event.target).offset();
-        offset.top += 10;
-        offset.left += 10;
-        const idctxmenu = '#contextmenumj';
-        $(idctxmenu).offset(offset);
+        return false;
+
+        /*
+        const prueba: HTMLElement = event.target as HTMLElement;
+        console.log('Valor de event.target', event.target, prueba);
+        console.log(prueba.offsetLeft);
+        console.log(prueba.offsetTop);
+        const idctxmenu = 'contextmenumj';
+        const contextmenuref = document.getElementById(idctxmenu);
+        contextmenuref.style.top = (prueba.offsetTop + 10) + 'px';
+        contextmenuref.style.left = (prueba.offsetLeft + 10) + 'px';
+        // $(idctxmenu).offset(offset);
         this.contextMenuDiente.show();
         return false;
+         */
     }
 }

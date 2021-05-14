@@ -69,7 +69,7 @@ import {ModelocontabService} from '../../../services/modelocontab.service';
                     <div *ngIf="!isformloading">
                         <div class="row mt-2 mb-4">
                             <div class="col-md-4">
-                                <span class="font-weight-light"> Modelo Contable: </span>
+                                <span class="fw-light"> Modelo Contable: </span>
                             </div>
                             <div class="col-md">
                                 <p-dropdown [options]="modscontabs" id="icdp_modcontab"
@@ -81,7 +81,7 @@ import {ModelocontabService} from '../../../services/modelocontab.service';
 
                         <div class="row">
                             <div class="col-md-4">
-                                <span class="font-weight-light"> Nombre: </span>
+                                <span class="fw-light"> Nombre: </span>
                             </div>
                             <div class="col-md">
                                 <input type="text" class="form-control" [(ngModel)]="formcat.catic_nombre">
@@ -92,7 +92,7 @@ import {ModelocontabService} from '../../../services/modelocontab.service';
                             <button class="btn btn-outline-primary" (click)="doSave()"><i class="fa fa-save"></i>
                                 Guardar
                             </button>
-                            <button class="ml-3 btn btn-outline-secondary" (click)="cancelSave()"><i
+                            <button class="ms-3 btn btn-outline-secondary" (click)="cancelSave()"><i
                                     class="fa fa-times"></i> Cancelar
                             </button>
                         </div>

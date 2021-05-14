@@ -16,16 +16,16 @@ import {SwalService} from '../../../services/swal.service';
                 <p-contextMenu #cm [model]="itemsMenu"></p-contextMenu>
                 <div class="row">
                     <div class="col-md-8">
-                        <h4 class="ml-2">Plan de cuentas</h4>
+                        <h4 class="ms-2">Plan de cuentas</h4>
                     </div>
                     <div class="col-md-4 d-flex flex-row-reverse">
                         <button class="btn btn-outline-primary" (click)="contractAll()" title="Contraer Todo">
                             <i class="fas fa-angle-double-up"></i>
                         </button>
-                        <button class="btn btn-outline-primary mr-1" (click)="expandAll()" title="Expandir Todo">
+                        <button class="btn btn-outline-primary me-1" (click)="expandAll()" title="Expandir Todo">
                             <i class="fas fa-angle-double-down"></i>
                         </button>
-                        <button class="btn btn-outline-primary mr-1" (click)="loadPlanCuentas()" title="Actualizar">
+                        <button class="btn btn-outline-primary me-1" (click)="loadPlanCuentas()" title="Actualizar">
                             <i class="fas fa-sync"></i>
                         </button>
                     </div>
@@ -48,7 +48,7 @@ import {SwalService} from '../../../services/swal.service';
                     <div *ngIf="!isLoadingDet">
                         <div class="row">
                             <div class="col-md-4">
-                                <span class="font-weight-bold"> Código: </span>
+                                <span class="fw-bold"> Código: </span>
                             </div>
                             <div class="col-md-8">
                                 {{datosCtaContable.ic_code}}
@@ -56,7 +56,7 @@ import {SwalService} from '../../../services/swal.service';
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <span class="font-weight-bold"> Cuenta padre: </span>
+                                <span class="fw-bold"> Cuenta padre: </span>
                             </div>
                             <div class="col-md-8">
                                 {{datosCtaContable.padre}}
@@ -64,7 +64,7 @@ import {SwalService} from '../../../services/swal.service';
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <span class="font-weight-bold"> Nombre: </span>
+                                <span class="fw-bold"> Nombre: </span>
                             </div>
                             <div class="col-md-8">
                                 {{datosCtaContable.ic_nombre}}
@@ -72,7 +72,7 @@ import {SwalService} from '../../../services/swal.service';
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <span class="font-weight-bold"> Clase: </span>
+                                <span class="fw-bold"> Clase: </span>
                             </div>
                             <div class="col-md-8">
                                 {{datosCtaContable.ic_clasecc}}
@@ -80,7 +80,7 @@ import {SwalService} from '../../../services/swal.service';
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <span class="font-weight-bold"> Observación: </span>
+                                <span class="fw-bold"> Observación: </span>
                             </div>
                             <div class="col-md-8">
                                 <p style="white-space: pre-line">
@@ -90,7 +90,7 @@ import {SwalService} from '../../../services/swal.service';
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                        <span class="font-weight-bold"
+                                        <span class="fw-bold"
                                               title="Selecciones las secciones donde esta cuenta contable es visible">Secciones:</span>
                             </div>
                             <div class="col-md-8">
@@ -98,7 +98,7 @@ import {SwalService} from '../../../services/swal.service';
                                     <p-checkbox [inputId]="itsec.seccion.sec_id" binary="true" [disabled]="true"
                                                 [(ngModel)]="itsec.value"></p-checkbox>
                                     <label [for]="itsec.seccion.sec_id"
-                                           class="ml-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
+                                           class="ms-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +123,7 @@ import {SwalService} from '../../../services/swal.service';
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <span class="font-weight-bold">Cuenta padre:</span>
+                                        <span class="fw-bold">Cuenta padre:</span>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" class="form-control" disabled
@@ -134,7 +134,7 @@ import {SwalService} from '../../../services/swal.service';
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <span class="font-weight-bold"> Código: </span>
+                                        <span class="fw-bold"> Código: </span>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="d-flex" *ngIf="!editandoCta">
@@ -150,7 +150,7 @@ import {SwalService} from '../../../services/swal.service';
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <span class="font-weight-bold">Nombre:</span>
+                                        <span class="fw-bold">Nombre:</span>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" id="cta_ic_nombre" class="form-control"
@@ -161,7 +161,7 @@ import {SwalService} from '../../../services/swal.service';
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <span class="font-weight-bold">Clase:</span>
+                                        <span class="fw-bold">Clase:</span>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" class="form-control" maxlength="2"
@@ -170,7 +170,7 @@ import {SwalService} from '../../../services/swal.service';
                                 </div>
                                 <div class="row" *ngIf="editandoCta">
                                     <div class="col-md-4">
-                                        <span class="font-weight-bold">Alias:</span>
+                                        <span class="fw-bold">Alias:</span>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="text" class="form-control" maxlength="80"
@@ -179,7 +179,7 @@ import {SwalService} from '../../../services/swal.service';
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <span class="font-weight-bold">Observación:</span>
+                                        <span class="fw-bold">Observación:</span>
                                     </div>
                                     <div class="col-md-8">
                                         <textarea class="form-control" id="obsInput" maxlength="800"
@@ -189,7 +189,7 @@ import {SwalService} from '../../../services/swal.service';
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <span class="font-weight-bold"
+                                        <span class="fw-bold"
                                               title="Selecciones las secciones donde esta cuenta contable es visible">Secciones:</span>
                                     </div>
                                     <div class="col-md-8">
@@ -197,13 +197,13 @@ import {SwalService} from '../../../services/swal.service';
                                             <p-checkbox [inputId]="itsec.seccion.sec_id" binary="true"
                                                         [(ngModel)]="itsec.value"></p-checkbox>
                                             <label [for]="itsec.seccion.sec_id"
-                                                   class="ml-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
+                                                   class="ms-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="text-center pt-3">
-                                    <button class="btn btn-outline-primary mr-2" (click)="guardarCta()"><i
+                                    <button class="btn btn-outline-primary me-2" (click)="guardarCta()"><i
                                             class="fa fa-save"></i> Guardar
                                     </button>
                                     <button class="btn btn-outline-secondary" (click)="cancelarCrearCta()"><i

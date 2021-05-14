@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 @Component({
     selector: 'app-referentes',
     template: `
-        <h5 class="quitaPaddingMargin mb-2 mt-1 ml-2">
+        <h5 class="quitaPaddingMargin mb-2 mt-1 ms-2">
             <span class="fas fa-users"></span> Referentes
         </h5>
         <app-listadorefs (evSelPaciente)="onSelPaciente($event)"

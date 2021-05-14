@@ -7,16 +7,16 @@
             <h4 class="quitaPaddingMargin">
                 {{codasi > 0 ? 'Editar Asiento Contable' : 'Crear asiento contable'}}</h4>
         </div>
-        <div class="mt-2 border pl-3 pr-3 pt-3">
+        <div class="mt-2 border ps-3 pe-3 pt-3">
             <div class="row">
                 <div class="col-md-6">
                     <div class="row">
-                        <div class="col-md-2"><span class="font-weight-light">Fecha:</span></div>
+                        <div class="col-md-2"><span class="fw-light">Fecha:</span></div>
                         <div class="col-md">
                             <p-calendar [(ngModel)]="formasiento.trn_fecregobj"
                                         [showIcon]="false"
                                         [disabled]="codasi>0"
-                                        class="ml-2 p-inputtext-sm"
+                                        class="ms-2 p-inputtext-sm"
                                         [maxDate]="currentdate"
                                         inputId="trn_fecregobj"
                                         [monthNavigator]="true" [yearNavigator]="true"
@@ -28,10 +28,10 @@
                 </div>
                 <div class="col-md-6">
                     <div class="row d-flex justify-content-end">
-                        <div class="col-md-2 d-flex flex-row-reverse"><span class="font-weight-light">Número:</span>
+                        <div class="col-md-2 d-flex flex-row-reverse"><span class="fw-light">Número:</span>
                         </div>
                         <div class="col-md-4 d-flex flex-row-reverse">
-                            <input type="text" class="form-control form-control-sm  ml-2"
+                            <input type="text" class="form-control form-control-sm  ms-2"
                                    [(ngModel)]="formasiento.secuencia"
                                    disabled>
                         </div>
@@ -98,20 +98,20 @@
                         <thead>
                         <tr>
                             <th scope="col" style="width: 3%">
-                                <span class="font-weight-normal">#</span>
+                                <span class="fw-normal">#</span>
                             </th>
                             <th scope="col" style="width: 33%">
-                            <span class="font-weight-normal">
+                            <span class="fw-normal">
                                 Cuenta Contable </span>
                             </th>
                             <th scope="col" style="width: 10%">
-                            <span class="font-weight-normal">
+                            <span class="fw-normal">
                                 Debe </span></th>
                             <th scope="col" style="width: 10%">
-                            <span class="font-weight-normal">
+                            <span class="fw-normal">
                                 Haber </span></th>
                             <th scope="col" style="width: 10%">
-                            <span class="font-weight-normal">
+                            <span class="fw-normal">
                                 Acción</span></th>
                         </tr>
                         </thead>
@@ -119,13 +119,13 @@
                         <ng-container *ngIf="detalles.length>0">
                             <tr *ngFor="let fila of detalles">
                                 <th scope="row">
-                                    <span class="font-weight-normal fontsizesm">{{detalles.indexOf(fila) + 1}}</span>
+                                    <span class="fw-normal fontsizesm">{{detalles.indexOf(fila) + 1}}</span>
                                 </th>
                                 <td>
                                     <div class="d-flex flex-column">
-                                        <span class="font-weight-lighter fontsizenr"
+                                        <span class="fw-lighter fontsizenr"
                                               [ngClass]="{'haberl':fila.dt_debito===-1}">{{fila.ic_code}}</span>
-                                        <span class="font-weight-light fontsizenr"
+                                        <span class="fw-light fontsizenr"
                                               [ngClass]="{'haberl':fila.dt_debito===-1}">{{fila.ic_nombre}}</span>
                                     </div>
                                 </td>
@@ -174,13 +174,13 @@
 
                             </th>
                             <td>
-                                <span class="font-weight-bold {{totales.debe===totales.haber?'text-success':'text-danger'}}">TOTAL:</span>
+                                <span class="fw-bold {{totales.debe===totales.haber?'text-success':'text-danger'}}">TOTAL:</span>
                             </td>
                             <td>
-                                <span class="font-weight-bold {{totales.debe===totales.haber?'text-success':'text-danger'}}">{{totales.debe}}</span>
+                                <span class="fw-bold {{totales.debe===totales.haber?'text-success':'text-danger'}}">{{totales.debe}}</span>
                             </td>
                             <td>
-                                <span class="font-weight-bold {{totales.debe===totales.haber?'text-success':'text-danger'}}">{{totales.haber}}</span>
+                                <span class="fw-bold {{totales.debe===totales.haber?'text-success':'text-danger'}}">{{totales.haber}}</span>
                             </td>
                             <td></td>
                         </tr>
@@ -191,7 +191,7 @@
             </div>
             <div class="row mt-1">
                 <div class="col-md-12">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="obsTA">Observación:</label>
                         <textarea rows="3" class="form-control" pInputTextarea id="obsTA"
                                   [(ngModel)]="formasiento.trn_observ">
@@ -202,10 +202,10 @@
         </div>
         <div class="mt-4">
             <div class="d-flex w-100 justify-content-center">
-                <button class="btn btn-outline-secondary ml-3" (click)="cancelar()"><i class="fa fa-times"></i>
+                <button class="btn btn-outline-secondary ms-3" (click)="cancelar()"><i class="fa fa-times"></i>
                     Cancelar
                 </button>
-                <button class="ml-2 btn btn-outline-primary" (click)="guardar()" [disabled]="detalles.length===0"><i
+                <button class="ms-2 btn btn-outline-primary" (click)="guardar()" [disabled]="detalles.length===0"><i
                         class="fa fa-save"></i> Guardar
                 </button>
             </div>

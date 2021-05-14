@@ -32,7 +32,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-lighter">Tipo:</span>
+                        <span class="fw-lighter">Tipo:</span>
                     </div>
                     <div class="col-md">
                         {{artFromDb.tipic_nombre}}
@@ -40,7 +40,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-lighter">Nombre:</span>
+                        <span class="fw-lighter">Nombre:</span>
                     </div>
                     <div class="col-md">
                         {{artFromDb.ic_nombre}}
@@ -48,7 +48,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-lighter">Código:</span>
+                        <span class="fw-lighter">Código:</span>
                     </div>
                     <div class="col-md">
                         {{artFromDb.ic_code}}
@@ -56,7 +56,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-lighter">Fecha de ingreso:</span>
+                        <span class="fw-lighter">Fecha de ingreso:</span>
                     </div>
                     <div class="col-md">
                         {{artFromDb.ic_fechacrea}}
@@ -64,7 +64,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-lighter">Graba Iva:</span>
+                        <span class="fw-lighter">Graba Iva:</span>
                     </div>
                     <div class="col-md">
                         {{artFromDb.icdp_grabaiva ? 'Si' : 'No'}}
@@ -72,7 +72,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-lighter">Categoría:</span>
+                        <span class="fw-lighter">Categoría:</span>
                     </div>
                     <div class="col-md">
                         {{artFromDb.catic_nombre}}
@@ -80,7 +80,7 @@
                 </div>
                 <div class="row" *ngIf="artFromDb.tipic_id===1">
                     <div class="col-md-3">
-                        <span class="font-weight-lighter">Proveedor:</span>
+                        <span class="fw-lighter">Proveedor:</span>
                     </div>
                     <div class="col-md">
                         {{artFromDb.proveedor}}
@@ -88,7 +88,7 @@
                 </div>
                 <div class="row" *ngIf="artFromDb.tipic_id===1">
                     <div class="col-md-3">
-                        <span class="font-weight-lighter">Fecha de caducidad:</span>
+                        <span class="fw-lighter">Fecha de caducidad:</span>
                     </div>
                     <div class="col-md">
                         <p class="text-justify"> {{artFromDb.icdp_fechacaducidad}} </p>
@@ -96,7 +96,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-lighter">Modelo Contable:</span>
+                        <span class="fw-lighter">Modelo Contable:</span>
                     </div>
                     <div class="col-md">
                         <p class="text-justify"> {{artFromDb.mc_nombre}} </p>
@@ -104,7 +104,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <span class="font-weight-lighter">Nota:</span>
+                        <span class="fw-lighter">Nota:</span>
                     </div>
                     <div class="col-md">
                         <p class="text-justify"> {{artFromDb.ic_nota}} </p>
@@ -122,8 +122,9 @@
                     <div class="col-md" *ngIf="artFromDb.tipic_id===1">
                         <div class="row">
                             <div class="col-md-8">
-                                            <span class="font-weight-lighter">Precio de compra
-                                                <span class="badge badge-light" *ngIf="artFromDb.icdp_grabaiva"> (Sin Iva) </span>:
+                                            <span class="fw-lighter">Precio de compra
+                                                <span class="badge bg-light"
+                                                      *ngIf="artFromDb.icdp_grabaiva"> (Sin Iva) </span>:
                                             </span>
                             </div>
                             <div class="col-md">
@@ -134,8 +135,9 @@
                     <div class="col-md">
                         <div class="row">
                             <div class="col-md-8">
-                                            <span class="font-weight-lighter">Precio de venta
-                                                <span class="badge badge-light" *ngIf="artFromDb.icdp_grabaiva"> (Sin Iva) </span>:
+                                            <span class="fw-lighter">Precio de venta
+                                                <span class="badge bg-light"
+                                                      *ngIf="artFromDb.icdp_grabaiva"> (Sin Iva) </span>:
                                             </span>
                             </div>
                             <div class="col-md">
@@ -148,8 +150,8 @@
                     <div class="col-md" *ngIf="artFromDb.tipic_id===1 && artFromDb.icdp_grabaiva">
                         <div class="row">
                             <div class="col-md-8">
-                                <span class="font-weight-lighter">Precio de compra
-                                    <span class="badge badge-light" *ngIf="artFromDb.icdp_grabaiva">
+                                <span class="fw-lighter">Precio de compra
+                                    <span class="badge bg-light" *ngIf="artFromDb.icdp_grabaiva">
                                         (Con Iva)
                                     </span>:
                                 </span>
@@ -162,8 +164,8 @@
                     <div class="col-md" *ngIf="artFromDb.icdp_grabaiva">
                         <div class="row">
                             <div class="col-md-8">
-                                <span class="font-weight-lighter">Precio de venta
-                                    <span class="badge badge-light" *ngIf="artFromDb.icdp_grabaiva">
+                                <span class="fw-lighter">Precio de venta
+                                    <span class="badge bg-light" *ngIf="artFromDb.icdp_grabaiva">
                                         (Con Iva)
                                     </span>:
                                 </span>

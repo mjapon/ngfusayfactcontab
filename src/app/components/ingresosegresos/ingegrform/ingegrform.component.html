@@ -17,7 +17,7 @@
                                 <div class="col-md-6 quitaPaddingMargin">
                                     <div class="row mt-2">
                                         <div class="col-md-4">
-                                            <span class="font-weight-normal"> Número: </span>
+                                            <span class="fw-normal"> Número: </span>
                                         </div>
                                         <div class="col-md">
                                             <input type="text" class="form-control" disabled
@@ -26,7 +26,7 @@
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-md-4">
-                                            <span class="font-weight-normal"> Fecha: </span>
+                                            <span class="fw-normal"> Fecha: </span>
                                         </div>
                                         <div class="col-md">
                                             <p-calendar id="vt_fecha"
@@ -41,7 +41,7 @@
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-md-4">
-                                            <span class="font-weight-normal"> <i class="fa fa-dollar"></i> Monto Total: </span>
+                                            <span class="fw-normal"> <i class="fa fa-dollar"></i> Monto Total: </span>
                                         </div>
                                         <div class="col-md">
                                             <input type="text" class="form-control" id="bmo_monto"
@@ -54,7 +54,7 @@
 
                             <div class="row mt-3">
                                 <div class="col-md d-flex flex-column">
-                                    <span class="font-weight-normal">
+                                    <span class="fw-normal">
                                         Tipo {{titulo}}:
                                     </span>
                                     <div>
@@ -73,13 +73,13 @@
                                                                 [(ngModel)]="fcuenta.cta_codigo"></p-dropdown>
                                                 </div>
                                                 <div>
-                                                    <input type="text" class="ml-1 form-control" id="tipo_valor_{{i}}"
+                                                    <input type="text" class="ms-1 form-control" id="tipo_valor_{{i}}"
                                                            [(ngModel)]="fcuenta.dt_valor"
                                                            [disabled]="fcuenta.cta_codigo===0"
                                                            (focusin)="$event.target.select();">
                                                 </div>
                                                 <div>
-                                                    <div class="ml-1 btn-group btn-group-sm" role="group">
+                                                    <div class="ms-1 btn-group btn-group-sm" role="group">
                                                         <button class="btn btn-outline-secondary btn-sm  p-1"
                                                                 *ngIf="i>0"
                                                                 title="Quitar esta fila"
@@ -97,7 +97,7 @@
                                         </div>
                                         <!--
                                         <div class="d-flex flex-row flex-row-reverse" *ngIf="form.cuentas?.length>1">
-                                            <span class="fontsizexsm font-weight-bold">Total: </span>
+                                            <span class="fontsizexsm fw-bold">Total: </span>
                                             <span>{{form.totalc}}</span>
                                         </div>
                                         -->
@@ -107,7 +107,7 @@
                             <div class="row mt-3">
                                 <div class="col-md">
                                     <div class="d-flex flex-column">
-                                        <span class="font-weight-normal">
+                                        <span class="fw-normal">
                                             <i class="fa fa-wallet"></i> Billetera Afectada:
                                         </span>
                                         <div class="d-flex flex-column"
@@ -123,13 +123,13 @@
                                                                 [(ngModel)]="fbill.cta_codigo"></p-dropdown>
                                                 </div>
                                                 <div>
-                                                    <input type="text" class="ml-1 form-control" id="bill_valor_{{i}}"
+                                                    <input type="text" class="ms-1 form-control" id="bill_valor_{{i}}"
                                                            (focusin)="$event.target.select();"
                                                            [(ngModel)]="fbill.dt_valor"
                                                            [disabled]="fbill.cta_codigo===0">
                                                 </div>
                                                 <div>
-                                                    <div class="ml-1 btn-group btn-group-sm" role="group">
+                                                    <div class="ms-1 btn-group btn-group-sm" role="group">
                                                         <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1"
                                                                 *ngIf="i>0"
                                                                 title="Quitar billetera afectada">
@@ -149,14 +149,14 @@
                                         <!--
                                         <div class="d-flex flex-row flex-row-reverse" *ngIf="form.billeteras?.length>1">
                                             <span>{{form.totalb}}</span>
-                                            <span class="fontsizexsm font-weight-bold">Total:</span>
+                                            <span class="fontsizexsm fw-bold">Total:</span>
                                         </div>
                                         -->
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md ml-3 quitaPaddingMargin">
+                                <div class="col-md ms-3 quitaPaddingMargin">
                                     <div class="mt-3 d-flex flex-column"><span> <i class="fa fa-paperclip"></i> Adjunto:</span>
                                         <input type="file" id="archivoinput"
                                                accept="image/*,application/pdf, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -164,7 +164,7 @@
                                                (change)="onFileChange($event)"/>
                                     </div>
 
-                                    <div class="form-group mt-3">
+                                    <div class="m-3">
                                         <label for="obsInput">
                                             <i class="fa fa-sticky-note"></i>
                                             Observación</label>
@@ -172,21 +172,23 @@
                                                   [(ngModel)]="form.bmo_obs" rows="5"></textarea>
                                     </div>
                                 </div>
-                                <div class="ml-1 mt-1 col-md-4 quitaPaddingMargin" *ngIf="filepreview && adjisimage">
+                                <div class="ms-1 mt-1 col-md-4 quitaPaddingMargin" *ngIf="filepreview && adjisimage">
                                     <img [src]="filepreview" class="img-responsive" *ngIf="filepreview" width="260px"
                                          height="270px"/>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <button type="button" class="btn btn-outline-primary btn-block" (click)="guardar()">
-                                <i class="fa fa-save"></i>
-                                Guardar
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary btn-block" (click)="cancelar()">
-                                <i class="fa fa-times"></i>
-                                Cancelar
-                            </button>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-outline-primary" (click)="guardar()">
+                                    <i class="fa fa-save"></i>
+                                    Guardar
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" (click)="cancelar()">
+                                    <i class="fa fa-times"></i>
+                                    Cancelar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -11,7 +11,7 @@ import {PersonEvService} from '../../services/personev.service';
         </div>
         <div *ngIf="!isLoading">
 
-            <h5 class="quitaPaddingMargin mb-1 ml-2">
+            <h5 class="quitaPaddingMargin mb-1 ms-2">
                 <span class="fas fa-user"></span> Datos del referente
             </h5>
 

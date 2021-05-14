@@ -2,7 +2,7 @@
     <div class="container-fluid">
 
 
-        <button class="btn btn-sm btn-outline-primary mr-2" (click)="toggleSidebar()" title="Menú de opciones">
+        <button class="btn btn-sm btn-outline-primary me-2" (click)="toggleSidebar()" title="Menú de opciones">
             <i class="fa fa-bars"></i>
         </button>
         <a class="navbar-brand d-flex" href="#"
@@ -10,24 +10,24 @@
             <div class="d-flex justify-content-center align-items-center">
                 <img src="/assets/imgs/logomavilsm.png">
             </div>
-            <span class="ml-2">{{empNombreComercial}}</span>
-            <div class="d-flex ml-1 align-items-end">
+            <span class="ms-2">{{empNombreComercial}}</span>
+            <div class="d-flex ms-1 align-items-end">
                 <small>{{seccion.sec_nombre}}</small>
             </div>
         </a>
-        <button class="btn btn-sm btn-outline-primary ml-2" (click)="goHome()" title="Ir al inicio">
+        <button class="btn btn-sm btn-outline-primary ms-2" (click)="goHome()" title="Ir al inicio">
             <span class="fa fa-home"></span>
         </button>
         <div class="w-100 d-flex flex-row-reverse">
             <div class="d-none d-md-inline d-lg-inline-block d-xl-inline-block" id="navbarSupportedContent">
                 <ul class="navbar-nav d-flex flex-row">
                     <li class="nav-item dropdown" *ngIf="ttpdvs.length>1">
-                        <a class="nav-link text-primary dropdown-toggle" href="#" id="dropdownPtoEmi"
-                           role="button" data-toggle="dropdown" aria-haspopup="true"
+                        <a class="nav-link text-primary dropdown-bs-toggle" href="#" id="dropdownPtoEmi"
+                           role="button" data-bs-toggle="dropdown" aria-haspopup="true"
                            aria-expanded="false" title="PtoEmision">
                             PtoEmi
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownPtoEmi">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownPtoEmi">
                             <li *ngFor="let ttpdv of ttpdvs">
                                 <button class="dropdown-item" type="button" (click)="cambiarTtpdv(ttpdv)">
                                     <i *ngIf="ttpdv.tdv_codigo === currTdvcod" class="fa fa-check"></i>
@@ -39,11 +39,11 @@
 
                     <li class="nav-item dropdown" *ngIf="secciones.length>1">
                         <a class="nav-link text-primary dropdown-toggle" href="#" id="dropdownSeccion"
-                           role="button" data-toggle="dropdown" aria-haspopup="true"
+                           role="button" data-bs-toggle="dropdown" aria-haspopup="true"
                            aria-expanded="false" title="Seccion">
                             Sección
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownSeccion">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownSeccion">
                             <li *ngFor="let sec of secciones">
                                 <button class="dropdown-item" type="button" (click)="cambiarSeccion(sec)">
                                     <i *ngIf="sec.sec_id === seccion.sec_id" class="fa fa-check"></i>
@@ -59,7 +59,7 @@
                             <i class="fas fa-user"></i>
                             {{userinfo?.per_nombres?.charAt(0) + userinfo?.per_apellidos?.charAt(0)}}
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li>
                                 <button class="dropdown-item"
                                         type="button">{{userinfo.per_nombres + ' ' + userinfo.per_apellidos}}</button>
@@ -96,7 +96,7 @@
             <span>
                 <img src="/assets/imgs/logomavilsm.png">
             </span>
-            <span class="font-weight-light fontsizesm">{{userinfo?.per_nombres + ' ' + userinfo?.per_apellidos}}</span>
+            <span class="fw-light fontsizesm">{{userinfo?.per_nombres + ' ' + userinfo?.per_apellidos}}</span>
             <div>
                 <a class="dropdown-item fontsizexsm" href="#" (click)="logout()">
                     <i class="fas fa-sign-out-alt"></i> Salir

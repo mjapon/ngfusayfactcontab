@@ -14,7 +14,7 @@
                         <div class="col-md-6 quitaPaddingMargin">
                             <div class="row mt-2">
                                 <div class="col-md-5">
-                                    <span class="font-weight-normal"> Número: </span>
+                                    <span class="fw-normal"> Número: </span>
                                 </div>
                                 <div class="col-md">
                                     <input type="text" class="form-control" disabled
@@ -23,7 +23,7 @@
                             </div>
                             <div class="row mt-2">
                                 <div class="col-md-5">
-                                    <span class="font-weight-normal"> Fecha: </span>
+                                    <span class="fw-normal"> Fecha: </span>
                                 </div>
                                 <div class="col-md">
                                     <p-calendar id="vt_fecha"
@@ -38,7 +38,7 @@
                             </div>
                             <div class="row mt-2">
                                 <div class="col-md-5">
-                                    <span class="font-weight-normal">Monto Total: </span>
+                                    <span class="fw-normal">Monto Total: </span>
                                 </div>
                                 <div class="col-md">
                                     <input type="text" class="form-control" id="monto"
@@ -51,7 +51,7 @@
 
                     <div class="row mt-3">
                         <div class="col-md d-flex flex-column">
-                                    <span class="font-weight-normal">
+                                    <span class="fw-normal">
                                         Motivo {{titulo}}:
                                     </span>
                             <div>
@@ -70,13 +70,13 @@
                                                         [(ngModel)]="fmotivo.cta_codigo"></p-dropdown>
                                         </div>
                                         <div>
-                                            <input type="text" class="ml-1 form-control" id="tipo_valor_{{i}}"
+                                            <input type="text" class="ms-1 form-control" id="tipo_valor_{{i}}"
                                                    [(ngModel)]="fmotivo.dt_valor"
                                                    [disabled]="fmotivo.cta_codigo===0"
                                                    (focusin)="$event.target.select();">
                                         </div>
                                         <div>
-                                            <div class="ml-1 btn-group btn-group-sm" role="group">
+                                            <div class="ms-1 btn-group btn-group-sm" role="group">
                                                 <button class="btn btn-outline-secondary btn-sm  p-1"
                                                         *ngIf="i>0"
                                                         title="Quitar esta fila"
@@ -107,14 +107,16 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <button type="button" class="btn btn-outline-primary btn-block" (click)="guardar()">
-                        <i class="fa fa-save"></i>
-                        Guardar
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary btn-block" (click)="cancelar()">
-                        <i class="fa fa-times"></i>
-                        Cancelar
-                    </button>
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-outline-primary" (click)="guardar()">
+                            <i class="fa fa-save"></i>
+                            Guardar
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" (click)="cancelar()">
+                            <i class="fa fa-times"></i>
+                            Cancelar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

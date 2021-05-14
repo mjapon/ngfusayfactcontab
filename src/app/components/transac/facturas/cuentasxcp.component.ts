@@ -69,7 +69,7 @@ import {ActivatedRoute, Router} from '@angular/router';
                     <ng-template pTemplate="footer">
                         <tr>
                             <th [attr.colspan]="grid.cols.length-2">
-                                <span class="font-weight-bold">TOTAL:</span>
+                                <span class="fw-bold">TOTAL:</span>
                             </th>
                             <th>
                                 <span> {{totales.credito|number:'.2'}}</span>

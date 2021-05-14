@@ -15,7 +15,7 @@ import {CitasMedicasService} from '../../services/citas-medicas.service';
                     <div class="col-md-8 offset-md-2">
                         <div class="card border-primary">
                             <div class="card-header">
-                                <span class="font-weight-bold">
+                                <span class="fw-bold">
                                     {{form.rxd_id > 0 ? 'Editar documento' : 'Crear documento'}}
                                 </span>
                             </div>
@@ -82,16 +82,16 @@ import {CitasMedicasService} from '../../services/citas-medicas.service';
                                                 <div>
                                                     <div class="d-flex justify-content-end">
                                                         <div class="d-flex">
-                                                            <button class="ml-2 btn btn-sm btn-outline-primary"
+                                                            <button class="ms-2 btn btn-sm btn-outline-primary"
                                                                     (click)="descargar(doc)">
                                                                 <i class="fa fa-eye"></i>
                                                             </button>
-                                                            <button class="ml-2 btn btn-sm btn-outline-primary btn-sm"
+                                                            <button class="ms-2 btn btn-sm btn-outline-primary btn-sm"
                                                                     (click)="editar(doc)"
                                                                     title="Editar ">
                                                                 <i class="fa fa-edit"></i>
                                                             </button>
-                                                            <button class="ml-2 btn btn-sm btn-outline-primary btn-sm"
+                                                            <button class="ms-2 btn btn-sm btn-outline-primary btn-sm"
                                                                     (click)="anular(doc)"
                                                                     title="Anular ">
                                                                 <i class="fa fa-trash"></i>

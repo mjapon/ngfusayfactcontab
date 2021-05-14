@@ -34,14 +34,14 @@ import {PersonEvService} from '../../services/personev.service';
                             <div *ngIf="totaldeuda>0">
                                         <span class="text-warning"> <i
                                                 class="fa fa-warning"></i> Cuentas por cobrar:  </span>
-                                <span class="text-warning font-weight-bold">$ {{totaldeuda| number: '.2'}} </span>
+                                <span class="text-warning fw-bold">$ {{totaldeuda| number: '.2'}} </span>
                             </div>
                         </div>
                         <div *ngIf="totalcxp>=0">
                             <div *ngIf="totalcxp>0">
                                         <span class="text-warning"> <i
                                                 class="fa fa-warning"></i> Cuentas por pagar:  </span>
-                                <span class="text-warning font-weight-bold">$ {{totalcxp| number: '.2'}} </span>
+                                <span class="text-warning fw-bold">$ {{totalcxp| number: '.2'}} </span>
                             </div>
                         </div>
                     </div>

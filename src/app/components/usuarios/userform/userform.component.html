@@ -17,13 +17,13 @@
         <div class="row">
             <div class="col">
                 <div *ngIf="usId>0">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="perNombres"><span class="required">*</span>Nombres:</label>
                         <input type="text" maxlength="30" class="form-control" [disabled]="false" [readOnly]="true"
                                id="perNombres" name="rl_name" [(ngModel)]="formcli.per_nombres" placeholder=""
                                autocomplete="off">
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="perApellidos"><span class="required">*</span>Apellidos:</label>
                         <input type="text" maxlength="30" class="form-control" [disabled]="false" [readOnly]="true"
                                id="perApellidos" name="rl_name" [(ngModel)]="formcli.per_apellidos" placeholder=""
@@ -37,7 +37,7 @@
                             Datos del referente
                         </div>
                         <div class="card-body">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="ciPasInput">
                                     <span class="required">*</span>
                                     Número Cédula/Pasaporte:</label>
@@ -47,7 +47,7 @@
                                        autocomplete="off">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="nomApelInput">
                                     <span class="required">*</span>
                                     Nombres:</label>
@@ -57,7 +57,7 @@
                                        [(ngModel)]="formcli.per_nombres" placeholder="" autocomplete="off">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="ApelInput">Apellidos:</label>
                                 <input type="text" maxlength="80" class="form-control " id="ApelInput"
                                        (keyup)="$event.target.value=$event.target.value.toUpperCase()"
@@ -65,7 +65,7 @@
                                        [(ngModel)]="formcli.per_apellidos" placeholder="" autocomplete="off">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="numCelInput">
                                     <i class="fa fa-phone"></i>
                                     Nro Teléfono Celular:</label>
@@ -74,7 +74,7 @@
                                        [(ngModel)]="formcli.per_movil" placeholder="" autocomplete="off">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="emailInput">
                                     <i class="fa fa-envelope"></i>
                                     Dirección de correo:</label>
@@ -90,7 +90,7 @@
                             Datos de la cuenta
                         </div>
                         <div class="card-body">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="numCelInput">
                                     <span class="required">*</span>
                                     Nombre de la cuenta:</label>
@@ -98,7 +98,7 @@
                                        (keyup.enter)="setFocus('usClaveInput')" name="us_cuenta"
                                        [(ngModel)]="form.us_cuenta" placeholder="" autocomplete="off">
                             </div>
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="numCelInput">
                                     <span class="required">*</span>
                                     Clave:</label>
@@ -106,7 +106,7 @@
                                        (keyup.enter)="setFocus('usConfirmClaveInput')" name="us_clave"
                                        [(ngModel)]="form.us_clave" placeholder="" autocomplete="off">
                             </div>
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="numCelInput">
                                     <span class="required">*</span>
                                     Confirma clave:</label>
@@ -135,13 +135,15 @@
         </div>
     </div>
     <div class="col-md-2">
-        <button type="button" class="btn btn-outline-primary btn-block" (click)="guardar()">
-            <i class="fas fa-save"></i>
-            Guardar
-        </button>
-        <button type="button" class="btn btn-outline-secondary btn-block" (click)="cancelar()">
-            <i class="fas fa-times"></i>
-            Cancelar
-        </button>
+        <div class="d-grid gap-2">
+            <button type="button" class="btn btn-outline-primary" (click)="guardar()">
+                <i class="fas fa-save"></i>
+                Guardar
+            </button>
+            <button type="button" class="btn btn-outline-secondary" (click)="cancelar()">
+                <i class="fas fa-times"></i>
+                Cancelar
+            </button>
+        </div>
     </div>
 </div>

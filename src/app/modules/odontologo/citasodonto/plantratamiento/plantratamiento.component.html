@@ -2,8 +2,8 @@
     <div *ngIf="!showForm">
         <div class="card shadow-sm rounded mt-2">
             <div class="card-header d-flex justify-content-between">
-            <span class="font-weight-bold">Planes de tratamiento <span class="badge badge-info"
-                                                                       *ngIf="listaPlanes.length>0">{{listaPlanes.length}}</span></span>
+            <span class="fw-bold">Planes de tratamiento <span class="badge bg-info"
+                                                              *ngIf="listaPlanes.length>0">{{listaPlanes.length}}</span></span>
                 <button class="btn btn-outline-primary btn-sm" (click)="initFormCrea()">
                     <i class="fa fa-plus"></i> Crear
                 </button>
@@ -13,7 +13,7 @@
                 <app-loading></app-loading>
             </div>
             <div class="table-responsive" *ngIf="!isLoadingPlanes && listaPlanes.length>0">
-                <table class="table">
+                <table class="table table-bordered">
                     <thead>
                     <tr>
                         <th scope="col"><span class="fontsizesm">#</span></th>
@@ -57,52 +57,52 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-3">
-                                <span class="font-weight-lighter">Nombre del plan:</span>
+                                <span class="fw-lighter">Nombre del plan:</span>
                             </div>
                             <div class="col-md">
-                                <span class="font-weight-bold">{{datosDocPlan.plan.pnt_nombre}}</span>
+                                <span class="fw-bold">{{datosDocPlan.plan.pnt_nombre}}</span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-3">
-                                <span class="font-weight-lighter">Médico:</span>
+                                <span class="fw-lighter">Médico:</span>
                             </div>
                             <div class="col-md">
-                                <span class="font-weight-bold">{{datosDocPlan.plan.medico}}</span>
+                                <span class="fw-bold">{{datosDocPlan.plan.medico}}</span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-3">
-                                <span class="font-weight-lighter">Nro Factura:</span>
+                                <span class="fw-lighter">Nro Factura:</span>
                             </div>
                             <div class="col-md">
-                                <span class="font-weight-light">{{datosDocPlan.doc.tasiento.trn_compro}}</span>
+                                <span class="fw-light">{{datosDocPlan.doc.tasiento.trn_compro}}</span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-3">
-                                <span class="font-weight-lighter">Fecha factura:</span>
+                                <span class="fw-lighter">Fecha factura:</span>
                             </div>
                             <div class="col-md">
-                                <span class="font-weight-bold">{{datosDocPlan.doc.tasiento.trn_fecha}}</span>
+                                <span class="fw-bold">{{datosDocPlan.doc.tasiento.trn_fecha}}</span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-3">
-                                <span class="font-weight-lighter">Estado:</span>
+                                <span class="fw-lighter">Estado:</span>
                             </div>
                             <div class="col-md">
-                                <span class="font-weight-bold">{{plansel.estadodesc}}</span>
+                                <span class="fw-bold">{{plansel.estadodesc}}</span>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4 d-flex flex-column align-content-between">
                         <div *ngIf="datosDocPlan.plan.pnt_obs">
                             <div>
-                                <span class="font-weight-lighter">Observación:</span>
+                                <span class="fw-lighter">Observación:</span>
                             </div>
                             <div>
-                                <span class="font-weight-light">{{datosDocPlan.plan.pnt_obs}}</span>
+                                <span class="fw-light">{{datosDocPlan.plan.pnt_obs}}</span>
                             </div>
                         </div>
                         <div class="mt-3">
@@ -197,40 +197,40 @@
                                     </div>
                                     <div class="d-flex flex-row justify-content-end"
                                          *ngFor="let pago of datosDocPlan.doc.pagos">
-                                        <span class="font-weight-bold">{{pago.ic_nombre}} $:</span>
-                                        <span class="ml-2">${{pago.dt_valor|number:'.2'}}</span>
+                                        <span class="fw-bold">{{pago.ic_nombre}} $:</span>
+                                        <span class="ms-2">${{pago.dt_valor|number:'.2'}}</span>
                                     </div>
                                 </div>
                             </td>
                             <td colspan="2">
                                 <div class="d-flex flex-column align-items-end">
-                                    <span class="font-weight-light">Subtotal $:</span>
-                                    <span class="font-weight-light">(-)Descuento $:</span>
-                                    <span class="font-weight-light">(+)Iva {{datosDocPlan.doc.tasiento.trn_impref * 100}}
+                                    <span class="fw-light">Subtotal $:</span>
+                                    <span class="fw-light">(-)Descuento $:</span>
+                                    <span class="fw-light">(+)Iva {{datosDocPlan.doc.tasiento.trn_impref * 100}}
                                         % de ${{datosDocPlan.doc.totales.subtotal12}}:</span>
                                     <span
-                                            class="font-weight-bolder">Total $:</span>
+                                            class="fw-bolder">Total $:</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="d-flex flex-column">
                                     <div class="d-flex flex-row-reverse">
-                                        <span class="font-weight-light">
+                                        <span class="fw-light">
                                         {{datosDocPlan.doc.totales.subtotal|number:'.2'}}
                                         </span>
                                     </div>
                                     <div class="d-flex flex-row-reverse">
-                                    <span class="font-weight-light">
+                                    <span class="fw-light">
                                         {{datosDocPlan.doc.totales.descuentos|number:'.2'}}
                                     </span>
                                     </div>
                                     <div class="d-flex flex-row-reverse">
-                                    <span class="font-weight-light">
+                                    <span class="fw-light">
                                         {{datosDocPlan.doc.totales.iva|number:'.2'}}
                                     </span>
                                     </div>
                                     <div class="d-flex flex-row-reverse">
-                                    <span class="font-weight-bold">
+                                    <span class="fw-bold">
                                         {{datosDocPlan.doc.totales.total|number:'.2'}}
                                     </span>
                                     </div>
@@ -255,7 +255,7 @@
                             <span class="text-rojo">*</span> <span>Nro:</span>
                         </div>
                         <div class="col-md">
-                            <span class="font-weight-bold">{{formcab.secuencia}}</span>
+                            <span class="fw-bold">{{formcab.secuencia}}</span>
                         </div>
                     </div>
 
@@ -325,35 +325,35 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md quitaPaddingMargin ml-md-2">
+                <div class="col-md quitaPaddingMargin ms-md-2">
                     <div class="table-responsive shadow-sm">
                         <table class="table table-bordered table-sm">
                             <thead>
                             <tr>
                                 <th scope="col" style="width: 3%">
-                                    <span class="font-weight-normal fontsizesm">#</span>
+                                    <span class="fw-normal fontsizesm">#</span>
                                 </th>
                                 <th scope="col" style="width: 31%">
-                            <span class="font-weight-bold fontsizesm">
+                            <span class="fw-bold fontsizesm">
                                 Servicio </span>
                                 </th>
                                 <th scope="col" style="width: 12%">
-                            <span class="font-weight-bold fontsizesm">
+                            <span class="fw-bold fontsizesm">
                                 Cant. </span></th>
                                 <th scope="col" style="width: 10%">
-                            <span class="font-weight-bold fontsizesm">
+                            <span class="fw-bold fontsizesm">
                                 P. Uni. </span></th>
                                 <th scope="col" style="width: 10%">
-                            <span class="font-weight-bold fontsizesm">
+                            <span class="fw-bold fontsizesm">
                                 Subt.</span></th>
                                 <th scope="col" style="width: 9%">
-                            <span class="font-weight-bold fontsizesm">
+                            <span class="fw-bold fontsizesm">
                                 Desc </span></th>
                                 <th scope="col" style="width: 10%">
-                            <span class="font-weight-bold fontsizesm">
+                            <span class="fw-bold fontsizesm">
                                 Iva </span></th>
                                 <th scope="col" style="width: 10%">
-                            <span class="font-weight-bold fontsizesm">
+                            <span class="fw-bold fontsizesm">
                                 Total </span></th>
                                 <th scope="col" style="width: 5%">
                                 </th>
@@ -362,12 +362,12 @@
                             <tbody>
                             <tr *ngFor="let fila of detalles">
                                 <th scope="row">
-                                    <span class="font-weight-normal fontsizesm">{{detalles.indexOf(fila) + 1}}</span>
+                                    <span class="fw-normal fontsizesm">{{detalles.indexOf(fila) + 1}}</span>
                                 </th>
                                 <td>
                                     <div class="d-flex flex-column">
-                                        <span class="font-weight-light fontsizesm">{{fila.ic_code}}</span>
-                                        <span class="font-weight-bold fontsizesm">{{fila.ic_nombre}}</span>
+                                        <span class="fw-light fontsizesm">{{fila.ic_code}}</span>
+                                        <span class="fw-bold fontsizesm">{{fila.ic_nombre}}</span>
                                     </div>
                                 </td>
                                 <td>
@@ -397,7 +397,7 @@
                                         <option *ngFor="let iv of ivas" [ngValue]="iv.value">{{iv.label}}</option>
                                     </select>
                                 <td>
-                                    <span class="fontsizesm font-weight-bold">${{fila.total | number: '.2'}}</span>
+                                    <span class="fontsizesm fw-bold">${{fila.total | number: '.2'}}</span>
                                 </td>
                                 <td>
                                     <button class="btn btn-sm btn-outline-secondary" (click)="quitarItem(fila)"
@@ -414,7 +414,7 @@
                             <div class="col-md-7">
                                 <div class="row">
                                     <div class="col-md-5"><span
-                                            class="font-weight-bold fontsizenr">Subtotal $:</span>
+                                            class="fw-bold fontsizenr">Subtotal $:</span>
                                     </div>
                                     <div class="col-md">
                                         <input type="text" class="form-control form-control-sm" disabled
@@ -423,7 +423,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-5"><span
-                                            class="font-weight-bold fontsizenr">(-)Descuento $:</span>
+                                            class="fw-bold fontsizenr">(-)Descuento $:</span>
                                     </div>
                                     <div class="col-md">
                                         <input type="text" class="form-control form-control-sm" disabled
@@ -432,7 +432,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-5">
-                                        <span class="font-weight-bold fontsizenr">(+)Iva {{impuestos?.iva * 100}}
+                                        <span class="fw-bold fontsizenr">(+)Iva {{impuestos?.iva * 100}}
                                             % de ${{totales.subtotal12}}:</span>
                                     </div>
                                     <div class="col-md">
@@ -442,7 +442,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-5"><span
-                                            class="font-weight-bolder fontsizenr">Total $:</span>
+                                            class="fw-bolder fontsizenr">Total $:</span>
                                     </div>
                                     <div class="col-md">
                                         <input type="text" class="form-control form-control-sm" disabled
@@ -456,7 +456,7 @@
                                 </div>
                                 <div class="row" *ngFor="let pago of formaspago">
                                     <div class="col-md-5">
-                                        <span class="font-weight-bold">{{pago.ic_nombre}} $:</span>
+                                        <span class="fw-bold">{{pago.ic_nombre}} $:</span>
                                     </div>
                                     <div class="col-md-7">
                                         <input type="number" class="form-control form-control-sm"
@@ -474,7 +474,7 @@
                                 <i class="fa fa-save"></i>
                                 Guardar
                             </button>
-                            <button class="ml-3 btn btn-outline-secondary" (click)="cancelarCreaPlan()"><i
+                            <button class="ms-3 btn btn-outline-secondary" (click)="cancelarCreaPlan()"><i
                                     class="fa fa-times"></i> Cancelar
                             </button>
                         </div>

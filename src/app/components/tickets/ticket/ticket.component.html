@@ -15,7 +15,7 @@
         </div>
         <div class="col-md-5">
             <div>
-                <p class="quitaPaddingMargin font-weight-light">Tipo:</p>
+                <p class="quitaPaddingMargin fw-light">Tipo:</p>
                 <div class="p-fluid">
                     <p-multiSelect [options]="servicios" [(ngModel)]="selectedServices" [filter]="false"
                                    defaultLabel="Filtrar por tipo de servicio"
@@ -25,7 +25,7 @@
         </div>
         <div class="col-md-2">
             <div>
-                <p class="quitaPaddingMargin font-weight-light">Sección:</p>
+                <p class="quitaPaddingMargin fw-light">Sección:</p>
                 <div class="p-fluid">
                     <p-dropdown [options]="secciones" [(ngModel)]="selectedSection" (onChange)="loadGrid()"
                                 optionLabel="sec_nombre"
@@ -84,7 +84,7 @@
         <ng-template pTemplate="footer">
             <tr>
                 <td [colSpan]="cols.length-1">
-                    <span class="font-weight-bold">Total:  </span>
+                    <span class="fw-bold">Total:  </span>
                 </td>
                 <td>{{total}}</td>
                 <td></td>

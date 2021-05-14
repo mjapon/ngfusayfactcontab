@@ -33,10 +33,10 @@ import {Component, Input} from '@angular/core';
                 <tbody>
                 <tr *ngFor="let fila of detalles" class="hand">
                     <td>
-                        <span class="font-weight-normal fontsizesm">{{fila.ic_code}}</span>
+                        <span class="fw-normal fontsizesm">{{fila.ic_code}}</span>
                     </td>
                     <td>
-                        <span class="font-weight-bold fontsizesm">{{fila.ic_nombre}}</span>
+                        <span class="fw-bold fontsizesm">{{fila.ic_nombre}}</span>
                     </td>
                     <td>
                         <span class="fontsizesm">{{fila.dt_cant}}</span>
@@ -56,7 +56,7 @@ import {Component, Input} from '@angular/core';
                     </td>
                     <td>
                         <div class="d-flex flex-row-reverse">
-                            <span class="fontsizesm font-weight-bold">{{fila.dt_valor|number:'.2'}}</span>
+                            <span class="fontsizesm fw-bold">{{fila.dt_valor|number:'.2'}}</span>
                         </div>
                     </td>
                 </tr>

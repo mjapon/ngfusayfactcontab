@@ -127,11 +127,12 @@
 
                         <div class="w-100 mt-4" *ngIf="historias.length>0">
                             <div>
-                                <button class="btn btn-link btn-sm" (click)="toggleAcordion('citasPanel')"
+                                <button class="btn btn-link btn-sm" data-bs-toggle="collapse"
+                                        data-bs-target="#citasPanel"
                                         *ngIf="historias.length>0">
                                     <i class="fa fa-history"></i>
                                     Citas Anteriores <span
-                                        class="badge badge-pill badge-primary">{{historias.length}}</span></button>
+                                        class="badge rounded-pill bg-primary">{{historias.length}}</span></button>
                             </div>
 
                             <div id="citasPanel" class="collapse">
@@ -144,7 +145,8 @@
                                             <th scope="col" class="quitaPaddingTB">Próxima Cita</th>
                                             <th scope="col" class="quitaPaddingTB">
                                                 <button type="button" class="btn btn-sm btn-outline-primary"
-                                                        (click)="toggleAcordion('citasPanel')"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#citasPanel"
                                                         title="Cerrar ">
                                                     <i class="fa fa-times"></i>
                                                 </button>
@@ -357,7 +359,7 @@
                             <div class="row my-1 mx-md-3" *ngFor="let it of form.examsfisicos.slice(0,4)">
                                 <div class="col-12">
                                     <span>{{it.cmtv_valor}}</span>
-                                    <span class="badge badge-light">{{it.cmtv_unidad}}</span>:
+                                    <span class="badge bg-light">{{it.cmtv_unidad}}</span>:
                                 </div>
                                 <div class="col-12">
                                     <div *ngIf="it.cmtv_tinput===1">
@@ -389,7 +391,7 @@
                                  *ngFor="let it of form.examsfisicos.slice(4,9)">
                                 <div class="col-12">
                                     <span>{{it.cmtv_valor}}</span>
-                                    <span class="badge badge-light">{{it.cmtv_unidad}}</span>:
+                                    <span class="badge bg-light">{{it.cmtv_unidad}}</span>:
                                 </div>
                                 <div class="col-12">
                                     <div *ngIf="it.cmtv_tinput===1">
@@ -540,11 +542,11 @@
                         <span *ngIf="lastCita.ct_id>0">
                             {{lastCita.texto}}
                         </span>
-                            <button class="ml-2 btn btn-outline-warning" *ngIf="lastCita.ct_id>0"
+                            <button class="ms-2 btn btn-outline-warning" *ngIf="lastCita.ct_id>0"
                                     (click)="anularCita()" [disabled]="saved">
                                 Anular
                             </button>
-                            <button class="ml-2 btn btn-outline-primary" *ngIf="!lastCita.ct_id"
+                            <button class="ms-2 btn btn-outline-primary" *ngIf="!lastCita.ct_id"
                                     (click)="showModalCalendar()" [disabled]="saved"><i
                                     class="fas fa-calendar"></i>
                                 Agendar

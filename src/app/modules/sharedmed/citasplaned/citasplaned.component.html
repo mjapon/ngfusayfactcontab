@@ -1,4 +1,4 @@
-<div class="d-md-flex justify-content-between pt-1 pb-3 pl-2">
+<div class="d-md-flex justify-content-between pt-1 pb-3 ps-2">
     <div class="d-md-flex justify-content-start">
         <div class="d-md-flex">
             <div class="btn-group btn-group-sm" role="group">
@@ -28,14 +28,14 @@
             </div>
         </div>
 
-        <div *ngIf="tipoFiltro>0" class="ml-3">
+        <div *ngIf="tipoFiltro>0" class="ms-3">
             <span class="fontsizesm">Filtro aplicado: {{fechasstr}}</span>
-            <button class="btn btn-sm btn-outline-secondary ml-2" title="Limpiar filtro"
+            <button class="btn btn-sm btn-outline-secondary ms-2" title="Limpiar filtro"
                     (click)="clearFiltro()">
                 <i class="fa fa-times"></i>
             </button>
         </div>
-        <div class="ml-3">
+        <div class="ms-3">
             <div class="p-fluid">
                 <p-dropdown [options]="personsCita"
                             placeholder="Seleccione el calendario a mostrar"

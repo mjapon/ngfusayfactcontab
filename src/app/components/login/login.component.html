@@ -4,19 +4,19 @@
             <h2 class="title"> Ingreso al sistema </h2>
             <div>
                 <form [formGroup]="loginForm" (ngSubmit)="onclickSubmit()">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <input type="text" class="form-control form-control-lg" id="empresaInput"
                                aria-describedby="emailHelp"
                                placeholder="Ingrese el codigo de la empresa" name="empresa" formControlName="empresa"
                                [ngClass]="{'is-invalid':submited && f.empresa.errors}">
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         <input type="email" class="form-control form-control-lg" id="usernameInput"
                                aria-describedby="emailHelp"
                                placeholder="Ingrese el  nombre de usuario" name="username" formControlName="username"
                                [ngClass]="{'is-invalid':submited && f.username.errors}">
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         <input type="password" class="form-control form-control-lg" id="passwordInput"
                                name="password"
                                placeholder="Ingrese la clave" formControlName="password"

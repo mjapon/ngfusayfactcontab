@@ -63,7 +63,7 @@ import {SwalService} from '../../../../services/swal.service';
                         <tr class="hand" [ttSelectableRow]="rowNode">
                             <td class="quitaPadding">
                                 <span [style]="getfuente(rowNode.node)"
-                                      class="ml-3"> {{rowNode.node.dbdata.ic_code}} </span>
+                                      class="ms-3"> {{rowNode.node.dbdata.ic_code}} </span>
                             </td>
                             <td class="quitaPadding">
                                 <span [style]="getfuente(rowNode.node)"> {{rowNode.node.dbdata.ic_nombre}} </span>
@@ -88,42 +88,42 @@ import {SwalService} from '../../../../services/swal.service';
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <span class="font-weight-bold">ACTIVOS:</span>
+                                        <span class="fw-bold">ACTIVOS:</span>
                                     </td>
                                     <td>
-                                        <span class="font-weight-bold"> {{parents['1'].total| number: '.2'}}</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="font-weight-bold">PASIVOS:</span>
-                                    </td>
-                                    <td>
-                                        <span class="font-weight-bold">{{getabs(parents['2'].total)| number: '.2'}} </span>
+                                        <span class="fw-bold"> {{parents['1'].total| number: '.2'}}</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <span class="font-weight-bold">PATRIMONIO:</span>
+                                        <span class="fw-bold">PASIVOS:</span>
                                     </td>
                                     <td>
-                                        <span class="font-weight-bold">{{ getabs(parents['3'].total) | number: '.2'}} </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="font-weight-bold">RESULTADO DEL EJERCICIO:</span>
-                                    </td>
-                                    <td>
-                                        <span class="font-weight-bold">{{ getabs(resultadoejercicio)  | number: '.2'}} </span>
+                                        <span class="fw-bold">{{getabs(parents['2'].total)| number: '.2'}} </span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <span class="font-weight-bold">ACTIVO = PASIVO + PATRIMONIO:</span>
+                                        <span class="fw-bold">PATRIMONIO:</span>
                                     </td>
                                     <td>
-                                        <span class="font-weight-bold">{{parents['1'].total| number: '.2'}}
+                                        <span class="fw-bold">{{ getabs(parents['3'].total) | number: '.2'}} </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="fw-bold">RESULTADO DEL EJERCICIO:</span>
+                                    </td>
+                                    <td>
+                                        <span class="fw-bold">{{ getabs(resultadoejercicio)  | number: '.2'}} </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="fw-bold">ACTIVO = PASIVO + PATRIMONIO:</span>
+                                    </td>
+                                    <td>
+                                        <span class="fw-bold">{{parents['1'].total| number: '.2'}}
                                             = {{getabs(parents['2'].total)| number: '.2'}}
                                             + {{getabs(parents['3'].total)| number: '.2'}}
                                             + {{getabs(resultadoejercicio)| number: '.2'}}

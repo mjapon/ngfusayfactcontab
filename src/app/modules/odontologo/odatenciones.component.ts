@@ -10,7 +10,7 @@ import {DomService} from '../../services/dom.service';
         <div>
             <div *ngIf="codPaciente>0" class="mt-3">
                 <div class="d-flex" *ngIf="!showform">
-                    <h5 *ngIf="anteriones.length>0" class="mr-5"><i class="fa fa-history"></i>
+                    <h5 *ngIf="anteriones.length>0" class="me-5"><i class="fa fa-history"></i>
                         Atenciones Realizadas <span
                                 class="badge badge-pill badge-primary">{{anteriones.length}}</span>
                     </h5>
@@ -22,7 +22,7 @@ import {DomService} from '../../services/dom.service';
                 </h5>
 
                 <div *ngIf="showform" class="border mt-3">
-                    <div class="pl-5 pr-5 pt-2 pb-2">
+                    <div class="ps-5 pe-5 pt-2 pb-2">
                         <h4 class="mt-2 mb-2 text-muted">Registrar nueva atención</h4>
                         <div class="row dato-fila">
                             <div class="col-12">
@@ -48,7 +48,7 @@ import {DomService} from '../../services/dom.service';
                             <button class="btn btn-outline-primary" (click)="guardar()"><i class="fa fa-save"></i>
                                 Guardar
                             </button>
-                            <button class="ml-3 btn btn-outline-secondary" (click)="cancelar()"><i
+                            <button class="ms-3 btn btn-outline-secondary" (click)="cancelar()"><i
                                     class="fa fa-times"></i>
                                 Cancelar
                             </button>

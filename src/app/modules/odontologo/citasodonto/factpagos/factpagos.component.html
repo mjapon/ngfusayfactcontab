@@ -1,14 +1,14 @@
 <div *ngIf="!isShowFormCreaFact">
     <div class="card rounded mt-2">
         <div class="m-1 d-flex justify-content-between">
-            <span class="font-weight-light">Facturas de {{clase === 1 ? 'venta' : 'compra'}}</span>
-            <button class="ml-md-3 btn btn-outline-primary btn-sm" (click)="showFormCreaFact(7, $event)"
+            <span class="fw-light">Facturas de {{clase === 1 ? 'venta' : 'compra'}}</span>
+            <button class="ms-md-3 btn btn-outline-primary btn-sm" (click)="showFormCreaFact(7, $event)"
                     *ngIf="clase===2">
                 <i class="fa fa-plus-circle"></i> Crear
             </button>
-            <div class="ml-md-3 btn-group btn-group-sm dropright" *ngIf="clase===1">
+            <div class="ms-md-3 btn-group btn-group-sm dropend" *ngIf="clase===1">
                 <button type="button" class="btn btn-outline-primary dropdown-toggle"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-plus-circle"></i> Crear
                 </button>
                 <div class="dropdown-menu" style="">
@@ -85,21 +85,21 @@
                     <tr>
                         <td colspan="3">
                             <div class="d-flex flex-row-reverse">
-                                <span class="fontsizenr font-weight-bold">
+                                <span class="fontsizenr fw-bold">
                                 Total: </span>
                             </div>
 
                         </td>
                         <td>
-                            <span class="fontsizenr font-weight-bold">
+                            <span class="fontsizenr fw-bold">
                                 {{totales.efectivo}} </span>
                         </td>
                         <td>
-                            <span class="fontsizenr font-weight-bold">
+                            <span class="fontsizenr fw-bold">
                                 {{totales.credito}} </span>
                         </td>
                         <td>
-                            <span class="fontsizenr font-weight-bold">
+                            <span class="fontsizenr fw-bold">
                                 {{totales.total}} </span>
                         </td>
                         <td>

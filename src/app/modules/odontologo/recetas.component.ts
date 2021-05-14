@@ -14,7 +14,7 @@ import {DomService} from '../../services/dom.service';
                     <div class="col-md-8 offset-md-2">
                         <div class="card border-success">
                             <div class="card-header">
-                                <span class="font-weight-bold">
+                                <span class="fw-bold">
                                     {{form.rec_id > 0 ? 'Editar receta' : 'Crear receta'}}
                                 </span>
                             </div>
@@ -89,17 +89,17 @@ import {DomService} from '../../services/dom.service';
                                         </div>
                                         <div class="col-md-2 d-flex flex-column justify-content-end">
                                             <div class="d-flex flex-row-reverse">
-                                                <button class="ml-2 btn btn-outline-secondary btn-sm"
+                                                <button class="ms-2 btn btn-outline-secondary btn-sm"
                                                         (click)="imprimir(receta)"
                                                         title="Imprimir">
                                                     <i class="fa fa-print"></i>
                                                 </button>
-                                                <button class="ml-2 btn btn-outline-secondary btn-sm"
+                                                <button class="ms-2 btn btn-outline-secondary btn-sm"
                                                         (click)="anular(receta)"
                                                         title="Anular ">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
-                                                <button class="ml-2 btn btn-outline-secondary btn-sm"
+                                                <button class="ms-2 btn btn-outline-secondary btn-sm"
                                                         (click)="editar(receta)"
                                                         title="Editar ">
                                                     <i class="fa fa-edit"></i>

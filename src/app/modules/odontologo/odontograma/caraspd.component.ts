@@ -1,8 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ToolsDienteService} from '../../../services/toolsdiente.service';
 
-declare var $: any;
-
 @Component({
     selector: 'app-caraspd',
     template: `

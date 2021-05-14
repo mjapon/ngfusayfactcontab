@@ -29,7 +29,7 @@
                                 <div class="col-md-8">
                                     <div class="row">
                                         <div class="col-md">
-                                            <div class="form-group">
+                                            <div class="mb-3">
                                                 <label>Tipo:</label>
                                                 <br>
                                                 <p-selectButton [options]="tiposArt"
@@ -41,7 +41,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md">
-                                            <div class="form-group">
+                                            <div class="mb-3">
                                                 <label>Graba Iva:</label>
                                                 <br>
                                                 <p-selectButton [options]="ivas"
@@ -53,15 +53,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="codbarraInput">
+                                    <div class="mb-3">
+                                        <label for="codbarraInput" class="form-label">
                                             <span class="required">*</span>Código: <span *ngIf="!editing"
-                                                                                         class="hand badge {{artCodAutomatic?'badge-primary':'badge-secondary'}} "
+                                                                                         class="hand badge {{artCodAutomatic?'bg-primary':'bg-secondary'}} "
                                                                                          (click)="generarCodigoBarra()"
                                                                                          title="Seleccione esta opción si desea que el sistema genere el código para el producto o servicio">
                                         <i class="fa fa-check" *ngIf="artCodAutomatic"></i>Automático </span>
                                             <span *ngIf="editing" (click)="showModalEditBarcode()"
-                                                  class="badge badge-info"
+                                                  class="badge bg-info"
                                                   title="Editar el código de barra"> <i
                                                     class="fa fa-edit hand"> </i> </span>
                                         </label>
@@ -78,7 +78,7 @@
                                                [ngClass]="{'is-invalid':submited && fieldHasError('ic_code')}">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="nombreInput">
                                             <span class="required">*</span>Nombre:</label>
                                         <br>
@@ -95,10 +95,10 @@
 
                                     <div class="row" *ngIf="artForm.tipic_id && artForm.tipic_id.value===1">
                                         <div class="col-md">
-                                            <div class="form-group">
+                                            <div class="mb-3">
                                                 <label for="precioCompraInput">
                                                     <span class="required">*</span>
-                                                    Precio Compra <span class="badge badge-light"
+                                                    Precio Compra <span class="badge bg-light"
                                                                         *ngIf="artForm.icdp_grabaiva && artForm.icdp_grabaiva.value">(Sin Iva)</span>:</label>
                                                 <br>
                                                 <input type="text"
@@ -120,10 +120,10 @@
                                         </div>
                                         <div class="col-md"
                                              *ngIf="artForm.icdp_grabaiva && artForm.icdp_grabaiva.value">
-                                            <div class="form-group">
+                                            <div class="mb-3">
                                                 <label for="precioCompraInput">
                                                     <span class="required">*</span>
-                                                    Precio Compra <span class="badge badge-light"> (Con Iva) </span>
+                                                    Precio Compra <span class="badge bg-light"> (Con Iva) </span>
                                                     :</label>
                                                 <br>
                                                 <input type="text"
@@ -139,12 +139,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="precioVentaInput">
                                             <span class="required">*</span>Precio Venta: <span
                                                 *ngIf="artForm.tipic_id && artForm.tipic_id.value===1"
                                                 (click)="toggleAsistentePrecios()"
-                                                class="hand badge {{isShowAsistPre?'badge-primary':'badge-secondary'}}"
+                                                class="hand badge {{isShowAsistPre?'bg-primary':'bg-secondary'}}"
                                                 title="Muestra el asitente para establecimiento de precios de un producto">Asistente de precios</span>
                                         </label>
                                         <br>
@@ -198,10 +198,10 @@
                                             </tr>
                                             </tbody>
                                         </table>
-                                        <span class="hand badge badge-primary" (click)="toggleAsistentePrecios()"
+                                        <span class="hand badge bg-primary" (click)="toggleAsistentePrecios()"
                                               title="Cierra el asistente de precios">Cerrar</span>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="ic_nota">Observación:</label>
                                         <br>
                                         <textarea pInputTextarea maxlength="1000" class="form-control"
@@ -213,7 +213,7 @@
                                 </div>
                                 <div class="col-md-4">
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="catic_id">Categoría:
                                             <span class="btn btn-sm btn-outline-secondary hand" title="Crear categoría"
                                                   (click)="showModalCreaCateg()"> <i
@@ -228,7 +228,7 @@
                                                     inputId="catic_id"></p-dropdown>
                                     </div>
 
-                                    <div class="form-group" *ngIf="artForm.tipic_id && artForm.tipic_id.value===1">
+                                    <div class="mb-3" *ngIf="artForm.tipic_id && artForm.tipic_id.value===1">
                                         <label for="icdp_proveedor">Proveedor:</label>
                                         <br>
                                         <p-dropdown [options]="proveedores" id="icdp_proveedor"
@@ -237,7 +237,7 @@
                                                     optionValue="per_id" inputId="icdp_proveedor"></p-dropdown>
                                     </div>
 
-                                    <div class="form-group" *ngIf="artForm.tipic_id && artForm.tipic_id.value===1">
+                                    <div class="mb-3" *ngIf="artForm.tipic_id && artForm.tipic_id.value===1">
                                         <label for="icdp_fechacaducidad">Fecha de caducidad:</label>
                                         <br>
                                         <p-calendar [(ngModel)]="artForm.icdp_fechacaducidad.value"
@@ -259,7 +259,7 @@
                                         </label>
                                     </div>
 
-                                    <div class="font-weight-light mt-2"
+                                    <div class="fw-light mt-2"
                                          title="Elija las secciones en las que va ha estar disponible este producto o servicio">
                                         Secciones:
                                     </div>
@@ -268,11 +268,11 @@
                                             <p-checkbox [inputId]="itsec.seccion.sec_id" binary="true"
                                                         [(ngModel)]="itsec.value"></p-checkbox>
                                             <label [for]="itsec.seccion.sec_id"
-                                                   class="ml-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
+                                                   class="ms-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
                                         </div>
                                     </div>
 
-                                    <div class="form-group mt-2">
+                                    <div class="mb-3 mt-2">
                                         <label for="icdp_proveedor">Modelo Contable:</label>
                                         <br>
                                         <p-dropdown [options]="modscontabs" id="icdp_modcontab"
@@ -281,13 +281,13 @@
                                                     optionValue="mc_id" inputId="icdp_modcontab"></p-dropdown>
                                     </div>
 
-                                    <div class="mt-2">
-                                        <button type="button" class="btn btn-outline-primary  btn-block"
+                                    <div class="mt-2 d-grid gap-2">
+                                        <button type="button" class="btn btn-outline-primary"
                                                 (click)="procesaForm()">
                                             <i class="fa fa-save"></i>
                                             Guardar
                                         </button>
-                                        <button type="button" class="btn btn-outline-secondary  btn-block"
+                                        <button type="button" class="btn btn-outline-secondary"
                                                 (click)="cancelar()">
                                             <i class="fa fa-times"></i>
                                             Cancelar
@@ -319,15 +319,17 @@
                                 </div>
                             </div>
                             <div class="col-md">
-                                <button type="button" class="btn btn-outline-primary  btn-block"
-                                        (click)="guardarStock()">
-                                    <i class="fa fa-save"></i>
-                                    Guardar
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary  btn-block" (click)="cancelar()">
-                                    <i class="fa fa-times"></i>
-                                    Cancelar
-                                </button>
+                                <div class="d-grid gap-2">
+                                    <button type="button" class="btn btn-outline-primary"
+                                            (click)="guardarStock()">
+                                        <i class="fa fa-save"></i>
+                                        Guardar
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary" (click)="cancelar()">
+                                        <i class="fa fa-times"></i>
+                                        Cancelar
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </p-tabPanel>
@@ -336,47 +338,41 @@
         </div>
     </div>
 
-    <div class="modal" tabindex="-1" role="dialog" id="modalEditBarcode">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Editar código de barra</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label> Codigo anterior: </label>
-                        </div>
-                        <div class="col-md">
-                            <span> {{artFromDb.ic_code}} </span>
-                        </div>
+    <div *ngIf="isModalEditBC">
+        <p-dialog header="Editar código de barra" [modal]="true" [style]="{width: '70vw'}"
+                  [(visible)]="isModalEditBC">
+            <div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label> Codigo anterior: </label>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label> Nuevo Código: </label>
-                        </div>
-                        <div class="col-md">
-                            <input type="text" class="form-control auxNuevoBarcode"
-                                   aria-describedby="Código de barra"
-                                   maxlength="80"
-                                   autocomplete="off"
-                                   [(ngModel)]="nuevoBarcode"
-                                   placeholder="Ingrese el nuevo código">
-                        </div>
+                    <div class="col-md">
+                        <span> {{artFromDb.ic_code}} </span>
                     </div>
-
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" (click)="guardaNuevoBarcode()">Guardar</button>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label> Nuevo Código: </label>
+                    </div>
+                    <div class="col-md">
+                        <input type="text" class="form-control auxNuevoBarcode"
+                               aria-describedby="Código de barra"
+                               maxlength="80"
+                               autocomplete="off"
+                               [(ngModel)]="nuevoBarcode"
+                               placeholder="Ingrese el nuevo código">
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+            <p-footer>
+                <div class="d-flex flex-row-reverse">
+                    <button type="button" class="btn btn-secondary" (click)="isModalEditBC=false">Cancelar</button>
+                    <button type="button" class="btn btn-primary" (click)="guardaNuevoBarcode()">Guardar</button>
+                </div>
+            </p-footer>
 
+        </p-dialog>
+    </div>
 
     <div *ngIf="isModalCatVisible">
         <p-dialog header="Datos de la categoría" [modal]="true" [style]="{width: '70vw'}" [baseZIndex]="10000"
@@ -384,7 +380,7 @@
             <div>
                 <div class="row">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Nombre: </span>
+                        <span class="fw-light"> Nombre: </span>
                     </div>
                     <div class="col-md">
                         <input type="text" class="form-control" [(ngModel)]="formcat.catic_nombre">
@@ -393,7 +389,7 @@
 
                 <div class="row mt-2 mb-4">
                     <div class="col-md-4">
-                        <span class="font-weight-light"> Modelo Contable: </span>
+                        <span class="fw-light"> Modelo Contable: </span>
                     </div>
                     <div class="col-md">
                         <p-dropdown [options]="modscontabs" optionLabel="mc_nombre"
@@ -407,7 +403,7 @@
                     <button class="btn btn-outline-primary" (click)="doSaveCat()"><i class="fa fa-save"></i>
                         Guardar
                     </button>
-                    <button class="ml-3 btn btn-outline-secondary" (click)="cancelSaveCat()"><i
+                    <button class="ms-3 btn btn-outline-secondary" (click)="cancelSaveCat()"><i
                             class="fa fa-times"></i> Cancelar
                     </button>
                 </div>

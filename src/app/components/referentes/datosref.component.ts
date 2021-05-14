@@ -24,7 +24,7 @@ import {forkJoin} from 'rxjs';
         `],
     template: `
         <div>
-            <div *ngIf="!editando" class="ml-2">
+            <div *ngIf="!editando" class="ms-2">
                 <div class="row">
                     <div class="col-md-4 d-flex flex-column">
                         <div class="d-flex flex-column mt-2">
@@ -343,7 +343,7 @@ import {forkJoin} from 'rxjs';
                     <button class="btn btn-outline-primary" (click)="guardaDatosPaciente()">
                         <i class="fa fa-save"></i> Guardar
                     </button>
-                    <button class="ml-4 btn btn-outline-primary" (click)="cancelarRegistro()"
+                    <button class="ms-4 btn btn-outline-primary" (click)="cancelarRegistro()"
                             *ngIf="codPaciente===0 || editando">
                         <i class="fa fa-times"></i> Cancelar
                     </button>

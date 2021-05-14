@@ -22,16 +22,16 @@ import {TcitaService} from '../../../services/tcita.service';
             </p>
         </div>
         <div *ngIf="!showAnim">
-            <div class="ml-5 mr-5">
+            <div class="ms-5 me-5">
                 <div class="d-flex w-100">
                     <div class="colcal" style="background-color:{{datosCita.ct_color}}"></div>
-                    <div class="ml-3 d-flex flex-column w-100">
+                    <div class="ms-3 d-flex flex-column w-100">
                         <div> {{datosCita.ct_titulo}} </div>
                         <div class="d-flex ">
                             <div>
                                 {{datosCita.ct_fecha}}
                             </div>
-                            <div class="ml-5">
+                            <div class="ms-5">
                                 {{datosCita.ct_hora_str}} - {{datosCita.ct_hora_fin_str}}
                             </div>
                         </div>

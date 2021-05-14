@@ -12,7 +12,7 @@
             <div class="col-md-5">
                 <div class="row">
                     <div class="col-md-4 ">
-                        <span class="font-weight-normal fontsizenr">
+                        <span class="fw-normal fontsizenr">
                             <span class="text-rojo">*</span>
                             Ci/Ruc: </span>
                     </div>
@@ -36,7 +36,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-4 ">
-                        <span class="font-weight-normal fontsizenr"> <span class="text-rojo">*</span>Nombres: </span>
+                        <span class="fw-normal fontsizenr"> <span class="text-rojo">*</span>Nombres: </span>
                     </div>
                     <div class="col-md">
                         <input type="text" class="form-control" id="per_nombres" [(ngModel)]="formref.per_nombres"
@@ -46,7 +46,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-4 ">
-                        <span class="font-weight-normal fontsizenr"> <span class="text-rojo">*</span>Apellidos: </span>
+                        <span class="fw-normal fontsizenr"> <span class="text-rojo">*</span>Apellidos: </span>
                     </div>
                     <div class="col-md">
                         <input type="text" maxlength="40" class="form-control" autocomplete="off"
@@ -56,7 +56,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-4 ">
-                        <span class="font-weight-normal fontsizenr"> Celular: </span>
+                        <span class="fw-normal fontsizenr"> Celular: </span>
                     </div>
                     <div class="col-md">
                         <input type="text" class="form-control" maxlength="20" [(ngModel)]="formref.per_movil">
@@ -65,7 +65,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-4 ">
-                        <span class="font-weight-normal fontsizenr"> Email: </span>
+                        <span class="fw-normal fontsizenr"> Email: </span>
                     </div>
                     <div class="col-md">
                         <input type="text" class="form-control" maxlength="30" [(ngModel)]="formref.per_email"
@@ -75,7 +75,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-4 ">
-                        <span class="font-weight-normal fontsizenr"> Fecha de nacimiento (dd/mm/aaaa): </span>
+                        <span class="fw-normal fontsizenr"> Fecha de nacimiento (dd/mm/aaaa): </span>
                     </div>
                     <div class="col-md p-fluid">
                         <p-calendar id="per_fechanac"
@@ -95,13 +95,13 @@
                         <div>
                             <div class="alert alert-info" *ngIf="isTercedad">
                                 <span class="fa fa-info-circle"></span> <span
-                                    class="font-weight-bold"> Adulto Mayor </span>
+                                    class="fw-bold"> Adulto Mayor </span>
                             </div>
                             <div>
                                 <div class="p-field-checkbox d-flex flex-row align-items-start">
                                     <p-checkbox id="consfinalinput" binary="true" name="consfinalinput" inputId="binary"
                                                 [(ngModel)]="form.cna_teredad"></p-checkbox>
-                                    <label class="ml-2 hand fontsizenr" (click)="toggleTercedad()">Tarifa
+                                    <label class="ms-2 hand fontsizenr" (click)="toggleTercedad()">Tarifa
                                         Tercera Edad</label>
                                 </div>
                             </div>
@@ -112,7 +112,7 @@
             <div class="col-md-5">
                 <div class="row">
                     <div class="col-md">
-                        <span class="font-weight-normal fontsizenr">
+                        <span class="fw-normal fontsizenr">
                             <span class="text-rojo">*</span>Tarifa: </span>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-4">
-                        <span class="font-weight-normal fontsizenr "> <span
+                        <span class="fw-normal fontsizenr "> <span
                                 class="text-rojo">*</span>Num. Medidor: </span>
                     </div>
                     <div class="col-md">
@@ -142,7 +142,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-4">
-                        <span class="font-weight-normal fontsizenr "> <span
+                        <span class="fw-normal fontsizenr "> <span
                                 class="text-rojo">*</span>Comunidad: </span>
                     </div>
                     <div class="col-md p-fluid">
@@ -156,7 +156,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-4">
-                        <span class="font-weight-normal fontsizenr "> Sector: </span>
+                        <span class="fw-normal fontsizenr "> Sector: </span>
                     </div>
                     <div class="col-md">
                         <input type="text" class="form-control" [(ngModel)]="form.cna_sector" maxlength="30">
@@ -165,7 +165,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-4">
-                        <span class="font-weight-normal fontsizenr "> <span
+                        <span class="fw-normal fontsizenr "> <span
                                 class="text-rojo">*</span>Dirección Servicio: </span>
                     </div>
                     <div class="col-md">
@@ -176,7 +176,7 @@
 
                 <div class="row mt-2">
                     <div class="col-md-4">
-                        <span class="font-weight-normal fontsizenr "> Referencia: </span>
+                        <span class="fw-normal fontsizenr "> Referencia: </span>
                     </div>
                     <div class="col-md">
                         <input type="text" class="form-control" [(ngModel)]="form.cna_referencia" maxlength="500">
@@ -184,7 +184,7 @@
                 </div>
                 <div class="row mt-2">
                     <div class="col-md-4">
-                        <span class="font-weight-normal fontsizenr "> Costo Instalación <i class="fa fa-dollar"></i> : </span>
+                        <span class="fw-normal fontsizenr "> Costo Instalación <i class="fa fa-dollar"></i> : </span>
                     </div>
                     <div class="col-md">
                         <div class="p-fluid">
