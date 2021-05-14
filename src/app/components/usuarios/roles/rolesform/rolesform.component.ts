@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {SwalService} from '../../../../services/swal.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
 import {RolService} from '../../../../services/rol.service';
-import {CadenasutilService} from '../../../../services/cadenasutil.service';
+import {CadsUtilService} from '../../../../services/cads-util.service';
 import {DomService} from '../../../../services/dom.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class RolesformComponent implements OnInit {
                 private route: ActivatedRoute,
                 private swalService: SwalService,
                 private rolesService: RolService,
-                private cadsUtilService: CadenasutilService,
+                private cadsUtilService: CadsUtilService,
                 private domService: DomService,
                 private loadingUiService: LoadingUiService) {
     }

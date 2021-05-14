@@ -48,8 +48,7 @@ export class CredrefformComponent implements OnInit, OnChanges {
     ontiposel(fila: any) {
         const idx = this.form.motivos.indexOf(fila);
         this.domService.setFocusTimeout(`tipo_valor_${idx}`, 100);
-        const defvalue = this.auxGetMontoFila(this.form.motivos, idx);
-        fila.dt_valor = defvalue;
+        fila.dt_valor = this.auxGetMontoFila(this.form.motivos, idx);
     }
 
     removeCuenta(fila) {

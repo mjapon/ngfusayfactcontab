@@ -67,12 +67,7 @@ export class AbonosviewComponent implements OnInit, OnChanges {
     onFacturaLoaded($event) {
         this.isFacturaLoaded = true;
         this.datosFactura = $event;
-        this.tracodabono = 8; // Por defecto abono de factura de venta
-
         const tracod = this.datosFactura.tasiento.tra_codigo;
-        if (tracod === 7) {
-            this.tracodabono = 9;
-        }
         this.isTransaccFact = tracod === 1 || tracod === 2 || tracod === 7;
     }
 
@@ -81,6 +76,11 @@ export class AbonosviewComponent implements OnInit, OnChanges {
         this.creditoService.getDatosCredito(this.codCredito).subscribe(res => {
             if (res.status === 200) {
                 this.datosCredito = res.datoscred;
+                if (this.datosCredito.ic_clasecc === 'XC') {
+                    this.tracodabono = 8;
+                } else if (this.datosCredito.ic_clasecc === 'XP') {
+                    this.tracodabono = 9;
+                }
                 this.isShowAnim = false;
             }
         });

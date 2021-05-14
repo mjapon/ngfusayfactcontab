@@ -80,8 +80,7 @@ export class FechasService {
     }
 
     parseString(dateString): Date {
-        const parsedDate = parse(dateString, this.formatoFecha, new Date());
-        return parsedDate;
+        return parse(dateString, this.formatoFecha, new Date());
     }
 
     sumarDias(fecha, dias) {

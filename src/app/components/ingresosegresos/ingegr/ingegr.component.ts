@@ -257,19 +257,6 @@ export class IngegrComponent implements OnInit {
         });
     }
 
-    loadCuentas() {
-        const tiposel = this.formfiltros.tipo;
-        this.cuentas = [];
-        if (tiposel > 0) {
-            this.loadingUiService.publishBlockMessage();
-            this.billmovService.getCuentasBytTipo(tiposel).subscribe(res => {
-                if (res.status === 200) {
-                    this.cuentas = res.cuentas;
-                }
-            });
-        }
-    }
-
     onDesdeChange($event: any) {
 
     }

@@ -436,19 +436,7 @@ export class DatosrefComponent implements OnInit, OnChanges {
     }
 
     loadDataPerson(persona: any) {
-        for (const prop in persona) {
-            if (persona.hasOwnProperty(prop)) {
-                this.paciente[prop] = persona[prop];
-            }
-        }
-
-        this.paciente.per_fechanac = null;
-
-        if (persona.per_fechanac && persona.per_fechanac.trim().length > 0) {
-            this.paciente.per_fechanacstr = persona.per_fechanac;
-            this.paciente.per_fechanac = this.fechasService.parseString(persona.per_fechanac);
-        }
-
+        this.personaService.loadDataToform(this.paciente, persona);
         if (this.paciente.per_genero) {
             this.paciente.per_genero = persona.per_genero.toString();
         }
@@ -504,7 +492,6 @@ export class DatosrefComponent implements OnInit, OnChanges {
                 this.datosPacienteFull = res.persona;
                 this.pacienteLoaded.emit(res.persona);
                 if (res.persona.per_tipo !== 3) {
-                    // TODO: Verificar si tipo de empresa es solo comercial no debe pedir fecha de nacimiento
                     this.datosIncompletos = this.isPersonDataIncomplete(res.persona);
                 }
                 if (this.datosIncompletos && this.datosmedicos) {
@@ -644,13 +631,8 @@ export class DatosrefComponent implements OnInit, OnChanges {
     }
 
     calcularEdad() {
-        let edad = 0;
-        if (this.paciente.per_fechanac) {
-            edad = this.fechasService.getEdad(this.paciente.per_fechanac);
-        }
-        this.paciente.per_edad = {years: edad};
+        this.personaService.setPerEdad(this.paciente);
     }
-
 
     cancelarRegistro() {
         if (this.editando && this.codPaciente > 0) {

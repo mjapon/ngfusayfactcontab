@@ -38,12 +38,12 @@ import {PersonaService} from '../../services/persona.service';
                                 </div>
                                 <div style="width: 90%">
                                     <h6 class="mb-0">{{item.nomapel}}</h6>
-                                    <p class="mb-0 text-muted">
-                                        <h7>{{item.per_ciruc}}</h7>
-                                    </p>
-                                    <p class="mb-0 text-muted">
-                                        <h7>{{item.lugresidencia}}</h7>
-                                    </p>
+                                    <div class="mb-0 text-muted">
+                                        <h6>{{item.per_ciruc}}</h6>
+                                    </div>
+                                    <div class="mb-0 text-muted">
+                                        <h6>{{item.lugresidencia}}</h6>
+                                    </div>
                                 </div>
                                 <div>
                                     <i class="fa fa-chevron-right"></i>

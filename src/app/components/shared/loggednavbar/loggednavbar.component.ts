@@ -128,10 +128,6 @@ export class LoggednavbarComponent implements OnInit {
         });
     }
 
-    hideAppMenu() {
-        this.fautService.publishMessage('hideappmenu');
-    }
-
     loadSeciones() {
         this.secciones = this.fautService.getSecciones();
         this.seccion = this.fautService.getSeccionInfoSaved();

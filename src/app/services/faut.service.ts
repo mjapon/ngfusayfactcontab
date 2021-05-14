@@ -146,8 +146,7 @@ export class FautService extends BaseService {
     }
 
     getAuToken() {
-        const auToken: string = this.localStorageService.getItem('auToken');
-        return auToken;
+        return this.localStorageService.getItem('auToken');
     }
 
     publishMessage(message: string) {

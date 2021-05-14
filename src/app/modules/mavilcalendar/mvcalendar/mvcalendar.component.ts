@@ -213,8 +213,7 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         if (typeof fila === 'number') {
             index = fila - 1;
         }
-        const hora = this.calHoraIni + (index * this.intervalo);
-        return hora;
+        return this.calHoraIni + (index * this.intervalo);
     }
 
     gethoraStr(fila) {
@@ -281,7 +280,7 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         if (y % this.parteshora === 0) {
             cssclass.push('limitehora');
         }
-        const pixelit = {
+        return {
             id: x + ',' + y,
             x,
             y,
@@ -293,7 +292,6 @@ export class MvcalendarComponent implements OnInit, OnChanges {
             dia: this.getDia(x - 1),
             hora: this.getHoraNumber(y)
         };
-        return pixelit;
     }
 
     getancho(pixel) {
@@ -304,8 +302,7 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         const pxY = pixel.px_row;
         const pxYend = pixel.px_row_end;
         const numpxborde = Math.abs(pxY - pxYend) + 1;
-        const altopx = numpxborde * this.altocelda;
-        return altopx;
+        return numpxborde * this.altocelda;
     }
 
     getPixelFromCita(tcita: any) {

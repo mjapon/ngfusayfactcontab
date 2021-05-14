@@ -7,7 +7,7 @@ export class NumberService {
 
     private iva: number;
     private ivaplus: number;
-    private defndigits: number;
+    private readonly defndigits: number;
 
     constructor() {
         this.iva = null;

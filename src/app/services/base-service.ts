@@ -24,14 +24,12 @@ export class BaseService {
 
     protected getHOT(pparams): any {
         const token = this.localStrgServ.getAuthToken();
-        const res = {
+        return {
             headers: {
                 'x-authtoken': token
             },
             params: pparams
         };
-
-        return res;
     }
 
     protected fnProcesaError(e) {

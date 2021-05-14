@@ -1,11 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AsientoService} from '../../../../services/asiento.service';
-import {SwalService} from '../../../../services/swal.service';
 import {startOfMonth} from 'date-fns';
 import {FechasService} from '../../../../services/fechas.service';
-import {LoadingUiService} from '../../../../services/loading-ui.service';
-import {FacturasmsgService} from '../../../../services/facturasmsg.service';
 import {LocalStorageService} from '../../../../services/local-storage.service';
 
 @Component({
@@ -30,10 +27,7 @@ export class FacturaslistComponent implements OnInit {
     constructor(private router: Router,
                 private asientoService: AsientoService,
                 private localStgServ: LocalStorageService,
-                private fechasservice: FechasService,
-                private facturaMsgService: FacturasmsgService,
-                private loadingUiServ: LoadingUiService,
-                private swalService: SwalService) {
+                private fechasservice: FechasService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
 
@@ -65,10 +59,6 @@ export class FacturaslistComponent implements OnInit {
 
     onhastachange() {
 
-    }
-
-    onfiltrofechasel() {
-        this.listar();
     }
 
     filtroDelayFn(context) {
@@ -120,20 +110,6 @@ export class FacturaslistComponent implements OnInit {
 
     onUnRowSelect($event: any) {
 
-    }
-
-    anularRow(rowData) {
-        this.swalService.fireDialog('¿Seguro que desea eliminar esta factura?').then(confirm => {
-            if (confirm.value) {
-                this.loadingUiServ.publishBlockMessage();
-                this.asientoService.anular(rowData.trn_codigo, '').subscribe(res => {
-                    if (res.status === 200) {
-                        this.swalService.fireToastSuccess(res.msg);
-                        this.listar();
-                    }
-                });
-            }
-        });
     }
 
     verRow(rowData) {

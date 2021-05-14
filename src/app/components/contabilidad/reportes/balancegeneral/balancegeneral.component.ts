@@ -226,19 +226,12 @@ export class BalancegeneralComponent implements OnInit {
         }
     }
 
-    getnombrearchivo() {
-        const fechaactual = this.fechasService.formatDate(new Date());
-        return `balancegeneral_${fechaactual}`;
-    }
-
     exportPdf() {
         this.swalService.fireToastInfo('En construcción');
-        // this.reportsContaServ.exportPdf(this.datosbalance, this.form, this.getnombrearchivo(), 'BALANCE GENERAL');
     }
 
     exportExcel() {
         this.swalService.fireToastInfo('En construcción');
-        // this.reportsContaServ.exportExcel(this.datosbalance, this.getnombrearchivo());
     }
 
 }

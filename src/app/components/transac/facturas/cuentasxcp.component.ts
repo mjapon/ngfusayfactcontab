@@ -165,10 +165,6 @@ export class CuentasxcpComponent implements OnInit {
 
     }
 
-    onfiltrofechasel() {
-        this.listar();
-    }
-
     filtroDelayFn(context) {
         context.listar();
     }

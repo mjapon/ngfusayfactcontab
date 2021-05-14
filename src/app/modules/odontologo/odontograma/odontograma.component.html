@@ -26,6 +26,7 @@
                         <ng-container *ngFor="let diente of dentadura.A">
                             <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
                                               [contextMenuDiente]="contextMenuDiente"
+                                              (ondntstatechange)="saveOdontoSilent()"
                                               (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                         </ng-container>
                     </div>
@@ -33,6 +34,7 @@
                         <ng-container *ngFor="let diente of dentadura.B">
                             <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
                                               [contextMenuDiente]="contextMenuDiente"
+                                              (ondntstatechange)="saveOdontoSilent()"
                                               (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                         </ng-container>
                     </div>
@@ -41,6 +43,7 @@
                         <ng-container *ngFor="let diente of dentadura.C">
                             <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
                                               [contextMenuDiente]="contextMenuDiente"
+                                              (ondntstatechange)="saveOdontoSilent()"
                                               (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                         </ng-container>
                     </div>
@@ -48,6 +51,7 @@
                         <ng-container *ngFor="let diente of dentadura.D">
                             <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
                                               [contextMenuDiente]="contextMenuDiente"
+                                              (ondntstatechange)="saveOdontoSilent()"
                                               (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                         </ng-container>
                     </div>
@@ -158,7 +162,7 @@
 
         <div *ngIf="dienteSelected!=null">
             <p-dialog header="Pieza dental Nro: {{dienteSelected.numero}}" [modal]="true" [style]="{width: '90vw'}"
-                      [baseZIndex]="10000"
+                      [baseZIndex]="10000" (visibleChange)="onModalPiezaHide($event)"
                       [(visible)]="modalPiezaVisible">
                 <div class="container-fluid">
                     <div class="row">

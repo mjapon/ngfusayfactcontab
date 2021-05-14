@@ -46,7 +46,12 @@ export class LibrodiariolistComponent implements OnInit {
     }
 
     gotoEditAsiento(fila) {
-        this.router.navigate(['newasiento', fila.trn_codigo]);
+        const msg = '¿Seguro que desea editar este asiento?';
+        this.swalService.fireDialog(msg, '').then(confirm => {
+            if (confirm.value) {
+                this.router.navigate(['newasiento', fila.trn_codigo]);
+            }
+        });
     }
 
     loadLibroDiario() {

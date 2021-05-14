@@ -25,10 +25,6 @@ export class BilleteraService extends BaseService {
         return this._doGet(this.getHOT({accion: 'listar'}));
     }
 
-    listarmin() {
-        return this._doGet(this.getHOT({accion: 'listarmin'}));
-    }
-
     crear(form) {
         return this._doPost(this.getHOT({accion: 'create'}), form);
     }

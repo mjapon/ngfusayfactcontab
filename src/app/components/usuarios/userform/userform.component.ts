@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SwalService} from '../../../services/swal.service';
-import {CadenasutilService} from '../../../services/cadenasutil.service';
+import {CadsUtilService} from '../../../services/cads-util.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {UsertokenService} from '../../../services/usertoken.service';
 import {PersonaService} from '../../../services/persona.service';
@@ -21,7 +21,7 @@ export class UserformComponent implements OnInit {
                 private route: ActivatedRoute,
                 private swalService: SwalService,
                 private fautService: UsertokenService,
-                private cadsUtilService: CadenasutilService,
+                private cadsUtilService: CadsUtilService,
                 private domService: DomService,
                 private personaService: PersonaService,
                 private loadingUiService: LoadingUiService) {

@@ -58,8 +58,7 @@ export class TicketviewComponent implements OnChanges {
 
     actualizar() {
         if (this.tkService.isDataValid(this.form, this.form, this.swalService)) {
-            const codservicios = this.tkService.getCodServicios(this.servicios);
-            this.form.tk_servicios = codservicios;
+            this.form.tk_servicios = this.tkService.getCodServicios(this.servicios);
             this.tkService.actualizar(this.form).subscribe(res => {
                 if (res.status === 200) {
                     this.swalService.fireToastSuccess(res.msg);

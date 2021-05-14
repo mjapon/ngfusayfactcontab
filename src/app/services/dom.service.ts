@@ -1,10 +1,13 @@
 import {Injectable} from '@angular/core';
+import {CadsUtilService} from './cads-util.service';
+import {SwalService} from './swal.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DomService {
-    constructor() {
+    constructor(private cadsUtil: CadsUtilService,
+                private swalService: SwalService) {
     }
 
     /**
@@ -36,6 +39,31 @@ export class DomService {
 
     cmbInputFieldHasValue(input: any) {
         return !(input.value === 0);
+    }
+
+    validFormData(form: any, fieldValidList: Array<any>) {
+        let allvalid = true;
+        let itemvalid = false;
+        fieldValidList.forEach(field => {
+            itemvalid = true;
+            if (field.name in form) {
+                if (field.select) {
+                    try {
+                        const selectValue = parseInt(form[field.name], 10);
+                        itemvalid = selectValue > 0;
+                    } catch (e) {
+                    }
+                } else {
+                    itemvalid = !this.cadsUtil.isEmpty(form[field.name].toString());
+                }
+                if (!itemvalid) {
+                    allvalid = false;
+                    const msg = field.msg || 'Datos requerido, favor verificar';
+                    this.swalService.fireToastWarn(msg);
+                }
+            }
+        });
+        return allvalid;
     }
 
 }

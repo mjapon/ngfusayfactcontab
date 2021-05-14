@@ -95,11 +95,6 @@
 <div *ngIf="isShowDetCred" class="my-2 shadow-sm">
     <app-abonosview [codCredito]="credsel.cre_codigo" [codFactura]="credsel.trn_codigo"
                     (evDeudaChange)="onDeudasChange($event)" (evCerrar)="hideDetCredito()"></app-abonosview>
-    <!--
-    <div class="mt-4 text-center">
-        <button class="btn btn-outline-secondary" (click)="hideDetCredito()"><i class="fa fa-times"></i> Cerrar</button>
-    </div>
-    -->
 </div>
 
 <div *ngIf="isShowCreaCred" class="mt-2 shadow-sm">

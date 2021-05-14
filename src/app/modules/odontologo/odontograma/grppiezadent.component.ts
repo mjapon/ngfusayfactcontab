@@ -27,6 +27,7 @@ export class GrppiezadentComponent {
     @Input() menuItemsDiente: MenuItem[];
     @Input() contextMenuDiente: any;
     @Output() ongrpdntclic = new EventEmitter<any>();
+    @Output() ondntstatechange = new EventEmitter<any>();
     titulo: string;
     loaded: boolean;
 
@@ -82,7 +83,12 @@ export class GrppiezadentComponent {
         }
         if (confirm(msg)) {
             diente.estado = estadoDiente;
+            this.emitChangeState();
         }
+    }
+
+    emitChangeState() {
+        this.ondntstatechange.emit('');
     }
 
     cambiarEstadoExterno(event) {
@@ -92,6 +98,7 @@ export class GrppiezadentComponent {
         if (estadoDiente === 0) {
             if (confirm(msg)) {
                 diente.estado = 3;
+                this.emitChangeState();
             }
         }
     }

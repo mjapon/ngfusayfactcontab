@@ -158,16 +158,8 @@ export class ArticulosListComponent implements OnInit {
             });
     }
 
-    eliminar() {
-        this.deleteItem(this.selectedItem);
-    }
-
     editar() {
         this.router.navigate(['mercaderiaForm', this.selectedItem.ic_id]);
-    }
-
-    goToIngresoRapido() {
-        this.router.navigate(['mercaderiaIngrRapid']);
     }
 
     goToForm() {

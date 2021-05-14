@@ -130,7 +130,6 @@ export class ToolsDienteService {
                 }
             }
         }
-        return null;
     }
 
     dienteIsProt(diente: any) {

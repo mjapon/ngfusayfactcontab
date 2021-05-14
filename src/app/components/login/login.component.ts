@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
             username: ['', Validators.required],
             password: ['', Validators.required]
         });
-        this.domService.setFocusTimeout(codFocus, 1500);
+        this.domService.setFocusTimeout(codFocus, 500);
     }
 
     onclickSubmit() {

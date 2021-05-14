@@ -44,7 +44,7 @@ import {LocalStorageService} from '../../services/local-storage.service';
                         <li class="nav-item">
                             <a class="nav-link" href="#" [ngClass]="{'active':3===selectedMasterTab}"
                                (click)="selectMasterTab(3, $event)">
-                                Facturación y Pagos</a>
+                                Facturas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" [ngClass]="{'active':5===selectedMasterTab}"

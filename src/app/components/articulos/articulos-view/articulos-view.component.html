@@ -148,10 +148,11 @@
                     <div class="col-md" *ngIf="artFromDb.tipic_id===1 && artFromDb.icdp_grabaiva">
                         <div class="row">
                             <div class="col-md-8">
-                                            <span class="font-weight-lighter">Precio de compra
-                                                <span class="badge badge-light"
-                                                      artFromDb.icdp_grabaiva> (Con Iva) </span>:
-                                            </span>
+                                <span class="font-weight-lighter">Precio de compra
+                                    <span class="badge badge-light" *ngIf="artFromDb.icdp_grabaiva">
+                                        (Con Iva)
+                                    </span>:
+                                </span>
                             </div>
                             <div class="col-md">
                                 $ {{artFromDb.icdp_preciocompra_iva}}
@@ -161,9 +162,11 @@
                     <div class="col-md" *ngIf="artFromDb.icdp_grabaiva">
                         <div class="row">
                             <div class="col-md-8">
-                                            <span class="font-weight-lighter">Precio de venta
-                                                <span class="badge badge-light" *ngIf="artFromDb.icdp_grabaiva"> (Con Iva) </span>:
-                                            </span>
+                                <span class="font-weight-lighter">Precio de venta
+                                    <span class="badge badge-light" *ngIf="artFromDb.icdp_grabaiva">
+                                        (Con Iva)
+                                    </span>:
+                                </span>
                             </div>
                             <div class="col-md">
                                 $ {{artFromDb.icdp_precioventa}}

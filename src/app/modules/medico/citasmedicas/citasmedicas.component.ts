@@ -396,11 +396,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.citasMedicasServ.imprimir(this.codConsultaGen);
     }
 
-    sumarDias(ndias) {
-        const fechaActual = new Date();
-        this.form.datosconsulta.cosm_fechaproxcita = this.fechasService.sumarDias(fechaActual, ndias);
-    }
-
     ngOnDestroy() {
         if (this.subsCitasPlaned) {
             this.subsCitasPlaned.unsubscribe();

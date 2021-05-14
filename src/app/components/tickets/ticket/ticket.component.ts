@@ -93,10 +93,6 @@ export class TicketComponent implements OnInit {
         });
     }
 
-    selectItem(item: any) {
-        this.selectedItem = item;
-    }
-
     nuevo() {
         this.router.navigate(['ticket', 'form']);
     }
@@ -148,14 +144,6 @@ export class TicketComponent implements OnInit {
                 }
             }
         );
-    }
-
-    rubros() {
-        this.router.navigate(['vtickets']);
-    }
-
-    onFiltroServChange($event: any) {
-        this.loadGrid();
     }
 
     onDesdeChange($event: any) {

@@ -32,6 +32,8 @@ import {CuentasxcpComponent} from './components/transac/facturas/cuentasxcp.comp
 import {IngegrComponent} from './components/ingresosegresos/ingegr/ingegr.component';
 import {IngegrformComponent} from './components/ingresosegresos/ingegrform/ingegrform.component';
 import {UtilidadesComponent} from './components/transac/facturas/utilidades/utilidades.component';
+import {ContratoAguaComponent} from './components/aguap/contratos/contrato-agua.component';
+import {ContraguaformComponent} from './components/aguap/contraguaform/contraguaform.component';
 // import {AdminGuard} from './guards/admin/admin.guard';
 
 const routes: Routes = [
@@ -79,6 +81,8 @@ const routes: Routes = [
     {path: 'contabilidad/balancegeneral', component: BalancegeneralComponent},
     {path: 'contabilidad/estadoresultados', component: EstadoresultadosComponent},
     {path: 'utilventas', component: UtilidadesComponent},
+    {path: 'aguap/contratos', component: ContratoAguaComponent},
+    {path: 'aguap/contratos/form', component: ContraguaformComponent},
     {path: '**', component: HomeComponent}
 ];
 

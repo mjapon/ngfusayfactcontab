@@ -53,8 +53,4 @@ export class ButooldentComponent implements OnInit {
     ngOnInit(): void {
 
     }
-
-    quitaTool() {
-
-    }
 }

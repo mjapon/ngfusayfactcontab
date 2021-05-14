@@ -23,7 +23,7 @@ import {CitasMedicasService} from '../../services/citas-medicas.service';
                             <div class="col">
                                 <div *ngIf="it.cmtv_tinput===1">
                                     <input type="text" class="form-control"
-                                           [(ngModel)]="it.valorreg" }}>
+                                           [(ngModel)]="it.valorreg">
                                 </div>
                                 <div *ngIf="it.cmtv_tinput===2">
                                     <textarea class="form-control" [(ngModel)]="it.valorreg">

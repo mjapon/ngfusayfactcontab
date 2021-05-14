@@ -98,9 +98,7 @@ export class TicketformComponent implements OnInit {
     }
 
     guardar() {
-        const codservicios = this.tkService.getCodServicios(this.servicios);
-        this.form.tk_servicios = codservicios;
-
+        this.form.tk_servicios = this.tkService.getCodServicios(this.servicios);
         if (this.tkService.isDataValid(this.form, this.formcli, this.swalService)) {
             this.loadingUiService.publishBlockMessage();
             this.tkService.guardar(this.form, this.formcli).subscribe(res => {
@@ -111,28 +109,5 @@ export class TicketformComponent implements OnInit {
                 }
             });
         }
-
-
-        /*
-        if (this.form.tk_nro === null || this.form.tk_nro.toString().trim().length === 0) {
-            this.swalService.fireError('Debe ingresar el número del ticket');
-            return;
-        } else if (this.form.tk_costo == null || this.form.tk_costo.toString().trim().length === 0) {
-            this.swalService.fireError('Debe ingresar el precio del ticket');
-            return;
-        } else if (this.formcli.per_nombres == null || this.formcli.per_nombres.trim().length === 0) {
-            this.swalService.fireError('Debe ingresar el nombre del paciente');
-            return;
-        } else {
-            this.loadingUiService.publishBlockMessage();
-            this.tkService.guardar(this.form, this.formcli).subscribe(res => {
-                this.swalService.fireToastSuccess(res.msg);
-                if (res.status === 200) {
-                    this.tkService.imprimir(res.tk_id);
-                    this.router.navigate(['tickets']);
-                }
-            });
-        }
-         */
     }
 }

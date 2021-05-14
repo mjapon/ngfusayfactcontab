@@ -450,6 +450,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
 
     nextDiente() {
         if (this.dienteSelected) {
+            this.guardarOdontograma(true);
             const cuandrante = this.dienteSelected.cdr;
             if (this.dentadura[cuandrante]) {
                 const indexDS = this.dentadura[cuandrante].indexOf(this.dienteSelected);
@@ -469,6 +470,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
 
     backDiente() {
         if (this.dienteSelected) {
+            this.guardarOdontograma(true);
             const cuandrante = this.dienteSelected.cdr;
             if (this.dentadura[cuandrante]) {
                 const indexDS = this.dentadura[cuandrante].indexOf(this.dienteSelected);
@@ -498,6 +500,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     cerrarDialogDiente() {
         this.modalPiezaVisible = false;
         this.dienteSelected = null;
+        this.guardarOdontograma(false);
     }
 
     showModalProtesis() {
@@ -634,21 +637,33 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
         this.arrayUtil.removeElement(this.protesisList, protesis);
     }
 
-    guardarOdontograma() {
+    guardarOdontograma(silent = false) {
         this.formOdontograma.od_tipo = this.tipodontograma;
         this.formOdontograma.od_odontograma = JSON.stringify(this.dentadura);
         this.formOdontograma.od_protesis = JSON.stringify(this.protesisList);
         this.formOdontograma.od_obs = this.obsodontograma;
         if (this.formOdontograma.pac_id) {
-            this.loadingUiService.publishBlockMessage();
+            if (!silent) {
+                this.loadingUiService.publishBlockMessage();
+            }
             this.odontoService.guardar(this.formOdontograma).subscribe(res => {
                 if (res.status === 200) {
-                    this.swalService.fireToastSuccess(res.msg);
+                    if (!silent) {
+                        this.swalService.fireToastSuccess(res.msg);
+                    }
                     this.formOdontograma.od_id = res.od_id;
                 }
             });
         } else {
             this.swalService.fireToastError('Primero debe registrar el paciente antes de registrar el odontograma');
         }
+    }
+
+    onModalPiezaHide($event: any) {
+        this.guardarOdontograma(false);
+    }
+
+    saveOdontoSilent() {
+        this.guardarOdontograma(false);
     }
 }

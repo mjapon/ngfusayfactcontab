@@ -137,8 +137,7 @@ export class IngegrformComponent implements OnInit {
         const idx = this.form.cuentas.indexOf(tipo);
         const inputid = `tipo_valor_${idx}`;
         this.domService.setFocusTimeout(inputid, 100);
-        const defvalue = this.auxGetMontoFila(this.form.cuentas, idx);
-        tipo.dt_valor = defvalue;
+        tipo.dt_valor = this.auxGetMontoFila(this.form.cuentas, idx);
     }
 
     auxGetMontoFila(thearray, idx) {
@@ -148,8 +147,7 @@ export class IngegrformComponent implements OnInit {
     onbillsel(fila: any, $event: any) {
         const idx = this.form.billeteras.indexOf(fila);
         this.domService.setFocusTimeout(`bill_valor_${idx}`, 100);
-        const defvalue = this.auxGetMontoFila(this.form.billeteras, idx);
-        fila.dt_valor = defvalue;
+        fila.dt_valor = this.auxGetMontoFila(this.form.billeteras, idx);
     }
 
     clearFile() {

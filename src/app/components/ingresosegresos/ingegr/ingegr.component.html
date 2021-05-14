@@ -141,7 +141,6 @@
                 <div *ngIf="isLoadingMovs">
                     <app-loading></app-loading>
                 </div>
-
                 <p-table *ngIf="!isLoadingMovs" [value]="grid.data" [paginator]="true" [rows]="50"
                          selectionMode="single"
                          [responsive]="true"
@@ -182,14 +181,6 @@
                             </td>
                         </tr>
                     </ng-template>
-                    <!--
-                    <ng-template pTemplate="footer">
-                        <tr>
-                            <td colspan="2"><span class="font-weight-bold">Total:  </span></td>
-                            <td colspan="4"><span class="font-weight-bold">{{total }}</span></td>
-                        </tr>
-                    </ng-template>
-                    -->
                 </p-table>
             </div>
         </div>

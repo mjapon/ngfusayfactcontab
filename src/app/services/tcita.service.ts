@@ -57,8 +57,7 @@ export class TcitaService extends BaseService {
         const cFecha = tcita.ct_fecha;
         const horaStr = this.fechasService.getHoraStrFromNumber(hora);
         const horaFinStr = this.fechasService.getHoraStrFromNumber(horaFin);
-        const textoCita = `${cFecha}: ${horaStr} -${horaFinStr}`;
-        return textoCita;
+        return `${cFecha}: ${horaStr} -${horaFinStr}`;
     }
 
     getDatosTipoCita(tipcita) {

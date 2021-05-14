@@ -367,7 +367,6 @@ export class FacturasformComponent implements OnInit, OnDestroy {
     showFormCreaFact() {
         this.isLoading = true;
         this.initformfact();
-        // this.loadingUiService.publishBlockMessage();
         const formCabObs = this.asientoService.getFormCab(this.tracodigo);
         const secObs = this.seccionService.listar();
 

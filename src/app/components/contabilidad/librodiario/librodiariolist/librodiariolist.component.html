@@ -12,13 +12,15 @@
             </app-rangofechas>
         </div>
         <div>
-            <button class="btn btn-outline-primary" (click)="loadLibroDiario()"><i
-                    class="fas fa-search"></i>
-            </button>
-            <button class="btn btn-outline-primary" (click)="gotoFormAsiento()"><i
-                    class="fa fa-plus-circle"></i>
-                Nuevo Asiento
-            </button>
+            <div class="btn-group">
+                <button class="btn btn-outline-primary" (click)="loadLibroDiario()"><i
+                        class="fas fa-search"></i>
+                </button>
+                <button class="btn btn-outline-primary" (click)="gotoFormAsiento()"><i
+                        class="fa fa-plus-circle"></i>
+                    Nuevo Asiento
+                </button>
+            </div>
         </div>
     </div>
 
@@ -27,29 +29,29 @@
             <app-loading></app-loading>
         </div>
 
-        <div *ngIf="!isLoading" class="border shadow-sm">
+        <div *ngIf="!isLoading">
             <div *ngIf="librodiario.length===0" class="p-4">
                 <h3 class="text-muted">No hay registros</h3>
             </div>
 
             <div class="table-responsive" *ngIf="librodiario.length>0">
-                <table class="table table-sm">
+                <table class="table table-bordered table-sm">
                     <thead>
                     <tr>
-                        <th scope="col" width="10%" class="border-right">
+                        <th scope="col" width="10%">
                             <div class="fontsizesm">Fecha</div>
                         </th>
-                        <th scope="col" width="10%" class="border-right">
+                        <th scope="col" width="10%">
                             <div class="fontsizesm text-center">
                                 Código
                             </div>
                         </th>
-                        <th scope="col" width="50%" class="border-right">
+                        <th scope="col" width="50%">
                             <div class="fontsizesm text-center">
                                 Cuenta Contable
                             </div>
                         </th>
-                        <th scope="col" width="15%" class="border-right">
+                        <th scope="col" width="15%">
                             <div class="fontsizesm text-center">Debe</div>
                         </th>
                         <th scope="col" width="15%">
@@ -60,76 +62,74 @@
                     <tbody>
                     <ng-container *ngFor="let fila of librodiario">
                         <tr *ngIf="fila.tr===0">
-                            <td>
+                            <td class="border-bottom-0">
                                 {{fila.trn_fecreg}}
                             </td>
-                            <td colspan="2" class="border">
-                                <div class="text-center text-muted fontsizesm">
-                                    {{fila.ic_nombre}}
+                            <td colspan="3">
+                                <div title="Click para ver detalles del asiento"
+                                     style="border-top: 1px dashed rgba(0,0,0,1); "
+                                     class="d-flex flex-row-reverse fontsizesm hand" (click)="verDetalles(fila)">
+                                    <div>
+                                        <span class="font-weight-bold">#{{fila.ic_nombre}}</span>
+                                    </div>
                                 </div>
                             </td>
-                            <td class="border">
-
-                            </td>
-                            <td class="border">
-
+                            <td>
+                                <div class="d-flex flex-row-reverse">
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm btn-outline-primary"
+                                                *ngIf="fila.tra_codigo===13 && fila.bmo_id===0"
+                                                title="Anular"
+                                                (click)="anular(fila)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-primary"
+                                                *ngIf="fila.tra_codigo===13 && fila.bmo_id===0"
+                                                title="Editar"
+                                                (click)="gotoEditAsiento(fila)">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-primary"
+                                                title="Ver Detalles"
+                                                (click)="verDetalles(fila)">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         <tr *ngIf="fila.tr===1">
-                            <td class="border-0">
+                            <td class="border-top-0 border-bottom-0">
 
                             </td>
-                            <td class="border">
-                                <span class="text-muted fontsizesm"
+                            <td>
+                                <span class="fontsizesm"
                                       [ngClass]="{'haberl':fila.dt_debito===-1}">{{fila.ic_code}}</span>
                             </td>
-                            <td class="border">
+                            <td>
                                 <span class="fontsizesm" [ngClass]="{'haberl':fila.dt_debito===-1}">
                                 {{fila.ic_nombre}}
                                 </span>
                             </td>
-                            <td class="border">
+                            <td>
                                 <div class="d-flex flex-row-reverse fontsizesm">{{fila.debe}}</div>
                             </td>
-                            <td class="border">
+                            <td>
                                 <div class="d-flex flex-row-reverse fontsizesm">{{fila.haber}}</div>
                             </td>
                         </tr>
 
                         <tr *ngIf="fila.tr===2">
-                            <td class="border-0 h-100">
-                                <div class="h-100 d-flex">
-                                    <button class="btn btn-sm btn-outline-secondary"
-                                            *ngIf="fila.tra_codigo===13 && fila.bmo_id===0"
-                                            title="Anular"
-                                            (click)="anular(fila)">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-secondary"
-                                            *ngIf="fila.tra_codigo===13 && fila.bmo_id===0"
-                                            title="Editar"
-                                            (click)="gotoEditAsiento(fila)">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-secondary" title="Ver Detalles"
-                                            (click)="verDetalles(fila)">
-                                        <i class="fa fa-eye"></i>
-                                    </button>
-                                </div>
-                            </td>
-                            <td class="border">
+                            <td class="border-top-0">
 
                             </td>
-                            <td class="border">
+                            <td>
+
+                            </td>
+                            <td colspan="3">
                                 <p class="fontsizesm" style="white-space: pre-line">
                                     {{fila.ic_nombre}}
                                 </p>
-                            </td>
-                            <td class="border">
-
-                            </td>
-                            <td class="border">
-
                             </td>
                         </tr>
                     </ng-container>
