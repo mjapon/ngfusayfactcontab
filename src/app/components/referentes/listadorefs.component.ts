@@ -13,8 +13,10 @@ import {PersonaService} from '../../services/persona.service';
                            (keyup)="onFiltroTyped()">
                 </div>
                 <div class="col-md-3">
-                    <button class="btn btn-outline-primary btn-block" (click)="crearPaciente()"> Nuevo <span
-                            class="fa fa-plus-circle"></span></button>
+                    <div class="d-grid">
+                        <button class="btn btn-outline-primary" (click)="crearPaciente()"> Nuevo <span
+                                class="fa fa-plus-circle"></span></button>
+                    </div>
                 </div>
             </div>
             <div style="padding-top: 10px">

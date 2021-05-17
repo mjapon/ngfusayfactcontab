@@ -46,11 +46,11 @@
         <a *ngFor="let item of atencionesArray" class="list-group-item {{!item.tipo?'list-group-item-action hand':''}}"
            (click)="selectPaciente(item)">
             <span *ngIf="item.tipo" class="text-primary"> {{item.mes}} </span>
-            <div class="row d-flex w-100 justify-content-around" *ngIf="!item.tipo">
-                <div class="col-xs-1 quitaPaddingMargin">
+            <div class="row" *ngIf="!item.tipo">
+                <div class="col-1 col-xs-1">
                     <img src="assets/imgs/{{item.genero===2?'female.png':'male.png'}}" class="img-fluid" alt="Avatar">
                 </div>
-                <div class="col-md-5 quitaPaddingMargin">
+                <div class="col-md-5">
                     <p class="quitaPaddingMargin text-muted"> {{item.horacreastr}} </p>
                     <h6 class="mb-0">{{item.paciente}}</h6>
                     <p class="mb-0 text-muted">
@@ -60,11 +60,11 @@
                         <h7>{{item.lugresidencia}}</h7>
                     </p>
                 </div>
-                <div class="col-md-5 quitaPaddingMargin">
+                <div class="col-md-5">
                     <p class="quitaPaddingMargin text-muted">Motivo:</p>
                     <h7>{{item.cosm_motivo}}</h7>
                 </div>
-                <div class="col-xs-1 quitaPaddingMargin" title="Ver detalles de la consulta">
+                <div class="col-1" title="Ver detalles de la consulta">
                     <i class="fa fa-eye"></i>
                 </div>
             </div>

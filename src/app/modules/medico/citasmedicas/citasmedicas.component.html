@@ -5,7 +5,7 @@
         </h5>
 
         <!--Ubicar tabs para navegacion -->
-        <ul class="nav nav-tabs" style="margin-bottom: 10px">
+        <ul class="nav nav-tabs mb-2">
             <li class="nav-item">
                 <a class="nav-link" href="#" [ngClass]="{'active':1===selectedSupTab}"
                    (click)="selectSupTab(1, $event)">Registrar
@@ -93,7 +93,6 @@
                                         <span> {{datosPacienteFull.residencia}} {{datosPacienteFull.per_direccion ? ('-' + datosPacienteFull.per_direccion) : ''}}</span>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-md-3">
                                         <span class="text-muted">Celular:</span>
