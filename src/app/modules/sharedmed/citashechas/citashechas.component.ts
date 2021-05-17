@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FechasService} from '../../../services/fechas.service';
 import {CitasMedicasService} from '../../../services/citas-medicas.service';
 
@@ -18,6 +18,7 @@ export class CitashechasComponent implements OnInit {
     rowHistoriaSel: any;
     showModalDet: boolean;
     @Input() tipocita: number;
+    @Output() showHistoria = new EventEmitter<any>();
 
     constructor(private fechasService: FechasService,
                 private citasMedicasServ: CitasMedicasService) {
@@ -89,5 +90,13 @@ export class CitashechasComponent implements OnInit {
 
     onCerrarDetHistoria($event: any) {
         this.showModalDet = false;
+    }
+
+    doCerrarModalOd() {
+        this.showModalDet = false;
+    }
+
+    showHistoriaOd() {
+        this.showHistoria.emit(this.rowHistoriaSel);
     }
 }

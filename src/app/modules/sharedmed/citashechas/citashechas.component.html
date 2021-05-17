@@ -100,6 +100,7 @@
 <div *ngIf="showModalDet && tipocita===2">
     <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '85vw'}" [baseZIndex]="10000"
               [(visible)]="showModalDet">
-        <app-citaodontodet [codatencion]="rowHistoriaSel.ate_id"></app-citaodontodet>
+        <app-citaodontodet [codatencion]="rowHistoriaSel.ate_id" (evCerrar)="doCerrarModalOd()"
+                           (evShowHistoria)="showHistoriaOd()"></app-citaodontodet>
     </p-dialog>
 </div>

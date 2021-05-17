@@ -93,14 +93,18 @@ export class CitasodontoComponent implements OnInit {
         this.tipoOdontogramaSel = tipo;
     }
 
-    onRegistraAtencionEv($event: any) {
+    auxShowFichaClinica(perid: number) {
         this.loadUiService.publishBlockMessage();
-        this.personaService.buscarPorCodfull($event.pac_id).subscribe(res => {
+        this.personaService.buscarPorCodfull(perid).subscribe(res => {
             if (res.status === 200) {
                 this.pacienteSelected = res.persona;
                 this.showFichaClinica = true;
             }
         });
+    }
+
+    onRegistraAtencionEv($event: any) {
+        this.auxShowFichaClinica($event.pac_id);
     }
 
     onCancelarAgenda($event: any) {
@@ -113,10 +117,13 @@ export class CitasodontoComponent implements OnInit {
 
     doGotoCalendar($event: any) {
         this.isShowCalendar = true;
-        /*this.router.navigate(['calendario', $event]);*/
     }
 
     showListado($event: any) {
         this.isShowCalendar = false;
+    }
+
+    doShowHistoria($event) {
+        this.auxShowFichaClinica($event.per_id);
     }
 }

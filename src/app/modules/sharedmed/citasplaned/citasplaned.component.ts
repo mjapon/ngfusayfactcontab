@@ -95,7 +95,6 @@ export class CitasplanedComponent implements OnInit, OnChanges {
 
     gotoCalendar() {
         this.gotoCalendarEv.emit(this.tipocita);
-        /*this.router.navigate(['calendario', this.tipocita]);*/
     }
 
     onrowclic(rowData) {

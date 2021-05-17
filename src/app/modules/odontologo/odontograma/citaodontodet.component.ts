@@ -1,18 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {OdatencionesService} from '../../../services/odatenciones.service';
 
 @Component({
     selector: 'app-citaodontodet',
     template: `
         <div>
-            <p-contextMenu #contextMenuDienteAux [model]="menuItemsDiente"></p-contextMenu>
             <div class="text-center" *ngIf="showAnim">
-                <p class="p-5 m-5">
-                    <img src="assets/anim.gif"
-                         alt="procesando">
-                    <br>
-                    <span class="text-info"> Espere un momento... </span>
-                </p>
+                <app-loading></app-loading>
             </div>
             <div *ngIf="!showAnim">
                 <div class="card border-secondary">
@@ -66,32 +60,24 @@ import {OdatencionesService} from '../../../services/odatenciones.service';
                                 <div class="d-flex">
                                     <div id="tr" class="text-end d-flex">
                                         <ng-container *ngFor="let diente of dentadura.A">
-                                            <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
-                                                              [contextMenuDiente]="contextMenuDienteAux"
-                                                              (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                     <div id="tl" class="d-flex ms-4">
                                         <ng-container *ngFor="let diente of dentadura.B">
-                                            <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
-                                                              [contextMenuDiente]="contextMenuDienteAux"
-                                                              (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                 </div>
                                 <div class="d-flex">
                                     <div id="br" class="d-flex text-end" style="padding-top: 30px">
                                         <ng-container *ngFor="let diente of dentadura.C">
-                                            <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
-                                                              [contextMenuDiente]="contextMenuDienteAux"
-                                                              (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                     <div id="bl" style="padding-top: 30px" class="ms-4 d-flex">
                                         <ng-container *ngFor="let diente of dentadura.D">
-                                            <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
-                                                              [contextMenuDiente]="contextMenuDienteAux"
-                                                              (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                 </div>
@@ -109,38 +95,39 @@ import {OdatencionesService} from '../../../services/odatenciones.service';
                                 <div class="d-flex">
                                     <div id="tr" class="text-end d-flex">
                                         <ng-container *ngFor="let diente of dentaduraSm.A">
-                                            <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
-                                                              [contextMenuDiente]="contextMenuDienteAux"
-                                                              (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                     <div id="tl" class="d-flex ms-4">
                                         <ng-container *ngFor="let diente of dentaduraSm.B">
-                                            <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
-                                                              [contextMenuDiente]="contextMenuDienteAux"
-                                                              (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                 </div>
                                 <div class="d-flex">
                                     <div id="br" class="d-flex text-end" style="padding-top: 30px">
                                         <ng-container *ngFor="let diente of dentaduraSm.C">
-                                            <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
-                                                              [contextMenuDiente]="contextMenuDienteAux"
-                                                              (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                     <div id="bl" style="padding-top: 30px" class="ms-4 d-flex">
                                         <ng-container *ngFor="let diente of dentaduraSm.D">
-                                            <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
-                                                              [contextMenuDiente]="contextMenuDienteAux"
-                                                              (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="mt-2 d-md-flex flex-row-reverse">
+                    <button class="btn btn-outline-primary" (click)="doCerrar()">
+                        <i class="fa fa-times"></i> Cerrar
+                    </button>
+                    <button class="btn btn-outline-primary me-2" (click)="doVerHistoria()">
+                        <i class="fa fa-tooth"></i> Ver Ficha
+                    </button>
                 </div>
             </div>
         </div>
@@ -152,7 +139,9 @@ export class CitaodontodetComponent implements OnInit {
     datosAtencion: any;
     dentadura: any;
     dentaduraSm: any;
-    menuItemsDiente: any;
+
+    @Output() evShowHistoria = new EventEmitter<any>();
+    @Output() evCerrar = new EventEmitter<any>();
 
     constructor(private odatenserv: OdatencionesService) {
 
@@ -162,7 +151,6 @@ export class CitaodontodetComponent implements OnInit {
         this.showAnim = true;
         this.dentadura = [];
         this.dentaduraSm = [];
-        this.menuItemsDiente = [];
         this.loadDatos();
     }
 
@@ -188,7 +176,11 @@ export class CitaodontodetComponent implements OnInit {
         }
     }
 
-    showModalPieza(diente: any) {
+    doCerrar() {
+        this.evCerrar.emit('');
+    }
 
+    doVerHistoria() {
+        this.evShowHistoria.emit('');
     }
 }

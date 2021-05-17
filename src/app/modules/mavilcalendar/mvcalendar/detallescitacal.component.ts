@@ -14,12 +14,7 @@ import {TcitaService} from '../../../services/tcita.service';
     `],
     template: `
         <div class="text-center" *ngIf="showAnim">
-            <p class="p-5 m-5">
-                <img src="assets/anim.gif"
-                     alt="procesando">
-                <br>
-                <span class="text-info"> Espere un momento... </span>
-            </p>
+            <app-loading></app-loading>
         </div>
         <div *ngIf="!showAnim">
             <div class="ms-5 me-5">

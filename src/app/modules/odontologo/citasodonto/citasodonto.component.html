@@ -22,7 +22,7 @@
 
     </div>
     <div *ngIf="selectedSupTab===2">
-        <app-citashechas [tipocita]="2"></app-citashechas>
+        <app-citashechas [tipocita]="2" (showHistoria)="doShowHistoria($event)"></app-citashechas>
     </div>
 
     <div *ngIf="selectedSupTab===3">
@@ -35,6 +35,7 @@
             <app-mvcalendar [tipoCita]="2" [showListado]="true"
                             (evListado)="showListado($event)"></app-mvcalendar>
         </div>
+        z
     </div>
 </div>
 <div *ngIf="showFichaClinica">
