@@ -36,8 +36,6 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
 
     dienteSelected: any;
     rangoProtesis: number[];
-
-    menuItemsDiente: MenuItem[];
     menuItemsTool: MenuItem[];
     tiposProtesis: any[];
     estadoProtesisSel: any;
@@ -47,6 +45,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     zonaProtesisSel: any;
     dientesProtesis: any[];
     protesisList: any[];
+    showStateButtons: any[];
 
     tiposPiezas: any[];
     tipoPiezaSel: any;
@@ -57,6 +56,8 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     modalPiezaVisible: boolean;
     modalCreaProtesis: boolean;
     obsodontograma: string;
+    estadoDienteStr: string;
+    estadoDienteBg: string;
     private iniciaSelProt: boolean;
 
     constructor(private render: Renderer2, private arrayUtil: ArrayutilService, private swalService: SwalService,
@@ -97,14 +98,6 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
         this.estadosProtesis = [{label: 'Realizado', value: 1}, {label: 'Por realizar', value: 2}];
         this.estadoProtesisSel = this.estadosProtesis[0].value;
         this.obsodontograma = '';
-        this.menuItemsDiente = [];
-
-        this.menuItemsDiente.push(
-            {
-                label: 'Pieza Dental Nro:..'
-            }
-        );
-
         this.loadDientes();
         this.initTools();
         this.selectedCssClass = '';
@@ -128,7 +121,19 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     showModalPieza(diente) {
         this.dienteSelected = diente;
         this.estadoProtesisSel = this.estadosProtesis[0];
+        // Actualizar estado  array dientes
         this.modalPiezaVisible = true;
+        this.updateStatebuttons();
+    }
+
+    updateStatebuttons() {
+        this.estadoDienteStr = this.toolsDienteServ.getStrState(this.dienteSelected);
+        this.estadoDienteBg = this.toolsDienteServ.getColorState(this.dienteSelected);
+        this.showStateButtons = [
+            this.toolsDienteServ.isShowTrataPend(this.dienteSelected),
+            this.toolsDienteServ.isShowTrataHecho(this.dienteSelected),
+            this.toolsDienteServ.isShowTratExt(this.dienteSelected)
+        ];
     }
 
     initTools(): void {
@@ -163,20 +168,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     getEstadoDiente(diente: any) {
-        let estadodesc = '';
-        const estado = diente.estado ? diente.estado : 0;
-        switch (estado) {
-            case 1:
-                estadodesc = 'Tratamiento Pendiente';
-                break;
-            case 2:
-                estadodesc = 'Tratamiento Finalizado';
-                break;
-            case 3:
-                estadodesc = 'Tratamiento Externo';
-                break;
-        }
-        return estadodesc;
+        return this.toolsDienteServ.getStrState(diente, false);
     }
 
     getCssClass(estilos) {
@@ -454,10 +446,12 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
                 const indexDS = this.dentadura[cuandrante].indexOf(this.dienteSelected);
                 if (indexDS !== -1 && indexDS < (this.dentadura[cuandrante].length - 1)) {
                     this.dienteSelected = this.dentadura[cuandrante][indexDS + 1];
+                    this.updateStatebuttons();
                 } else {
                     const nextCuadr = this.getNextCuadr(cuandrante);
                     if (nextCuadr) {
                         this.dienteSelected = this.dentadura[nextCuadr][0];
+                        this.updateStatebuttons();
                     } else {
                         alert('Llegasta al final');
                     }
@@ -474,11 +468,13 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
                 const indexDS = this.dentadura[cuandrante].indexOf(this.dienteSelected);
                 if (indexDS !== -1 && indexDS > 0) {
                     this.dienteSelected = this.dentadura[cuandrante][indexDS - 1];
+                    this.updateStatebuttons();
                 } else {
                     const backCuadr = this.getPreviusCuadr(cuandrante);
                     if (backCuadr) {
                         const cuadrlen = this.dentadura[backCuadr].length;
                         this.dienteSelected = this.dentadura[backCuadr][cuadrlen - 1];
+                        this.updateStatebuttons();
                     } else {
                         alert('Se alcanzó el inicio');
                     }
@@ -498,7 +494,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     cerrarDialogDiente() {
         this.modalPiezaVisible = false;
         this.dienteSelected = null;
-        this.guardarOdontograma(false);
+        this.guardarOdontograma(true);
     }
 
     showModalProtesis() {
@@ -575,9 +571,6 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
 
     onMouseDownProtDiente(it: any) {
         if (this.tipoPiezaSel && this.tipoProtesisSel < 3) {
-            /*this.dientesProtesis.forEach(e => {
-                e.sel = false;
-            });*/
             it.sel = true;
             it.tipo = this.tipoPiezaSel;
             this.iniciaSelProt = true;
@@ -658,10 +651,31 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     onModalPiezaHide($event: any) {
-        this.guardarOdontograma(false);
+        this.guardarOdontograma(true);
     }
 
     saveOdontoSilent() {
         this.guardarOdontograma(false);
+    }
+
+    changeState($event: MouseEvent) {
+        $event.preventDefault();
+        const result = this.toolsDienteServ.changeState(this.dienteSelected);
+        if (result) {
+            this.saveChangeState();
+        }
+    }
+
+    saveChangeState() {
+        this.guardarOdontograma(false);
+        this.updateStatebuttons();
+    }
+
+    changeStateExt($event: MouseEvent) {
+        $event.preventDefault();
+        const result = this.toolsDienteServ.changeStateExt(this.dienteSelected);
+        if (result) {
+            this.saveChangeState();
+        }
     }
 }

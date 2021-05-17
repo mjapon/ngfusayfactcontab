@@ -94,7 +94,6 @@ export class MvcalendarComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-
         this.form = {};
         this.pacForCalendar = null;
         this.datosCita = {};
@@ -119,14 +118,7 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         this.loadinUiServ.publishBlockMessage();
         this.tcitaService.getDatosTipoCita(this.tipoCita).subscribe(res => {
             if (res.status === 200) {
-                const dtipcita = res.dtipcita;
-                this.calHoraIni = dtipcita.tipc_calini;
-                this.calHoraFin = dtipcita.tipc_calfin;
-                this.filas = (this.calHoraFin - this.calHoraIni) * this.parteshora;
-                this.changeSelectedDate(this.fechasService.getCurrentDate(), true);
-                this.loadDias();
-                this.loadMesArray();
-                this.loadMedicos();
+                this.auxLoadDatosTipCita(res.dtipcita);
                 this.loadPersonsCita();
                 this.initListasForm();
             }
@@ -727,6 +719,7 @@ export class MvcalendarComponent implements OnInit, OnChanges {
                     it.css = rescsstxt.css;
                     it.texto = rescsstxt.texto;
                 });
+                this.loadMesArray();
             }
         });
     }
@@ -790,20 +783,23 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         this.evListado.emit(this.tipoCita);
     }
 
+    auxLoadDatosTipCita(dtipcita) {
+        this.calHoraIni = dtipcita.tipc_calini;
+        this.calHoraFin = dtipcita.tipc_calfin;
+        this.filas = (this.calHoraFin - this.calHoraIni) * this.parteshora;
+        this.changeSelectedDate(this.fechasService.getCurrentDate(), true);
+        this.loadDias();
+        this.loadMesArray();
+        this.loadMedicos();
+    }
+
     onPersonCitaChange($event: any) {
         if (this.personCitaSel) {
             if (this.personCitaSel !== this.tipoCita) {
                 this.tipoCita = this.personCitaSel;
                 this.tcitaService.getDatosTipoCita(this.tipoCita).subscribe(res => {
                     if (res.status === 200) {
-                        const dtipcita = res.dtipcita;
-                        this.calHoraIni = dtipcita.tipc_calini;
-                        this.calHoraFin = dtipcita.tipc_calfin;
-                        this.filas = (this.calHoraFin - this.calHoraIni) * this.parteshora;
-                        this.changeSelectedDate(this.fechasService.getCurrentDate(), true);
-                        this.loadDias();
-                        this.loadMesArray();
-                        this.loadMedicos();
+                        this.auxLoadDatosTipCita(res.dtipcita);
                         this.loadCitas();
                         this.initListasForm();
                     }

@@ -74,16 +74,17 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-10 quitaPaddingMargin" style="width: 100%; height: 100%; overflow: auto;">
+        <div class="col-md-10">
             <div class="d-flex justify-content-between mb-1">
                 <h4 class="quitaPaddingMargin fw-light">{{mesDateString}}</h4>
                 <div>
-                    <button *ngIf="showListado" class="btn btn-outline-primary me-2"
+                    <button *ngIf="showListado" class="btn btn-sm btn-outline-primary me-2"
                             title="Rertorna a vista de listado de citas"
                             (click)="raiseListadoClic()"><i
                             class="far fa-list-alt"></i> Ver Listado
                     </button>
-                    <button class="btn btn-outline-primary" title="Crear una nueva cita" (click)="onCreaEvClic()"><i
+                    <button class="btn btn-sm btn-outline-primary" title="Crear una nueva cita"
+                            (click)="onCreaEvClic()"><i
                             class="fa fa-plus-circle"></i> Crear
                     </button>
                 </div>

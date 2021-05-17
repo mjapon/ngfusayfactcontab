@@ -1,9 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 import {ToolsDienteService} from '../../../services/toolsdiente.service';
-import {MenuItem} from 'primeng/api';
-
-// declare var $: any;
 
 @Component({
     selector: 'app-grppiezadent',
@@ -23,7 +20,6 @@ import {MenuItem} from 'primeng/api';
 })
 export class GrppiezadentComponent {
     @Input() diente: any;
-    @Input() menuItemsDiente: MenuItem[];
     @Output() ongrpdntclic = new EventEmitter<any>();
     @Output() ondntstatechange = new EventEmitter<any>();
     titulo: string;
@@ -37,7 +33,6 @@ export class GrppiezadentComponent {
         if (!this.loaded) {
             this.titulo = this.getTitulo();
             this.loaded = true;
-            // this.loadContexMenu(this.diente);
         }
     }
 
@@ -69,99 +64,4 @@ export class GrppiezadentComponent {
         }
     }
 
-    cambiarEstadoDiente(event) {
-        let msg = '¿Confirma que desea ';
-        const diente = event.item.state;
-        let estadoDiente = diente.estado ? diente.estado : 0;
-        if (estadoDiente === 0 || estadoDiente === 2) {
-            estadoDiente = 1;
-            msg += ' iniciar tratamiento?';
-        } else if (estadoDiente === 1) {
-            estadoDiente = 2;
-            msg += ' marcar como tratamiento realizado?';
-        }
-        if (confirm(msg)) {
-            diente.estado = estadoDiente;
-            this.emitChangeState();
-        }
-    }
-
-    emitChangeState() {
-        this.ondntstatechange.emit('');
-    }
-
-    cambiarEstadoExterno(event) {
-        const diente = event.item.state;
-        const msg = '¿Confirma marca tratamiento externo?';
-        const estadoDiente = diente.estado ? diente.estado : 0;
-        if (estadoDiente === 0) {
-            if (confirm(msg)) {
-                diente.estado = 3;
-                this.emitChangeState();
-            }
-        }
-    }
-
-    loadContexMenu(diente) {
-        this.menuItemsDiente.splice(0, this.menuItemsDiente.length);
-        this.menuItemsDiente.push(
-            {
-                label: 'Pieza Dental Nro:' + this.diente.numero
-            }
-        );
-        const estadoDiente = diente.estado ? diente.estado : 0;
-        let txtestado = '';
-        let addCambiaEstado = false;
-        if (estadoDiente === 0 || estadoDiente === 2 || estadoDiente === 3) {
-            txtestado = 'Tratamiento pendiente';
-            addCambiaEstado = true;
-        } else if (estadoDiente === 1) {
-            txtestado = 'Tratamiento realizado';
-            addCambiaEstado = true;
-        }
-        const self = this;
-        if (addCambiaEstado) {
-            this.menuItemsDiente.push({
-                label: txtestado,
-                command: (event => {
-                    event.context = self;
-                    self.cambiarEstadoDiente(event);
-                }),
-                state: diente
-            });
-        }
-
-        if (estadoDiente === 0) {
-            txtestado = 'Tratamiento Externo';
-            this.menuItemsDiente.push({
-                label: txtestado,
-                command: (event => {
-                    event.context = self;
-                    self.cambiarEstadoExterno(event);
-                }),
-                state: diente
-            });
-        }
-
-        console.log('Valor de this.menuItemsDiente es:', this.menuItemsDiente);
-    }
-
-    onContextMenuDiente(diente: any, event: MouseEvent) {
-        this.loadContexMenu(diente);
-        return false;
-
-        /*
-        const prueba: HTMLElement = event.target as HTMLElement;
-        console.log('Valor de event.target', event.target, prueba);
-        console.log(prueba.offsetLeft);
-        console.log(prueba.offsetTop);
-        const idctxmenu = 'contextmenumj';
-        const contextmenuref = document.getElementById(idctxmenu);
-        contextmenuref.style.top = (prueba.offsetTop + 10) + 'px';
-        contextmenuref.style.left = (prueba.offsetLeft + 10) + 'px';
-        // $(idctxmenu).offset(offset);
-        this.contextMenuDiente.show();
-        return false;
-         */
-    }
 }

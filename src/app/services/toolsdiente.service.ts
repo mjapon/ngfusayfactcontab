@@ -203,4 +203,65 @@ export class ToolsDienteService {
         return this.tiposProtesis;
     }
 
+    isShowTratExt(diente) {
+        return true;
+    }
+
+    isShowTrataPend(diente) {
+        return [0, 2, 3].includes(diente?.estado);
+    }
+
+    isShowTrataHecho(diente) {
+        return diente?.estado === 1;
+    }
+
+    changeState(diente): number {
+        const currentState = diente.estado ? diente.estado : 0;
+        let newState = 0;
+        let msg = '';
+        if ([0, 2, 3].includes(currentState)) {
+            newState = 1;
+            msg = ' iniciar tratamiento?';
+        } else if (currentState === 1) {
+            newState = 2;
+            msg = ' marcar como tratamiento realizado?';
+        }
+        if (newState > 0) {
+            if (confirm(`¿Confirma que desea ${msg}`)) {
+                diente.estado = newState;
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    changeStateExt(diente): number {
+        if (confirm('¿Confirma marca tratamiento externo?')) {
+            diente.estado = 3;
+            return 1;
+        }
+        return 0;
+    }
+
+    getStrState(diente: any, isCeroStr = true) {
+        const estados: Array<string> = [
+            'Cambiar estado',
+            'Tratamiento Iniciado',
+            'Tratamiento finalizado',
+            'Tratamiento externo'
+        ];
+        const state = diente?.estado || 0;
+        if (!isCeroStr) {
+            estados[0] = '';
+        }
+        return estados[state];
+    }
+
+    getColorState(diente: any) {
+        const state = diente?.estado || 0;
+        const colors = ['primary', 'warning', 'success', 'info'];
+        return colors[state];
+    }
+
+
 }

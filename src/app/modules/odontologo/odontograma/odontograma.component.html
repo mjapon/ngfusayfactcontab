@@ -4,8 +4,6 @@
     </div>
     <div *ngIf="codpaciente>0">
 
-        <p-contextMenu #contextMenuDiente [model]="menuItemsDiente" id="contextmenumj"></p-contextMenu>
-
         <div class="d-flex flex-row-reverse mb-2" style="margin-top: -40px">
             <div class="btn-group btn-group-sm" role="group" *ngIf="tipodontograma===1">
                 <button id="thebutton" #thebutton type="button" class="btn btn-sm btn-outline-primary"
@@ -25,14 +23,14 @@
                 <div class="row">
                     <div id="tr" class="col-6 text-end">
                         <ng-container *ngFor="let diente of dentadura.A">
-                            <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
+                            <app-grppiezadent [diente]="diente"
                                               (ondntstatechange)="saveOdontoSilent()"
                                               (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                         </ng-container>
                     </div>
                     <div id="tl" class="col-6">
                         <ng-container *ngFor="let diente of dentadura.B">
-                            <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
+                            <app-grppiezadent [diente]="diente"
                                               (ondntstatechange)="saveOdontoSilent()"
                                               (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                         </ng-container>
@@ -40,14 +38,14 @@
 
                     <div id="br" class="col-6 text-end" style="padding-top: 30px">
                         <ng-container *ngFor="let diente of dentadura.C">
-                            <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
+                            <app-grppiezadent [diente]="diente"
                                               (ondntstatechange)="saveOdontoSilent()"
                                               (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                         </ng-container>
                     </div>
                     <div id="bl" class="col-6" style="padding-top: 30px">
                         <ng-container *ngFor="let diente of dentadura.D">
-                            <app-grppiezadent [diente]="diente" [menuItemsDiente]="menuItemsDiente"
+                            <app-grppiezadent [diente]="diente"
                                               (ondntstatechange)="saveOdontoSilent()"
                                               (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                         </ng-container>
@@ -66,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            <div class="table-responsive" style="margin-top: 2px">
+            <div class="table-responsive mt-1">
                 <table class="table table-bordered table-sm">
                     <thead>
                     <tr>
@@ -332,10 +330,10 @@
                             </div>
                             <div class="row border-bottom">
                                 <div class="col">
-                                    <div class="text-center" style="margin-top: 20px">
+                                    <div class="text-center">
                                         <div class="contdiente-large" data-name="value"
                                              id="m_diente{{dienteSelected.numero}}"
-                                             [title]="dienteSelected.texto?dienteSelected.texto:''">
+                                             [title]="dienteSelected?.texto">
                                             <div class="mdiente-large">
                                                 <div id="m_t{{dienteSelected.numero}}"
                                                      class="mcuadro-large marriba-large"
@@ -373,7 +371,7 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center">
-                                <span class="text-info"> {{getEstadoDiente(dienteSelected)}} </span>
+                                <span class="fw-bold text-{{estadoDienteBg}}"> {{getEstadoDiente(dienteSelected)}} </span>
                             </div>
                             <div>
                                 <app-diagnospieza [itdiente]="dienteSelected"></app-diagnospieza>
@@ -388,15 +386,37 @@
                             </div>
                             <button class="btn btn-sm btn-outline-secondary" *ngIf="isDienteModif(dienteSelected)"
                                     title="Borra todos los diagnósticos asociados a esta pieza dental"
-                                    (click)="clearDienteCssTBLRC(dienteSelected)"> Limpiar
+                                    (click)="clearDienteCssTBLRC(dienteSelected)"><i class="fa fa-eraser"></i> Limpiar
                             </button>
                         </div>
                     </div>
                 </div>
                 <p-footer>
                     <div class="row border-top">
-                        <div class="col-md-10 d-flex flex-row justify-content-center">
-                            <button class="btn btn-outline-primary" style="margin-right: 10px" (click)="backDiente()">
+                        <div class="col-md-3">
+                            <div class="d-flex flex-row">
+                                <div class="btn-group dropup">
+                                    <button type="button"
+                                            class="btn btn-{{estadoDienteBg}} dropdown-toggle"
+                                            aria-expanded="false"
+                                            data-bs-toggle="dropdown"> {{estadoDienteStr}}  </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" *ngIf="showStateButtons[0]"
+                                               (click)="changeState($event)" title="Marcar como tratamiento iniciado">
+                                            <i class="fa fa-teeth-open"></i> Iniciar
+                                            Tratamiento </a></li>
+                                        <li><a class="dropdown-item" href="#" *ngIf="showStateButtons[1]"
+                                               title="Marcar como tratamiento finalizado"
+                                               (click)="changeState($event)"> Tratamiento Realizado </a></li>
+                                        <li><a class="dropdown-item" href="#" *ngIf="showStateButtons[2]"
+                                               title="Marcar como tratamiento externo"
+                                               (click)="changeStateExt($event)"> Tratamiento Externo </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7 d-flex flex-row justify-content-center">
+                            <button class="btn btn-outline-primary" (click)="backDiente()">
                                 <i class="fas fa-angle-left"></i> Anterior
                             </button>
                             <button class="btn btn-outline-primary" (click)="nextDiente()"> Siguiente
@@ -462,8 +482,7 @@
             <p-footer>
                 <div class="d-flex flex-row justify-content-center">
                     <button *ngIf="dientesProtesisMarked()"
-                            class="btn btn-outline-primary"
-                            style="margin-right: 10px" (click)="creaProtesis()">
+                            class="btn btn-outline-primary me-2" (click)="creaProtesis()">
                         <i class="fas fa-save"></i> Crear Protesis
                     </button>
                     <button class="btn btn-outline-secondary" (click)="closeModalProtesis()">Cancelar</button>
