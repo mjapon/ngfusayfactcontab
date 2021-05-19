@@ -34,7 +34,12 @@ import {IngegrformComponent} from './components/ingresosegresos/ingegrform/ingeg
 import {UtilidadesComponent} from './components/transac/facturas/utilidades/utilidades.component';
 import {ContratoAguaComponent} from './components/aguap/contratos/contrato-agua.component';
 import {ContraguaformComponent} from './components/aguap/contraguaform/contraguaform.component';
+import {LectomedComponent} from './components/aguap/lectomed/lectomed.component';
+import {CtesAguapService} from './components/aguap/utils/ctes-aguap.service';
+import {CobroaguaComponent} from './components/aguap/cobroagua/cobroagua.component';
 // import {AdminGuard} from './guards/admin/admin.guard';
+
+const aguapmod: CtesAguapService = new CtesAguapService();
 
 const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -81,8 +86,10 @@ const routes: Routes = [
     {path: 'contabilidad/balancegeneral', component: BalancegeneralComponent},
     {path: 'contabilidad/estadoresultados', component: EstadoresultadosComponent},
     {path: 'utilventas', component: UtilidadesComponent},
-    {path: 'aguap/contratos', component: ContratoAguaComponent},
-    {path: 'aguap/contratos/form', component: ContraguaformComponent},
+    {path: aguapmod.rutaContra(), component: ContratoAguaComponent},
+    {path: aguapmod.rutaContraForm(), component: ContraguaformComponent},
+    {path: aguapmod.rutaLectoMedForm(), component: LectomedComponent},
+    {path: aguapmod.rutaPagos(), component: CobroaguaComponent},
     {path: '**', component: HomeComponent}
 ];
 

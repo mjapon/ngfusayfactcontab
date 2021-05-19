@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {ContratoaguaService} from '../../../services/contratoagua.service';
+import {ContratoaguaService} from '../../../services/agua/contratoagua.service';
 import {FechasService} from '../../../services/fechas.service';
 import {PersonaService} from '../../../services/persona.service';
 import {SwalService} from '../../../services/swal.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {DomService} from '../../../services/dom.service';
+import {CtesAguapService} from '../utils/ctes-aguap.service';
 
 @Component({
     selector: 'app-contraguaform',
@@ -24,6 +25,7 @@ export class ContraguaformComponent implements OnInit {
     teredad = 0;
     isTercedad = false;
     isRefSearched = false;
+    validfl: Array<any> = [];
 
     constructor(private router: Router,
                 private fechasService: FechasService,
@@ -31,6 +33,7 @@ export class ContraguaformComponent implements OnInit {
                 private swalService: SwalService,
                 private personService: PersonaService,
                 private loadingService: LoadingUiService,
+                private ctes: CtesAguapService,
                 private contraService: ContratoaguaService) {
     }
 
@@ -39,7 +42,7 @@ export class ContraguaformComponent implements OnInit {
     }
 
     gotomain() {
-        this.router.navigate(['aguap', 'contratos']);
+        this.router.navigate([this.ctes.rutaContra()]);
     }
 
     cancelar() {
@@ -56,7 +59,8 @@ export class ContraguaformComponent implements OnInit {
             this.comunidades = res.form.comunidades;
             this.formmed = res.form.formmed;
             this.teredad = res.form.teredad;
-            this.domService.setFocusTimeout('perCirucInput', 100);
+            this.validfl = res.form.validfl;
+            this.domService.setFocusTimeout(this.ctes.lblPerCirucInput(), 100);
         });
     }
 
@@ -107,17 +111,16 @@ export class ContraguaformComponent implements OnInit {
 
     guardar() {
         const vfieldref = this.personService.getBasicValidFieldList();
-        const vfieldagua = this.contraService.getValidFieldList();
         const isValidRef = this.domService.validFormData(this.formref, vfieldref);
 
         if (!isValidRef) {
             return;
         }
-        const isValidContra = this.domService.validFormData(this.form, vfieldagua);
+        const isValidContra = this.domService.validFormData(this.form, this.validfl);
         if (!isValidContra) {
             return;
         }
-        const isValidMed = this.domService.validFormData(this.formmed, vfieldagua);
+        const isValidMed = this.domService.validFormData(this.formmed, this.validfl);
         if (!isValidMed) {
             return;
         }

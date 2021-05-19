@@ -1,0 +1,24 @@
+<div>
+    <h4 class="pt-3 pb-2">Registrar pago por consumo de agua</h4>
+
+    <div *ngIf="isLoading">
+        <app-loading></app-loading>
+    </div>
+
+    <div *ngIf="!isLoading">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="p-2 border rounded">
+
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="d-grid gap-2">
+                    <buttton class="btn btn-outline-primary" (click)="doSave()"><i class="fa fa-save"></i> Guardar
+                    </buttton>
+                    <buttton class="btn btn-outline-secondary" (click)="doCancel()"> Cancelar</buttton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

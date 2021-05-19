@@ -116,6 +116,8 @@ import {TicketviewComponent} from './components/tickets/ticketview/ticketview.co
 import {DetfactviewComponent} from './components/transac/facturas/facturasview/detfactview.component';
 import {ContratoAguaComponent} from './components/aguap/contratos/contrato-agua.component';
 import {ContraguaformComponent} from './components/aguap/contraguaform/contraguaform.component';
+import {LectomedComponent} from './components/aguap/lectomed/lectomed.component';
+import {CobroaguaComponent} from './components/aguap/cobroagua/cobroagua.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -198,7 +200,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         CredrefformComponent,
         TicketviewComponent,
         ContratoAguaComponent,
-        ContraguaformComponent
+        ContraguaformComponent,
+        LectomedComponent,
+        CobroaguaComponent
     ],
     imports: [
         CommonModule,

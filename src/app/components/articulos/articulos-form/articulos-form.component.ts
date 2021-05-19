@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ArticuloService} from '../../../services/articulo.service';
 import {CategoriasService} from '../../../services/categorias.service';
-import {UnidadesService} from '../../../services/unidades.service';
 import {MessageService, SelectItem} from 'primeng/api';
 import {SwalService} from '../../../services/swal.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -61,7 +60,6 @@ export class ArticulosFormComponent implements OnInit {
         private artService: ArticuloService,
         private artStockService: ArticulostockService,
         private catsService: CategoriasService,
-        private unidadesService: UnidadesService,
         private swalService: SwalService,
         private arrayUtil: ArrayutilService,
         private localStrgServ: LocalStorageService,

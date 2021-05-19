@@ -39,10 +39,6 @@ export class TcitaService extends BaseService {
         return this._doPost(this.getHOT({accion: 'anular', cod: citaId}), {});
     }
 
-    getlastcita(perId: number, tipo: number) {
-        return this._doGet(this.getHOT({accion: 'glastv', pac: perId, tipo}));
-    }
-
     getNextCita(perId: number, tipo: number, fecha: string) {
         return this._doGet(this.getHOT({accion: 'getproxvcita', pac: perId, tipo, fecha}));
     }

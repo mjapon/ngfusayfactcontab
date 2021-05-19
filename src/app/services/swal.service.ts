@@ -6,27 +6,34 @@ import {MessageService} from 'primeng/api';
     providedIn: 'root'
 })
 export class SwalService {
+    defmsg = 'Mensaje';
+    info = 'info';
+    success = 'success';
+    warning = 'warning';
+    warn = 'warn';
+    error = 'error';
+
     constructor(private messageService: MessageService) {
     }
 
-    showMsg(msg: string, type: any, title: string = 'Mensaje') {
+    showMsg(msg: string, type: any, title: string = this.defmsg) {
         swal.fire(title, msg, type);
     }
 
-    fireInfo(msg: string, title: string = 'Mensaje') {
-        this.showMsg(msg, 'info', title);
+    fireInfo(msg: string, title: string = this.defmsg) {
+        this.showMsg(msg, this.info, title);
     }
 
-    fireSuccess(msg: string, title: string = 'Mensaje') {
-        this.showMsg(msg, 'success', title);
+    fireSuccess(msg: string, title: string = this.defmsg) {
+        this.showMsg(msg, this.success, title);
     }
 
-    fireWarning(msg: string, title: string = 'Mensaje') {
-        this.showMsg(msg, 'warning', title);
+    fireWarning(msg: string, title: string = this.defmsg) {
+        this.showMsg(msg, this.warning, title);
     }
 
-    fireError(msg: string, title: string = 'Mensaje') {
-        this.showMsg(msg, 'error', title);
+    fireError(msg: string, title: string = this.defmsg) {
+        this.showMsg(msg, this.error, title);
     }
 
     fireDialog(msg: string, ptitle: string = '¿Esta segur@?') {
@@ -48,18 +55,18 @@ export class SwalService {
     }
 
     fireToastSuccess(summary: string, detail?: string) {
-        this.fireToast('success', summary, detail);
+        this.fireToast(this.success, summary, detail);
     }
 
     fireToastInfo(summary: string, detail?: string) {
-        this.fireToast('info', summary, detail);
+        this.fireToast(this.info, summary, detail);
     }
 
     fireToastWarn(summary: string, detail?: string) {
-        this.fireToast('warn', summary, detail);
+        this.fireToast(this.warn, summary, detail);
     }
 
     fireToastError(summary: string, detail?: string) {
-        this.fireToast('error', summary, detail);
+        this.fireToast(this.error, summary, detail);
     }
 }

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ContratoaguaService} from '../../../services/contratoagua.service';
+import {ContratoaguaService} from '../../../services/agua/contratoagua.service';
 import {Router} from '@angular/router';
+import {CtesAguapService} from '../utils/ctes-aguap.service';
 
 @Component({
     selector: 'app-contratos',
@@ -10,6 +11,7 @@ export class ContratoAguaComponent implements OnInit {
     isLoading = false;
 
     constructor(private contraAgua: ContratoaguaService,
+                private ctes: CtesAguapService,
                 private router: Router) {
     }
 
@@ -17,6 +19,14 @@ export class ContratoAguaComponent implements OnInit {
     }
 
     goToForm() {
-        this.router.navigate(['aguap', 'contratos', 'form']);
+        this.router.navigate([this.ctes.rutaContraForm()]);
+    }
+
+    gotoLectoMed() {
+        this.router.navigate([this.ctes.rutaLectoMedForm()]);
+    }
+
+    gotoPagos() {
+        this.router.navigate([this.ctes.rutaPagos()]);
     }
 }
