@@ -216,7 +216,7 @@ export class RxdocsComponent implements OnInit, OnChanges {
         this.rxDocsServ.getForm(this.codPaciente, this.tipo).subscribe(res => {
             if (res.status === 200) {
                 this.form = res.form;
-                this.domService.setFocusTimeout('rxdNombresInput', 100);
+                this.domService.setFocusTm('rxdNombresInput', 100);
             }
         });
     }
@@ -249,7 +249,7 @@ export class RxdocsComponent implements OnInit, OnChanges {
     editar(doc: any) {
         this.showForm = true;
         this.form = Object.assign({}, doc);
-        this.domService.setFocusTimeout('rxdNombresInput', 100);
+        this.domService.setFocusTm('rxdNombresInput', 100);
     }
 
     clearFile() {

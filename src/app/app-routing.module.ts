@@ -32,7 +32,7 @@ import {CuentasxcpComponent} from './components/transac/facturas/cuentasxcp.comp
 import {IngegrComponent} from './components/ingresosegresos/ingegr/ingegr.component';
 import {IngegrformComponent} from './components/ingresosegresos/ingegrform/ingegrform.component';
 import {UtilidadesComponent} from './components/transac/facturas/utilidades/utilidades.component';
-import {ContratoAguaComponent} from './components/aguap/contratos/contrato-agua.component';
+import {AguaHomeComponent} from './components/aguap/home/agua-home.component';
 import {ContraguaformComponent} from './components/aguap/contraguaform/contraguaform.component';
 import {LectomedComponent} from './components/aguap/lectomed/lectomed.component';
 import {CtesAguapService} from './components/aguap/utils/ctes-aguap.service';
@@ -86,10 +86,10 @@ const routes: Routes = [
     {path: 'contabilidad/balancegeneral', component: BalancegeneralComponent},
     {path: 'contabilidad/estadoresultados', component: EstadoresultadosComponent},
     {path: 'utilventas', component: UtilidadesComponent},
-    {path: aguapmod.rutaContra(), component: ContratoAguaComponent},
-    {path: aguapmod.rutaContraForm(), component: ContraguaformComponent},
-    {path: aguapmod.rutaLectoMedForm(), component: LectomedComponent},
-    {path: aguapmod.rutaPagos(), component: CobroaguaComponent},
+    {path: aguapmod.rutaHome, component: AguaHomeComponent},
+    {path: aguapmod.rutaContraForm, component: ContraguaformComponent},
+    {path: aguapmod.rutaLectoMedForm, component: LectomedComponent},
+    {path: aguapmod.rutaPagos, component: CobroaguaComponent},
     {path: '**', component: HomeComponent}
 ];
 

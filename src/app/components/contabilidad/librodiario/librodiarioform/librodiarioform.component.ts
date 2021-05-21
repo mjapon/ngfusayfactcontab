@@ -8,6 +8,7 @@ import {SwalService} from '../../../../services/swal.service';
 import {NumberService} from '../../../../services/number.service';
 import {FechasService} from '../../../../services/fechas.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
+import {CtesService} from '../../../../services/ctes.service';
 
 @Component({
     selector: 'app-librodiarioform',
@@ -39,6 +40,7 @@ export class LibrodiarioformComponent implements OnInit {
                 private swalService: SwalService,
                 private arrayService: ArrayutilService,
                 private loadingServ: LoadingUiService,
+                private ctes: CtesService,
                 private route: ActivatedRoute,
                 private router: Router) {
         this.route.paramMap.subscribe(params => {
@@ -87,7 +89,7 @@ export class LibrodiarioformComponent implements OnInit {
     }
 
     setFocusInCtaConta() {
-        this.domService.setFocusTimeout('ctasAutoCom', 100);
+        this.domService.setFocusTm('ctasAutoCom', 100);
     }
 
     cancelar() {
@@ -112,7 +114,7 @@ export class LibrodiarioformComponent implements OnInit {
                 this.totalizar();
                 this.setFocusInCtaConta();
             } else {
-                this.swalService.fireToastError('Monto incorrecto');
+                this.swalService.fireToastError(this.ctes.msgMontoIncVerif);
             }
         } else {
             this.swalService.fireToastError('Seleccione la cuenta contable');
@@ -169,7 +171,7 @@ export class LibrodiarioformComponent implements OnInit {
     }
 
     setFocusInMonto() {
-        this.domService.setFocusTimeout('montoInput', 100);
+        this.domService.setFocusTm('montoInput', 100);
     }
 
     setDtDebitoValue(value: number) {

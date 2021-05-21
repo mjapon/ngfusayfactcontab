@@ -1,7 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {PersonaService} from '../../services/persona.service';
-import {registerLocaleData} from '@angular/common';
-import es from '@angular/common/locales/es';
 import {PersonEvService} from '../../services/personev.service';
 
 @Component({
@@ -30,18 +28,14 @@ import {PersonEvService} from '../../services/personev.service';
                         </h6>
                     </div>
                     <div class="col-md-4">
-                        <div *ngIf="totaldeuda>=0">
+                        <div class="bg-warning bg-gradient p-2 rounded" *ngIf="totaldeuda>0||totalcxp>0">
                             <div *ngIf="totaldeuda>0">
-                                        <span class="text-warning"> <i
-                                                class="fa fa-warning"></i> Cuentas por cobrar:  </span>
-                                <span class="text-warning fw-bold">$ {{totaldeuda| number: '.2'}} </span>
+                                <span> <i class="fa fa-warning"></i> Cuentas por cobrar:  </span>
+                                <span class="fw-bold ms-1">$ {{totaldeuda| number: '.2'}} </span>
                             </div>
-                        </div>
-                        <div *ngIf="totalcxp>=0">
                             <div *ngIf="totalcxp>0">
-                                        <span class="text-warning"> <i
-                                                class="fa fa-warning"></i> Cuentas por pagar:  </span>
-                                <span class="text-warning fw-bold">$ {{totalcxp| number: '.2'}} </span>
+                                <span> <i class="fa fa-warning"></i> Cuentas por pagar:  </span>
+                                <span class="fw-bold ms-1">$ {{totalcxp| number: '.2'}} </span>
                             </div>
                         </div>
                     </div>
@@ -58,27 +52,27 @@ import {PersonEvService} from '../../services/personev.service';
                         <li class="nav-item">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(3)}"
                                (click)="selectMasterTab(3, $event)">
-                                Ventas <span class="badge badge-pill" *ngIf="totalestrns?.ventas>0"
+                                Ventas <span class="badge " *ngIf="totalestrns?.ventas>0"
                                              [ngClass]="classBadge(3)"> {{totalestrns.ventas}} </span> </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(5)}"
                                (click)="selectMasterTab(5, $event)">
-                                Compras <span class="badge badge-pill" *ngIf="totalestrns?.compras>0"
+                                Compras <span class="badge " *ngIf="totalestrns?.compras>0"
                                               [ngClass]="classBadge(5)"> {{totalestrns.compras}} </span> </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(6)}"
                                (click)="selectMasterTab(6, $event)">
                                 Cuentas por cobrar <span *ngIf="totalestrns?.cxcobrar>0"
-                                                         class="badge badge-pill"
+                                                         class="badge "
                                                          [ngClass]="classBadge(6)"> {{totalestrns.cxcobrar}} </span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(7)}"
                                (click)="selectMasterTab(7, $event)">
                                 Cuentas por pagar <span *ngIf="totalestrns.cxpagar>0"
-                                                        class="badge badge-pill"
+                                                        class="badge "
                                                         [ngClass]="classBadge(7)"> {{totalestrns.cxpagar}} </span> </a>
                         </li>
                     </ul>
@@ -86,7 +80,7 @@ import {PersonEvService} from '../../services/personev.service';
                 <div>
                     <ul class="nav nav-pills">
                         <li class="nav-item">
-                            <a class="nav-link hand" (click)="cerrar($event)">
+                            <a class="nav-link hand" (click)="cerrar()">
                                 <i class="fa fa-times"></i>
                                 Cerrar</a>
                         </li>
@@ -108,8 +102,6 @@ export class ResumenrefComponent implements OnInit, OnChanges {
 
     constructor(private personService: PersonaService,
                 private personEvService: PersonEvService) {
-        registerLocaleData(es);
-
         this.personEvService.source.subscribe(msg => {
             if (msg && msg.tipo === 1) {
                 this.loadDeudas();
@@ -140,7 +132,7 @@ export class ResumenrefComponent implements OnInit, OnChanges {
     }
 
     classBadge(tabnum: number) {
-        return tabnum === this.selectedMasterTab ? 'badge-light' : 'badge-primary';
+        return tabnum === this.selectedMasterTab ? 'bg-light text-primary' : 'bg-primary text-light';
     }
 
     ngOnInit(): void {
@@ -156,7 +148,7 @@ export class ResumenrefComponent implements OnInit, OnChanges {
         this.evBtnTabClic.emit(btnId);
     }
 
-    cerrar($event: MouseEvent) {
+    cerrar() {
         this.evBtnCerrar.emit();
     }
 }

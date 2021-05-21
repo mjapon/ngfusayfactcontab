@@ -33,17 +33,19 @@ export class BaseService {
     }
 
     protected fnProcesaError(e) {
+        const msgept = 'Error al procesar petición';
+        const error = 'error';
         if (e) {
             if (e.status === 400) {
                 // return throwError(e);
             }
             if (e.msg) {
-                swal.fire('Error al procesar petición', e.msg, 'error');
+                swal.fire(msgept, e.msg, error);
             } else {
-                swal.fire('Error al procesar petición', 'Verifique su conexión a internet', 'error');
+                swal.fire(msgept, 'Verifique su conexión a internet', error);
             }
         } else {
-            swal.fire('Error al procesar petición', 'Error desconocido', 'error');
+            swal.fire(msgept, 'Error desconocido', error);
         }
         return throwError(e);
     }
@@ -91,6 +93,14 @@ export class BaseService {
 
     protected _doGet(httpOptions) {
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
+    }
+
+    protected _doGetAction(accion, params = {}) {
+        return this._doGet(this.getHOT({accion, ...params}));
+    }
+
+    protected _doPostAction(accion, form) {
+        return this._doPost(this.getHOT({accion}), form);
     }
 
     protected _doPost(httpOptions, form) {

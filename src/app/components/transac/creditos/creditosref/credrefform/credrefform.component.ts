@@ -6,6 +6,7 @@ import {FechasService} from '../../../../../services/fechas.service';
 import {ArrayutilService} from '../../../../../services/arrayutil.service';
 import {DomService} from '../../../../../services/dom.service';
 import {NumberService} from '../../../../../services/number.service';
+import {CtesService} from '../../../../../services/ctes.service';
 
 @Component({
     selector: 'app-credrefform',
@@ -22,12 +23,14 @@ export class CredrefformComponent implements OnInit, OnChanges {
     cuentasforcred: Array<any> = [];
 
     @Output() evCancelar = new EventEmitter<any>();
+    @Output() evDeudaCreada = new EventEmitter<any>();
 
     constructor(private swalService: SwalService,
                 private loadingService: LoadingUiService,
                 private domService: DomService,
                 private fechasService: FechasService,
                 private arrayService: ArrayutilService,
+                private ctes: CtesService,
                 private numberService: NumberService,
                 private creditoService: CreditoService) {
     }
@@ -40,14 +43,12 @@ export class CredrefformComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-
-        this.domService.setFocusTimeout('monto', 100);
-
+        this.domService.setFocusTm(this.ctes.monto, 300);
     }
 
     ontiposel(fila: any) {
         const idx = this.form.motivos.indexOf(fila);
-        this.domService.setFocusTimeout(`tipo_valor_${idx}`, 100);
+        this.domService.setFocusTm(`tipo_valor_${idx}`, 100);
         fila.dt_valor = this.auxGetMontoFila(this.form.motivos, idx);
     }
 
@@ -74,7 +75,7 @@ export class CredrefformComponent implements OnInit, OnChanges {
     guardar() {
         const montotal = this.form.monto;
         if (this.numberService.round2(montotal) <= 0) {
-            this.swalService.fireToastError('Monto incorrecto, favor verificar');
+            this.swalService.fireToastError(this.ctes.msgMontoIncVerif);
             return;
         }
 
@@ -98,6 +99,7 @@ export class CredrefformComponent implements OnInit, OnChanges {
                     this.creditoService.guardaCredRef(formtopost).subscribe(res => {
                         if (res.status === 200) {
                             this.swalService.fireToastSuccess(res.msg);
+                            this.evDeudaCreada.emit('');
                             this.cancelar();
                         }
                     });

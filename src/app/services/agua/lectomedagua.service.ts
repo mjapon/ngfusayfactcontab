@@ -2,26 +2,32 @@ import {Injectable} from '@angular/core';
 import {BaseService} from '../base-service';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from '../local-storage.service';
+import {CtesService} from '../ctes.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class LectomedaguaService extends BaseService {
     constructor(protected http: HttpClient,
-                protected localStrgService: LocalStorageService) {
+                protected localStrgService: LocalStorageService,
+                private ctes: CtesService) {
         super('/tagplectomed', localStrgService, http);
     }
 
     getForm() {
-        return this._doGet(this.getHOT({accion: 'gform'}));
+        return this._doGetAction(this.ctes.form);
     }
 
     guardar(form) {
-        return this._doPost(this.getHOT({accion: 'crea'}), form);
+        return this._doPostAction(this.ctes.crea, form);
     }
 
     getLast(numed) {
-        return this._doGet(this.getHOT({accion: 'glast', numed}));
+        return this._doGetAction(this.ctes.last, {numed});
+    }
+
+    getConsumosPend(codmed) {
+        return this._doGetAction(this.ctes.conspend, {codmed});
     }
 
     generaConsumo(form) {

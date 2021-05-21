@@ -66,7 +66,7 @@ export class UserformComponent implements OnInit {
                 this.form = res.form;
                 this.roles = res.form.roles;
                 this.formcli = res.formcli;
-                this.domService.setFocusTimeout('ciPasInput', 800);
+                this.domService.setFocusTm('ciPasInput', 800);
             });
         } else {
             this.fautService.getFormEdita(this.usId).subscribe(res => {

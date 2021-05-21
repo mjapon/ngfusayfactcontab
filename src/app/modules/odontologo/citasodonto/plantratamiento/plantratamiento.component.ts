@@ -6,8 +6,6 @@ import {SwalService} from '../../../../services/swal.service';
 import {ArrayutilService} from '../../../../services/arrayutil.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
 import {NumberService} from '../../../../services/number.service';
-import {registerLocaleData} from '@angular/common';
-import es from '@angular/common/locales/es';
 
 @Component({
     selector: 'app-plantratamiento',
@@ -57,7 +55,6 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
                 this.filteredServ = res.items;
             }
         });
-        registerLocaleData(es);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -98,7 +95,7 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
                 this.formaspago = res.formaspago;
                 this.formdet = res.formdet;
                 this.formpago = res.formpago;
-                this.domService.setFocusTimeout('pnt_nombre', 100);
+                this.domService.setFocusTm('pnt_nombre', 100);
                 this.impuestos = res.formcab.impuestos;
                 this.numberService.setIva(this.impuestos.iva);
             }
@@ -328,7 +325,7 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
                 this.formaspago = res.formaspago;
                 this.formdet = res.formdet;
                 this.formpago = res.formpago;
-                this.domService.setFocusTimeout('pnt_nombre', 100);
+                this.domService.setFocusTm('pnt_nombre', 100);
                 this.impuestos = res.formcab.impuestos;
                 this.numberService.setIva(this.impuestos.iva);
             }

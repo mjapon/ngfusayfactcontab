@@ -214,48 +214,5 @@
     <div class="text-primary p-1">
         El referente ya tiene medidores registrados:
     </div>
-    <div class="table-responsive">
-        <table class="table table-bordered table-sm">
-            <thead>
-            <tr>
-                <th scope="col">
-                    <div class="fontsizesm">Num Medidor</div>
-                </th>
-                <th scope="col">
-                    <div class="fontsizesm">Tarifa</div>
-                </th>
-                <th scope="col">
-                    <div class="fontsizesm">Barrio</div>
-                </th>
-                <th scope="col">
-                    <div class="fontsizesm text-center">Sector</div>
-                </th>
-                <th scope="col">
-                    <div class="fontsizesm text-center">Dirección</div>
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <ng-container *ngFor="let fila of contratosPrevios">
-                <tr>
-                    <td>
-                        <div class="fontsizenr">{{fila.mdg_num}}</div>
-                    </td>
-                    <td>
-                        <div class="fontsizenr">{{fila.per_id}}</div>
-                    </td>
-                    <td>
-                        <div class="fontsizenr">{{fila.comunidad}}</div>
-                    </td>
-                    <td>
-                        <div class="fontsizenr">{{fila.cna_sector}}</div>
-                    </td>
-                    <td>
-                        <div class="fontsizenr">{{fila.cna_direccion}}</div>
-                    </td>
-                </tr>
-            </ng-container>
-            </tbody>
-        </table>
-    </div>
+    <app-tblmedidores [medidores]="contratosPrevios"></app-tblmedidores>
 </div>

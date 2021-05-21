@@ -694,15 +694,15 @@ export class MvcalendarComponent implements OnInit, OnChanges {
     }
 
     onPacSelect($event: any) {
-        this.domService.setFocusTimeout('detalleCitaTa', 100);
+        this.domService.setFocusTm('detalleCitaTa', 100);
     }
 
     onMedicoChange($event: any) {
-        this.domService.setFocusTimeout('detalleCitaTa', 100);
+        this.domService.setFocusTm('detalleCitaTa', 100);
     }
 
     onModalNewEvShow($evet: any) {
-        this.domService.setFocusTimeout('inputCtTitulo', 100);
+        this.domService.setFocusTm('inputCtTitulo', 100);
     }
 
     loadCitas() {
@@ -766,7 +766,7 @@ export class MvcalendarComponent implements OnInit, OnChanges {
     }
 
     setFocusPac() {
-        this.domService.setFocusTimeout('pacAutoCom', 100);
+        this.domService.setFocusTm('pacAutoCom', 100);
     }
 
     clearPacForCalendar() {

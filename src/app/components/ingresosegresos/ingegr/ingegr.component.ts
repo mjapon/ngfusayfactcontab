@@ -2,8 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {BilleteraService} from '../../../services/billetera.service';
 import {SwalService} from '../../../services/swal.service';
 import {DomService} from '../../../services/dom.service';
-import {registerLocaleData} from '@angular/common';
-import es from '@angular/common/locales/es';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {Router} from '@angular/router';
 import {BilleteramovService} from '../../../services/billeteramov.service';
@@ -47,7 +45,7 @@ export class IngegrComponent implements OnInit {
                 private fechasService: FechasService,
                 private loadingUiService: LoadingUiService,
                 private swalService: SwalService) {
-        registerLocaleData(es);
+
     }
 
     ngOnInit(): void {
@@ -78,7 +76,7 @@ export class IngegrComponent implements OnInit {
             }
             this.isLoadingFormBill = false;
             this.isShowNewBill = true;
-            this.domService.setFocusTimeout('bil_nombre', 500);
+            this.domService.setFocusTm('bil_nombre', 500);
         });
     }
 
@@ -89,7 +87,7 @@ export class IngegrComponent implements OnInit {
     toggleAutogencode() {
         this.formbill.bil_autogencode = this.formbill.bil_autogencode === 1 ? 0 : 1;
         if (this.formbill.bil_autogencode === 0) {
-            this.domService.setFocusTimeout('bil_code', 100);
+            this.domService.setFocusTm('bil_code', 100);
         }
     }
 

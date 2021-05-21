@@ -15,6 +15,7 @@ export class LectomedComponent implements OnInit {
     isLoading = false;
     form: any = {};
     meses: Array<any> = [];
+    anios: Array<any> = [];
     validfl: Array<any> = [];
     datosmedidor: any = null;
     lastlectomed: any = null;
@@ -38,8 +39,9 @@ export class LectomedComponent implements OnInit {
             this.isLoading = false;
             this.form = res.form.form;
             this.meses = res.form.meses;
+            this.anios = res.form.anios;
             this.validfl = res.form.vfl;
-            this.domService.setFocusTimeout(this.ctes.lblMdg_num(), 100);
+            this.domService.setFocusTm(this.ctes.mdg_num, 100);
         });
     }
 
@@ -50,7 +52,7 @@ export class LectomedComponent implements OnInit {
     buscarMedidor() {
         this.datosmedidor = null;
         if (this.form.mdg_num.trim().length < 2) {
-            this.swalService.fireToastError(this.ctes.msgDataNumMed());
+            this.swalService.fireToastError(this.ctes.msgEnterNumMed);
             return;
         }
         this.loadingServ.publishBlockMessage();
@@ -74,10 +76,9 @@ export class LectomedComponent implements OnInit {
             if (res.status === 200) {
                 this.lastlectomed = res.lectomed;
                 this.form.lmd_valorant = this.lastlectomed.lmd_valor;
-                this.domService.setFocusTimeout(this.ctes.lblLmdValor(), 100);
+                this.domService.setFocusTm(this.ctes.lmd_valor, 100);
             } else {
-                console.log('else----->');
-                this.domService.setFocusTimeout(this.ctes.lblLmdValorAnt(), 100);
+                this.domService.setFocusTm(this.ctes.lmd_valorant, 100);
             }
         });
     }
@@ -87,7 +88,7 @@ export class LectomedComponent implements OnInit {
         if (!isValidMed) {
             return;
         }
-        this.swalService.fireDialog(this.ctes.msgConfirmSaveInfo(), '').then(confirm => {
+        this.swalService.fireDialog(this.ctes.msgConfirmSave, '').then(confirm => {
             if (confirm.value) {
                 this.loadingServ.publishBlockMessage();
                 this.lectomedService.guardar(this.form).subscribe(res => {
@@ -105,7 +106,7 @@ export class LectomedComponent implements OnInit {
     }
 
     gotoMain() {
-        this.router.navigate([this.ctes.rutaContra()]);
+        this.router.navigate([this.ctes.rutaHome]);
     }
 
     doCancel() {

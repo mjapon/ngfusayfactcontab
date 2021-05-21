@@ -11,10 +11,9 @@ import {Router} from '@angular/router';
 import {SeccionService} from '../../../../services/seccion.service';
 import {PersonaService} from '../../../../services/persona.service';
 import {forkJoin, Subscription} from 'rxjs';
-import es from '@angular/common/locales/es';
-import {registerLocaleData} from '@angular/common';
 import {FacturasmsgService} from '../../../../services/facturasmsg.service';
 import {LocalStorageService} from '../../../../services/local-storage.service';
+import {CtesService} from '../../../../services/ctes.service';
 
 @Component({
     selector: 'app-facturasform',
@@ -72,6 +71,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
                 private facturaMsgService: FacturasmsgService,
                 private localStrgService: LocalStorageService,
                 private router: Router,
+                private ctes: CtesService,
                 private personaServ: PersonaService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
@@ -90,7 +90,6 @@ export class FacturasformComponent implements OnInit, OnDestroy {
         this.isDisabledFormRef = false;
         this.artsearchedcount = 0;
         this.artsearched = false;
-        registerLocaleData(es);
 
         this.factMsgSubs = this.facturaMsgService.message.subscribe(msg => {
             if (msg) {
@@ -229,7 +228,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
         }
         this.totalizar();
         this.artFiltrado = {};
-        this.domService.setFocusTimeout('artsAutoCom', 100);
+        this.domService.setFocusTm('artsAutoCom', 100);
     }
 
     quitarItem(fila: any) {
@@ -352,12 +351,12 @@ export class FacturasformComponent implements OnInit, OnDestroy {
             if (res.status === 200) {
                 this.form.form_persona = res.form;
                 if (!this.isfacturacompra) {
-                    this.domService.setFocusTimeout('per_ciruc', 100);
+                    this.domService.setFocusTm('per_ciruc', 100);
                 } else {
                     if (this.form.form_cab.secuencia) {
-                        this.domService.setFocusTimeout('per_ciruc', 100);
+                        this.domService.setFocusTm('per_ciruc', 100);
                     } else {
-                        this.domService.setFocusTimeout('fc_secuencia', 100);
+                        this.domService.setFocusTm('fc_secuencia', 100);
                     }
                 }
             }
@@ -424,9 +423,9 @@ export class FacturasformComponent implements OnInit, OnDestroy {
             this.isLoading = false;
 
             if (this.isfacturacompra) {
-                this.domService.setFocusTimeout('fc_secuencia', 100);
+                this.domService.setFocusTm('fc_secuencia', 100);
             } else {
-                this.domService.setFocusTimeout('artsAutoCom', 300);
+                this.domService.setFocusTm('artsAutoCom', 300);
             }
 
             this.evFormLoaded.emit(this.form);
@@ -471,10 +470,10 @@ export class FacturasformComponent implements OnInit, OnDestroy {
         this.personaServ.buscarPorCi(per_ciruc).subscribe(res => {
                 if (res.status === 200) {
                     this.form.form_persona = res.persona;
-                    this.domService.setFocusTimeout('artsAutoCom', 100);
-                    this.swalService.fireToastSuccess('El referente ya está registrado');
+                    this.domService.setFocusTm('artsAutoCom', 100);
+                    this.swalService.fireToastSuccess(this.ctes.msgRefRegistered);
                 } else {
-                    this.domService.setFocusTimeout('perNombresInput', 200);
+                    this.domService.setFocusTm(this.ctes.perNombresInput, 200);
                 }
             }
         );
@@ -485,7 +484,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
             this.loadFormReferente();
         } else {
             this.loadConsumidorFinal();
-            this.domService.setFocusTimeout('artsAutoCom', 100);
+            this.domService.setFocusTm('artsAutoCom', 100);
         }
     }
 

@@ -279,7 +279,7 @@ export class PlanctaslistComponent implements OnInit {
         this.artService.getFormPlanCuenta(this.padreexp).subscribe(res => {
             this.isLoadingForm = false;
             if (res.status === 200) {
-                this.domService.setFocusTimeout('cta_ic_nombre', 100);
+                this.domService.setFocusTm('cta_ic_nombre', 100);
                 this.formCrea = res.form;
             }
         });

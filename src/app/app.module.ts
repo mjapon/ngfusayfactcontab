@@ -114,13 +114,19 @@ import {CredreflistComponent} from './components/transac/creditos/creditosref/cr
 import {CredrefformComponent} from './components/transac/creditos/creditosref/credrefform/credrefform.component';
 import {TicketviewComponent} from './components/tickets/ticketview/ticketview.component';
 import {DetfactviewComponent} from './components/transac/facturas/facturasview/detfactview.component';
-import {ContratoAguaComponent} from './components/aguap/contratos/contrato-agua.component';
+import {AguaHomeComponent} from './components/aguap/home/agua-home.component';
 import {ContraguaformComponent} from './components/aguap/contraguaform/contraguaform.component';
 import {LectomedComponent} from './components/aguap/lectomed/lectomed.component';
 import {CobroaguaComponent} from './components/aguap/cobroagua/cobroagua.component';
+import {StepsModule} from 'primeng/steps';
+import {DatosmedidorComponent} from './components/aguap/utils/datosmedidor.component';
+import {TblmedidoresComponent} from './components/aguap/utils/tblmedidores.component';
+import {BasicdatosrefComponent} from './components/aguap/utils/basicdatosref.component';
+import es from '@angular/common/locales/es';
 
 
 registerLocaleData(localeEs, 'es-EC');
+registerLocaleData(es);
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -199,10 +205,13 @@ export function HttpLoaderFactory(http: HttpClient) {
         CredreflistComponent,
         CredrefformComponent,
         TicketviewComponent,
-        ContratoAguaComponent,
+        AguaHomeComponent,
         ContraguaformComponent,
         LectomedComponent,
-        CobroaguaComponent
+        CobroaguaComponent,
+        DatosmedidorComponent,
+        TblmedidoresComponent,
+        BasicdatosrefComponent
     ],
     imports: [
         CommonModule,
@@ -241,7 +250,8 @@ export function HttpLoaderFactory(http: HttpClient) {
             }
         }),
         InputNumberModule,
-        TreeTableModule
+        TreeTableModule,
+        StepsModule
     ],
     providers: [
         MessageService,

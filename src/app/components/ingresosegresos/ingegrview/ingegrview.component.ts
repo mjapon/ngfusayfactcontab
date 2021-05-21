@@ -3,8 +3,6 @@ import {BilleteramovService} from '../../../services/billeteramov.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {RxdocsService} from '../../../services/rxdocs.service';
 import {SwalService} from '../../../services/swal.service';
-import {registerLocaleData} from '@angular/common';
-import es from '@angular/common/locales/es';
 
 @Component({
     selector: 'app-ingegrview',
@@ -29,7 +27,7 @@ export class IngegrviewComponent implements OnInit, OnChanges {
                 private loadingUiService: LoadingUiService,
                 private rxDocsServ: RxdocsService,
                 private swalService: SwalService) {
-        registerLocaleData(es);
+
     }
 
     ngOnInit(): void {

@@ -57,7 +57,7 @@ export class TicketformComponent implements OnInit {
                 this.lugares = res[2].items;
             }
             this.isLoading = false;
-            this.domService.setFocusTimeout('ciPasInput', 300);
+            this.domService.setFocusTm('ciPasInput', 300);
         });
     }
 

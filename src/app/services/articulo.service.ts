@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {LocalStorageService} from './local-storage.service';
 import {NumberService} from './number.service';
+import {CtesService} from './ctes.service';
 
 @Injectable({
     providedIn: 'root'
@@ -13,32 +14,34 @@ export class ArticuloService extends BaseService {
     constructor(
         protected http: HttpClient,
         protected localStrgServ: LocalStorageService,
-        protected numberService: NumberService
+        protected numberService: NumberService,
+        private ctes: CtesService
     ) {
         super('/titemconfig', localStrgServ, http);
     }
 
     getForm(): Observable<any> {
-        return this._doGet(this.getHOT({accion: 'formcrea'}));
+        return this._doGetAction(this.ctes.formcrea);
+    }
+
+    auxGetUrl(artid) {
+        return `${this.urlEndPoint}/${artid}`;
     }
 
     getByCod(artId: number): Observable<any> {
-        const endopoint = this.urlEndPoint + '/' + artId;
-        return this.http.get(endopoint, this.getHOT({}));
+        return this.http.get(this.auxGetUrl(artId), this.getHOT({}));
     }
 
     getNextCodbar(): Observable<any> {
-        const endopoint = this.urlEndPoint;
-        const httpOptions = this.getHOT({accion: 'seccodbarra'});
-        return this.doGet(this.http, endopoint, httpOptions);
+        return this._doGetAction(this.ctes.seccodbarra);
     }
 
     existeCodbar(codbar: string): Observable<any> {
-        return this._doGet(this.getHOT({accion: 'verifcodbar', codbar}));
+        return this._doGetAction(this.ctes.verifcodbar, {codbar});
     }
 
     guardarArticulo(form: any): Observable<any> {
-        const endpoint = this.urlEndPoint + '/' + form.ic_id;
+        const endpoint = this.auxGetUrl(form.ic_id);
         const httpOptions = this.getHOT({});
         return this.http.post(endpoint, form, httpOptions).pipe(
             map((response: any) => {
@@ -49,29 +52,29 @@ export class ArticuloService extends BaseService {
     }
 
     actualizaBarcode(icId: number, newbarcode: string) {
-        const endpoint = this.urlEndPoint + '/' + icId;
-        const httpOptions = this.getHOT({accion: 'updatecode'});
+        const endpoint = this.auxGetUrl(icId);
+        const httpOptions = this.getHOT({accion: this.ctes.updatecode});
         return this.doPost(this.http, endpoint, httpOptions, {new_ic_code: newbarcode});
     }
 
     anularArticulo(artId: any): Observable<any> {
-        const endpoint = this.urlEndPoint + '/' + artId;
-        const httpOptions = this.getHOT({accion: 'del'});
-        return this.doPost(this.http, endpoint, httpOptions, {dato: 'datoval'});
+        const endpoint = this.auxGetUrl(artId);
+        const httpOptions = this.getHOT({accion: this.ctes.del});
+        return this.doPost(this.http, endpoint, httpOptions, {});
     }
 
     anularCtaContable(icid: number) {
-        const endpoint = this.urlEndPoint + '/' + icid;
-        const httpOptions = this.getHOT({accion: 'anulactacontab'});
-        return this.doPost(this.http, endpoint, httpOptions, {dato: 'datoval'});
+        const endpoint = this.auxGetUrl(icid);
+        const httpOptions = this.getHOT({accion: this.ctes.anulactacontab});
+        return this.doPost(this.http, endpoint, httpOptions, {});
     }
 
-    listar(pfiltro: string, sec_id: number, codcat: number): Observable<any> {
+    listar(pfiltro: string, secId: number, codcat: number): Observable<any> {
         const endopoint = this.urlEndPoint;
         const httpOptions = this.getHOT({
-            accion: 'listar',
+            accion: this.ctes.listar,
             filtro: pfiltro,
-            sec_id,
+            sec_id: secId,
             codcat
         });
         return this.http.get(endopoint, httpOptions).pipe(
@@ -83,39 +86,39 @@ export class ArticuloService extends BaseService {
     }
 
     busArtsForTransacc(secid: number, filtro: string, tracod: number) {
-        return this._doGet(this.getHOT({accion: 'gartsserv', filtro, sec: secid, tracod}));
+        return this._doGetAction(this.ctes.gartsserv, {filtro, sec: secid, tracod});
     }
 
     busCtasContables(filtro: string) {
-        return this._doGet((this.getHOT({accion: 'gctascontables', filtro})));
+        return this._doGetAction(this.ctes.gctascontables, {filtro});
     }
 
     getAllCtasContables() {
-        return this._doGet(this.getHOT({accion: 'gallctascontables'}));
+        return this._doGetAction(this.ctes.gallctascontables);
     }
 
     buscaAllServDentalles() {
-        return this._doGet(this.getHOT({accion: 'gservdentall'}));
+        return this._doGetAction(this.ctes.gservdentall);
     }
 
     getImpuestos() {
-        return this._doGet(this.getHOT({accion: 'gimpuestos'}));
+        return this._doGetAction(this.ctes.gimpuestos);
     }
 
     getRaizPlanCuentas(padrexpand) {
-        return this._doGet(this.getHOT({accion: 'gplanc', padrexpand}));
+        return this._doGetAction(this.ctes.gplanc, {padrexpand});
     }
 
     getFormPlanCuenta(padre) {
-        return this._doGet(this.getHOT({accion: 'gformplancta', padre}));
+        return this._doGetAction(this.ctes.gformplancta, {padre});
     }
 
     crearCtaContable(form) {
-        return this._doPost(this.getHOT({accion: 'guardaplancta'}), form);
+        return this._doPostAction(this.ctes.guardaplancta, form);
     }
 
     getDetCtaContable(codcta) {
-        return this._doGet(this.getHOT({accion: 'gdetctacontable', codcta}));
+        return this._doGetAction(this.ctes.gdetctacontable, {codcta});
     }
 
     initFormDetalles(formdet, datosart, isfacturacompra = false) {
@@ -154,6 +157,20 @@ export class ArticuloService extends BaseService {
         formdet.ivaval = ivaval;
         formdet.total = formdet.subtotal + ivaval;
         formdet.dt_valor = formdet.subtforiva;
+    }
+
+    getTiposArt() {
+        return [
+            {label: 'Bien', value: 1},
+            {label: 'Servicio', value: 2}
+        ];
+    }
+
+    getIvas() {
+        return [
+            {label: 'Si', value: true},
+            {label: 'No', value: false}
+        ];
     }
 
 }

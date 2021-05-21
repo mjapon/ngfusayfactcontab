@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
 import {Observable} from 'rxjs';
 import {FechasService} from './fechas.service';
+import {CtesService} from './ctes.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,77 +13,62 @@ export class PersonaService extends BaseService {
     constructor(
         protected http: HttpClient,
         protected localStrgServ: LocalStorageService,
-        private fechasService: FechasService
+        private fechasService: FechasService,
+        private ctes: CtesService
     ) {
         super('/tpersona', localStrgServ, http);
     }
 
     getForm(): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'form'});
-        return this._doGet(httpOptions);
+        return this._doGetAction(this.ctes.form);
     }
 
-    buscarPorCi(pciruc: string): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'buscaci', ciruc: pciruc});
-        return this._doGet(httpOptions);
+    buscarPorCi(ciruc: string): Observable<any> {
+        return this._doGetAction(this.ctes.buscaci, {ciruc});
     }
 
-    buscarPorCifull(pciruc: string): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'buscacifull', ciruc: pciruc});
-        return this._doGet(httpOptions);
+    buscarPorCifull(ciruc: string): Observable<any> {
+        return this._doGetAction(this.ctes.buscacifull, {ciruc});
     }
 
     buscarPorCod(perid: number) {
-        return this._doGet(this.getHOT({accion: 'buscaporid', perid}));
+        return this._doGetAction(this.ctes.buscaporid, {perid});
     }
 
     buscarPorCodfull(perid: number): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'buscaporidfull', perid});
-        return this._doGet(httpOptions);
-    }
-
-    buscarPorEmail(pemail: string): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'buscaci', email: pemail});
-        return this._doGet(httpOptions);
-    }
-
-    buscarPorNomapel(nomapel: string): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'filtronomapel', filtro: nomapel});
-        return this._doGet(httpOptions);
+        return this._doGetAction(this.ctes.buscaporidfull, {perid});
     }
 
     buscarPorNomapelCiPag(filtro: string, pag: number) {
-        const httpOptions = this.getHOT({accion: 'filtropag', filtro, pag});
-        return this._doGet(httpOptions);
+        return this._doGetAction(this.ctes.filtropag, {filtro, pag});
+    }
+
+    auxGetEndpointPerid(perid) {
+        return this.urlEndPoint + '/' + perid;
     }
 
     guardar(form: any): Observable<any> {
-        const endpoint = this.urlEndPoint + '/' + form.per_id;
-        const httpOptions = this.getHOT({});
-        return this.doPost(this.http, endpoint, httpOptions, form);
+        return this.doPost(this.http, this.auxGetEndpointPerid(form.per_id), this.getHOT({}), form);
     }
 
     actualizar(perId: number, form: any) {
-        const endpoint = this.urlEndPoint + '/' + perId;
-        const httpOptions = this.getHOT({});
-        return this.doPut(this.http, endpoint, httpOptions, form);
+        return this.doPut(this.http, this.auxGetEndpointPerid(perId), this.getHOT({}), form);
     }
 
     listarProveedores(): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'buscatipo', per_tipo: 3});
-        return this._doGet(httpOptions);
+        return this._doGetAction(this.ctes.buscatipo, {per_tipo: 3});
     }
 
     listarMedicos(tipo: number): Observable<any> {
-        return this._doGet(this.getHOT({accion: 'lmedicos', tipo}));
+        return this._doGetAction(this.ctes.lmedicos, {tipo});
     }
 
     getTotalDeudas(codper: number) {
-        return this._doGet(this.getHOT({accion: 'gtotaldeudas', codper}));
+        return this._doGetAction(this.ctes.gtotaldeudas, {codper});
     }
 
     getTotalesTransacc(codper: number) {
-        return this._doGet(this.getHOT({accion: 'gcuentafacts', codper}));
+        return this._doGetAction(this.ctes.gcuentafacts, {codper});
     }
 
     loadDataToform(form: any, personentity: any) {

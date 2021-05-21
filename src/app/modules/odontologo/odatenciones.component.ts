@@ -133,7 +133,7 @@ export class OdatencionesComponent implements OnInit, OnChanges {
     showFormCrear() {
         this.loadForm();
         this.showform = true;
-        this.domService.setFocusTimeout('newMotivoAten', 300);
+        this.domService.setFocusTm('newMotivoAten', 300);
     }
 
     loadForm() {

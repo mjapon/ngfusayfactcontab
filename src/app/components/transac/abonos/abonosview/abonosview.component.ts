@@ -115,7 +115,7 @@ export class AbonosviewComponent implements OnInit, OnChanges {
             this.isShowFormAbonar = true;
             if (res.status === 200) {
                 this.formAbono = res.form;
-                this.domService.setFocusTimeout('montoaboinput', 100);
+                this.domService.setFocusTm('montoaboinput', 100);
             }
         });
     }

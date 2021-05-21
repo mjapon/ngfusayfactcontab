@@ -11,6 +11,7 @@ import {Subscription} from 'rxjs';
 import {ConsMedicaMsgService} from '../../../services/cons-medica-msg.service';
 import {LocalStorageService} from '../../../services/local-storage.service';
 import {TcitaService} from '../../../services/tcita.service';
+import {CtesService} from '../../../services/ctes.service';
 
 
 @Component({
@@ -60,6 +61,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 private loadingUiService: LoadingUiService,
                 private route: ActivatedRoute,
                 private router: Router,
+                private ctes: CtesService,
                 private cosMsgService: ConsMedicaMsgService,
                 private tcitaServ: TcitaService
     ) {
@@ -81,7 +83,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.clearAll();
         this.initForm();
         this.auxLoadCiedata();
-        this.domService.setFocusTimeout('buscaPacNomCiInput', 700);
+        this.domService.setFocusTm(this.ctes.buscaPacNomCiInput, 700);
 
         this.subsCitasPlaned = this.cosMsgService.message.subscribe(msg => {
             if (msg) {
@@ -155,7 +157,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 };
                 this.form.paciente.per_id = this.pacienteSelected.per_id;
                 this.loadListaAtenciones();
-                this.domService.setFocusTimeout('motivoConsultaTextArea', 300);
+                this.domService.setFocusTm(this.ctes.motivoConsultaTextArea, 300);
             }
         });
     }
@@ -168,7 +170,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 if (this.pacienteSelected.per_id > 0) {
                     this.form.paciente.per_id = this.pacienteSelected.per_id;
                     this.loadListaAtenciones();
-                    this.domService.setFocusTimeout('motivoConsultaTextArea', 300);
+                    this.domService.setFocusTm(this.ctes.motivoConsultaTextArea, 300);
                 } else {
                     this.form.paciente.per_id = 0;
                     this.selectedTab = 0;
@@ -296,7 +298,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     auxGuardaTab(tabId, inputFocusId) {
         this.selectedTab = tabId;
         if (inputFocusId) {
-            this.domService.setFocusTimeout(inputFocusId, 100);
+            this.domService.setFocusTm(inputFocusId, 100);
         }
     }
 
@@ -368,7 +370,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     limpiar() {
         this.clearAll();
         this.showBuscaPaciente = true;
-        this.domService.setFocusTimeout('buscaPacNomCiInput', 800);
+        this.domService.setFocusTm(this.ctes.buscaPacNomCiInput, 800);
     }
 
     selectHistoriaAnt(row: any) {
@@ -420,7 +422,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.selectedSupTab = tab;
         event.preventDefault();
         if (tab === 1) {
-            this.domService.setFocusTimeout('buscaPacNomCiInput', 500);
+            this.domService.setFocusTm(this.ctes.buscaPacNomCiInput, 500);
         }
     }
 
@@ -460,7 +462,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.datosPacienteFull.per_id = $event;
         this.selectedTab = 1;
         this.form.paciente.per_id = $event;
-        this.domService.setFocusTimeout('motivoConsultaTextArea', 600);
+        this.domService.setFocusTm(this.ctes.motivoConsultaTextArea, 600);
         this.reloadDatosPaciente(this.datosPacienteFull.per_id);
     }
 

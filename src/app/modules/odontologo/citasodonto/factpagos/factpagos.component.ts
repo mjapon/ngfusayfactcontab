@@ -3,8 +3,6 @@ import {AsientoService} from '../../../../services/asiento.service';
 import {PersonaService} from '../../../../services/persona.service';
 import {DomService} from '../../../../services/dom.service';
 import {SwalService} from '../../../../services/swal.service';
-import {registerLocaleData} from '@angular/common';
-import es from '@angular/common/locales/es';
 import {FacturasmsgService} from '../../../../services/facturasmsg.service';
 
 @Component({
@@ -43,7 +41,6 @@ export class FactpagosComponent implements OnInit, OnChanges {
         this.isShowDetallesFactura = false;
         this.codFacturaSel = null;
         this.loadingFacturas = true;
-        registerLocaleData(es);
     }
 
     ngOnChanges(changes: SimpleChanges): void {

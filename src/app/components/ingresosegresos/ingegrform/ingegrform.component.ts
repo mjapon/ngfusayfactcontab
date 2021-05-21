@@ -7,8 +7,7 @@ import {ArrayutilService} from '../../../services/arrayutil.service';
 import {NumberService} from '../../../services/number.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {FechasService} from '../../../services/fechas.service';
-import {registerLocaleData} from '@angular/common';
-import es from '@angular/common/locales/es';
+import {CtesService} from '../../../services/ctes.service';
 
 @Component({
     selector: 'app-ingegrform',
@@ -38,13 +37,13 @@ export class IngegrformComponent implements OnInit {
                 private loadingService: LoadingUiService,
                 private arrayService: ArrayutilService,
                 private billMovService: BilleteramovService,
+                private ctes: CtesService,
                 private swalService: SwalService) {
         this.route.paramMap.subscribe(params => {
             this.tiporouting = parseInt(params.get('tipo'), 10);
             this.setTitle();
             this.loadForm();
         });
-        registerLocaleData(es);
     }
 
     ngOnInit(): void {
@@ -65,7 +64,7 @@ export class IngegrformComponent implements OnInit {
         // Validar los monto ingresados
         const montotal = this.form.bmo_monto;
         if (this.numberService.round2(montotal) <= 0) {
-            this.swalService.fireToastError('Monto incorrecto, favor verificar');
+            this.swalService.fireToastError(this.ctes.msgMontoIncVerif);
             return;
         }
 
@@ -136,7 +135,7 @@ export class IngegrformComponent implements OnInit {
     ontiposel(tipo: any, $event: any) {
         const idx = this.form.cuentas.indexOf(tipo);
         const inputid = `tipo_valor_${idx}`;
-        this.domService.setFocusTimeout(inputid, 100);
+        this.domService.setFocusTm(inputid, 100);
         tipo.dt_valor = this.auxGetMontoFila(this.form.cuentas, idx);
     }
 
@@ -146,7 +145,7 @@ export class IngegrformComponent implements OnInit {
 
     onbillsel(fila: any, $event: any) {
         const idx = this.form.billeteras.indexOf(fila);
-        this.domService.setFocusTimeout(`bill_valor_${idx}`, 100);
+        this.domService.setFocusTm(`bill_valor_${idx}`, 100);
         fila.dt_valor = this.auxGetMontoFila(this.form.billeteras, idx);
     }
 
@@ -199,7 +198,7 @@ export class IngegrformComponent implements OnInit {
                 this.cuentasformov = res.form.cuentasformov;
                 this.billeteras = res.form.billeterasformov;
                 this.formasiento = res.form.formasiento;
-                this.domService.setFocusTimeout('bmo_monto', 300);
+                this.domService.setFocusTm('bmo_monto', 300);
             }
             this.isLoading = false;
         });
@@ -222,6 +221,6 @@ export class IngegrformComponent implements OnInit {
     }
 
     onMontoEnter() {
-        this.domService.setFocusTimeout('tipo_valor_0', 100);
+        this.domService.setFocusTm('tipo_valor_0', 100);
     }
 }

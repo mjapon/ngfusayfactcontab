@@ -169,7 +169,7 @@ export class RecetasComponent implements OnInit, OnChanges {
             if (res.status === 200) {
                 this.form = res.form;
                 this.form.pac_id = this.codPaciente;
-                this.domService.setFocusTimeout('recetaTA', 100);
+                this.domService.setFocusTm('recetaTA', 100);
             }
         });
         this.personServ.listarMedicos(2).subscribe(resm => {

@@ -36,7 +36,7 @@ export class SwalService {
         this.showMsg(msg, this.error, title);
     }
 
-    fireDialog(msg: string, ptitle: string = '¿Esta segur@?') {
+    fireDialog(msg: string, ptitle: string = '') {
         return swal.fire({
             title: ptitle,
             text: msg,

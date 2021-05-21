@@ -42,7 +42,7 @@ export class ContraguaformComponent implements OnInit {
     }
 
     gotomain() {
-        this.router.navigate([this.ctes.rutaContra()]);
+        this.router.navigate([this.ctes.rutaHome]);
     }
 
     cancelar() {
@@ -60,7 +60,7 @@ export class ContraguaformComponent implements OnInit {
             this.formmed = res.form.formmed;
             this.teredad = res.form.teredad;
             this.validfl = res.form.validfl;
-            this.domService.setFocusTimeout(this.ctes.lblPerCirucInput(), 100);
+            this.domService.setFocusTm(this.ctes.perCirucInput, 100);
         });
     }
 
@@ -75,13 +75,13 @@ export class ContraguaformComponent implements OnInit {
         this.loadingService.publishBlockMessage();
         this.personService.buscarPorCifull(this.formref.per_ciruc).subscribe(res => {
             if (res.status === 200) {
-                this.swalService.fireToastSuccess('Referente registrado');
+                this.swalService.fireToastSuccess(this.ctes.msgRefRegistered);
                 this.personService.loadDataToform(this.formref, res.persona);
                 this.loadContratosRef();
                 this.calcularEdad();
-                this.domService.setFocus('cna_tarifa');
+                this.domService.setFocus(this.ctes.cna_tarifa);
             } else {
-                this.domService.setFocus('per_nombres');
+                this.domService.setFocus(this.ctes.per_nombres);
             }
             this.isRefSearched = false;
         });
@@ -90,7 +90,7 @@ export class ContraguaformComponent implements OnInit {
     loadContratosRef() {
         this.contraService.findByRef(this.formref.per_id).subscribe(res => {
             if (res.items && res.items.length > 0) {
-                this.swalService.fireToastInfo('El referente ya tiene registrado medidores');
+                this.swalService.fireToastInfo(this.ctes.msgRefTieneMed);
                 this.contratosPrevios = res.items;
             }
         });
@@ -101,7 +101,7 @@ export class ContraguaformComponent implements OnInit {
         this.isTercedad = this.personService.isTercedad(this.formref, this.teredad);
         this.form.cna_teredad = this.isTercedad;
         if (this.isTercedad) {
-            this.swalService.fireToastInfo('Aplica tarifa tercera edad');
+            this.swalService.fireToastInfo(this.ctes.msgAplTarfTercedad);
         }
     }
 
@@ -132,7 +132,7 @@ export class ContraguaformComponent implements OnInit {
             formmed: this.formmed
         };
         this.loadingService.publishBlockMessage();
-        this.swalService.fireDialog('¿Confirma que desea registrar la información ingresada?', '').then(confirm => {
+        this.swalService.fireDialog(this.ctes.msgConfirmSave, '').then(confirm => {
             if (confirm.value) {
                 this.loadingService.publishBlockMessage();
                 this.contraService.crear(form).subscribe(res => {

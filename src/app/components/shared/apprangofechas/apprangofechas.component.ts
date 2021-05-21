@@ -1,7 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {endOfMonth, startOfMonth, startOfWeek, startOfYear, subMonths} from 'date-fns';
-import {registerLocaleData} from '@angular/common';
-import es from '@angular/common/locales/es';
 
 @Component({
     selector: 'app-rangofechas',
@@ -66,7 +64,6 @@ export class ApprangofechasComponent implements OnInit {
     @Output() evFilterSel = new EventEmitter<any>();
 
     ngOnInit(): void {
-        registerLocaleData(es);
     }
 
     doFilterFec(tipo: number, event) {

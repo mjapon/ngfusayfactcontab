@@ -20,7 +20,7 @@ export class DomService {
         }
     }
 
-    setFocusTimeout(elId, timeout) {
+    setFocusTm(elId, timeout = 200) {
         setTimeout(() => {
                 if (document.getElementById(elId)) {
                     document.getElementById(elId).focus();

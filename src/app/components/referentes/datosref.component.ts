@@ -8,6 +8,7 @@ import {ArrayutilService} from '../../services/arrayutil.service';
 import {CatalogosService} from '../../services/catalogos.service';
 import {LugarService} from '../../services/lugar.service';
 import {forkJoin} from 'rxjs';
+import {CtesService} from '../../services/ctes.service';
 
 @Component({
     selector: 'app-datosref',
@@ -376,7 +377,7 @@ export class DatosrefComponent implements OnInit, OnChanges {
 
     constructor(private loadingUiService: LoadingUiService, private personaService: PersonaService,
                 private swalService: SwalService, private fechasService: FechasService, private domService: DomService,
-                private arrayUtil: ArrayutilService, private catalogosServ: CatalogosService,
+                private arrayUtil: ArrayutilService, private catalogosServ: CatalogosService, private ctes: CtesService,
                 private lugarService: LugarService) {
 
     }
@@ -420,14 +421,14 @@ export class DatosrefComponent implements OnInit, OnChanges {
 
     verificaPacienteRegistrado() {
         if (this.paciente.per_id === 0) {
-            this.buscarPaciente(false, 'perNombresInput');
+            this.buscarPaciente(false, this.ctes.perNombresInput);
         }
     }
 
     logicaDatosIncompletos(showMessage) {
-        this.domService.setFocusTimeout('perNombresInput', 600);
+        this.domService.setFocusTm(this.ctes.perNombresInput, 600);
         if (showMessage) {
-            this.swalService.fireToastWarn('Datos incompletos del referente, favor completar');
+            this.swalService.fireToastWarn(this.ctes.msgDataIncompleteRef);
         }
     }
 
@@ -535,7 +536,7 @@ export class DatosrefComponent implements OnInit, OnChanges {
             }
             if (res[6].status === 200) {
                 this.paciente = res[6].form;
-                this.domService.setFocusTimeout('perCirucInput', 100);
+                this.domService.setFocusTm(this.ctes.perCirucInput, 100);
             }
             if (this.datosPacienteFull.per_id) {
                 this.loadDataPerson(this.datosPacienteFull);
@@ -554,15 +555,15 @@ export class DatosrefComponent implements OnInit, OnChanges {
             this.personaService.buscarPorCifull(per_ciruc).subscribe(res => {
                     if (res.status === 200) {
                         if (showMessage) {
-                            this.swalService.fireToastInfo('El paciente ya está registrado');
+                            this.swalService.fireToastInfo(this.ctes.msgRefRegistered);
                         }
                         this.loadDataPerson(res.persona);
                         this.datosPacienteFull = res.persona;
                         this.pacienteLoaded.emit(res.persona);
                     } else {
-                        this.domService.setFocusTimeout(focusInput, 600);
+                        this.domService.setFocusTm(focusInput, 600);
                         if (showMessage) {
-                            this.swalService.fireToastWarn('Nuevo paciente, debe ingresar los datos de filiación');
+                            this.swalService.fireToastWarn(this.ctes.msgNewRefEnterDataFil);
                         }
                         this.paciente.per_ciruc = per_ciruc;
                     }
@@ -581,17 +582,17 @@ export class DatosrefComponent implements OnInit, OnChanges {
         const tiporef = formPaciente.per_tipo;
 
         if (!genero && !this.isProveedor()) {
-            this.swalService.fireToastError('Debe seleccionar el genero del referente');
+            this.swalService.fireToastError(this.ctes.msgMustSelectGenRef);
             return;
         }
 
         if (this.datosmedicos && !estadoCivil && !this.isProveedor()) {
-            this.swalService.fireToastError('Debe seleccionar el estado civil del referente');
+            this.swalService.fireToastError(this.ctes.msgMustSelectEstCivRef);
             return;
         }
 
         if (this.datosmedicos && !formPaciente.per_fechanac && !this.isProveedor()) {
-            this.swalService.fireToastError('Debe especificar la fecha de nacimiento del referente');
+            this.swalService.fireToastError(this.ctes.msgMustEnterFechaNac);
             return;
         }
 
@@ -618,7 +619,7 @@ export class DatosrefComponent implements OnInit, OnChanges {
         this.personaService.actualizar(perId, formToPost).subscribe(res => {
             if (res.status === 200) {
                 this.swalService.fireToastSuccess(res.msg);
-                this.domService.setFocusTimeout('motivoConsultaTextArea', 600);
+                this.domService.setFocusTm(this.ctes.motivoConsultaTextArea, 600);
                 if (res.per_id) {
                     this.paciente.per_id = res.per_id;
                 }

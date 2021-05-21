@@ -1,8 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {AsientoService} from '../../../../services/asiento.service';
 import {SwalService} from '../../../../services/swal.service';
-import {registerLocaleData} from '@angular/common';
-import es from '@angular/common/locales/es';
 
 @Component({
     selector: 'app-asientoview',
@@ -28,7 +26,7 @@ export class AsientoviewComponent implements OnInit, OnChanges {
 
     constructor(private asientoService: AsientoService,
                 private swalService: SwalService) {
-        registerLocaleData(es);
+
     }
 
     ngOnInit(): void {

@@ -5,9 +5,9 @@ import {CtesAguapService} from '../utils/ctes-aguap.service';
 
 @Component({
     selector: 'app-contratos',
-    templateUrl: './contrato-agua.component.html'
+    templateUrl: './agua-home.html'
 })
-export class ContratoAguaComponent implements OnInit {
+export class AguaHomeComponent implements OnInit {
     isLoading = false;
 
     constructor(private contraAgua: ContratoaguaService,
@@ -19,14 +19,14 @@ export class ContratoAguaComponent implements OnInit {
     }
 
     goToForm() {
-        this.router.navigate([this.ctes.rutaContraForm()]);
+        this.router.navigate([this.ctes.rutaContraForm]);
     }
 
     gotoLectoMed() {
-        this.router.navigate([this.ctes.rutaLectoMedForm()]);
+        this.router.navigate([this.ctes.rutaLectoMedForm]);
     }
 
     gotoPagos() {
-        this.router.navigate([this.ctes.rutaPagos()]);
+        this.router.navigate([this.ctes.rutaPagos]);
     }
 }

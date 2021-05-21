@@ -1,56 +1,78 @@
 import {Injectable} from '@angular/core';
+import {CtesService} from '../../../services/ctes.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class CtesAguapService {
+export class CtesAguapService extends CtesService {
 
-    rutaContra() {
-        return 'aguap/contratos';
+    private RutaHome = 'aguap/home';
+    private RutaContraForm = 'aguap/home/form';
+    private RutaLectoMedForm = 'aguap/lectomed/form';
+    private RutaPagos = 'aguap/cobros';
+    private MdgNum = 'mdg_num';
+    private LmdValor = 'lmd_valor';
+    private LmdValorant = 'lmd_valorant';
+    private CnaTarifa = 'cna_tarifa';
+    private MsgRefTieneMed = 'El referente ya tiene registrado medidores';
+    private MsgAplTarfTercedad = 'Aplica tarifa tercera edad';
+    private MsgEnterNumMed = 'Ingrese el número de medidor';
+    private MsgRefNoLectomed = 'No tiene pagos pendientes';
+
+    get rutaHome() {
+        return this.RutaHome;
     }
 
-    rutaContraForm() {
-        return 'aguap/contratos/form';
+    get rutaContraForm() {
+        return this.RutaContraForm;
     }
 
-    rutaLectoMedForm() {
-        return 'aguap/lectomed/form';
+    get rutaLectoMedForm() {
+        return this.RutaLectoMedForm;
     }
 
-    rutaPagos() {
-        return 'aguap/cobros';
+    get rutaPagos() {
+        return this.RutaPagos;
     }
 
-    lblPerCirucInput() {
-        return 'perCirucInput';
+    get perCirucInput() {
+        return this.PerCirucInput;
     }
 
-    lblPerNombres() {
-        return 'per_nombres';
+    get per_nombres() {
+        return this.PerNombres;
     }
 
-    lblMdg_num() {
-        return 'mdg_num';
+    get mdg_num() {
+        return this.MdgNum;
     }
 
-    lblLmdValor() {
-        return 'lmd_valor';
+    get lmd_valor() {
+        return this.LmdValor;
     }
 
-    lblLmdValorAnt() {
-        return 'lmd_valorant';
+    get lmd_valorant() {
+        return this.LmdValorant;
     }
 
-    msgMedEncon() {
-        return 'Medidor encontrado';
+    get cna_tarifa() {
+        return this.CnaTarifa;
     }
 
-    msgDataNumMed() {
-        return 'Ingrese el número de medidor';
+    get msgRefTieneMed() {
+        return this.MsgRefTieneMed;
     }
 
-    msgConfirmSaveInfo() {
-        return '¿Confirma que desea guardar esta información?';
+    get msgAplTarfTercedad() {
+        return this.MsgAplTarfTercedad;
+    }
+
+    get msgEnterNumMed() {
+        return this.MsgEnterNumMed;
+    }
+
+    btnNextS(adc: string) {
+        return `btnNextS${adc}`;
     }
 
 }

@@ -46,7 +46,7 @@ export class RolesformComponent implements OnInit {
                 if (res.status === 200) {
                     this.form = res.form;
                     this.permisos = res.permisos;
-                    this.domService.setFocusTimeout('rlNombre', 500);
+                    this.domService.setFocusTm('rlNombre', 500);
                 }
             });
         } else {
@@ -54,7 +54,7 @@ export class RolesformComponent implements OnInit {
                 if (res.status === 200) {
                     this.form = res.form;
                     this.permisos = res.form.permisos;
-                    this.domService.setFocusTimeout('rlNombre', 500);
+                    this.domService.setFocusTm('rlNombre', 500);
                 }
             });
         }

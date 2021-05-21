@@ -82,7 +82,7 @@ export class ArticulosListComponent implements OnInit {
             }
             this.listar();
             this.isLoading = false;
-            this.domService.setFocusTimeout('buscaInput', 300);
+            this.domService.setFocusTm('buscaInput', 300);
         });
     }
 

@@ -98,7 +98,8 @@
 </div>
 
 <div *ngIf="isShowCreaCred" class="mt-2 shadow-sm">
-    <app-credrefform [tipo]="clase" [codref]="codref" (evCancelar)="onCancelaCreaCred()">
+    <app-credrefform [tipo]="clase" [codref]="codref" (evCancelar)="onCancelaCreaCred()"
+                     (evDeudaCreada)="onDeudasChange($event)">
 
     </app-credrefform>
 </div>
