@@ -27,6 +27,10 @@ export class CobroaguaService extends BaseService {
         return this._doPostAction(this.ctes.gcalpag, {lectos});
     }
 
+    crearFactura(form) {
+        return this._doPostAction(this.ctes.crea, form);
+    }
+
     getIds(lecturas: Array<any>) {
         return lecturas.map(it => {
             return it[this.ctes.lmd_id];

@@ -9,12 +9,14 @@ import {CobroaguaService} from '../../../services/agua/cobroagua.service';
 import {ContratoaguaService} from '../../../services/agua/contratoagua.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {LectomedaguaService} from '../../../services/agua/lectomedagua.service';
+import {AsientoService} from '../../../services/asiento.service';
+import {BaseComponent} from '../../shared/base.component';
 
 @Component({
     selector: 'app-cobroagua',
     templateUrl: './cobroagua.component.html'
 })
-export class CobroaguaComponent implements OnInit {
+export class CobroaguaComponent extends BaseComponent implements OnInit {
     isLoading = false;
     form: any = {};
     personFiltered: Array<any> = [];
@@ -25,8 +27,10 @@ export class CobroaguaComponent implements OnInit {
     medsel: any = {};
     hasPagosPend = false;
     hasLecturas = false;
-    lastPago = {};
+    lastPago: any = {};
     msgEstadoPago = '';
+    facturaPago: any = {};
+    isShowFact = false;
 
     constructor(private ctes: CtesAguapService,
                 private swalService: SwalService,
@@ -36,7 +40,9 @@ export class CobroaguaComponent implements OnInit {
                 private personaService: PersonaService,
                 private contratoAguaService: ContratoaguaService,
                 private cobroAguaServ: CobroaguaService,
+                private asientoService: AsientoService,
                 private router: Router) {
+        super();
     }
 
     ngOnInit(): void {
@@ -67,13 +73,16 @@ export class CobroaguaComponent implements OnInit {
         this.consumos = [];
         this.hasPagosPend = false;
         this.msgEstadoPago = '';
+        this.hasLecturas = false;
+        this.form.montos.formcab = null;
     }
 
     loadConsumosInpagos() {
         this.loadingServ.publishBlockMessage();
         this.clearEstadoPago();
         this.lectoMedServ.getConsumosPend(this.medsel.mdg_id).subscribe(res => {
-            if (res.status === 200) {
+            if (this.isResultOk(res)) {
+                this.form.montos.formcab = {};
                 this.msgEstadoPago = res.msg;
                 this.hasLecturas = res.has_lecturas;
                 if (!this.hasLecturas) {
@@ -87,8 +96,17 @@ export class CobroaguaComponent implements OnInit {
                         this.loadDatosPagos();
                     } else {
                         this.swalService.fireToastSuccess(this.msgEstadoPago);
+                        this.loadUltPago();
                     }
                 }
+            }
+        });
+    }
+
+    loadUltPago() {
+        this.asientoService.getDoc(this.lastPago.trn_codigo).subscribe(res => {
+            if (this.isResultOk(res)) {
+                this.facturaPago = res.doc;
             }
         });
     }
@@ -97,7 +115,7 @@ export class CobroaguaComponent implements OnInit {
         this.loadingServ.publishBlockMessage();
         this.form.lecturas = this.cobroAguaServ.getIds(this.consumos);
         this.cobroAguaServ.getDatosPago(this.form.lecturas).subscribe(res => {
-            if (res.status === 200) {
+            if (this.isResultOk(res)) {
                 this.form.montos = res.datospago;
             }
         });
@@ -110,16 +128,25 @@ export class CobroaguaComponent implements OnInit {
     doSave() {
         this.swalService.fireDialog(this.ctes.msgConfirmSave).then(confirm => {
             if (confirm.value) {
-                this.form.datosmed = this.medsel;
-
-                console.log('Logica creacion de factura de pago de agua');
+                this.loadingServ.publishBlockMessage();
+                this.cobroAguaServ.crearFactura(this.form).subscribe(res => {
+                    if (this.isResultOk(res)) {
+                        this.swalService.fireToastSuccess(res.msg);
+                        this.loadConsumosInpagos();
+                        this.swalService.fireDialog(res.msg, '').then(confprint => {
+                            if (confprint.value) {
+                                this.asientoService.imprimirFactura(res.trncod);
+                            }
+                        });
+                    }
+                });
             }
         });
     }
 
     findRefs($event: any) {
         this.personaService.buscarPorNomapelCiPag($event.query, 0).subscribe(res => {
-            if (res.status === 200) {
+            if (this.isResultOk(res)) {
                 this.personFiltered = res.items;
             }
         });
@@ -152,5 +179,23 @@ export class CobroaguaComponent implements OnInit {
     onSelectMed($event: any) {
         this.medsel = $event;
         this.doNext(2);
+    }
+
+    verFactura() {
+        this.isShowFact = true;
+    }
+
+    closeDetFact() {
+        this.isShowFact = false;
+    }
+
+    limpiarRef() {
+        this.form.referente = {};
+        this.domService.setFocusTm(this.ctes.refAutoCom, 100);
+    }
+
+    doFinish() {
+        this.currentStep = 0;
+        this.loadForm();
     }
 }

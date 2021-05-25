@@ -25,7 +25,7 @@
          (onRowUnselect)="onUnRowSelect($event)">
     <ng-template pTemplate="header">
         <tr>
-            <th *ngFor="let item of cols" [pSortableColumn]="item.field" [ngSwitch]="item.field">
+            <th *ngFor="let item of cols" [pSortableColumn]="item.field" [ngSwitch]="item.field" [width]="item.width">
                 {{item.label}}
                 <p-sortIcon [field]="item.field"></p-sortIcon>
             </th>

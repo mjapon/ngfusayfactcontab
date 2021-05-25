@@ -6,6 +6,7 @@ import {Injectable} from '@angular/core';
 export class CtesService {
 
     protected Anulactacontab = 'anulactacontab';
+    protected Anular = 'anular';
     protected Artid = 'art_id';
     protected Buscaci = 'buscaci';
     protected Buscacifull = 'buscacifull';
@@ -16,6 +17,8 @@ export class CtesService {
     protected CodbarraInput = 'codbarraInput';
     protected Conspend = 'conspend';
     protected Crea = 'crea';
+    protected Crear = 'crear';
+    protected Confirmar = 'confirmar';
     protected Del = 'del';
     protected Error = 'error';
     protected Filtropag = 'filtropag';
@@ -23,6 +26,7 @@ export class CtesService {
     protected Fmtfecha = 'dd/MM/yyyy';
     protected Form = 'form';
     protected Formcrea = 'formcrea';
+    protected Formfiltros = 'formfiltros';
     protected Gallctascontables = 'gallctascontables';
     protected Gartsserv = 'gartsserv';
     protected Gbyref = 'gbyref';
@@ -30,6 +34,8 @@ export class CtesService {
     protected Gctascontables = 'gctascontables';
     protected Gcuentafacts = 'gcuentafacts';
     protected Gdetctacontable = 'gdetctacontable';
+    protected Getcuentasbytipo = 'getcuentasbytipo';
+    protected Getdatosmov = 'getdatosmov';
     protected Gformplancta = 'gformplancta';
     protected Gimpuestos = 'gimpuestos';
     protected GlobalAsistPorcIncrePrecioCompra = 'globalAsistPorcIncrePrecioCompra';
@@ -41,8 +47,9 @@ export class CtesService {
     protected InsertStock = 'insertStock';
     protected Last = 'last';
     protected Listar = 'listar';
-    protected Lmedicos = 'lmedicos';
+    protected ListarGrid = 'listargrid';
     protected LmdId = 'lmd_id';
+    protected Lmedicos = 'lmedicos';
     protected Mercaderia = 'mercaderia';
     protected MercaderiaForm = 'mercaderiaForm';
     protected MercformdefCat = 'mercformdef_cat';
@@ -82,16 +89,24 @@ export class CtesService {
         return this.Anulactacontab;
     }
 
-    get lmd_id() {
-        return this.LmdId;
-    }
-
-    get gcalpag() {
-        return this.Gcalpag;
+    get anular() {
+        return this.Anular;
     }
 
     get art_id() {
         return this.Artid;
+    }
+
+    get confirmar() {
+        return this.Confirmar;
+    }
+
+    get getdatosmov() {
+        return this.Getdatosmov;
+    }
+
+    get getcuentasbytipo() {
+        return this.Getcuentasbytipo;
     }
 
     get bgyref() {
@@ -134,6 +149,10 @@ export class CtesService {
         return this.Crea;
     }
 
+    get crear() {
+        return this.Crear;
+    }
+
     get del() {
         return this.Del;
     }
@@ -162,12 +181,20 @@ export class CtesService {
         return this.Formcrea;
     }
 
+    get formfiltros() {
+        return this.Formfiltros;
+    }
+
     get gallctascontables() {
         return this.Gallctascontables;
     }
 
     get gartsserv() {
         return this.Gartsserv;
+    }
+
+    get gcalpag() {
+        return this.Gcalpag;
     }
 
     get gctascontables() {
@@ -224,6 +251,14 @@ export class CtesService {
 
     get listar() {
         return this.Listar;
+    }
+
+    get listargrid() {
+        return this.ListarGrid;
+    }
+
+    get lmd_id() {
+        return this.LmdId;
     }
 
     get lmedicos() {

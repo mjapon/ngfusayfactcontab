@@ -37,6 +37,7 @@ export class IngegrComponent implements OnInit {
     isShowDetAsi = false;
     isShowFactura = false;
     filasel: any = {};
+    users: Array<any> = [];
 
     constructor(private billeteraService: BilleteraService,
                 private billmovService: BilleteramovService,
@@ -201,6 +202,7 @@ export class IngegrComponent implements OnInit {
         let tipo = 0;
         let cuenta = 0;
         let cuentabill = 0;
+        let user = 0;
 
         if (this.formfiltros?.desde) {
             desde = this.fechasService.formatDate(this.formfiltros.desde);
@@ -217,8 +219,11 @@ export class IngegrComponent implements OnInit {
         if (this.formfiltros?.cuentabill) {
             cuentabill = this.formfiltros.cuentabill;
         }
+        if (this.formfiltros?.user) {
+            user = this.formfiltros.user;
+        }
 
-        this.billmovService.listargrid(desde, hasta, tipo, cuenta, cuentabill).subscribe(res => {
+        this.billmovService.listargrid(desde, hasta, tipo, cuenta, cuentabill, user).subscribe(res => {
             if (res.status === 200) {
                 this.grid = res.grid;
             }
@@ -251,6 +256,7 @@ export class IngegrComponent implements OnInit {
             if (res.status === 200) {
                 this.formfiltros = res.formfiltro;
                 this.tipos = res.tiposmovs;
+                this.users = res.users;
             }
         });
     }
@@ -311,5 +317,9 @@ export class IngegrComponent implements OnInit {
 
     closeDetallesFact() {
         this.isShowFactura = false;
+    }
+
+    onUsuarioSel($event: any) {
+        console.log('On usuario sel:', $event);
     }
 }

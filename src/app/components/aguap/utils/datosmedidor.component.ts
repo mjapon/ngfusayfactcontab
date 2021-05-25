@@ -48,12 +48,23 @@ import {Component, Input} from '@angular/core';
                     <span class="fw-bold fontsizenr"> {{datosmedidor.cna_direccion}} </span>
                 </div>
             </div>
+
+            <div class="row mt-1" *ngIf="datosmedidor.cna_teredad && isshowtercedad">
+                <div class="col-md">
+                    <div class="alert alert-info">
+                        <span class="fa fa-info-circle"></span>
+                        <span> Aplica descuento tercera edad </span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     `
 })
 export class DatosmedidorComponent {
 
     @Input() datosmedidor: any = {};
+    @Input() isshowtercedad = false;
 
     constructor() {
 

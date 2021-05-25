@@ -15,6 +15,12 @@ export class BaseService {
         this.urlEndPoint = this.baseUrlEndPoint + urlPath;
     }
 
+    /*
+    public isResultOk(result) {
+        return result?.status === 200;
+    }
+     */
+
     protected getHO(pparams): any {
         return {
             headers: {'Content-Type': 'application/json'},

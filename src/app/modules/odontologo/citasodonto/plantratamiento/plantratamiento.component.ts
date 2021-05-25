@@ -146,21 +146,6 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
         if (isedit) {
             this.numberService.checkPagosPrevios(this.datosDocPlan.doc.pagos, this.totales, this.formaspago);
         }
-        /*
-        let totalcred = 0.0;
-        let totalefec = 0.0;
-        if (isedit) {
-            const filtered = this.datosDocPlan.doc.pagos.filter(row => row.ic_clasecc === 'XC');
-            if (filtered && filtered.length > 0) {
-                totalcred = filtered[0].dt_valor;
-                if (totalcred < this.totales.total) {
-                    totalefec = this.numberService.round2(this.totales.total - totalcred);
-                }
-                this.formaspago[0].dt_valor = totalefec;
-                this.formaspago[1].dt_valor = totalcred;
-            }
-        }
-         */
     }
 
     totalizar() {

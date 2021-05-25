@@ -6,13 +6,12 @@ import {LoadingUiService} from '../../../../services/loading-ui.service';
 
 @Component({
     selector: 'app-roleslist',
-    templateUrl: './roleslist.component.html',
-    styleUrls: ['./roleslist.component.css']
+    templateUrl: './roleslist.component.html'
 })
 export class RoleslistComponent implements OnInit {
 
-    items: Array<any>;
-    cols: Array<any>;
+    items: Array<any> = [];
+    cols: Array<any> = [];
     selectedItem: any;
 
     enableBtns: boolean;
@@ -25,8 +24,6 @@ export class RoleslistComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.items = new Array<any>();
-        this.cols = new Array<any>();
         this.loadGrid();
     }
 

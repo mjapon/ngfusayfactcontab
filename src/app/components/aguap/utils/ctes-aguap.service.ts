@@ -17,7 +17,8 @@ export class CtesAguapService extends CtesService {
     private MsgRefTieneMed = 'El referente ya tiene registrado medidores';
     private MsgAplTarfTercedad = 'Aplica tarifa tercera edad';
     private MsgEnterNumMed = 'Ingrese el número de medidor';
-    private MsgRefNoLectomed = 'No tiene pagos pendientes';
+
+    // private MsgRefNoLectomed = 'No tiene pagos pendientes';
 
     get rutaHome() {
         return this.RutaHome;

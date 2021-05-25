@@ -122,6 +122,20 @@
                                         [(ngModel)]="formfiltros.cuenta"></p-dropdown>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <span class="fw-normal">Usuario:</span>
+                        </div>
+                        <div class="col-md">
+                            <p-dropdown [options]="users" optionLabel="nomapel"
+                                        filter="false"
+                                        optionValue="us_id"
+                                        placeholder="Seleccione el usuario"
+                                        (onChange)="onUsuarioSel($event)"
+                                        [showClear]="false"
+                                        [(ngModel)]="formfiltros.user"></p-dropdown>
+                        </div>
+                    </div>
                     <div class="row mt-3">
                         <div class="col-md offset-md-2">
                             <div class="d-flex flex-row">
