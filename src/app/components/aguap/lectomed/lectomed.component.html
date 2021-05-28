@@ -18,51 +18,39 @@
 
                     <div class="my-4 py-4 px-3 shadow-sm rounded bg-white">
                         <div *ngIf="currentStep===0">
-                            <div class="row g-0">
-                                <div class="p-fluid {{form.referente?.per_id>0?'col-sm-11':'col-sm-12'}}">
-                                    <p-autoComplete [(ngModel)]="form.referente"
-                                                    [suggestions]="personFiltered"
-                                                    (completeMethod)="findRefs($event)" field="nomapel"
-                                                    inputId="refAutoCom"
-                                                    autofocus="true"
-                                                    inputStyleClass="form-control {{form.referente?.per_id?'is-valid':'is-invalid'}}"
-                                                    [delay]="200"
-                                                    (keyup.enter)="onEnterRef()"
-                                                    [forceSelection]="true"
-                                                    placeholder="Digite los nombres o el número de cédula del referente"
-                                                    (onSelect)="onRefSelect()">
-                                        <ng-template let-ref pTemplate="item">
-                                            <div>
-                                                <div class="d-flex justify-content-between">
-                                                    <span>{{ref.nomapel}}</span>
-                                                    <span>{{ref.per_ciruc}}</span>
-                                                </div>
-                                            </div>
-                                        </ng-template>
-                                    </p-autoComplete>
-                                </div>
-                                <div class="col-sm d-flex" *ngIf="form.referente?.per_id>0">
-                                    <button title="Limpiar búsqueda" class="btn btn-outline-secondary" type="button"
-                                            (click)="limpiarRef()">
-                                        <i class="fa fa-eraser"></i>
-                                    </button>
-                                </div>
+                            <div class="d-flex justify-content-center mb-4">
+                                <app-btntipobusagua [tipo]="tipoBusqueda"
+                                                    (evTipoChanged)="changeFocusBusca($event)"></app-btntipobusagua>
                             </div>
+                            <div *ngIf="tipoBusqueda===1">
+                                <app-buscaref [form]="form" (evOnEnterRef)="onEnterRef()"
+                                              (evOnSelectRef)="onRefSelect()"></app-buscaref>
+                            </div>
+                            <div *ngIf="tipoBusqueda===2">
+                                <app-buscamedidor [form]="form" (evOnSelectMed)="onSelMedFromBus()"
+                                                  (evOnEnterMed)="onEnterMed()">
+                                </app-buscamedidor>
+                            </div>
+
                             <div class="w-100 mt-4 d-flex justify-content-center">
                                 <button class="btn btn-outline-secondary" (click)="doCancel()"> Cancelar <i
                                         class="fa fa-times"></i></button>
                                 <button class="ms-2 btn btn-outline-primary" id="btnNextS1"
-                                        *ngIf="form.referente?.per_id>0" (click)="doNext(1)">
+                                        *ngIf="tipoBusqueda===1&&form.referente?.per_id>0" (click)="doNext(1)">
+                                    Siguiente <i
+                                        class="fa fa-chevron-right"></i></button>
+                                <button class="ms-2 btn btn-outline-primary" id="btnNextS1B"
+                                        *ngIf="tipoBusqueda===2&&form.medidor?.mdg_id>0" (click)="onSelMedFromBus()">
                                     Siguiente <i
                                         class="fa fa-chevron-right"></i></button>
                             </div>
                         </div>
                         <div *ngIf="currentStep===1">
                             <div *ngIf="medidores.length==0" class="mt-2 alert alert-warning">
-                                    <span>
-                                        <i class="fa fa-exclamation-triangle me-2"></i>
-                                        No tiene medidores registrados
-                                    </span>
+                                <span>
+                                    <i class="fa fa-exclamation-triangle me-2"></i>
+                                    No tiene medidores registrados
+                                </span>
                             </div>
 
                             <div class="my-2">
@@ -73,7 +61,7 @@
                             <div class="w-100" *ngIf="medidores.length>1">
                                 <div class="alert alert-primary">
                                     <i class="fa fa-info me-2"></i> El referente tiene mas de un medidor registrado, por
-                                    favor elija uno de la siguiente lista:
+                                    favor elija uno:
                                 </div>
                                 <app-tblmedidores [medidores]="medidores" [isForSelect]="true"
                                                   (evSelectFila)="onSelectMed($event)"></app-tblmedidores>
@@ -107,10 +95,10 @@
 
 
                                     <div class="mt-3">
+                                        <div>
+                                            <span class="fontsizesm"> <i class="fa fa-info"></i> Última Lectura realizada:</span>
+                                        </div>
                                         <div class="card shadow-sm">
-                                            <div class="card-header">
-                                                <span class="fontsizesm">Última Lectura realizada</span>
-                                            </div>
                                             <div class="card-body">
                                                 <div *ngIf="!lastlectomed">
                                                     <div class="text-muted d-flex justify-content-center">
@@ -118,43 +106,76 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row" *ngIf="lastlectomed">
-                                                    <div class="col-md">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <span class="fw-normal fontsizenr"> Fecha de registro: </span>
+                                                <div *ngIf="lastlectomed">
+                                                    <div class="row">
+                                                        <div class="col-md-5">
+                                                            <div>
+                                                                <div>
+                                                                    <span class="fw-normal fontsizenr"> Fecha de registro: </span>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="fw-bold fontsizenr"> {{lastlectomed.lmd_fechacrea}} </span>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-md-12">
-                                                                <span class="fw-bold fontsizenr"> {{lastlectomed.lmd_fechacrea}} </span>
+
+                                                            <div class="mt-2">
+                                                                <div>
+                                                                    <span class="fw-normal fontsizenr"> Registrado por: </span>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="fw-bold fontsizenr"> {{lastlectomed.usercrea}} </span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="row mt-2">
-                                                            <div class="col-md-12">
-                                                                <span class="fw-normal fontsizenr"> Registrado por: </span>
+                                                        <div class="col-md-4">
+                                                            <div>
+                                                                <div>
+                                                                    <span class="fw-normal fontsizenr"> Lectura Anterior: </span>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="fw-bold fontsizenr">
+                                                                        {{lastlectomed.lmd_valorant}} m<sup>3</sup>
+                                                                    </span>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-md-12">
-                                                                <span class="fw-bold fontsizenr"> {{lastlectomed.usercrea}} </span>
+                                                            <div class="mt-2">
+                                                                <div>
+                                                                    <span class="fw-normal fontsizenr"> Lectura Actual: </span>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="fw-bold fontsizenr">
+                                                                        {{lastlectomed.lmd_valor}}m<sup>3</sup>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div>
+                                                                <div>
+                                                                    <span class="fw-normal fontsizenr"> Mes: </span>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="fw-bold fontsizenr"> {{lastlectomed.mes_nombre}} </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mt-2">
+                                                                <div>
+                                                                    <span class="fw-normal fontsizenr"> Consumo: </span>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="fw-bold fontsizenr">
+                                                                        {{lastlectomed.lmd_consumo}}m<sup>3</sup>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <span class="fw-normal fontsizenr"> Mes: </span>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <span class="fw-bold fontsizenr"> {{lastlectomed.mes_nombre}} </span>
-                                                            </div>
+                                                    <div class="mt-2" *ngIf="lastlectomed.lmd_obs.trim().length>0">
+                                                        <div>
+                                                            <span class="fw-normal fontsizenr"> Observación: </span>
                                                         </div>
-                                                        <div class="row mt-2">
-                                                            <div class="col-md-12">
-                                                                <span class="fw-normal fontsizenr"> Lectura: </span>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <span class="fw-bold fontsizenr"> {{lastlectomed.lmd_valor}}
-                                                                    m<sup>3</sup>
-                                                                </span>
-                                                            </div>
+                                                        <div style="white-space: pre-line">
+                                                            {{lastlectomed.lmd_obs}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -169,7 +190,8 @@
                                             <div>
                                                 <p-dropdown [options]="anios" [(ngModel)]="form.lmd_anio"
                                                             optionValue="value"
-                                                            optionLabel="label"></p-dropdown>
+                                                            optionLabel="label"
+                                                            (onChange)="onAnioChange()"></p-dropdown>
                                             </div>
 
                                         </div>
@@ -178,7 +200,8 @@
                                             <div>
                                                 <p-dropdown [options]="meses" [(ngModel)]="form.lmd_mes"
                                                             optionValue="mes_id"
-                                                            optionLabel="mes_nombre"></p-dropdown>
+                                                            optionLabel="mes_nombre"
+                                                            (onChange)="onMesChange()"></p-dropdown>
                                             </div>
                                         </div>
                                     </div>
@@ -189,7 +212,7 @@
                                                     m<sup>3</sup>:</label>
                                                 <input type="text" class="form-control" id="lmd_valorant"
                                                        (focusin)=$event.target.select()
-                                                       [disabled]="lastlectomed!==null"
+                                                       [disabled]="previulectomed!==null"
                                                        [min]="0.0"
                                                        [(ngModel)]="form.lmd_valorant">
                                             </div>

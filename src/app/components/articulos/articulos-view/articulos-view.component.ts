@@ -5,6 +5,7 @@ import {SwalService} from '../../../services/swal.service';
 import {ArticulostockService} from '../../../services/articulostock.service';
 import {KardexProdService} from '../../../services/kardex-prod.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
+import {CtesService} from '../../../services/ctes.service';
 
 @Component({
     selector: 'app-articulos-view',
@@ -22,6 +23,7 @@ export class ArticulosViewComponent implements OnInit {
     constructor(private artService: ArticuloService,
                 private router: Router,
                 private swalService: SwalService,
+                private ctes: CtesService,
                 private loadingServ: LoadingUiService,
                 private artStockService: ArticulostockService,
                 private kardexProdService: KardexProdService,
@@ -32,7 +34,7 @@ export class ArticulosViewComponent implements OnInit {
         this.isLoading = true;
         this.artFromDb = {};
         this.route.paramMap.subscribe(params => {
-            this.artId = parseInt(params.get('art_id'), 10);
+            this.artId = parseInt(params.get(this.ctes.art_id), 10);
             this.artService.getByCod(this.artId).subscribe(res => {
                 if (res.status === 200) {
                     this.artFromDb = res.datosprod;
@@ -48,11 +50,11 @@ export class ArticulosViewComponent implements OnInit {
     }
 
     retornar() {
-        this.router.navigate(['mercaderia']);
+        this.router.navigate([this.ctes.mercaderia]);
     }
 
     editar() {
-        this.router.navigate(['mercaderiaForm', this.artId]);
+        this.router.navigate([this.ctes.mercaderiaForm, this.artId]);
     }
 
     elminar() {

@@ -41,7 +41,7 @@ export class ArticulosFormComponent implements OnInit {
     editing: boolean;
     artCodAutomatic: boolean;
     isShowAsistPre: boolean;
-    numbersPattern = '^[0-9]*\\.*[0-9]*$';
+    numbersPattern = '';
 
     minimumDate = new Date();
     nombreNuevaCatg: string;
@@ -72,6 +72,7 @@ export class ArticulosFormComponent implements OnInit {
         private personaService: PersonaService,
         private modcontabService: ModelocontabService
     ) {
+        this.numbersPattern = this.ctes.numbersPattern;
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.isModalCatVisible = false;
         this.artFromDb = {};

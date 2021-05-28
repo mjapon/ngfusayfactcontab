@@ -123,6 +123,9 @@ import {DatosmedidorComponent} from './components/aguap/utils/datosmedidor.compo
 import {TblmedidoresComponent} from './components/aguap/utils/tblmedidores.component';
 import {BasicdatosrefComponent} from './components/aguap/utils/basicdatosref.component';
 import es from '@angular/common/locales/es';
+import {BuscarefComponent} from './components/shared/buscaref/buscaref.component';
+import {BuscamedidorComponent} from './components/aguap/utils/buscamedidor.component';
+import {BtntipobusaguaComponent} from './components/aguap/utils/btntipobusagua.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -211,7 +214,10 @@ export function HttpLoaderFactory(http: HttpClient) {
         CobroaguaComponent,
         DatosmedidorComponent,
         TblmedidoresComponent,
-        BasicdatosrefComponent
+        BasicdatosrefComponent,
+        BuscarefComponent,
+        BuscamedidorComponent,
+        BtntipobusaguaComponent
     ],
     imports: [
         CommonModule,

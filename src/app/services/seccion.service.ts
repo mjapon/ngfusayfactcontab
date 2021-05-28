@@ -3,6 +3,7 @@ import {BaseService} from './base-service';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
 import {Observable} from 'rxjs';
+import {CtesService} from './ctes.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,18 +11,17 @@ import {Observable} from 'rxjs';
 export class SeccionService extends BaseService {
 
     constructor(protected http: HttpClient,
-                protected localStrgServ: LocalStorageService) {
+                protected localStrgServ: LocalStorageService,
+                private ctes: CtesService) {
         super('/tseccion', localStrgServ, http);
     }
 
     listar(): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'listar'});
-        return this.doGet(this.http, this.urlEndPoint, httpOptions);
+        return this._doGetAction(this.ctes.listar);
     }
 
     setSeccion(secid: number): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'setseccion'});
-        return this.doPost(this.http, this.urlEndPoint, httpOptions, {sec_id: secid});
+        return this._doPostAction(this.ctes.setseccion, {sec_id: secid});
     }
 
 }

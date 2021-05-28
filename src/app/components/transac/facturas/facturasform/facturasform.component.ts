@@ -14,12 +14,13 @@ import {forkJoin, Subscription} from 'rxjs';
 import {FacturasmsgService} from '../../../../services/facturasmsg.service';
 import {LocalStorageService} from '../../../../services/local-storage.service';
 import {CtesService} from '../../../../services/ctes.service';
+import {BaseComponent} from '../../../shared/base.component';
 
 @Component({
     selector: 'app-facturasform',
     templateUrl: './facturasform.component.html'
 })
-export class FacturasformComponent implements OnInit, OnDestroy {
+export class FacturasformComponent extends BaseComponent implements OnInit, OnDestroy {
     isLoading: boolean;
 
     ttransacc: any;
@@ -73,6 +74,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
                 private router: Router,
                 private ctes: CtesService,
                 private personaServ: PersonaService) {
+        super();
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
 
@@ -170,7 +172,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
         this.artsearchedcount = 0;
         this.buscaArtPromise = new Promise((resolve) => {
             this.artService.busArtsForTransacc(this.seccionSel, event.query, this.tracodigo).subscribe(res => {
-                if (res.status === 200) {
+                if (this.isResultOk(res)) {
                     this.artsFiltrados = res.items;
                 }
                 resolve(true);
@@ -228,12 +230,11 @@ export class FacturasformComponent implements OnInit, OnDestroy {
         }
         this.totalizar();
         this.artFiltrado = {};
-        this.domService.setFocusTm('artsAutoCom', 100);
+        this.domService.setFocusTm(this.ctes.artsAutoCom);
     }
 
     quitarItem(fila: any) {
-        const msg = '¿Seguro que desea quitar este item de la factura?';
-        this.swalService.fireDialog(msg).then(confirm => {
+        this.swalService.fireDialog(this.ctes.msgSureWishRemveItemFact).then(confirm => {
                 if (confirm.value) {
                     this.arrayService.removeElement(this.form.detalles, fila);
                     this.totalizar();
@@ -244,13 +245,13 @@ export class FacturasformComponent implements OnInit, OnDestroy {
 
     crearFactura() {
         if (this.form.form_cab.secuencia.length === 0) {
-            this.swalService.fireToastError('Debe ingresar el número de la factura');
+            this.swalService.fireToastError(this.ctes.msgMustEnterNumFact);
         } else if (this.form.detalles.length === 0) {
-            this.swalService.fireToastError('Debe agregar productos o servicios a la factura');
+            this.swalService.fireToastError(this.ctes.msgMustAddProdInFact);
         } else if (!this.form.form_cab.trn_fecregobj) {
-            this.swalService.fireToastError('Debe especificar la fecha de la factura');
+            this.swalService.fireToastError(this.ctes.msgMustEnterDateFact);
         } else if (this.isfacturacompra && (this.form.form_persona.per_ciruc.trim().length === 0)) {
-            this.swalService.fireToastError('Debe ingresar los datos del referente');
+            this.swalService.fireToastError(this.ctes.msgMustEnterDataRef);
         } else {
             let pagocredito = 0.0;
             this.form.pagos.forEach(pago => {
@@ -261,21 +262,20 @@ export class FacturasformComponent implements OnInit, OnDestroy {
 
             if (pagocredito !== 0.0) {
                 if (this.form.form_persona.per_id === -1) {
-                    this.swalService.fireToastError('Factura a crédito, se debe especificar el referente');
+                    this.swalService.fireToastError(this.ctes.msgFactIsCredMustEnterRef);
                     return;
                 }
             }
 
             this.form.form_cab.trn_fecreg = this.fechasService.formatDate(this.form.form_cab.trn_fecregobj);
-            const msg = '¿Seguro que desea guardar el comprobante?';
-            this.swalService.fireDialog(msg).then(confirm => {
+            this.swalService.fireDialog(this.ctes.msgSureSaveFact).then(confirm => {
                 if (confirm.value) {
                     this.loadingUiService.publishBlockMessage();
                     this.asientoService.crearDocumento(this.form).subscribe(res => {
-                        if (res.status === 200) {
+                        if (this.isResultOk(res)) {
                             this.swalService.fireToastSuccess(res.msg);
                             if (!this.isfacturacompra) {
-                                this.swalService.fireDialog('¿Desea imprimir?', '').then(confprint => {
+                                this.swalService.fireDialog(this.ctes.msgWishPrint).then(confprint => {
                                     if (confprint.value) {
                                         this.asientoService.imprimirFactura(res.trn_codigo);
                                     }
@@ -348,15 +348,15 @@ export class FacturasformComponent implements OnInit, OnDestroy {
         this.isDisabledFormRef = false;
         this.isConsumidorFinal = false;
         this.personaServ.getForm().subscribe(res => {
-            if (res.status === 200) {
+            if (this.isResultOk(res)) {
                 this.form.form_persona = res.form;
                 if (!this.isfacturacompra) {
-                    this.domService.setFocusTm('per_ciruc', 100);
+                    this.domService.setFocusTm(this.ctes.per_ciruc);
                 } else {
                     if (this.form.form_cab.secuencia) {
-                        this.domService.setFocusTm('per_ciruc', 100);
+                        this.domService.setFocusTm(this.ctes.per_ciruc);
                     } else {
-                        this.domService.setFocusTm('fc_secuencia', 100);
+                        this.domService.setFocusTm(this.ctes.fc_secuencia);
                     }
                 }
             }
@@ -378,7 +378,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
 
         this.trncodedit = 0;
         if (this.isedit) {
-            const keystrg = 'trncoded';
+            const keystrg = this.ctes.trncoded;
             const auxtrncoded = this.localStrgService.getItem(keystrg);
             this.localStrgService.removeItem(keystrg);
             if (auxtrncoded) {
@@ -391,7 +391,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
             const res1: any = res[1];
             const res2: any = res[2];
 
-            if (res0.status === 200) {
+            if (this.isResultOk(res0)) {
                 this.form.form_cab = res0.formcab;
                 this.form.form_cab.trn_fecregobj = this.fechasService.parseString(this.form.form_cab.trn_fecreg);
                 this.ttransacc = res0.ttransacc;
@@ -403,11 +403,11 @@ export class FacturasformComponent implements OnInit, OnDestroy {
                 this.seccionSel = res0.secid;
             }
 
-            if (res1.status === 200) {
+            if (this.isResultOk(res1)) {
                 this.secciones = res1.items;
             }
 
-            if (res2.status === 200) {
+            if (this.isResultOk(res2)) {
                 if (this.isfacturacompra) {
                     this.form.form_persona = res2.form;
                     this.isConsumidorFinal = false;
@@ -423,15 +423,15 @@ export class FacturasformComponent implements OnInit, OnDestroy {
             this.isLoading = false;
 
             if (this.isfacturacompra) {
-                this.domService.setFocusTm('fc_secuencia', 100);
+                this.domService.setFocusTm(this.ctes.fc_secuencia);
             } else {
-                this.domService.setFocusTm('artsAutoCom', 300);
+                this.domService.setFocusTm(this.ctes.artsAutoCom);
             }
 
             this.evFormLoaded.emit(this.form);
 
             if (this.isedit && this.trncodedit > 0) {
-                this.swalService.fireToastSuccess('Editando comprobante');
+                this.swalService.fireToastSuccess(this.ctes.msgEditingFact);
                 this.asientoService.getDoc(this.trncodedit, 1).subscribe(resedit => {
                     this.datosdocedit = resedit.doc;
                     this.form.detalles = resedit.doc.detalles;
@@ -456,7 +456,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
 
     loadConsumidorFinal() {
         this.personaServ.buscarPorCod(this.codConsFinal).subscribe(res => {
-            if (res.status === 200) {
+            if (this.isResultOk(res)) {
                 this.form.form_persona = res.persona;
                 this.isDisabledFormRef = true;
                 this.isConsumidorFinal = true;
@@ -468,12 +468,12 @@ export class FacturasformComponent implements OnInit, OnDestroy {
         const per_ciruc = this.form.form_persona.per_ciruc;
         this.loadingUiService.publishBlockMessage();
         this.personaServ.buscarPorCi(per_ciruc).subscribe(res => {
-                if (res.status === 200) {
+            if (this.isResultOk(res)) {
                     this.form.form_persona = res.persona;
-                    this.domService.setFocusTm('artsAutoCom', 100);
+                this.domService.setFocusTm(this.ctes.artsAutoCom);
                     this.swalService.fireToastSuccess(this.ctes.msgRefRegistered);
                 } else {
-                    this.domService.setFocusTm(this.ctes.perNombresInput, 200);
+                this.domService.setFocusTm(this.ctes.perNombresInput);
                 }
             }
         );
@@ -484,7 +484,7 @@ export class FacturasformComponent implements OnInit, OnDestroy {
             this.loadFormReferente();
         } else {
             this.loadConsumidorFinal();
-            this.domService.setFocusTm('artsAutoCom', 100);
+            this.domService.setFocusTm(this.ctes.artsAutoCom);
         }
     }
 

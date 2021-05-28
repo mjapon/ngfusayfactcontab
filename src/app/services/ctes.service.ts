@@ -5,28 +5,44 @@ import {Injectable} from '@angular/core';
 })
 export class CtesService {
 
+    protected Actualizar = 'actualizar';
     protected Anulactacontab = 'anulactacontab';
     protected Anular = 'anular';
     protected Artid = 'art_id';
+    protected ArtsAutoCom = 'artsAutoCom';
+    protected Blank = '_blank';
+    protected Borrar = 'borrar';
     protected Buscaci = 'buscaci';
     protected Buscacifull = 'buscacifull';
+    protected BuscaInput = 'buscaInput';
     protected BuscaPacNomCiInput = 'buscaPacNomCiInput';
     protected Buscaporid = 'buscaporid';
     protected Buscaporidfull = 'buscaporidfull';
     protected Buscatipo = 'buscatipo';
     protected CodbarraInput = 'codbarraInput';
+    protected Confirmar = 'confirmar';
     protected Conspend = 'conspend';
     protected Crea = 'crea';
+    protected Creadoc = 'creadoc';
     protected Crear = 'crear';
-    protected Confirmar = 'confirmar';
+    protected Creasiento = 'creasiento';
     protected Del = 'del';
+    protected Duplicar = 'duplicar';
+    protected Editar = 'editar';
+    protected Editasiento = 'editasiento';
     protected Error = 'error';
+    protected FcSecuencia = 'fc_secuencia';
+    protected FeaturesOpenNewWin = 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=600';
     protected Filtropag = 'filtropag';
     protected Findbynum = 'findbynum';
     protected Fmtfecha = 'dd/MM/yyyy';
     protected Form = 'form';
+    protected Formasiento = 'formasiento';
+    protected Formcab = 'formcab';
     protected Formcrea = 'formcrea';
+    protected Formfiltrolibd = 'formfiltrolibd';
     protected Formfiltros = 'formfiltros';
+    protected Filterbynum = 'filterbynum';
     protected Gallctascontables = 'gallctascontables';
     protected Gartsserv = 'gartsserv';
     protected Gbyref = 'gbyref';
@@ -34,15 +50,26 @@ export class CtesService {
     protected Gctascontables = 'gctascontables';
     protected Gcuentafacts = 'gcuentafacts';
     protected Gdetctacontable = 'gdetctacontable';
+    protected Gdetdoc = 'gdetdoc';
+    protected Getasientos = 'getasientos';
+    protected Getbalancegeneral = 'getbalancegeneral';
     protected Getcuentasbytipo = 'getcuentasbytipo';
+    protected Getdatosasiconta = 'getdatosasiconta';
     protected Getdatosmov = 'getdatosmov';
+    protected Getestadoresultados = 'getestadoresultados';
+    protected Getformlibromayor = 'getformlibromayor';
+    protected Getmovscta = 'getmovscta';
+    protected Gettransaccs = 'gettransaccs';
+    protected Gfact = 'gfact';
     protected Gformplancta = 'gformplancta';
     protected Gimpuestos = 'gimpuestos';
     protected GlobalAsistPorcIncrePrecioCompra = 'globalAsistPorcIncrePrecioCompra';
     protected Gplanc = 'gplanc';
+    protected Gridventas = 'gridventas';
     protected Gservdentall = 'gservdentall';
     protected Gtotaldeudas = 'gtotaldeudas';
     protected Guardaplancta = 'guardaplancta';
+    protected Guardar = 'guardar';
     protected IcNota = 'ic_nota';
     protected InsertStock = 'insertStock';
     protected Last = 'last';
@@ -52,38 +79,70 @@ export class CtesService {
     protected Lmedicos = 'lmedicos';
     protected Mercaderia = 'mercaderia';
     protected MercaderiaForm = 'mercaderiaForm';
+    protected MercaderiaView = 'mercaderiaView';
     protected MercformdefCat = 'mercformdef_cat';
     protected MercformdefProv = 'mercformdef_prov';
+    protected MedAutoCom = 'medAutoCom';
     protected Monto = 'monto';
     protected MotivoConsultaTextArea = 'motivoConsultaTextArea';
     protected MsgConfirmSave = '¿Confirma que desea registrar la información ingresada?';
     protected MsgDataIncompleteRef = 'Datos incompletos del referente, favor completar';
     protected MsgDatosIncorr = 'Datos Incorrectos';
+    protected MsgEditingFact = 'Editando comprobante';
     protected MsgEnterCatName = 'Ingrese el nombre de la categoría';
+    protected MsgFactIsCredMustEnterRef = 'Factura a crédito, se debe especificar el referente';
     protected MsgMontoIncVerif = 'Monto incorrecto, favor verificar';
+    protected MsgMustAddProdInFact = 'Debe agregar productos o servicios a la factura';
     protected MsgMustEnterCodBarra = 'Debe ingresar el nuevo código de barra';
+    protected MsgMustEnterDataRef = 'Debe ingresar los datos del referente';
+    protected MsgMustEnterDateFact = 'Debe especificar la fecha de la factura';
     protected MsgMustEnterFechaNac = 'Debe especificar la fecha de nacimiento del referente';
+    protected MsgMustEnterNumFact = 'Debe ingresar el número de la factura';
     protected MsgMustSelectEstCivRef = 'Debe seleccionar el estado civil del referente';
     protected MsgMustSelectGenRef = 'Debe seleccionar el genero del referente';
     protected MsgMustSelectModContab = 'Debe seleccionar el modelo contable';
     protected MsgMustSelectSeccion = 'Debe seleccionar al menos una sección para este producto/servicio';
     protected MsgNewRefEnterDataFil = 'Nuevo paciente, debe ingresar los datos de filiación';
     protected MsgRefRegistered = 'Referente registrado';
+    protected MsgSureSaveFact = '¿Seguro que desea guardar el comprobante?';
+    protected MsgSureWishAnulRecord = '¿Seguro que desea anular este registro?';
+    protected MsgSureWishEditRecord = '¿Seguro que desea editar este registro?';
+    protected MsgSureWishRemoveCat = '¿Seguro que desea anular esta categoría?';
+    protected MsgSureWishRemveItemFact = '¿Seguro que desea quitar este item de la factura?';
     protected MsgVerifInfo = 'Verifique la información ingresada';
+    protected MsgWishPrint = '¿Desea imprimir?';
     protected NombreInput = 'nombreInput';
+    protected NumbersPattern = '^[0-9]*\\.*[0-9]*$';
+    protected PerCiruc = 'per_ciruc';
     protected PerCirucInput = 'perCirucInput';
     protected PerNombres = 'per_nombres';
     protected PerNombresInput = 'perNombresInput';
     protected PorcIncAsistPre = 'porcIncAsistPre';
     protected PrecioCompraInput = 'precioCompraInput';
     protected PrecioVentaInput = 'precioVentaInput';
+    protected Previous = 'previous';
     protected RefAutoCom = 'refAutoCom';
+    protected Registra = 'registra';
     protected Seccodbarra = 'seccodbarra';
+    protected Setseccion = 'setseccion';
     protected Stock = 'stock';
+    protected Trncoded = 'trncoded';
     protected True = 'true';
     protected Updatecode = 'updatecode';
+    protected UrlTomcat = 'https://mavil.site/tomcat/imprentas';
     protected Verifcodbar = 'verifcodbar';
 
+    get _blank() {
+        return this.Blank;
+    }
+
+    get filterbynum() {
+        return this.Filterbynum;
+    }
+
+    get actualizar() {
+        return this.Actualizar;
+    }
 
     get anulactacontab() {
         return this.Anulactacontab;
@@ -97,20 +156,16 @@ export class CtesService {
         return this.Artid;
     }
 
-    get confirmar() {
-        return this.Confirmar;
-    }
-
-    get getdatosmov() {
-        return this.Getdatosmov;
-    }
-
-    get getcuentasbytipo() {
-        return this.Getcuentasbytipo;
+    get artsAutoCom() {
+        return this.ArtsAutoCom;
     }
 
     get bgyref() {
         return this.Gbyref;
+    }
+
+    get borrar() {
+        return this.Borrar;
     }
 
     get buscaci() {
@@ -119,6 +174,10 @@ export class CtesService {
 
     get buscacifull() {
         return this.Buscacifull;
+    }
+
+    get buscaInput() {
+        return this.BuscaInput;
     }
 
     get buscaPacNomCiInput() {
@@ -141,6 +200,10 @@ export class CtesService {
         return this.CodbarraInput;
     }
 
+    get confirmar() {
+        return this.Confirmar;
+    }
+
     get conspend() {
         return this.Conspend;
     }
@@ -149,16 +212,44 @@ export class CtesService {
         return this.Crea;
     }
 
+    get creadoc() {
+        return this.Creadoc;
+    }
+
     get crear() {
         return this.Crear;
+    }
+
+    get creasiento() {
+        return this.Creasiento;
     }
 
     get del() {
         return this.Del;
     }
 
+    get duplicar() {
+        return this.Duplicar;
+    }
+
+    get editar() {
+        return this.Editar;
+    }
+
+    get editasiento() {
+        return this.Editasiento;
+    }
+
     get error() {
         return this.Error;
+    }
+
+    get fc_secuencia() {
+        return this.FcSecuencia;
+    }
+
+    get featuresOpenNewWin() {
+        return this.FeaturesOpenNewWin;
     }
 
     get filtropag() {
@@ -177,8 +268,20 @@ export class CtesService {
         return this.Form;
     }
 
+    get formasiento() {
+        return this.Formasiento;
+    }
+
+    get formcab() {
+        return this.Formcab;
+    }
+
     get formcrea() {
         return this.Formcrea;
+    }
+
+    get formfiltrolibd() {
+        return this.Formfiltrolibd;
     }
 
     get formfiltros() {
@@ -209,6 +312,50 @@ export class CtesService {
         return this.Gdetctacontable;
     }
 
+    get gdetdoc() {
+        return this.Gdetdoc;
+    }
+
+    get getasientos() {
+        return this.Getasientos;
+    }
+
+    get getbalancegeneral() {
+        return this.Getbalancegeneral;
+    }
+
+    get getcuentasbytipo() {
+        return this.Getcuentasbytipo;
+    }
+
+    get getdatosasiconta() {
+        return this.Getdatosasiconta;
+    }
+
+    get getdatosmov() {
+        return this.Getdatosmov;
+    }
+
+    get getestadoresultados() {
+        return this.Getestadoresultados;
+    }
+
+    get getformlibromayor() {
+        return this.Getformlibromayor;
+    }
+
+    get getmovscta() {
+        return this.Getmovscta;
+    }
+
+    get gettransaccs() {
+        return this.Gettransaccs;
+    }
+
+    get gfact() {
+        return this.Gfact;
+    }
+
     get gformplancta() {
         return this.Gformplancta;
     }
@@ -225,6 +372,10 @@ export class CtesService {
         return this.Gplanc;
     }
 
+    get gridventas() {
+        return this.Gridventas;
+    }
+
     get gservdentall() {
         return this.Gservdentall;
     }
@@ -235,6 +386,10 @@ export class CtesService {
 
     get guardaplancta() {
         return this.Guardaplancta;
+    }
+
+    get guardar() {
+        return this.Guardar;
     }
 
     get ic_nota() {
@@ -273,12 +428,20 @@ export class CtesService {
         return this.MercaderiaForm;
     }
 
+    get mercaderiaView() {
+        return this.MercaderiaView;
+    }
+
     get mercformdef_cat() {
         return this.MercformdefCat;
     }
 
     get mercformdef_prov() {
         return this.MercformdefProv;
+    }
+
+    get medAutoCom() {
+        return this.MedAutoCom;
     }
 
     get monto() {
@@ -301,21 +464,46 @@ export class CtesService {
         return this.MsgDatosIncorr;
     }
 
+    get msgEditingFact() {
+        return this.MsgEditingFact;
+    }
+
     get msgEnterCatName() {
         return this.MsgEnterCatName;
+    }
+
+    get msgFactIsCredMustEnterRef() {
+        return this.MsgFactIsCredMustEnterRef;
     }
 
     get msgMontoIncVerif() {
         return this.MsgMontoIncVerif;
     }
 
+    get msgMustAddProdInFact() {
+        return this.MsgMustAddProdInFact;
+    }
+
     get msgMustEnterCodBarra() {
         return this.MsgMustEnterCodBarra;
+    }
+
+    get msgMustEnterDataRef() {
+        return this.MsgMustEnterDataRef;
+    }
+
+    get msgMustEnterDateFact() {
+        return this.MsgMustEnterDateFact;
     }
 
     get msgMustEnterFechaNac() {
         return this.MsgMustEnterFechaNac;
     }
+
+    get msgMustEnterNumFact() {
+        return this.MsgMustEnterNumFact;
+    }
+
 
     get msgMustSelectEstCivRef() {
         return this.MsgMustSelectEstCivRef;
@@ -341,12 +529,44 @@ export class CtesService {
         return this.MsgRefRegistered;
     }
 
+    get msgSureSaveFact() {
+        return this.MsgSureSaveFact;
+    }
+
+    get msgSureWishAnulRecord() {
+        return this.MsgSureWishAnulRecord;
+    }
+
+    get msgSureWishEditRecord() {
+        return this.MsgSureWishEditRecord;
+    }
+
+    get msgSureWishRemoveCat() {
+        return this.MsgSureWishRemoveCat;
+    }
+
+    get msgSureWishRemveItemFact() {
+        return this.MsgSureWishRemveItemFact;
+    }
+
     get msgVerifInfo() {
         return this.MsgVerifInfo;
     }
 
+    get msgWishPrint() {
+        return this.MsgWishPrint;
+    }
+
     get nombreInput() {
         return this.NombreInput;
+    }
+
+    get numbersPattern() {
+        return this.NumbersPattern;
+    }
+
+    get per_ciruc() {
+        return this.PerCiruc;
     }
 
     get per_nombres() {
@@ -373,16 +593,32 @@ export class CtesService {
         return this.PrecioVentaInput;
     }
 
+    get previous() {
+        return this.Previous;
+    }
+
     get refAutoCom() {
         return this.RefAutoCom;
+    }
+
+    get registra() {
+        return this.Registra;
     }
 
     get seccodbarra() {
         return this.Seccodbarra;
     }
 
+    get setseccion() {
+        return this.Setseccion;
+    }
+
     get stock() {
         return this.Stock;
+    }
+
+    get trncoded() {
+        return this.Trncoded;
     }
 
     get true() {
@@ -391,6 +627,10 @@ export class CtesService {
 
     get updatecode() {
         return this.Updatecode;
+    }
+
+    get urlTomcat() {
+        return this.UrlTomcat;
     }
 
     get verifcodbar() {

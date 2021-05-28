@@ -22,6 +22,7 @@ import isSameMonth from 'date-fns/isSameMonth';
 import startOfISOWeek from 'date-fns/startOfISOWeek';
 import startOfMonth from 'date-fns/startOfMonth';
 import eachWeekOfInterval from 'date-fns/eachWeekOfInterval';
+import {CtesService} from './ctes.service';
 
 type Options = {
     year: number,
@@ -68,8 +69,9 @@ export class FechasService {
     private promiseDateShort: Promise<any>;
     private promiseMontNames: Promise<any>;
 
-    constructor(private translateService: TranslateService) {
-        this.formatoFecha = 'dd/MM/yyyy';
+    constructor(private translateService: TranslateService,
+                private ctes: CtesService) {
+        this.formatoFecha = this.ctes.fmtfecha;
         this.loaded = false;
         this.loadDayNamesShort();
         this.loadMontNames();

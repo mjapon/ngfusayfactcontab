@@ -29,4 +29,8 @@ export class ContratoaguaService extends BaseService {
     findByNumMed(num) {
         return this._doGetAction(this.ctes.findbynum, {num});
     }
+
+    filterByNumMed(filtro) {
+        return this._doGetAction(this.ctes.filterbynum, {filtro});
+    }
 }

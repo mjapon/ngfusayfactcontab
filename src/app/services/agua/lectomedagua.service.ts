@@ -26,6 +26,10 @@ export class LectomedaguaService extends BaseService {
         return this._doGetAction(this.ctes.last, {numed});
     }
 
+    getPrevius(numed, anio, mes) {
+        return this._doGetAction(this.ctes.previous, {numed, anio, mes});
+    }
+
     getConsumosPend(codmed) {
         return this._doGetAction(this.ctes.conspend, {codmed});
     }

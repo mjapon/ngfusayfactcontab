@@ -3,6 +3,7 @@ import {CategoriasService} from '../../../services/categorias.service';
 import {SwalService} from '../../../services/swal.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {ModelocontabService} from '../../../services/modelocontab.service';
+import {CtesService} from '../../../services/ctes.service';
 
 @Component({
     selector: 'app-categorias',
@@ -112,6 +113,7 @@ export class CategoriasComponent implements OnInit {
 
     constructor(private categoriaService: CategoriasService,
                 private swalService: SwalService,
+                private ctes: CtesService,
                 private modcontabService: ModelocontabService,
                 private loadingService: LoadingUiService) {
         this.categorias = [];
@@ -159,11 +161,11 @@ export class CategoriasComponent implements OnInit {
 
     doSave() {
         if (this.formcat.catic_nombre.trim().length === 0) {
-            this.swalService.fireToastError('Ingrese el nombre de la categoría');
+            this.swalService.fireToastError(this.ctes.msgEnterCatName);
             return;
         }
         if (this.formcat.catic_mc === 0) {
-            this.swalService.fireToastError('Debe seleccionar el modelo contable');
+            this.swalService.fireToastError(this.ctes.msgMustSelectModContab);
             return;
         }
         if (this.formcat.catic_id > 0) {
@@ -192,7 +194,7 @@ export class CategoriasComponent implements OnInit {
     }
 
     anular(fila: any) {
-        this.swalService.fireDialog('¿Seguro que desea anular esta categoría?').then(confirm => {
+        this.swalService.fireDialog(this.ctes.msgSureWishRemoveCat).then(confirm => {
             if (confirm.value) {
                 this.categoriaService.anular(fila.catic_id).subscribe(res => {
                     if (res.status === 200) {

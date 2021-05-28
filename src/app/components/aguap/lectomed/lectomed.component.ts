@@ -11,6 +11,7 @@ import {PersonaService} from '../../../services/persona.service';
 import {BaseComponent} from '../../shared/base.component';
 import {CobroaguaService} from '../../../services/agua/cobroagua.service';
 
+
 @Component({
     selector: 'app-lectomed',
     templateUrl: './lectomed.component.html'
@@ -22,10 +23,10 @@ export class LectomedComponent extends BaseComponent implements OnInit {
     anios: Array<any> = [];
     validfl: Array<any> = [];
     lastlectomed: any = null;
+    previulectomed: any = null;
     medsel: any = {};
-
-    personFiltered: Array<any> = [];
     currentStep = 0;
+    tipoBusqueda = 1;
     steps: MenuItem[] = [];
     medidores: Array<any> = [];
 
@@ -45,23 +46,10 @@ export class LectomedComponent extends BaseComponent implements OnInit {
         this.loadForm();
     }
 
-    findRefs($event: any) {
-        this.personaService.buscarPorNomapelCiPag($event.query, 0).subscribe(res => {
-            if (this.isResultOk(res)) {
-                this.personFiltered = res.items;
-            }
-        });
-    }
-
     onEnterRef() {
         if (this.cobroAguaServ.validaPaso1(this.form)) {
             this.doNext(1);
         }
-    }
-
-    limpiarRef() {
-        this.form.referente = {};
-        this.domService.setFocusTm(this.ctes.refAutoCom, 100);
     }
 
     onRefSelect() {
@@ -75,6 +63,7 @@ export class LectomedComponent extends BaseComponent implements OnInit {
             this.medidores = res.items;
             if (this.medidores.length === 1) {
                 this.medsel = this.medidores[0];
+                this.setDatosMedToForm();
             }
         });
     }
@@ -90,11 +79,17 @@ export class LectomedComponent extends BaseComponent implements OnInit {
             this.loadMedidores();
         } else if (this.currentStep === 2) {
             this.loadLastLectoMed();
+            this.loadPreviusLectoMed();
         }
     }
 
     doBack(step: number) {
         this.currentStep = step;
+    }
+
+    setDatosMedToForm() {
+        this.form.mdg_num = this.medsel.mdg_num;
+        this.form.mdg_id = this.medsel.mdg_id;
     }
 
     loadForm() {
@@ -106,23 +101,31 @@ export class LectomedComponent extends BaseComponent implements OnInit {
             this.anios = res.form.anios;
             this.validfl = res.form.vfl;
             this.steps = res.form.steps;
-            this.domService.setFocusTm(this.ctes.refAutoCom,);
+            this.domService.setFocusTm(this.ctes.refAutoCom);
         });
     }
 
     loadLastLectoMed() {
         this.lastlectomed = null;
-        this.form.lmd_valorant = 0;
-        this.form.mdg_num = this.medsel.mdg_num;
-        this.form.mdg_id = this.medsel.mdg_id;
         this.loadingServ.publishBlockMessage();
         this.lectomedService.getLast(this.form.mdg_num).subscribe(res => {
             if (this.isResultOk(res)) {
                 this.lastlectomed = res.lectomed;
-                this.form.lmd_valorant = this.lastlectomed.lmd_valor;
-                this.domService.setFocusTm(this.ctes.lmd_valor,);
+            }
+        });
+    }
+
+    loadPreviusLectoMed() {
+        this.previulectomed = null;
+        this.form.lmd_valorant = 0;
+        this.loadingServ.publishBlockMessage();
+        this.lectomedService.getPrevius(this.medsel.mdg_num, this.form.lmd_anio, this.form.lmd_mes).subscribe(res => {
+            if (this.isResultOk(res)) {
+                this.previulectomed = res.lectomed;
+                this.form.lmd_valorant = this.previulectomed.lmd_valor;
+                this.domService.setFocusTm(this.ctes.lmd_valor);
             } else {
-                this.domService.setFocusTm(this.ctes.lmd_valorant,);
+                this.domService.setFocusTm(this.ctes.lmd_valorant);
             }
         });
     }
@@ -160,5 +163,39 @@ export class LectomedComponent extends BaseComponent implements OnInit {
 
     doCancel() {
         this.gotoMain();
+    }
+
+    onAnioChange() {
+        this.loadPreviusLectoMed();
+    }
+
+    onMesChange() {
+        this.loadPreviusLectoMed();
+    }
+
+    onEnterMed() {
+        console.log('On enter med--->');
+    }
+
+    onSelMedFromBus() {
+        this.medsel = this.form.medidor;
+        this.setDatosMedToForm();
+        this.loadingServ.publishBlockMessage();
+        this.personaService.buscarPorCod(this.medsel.per_id).subscribe(res => {
+            if (this.isResultOk(res)) {
+                this.form.referente = res.persona;
+                this.medidores = [this.medsel];
+                this.currentStep = 1;
+            }
+        });
+    }
+
+    changeFocusBusca($ev) {
+        this.tipoBusqueda = $ev;
+        if (this.tipoBusqueda === 1) {
+            this.domService.setFocusTm(this.ctes.refAutoCom);
+        } else {
+            this.domService.setFocusTm(this.ctes.medAutoCom);
+        }
     }
 }

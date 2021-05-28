@@ -19,7 +19,6 @@ import {BaseComponent} from '../../shared/base.component';
 export class CobroaguaComponent extends BaseComponent implements OnInit {
     isLoading = false;
     form: any = {};
-    personFiltered: Array<any> = [];
     currentStep = 0;
     steps: MenuItem[] = [];
     medidores: Array<any> = [];
@@ -144,14 +143,6 @@ export class CobroaguaComponent extends BaseComponent implements OnInit {
         });
     }
 
-    findRefs($event: any) {
-        this.personaService.buscarPorNomapelCiPag($event.query, 0).subscribe(res => {
-            if (this.isResultOk(res)) {
-                this.personFiltered = res.items;
-            }
-        });
-    }
-
     onRefSelect() {
         this.domService.setFocusTm(this.ctes.btnNextS('1'), 100);
         this.doNext(1);
@@ -187,11 +178,6 @@ export class CobroaguaComponent extends BaseComponent implements OnInit {
 
     closeDetFact() {
         this.isShowFact = false;
-    }
-
-    limpiarRef() {
-        this.form.referente = {};
-        this.domService.setFocusTm(this.ctes.refAutoCom, 100);
     }
 
     doFinish() {

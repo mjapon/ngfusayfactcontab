@@ -1,12 +1,14 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {AsientoService} from '../../../../services/asiento.service';
 import {SwalService} from '../../../../services/swal.service';
+import {CtesService} from '../../../../services/ctes.service';
+import {BaseComponent} from '../../../shared/base.component';
 
 @Component({
     selector: 'app-facturaview',
     templateUrl: './facturaview.component.html'
 })
-export class FacturaviewComponent implements OnInit, OnChanges {
+export class FacturaviewComponent extends BaseComponent implements OnInit, OnChanges {
     doc: any;
     showAnim: boolean;
     isShowImprimir = false;
@@ -23,7 +25,9 @@ export class FacturaviewComponent implements OnInit, OnChanges {
     @Input() showBtns = true;
 
     constructor(private tasientoService: AsientoService,
+                private ctes: CtesService,
                 private swalService: SwalService) {
+        super();
     }
 
     ngOnInit(): void {
@@ -42,7 +46,7 @@ export class FacturaviewComponent implements OnInit, OnChanges {
         this.showAnim = true;
         this.tasientoService.getDoc(this.trncod).subscribe(res => {
             this.showAnim = false;
-            if (res.status === 200) {
+            if (this.isResultOk(res)) {
                 this.doc = res.doc;
                 this.evFacturaLoaded.emit(this.doc);
                 this.isShowImprimir = this.doc.tasiento.tra_codigo === 1 || this.doc.tasiento.tra_codigo === 2;
@@ -59,12 +63,11 @@ export class FacturaviewComponent implements OnInit, OnChanges {
     }
 
     anular() {
-        const msg = '¿Seguro que desea anular esta factura?';
-        if (confirm(msg)) {
+        if (confirm(this.ctes.msgSureWishAnulRecord)) {
             this.isLoading = true;
             this.tasientoService.anular(this.trncod, '').subscribe(res => {
                 this.isLoading = false;
-                if (res.status === 200) {
+                if (this.isResultOk(res)) {
                     this.swalService.fireToastSuccess(res.msg);
                     this.evAnulado.emit('');
                     this.evBtnClosed.emit();
@@ -74,8 +77,7 @@ export class FacturaviewComponent implements OnInit, OnChanges {
     }
 
     editar() {
-        const msg = '¿Seguro que desea editar este comprobante?';
-        if (confirm(msg)) {
+        if (confirm(this.ctes.msgSureWishEditRecord)) {
             this.evEditar.emit(this.trncod);
         }
     }

@@ -5,6 +5,7 @@ import {SwalService} from '../../services/swal.service';
 import {LoadingUiService} from '../../services/loading-ui.service';
 import {FautService} from '../../services/faut.service';
 import {CitasMedicasService} from '../../services/citas-medicas.service';
+import {CtesService} from '../../services/ctes.service';
 
 @Component({
     selector: 'app-rxdocs',
@@ -146,6 +147,7 @@ export class RxdocsComponent implements OnInit, OnChanges {
                 private loadingServ: LoadingUiService,
                 private fautService: FautService,
                 private citasMedicasServ: CitasMedicasService,
+                private ctes: CtesService,
                 private swalService: SwalService) {
         this.docs = [];
     }
@@ -205,7 +207,7 @@ export class RxdocsComponent implements OnInit, OnChanges {
 
     descargar(doc) {
         const url = this.rxDocsServ.getDownloadUrlNode(doc);
-        window.open(url, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=800,height=600');
+        window.open(url, this.ctes._blank, this.ctes.featuresOpenNewWin);
     }
 
     loadForm() {

@@ -10,6 +10,7 @@ import {CategoriasService} from '../../../services/categorias.service';
 import {forkJoin} from 'rxjs';
 import {FautService} from '../../../services/faut.service';
 import {ArrayutilService} from '../../../services/arrayutil.service';
+import {CtesService} from '../../../services/ctes.service';
 
 @Component({
     selector: 'app-articulos-list',
@@ -43,6 +44,7 @@ export class ArticulosListComponent implements OnInit {
                 private seccionService: SeccionService,
                 private arrayService: ArrayutilService,
                 private fautService: FautService,
+                private ctes: CtesService,
                 private router: Router) {
     }
 
@@ -82,7 +84,7 @@ export class ArticulosListComponent implements OnInit {
             }
             this.listar();
             this.isLoading = false;
-            this.domService.setFocusTm('buscaInput', 300);
+            this.domService.setFocusTm(this.ctes.buscaInput);
         });
     }
 
@@ -117,7 +119,7 @@ export class ArticulosListComponent implements OnInit {
 
     viewItem(rowItem: any) {
         this.selectedItem = rowItem;
-        this.router.navigate(['mercaderiaView', this.selectedItem.ic_id]);
+        this.router.navigate([this.ctes.mercaderiaView, this.selectedItem.ic_id]);
     }
 
     deleteItem(rowItem: any) {
@@ -159,11 +161,11 @@ export class ArticulosListComponent implements OnInit {
     }
 
     editar() {
-        this.router.navigate(['mercaderiaForm', this.selectedItem.ic_id]);
+        this.router.navigate([this.ctes.mercaderiaForm, this.selectedItem.ic_id]);
     }
 
     goToForm() {
-        this.router.navigate(['mercaderiaForm', 0]);
+        this.router.navigate([this.ctes.mercaderiaForm, 0]);
     }
 
     onDobleClick(rowData) {
