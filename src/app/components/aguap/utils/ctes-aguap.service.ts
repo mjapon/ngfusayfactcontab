@@ -18,8 +18,6 @@ export class CtesAguapService extends CtesService {
     private MsgAplTarfTercedad = 'Aplica tarifa tercera edad';
     private MsgEnterNumMed = 'Ingrese el número de medidor';
 
-    // private MsgRefNoLectomed = 'No tiene pagos pendientes';
-
     get rutaHome() {
         return this.RutaHome;
     }

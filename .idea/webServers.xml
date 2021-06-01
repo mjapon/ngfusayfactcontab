@@ -5,7 +5,7 @@
       <webServer id="92be042e-ed62-4716-8350-297923d75285" name="mavil_dicitalocean">
         <fileTransfer accessType="SFTP" host="157.230.129.131" port="22" sshConfigId="afc970b3-7485-492c-9765-e6d7ec5dc371" sshConfig="root@157.230.129.131:22 password">
           <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
         </fileTransfer>
       </webServer>

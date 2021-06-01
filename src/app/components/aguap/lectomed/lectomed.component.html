@@ -1,10 +1,10 @@
 <div>
-    <h4 class="pt-3 pb-2">Registrar lectura de medidor</h4>
-
+    <div class="d-flex justify-content-center">
+        <h4 class="pt-3 pb-2">Registrar lectura de medidor</h4>
+    </div>
     <div *ngIf="isLoading">
         <app-loading></app-loading>
     </div>
-
     <div>
         <div class="row">
             <div class="offset-md-3 col-md-6">
@@ -27,8 +27,7 @@
                                               (evOnSelectRef)="onRefSelect()"></app-buscaref>
                             </div>
                             <div *ngIf="tipoBusqueda===2">
-                                <app-buscamedidor [form]="form" (evOnSelectMed)="onSelMedFromBus()"
-                                                  (evOnEnterMed)="onEnterMed()">
+                                <app-buscamedidor [form]="form" (evOnSelectMed)="onSelMedFromBus()">
                                 </app-buscamedidor>
                             </div>
 
@@ -92,7 +91,6 @@
                                             <app-datosmedidor [datosmedidor]="medsel"></app-datosmedidor>
                                         </div>
                                     </div>
-
 
                                     <div class="mt-3">
                                         <div>
@@ -174,7 +172,7 @@
                                                         <div>
                                                             <span class="fw-normal fontsizenr"> Observación: </span>
                                                         </div>
-                                                        <div style="white-space: pre-line">
+                                                        <div style="white-space: pre-line" class="fontsizenr">
                                                             {{lastlectomed.lmd_obs}}
                                                         </div>
                                                     </div>
@@ -193,7 +191,6 @@
                                                             optionLabel="label"
                                                             (onChange)="onAnioChange()"></p-dropdown>
                                             </div>
-
                                         </div>
                                         <div class="col-md">
                                             <div><span class="fw-bold fontsizenr">Mes:</span></div>

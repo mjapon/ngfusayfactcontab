@@ -25,7 +25,6 @@ export class BtntipobusaguaComponent {
     changeTipo(tipo) {
         this.tipo = tipo;
         this.evTipoChanged.emit(this.tipo);
-        console.log('Valor de tipo es:', this.tipo);
     }
 
 }

@@ -59,5 +59,4 @@ export class LectomedaguaService extends BaseService {
         form.lmd_obs = '';
     }
 
-
 }

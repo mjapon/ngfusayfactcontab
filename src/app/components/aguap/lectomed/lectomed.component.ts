@@ -46,15 +46,17 @@ export class LectomedComponent extends BaseComponent implements OnInit {
         this.loadForm();
     }
 
-    onEnterRef() {
-        if (this.cobroAguaServ.validaPaso1(this.form)) {
-            this.doNext(1);
-        }
-    }
-
-    onRefSelect() {
-        this.domService.setFocusTm(this.ctes.btnNextS('1'), 100);
-        this.doNext(1);
+    loadForm() {
+        this.isLoading = true;
+        this.lectomedService.getForm().subscribe(res => {
+            this.isLoading = false;
+            this.form = res.form.form;
+            this.meses = res.form.meses;
+            this.anios = res.form.anios;
+            this.validfl = res.form.vfl;
+            this.steps = res.form.steps;
+            this.domService.setFocusTm(this.ctes.refAutoCom);
+        });
     }
 
     loadMedidores() {
@@ -68,8 +70,21 @@ export class LectomedComponent extends BaseComponent implements OnInit {
         });
     }
 
+    onEnterRef() {
+        if (this.cobroAguaServ.validaPaso1(this.form)) {
+            this.doNext(1);
+        }
+    }
+
+    onRefSelect() {
+        this.domService.setFocusTm(this.ctes.btnNextS('1'), 100);
+        this.doNext(1);
+    }
+
+
     onSelectMed($event: any) {
         this.medsel = $event;
+        this.setDatosMedToForm();
         this.doNext(2);
     }
 
@@ -78,6 +93,7 @@ export class LectomedComponent extends BaseComponent implements OnInit {
         if (this.currentStep === 1) {
             this.loadMedidores();
         } else if (this.currentStep === 2) {
+            this.lectomedService.clearForm(this.form);
             this.loadLastLectoMed();
             this.loadPreviusLectoMed();
         }
@@ -92,21 +108,9 @@ export class LectomedComponent extends BaseComponent implements OnInit {
         this.form.mdg_id = this.medsel.mdg_id;
     }
 
-    loadForm() {
-        this.isLoading = true;
-        this.lectomedService.getForm().subscribe(res => {
-            this.isLoading = false;
-            this.form = res.form.form;
-            this.meses = res.form.meses;
-            this.anios = res.form.anios;
-            this.validfl = res.form.vfl;
-            this.steps = res.form.steps;
-            this.domService.setFocusTm(this.ctes.refAutoCom);
-        });
-    }
-
     loadLastLectoMed() {
         this.lastlectomed = null;
+        this.setDatosMedToForm();
         this.loadingServ.publishBlockMessage();
         this.lectomedService.getLast(this.form.mdg_num).subscribe(res => {
             if (this.isResultOk(res)) {
@@ -171,10 +175,6 @@ export class LectomedComponent extends BaseComponent implements OnInit {
 
     onMesChange() {
         this.loadPreviusLectoMed();
-    }
-
-    onEnterMed() {
-        console.log('On enter med--->');
     }
 
     onSelMedFromBus() {

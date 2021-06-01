@@ -37,11 +37,11 @@ export class CitasMedicasService extends BaseService {
     }
 
     getListaAtenciones(ciruc: string): Observable<any> {
-        return this._doGetAction('listaatenciones');
+        return this._doGetAction('listaatenciones', {ciruc});
     }
 
     getDatosHistoriaByCod(codhistoria: any): Observable<any> {
-        return this._doGetAction('findhistbycod');
+        return this._doGetAction('findhistbycod', {codhistoria});
     }
 
     imprimir(ccm: any) {
