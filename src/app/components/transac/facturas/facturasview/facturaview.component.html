@@ -108,6 +108,14 @@
                             <span class="fw-bold text-success">{{pago.dt_valor|number:'.2'}}</span>
                         </div>
                     </div>
+                    <div class="row" *ngIf="doc?.pagosdoc">
+                        <div class="col-md-7">
+                            <span class="fw-bold fontsizenr">SALDO PENDIENTE$:</span>
+                        </div>
+                        <div class="col-md-5">
+                            <span class="fw-bold text-success">{{doc?.pagosdoc.saldopend|number:'.2'}}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 border">

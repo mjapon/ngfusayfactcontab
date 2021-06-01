@@ -6,7 +6,7 @@ import {SwalService} from '../../../../services/swal.service';
     selector: 'app-asientoview',
     templateUrl: './asientoview.component.html',
     styles: [
-            `
+        `
             .haberl {
                 margin-left: 70px;
             }
@@ -21,8 +21,12 @@ export class AsientoviewComponent implements OnInit, OnChanges {
     datosasi: any = {};
     totales: any = {};
     detalles = [];
+    datosfactrel: any = {};
 
     @Input() showBtns = true;
+    isShowDocRel = false;
+    isFactura = false;
+    trncodrel = 0;
 
     constructor(private asientoService: AsientoService,
                 private swalService: SwalService) {
@@ -47,6 +51,12 @@ export class AsientoviewComponent implements OnInit, OnChanges {
             this.datosasi = res.datoasi;
             this.totales = this.datosasi.totales;
             this.detalles = this.datosasi.detalles;
+            this.datosfactrel = this.datosasi.factrel;
+            if (this.datosfactrel) {
+                this.trncodrel = this.datosfactrel.trn_codigo;
+                this.isFactura = this.datosfactrel.isfact;
+            }
+            console.log('Valor de this.datosfactrel es: ', this.datosfactrel);
         });
     }
 
@@ -63,5 +73,13 @@ export class AsientoviewComponent implements OnInit, OnChanges {
 
     gotoEditAsiento(fila: any) {
 
+    }
+
+    toggleShowDocRel() {
+        this.isShowDocRel = !this.isShowDocRel;
+    }
+
+    hideDocRel() {
+        this.isShowDocRel = false;
     }
 }

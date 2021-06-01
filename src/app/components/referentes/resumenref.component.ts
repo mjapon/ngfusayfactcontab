@@ -46,31 +46,31 @@ import {PersonEvService} from '../../services/personev.service';
                     <ul class="nav nav-pills">
                         <li class="nav-item">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(1)}"
-                               (click)="selectMasterTab(1, $event)">
+                               (click)="selectMasterTab(1)">
                                 Datos </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(3)}"
-                               (click)="selectMasterTab(3, $event)">
+                               (click)="selectMasterTab(3)">
                                 Ventas <span class="badge " *ngIf="totalestrns?.ventas>0"
                                              [ngClass]="classBadge(3)"> {{totalestrns.ventas}} </span> </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(5)}"
-                               (click)="selectMasterTab(5, $event)">
+                               (click)="selectMasterTab(5)">
                                 Compras <span class="badge " *ngIf="totalestrns?.compras>0"
                                               [ngClass]="classBadge(5)"> {{totalestrns.compras}} </span> </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(6)}"
-                               (click)="selectMasterTab(6, $event)">
+                               (click)="selectMasterTab(6)">
                                 Cuentas por cobrar <span *ngIf="totalestrns?.cxcobrar>0"
                                                          class="badge "
                                                          [ngClass]="classBadge(6)"> {{totalestrns.cxcobrar}} </span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(7)}"
-                               (click)="selectMasterTab(7, $event)">
+                               (click)="selectMasterTab(7)">
                                 Cuentas por pagar <span *ngIf="totalestrns.cxpagar>0"
                                                         class="badge "
                                                         [ngClass]="classBadge(7)"> {{totalestrns.cxpagar}} </span> </a>
@@ -143,7 +143,7 @@ export class ResumenrefComponent implements OnInit, OnChanges {
         }
     }
 
-    selectMasterTab(btnId: number, $event: MouseEvent) {
+    selectMasterTab(btnId: number) {
         this.selectedMasterTab = btnId;
         this.evBtnTabClic.emit(btnId);
     }

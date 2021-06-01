@@ -9,13 +9,7 @@ import {SeccionService} from '../../../services/seccion.service';
 
 @Component({
     selector: 'app-loggednavbar',
-    templateUrl: './loggednavbar.component.html',
-    styles: [
-            `.leftpanel {
-            overflow-y: scroll;
-            height: calc(100vh - 85px);
-        }
-        `]
+    templateUrl: './loggednavbar.component.html'
 })
 export class LoggednavbarComponent implements OnInit {
     userinfo: any;

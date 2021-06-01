@@ -53,7 +53,18 @@
                         <span class="fw-normal fontsizenr"> Fecha de registro: </span>
                     </div>
                     <div class="col-md-8">
-                        <span class="fw-bold fontsizenr"> {{datosasi.cabecera.trn_fecha}} </span>
+                        <div class="d-flex justify-content-between">
+                            <span class="fw-bold fontsizenr"> {{datosasi.cabecera.trn_fecha}} </span>
+                            <div class="d-flex flex-row-reverse" *ngIf="datosfactrel?.trn_codigo&&!isShowDocRel">
+                                <button class="btn btn-sm btn-outline-info" (click)="toggleShowDocRel()"
+                                        title="Muestra la factura o el asiento contable relacionado con este abono">
+                                    <i class="fa fa-eye"></i>
+                                    Ver Doc Relacionado
+                                </button>
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -66,7 +77,19 @@
                 <p style="white-space: pre-line" class="fontsizenr"> {{datosasi.cabecera.trn_observ}} </p>
             </div>
         </div>
-        <div class="table-responsive">
+
+        <div *ngIf="isShowDocRel" class="border border-info shadow-sm p-1 mb-3">
+            <div *ngIf="isFactura">
+                <app-facturaview [trncod]="trncodrel" (evBtnClosed)="hideDocRel()"></app-facturaview>
+            </div>
+
+            <div *ngIf="!isFactura">
+                <app-asientoview [trncod]="trncodrel" (evCerrar)="hideDocRel()"></app-asientoview>
+            </div>
+        </div>
+
+
+        <div class="table-responsive mt-2">
             <table class="table table-sm table-bordered">
                 <thead>
                 <tr>
