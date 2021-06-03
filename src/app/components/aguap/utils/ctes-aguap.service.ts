@@ -10,6 +10,8 @@ export class CtesAguapService extends CtesService {
     private RutaContraForm = 'aguap/home/form';
     private RutaLectoMedForm = 'aguap/lectomed/form';
     private RutaPagos = 'aguap/cobros';
+    private RutaListados = 'aguap/listados/:grid';
+    private RutaListadosBase = 'aguap/listados/';
     private MdgNum = 'mdg_num';
     private LmdValor = 'lmd_valor';
     private LmdValorant = 'lmd_valorant';
@@ -68,6 +70,14 @@ export class CtesAguapService extends CtesService {
 
     get msgEnterNumMed() {
         return this.MsgEnterNumMed;
+    }
+
+    get rutaListados() {
+        return this.RutaListados;
+    }
+
+    get rutaListadosBase() {
+        return this.RutaListadosBase;
     }
 
     btnNextS(adc: string) {

@@ -6,6 +6,9 @@ import {Injectable} from '@angular/core';
 export class CtesService {
 
     protected Actualizar = 'actualizar';
+    protected AgpContratos = 'agp_contratos';
+    protected AgpLecturas = 'agp_lecturas';
+    protected AgpPagos = 'agp_pagos';
     protected Anulactacontab = 'anulactacontab';
     protected Anular = 'anular';
     protected Artid = 'art_id';
@@ -38,6 +41,7 @@ export class CtesService {
     protected Fmtfecha = 'dd/MM/yyyy';
     protected Form = 'form';
     protected Formasiento = 'formasiento';
+    protected Formlista = 'formlista';
     protected Formcab = 'formcab';
     protected Formcrea = 'formcrea';
     protected Formfiltrolibd = 'formfiltrolibd';
@@ -66,6 +70,8 @@ export class CtesService {
     protected GlobalAsistPorcIncrePrecioCompra = 'globalAsistPorcIncrePrecioCompra';
     protected Gplanc = 'gplanc';
     protected Gridventas = 'gridventas';
+    protected Grid = 'grid';
+    protected Gridcontrantos = 'gridcontrantos';
     protected Gservdentall = 'gservdentall';
     protected Gtotaldeudas = 'gtotaldeudas';
     protected Guardaplancta = 'guardaplancta';
@@ -140,8 +146,28 @@ export class CtesService {
         return this.Filterbynum;
     }
 
+    get agp_contratos() {
+        return this.AgpContratos;
+    }
+
+    get agp_lecturas() {
+        return this.AgpLecturas;
+    }
+
+    get agp_pagos() {
+        return this.AgpPagos;
+    }
+
     get actualizar() {
         return this.Actualizar;
+    }
+
+    get grid() {
+        return this.Grid;
+    }
+
+    get gridcontrantos() {
+        return this.Gridcontrantos;
     }
 
     get anulactacontab() {
@@ -270,6 +296,10 @@ export class CtesService {
 
     get formasiento() {
         return this.Formasiento;
+    }
+
+    get formlista() {
+        return this.Formlista;
     }
 
     get formcab() {

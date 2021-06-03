@@ -59,8 +59,8 @@
                             </div>
                             <div class="w-100" *ngIf="medidores.length>1">
                                 <div class="alert alert-primary">
-                                    <i class="fa fa-info me-2"></i> El referente tiene mas de un medidor registrado, por
-                                    favor elija uno:
+                                    <i class="fa fa-info me-2"></i>
+                                    El referente tiene mas de un medidor registrado, por favor elija uno:
                                 </div>
                                 <app-tblmedidores [medidores]="medidores" [isForSelect]="true"
                                                   (evSelectFila)="onSelectMed($event)"></app-tblmedidores>
@@ -168,12 +168,28 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="mt-2" *ngIf="lastlectomed.lmd_obs.trim().length>0">
-                                                        <div>
-                                                            <span class="fw-normal fontsizenr"> Observación: </span>
-                                                        </div>
-                                                        <div style="white-space: pre-line" class="fontsizenr">
-                                                            {{lastlectomed.lmd_obs}}
+                                                    <div class="mt-2">
+                                                        <div class="row g-0">
+                                                            <div class="col-md-8"
+                                                                 *ngIf="lastlectomed.lmd_obs.trim().length>0">
+                                                                <div>
+                                                                    <span class="fw-normal fontsizenr"> Observación: </span>
+                                                                </div>
+                                                                <div style="white-space: pre-line" class="fontsizenr">
+                                                                    {{lastlectomed.lmd_obs}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4 {{lastlectomed.lmd_obs.trim().length>0?'':'offset-md-8'}}">
+                                                                <div class="d-flex flex-row-reverse">
+                                                                    <div class="h-100 d-flex flex-column-reverse">
+                                                                        <button class="btn btn-sm btn-outline-secondary"
+                                                                                title="Anular esta lectura"
+                                                                                (click)="anularLectoMed()"><i
+                                                                                class="fa fa-ban"></i> Anular
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -250,6 +266,9 @@
                                 <button class="ms-2 btn btn-outline-primary"
                                         id="btnNextS3" (click)="doSave()"> Guardar
                                     <i class="fa fa-save"></i></button>
+                                <button class="ms-2 btn btn-outline-secondary"
+                                        id="btnNextS4" (click)="doCancel()"> Cancelar
+                                    <i class="fa fa-times"></i></button>
                             </div>
                         </div>
                     </div>

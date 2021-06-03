@@ -22,6 +22,10 @@ export class LectomedaguaService extends BaseService {
         return this._doPostAction(this.ctes.crea, form);
     }
 
+    anular(form) {
+        return this._doPostAction(this.ctes.anular, form);
+    }
+
     getLast(numed) {
         return this._doGetAction(this.ctes.last, {numed});
     }

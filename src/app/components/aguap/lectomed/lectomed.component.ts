@@ -198,4 +198,18 @@ export class LectomedComponent extends BaseComponent implements OnInit {
             this.domService.setFocusTm(this.ctes.medAutoCom);
         }
     }
+
+    anularLectoMed() {
+        this.swalService.fireDialog(this.ctes.msgSureWishAnulRecord).then(confirm => {
+            if (confirm.value) {
+                this.lectomedService.anular(this.lastlectomed).subscribe(res => {
+                    if (this.isResultOk(res)) {
+                        this.swalService.fireToastSuccess(res.msg);
+                        this.loadLastLectoMed();
+                        this.loadPreviusLectoMed();
+                    }
+                });
+            }
+        });
+    }
 }

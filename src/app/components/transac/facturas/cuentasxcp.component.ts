@@ -3,6 +3,7 @@ import {CreditoService} from '../../../services/credito.service';
 import {startOfMonth} from 'date-fns';
 import {FechasService} from '../../../services/fechas.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {DomService} from '../../../services/dom.service';
 
 @Component({
     selector: 'app-cuentasxcp',
@@ -127,6 +128,7 @@ export class CuentasxcpComponent implements OnInit {
     constructor(private creditoService: CreditoService,
                 private fechasservice: FechasService,
                 private router: Router,
+                private domService: DomService,
                 private route: ActivatedRoute) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.route.paramMap.subscribe(params => {
@@ -169,15 +171,8 @@ export class CuentasxcpComponent implements OnInit {
         context.listar();
     }
 
-    delayKeyup(callback, ms, prevtimer, context) {
-        clearTimeout(prevtimer);
-        return setTimeout(() => {
-            callback(context);
-        }, ms);
-    }
-
     doFilter($event: KeyboardEvent) {
-        this.previustimer = this.delayKeyup(this.filtroDelayFn, 500, this.previustimer, this);
+        this.previustimer = this.domService.delayKeyup(this.filtroDelayFn, 500, this.previustimer, this);
     }
 
     listar() {

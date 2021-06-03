@@ -1,5 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {PersonaService} from '../../services/persona.service';
+import {DomService} from '../../services/dom.service';
 
 @Component({
     selector: 'app-listadorefs',
@@ -76,7 +77,8 @@ export class ListadorefsComponent implements OnInit {
     showAnim: boolean;
     hayMasFilasPac: boolean;
 
-    constructor(private personaService: PersonaService) {
+    constructor(private personaService: PersonaService,
+                private domService: DomService) {
     }
 
     ngOnInit(): void {
@@ -87,13 +89,6 @@ export class ListadorefsComponent implements OnInit {
         this.buscarPacientes();
     }
 
-    delayKeyup(callback, ms, prevtimer, context) {
-        clearTimeout(prevtimer);
-        return setTimeout(() => {
-            callback(context);
-        }, ms);
-    }
-
     filtroDelayFn(context) {
         context.currentPagPacientes = 0;
         context.pacientesArray = [];
@@ -102,7 +97,7 @@ export class ListadorefsComponent implements OnInit {
     }
 
     onFiltroTyped() {
-        this.previustimer = this.delayKeyup(this.filtroDelayFn, 600, this.previustimer, this);
+        this.previustimer = this.domService.delayKeyup(this.filtroDelayFn, 600, this.previustimer, this);
     }
 
     crearPaciente() {

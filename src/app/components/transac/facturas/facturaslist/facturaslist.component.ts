@@ -4,6 +4,7 @@ import {AsientoService} from '../../../../services/asiento.service';
 import {startOfMonth} from 'date-fns';
 import {FechasService} from '../../../../services/fechas.service';
 import {LocalStorageService} from '../../../../services/local-storage.service';
+import {DomService} from '../../../../services/dom.service';
 
 @Component({
     selector: 'app-facturaslist',
@@ -27,6 +28,7 @@ export class FacturaslistComponent implements OnInit {
     constructor(private router: Router,
                 private asientoService: AsientoService,
                 private localStgServ: LocalStorageService,
+                private domService: DomService,
                 private fechasservice: FechasService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
@@ -65,15 +67,8 @@ export class FacturaslistComponent implements OnInit {
         context.listar();
     }
 
-    delayKeyup(callback, ms, prevtimer, context) {
-        clearTimeout(prevtimer);
-        return setTimeout(() => {
-            callback(context);
-        }, ms);
-    }
-
     doFilter($event: KeyboardEvent) {
-        this.previustimer = this.delayKeyup(this.filtroDelayFn, 500, this.previustimer, this);
+        this.previustimer = this.domService.delayKeyup(this.filtroDelayFn, 500, this.previustimer, this);
     }
 
     listar() {

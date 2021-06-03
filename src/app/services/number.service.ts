@@ -82,7 +82,7 @@ export class NumberService {
         } catch (e) {
             console.error('Error  al calcular totales de fila', e);
         }
-        fila.dt_valor = this.round6(fila.subtforiva);
+        fila.dt_valor = fila.subtforiva;
         return fila;
     }
 

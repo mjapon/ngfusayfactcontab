@@ -66,4 +66,11 @@ export class DomService {
         return allvalid;
     }
 
+    delayKeyup(callback, ms, prevtimer, context) {
+        clearTimeout(prevtimer);
+        return setTimeout(() => {
+            callback(context);
+        }, ms);
+    }
+
 }

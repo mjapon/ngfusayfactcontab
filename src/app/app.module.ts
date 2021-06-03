@@ -126,6 +126,8 @@ import es from '@angular/common/locales/es';
 import {BuscarefComponent} from './components/shared/buscaref/buscaref.component';
 import {BuscamedidorComponent} from './components/aguap/utils/buscamedidor.component';
 import {BtntipobusaguaComponent} from './components/aguap/utils/btntipobusagua.component';
+import {AgplistadoComponent} from './components/aguap/utils/agplistado.component';
+import {AgplistadohomeComponent} from './components/aguap/utils/agplistadohome.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -217,7 +219,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         BasicdatosrefComponent,
         BuscarefComponent,
         BuscamedidorComponent,
-        BtntipobusaguaComponent
+        BtntipobusaguaComponent,
+        AgplistadoComponent,
+        AgplistadohomeComponent
     ],
     imports: [
         CommonModule,

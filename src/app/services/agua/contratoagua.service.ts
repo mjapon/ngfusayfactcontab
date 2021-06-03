@@ -33,4 +33,12 @@ export class ContratoaguaService extends BaseService {
     filterByNumMed(filtro) {
         return this._doGetAction(this.ctes.filterbynum, {filtro});
     }
+
+    getGrid(gridnombre, params) {
+        return this._doGetAction(gridnombre, params);
+    }
+
+    getFormLista() {
+        return this._doGetAction(this.ctes.formlista);
+    }
 }

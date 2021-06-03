@@ -37,6 +37,8 @@ import {ContraguaformComponent} from './components/aguap/contraguaform/contragua
 import {LectomedComponent} from './components/aguap/lectomed/lectomed.component';
 import {CtesAguapService} from './components/aguap/utils/ctes-aguap.service';
 import {CobroaguaComponent} from './components/aguap/cobroagua/cobroagua.component';
+import {AgplistadoComponent} from './components/aguap/utils/agplistado.component';
+import {AgplistadohomeComponent} from "./components/aguap/utils/agplistadohome.component";
 // import {AdminGuard} from './guards/admin/admin.guard';
 
 const aguapmod: CtesAguapService = new CtesAguapService();
@@ -90,6 +92,7 @@ const routes: Routes = [
     {path: aguapmod.rutaContraForm, component: ContraguaformComponent},
     {path: aguapmod.rutaLectoMedForm, component: LectomedComponent},
     {path: aguapmod.rutaPagos, component: CobroaguaComponent},
+    {path: aguapmod.rutaListados, component: AgplistadohomeComponent},
     {path: '**', component: HomeComponent}
 ];
 

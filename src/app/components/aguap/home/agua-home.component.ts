@@ -29,4 +29,17 @@ export class AguaHomeComponent implements OnInit {
     gotoPagos() {
         this.router.navigate([this.ctes.rutaPagos]);
     }
+
+    _getRuta(grid) {
+        const base = this.ctes.rutaListadosBase;
+        return `${base}${grid}`;
+    }
+
+    gotoListaContratos() {
+        this.router.navigate([this._getRuta(this.ctes.agp_contratos)]);
+    }
+
+    gotoListaLecturas() {
+        this.router.navigate([this._getRuta(this.ctes.agp_lecturas)]);
+    }
 }

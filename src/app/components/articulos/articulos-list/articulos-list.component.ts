@@ -96,20 +96,12 @@ export class ArticulosListComponent implements OnInit {
         this.enableBtns = false;
     }
 
-    delayKeyup(callback, ms, prevtimer, context) {
-        clearTimeout(prevtimer);
-        return setTimeout(() => {
-            callback(context);
-        }, ms);
-    }
-
-
     filtroDelayFn(context) {
         context.listar();
     }
 
     doFilter(ev: any) {
-        this.previustimer = this.delayKeyup(this.filtroDelayFn, 500, this.previustimer, this);
+        this.previustimer = this.domService.delayKeyup(this.filtroDelayFn, 500, this.previustimer, this);
     }
 
     editItem(rowItem: any) {

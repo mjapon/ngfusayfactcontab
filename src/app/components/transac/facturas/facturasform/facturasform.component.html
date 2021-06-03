@@ -222,7 +222,7 @@
                         <td>
                             <input type="text" class="form-control form-control-sm"
                                    (keyup)="onFilaDescChange(fila)" [ngClass]="{'is-invalid':fila.dt_dectoerr}"
-                                   (focusin)="$event.target.select()"
+                                   (focusin)="$event.target?.select()"
                                    [(ngModel)]="fila.dt_dectoin"></td>
                         <td>
                             <select class="form-control form-control-sm" [(ngModel)]="fila.icdp_grabaiva"

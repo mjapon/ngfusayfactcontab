@@ -468,12 +468,12 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         const per_ciruc = this.form.form_persona.per_ciruc;
         this.loadingUiService.publishBlockMessage();
         this.personaServ.buscarPorCi(per_ciruc).subscribe(res => {
-            if (this.isResultOk(res)) {
+                if (this.isResultOk(res)) {
                     this.form.form_persona = res.persona;
-                this.domService.setFocusTm(this.ctes.artsAutoCom);
+                    this.domService.setFocusTm(this.ctes.artsAutoCom);
                     this.swalService.fireToastSuccess(this.ctes.msgRefRegistered);
                 } else {
-                this.domService.setFocusTm(this.ctes.perNombresInput);
+                    this.domService.setFocusTm(this.ctes.perNombresInput);
                 }
             }
         );
@@ -502,7 +502,14 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         } else {
             fila.dt_dectoerr = true;
         }
-        fila.dt_decto = dtDecto;
+
+        let dtDectoAjuste = dtDecto;
+        if (fila.icdp_grabaiva) {
+            if (!this.isfacturacompra) {
+                dtDectoAjuste = this.numberService.quitarIva(dtDecto);
+            }
+        }
+        fila.dt_decto = dtDectoAjuste;
         this.recalcTotalFila(fila);
     }
 

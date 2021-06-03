@@ -56,7 +56,6 @@ export class AsientoviewComponent implements OnInit, OnChanges {
                 this.trncodrel = this.datosfactrel.trn_codigo;
                 this.isFactura = this.datosfactrel.isfact;
             }
-            console.log('Valor de this.datosfactrel es: ', this.datosfactrel);
         });
     }
 
