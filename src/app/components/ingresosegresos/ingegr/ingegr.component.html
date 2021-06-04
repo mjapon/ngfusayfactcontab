@@ -326,7 +326,8 @@
     <p-dialog header="Detalles del asiento" [style]="{width: '95vw'}" [autoZIndex]="false"
               [modal]="true"
               [(visible)]="isShowDetAsi">
-        <app-asientoview [trncod]="filasel.trn_codigo" (evCerrar)="hideDetAsi()"></app-asientoview>
+        <app-asientoview [trncod]="filasel.trn_codigo" (evCerrar)="hideDetAsi()"
+                         (evAnulado)="loadMovimientos()"></app-asientoview>
     </p-dialog>
 </div>
 

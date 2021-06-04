@@ -13,10 +13,12 @@ export class FacturaviewComponent extends BaseComponent implements OnInit, OnCha
     showAnim: boolean;
     isShowImprimir = false;
     isLoading = false;
+    isShowChangeSec = false;
 
     @Input() trncod: number;
     @Input() isPermEdit = false;
     @Input() isPermAnul = false;
+    @Input() isPermChangeSec = false;
     @Output() evFacturaLoaded = new EventEmitter<any>();
     @Output() evBtnClosed = new EventEmitter<any>();
     @Output() evAnulado = new EventEmitter<any>();
@@ -81,4 +83,15 @@ export class FacturaviewComponent extends BaseComponent implements OnInit, OnCha
             this.evEditar.emit(this.trncod);
         }
     }
+
+    changeSec() {
+        this.isShowChangeSec = true;
+    }
+
+    onChangeSecDoed() {
+        this.evAnulado.emit();
+        this.onCloseClick();
+    }
+
 }
+

@@ -147,7 +147,13 @@
         </div>
 
         <div class="row" *ngIf="showBtns">
-            <div class="col">
+            <div class="col-md">
+                <button class="btn btn-sm btn-outline-primary ms-md-1" [disabled]="isLoading"
+                        (click)="changeSec()">
+                    <i class="fas fa-exchange-alt"></i> Cambiar Sección
+                </button>
+            </div>
+            <div class="col-md">
                 <div class="mt-2 d-flex flex-row-reverse">
                     <button class="btn btn-outline-primary ms-1" (click)="onCerraBtn()"><i
                             class="fa fa-times"></i>
@@ -164,4 +170,11 @@
             </div>
         </div>
     </div>
+</div>
+
+<div *ngIf="isShowChangeSec">
+    <p-dialog header="Cambio de sección" [modal]="true" [style]="{width: '50vw'}" [autoZIndex]="true"
+              [(visible)]="isShowChangeSec">
+        <app-changesecdoc [trncod]="trncod" (evDoed)="onChangeSecDoed()"></app-changesecdoc>
+    </p-dialog>
 </div>

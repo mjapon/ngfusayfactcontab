@@ -158,6 +158,11 @@
     <div class="mt-3" *ngIf="showBtns">
         <div class="d-md-flex justify-content-between">
             <div class="d-flex flex-row-reverse">
+                <button class="btn btn-sm btn-outline-primary ms-md-1" [disabled]="isLoading"
+                        (click)="changeSec()" *ngIf="isPermChangeSec">
+                    <i class="fas fa-exchange-alt"></i> Cambiar Sección
+                </button>
+
                 <button class="btn btn-sm btn-outline-primary" [disabled]="isLoading"
                         (click)="anular()" *ngIf="isPermAnul"><i
                         class="fa fa-trash"></i> Anular
@@ -179,6 +184,14 @@
             </div>
         </div>
     </div>
-
 </div>
+
+<div *ngIf="isShowChangeSec">
+    <p-dialog header="Cambio de sección" [modal]="true" [style]="{width: '50vw'}" [autoZIndex]="true"
+              [(visible)]="isShowChangeSec">
+        <app-changesecdoc [trncod]="trncod" (evDoed)="onChangeSecDoed()"></app-changesecdoc>
+    </p-dialog>
+</div>
+
+
 

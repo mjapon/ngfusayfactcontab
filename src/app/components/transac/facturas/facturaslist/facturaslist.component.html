@@ -128,6 +128,7 @@
     <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
               [(visible)]="isShowDetallesFactura">
         <app-facturaview [trncod]="codFacturaSel" (evBtnClosed)="closeDetFact()" (evAnulado)="listar()"
-                         (evEditar)="onEditar($event)" [isPermAnul]="true" [isPermEdit]="true"></app-facturaview>
+                         (evEditar)="onEditar($event)" [isPermAnul]="true" [isPermEdit]="true"
+                         [isPermChangeSec]="true"></app-facturaview>
     </p-dialog>
 </div>

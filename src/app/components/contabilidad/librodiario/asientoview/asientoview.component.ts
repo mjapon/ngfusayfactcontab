@@ -16,6 +16,7 @@ export class AsientoviewComponent implements OnInit, OnChanges {
 
     @Input() trncod: number;
     @Output() evCerrar = new EventEmitter<any>();
+    @Output() evAnulado = new EventEmitter<any>();
 
     isLoading = false;
     datosasi: any = {};
@@ -24,9 +25,11 @@ export class AsientoviewComponent implements OnInit, OnChanges {
     datosfactrel: any = {};
 
     @Input() showBtns = true;
+
     isShowDocRel = false;
     isFactura = false;
     trncodrel = 0;
+    isShowChangeSec = false;
 
     constructor(private asientoService: AsientoService,
                 private swalService: SwalService) {
@@ -80,5 +83,14 @@ export class AsientoviewComponent implements OnInit, OnChanges {
 
     hideDocRel() {
         this.isShowDocRel = false;
+    }
+
+    changeSec() {
+        this.isShowChangeSec = true;
+    }
+
+    onChangeSecDoed() {
+        this.isShowChangeSec = false;
+        this.evAnulado.emit('');
     }
 }

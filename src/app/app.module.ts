@@ -128,6 +128,7 @@ import {BuscamedidorComponent} from './components/aguap/utils/buscamedidor.compo
 import {BtntipobusaguaComponent} from './components/aguap/utils/btntipobusagua.component';
 import {AgplistadoComponent} from './components/aguap/utils/agplistado.component';
 import {AgplistadohomeComponent} from './components/aguap/utils/agplistadohome.component';
+import {ChangesecdocComponent} from './components/transac/changesecdoc.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -221,7 +222,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         BuscamedidorComponent,
         BtntipobusaguaComponent,
         AgplistadoComponent,
-        AgplistadohomeComponent
+        AgplistadohomeComponent,
+        ChangesecdocComponent
     ],
     imports: [
         CommonModule,

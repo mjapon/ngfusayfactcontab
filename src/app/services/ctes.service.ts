@@ -22,6 +22,7 @@ export class CtesService {
     protected Buscaporid = 'buscaporid';
     protected Buscaporidfull = 'buscaporidfull';
     protected Buscatipo = 'buscatipo';
+    protected Changesec = 'changesec';
     protected CodbarraInput = 'codbarraInput';
     protected Confirmar = 'confirmar';
     protected Conspend = 'conspend';
@@ -46,6 +47,7 @@ export class CtesService {
     protected Formcrea = 'formcrea';
     protected Formfiltrolibd = 'formfiltrolibd';
     protected Formfiltros = 'formfiltros';
+    protected Formchangesec = 'formchangesec';
     protected Filterbynum = 'filterbynum';
     protected Gallctascontables = 'gallctascontables';
     protected Gartsserv = 'gartsserv';
@@ -91,6 +93,7 @@ export class CtesService {
     protected MedAutoCom = 'medAutoCom';
     protected Monto = 'monto';
     protected MotivoConsultaTextArea = 'motivoConsultaTextArea';
+    protected MsgConfirmChangeSec = '¿Confirma que desea realizar el cambio de sección?';
     protected MsgConfirmSave = '¿Confirma que desea registrar la información ingresada?';
     protected MsgDataIncompleteRef = 'Datos incompletos del referente, favor completar';
     protected MsgDatosIncorr = 'Datos Incorrectos';
@@ -222,6 +225,10 @@ export class CtesService {
         return this.Buscatipo;
     }
 
+    get changesec() {
+        return this.Changesec;
+    }
+
     get codbarraInput() {
         return this.CodbarraInput;
     }
@@ -316,6 +323,10 @@ export class CtesService {
 
     get formfiltros() {
         return this.Formfiltros;
+    }
+
+    get formchangesec() {
+        return this.Formchangesec;
     }
 
     get gallctascontables() {
@@ -512,6 +523,10 @@ export class CtesService {
 
     get msgMustAddProdInFact() {
         return this.MsgMustAddProdInFact;
+    }
+
+    get msgConfirmChangeSec() {
+        return this.MsgConfirmChangeSec;
     }
 
     get msgMustEnterCodBarra() {

@@ -97,4 +97,12 @@ export class AsientoService extends BaseService {
         return this._doGetAction(this.ctes.formfiltrolibd);
     }
 
+    changeSeccion(form) {
+        return this._doPostAction(this.ctes.changesec, form);
+    }
+
+    getFormChangeSec(trncod) {
+        return this._doGetAction(this.ctes.formchangesec, {trncod});
+    }
+
 }
