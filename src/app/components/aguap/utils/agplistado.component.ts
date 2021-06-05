@@ -37,7 +37,6 @@ import {DomService} from '../../../services/dom.service';
                                     optionValue="mes_id"
                                     optionLabel="mes_nombre"
                                     (onChange)="onMesChange()"></p-dropdown>
-
                     </div>
                     <div class="col-md-3 d-flex flex-row-reverse">
                         <button class="btn btn-sm btn-outline-primary" (click)="goToHome()">

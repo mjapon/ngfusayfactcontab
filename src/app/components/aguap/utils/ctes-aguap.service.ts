@@ -12,6 +12,7 @@ export class CtesAguapService extends CtesService {
     private RutaPagos = 'aguap/cobros';
     private RutaListados = 'aguap/listados/:grid';
     private RutaListadosBase = 'aguap/listados/';
+    private RutaPagoMavil = 'aguap/pagomavil';
     private MdgNum = 'mdg_num';
     private LmdValor = 'lmd_valor';
     private LmdValorant = 'lmd_valorant';
@@ -34,6 +35,10 @@ export class CtesAguapService extends CtesService {
 
     get rutaPagos() {
         return this.RutaPagos;
+    }
+
+    get rutaPagoMavil() {
+        return this.RutaPagoMavil;
     }
 
     get perCirucInput() {

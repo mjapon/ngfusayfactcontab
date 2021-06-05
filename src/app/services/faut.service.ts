@@ -3,6 +3,7 @@ import {BaseService} from './base-service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
+import {CtesService} from './ctes.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,8 @@ export class FautService extends BaseService {
     public source = this.bssource.asObservable();
 
     constructor(protected http: HttpClient,
-                protected localStorageService: LocalStorageService) {
+                protected localStorageService: LocalStorageService,
+                private ctes: CtesService) {
         super('/tfuser', localStorageService, http);
     }
 
@@ -151,6 +153,10 @@ export class FautService extends BaseService {
 
     publishMessage(message: string) {
         this.bssource.next(message);
+    }
+
+    chkRol(rol) {
+        return this._doPostAction(this.ctes.chkrol, {rol});
     }
 
 }

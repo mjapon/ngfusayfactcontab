@@ -30,6 +30,7 @@ export class CtesService {
     protected Creadoc = 'creadoc';
     protected Crear = 'crear';
     protected Creasiento = 'creasiento';
+    protected Chkrol = 'chkrol';
     protected Del = 'del';
     protected Duplicar = 'duplicar';
     protected Editar = 'editar';
@@ -48,6 +49,7 @@ export class CtesService {
     protected Formfiltrolibd = 'formfiltrolibd';
     protected Formfiltros = 'formfiltros';
     protected Formchangesec = 'formchangesec';
+    protected Formpmavil = 'formpmavil';
     protected Filterbynum = 'filterbynum';
     protected Gallctascontables = 'gallctascontables';
     protected Gartsserv = 'gartsserv';
@@ -132,6 +134,8 @@ export class CtesService {
     protected Previous = 'previous';
     protected RefAutoCom = 'refAutoCom';
     protected Registra = 'registra';
+    protected Repagmavil = 'repagmavil';
+    protected Saverepagmavil = 'saverepagmavil';
     protected Seccodbarra = 'seccodbarra';
     protected Setseccion = 'setseccion';
     protected Stock = 'stock';
@@ -223,6 +227,10 @@ export class CtesService {
 
     get buscatipo() {
         return this.Buscatipo;
+    }
+
+    get chkrol() {
+        return this.Chkrol;
     }
 
     get changesec() {
@@ -327,6 +335,10 @@ export class CtesService {
 
     get formchangesec() {
         return this.Formchangesec;
+    }
+
+    get formpmavil() {
+        return this.Formpmavil;
     }
 
     get gallctascontables() {
@@ -648,6 +660,14 @@ export class CtesService {
 
     get registra() {
         return this.Registra;
+    }
+
+    get repagmavil() {
+        return this.Repagmavil;
+    }
+
+    get saverepagmavil() {
+        return this.Saverepagmavil;
     }
 
     get seccodbarra() {

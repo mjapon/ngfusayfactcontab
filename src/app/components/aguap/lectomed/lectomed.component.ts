@@ -17,7 +17,6 @@ import {CobroaguaService} from '../../../services/agua/cobroagua.service';
     templateUrl: './lectomed.component.html'
 })
 export class LectomedComponent extends BaseComponent implements OnInit {
-    isLoading = false;
     form: any = {};
     meses: Array<any> = [];
     anios: Array<any> = [];
@@ -47,9 +46,9 @@ export class LectomedComponent extends BaseComponent implements OnInit {
     }
 
     loadForm() {
-        this.isLoading = true;
+        this.turnOnLoading();
         this.lectomedService.getForm().subscribe(res => {
-            this.isLoading = false;
+            this.turnOffLoading();
             this.form = res.form.form;
             this.meses = res.form.meses;
             this.anios = res.form.anios;
@@ -135,6 +134,7 @@ export class LectomedComponent extends BaseComponent implements OnInit {
     }
 
     doSave() {
+        console.log('Se procede a avalidar, ', this.form, this.validfl);
         const isValidMed = this.domService.validFormData(this.form, this.validfl);
         if (!isValidMed) {
             return;

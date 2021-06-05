@@ -129,6 +129,8 @@ import {BtntipobusaguaComponent} from './components/aguap/utils/btntipobusagua.c
 import {AgplistadoComponent} from './components/aguap/utils/agplistado.component';
 import {AgplistadohomeComponent} from './components/aguap/utils/agplistadohome.component';
 import {ChangesecdocComponent} from './components/transac/changesecdoc.component';
+import {RepagomavilComponent} from './components/aguap/utils/repagomavil.component';
+import {MavilgridComponent} from './components/shared/mavilgrid.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -223,7 +225,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         BtntipobusaguaComponent,
         AgplistadoComponent,
         AgplistadohomeComponent,
-        ChangesecdocComponent
+        ChangesecdocComponent,
+        RepagomavilComponent,
+        MavilgridComponent
     ],
     imports: [
         CommonModule,

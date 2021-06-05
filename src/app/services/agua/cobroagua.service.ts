@@ -37,4 +37,16 @@ export class CobroaguaService extends BaseService {
         });
     }
 
+    getFormPagoMavil() {
+        return this._doGetAction(this.ctes.formpmavil);
+    }
+
+    getReportePagoMavil(form) {
+        return this._doPostAction(this.ctes.repagmavil, form);
+    }
+
+    guardarReportePagoMavil(form) {
+        return this._doPostAction(this.ctes.saverepagmavil, form);
+    }
+
 }

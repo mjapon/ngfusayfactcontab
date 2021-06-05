@@ -42,4 +42,8 @@ export class AguaHomeComponent implements OnInit {
     gotoListaLecturas() {
         this.router.navigate([this._getRuta(this.ctes.agp_lecturas)]);
     }
+
+    gotoRepPagoMavil() {
+        this.router.navigate([this.ctes.rutaPagoMavil]);
+    }
 }

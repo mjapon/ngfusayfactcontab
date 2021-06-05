@@ -7,13 +7,13 @@ import {SwalService} from '../../../services/swal.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {DomService} from '../../../services/dom.service';
 import {CtesAguapService} from '../utils/ctes-aguap.service';
+import {BaseComponent} from '../../shared/base.component';
 
 @Component({
     selector: 'app-contraguaform',
     templateUrl: './contraguaform.component.html'
 })
-export class ContraguaformComponent implements OnInit {
-    isLoading = false;
+export class ContraguaformComponent extends BaseComponent implements OnInit {
     form: any = {};
     formref: any = {};
     formmed: any = {};
@@ -35,6 +35,7 @@ export class ContraguaformComponent implements OnInit {
                 private loadingService: LoadingUiService,
                 private ctes: CtesAguapService,
                 private contraService: ContratoaguaService) {
+        super();
     }
 
     ngOnInit(): void {
@@ -50,9 +51,9 @@ export class ContraguaformComponent implements OnInit {
     }
 
     loadForm() {
-        this.isLoading = true;
+        this.turnOnLoading();
         this.contraService.getForm(this.tipoContra).subscribe(res => {
-            this.isLoading = false;
+            this.turnOffLoading();
             this.form = res.form.form;
             this.formref = res.form.formper;
             this.tarifas = res.form.tarifas;
@@ -74,7 +75,7 @@ export class ContraguaformComponent implements OnInit {
         this.isRefSearched = true;
         this.loadingService.publishBlockMessage();
         this.personService.buscarPorCifull(this.formref.per_ciruc).subscribe(res => {
-            if (res.status === 200) {
+            if (this.isResultOk(res)) {
                 this.swalService.fireToastSuccess(this.ctes.msgRefRegistered);
                 this.personService.loadDataToform(this.formref, res.persona);
                 this.loadContratosRef();
@@ -136,7 +137,7 @@ export class ContraguaformComponent implements OnInit {
             if (confirm.value) {
                 this.loadingService.publishBlockMessage();
                 this.contraService.crear(form).subscribe(res => {
-                    if (res.status === 200) {
+                    if (this.isResultOk(res)) {
                         this.swalService.fireToastSuccess(res.msg);
                         this.gotomain();
                     }
