@@ -7,17 +7,20 @@ import {BaseComponent} from '../../shared/base.component';
     selector: 'app-agplistadohome',
     template: `
         <div>
-            <app-agplistado [gridNombre]="grid"></app-agplistado>
+            <app-agplistado [gridNombre]="gridName" [isShowFechas]="isShowFechas"></app-agplistado>
         </div> `
 })
 export class AgplistadohomeComponent extends BaseComponent {
-    grid = '';
+    gridName = '';
+    isShowFechas = false;
 
     constructor(private route: ActivatedRoute,
                 private ctes: CtesService) {
         super();
         this.route.paramMap.subscribe(params => {
-            this.grid = params.get(this.ctes.grid);
+            this.isShowFechas = true;
+            this.gridName = params.get(this.ctes.grid);
+            this.isShowFechas = !(this.gridName === this.ctes.agp_contratos);
         });
     }
 }

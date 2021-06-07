@@ -24,4 +24,8 @@ export class OdontogramaService extends BaseService {
         const httpOptions = this.getHOT({});
         return this.doPost(this.http, endopoint, httpOptions, form);
     }
+
+    getCss() {
+        return this._doGetAction('getccss');
+    }
 }

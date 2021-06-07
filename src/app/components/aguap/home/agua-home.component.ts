@@ -2,20 +2,30 @@ import {Component, OnInit} from '@angular/core';
 import {ContratoaguaService} from '../../../services/agua/contratoagua.service';
 import {Router} from '@angular/router';
 import {CtesAguapService} from '../utils/ctes-aguap.service';
+import {UsertokenService} from '../../../services/usertoken.service';
+import {BaseComponent} from '../../shared/base.component';
 
 @Component({
     selector: 'app-contratos',
     templateUrl: './agua-home.html'
 })
-export class AguaHomeComponent implements OnInit {
+export class AguaHomeComponent extends BaseComponent implements OnInit {
     isLoading = false;
+    hasRolViewPagMavil = false;
 
     constructor(private contraAgua: ContratoaguaService,
+                private userTokenServ: UsertokenService,
                 private ctes: CtesAguapService,
                 private router: Router) {
+        super();
     }
 
     ngOnInit(): void {
+        this.userTokenServ.chkrol(this.ctes.agp_pagosmavil).subscribe(res => {
+            if (this.isResultOk(res)) {
+                this.hasRolViewPagMavil = res.hasperm;
+            }
+        });
     }
 
     goToForm() {

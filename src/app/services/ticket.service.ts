@@ -3,6 +3,7 @@ import {BaseService} from './base-service';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
 import {Observable} from 'rxjs';
+import {CtesService} from './ctes.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,55 +11,51 @@ import {Observable} from 'rxjs';
 export class TicketService extends BaseService {
 
     constructor(protected http: HttpClient,
-                protected localStrgServ: LocalStorageService) {
+                protected localStrgServ: LocalStorageService,
+                private ctes: CtesService) {
         super('/tticket', localStrgServ, http);
     }
 
     listar(dia: string, desde: string, hasta: string, seccion: number, servicios: string): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'listar', dia, desde, hasta, seccion, servicios});
-        return this._doGet(httpOptions);
+        return this._doGetAction(this.ctes.listar, {dia, desde, hasta, seccion, servicios});
     }
 
     getFormListado(): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'forml'});
-        return this._doGet(httpOptions);
+        return this._doGetAction(this.ctes.forml);
     }
 
     getProdsForTickets(): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'servticktes'});
-        return this._doGet(httpOptions);
+        return this._doGetAction(this.ctes.servticktes);
     }
 
     getFormCrea(): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'form'});
-        return this._doGet(httpOptions);
+        return this._doGetAction(this.ctes.form);
     }
 
     getFormEdit(tkid) {
-        return this._doGet(this.getHOT({accion: 'gformed', tkid}));
+        return this._doGetAction(this.ctes.gformed, {tkid});
     }
 
-    guardar(form: any, form_cli: any): Observable<any> {
-        const httpOptions = this.getHOT({accion: 'guardar'});
-        return this._doPost(httpOptions, {form, form_cli});
+    guardar(form: any, formCli: any): Observable<any> {
+        return this._doPostAction(this.ctes.guardar, {form, form_cli: formCli});
     }
 
     actualizar(form: any) {
-        return this._doPost(this.getHOT({accion: 'upd'}), form);
+        return this._doPostAction('upd', form);
     }
 
     anular(tkid) {
-        const httpOptions = this.getHOT({accion: 'anular'});
-        return this._doPost(httpOptions, {tk_id: tkid});
+        return this._doPostAction(this.ctes.anular, {tk_id: tkid});
     }
 
     getDetalles(tkid) {
-        return this._doGet(this.getHOT({accion: 'gdet', tkid}));
+        return this._doGetAction('gdet', {tkid});
     }
 
     imprimir(ticketid: any) {
-        const rutaserver = 'https://mavil.site/tomcat/imprentas/TicketServlet?tkid=' + ticketid;
-        window.open(rutaserver, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=500,height=700');
+        const basetomcat = this.ctes.urlTomcat;
+        const url = `${basetomcat}/TicketServlet?tkid=${ticketid}`;
+        window.open(url, this.ctes._blank, 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=500,height=700');
     }
 
     isDataValid(form, formcli, swalService) {

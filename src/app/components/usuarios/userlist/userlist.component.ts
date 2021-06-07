@@ -9,9 +9,7 @@ import {UsertokenService} from '../../../services/usertoken.service';
     templateUrl: './userlist.component.html'
 })
 export class UserlistComponent implements OnInit {
-
-    items: Array<any>;
-    cols: Array<any>;
+    grid: any = {};
     selectedItem: any;
 
     enableBtns: boolean;
@@ -19,16 +17,12 @@ export class UserlistComponent implements OnInit {
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private swalService: SwalService,
-                private fautService: UsertokenService,
-                private loadingUiService: LoadingUiService) {
+                private fautService: UsertokenService) {
     }
 
     ngOnInit(): void {
-        this.items = new Array<any>();
-        this.cols = new Array<any>();
         this.loadGrid();
     }
-
 
     nuevo() {
         this.router.navigate(['usuarios', 'form', 0]);
@@ -48,8 +42,7 @@ export class UserlistComponent implements OnInit {
 
     loadGrid() {
         this.fautService.listarUsuarios().subscribe(res => {
-            this.cols = res.items.cols;
-            this.items = res.items.data;
+            this.grid = res.items;
         });
     }
 

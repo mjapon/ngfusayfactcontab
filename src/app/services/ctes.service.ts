@@ -9,6 +9,7 @@ export class CtesService {
     protected AgpContratos = 'agp_contratos';
     protected AgpLecturas = 'agp_lecturas';
     protected AgpPagos = 'agp_pagos';
+    protected AgpPagosMavil = 'AGP_PAGOSMAVIL';
     protected Anulactacontab = 'anulactacontab';
     protected Anular = 'anular';
     protected Artid = 'art_id';
@@ -44,6 +45,7 @@ export class CtesService {
     protected Form = 'form';
     protected Formasiento = 'formasiento';
     protected Formlista = 'formlista';
+    protected Forml = 'forml';
     protected Formcab = 'formcab';
     protected Formcrea = 'formcrea';
     protected Formfiltrolibd = 'formfiltrolibd';
@@ -69,6 +71,7 @@ export class CtesService {
     protected Getmovscta = 'getmovscta';
     protected Gettransaccs = 'gettransaccs';
     protected Gfact = 'gfact';
+    protected Gformed = 'gformed';
     protected Gformplancta = 'gformplancta';
     protected Gimpuestos = 'gimpuestos';
     protected GlobalAsistPorcIncrePrecioCompra = 'globalAsistPorcIncrePrecioCompra';
@@ -138,6 +141,7 @@ export class CtesService {
     protected Saverepagmavil = 'saverepagmavil';
     protected Seccodbarra = 'seccodbarra';
     protected Setseccion = 'setseccion';
+    protected Servticktes = 'servticktes';
     protected Stock = 'stock';
     protected Trncoded = 'trncoded';
     protected True = 'true';
@@ -163,6 +167,10 @@ export class CtesService {
 
     get agp_pagos() {
         return this.AgpPagos;
+    }
+
+    get agp_pagosmavil() {
+        return this.AgpPagosMavil;
     }
 
     get actualizar() {
@@ -313,6 +321,10 @@ export class CtesService {
         return this.Formasiento;
     }
 
+    get forml() {
+        return this.Forml;
+    }
+
     get formlista() {
         return this.Formlista;
     }
@@ -407,6 +419,10 @@ export class CtesService {
 
     get gfact() {
         return this.Gfact;
+    }
+
+    get gformed() {
+        return this.Gformed;
     }
 
     get gformplancta() {
@@ -676,6 +692,10 @@ export class CtesService {
 
     get setseccion() {
         return this.Setseccion;
+    }
+
+    get servticktes() {
+        return this.Servticktes;
     }
 
     get stock() {

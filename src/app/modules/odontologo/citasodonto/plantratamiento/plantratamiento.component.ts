@@ -6,12 +6,13 @@ import {SwalService} from '../../../../services/swal.service';
 import {ArrayutilService} from '../../../../services/arrayutil.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
 import {NumberService} from '../../../../services/number.service';
+import {BaseComponent} from '../../../../components/shared/base.component';
 
 @Component({
     selector: 'app-plantratamiento',
     templateUrl: './plantratamiento.component.html'
 })
-export class PlantratamientoComponent implements OnInit, OnChanges {
+export class PlantratamientoComponent extends BaseComponent implements OnInit, OnChanges {
     form: any;
     detalles: Array<any>;
     totales: any;
@@ -44,6 +45,7 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
                 private swalService: SwalService,
                 private numberService: NumberService,
                 private planService: PlantratamientoService) {
+        super();
     }
 
     ngOnInit(): void {
@@ -84,21 +86,25 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
         });
     }
 
+    auxSetFromForm(res) {
+        if (this.isResultOk(res)) {
+            this.formcab = res.formcab;
+            this.formplan = res.formplan;
+            this.medicos = res.medicos;
+            this.ttransacc = res.ttransacc;
+            this.formaspago = res.formaspago;
+            this.formdet = res.formdet;
+            this.formpago = res.formpago;
+            this.domService.setFocusTm('pnt_nombre');
+            this.impuestos = res.formcab.impuestos;
+            this.numberService.setIva(this.impuestos.iva);
+        }
+    }
+
     loadForm() {
         this.loadinUIServ.publishBlockMessage();
         this.planService.getForm(this.codpaciente, this.tracodFact).subscribe(res => {
-            if (res.status === 200) {
-                this.formcab = res.formcab;
-                this.formplan = res.formplan;
-                this.medicos = res.medicos;
-                this.ttransacc = res.ttransacc;
-                this.formaspago = res.formaspago;
-                this.formdet = res.formdet;
-                this.formpago = res.formpago;
-                this.domService.setFocusTm('pnt_nombre', 100);
-                this.impuestos = res.formcab.impuestos;
-                this.numberService.setIva(this.impuestos.iva);
-            }
+            this.auxSetFromForm(res);
         });
     }
 
@@ -302,18 +308,7 @@ export class PlantratamientoComponent implements OnInit, OnChanges {
         this.planService.getForm(this.codpaciente, this.tracodFact).subscribe(res => {
             this.showForm = true;
             this.detalles = this.datosDocPlan.doc.detalles;
-            if (res.status === 200) {
-                this.formcab = res.formcab;
-                this.formplan = res.formplan;
-                this.medicos = res.medicos;
-                this.ttransacc = res.ttransacc;
-                this.formaspago = res.formaspago;
-                this.formdet = res.formdet;
-                this.formpago = res.formpago;
-                this.domService.setFocusTm('pnt_nombre', 100);
-                this.impuestos = res.formcab.impuestos;
-                this.numberService.setIva(this.impuestos.iva);
-            }
+            this.auxSetFromForm(res);
             this.detalles.forEach(det => {
                 this.recalcTotalFila(det);
             });

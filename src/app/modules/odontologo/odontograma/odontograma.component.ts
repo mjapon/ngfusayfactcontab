@@ -59,6 +59,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     estadoDienteStr: string;
     estadoDienteBg: string;
     private iniciaSelProt: boolean;
+    allcssobj = {};
 
     constructor(private render: Renderer2, private arrayUtil: ArrayutilService, private swalService: SwalService,
                 private toolsDienteServ: ToolsDienteService,
@@ -87,6 +88,12 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
             if (res.status === 200) {
                 this.formOdontograma = res.form;
                 this.loadDientesFromDb(res.form);
+            }
+        });
+
+        this.odontoService.getCss().subscribe(rescss => {
+            if (rescss.status === 200) {
+                this.allcssobj = rescss.css;
             }
         });
     }

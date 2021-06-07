@@ -3,7 +3,9 @@ import {Component, OnInit} from '@angular/core';
 import {CobroaguaService} from '../../../services/agua/cobroagua.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {SwalService} from '../../../services/swal.service';
-import {CtesService} from "../../../services/ctes.service";
+import {CtesService} from '../../../services/ctes.service';
+import {Router} from '@angular/router';
+import {CtesAguapService} from './ctes-aguap.service';
 
 @Component({
     selector: 'app-repagomavil',
@@ -14,21 +16,31 @@ import {CtesService} from "../../../services/ctes.service";
                 <app-loading></app-loading>
             </div>
             <div *ngIf="!isLoading" class="mt-3">
-                <div class="d-flex flex-row">
-                    <div class="me-2">
-                        <p-dropdown [options]="anios" [(ngModel)]="form.pgm_anio"
-                                    optionValue="value"
-                                    optionLabel="label"
-                                    (onChange)="onAnioChange()"></p-dropdown>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="d-flex flex-row">
+                            <div class="me-2">
+                                <p-dropdown [options]="anios" [(ngModel)]="form.pgm_anio"
+                                            optionValue="value"
+                                            optionLabel="label"
+                                            (onChange)="onAnioChange()"></p-dropdown>
+                            </div>
+                            <div class="me-2">
+                                <p-dropdown [options]="meses" [(ngModel)]="form.pgm_mes"
+                                            optionValue="mes_id"
+                                            optionLabel="mes_nombre"
+                                            (onChange)="onMesChange()"></p-dropdown>
+                            </div>
+                            <div>
+                                <button class="btn btn-outline-primary" (click)="loadReporte()"><i
+                                        class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="me-2">
-                        <p-dropdown [options]="meses" [(ngModel)]="form.pgm_mes"
-                                    optionValue="mes_id"
-                                    optionLabel="mes_nombre"
-                                    (onChange)="onMesChange()"></p-dropdown>
-                    </div>
-                    <div>
-                        <button class="btn btn-outline-primary" (click)="loadReporte()"><i class="fas fa-sync-alt"></i>
+                    <div class="col-md-3 d-flex flex-row-reverse">
+                        <button class="btn btn-sm btn-outline-primary" (click)="goToHome()">
+                            <i class="fas fa-arrow-left"></i>
                         </button>
                     </div>
                 </div>
@@ -76,6 +88,8 @@ export class RepagomavilComponent extends BaseComponent implements OnInit {
     constructor(private cobroAguaServ: CobroaguaService,
                 private swalService: SwalService,
                 private ctes: CtesService,
+                private ctesAgp: CtesAguapService,
+                private router: Router,
                 private loadingServ: LoadingUiService) {
         super();
     }
@@ -114,8 +128,11 @@ export class RepagomavilComponent extends BaseComponent implements OnInit {
         this.loadReporte();
     }
 
+    goToHome() {
+        this.router.navigate([this.ctesAgp.rutaHome]);
+    }
+
     guardar() {
-        // comentaro
         this.form.pgm_total = this.reporte.total;
         if (confirm(this.ctes.msgConfirmSave)) {
             this.cobroAguaServ.guardarReportePagoMavil(this.form).subscribe(res => {

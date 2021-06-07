@@ -1,45 +1,47 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ArrayutilService} from '../../../services/arrayutil.service';
 import {ToolsDienteService} from '../../../services/toolsdiente.service';
+import {OdontogramaService} from '../../../services/odontograma.service';
+import {BaseComponent} from '../../../components/shared/base.component';
 
 @Component({
     selector: 'app-piezadental',
     template: `
-        <div class="contdienteimg {{getSizeDiente()}} dnt_{{diente.numero}} hand"
-             (click)="raiseClicEvent($event)">
+        <div class="contdienteimg {{getSizeDiente()}} hand" [style]="estilo?.odc_dnt"
+             (click)="raiseClicEvent()">
             <img src="assets/imgs/dienteodonto/{{diente.numero}}_df.png" alt=""
                  class="diente_blank {{getPosDiente()}} {{dienteIsExtract()?'pdextraccion':''}}"
                  *ngIf="!dienteHasImplante()">
             <img *ngIf="dienteHasEndo()"
                  src="assets/imgs/dienteodonto/{{getTipoEndo()}}" alt=""
-                 class="raiz_{{diente.numero}}">
+                 [style]="estilo?.odc_raiz">
             <img *ngIf="dienteHasImplante()"
                  src="assets/imgs/dienteodonto/implante.png" alt="Implante"
-                 class="perno_{{diente.numero}}">
+                 [style]="estilo?.odc_perno">
             <img *ngIf="dienteHasCorona()"
                  src="assets/imgs/dienteodonto/{{getTipoCorona()}}" alt=""
-                 class="corona_{{diente.numero}}">
+                 [style]="estilo?.odc_corona">
             <img *ngIf="dienteIsProt()"
                  src="assets/imgs/dienteodonto/{{getTipoProt()}}" alt=""
-                 class="cara_{{diente.numero}}">
+                 [style]="estilo?.odc_cara">
             <img *ngIf="dienteIsReten()"
                  src="assets/imgs/retens/{{diente.numero}}.png" alt=""
-                 class="reten_{{diente.numero}}">
+                 [style]="estilo?.odc_reten">
             <img *ngIf="isDienteSano()" src="/assets/imgs/dientesano.png" alt=""
-                 class="ds_{{diente.numero}}">
+                 [style]="estilo?.odc_ds">
         </div>
     `
 })
-export class PiezadentalComponent implements OnInit {
+export class PiezadentalComponent extends BaseComponent {
 
     @Input() diente: any;
     @Output() ondienteclic = new EventEmitter<any>();
+    @Input() estilo: any = {};
 
     constructor(private arrayUtil: ArrayutilService,
+                private odonService: OdontogramaService,
                 private dienteServ: ToolsDienteService) {
-    }
-
-    ngOnInit(): void {
+        super();
     }
 
     dienteHasImplante() {
@@ -95,7 +97,7 @@ export class PiezadentalComponent implements OnInit {
         return this.dienteIsProt() || this.arrayUtil.contains(this.diente.tools, 4) || this.arrayUtil.contains(this.diente.tools, 3);
     }
 
-    raiseClicEvent($event: MouseEvent) {
+    raiseClicEvent() {
         if (!this.dienteIsProt()) {
             this.ondienteclic.emit(this.diente);
         }

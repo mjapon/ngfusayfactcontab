@@ -5,13 +5,13 @@ import {ToolsDienteService} from '../../../services/toolsdiente.service';
 @Component({
     selector: 'app-grppiezadent',
     template: `
-        <div style="display: inline-block" class="dntc_{{diente.numero}}"
+        <div style="display: inline-block" [style]="estilo?.odc_dntc"
              (mouseenter)="onmousenter()"
              (mouseleave)="onmouseleave()"
              [title]="titulo">
             <div class="d-flex flex-column align-items-center">
                 <app-numpiezadent [diente]="diente"></app-numpiezadent>
-                <app-piezadental [diente]="diente"
+                <app-piezadental [diente]="diente" [estilo]="estilo"
                                  (ondienteclic)="raiseClicEvent(diente)"></app-piezadental>
                 <app-caraspd [diente]="diente" (ondienteclic)="raiseClicEvent(diente)"></app-caraspd>
             </div>
@@ -22,6 +22,7 @@ export class GrppiezadentComponent {
     @Input() diente: any;
     @Output() ongrpdntclic = new EventEmitter<any>();
     @Output() ondntstatechange = new EventEmitter<any>();
+    @Input() estilo: any = {};
     titulo: string;
     loaded: boolean;
 

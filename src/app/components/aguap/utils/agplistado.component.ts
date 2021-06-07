@@ -1,5 +1,5 @@
 import {BaseComponent} from '../../shared/base.component';
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {ContratoaguaService} from '../../../services/agua/contratoagua.service';
 import {Router} from '@angular/router';
 import {CtesAguapService} from './ctes-aguap.service';
@@ -12,7 +12,6 @@ import {DomService} from '../../../services/dom.service';
             <div class="my-3">
                 <h4>{{titulo}}</h4>
             </div>
-
             <div *ngIf="isLoading">
                 <app-loading></app-loading>
             </div>
@@ -20,7 +19,7 @@ import {DomService} from '../../../services/dom.service';
                 <div class="row">
                     <div class="col-md-3">
                         <button class="btn btn-sm btn-outline-primary" (click)="loadGrid()">
-                            <i class="fas fa-redo"></i>
+                            <i class="fas fa-sync-alt"></i>
                         </button>
                     </div>
                     <div class="col-md d-flex justify-content-between">
@@ -28,12 +27,12 @@ import {DomService} from '../../../services/dom.service';
                                (keyup)="doFilter()" id="filtro"
                                placeholder="Buscar por nombres o número de cédula">
 
-                        <p-dropdown [options]="anios" [(ngModel)]="form.anio"
+                        <p-dropdown [options]="anios" [(ngModel)]="form.anio" *ngIf="isShowFechas"
                                     optionValue="value"
                                     optionLabel="label"
                                     (onChange)="onAnioChange()"></p-dropdown>
 
-                        <p-dropdown [options]="meses" [(ngModel)]="form.mes"
+                        <p-dropdown [options]="meses" [(ngModel)]="form.mes" *ngIf="isShowFechas"
                                     optionValue="mes_id"
                                     optionLabel="mes_nombre"
                                     (onChange)="onMesChange()"></p-dropdown>
@@ -45,48 +44,7 @@ import {DomService} from '../../../services/dom.service';
                     </div>
                 </div>
                 <div class="mt-1">
-                    <p-table [value]="grid.data" [paginator]="true" [rows]="50"
-                             selectionMode="single"
-                             [responsive]="true"
-                             [resizableColumns]="true">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th *ngFor="let item of grid.cols" [pSortableColumn]="item.field"
-                                    [ngSwitch]="item.field"
-                                    [width]="item.width">
-                                    <span class="fontsizesm">{{item.label}}</span>
-                                    <p-sortIcon [field]="item.field"></p-sortIcon>
-                                </th>
-                                <th>
-
-                                </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-rowData>
-                            <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData"
-                                (dblclick)="verDetalles(rowData)"
-                                [ngClass]="{'bg-warning': rowData?.pg_id===0 }">
-                                <td *ngFor="let item of grid.cols" [width]="item.width">
-                                    <span class="p-column-title">{{item.label}}</span>
-                                    <span class="fontsizesm">{{rowData[item.field]}}</span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-dark"
-                                            (click)="verDetalles(rowData)"
-                                            title="Ver Detalles">
-                                        <i class="fa fa-eye"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="emptymessage" let-columns>
-                            <tr>
-                                <td [attr.colspan]="grid.cols?.length+1">
-                                    <span class="text-muted">No hay registros</span>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
+                    <app-mavilgrid [grid]="grid" [isViewCol]="false"></app-mavilgrid>
                 </div>
             </div>
         </div>`
@@ -94,6 +52,7 @@ import {DomService} from '../../../services/dom.service';
 export class AgplistadoComponent extends BaseComponent implements OnChanges {
 
     @Input() gridNombre: string;
+    @Input() isShowFechas = false;
     grid: any = {};
     titulo = 'Listado';
     form: any = {};

@@ -134,7 +134,6 @@ export class LectomedComponent extends BaseComponent implements OnInit {
     }
 
     doSave() {
-        console.log('Se procede a avalidar, ', this.form, this.validfl);
         const isValidMed = this.domService.validFormData(this.form, this.validfl);
         if (!isValidMed) {
             return;
