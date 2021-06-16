@@ -59,6 +59,8 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     factMsgSubs: Subscription;
     isfacturacompra: boolean;
     formisloaded = false;
+    codartsel = 0;
+    isShowDetProd = false;
 
     constructor(private asientoService: AsientoService,
                 private numberService: NumberService,
@@ -527,5 +529,10 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     toggleConsFinal() {
         this.isConsumidorFinal = !this.isConsumidorFinal;
         this.onConsFinalChange();
+    }
+
+    showDetallesProd(art: any) {
+        this.codartsel = art.art_codigo;
+        this.isShowDetProd = true;
     }
 }

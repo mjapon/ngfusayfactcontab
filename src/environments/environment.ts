@@ -4,11 +4,10 @@
 
 export const environment = {
     production: false,
-    baseUrlEndPoint: 'http://192.168.0.111:6543/api',
-    baseUrlDwfile: 'http://192.168.0.111:6543/getrxdoc',
-    baseUrlDwfileNode: 'http://192.168.0.104:3000',
-    facebookLoginApp: '571164293604524',
-    googleLoginApp: '702999941401-ql2c4rufsliivam2f7hub633brvicgk0.apps.googleusercontent.com',
+    baseUrlEndPoint: 'http://192.168.0.106:6543/api',
+    baseUrlDwfile: 'http://192.168.0.106:6543/getrxdoc',
+    baseUrlDwfileNode: 'http://192.168.0.106:3000',
+    socket: 'http://192.168.0.106:3000'
 };
 
 /*

@@ -83,7 +83,6 @@
                                    [(ngModel)]="form.form_persona.per_nombres" [disabled]="isDisabledFormRef"
                                    maxlength="70">
                         </div>
-
                     </div>
                     <div class="col-md-2">
                         <div class="mb-3">
@@ -141,11 +140,13 @@
                                             placeholder="Digite el nombre o el codigo del producto o servicio">
                                 <ng-template let-art pTemplate="item">
                                     <div>
-                                        <div class="fontsizexsm text-muted quitaPaddingMargin">BC:{{art.ic_code}}</div>
+                                        <div class="fontsizexsm text-muted quitaPaddingMargin">Cod:{{art.ic_code}}</div>
                                         <div class="d-flex justify-content-between">
-                                            <span>{{art.ic_nombre}}</span>
-                                            <span class="text-muted fontsizexsm"
-                                                  *ngIf="art.tipic_id==1">#:{{art.ice_stock}}
+                                            <div><span>{{art.ic_nombre}} <span
+                                                    class="ms-3 fontsizenr fw-bold"> ${{art.icdp_precioventa_iva}}</span></span>
+                                            </div>
+                                            <span class="fontsizesm {{art.ice_stock>0?'text-success':'text-warning'}}"
+                                                  *ngIf="art.tipic_id==1">#{{art.ice_stock}}
                                             </span>
                                         </div>
                                     </div>
@@ -196,9 +197,9 @@
                             <span class="fw-normal fontsizesm">{{form.detalles.indexOf(fila) + 1}}</span>
                         </th>
                         <td>
-                            <div class="d-flex flex-column">
-                                <span class="fw-bolder fontsizenr">{{fila.ic_nombre}}</span>
-                                <span class="fw-normal fontsizenr">{{fila.ic_code}}</span>
+                            <div class="d-flex flex-column" (click)="showDetallesProd(fila)">
+                                <span class="fw-bolder fontsizenr hand">{{fila.ic_nombre}}</span>
+                                <span class="fw-normal fontsizenr hand">{{fila.ic_code}}</span>
                             </div>
                         </td>
                         <td>
@@ -323,3 +324,9 @@
         </div>
     </div>
 </div>
+
+
+<p-dialog header="Detalles del producto/servicio" [modal]="true" [style]="{width: '95vw'}" [baseZIndex]="10000"
+          [(visible)]="isShowDetProd">
+    <app-artview [codart]="codartsel" [showPrecioCompra]="false"></app-artview>
+</p-dialog>

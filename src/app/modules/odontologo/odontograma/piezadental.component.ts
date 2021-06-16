@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ArrayutilService} from '../../../services/arrayutil.service';
 import {ToolsDienteService} from '../../../services/toolsdiente.service';
 import {OdontogramaService} from '../../../services/odontograma.service';

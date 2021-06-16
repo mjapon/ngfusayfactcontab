@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SwalService} from '../../../services/swal.service';
-import {LoadingUiService} from '../../../services/loading-ui.service';
 import {UsertokenService} from '../../../services/usertoken.service';
 
 @Component({

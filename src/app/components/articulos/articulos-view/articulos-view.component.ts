@@ -6,19 +6,17 @@ import {ArticulostockService} from '../../../services/articulostock.service';
 import {KardexProdService} from '../../../services/kardex-prod.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {CtesService} from '../../../services/ctes.service';
+import {BaseComponent} from '../../shared/base.component';
 
 @Component({
     selector: 'app-articulos-view',
     templateUrl: './articulos-view.component.html'
 })
-export class ArticulosViewComponent implements OnInit {
-
+export class ArticulosViewComponent extends BaseComponent implements OnInit {
     artId: number;
-    artFromDb: any;
-    stock: Array<any> = [];
-    isLoading: boolean;
     isShowKardex = false;
     kardex: [];
+    datosart: any = {};
 
     constructor(private artService: ArticuloService,
                 private router: Router,
@@ -28,24 +26,12 @@ export class ArticulosViewComponent implements OnInit {
                 private artStockService: ArticulostockService,
                 private kardexProdService: KardexProdService,
                 private route: ActivatedRoute) {
+        super();
     }
 
     ngOnInit() {
-        this.isLoading = true;
-        this.artFromDb = {};
         this.route.paramMap.subscribe(params => {
             this.artId = parseInt(params.get(this.ctes.art_id), 10);
-            this.artService.getByCod(this.artId).subscribe(res => {
-                if (res.status === 200) {
-                    this.artFromDb = res.datosprod;
-                }
-                this.isLoading = false;
-            });
-            this.artStockService.getForm(this.artId).subscribe(resStock => {
-                if (resStock.status === 200) {
-                    this.stock = resStock.form_secs;
-                }
-            });
         });
     }
 
@@ -58,16 +44,12 @@ export class ArticulosViewComponent implements OnInit {
     }
 
     elminar() {
-        const nombreProd = this.artFromDb.ic_nombre;
-        const msg = '¿Seguro que desea eliminar ' + nombreProd + ' ?';
-        this.swalService.fireDialog(msg).then(confirm => {
+        this.swalService.fireDialog(this.ctes.msgSureWishRemoveRecord).then(confirm => {
             if (confirm.value) {
-                this.artService.anularArticulo(this.artFromDb.ic_id).subscribe(res => {
-                    if (res.status === 200) {
-                        if (res.status === 200) {
-                            this.swalService.fireToastSuccess(res.msg);
-                            this.retornar();
-                        }
+                this.artService.anularArticulo(this.artId).subscribe(res => {
+                    if (this.isResultOk(res)) {
+                        this.swalService.fireToastSuccess(res.msg);
+                        this.retornar();
                     }
                 });
             }
@@ -77,11 +59,15 @@ export class ArticulosViewComponent implements OnInit {
     verKardex() {
         this.kardex = [];
         this.loadingServ.publishBlockMessage();
-        this.kardexProdService.getKardex(this.artFromDb.ic_id).subscribe(res => {
+        this.kardexProdService.getKardex(this.artId).subscribe(res => {
             this.isShowKardex = true;
-            if (res.status === 200) {
+            if (this.isResultOk(res)) {
                 this.kardex = res.items;
             }
         });
+    }
+
+    onDatosArtLoaded($event: any) {
+        this.datosart = $event;
     }
 }

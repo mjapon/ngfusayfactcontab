@@ -120,6 +120,7 @@ export class CtesService {
     protected MsgRefRegistered = 'Referente registrado';
     protected MsgSureSaveFact = '¿Seguro que desea guardar el comprobante?';
     protected MsgSureWishAnulRecord = '¿Seguro que desea anular este registro?';
+    protected MsgSureWishRemoveRecord = '¿Seguro que desea eliminar este registro?';
     protected MsgSureWishEditRecord = '¿Seguro que desea editar este registro?';
     protected MsgSureWishRemoveCat = '¿Seguro que desea anular esta categoría?';
     protected MsgSureWishRemveItemFact = '¿Seguro que desea quitar este item de la factura?';
@@ -604,6 +605,10 @@ export class CtesService {
 
     get msgSureSaveFact() {
         return this.MsgSureSaveFact;
+    }
+
+    get msgSureWishRemoveRecord() {
+        return this.MsgSureWishRemoveRecord;
     }
 
     get msgSureWishAnulRecord() {

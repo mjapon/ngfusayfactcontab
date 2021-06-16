@@ -28,10 +28,7 @@
             "styles": [
               "src/styles.css",
               "bootstrap/dist/css/bootstrap.min.css",
-              "primeicons/primeicons.css",
-              "primeng/resources/primeng.min.css",
-              "primeng/resources/themes/saga-blue/theme.css",
-              "@fortawesome/fontawesome-free/css/all.min.css"
+              "primeicons/primeicons.css"
             ],
             "scripts": [
               "@popperjs/core/dist/umd/popper.min.js",
