@@ -132,7 +132,7 @@ export class ArticuloService extends BaseService {
         if (datosart.icdp_grabaiva) {
             ivaval = this.numberService.getValorIva(icdpPrecio);
             if (!isfacturacompra) {
-                precio = this.numberService.ponerIva(icdpPrecio);
+                precio = datosart.icdp_precioventa_iva;
             }
         }
 

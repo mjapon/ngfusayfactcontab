@@ -16,83 +16,83 @@ import {ArticulostockService} from '../../../services/articulostock.service';
                 </div>
                 <div class="card-body">
                     <div class="row border-bottom">
-                        <div class="col-md-3">
-                            <span class="fw-lighter">Tipo:</span>
+                        <div class="col-md-2">
+                            <span class="fw-normal">Tipo:</span>
                         </div>
                         <div class="col-md">
-                            {{artFromDb.tipic_nombre}}
+                            <span class="fw-bold">{{artFromDb.tipic_nombre}}</span>
                         </div>
                     </div>
                     <div class="row border-bottom">
-                        <div class="col-md-3">
-                            <span class="fw-lighter">Nombre:</span>
+                        <div class="col-md-2">
+                            <span class="fw-normal">Nombre:</span>
                         </div>
                         <div class="col-md">
-                            {{artFromDb.ic_nombre}}
+                            <span class="fw-bold">{{artFromDb.ic_nombre}}</span>
                         </div>
                     </div>
                     <div class="row border-bottom">
-                        <div class="col-md-3">
-                            <span class="fw-lighter">Código:</span>
+                        <div class="col-md-2">
+                            <span class="fw-normal">Código:</span>
                         </div>
                         <div class="col-md">
-                            {{artFromDb.ic_code}}
+                            <span class="fw-bold">{{artFromDb.ic_code}}</span>
                         </div>
                     </div>
                     <div class="row border-bottom">
-                        <div class="col-md-3">
-                            <span class="fw-lighter">Fecha de ingreso:</span>
+                        <div class="col-md-2">
+                            <span class="fw-normal">Fecha de ingreso:</span>
                         </div>
                         <div class="col-md">
-                            {{artFromDb.ic_fechacrea}}
+                            <span class="fw-bold">{{artFromDb.ic_fechacrea}}</span>
                         </div>
                     </div>
                     <div class="row border-bottom">
-                        <div class="col-md-3">
-                            <span class="fw-lighter">Graba Iva:</span>
+                        <div class="col-md-2">
+                            <span class="fw-normal">Graba Iva:</span>
                         </div>
                         <div class="col-md">
-                            {{artFromDb.icdp_grabaiva ? 'Si' : 'No'}}
+                            <span class="fw-bold">{{artFromDb.icdp_grabaiva ? 'Si' : 'No'}}</span>
                         </div>
                     </div>
                     <div class="row border-bottom">
-                        <div class="col-md-3">
-                            <span class="fw-lighter">Categoría:</span>
+                        <div class="col-md-2">
+                            <span class="fw-normal">Categoría:</span>
                         </div>
                         <div class="col-md">
-                            {{artFromDb.catic_nombre}}
+                            <span class="fw-bold">{{artFromDb.catic_nombre}}</span>
                         </div>
                     </div>
                     <div class="row border-bottom" *ngIf="artFromDb.tipic_id===1">
-                        <div class="col-md-3">
-                            <span class="fw-lighter">Proveedor:</span>
+                        <div class="col-md-2">
+                            <span class="fw-normal">Proveedor:</span>
                         </div>
                         <div class="col-md">
-                            {{artFromDb.proveedor}}
+                            <span class="fw-bold">{{artFromDb.proveedor}}</span>
                         </div>
                     </div>
                     <div class="row border-bottom" *ngIf="artFromDb.tipic_id===1">
-                        <div class="col-md-3">
-                            <span class="fw-lighter">Fecha de caducidad:</span>
+                        <div class="col-md-2">
+                            <span class="fw-normal">Fecha de caducidad:</span>
                         </div>
                         <div class="col-md">
-                            <p class="text-justify"> {{artFromDb.icdp_fechacaducidad}} </p>
+                            <span class="fw-bold"> {{artFromDb.icdp_fechacaducidad}} </span>
                         </div>
                     </div>
                     <div class="row border-bottom">
-                        <div class="col-md-3">
-                            <span class="fw-lighter">Modelo Contable:</span>
+                        <div class="col-md-2">
+                            <span class="fw-normal">Modelo Contable:</span>
                         </div>
                         <div class="col-md">
-                            <p class="text-justify"> {{artFromDb.mc_nombre}} </p>
+                            <span class="fw-bold"> {{artFromDb.mc_nombre}} </span>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
-                            <span class="fw-lighter">Nota:</span>
+                        <div class="col-md-2">
+                            <span class="fw-normal">Nota:</span>
                         </div>
                         <div class="col-md">
-                            <p class="text-justify"> {{artFromDb.ic_nota}} </p>
+                            <p class="fw-bold text-justify"> {{artFromDb.ic_nota}} </p>
                         </div>
                     </div>
                 </div>
@@ -107,7 +107,7 @@ import {ArticulostockService} from '../../../services/articulostock.service';
                         <div class="col-md" *ngIf="artFromDb.tipic_id===1 && showPrecioCompra">
                             <div class="d-flex">
                                 <div>
-                                    <span class="fw-lighter">Precio de compra
+                                    <span class="fw-normal">Precio de compra
                                         <span *ngIf="artFromDb.icdp_grabaiva"> (Sin Iva) </span>:
                                     </span>
                                 </div>
@@ -117,7 +117,7 @@ import {ArticulostockService} from '../../../services/articulostock.service';
                             </div>
                             <div class="d-flex" *ngIf="artFromDb.icdp_grabaiva">
                                 <div>
-                                    <span class="fw-lighter">Precio de compra (Con Iva):</span>
+                                    <span class="fw-normal">Precio de compra (Con Iva):</span>
                                 </div>
                                 <div class="ms-2">
                                     $ {{artFromDb.icdp_preciocompra_iva}}
@@ -127,7 +127,7 @@ import {ArticulostockService} from '../../../services/articulostock.service';
                         <div class="col-md">
                             <div class="d-flex">
                                 <div>
-                                    <span class="fw-lighter">Precio de venta
+                                    <span class="fw-normal">Precio de venta
                                         <span *ngIf="artFromDb.icdp_grabaiva"> (Sin Iva) </span>:
                                     </span>
                                 </div>
@@ -137,7 +137,7 @@ import {ArticulostockService} from '../../../services/articulostock.service';
                             </div>
                             <div class="d-flex" *ngIf="artFromDb.icdp_grabaiva">
                                 <div>
-                                    <span class="fw-lighter">Precio de venta (Con Iva):</span>
+                                    <span class="fw-normal">Precio de venta (Con Iva):</span>
                                 </div>
                                 <div class="ms-2">
                                     $ {{artFromDb.icdp_precioventa}}

@@ -156,7 +156,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="table-responsive mt-2">
                 <table class="table table-bordered table-sm">
@@ -216,7 +215,8 @@
                         <td>
                             <input type="text" class="form-control form-control-sm"
                                    (keyup)="onFilaPrecioChange(fila)"
-                                   [(ngModel)]="fila.dt_precioiva"></td>
+                                   [(ngModel)]="fila.dt_precioiva">
+                        </td>
                         <td>
                             <input class="form-control form-control-sm" [(ngModel)]="fila.subtotal" disabled>
                         </td>
@@ -224,12 +224,14 @@
                             <input type="text" class="form-control form-control-sm"
                                    (keyup)="onFilaDescChange(fila)" [ngClass]="{'is-invalid':fila.dt_dectoerr}"
                                    (focusin)="$event.target?.select()"
-                                   [(ngModel)]="fila.dt_dectoin"></td>
+                                   [(ngModel)]="fila.dt_dectoin">
+                        </td>
                         <td>
                             <select class="form-control form-control-sm" [(ngModel)]="fila.icdp_grabaiva"
                                     (ngModelChange)="onFilaIvaChange(fila)">
                                 <option *ngFor="let iv of ivas" [ngValue]="iv.value">{{iv.label}}</option>
                             </select>
+                        </td>
                         <td>
                             <div class="d-flex flex-row-reverse">
                                 <span class="fw-bold">${{fila.total | number: '.2'}}</span>
