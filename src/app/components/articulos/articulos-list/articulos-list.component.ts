@@ -61,7 +61,7 @@ export class ArticulosListComponent implements OnInit {
             {label: 'Editar', icon: 'fa fa-pencil', command: (event) => this.editItem(this.selectedItem)},
             {label: 'Eliminar', icon: 'fa fa-trash', command: (event) => this.deleteItem(this.selectedItem)}
         ];
-        const seccionObs = this.seccionService.listar();
+        const seccionObs = this.seccionService.listarUserSecs();
         const catsObs = this.catsService.listar();
         forkJoin([seccionObs, catsObs]).subscribe(res => {
             if (res[0].status === 200) {

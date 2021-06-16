@@ -14,6 +14,7 @@ import {DomService} from '../../../services/dom.service';
 export class UserformComponent implements OnInit {
     form: any;
     roles: Array<any>;
+    secciones: Array<any> = [];
     usId: number;
     formcli: any;
 
@@ -66,6 +67,7 @@ export class UserformComponent implements OnInit {
                 this.form = res.form;
                 this.roles = res.form.roles;
                 this.formcli = res.formcli;
+                this.secciones = res.form.secciones;
                 this.domService.setFocusTm('ciPasInput', 800);
             });
         } else {
@@ -74,6 +76,7 @@ export class UserformComponent implements OnInit {
                     this.form = res.formedita.form;
                     this.formcli = res.formedita.formcli;
                     this.roles = res.formedita.form.roles;
+                    this.secciones = res.formedita.form.secciones;
                 }
             });
         }
@@ -95,9 +98,31 @@ export class UserformComponent implements OnInit {
         const filtrados = this.roles.filter(item => {
             return item.rl_marca;
         });
+
+        const secciones = this.secciones.filter(item => {
+            return item.sec_marca;
+        });
+
         if (filtrados.length === 0) {
             this.swalService.fireToastError('Debe seleccionar el o los roles para el usuario');
         } else {
+
+            if (secciones.length === 0) {
+                this.swalService.fireToastError('Debe seleccionar la sección o secciones habilitadas para este usuario');
+                return;
+            } else {
+                let existeSecMain = false;
+                secciones.forEach(item => {
+                    if (item.fus_main) {
+                        existeSecMain = true;
+                    }
+                });
+                if (!existeSecMain) {
+                    this.swalService.fireToastError('Debe seleccionar la sección principal para este usuario');
+                    return;
+                }
+            }
+
             this.form.roles = filtrados;
             if (this.usId === 0) {
                 this.loadingUiService.publishBlockMessage();
@@ -109,7 +134,7 @@ export class UserformComponent implements OnInit {
                 });
             } else {
                 this.loadingUiService.publishBlockMessage();
-                this.fautService.guardarRoles(this.usId, this.form.roles).subscribe(res => {
+                this.fautService.guardarRoles(this.usId, this.form.roles, this.form.secciones).subscribe(res => {
                     this.swalService.fireToastSuccess(res.msg);
                     if (res.status === 200) {
                         this.router.navigate(['usuarios']);
@@ -117,5 +142,19 @@ export class UserformComponent implements OnInit {
                 });
             }
         }
+    }
+
+    selectSec(item: any) {
+        item.sec_marca = !item.sec_marca;
+        if (!item.sec_marca) {
+            item.fus_main = false;
+        }
+    }
+
+    handleMainSec(item: any) {
+        this.secciones.forEach(el => {
+            el.fus_main = false;
+        });
+        item.fus_main = !item.fus_main;
     }
 }

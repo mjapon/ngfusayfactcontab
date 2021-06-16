@@ -369,7 +369,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         this.isLoading = true;
         this.initformfact();
         const formCabObs = this.asientoService.getFormCab(this.tracodigo);
-        const secObs = this.seccionService.listar();
+        const secObs = this.seccionService.listarUserSecs();
 
         let perFormObs = null;
         if (this.tracodigo === 7) {

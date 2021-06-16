@@ -84,7 +84,7 @@ export class LoginComponent implements OnInit {
                         res.empNombreComercial, res.sqm, res.tdv_codigo);
                     this.swalService.fireToastSuccess('', 'Bienvenido: ' + res.userinfo.per_nombres);
                     this.router.navigate(['lghome']);
-                    this.seccionService.listar().subscribe(ressec => {
+                    this.seccionService.listarUserSecs().subscribe(ressec => {
                         if (ressec.status === 200) {
                             this.secciones = ressec.items;
                             this.fautService.setSecciones(this.secciones);

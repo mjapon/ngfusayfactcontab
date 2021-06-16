@@ -30,8 +30,8 @@ export class UsertokenService extends BaseService {
         return this._doGetAction(this.ctes.listar);
     }
 
-    guardarRoles(usId: number, rolesList: any): Observable<any> {
-        return this._doPostAction('setroles', {us_id: usId, roles: rolesList});
+    guardarRoles(usId: number, rolesList: any, secciones: any): Observable<any> {
+        return this._doPostAction('setroles', {us_id: usId, roles: rolesList, secciones});
     }
 
     crearUsuario(form: any, formcli: any): Observable<any> {

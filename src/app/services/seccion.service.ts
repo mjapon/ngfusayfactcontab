@@ -20,6 +20,10 @@ export class SeccionService extends BaseService {
         return this._doGetAction(this.ctes.listar);
     }
 
+    listarUserSecs(){
+        return this._doGetAction('listarusec');
+    }
+
     setSeccion(secid: number): Observable<any> {
         return this._doPostAction(this.ctes.setseccion, {sec_id: secid});
     }

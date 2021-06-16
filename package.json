@@ -34,7 +34,6 @@
     "@popperjs/core": "^2.9.2",
     "bootstrap": "^5.0.1",
     "date-fns": "^2.16.1",
-    "ngx-socket-io": "^4.0.0",
     "primeicons": "^4.1.0",
     "primeng": "^11.0.0",
     "rxjs": "~6.5.5",

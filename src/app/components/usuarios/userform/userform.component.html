@@ -31,9 +31,8 @@
                     </div>
                 </div>
                 <div *ngIf="usId==0">
-
-                    <div class="card border-success">
-                        <div class="card-header border-success">
+                    <div class="card">
+                        <div class="card-header">
                             Datos del referente
                         </div>
                         <div class="card-body">
@@ -46,7 +45,6 @@
                                        (blur)="buscarPersona()" [(ngModel)]="formcli.per_ciruc" placeholder=""
                                        autocomplete="off">
                             </div>
-
                             <div class="mb-3">
                                 <label for="nomApelInput">
                                     <span class="required">*</span>
@@ -56,7 +54,6 @@
                                        (keyup.enter)="setFocus('ApelInput')" id="nomApelInput" name="per_nombres"
                                        [(ngModel)]="formcli.per_nombres" placeholder="" autocomplete="off">
                             </div>
-
                             <div class="mb-3">
                                 <label for="ApelInput">Apellidos:</label>
                                 <input type="text" maxlength="80" class="form-control " id="ApelInput"
@@ -64,7 +61,6 @@
                                        (keyup.enter)="setFocus('numCelInput')" name="per_apellidos"
                                        [(ngModel)]="formcli.per_apellidos" placeholder="" autocomplete="off">
                             </div>
-
                             <div class="mb-3">
                                 <label for="numCelInput">
                                     <i class="fa fa-phone"></i>
@@ -85,8 +81,8 @@
                         </div>
                     </div>
 
-                    <div class="card border-success">
-                        <div class="card-header border-success">
+                    <div class="card mt-2">
+                        <div class="card-header">
                             Datos de la cuenta
                         </div>
                         <div class="card-body">
@@ -120,17 +116,43 @@
             </div>
 
             <div class="col">
-                <div class="card border-success">
-                    <div class="card-header border-success">
+                <div class="card">
+                    <div class="card-header">
                         <span>Roles</span>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item hand list-group-item-action {{item.rl_marca?'list-group-item-success':''}}"
-                            *ngFor="let item of roles" (click)="selectRol(item)"><i
-                                class="fa  {{item.rl_marca?'fa-check-square-o':'fa-square-o'}}"></i>
+                            *ngFor="let item of roles" (click)="selectRol(item)">
+                            <i *ngIf="item.rl_marca" class="far fa-check-circle"></i>
                             {{item.rl_name}} </li>
                     </ul>
                 </div>
+
+                <div class="card mt-2">
+                    <div class="card-header">
+                        <span>Secciones</span>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item list-group-item-action {{item.sec_marca?'list-group-item-success':''}}"
+                            *ngFor="let item of secciones">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="hand" (click)="selectSec(item)">
+                                        <i *ngIf="item.sec_marca" class="far fa-check-circle"></i>
+                                        <span class="ms-2">{{item.sec_nombre}}</span>
+                                    </div>
+                                </div>
+                                <div class="col" *ngIf="item.sec_marca">
+                                    <div class="hand" (click)="handleMainSec(item)">
+                                        <span class="ms-3 {{item.fus_main?'fw-bold':'text-muted'}}"> <i
+                                                class="far {{item.fus_main?'fa-check-square':'fa-square'}} "></i>  Principal</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>
