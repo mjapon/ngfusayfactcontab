@@ -1,6 +1,6 @@
 <div class="row justify-content-center">
     <div class="col-md-10">
-        <h4>Nuevo {{titulo}}</h4>
+        <h4>Crear {{titulo}}</h4>
     </div>
 </div>
 <div *ngIf="isLoading">
@@ -54,10 +54,13 @@
 
                             <div class="row mt-3">
                                 <div class="col-md d-flex flex-column">
-                                    <span class="fw-normal">
+                                    <span class="fw-normal" *ngIf="tiporouting<3">
                                         Tipo {{titulo}}:
                                     </span>
-                                    <div>
+                                    <span class="fw-normal" *ngIf="tiporouting===3">
+                                        <i class="fa fa-wallet"></i> Origen:
+                                    </span>
+                                    <div *ngIf="tiporouting<3">
                                         <div class="d-flex flex-column"
                                              *ngFor="let fcuenta of form.cuentas; let i=index">
                                             <div class="d-flex flex-row">
@@ -96,13 +99,54 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div *ngIf="tiporouting===3">
+                                        <div class="d-flex flex-column"
+                                             *ngFor="let fbill of form.cuentas; let i=index">
+                                            <div class="d-flex flex-row">
+                                                <div>
+                                                    <p-dropdown [options]="cuentasformov" optionLabel="bilnomcodsald"
+                                                                optionValue="ic_id"
+                                                                placeholder="Seleccione la billetera afectada"
+                                                                filter="true"
+                                                                (onChange)="ontiposel(fbill, $event)"
+                                                                [showClear]="false"
+                                                                [(ngModel)]="fbill.cta_codigo"></p-dropdown>
+                                                </div>
+                                                <div>
+                                                    <input type="text" class="ms-1 form-control" id="tipo_valor_{{i}}"
+                                                           (focusin)="$event.target.select();"
+                                                           [(ngModel)]="fbill.dt_valor"
+                                                           [disabled]="fbill.cta_codigo===0">
+                                                </div>
+                                                <div>
+                                                    <div class="ms-1 btn-group btn-group-sm" role="group">
+                                                        <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1"
+                                                                *ngIf="i>0"
+                                                                title="Quitar billetera afectada">
+                                                            <i class="fa fa-minus-circle"
+                                                               (click)="removeCuenta(fbill)"> </i>
+                                                        </button>
+                                                        <button class="btn btn-outline-secondary btn-sm quitaPaddingMargin p-1"
+                                                                *ngIf="i==form.billeteras.length-1"
+                                                                title="Agregar otra billetera"
+                                                                (click)="addcuentas()">
+                                                            <i class="fa fa-plus-circle"> </i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-md">
                                     <div class="d-flex flex-column">
-                                        <span class="fw-normal">
+                                        <span class="fw-normal" *ngIf="tiporouting<3">
                                             <i class="fa fa-wallet"></i> Billetera Afectada:
+                                        </span>
+                                        <span class="fw-normal" *ngIf="tiporouting===3">
+                                            <i class="fa fa-wallet"></i> Destino:
                                         </span>
                                         <div class="d-flex flex-column"
                                              *ngFor="let fbill of form.billeteras; let i=index">

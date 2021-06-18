@@ -12,7 +12,7 @@ import {TtpdvService} from '../../../services/ttpdv.service';
     selector: 'app-logged-home',
     templateUrl: './logged-home.component.html',
     styles: [
-            `.datouser {
+        `.datouser {
             background: #e2e2e2;
             border-radius: 5px;
         }
@@ -110,7 +110,11 @@ export class LoggedHomeComponent implements OnInit {
     }
 
     loadSeciones() {
-        this.secciones = this.fautService.getSecciones();
+        this.seccionService.listarUserSecs().subscribe(ressec => {
+            if (ressec.status === 200) {
+                this.secciones = ressec.items;
+            }
+        });
         this.seccion = this.fautService.getSeccionInfoSaved();
     }
 

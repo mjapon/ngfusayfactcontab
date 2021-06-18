@@ -24,6 +24,7 @@ export class AbonosviewComponent implements OnInit, OnChanges {
 
     formAbono: any;
     valorabono: number;
+    ctaCodigoCaja = 0;
     detallesabono: Array<any>;
     isShowAnim: boolean;
     isFacturaLoaded: boolean;
@@ -35,6 +36,7 @@ export class AbonosviewComponent implements OnInit, OnChanges {
 
     tracodabono = 0;
     isShowAsiento = false;
+    pagosef: Array<any> = [];
 
     constructor(private abonoService: AbonoService,
                 private domService: DomService,
@@ -101,6 +103,7 @@ export class AbonosviewComponent implements OnInit, OnChanges {
 
         formAbono.dt_valor = this.valorabono;
         formAbono.per_codigo = this.datosCredito.per_id;
+        formAbono.cta_codigo = this.ctaCodigoCaja;
 
         this.detallesabono.push(formCred);
         this.detallesabono.push(formAbono);
@@ -111,10 +114,13 @@ export class AbonosviewComponent implements OnInit, OnChanges {
         this.valorabono = 0.0;
         this.saldopendiente = this.datosCredito.cre_saldopen;
         this.detallesabono = [];
+        this.ctaCodigoCaja = 0;
         this.abonoService.getform(this.tracodabono).subscribe(res => {
             this.isShowFormAbonar = true;
             if (res.status === 200) {
                 this.formAbono = res.form;
+                this.pagosef = this.formAbono.pagosef;
+                this.ctaCodigoCaja = this.formAbono.formdet.cta_codigo;
                 this.domService.setFocusTm('montoaboinput', 100);
             }
         });

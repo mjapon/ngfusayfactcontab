@@ -135,6 +135,20 @@
                             </div>
                             <div class="row mt-1">
                                 <div class="col-md-4">
+                                    <span class="fw-bold"> Caja Afectada: </span>
+                                </div>
+                                <div class="col-md">
+                                    <p-dropdown [options]="pagosef" optionLabel="ic_nombre"
+                                                styleClass="form-control form-control-sm fw-bold"
+                                                filter="true"
+                                                optionValue="ic_id"
+                                                placeholder="Seleccione la caja afectada"
+                                                [showClear]="false"
+                                                [(ngModel)]="ctaCodigoCaja"></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-md-4">
                                     <span class="fw-bold">Monto a abonar: </span>
                                 </div>
                                 <div class="col-md">

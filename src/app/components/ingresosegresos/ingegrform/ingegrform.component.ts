@@ -135,8 +135,11 @@ export class IngegrformComponent implements OnInit {
     ontiposel(tipo: any, $event: any) {
         const idx = this.form.cuentas.indexOf(tipo);
         const inputid = `tipo_valor_${idx}`;
-        this.domService.setFocusTm(inputid, 100);
+        this.domService.setFocusTm(inputid);
         tipo.dt_valor = this.auxGetMontoFila(this.form.cuentas, idx);
+        if (this.tiporouting === 3) {
+            this.billeteras = this.billeteras.filter(ibil => ibil.ic_id !== tipo.cta_codigo);
+        }
     }
 
     auxGetMontoFila(thearray, idx) {

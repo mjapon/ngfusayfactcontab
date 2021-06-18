@@ -28,9 +28,12 @@ import {CtesService} from '../../services/ctes.service';
                         </div>
                     </div>
                 </div>
-                <div class="mt-2">
+                <div class="mt-4 d-flex justify-content-between">
                     <button class="btn btn-outline-primary" (click)="cambiar()"><i class="fas fa-exchange-alt"></i>
                         Cambiar
+                    </button>
+                    <button class="btn btn-outline-secondary" (click)="cancelar()"><i class="fas fa-times"></i>
+                        Cancelar
                     </button>
                 </div>
             </div>
@@ -84,5 +87,9 @@ export class ChangesecdocComponent extends BaseComponent implements OnInit {
                 this.evDoed.emit('');
             });
         }
+    }
+
+    cancelar() {
+        this.evHide.emit('');
     }
 }

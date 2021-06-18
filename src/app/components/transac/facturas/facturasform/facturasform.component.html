@@ -15,9 +15,11 @@
                 </div>
                 <div class="col-md-4">
                     <div class="d-flex flex-row">
-                        <span class="fw-bold">Nro: </span>
+                        <div class="d-flex align-items-center">
+                            <span class="fw-bold">Nro: </span>
+                        </div>
                         <div class="ms-2 d-flex">
-                            <span> {{form.form_cab.estabptoemi}}</span>
+                            <div class="d-flex align-items-center"><span> {{form.form_cab.estabptoemi}}</span></div>
                             <input type="text" class="form-control form-control-sm  ms-2"
                                    id="fc_secuencia" maxlength="15"
                                    [(ngModel)]="form.form_cab.secuencia"
@@ -27,7 +29,9 @@
                 </div>
                 <div class="col-md-4">
                     <div class="d-flex flex-row">
-                        <span class="fw-bold">Fecha:</span>
+                        <div class="d-flex align-items-center">
+                            <span class="fw-bold">Fecha:</span>
+                        </div>
                         <p-calendar [(ngModel)]="form.form_cab.trn_fecregobj"
                                     [showIcon]="false"
                                     class="ms-2 p-inputtext-sm"
@@ -250,7 +254,7 @@
         <div class="border p-2 mt-2" *ngIf="showtotales">
             <div class="row">
                 <hr class="text-muted quitaPaddingMargin">
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <div class="mb-3">
                         <span class="fw-lighter">Observación:</span>
                         <textarea class="form-control" [(ngModel)]="form.form_cab.trn_observ" rows="3"
@@ -297,16 +301,26 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div>
                         <span class="text-muted">PAGOS:</span>
                     </div>
                     <div class="row" *ngFor="let pago of form.pagos">
-                        <div class="col-md-6">
-                            <span class="fw-bold">{{pago.ic_nombre}} $:</span>
+                        <div class="col-md-7">
+                            <div *ngIf="pago.ic_clasecc!=='E'" class="px-3 py-2 border">
+                                <span class="fw-bold">{{pago.ic_clasecc}} {{pago.ic_nombre}} $:</span>
+                            </div>
+                            <div *ngIf="pago.ic_clasecc==='E'" class="p-fluid">
+                                <p-dropdown [options]="pagosef" optionLabel="ic_nombre"
+                                            styleClass="form-control form-control-sm fw-bold"
+                                            optionValue="ic_id"
+                                            placeholder="Seleccione la caja afectada"
+                                            [showClear]="false"
+                                            [(ngModel)]="pago.cta_codigo"></p-dropdown>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <input type="number" class="form-control form-control-sm" (focusin)="$event.target.select()"
+                        <div class="col-md">
+                            <input type="number" class="form-control" (focusin)="$event.target.select()"
                                    [(ngModel)]="pago.dt_valor" (keyup)="calculaPagos(pago)">
                         </div>
                     </div>

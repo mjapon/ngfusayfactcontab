@@ -53,6 +53,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     @Output() evCancela = new EventEmitter<any>();
     @Output() evFormLoaded = new EventEmitter<any>();
 
+    pagosef: Array<any> = [];
     buscaArtPromise: Promise<any>;
     artsearched: boolean;
     artsearchedcount: number;
@@ -399,6 +400,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
                 this.ttransacc = res0.ttransacc;
                 this.isfacturacompra = this.ttransacc.tra_tipdoc === 2;
                 this.form.pagos = res0.formaspago;
+                this.pagosef = res0.pagosef;
                 this.formdet = res0.formdet;
                 this.impuestos = res0.impuestos;
                 this.numberService.setIva(this.impuestos.iva);

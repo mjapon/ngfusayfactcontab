@@ -93,4 +93,8 @@ export class AsientoviewComponent implements OnInit, OnChanges {
         this.isShowChangeSec = false;
         this.evAnulado.emit('');
     }
+
+    onChangeSecHide() {
+        this.isShowChangeSec = false;
+    }
 }
