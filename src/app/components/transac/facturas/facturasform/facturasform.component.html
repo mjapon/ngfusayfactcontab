@@ -308,7 +308,7 @@
                     <div class="row" *ngFor="let pago of form.pagos">
                         <div class="col-md-7">
                             <div *ngIf="pago.ic_clasecc!=='E'" class="px-3 py-2 border">
-                                <span class="fw-bold">{{pago.ic_clasecc}} {{pago.ic_nombre}} $:</span>
+                                <span class="fw-bold">{{pago.ic_nombre}} $:</span>
                             </div>
                             <div *ngIf="pago.ic_clasecc==='E'" class="p-fluid">
                                 <p-dropdown [options]="pagosef" optionLabel="ic_nombre"
