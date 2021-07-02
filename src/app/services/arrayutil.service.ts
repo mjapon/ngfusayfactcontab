@@ -15,6 +15,18 @@ export class ArrayutilService {
         return res.length > 0 ? res[0] : null;
     }
 
+    findSeccion(secciones: Array<any>, secid: number) {
+        return this.getFirstResult(secciones, el => {
+            return el.sec_id === secid;
+        });
+    }
+
+    findUsuario(users: Array<any>, usid: number) {
+        return this.getFirstResult(users, el => {
+            return el.us_id === usid;
+        });
+    }
+
     removeElement(array: Array<any>, element: any): any {
         const index = array.indexOf(element);
         array.splice(index, 1);

@@ -73,4 +73,8 @@ export class DomService {
         }, ms);
     }
 
+    getUrlParams(objparams: any) {
+        return new URLSearchParams(objparams).toString();
+    }
+
 }

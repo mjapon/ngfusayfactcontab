@@ -145,18 +145,14 @@ export class ReportesComponent extends BaseComponent implements OnInit {
     }
 
     genReporte() {
-        const desde = this.fechasService.formatDateDb(this.form.desde);
-        const hasta = this.fechasService.formatDateDb(this.form.hasta);
-        const secid = this.form.secid;
-        const refid = this.form.refid;
-        const usid = this.form.usid;
-        const fmt = this.form.formato;
-        this.repService.imprimirReporte(this.repsel.rep_id, desde, hasta, secid, usid, refid, fmt);
+        const urlparams = this.repService.getParsedParams(this.form, this.repsel.rep_id, this.secciones, this.usuarios);
+        this.repService.imprimirReporte(urlparams);
     }
 
 
     selReporte(rep: any) {
         this.repsel = rep;
+        this.repService.clearParams(this.repsel, this.form);
     }
 
     onEnterRef() {
