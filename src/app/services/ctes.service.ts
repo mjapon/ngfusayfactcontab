@@ -42,6 +42,7 @@ export class CtesService {
     protected Filtropag = 'filtropag';
     protected Findbynum = 'findbynum';
     protected Fmtfecha = 'dd/MM/yyyy';
+    protected FmtfechaDb = 'yyyy-MM-dd';
     protected Form = 'form';
     protected Formasiento = 'formasiento';
     protected Formlista = 'formlista';
@@ -312,6 +313,10 @@ export class CtesService {
 
     get fmtfecha() {
         return this.Fmtfecha;
+    }
+
+    get fmtfechaDb() {
+        return this.FmtfechaDb;
     }
 
     get form() {

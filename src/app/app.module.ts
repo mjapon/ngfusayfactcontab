@@ -131,15 +131,16 @@ import {AgplistadohomeComponent} from './components/aguap/utils/agplistadohome.c
 import {ChangesecdocComponent} from './components/transac/changesecdoc.component';
 import {RepagomavilComponent} from './components/aguap/utils/repagomavil.component';
 import {MavilgridComponent} from './components/shared/mavilgrid.component';
-//import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
-import {environment} from 'src/environments/environment';
+// import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
+// import {environment} from 'src/environments/environment';
 import {ArtviewComponent} from './components/articulos/artview/artview.component';
+import {ReportesComponent} from './components/reportes/reportes.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
 registerLocaleData(es);
 
-//const config: SocketIoConfig = {url: environment.socket, options: {}};
+// const config: SocketIoConfig = {url: environment.socket, options: {}};
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -233,7 +234,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         ChangesecdocComponent,
         RepagomavilComponent,
         MavilgridComponent,
-        ArtviewComponent
+        ArtviewComponent,
+        ReportesComponent
     ],
     imports: [
         CommonModule,

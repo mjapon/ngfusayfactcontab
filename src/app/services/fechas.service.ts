@@ -81,6 +81,10 @@ export class FechasService {
         return format(dateObj, this.formatoFecha);
     }
 
+    formatDateDb(dateObj): string {
+        return format(dateObj, this.ctes.fmtfechaDb);
+    }
+
     parseString(dateString): Date {
         return parse(dateString, this.formatoFecha, new Date());
     }

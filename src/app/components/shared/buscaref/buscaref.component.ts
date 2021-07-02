@@ -43,6 +43,7 @@ export class BuscarefComponent extends BaseComponent {
 
     @Output() evOnEnterRef = new EventEmitter<any>();
     @Output() evOnSelectRef = new EventEmitter<any>();
+    @Output() evOnClearRef = new EventEmitter<any>();
 
     personFiltered: Array<any> = [];
 
@@ -63,6 +64,7 @@ export class BuscarefComponent extends BaseComponent {
     limpiarRef() {
         this.form.referente = {};
         this.domService.setFocusTm(this.ctes.refAutoCom, 100);
+        this.evOnClearRef.emit('');
     }
 
 
