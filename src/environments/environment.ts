@@ -4,10 +4,10 @@
 
 export const environment = {
     production: false,
-    baseUrlEndPoint: 'http://192.168.0.101:6543/api',
-    baseUrlDwfile: 'http://192.168.0.101:6543/getrxdoc',
-    baseUrlDwfileNode: 'http://192.168.0.101:3000',
-    socket: 'http://192.168.0.101:3000'
+    baseUrlEndPoint: 'http://192.168.1.106:6543/api',
+    baseUrlDwfile: 'http://192.168.1.106:6543/getrxdoc',
+    baseUrlDwfileNode: 'http://192.168.1.106:3000',
+    socket: 'http://192.168.1.106:3000'
 };
 
 /*

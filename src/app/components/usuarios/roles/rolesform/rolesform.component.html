@@ -19,7 +19,7 @@
                 <div>
                     <div class="mb-3">
                         <label for="rlNombre"><span class="required">*</span>Nombre:</label>
-                        <input type="text" maxlength="30" class="form-control" (keyup.enter)="setFocus('rlAbreviacion')"
+                        <input type="text" maxlength="45" class="form-control" (keyup.enter)="setFocus('rlAbreviacion')"
                                (keyup)="$event.target.value=$event.target.value.toUpperCase()"
                                id="rlNombre" name="rl_name" [(ngModel)]="form.rl_name" placeholder=""
                                autocomplete="off">

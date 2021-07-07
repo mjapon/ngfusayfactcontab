@@ -10,6 +10,11 @@ export class CtesService {
     protected AgpLecturas = 'agp_lecturas';
     protected AgpPagos = 'agp_pagos';
     protected AgpPagosMavil = 'AGP_PAGOSMAVIL';
+    protected AgpCreaCont = 'AGP_CREACONT';
+    protected AgpAdmLecto = 'AGP_ADMLECTO';
+    protected AgpCobroAgua = 'AGP_COBROAGUA';
+    protected AgpListaContra = 'AGP_LISTACONTRA';
+    protected AgpListaLecto = 'AGP_LISTALECTO';
     protected Anulactacontab = 'anulactacontab';
     protected Anular = 'anular';
     protected Artid = 'art_id';
@@ -173,6 +178,26 @@ export class CtesService {
 
     get agp_pagosmavil() {
         return this.AgpPagosMavil;
+    }
+
+    get agp_creacont() {
+        return this.AgpCreaCont;
+    }
+
+    get agp_admlecto() {
+        return this.AgpAdmLecto;
+    }
+
+    get agp_cobroagua() {
+        return this.AgpCobroAgua;
+    }
+
+    get agp_listacontra() {
+        return this.AgpListaContra;
+    }
+
+    get agp_listalecto() {
+        return this.AgpListaLecto;
     }
 
     get actualizar() {
