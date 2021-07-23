@@ -135,6 +135,7 @@ import {MavilgridComponent} from './components/shared/mavilgrid.component';
 // import {environment} from 'src/environments/environment';
 import {ArtviewComponent} from './components/articulos/artview/artview.component';
 import {ReportesComponent} from './components/reportes/reportes.component';
+import {CalcupreciomavilComponent} from './components/shared/calcupreciomavil/calcupreciomavil.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -235,7 +236,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         RepagomavilComponent,
         MavilgridComponent,
         ArtviewComponent,
-        ReportesComponent
+        ReportesComponent,
+        CalcupreciomavilComponent
     ],
     imports: [
         CommonModule,
