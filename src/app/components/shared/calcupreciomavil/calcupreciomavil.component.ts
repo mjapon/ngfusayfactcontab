@@ -46,21 +46,28 @@ export class CalcupreciomavilComponent implements OnInit {
         } else if (this.factneto > 500 && this.factneto < 1000) {
             this.porcentaje = 1;
         } else if (this.factneto >= 1000 && this.factneto < 5000) {
-            this.porcentaje = 1;
+            // y = 1.1 - 0.0001x
+            this.porcentaje = 1.1 - (0.0001 * this.factneto);
         } else if (this.factneto >= 5000 && this.factneto < 10000) {
-            this.porcentaje = 0.6;
+            this.porcentaje = 0.7 - (this.factneto / 50000.0);
+            // y= 0.7 - (x/50000)
         } else if (this.factneto >= 10000 && this.factneto < 20000) {
-            this.porcentaje = 0.5;
+            this.porcentaje = 0.7 - (this.factneto / 50000.0);
+            // y= 0.7 - (x/50000)
         } else if (this.factneto >= 20000 && this.factneto < 50000) {
-            this.porcentaje = 0.3;
+            this.porcentaje = (11.0 / 30.0) - (this.factneto / 300000.0);
+            // y= (11/30) - (x/300000)
         } else if (this.factneto >= 50000) {
             this.porcentaje = 0.2;
         }
         if (this.porcentaje > 0) {
             this.pagomensual = this.numberServ.round2((this.factneto * this.porcentaje) / 100.0);
         }
+
         if (!this.pagomensual) {
             this.pagomensual = 0.0;
+        } else {
+            this.pagomensual = this.numberServ.round2(this.pagomensual);
         }
     }
 
