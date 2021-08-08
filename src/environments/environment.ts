@@ -4,10 +4,11 @@
 
 export const environment = {
     production: false,
-    baseUrlEndPoint: 'http://192.168.1.107:6543/api',
-    baseUrlDwfile: 'http://192.168.1.107:6543/getrxdoc',
-    baseUrlDwfileNode: 'http://192.168.1.103:3000',
-    socket: 'http://192.168.1.103:3000'
+    baseUrlEndPoint: 'http://192.168.100.39:6543/api',
+    baseUrlDwfile: 'http://192.168.100.39:6543/getrxdoc',
+    baseUrlDwfileNode: 'http://192.168.100.39:3000',
+    tomcat: 'http://localhost:8080/imprentas',
+    socket: 'http://192.168.0.130:3000'
 };
 
 /*

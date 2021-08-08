@@ -105,6 +105,14 @@
                                         Tercera Edad</label>
                                 </div>
                             </div>
+                            <div class="mt-2">
+                                <div class="p-field-checkbox d-flex flex-row align-items-start">
+                                    <p-checkbox id="discainput" binary="true" name="discainput" inputId="binary"
+                                                [(ngModel)]="form.cna_discapacidad"></p-checkbox>
+                                    <label class="ms-2 hand fontsizenr" (click)="toggleDisca()">Tarifa
+                                        Discapacidad</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

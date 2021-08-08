@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 
+import {environment} from 'src/environments/environment';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -153,7 +155,7 @@ export class CtesService {
     protected Trncoded = 'trncoded';
     protected True = 'true';
     protected Updatecode = 'updatecode';
-    protected UrlTomcat = 'https://mavil.site/tomcat/imprentas';
+    protected UrlTomcat = environment.tomcat;
     protected Verifcodbar = 'verifcodbar';
 
     get _blank() {

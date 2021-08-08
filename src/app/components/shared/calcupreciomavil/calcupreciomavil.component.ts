@@ -22,7 +22,8 @@ import {DomService} from '../../../services/dom.service';
                 </div>
             </div>
             <div class="mt-4 d-flex">
-                <span class="text-primary fs-3">PAGO MENSUAL: $ {{pagomensual}}</span>
+                <span class="text-primary fs-3">PAGO MENSUAL: $ {{pagomensual}} </span>
+                <span class="text-primary fs-3 ms-3" *ngIf="porcentround>0">({{porcentround}}%)</span>
             </div>
         </div>`
 })
@@ -31,6 +32,7 @@ export class CalcupreciomavilComponent implements OnInit {
     factneto = 0.0;
     pagomensual = 0.0;
     porcentaje = 0.0;
+    porcentround = 0.0;
 
     @Output() evCerrar = new EventEmitter<any>();
 
@@ -69,6 +71,8 @@ export class CalcupreciomavilComponent implements OnInit {
         } else {
             this.pagomensual = this.numberServ.round2(this.pagomensual);
         }
+
+        this.porcentround = this.numberServ.round2(this.porcentaje);
     }
 
     doCerrar() {

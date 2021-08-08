@@ -110,6 +110,10 @@ export class ContraguaformComponent extends BaseComponent implements OnInit {
         this.form.cna_teredad = !this.form.cna_teredad;
     }
 
+    toggleDisca() {
+        this.form.cna_discapacidad = !this.form.cna_discapacidad;
+    }
+
     guardar() {
         const vfieldref = this.personService.getBasicValidFieldList();
         const isValidRef = this.domService.validFormData(this.formref, vfieldref);

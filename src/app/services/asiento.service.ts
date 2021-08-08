@@ -93,6 +93,12 @@ export class AsientoService extends BaseService {
         window.open(`${urlTomcat}/Factura?trn=${trncod}&sqm=${sqm}`, this.ctes._blank, this.ctes.featuresOpenNewWin);
     }
 
+    imprimirAbono(trncod) {
+        const sqm = this.fautService.getEsquema();
+        const urlTomcat = this.ctes.urlTomcat;
+        window.open(`${urlTomcat}/Abono?trn=${trncod}&sqm=${sqm}`, this.ctes._blank, this.ctes.featuresOpenNewWin);
+    }
+
     getFormFiltroLibroDiario() {
         return this._doGetAction(this.ctes.formfiltrolibd);
     }
