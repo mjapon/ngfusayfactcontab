@@ -157,14 +157,11 @@ export class AbonosviewComponent implements OnInit, OnChanges {
             this.loadingService.publishBlockMessage();
             this.abonoService.crear(formpost).subscribe(res => {
                 if (res.status === 200) {
-                    console.log('valor de tracodabono es:', this.tracodabono);
-                    if (this.tracodabono === 8) {
-                        this.swalService.fireDialog(this.ctes.msgWishPrint).then(confprint => {
-                            if (confprint.value) {
-                                this.asientoService.imprimirAbono(res.trn_codigo);
-                            }
-                        });
-                    }
+                    this.swalService.fireDialog(this.ctes.msgWishPrint).then(confprint => {
+                        if (confprint.value) {
+                            this.asientoService.imprimirAbono(res.trn_codigo);
+                        }
+                    });
                     this.swalService.fireToastSuccess(res.msg);
                     this.isShowFormAbonar = false;
                     this.loadDatosCredito();
@@ -224,5 +221,9 @@ export class AbonosviewComponent implements OnInit, OnChanges {
 
     cerrarView() {
         this.evCerrar.emit('');
+    }
+
+    imprimirAbono(abo: any) {
+        this.asientoService.imprimirAbono(abo.trn_codigo_abo);
     }
 }

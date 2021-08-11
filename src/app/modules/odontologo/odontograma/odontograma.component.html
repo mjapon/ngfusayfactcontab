@@ -11,152 +11,161 @@
                         title="Crear protesis fija, removible o total">
                     Crear Protesis
                 </button>
-            </div>
-            <button class="btn btn-sm btn-outline-primary" (click)="guardarOdontograma()">
-                <i class="fa fa-save"></i>
-                Guardar Odontograma
-            </button>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <div class="row">
-                    <div id="tr" class="col-6 text-end">
-                        <ng-container *ngFor="let diente of dentadura.A">
-                            <app-grppiezadent [diente]="diente"
-                                              [estilo]="allcssobj[diente.numero]"
-                                              (ondntstatechange)="saveOdontoSilent()"
-                                              (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
-                        </ng-container>
-                    </div>
-                    <div id="tl" class="col-6">
-                        <ng-container *ngFor="let diente of dentadura.B">
-                            <app-grppiezadent [diente]="diente"
-                                              [estilo]="allcssobj[diente.numero]"
-                                              (ondntstatechange)="saveOdontoSilent()"
-                                              (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
-                        </ng-container>
-                    </div>
-
-                    <div id="br" class="col-6 text-end" style="padding-top: 30px">
-                        <ng-container *ngFor="let diente of dentadura.C">
-                            <app-grppiezadent [diente]="diente"
-                                              [estilo]="allcssobj[diente.numero]"
-                                              (ondntstatechange)="saveOdontoSilent()"
-                                              (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
-                        </ng-container>
-                    </div>
-                    <div id="bl" class="col-6" style="padding-top: 30px">
-                        <ng-container *ngFor="let diente of dentadura.D">
-                            <app-grppiezadent [diente]="diente"
-                                              [estilo]="allcssobj[diente.numero]"
-                                              (ondntstatechange)="saveOdontoSilent()"
-                                              (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
-                        </ng-container>
-                    </div>
-                </div>
+                <button class="btn btn-sm btn-outline-primary" (click)="guardarOdontograma()">
+                    <i class="fa fa-save"></i>
+                    Guardar Odontograma
+                </button>
+                <button class="btn btn-sm btn-outline-primary" (click)="showHideHisto()">
+                    Historia
+                </button>
             </div>
         </div>
 
-        <div style="margin-top: 20px">
+        <div *ngIf="!isShowHisto">
+
             <div class="row">
                 <div class="col">
-                    <div class="mb-3">
-                        <label for="obsOdontograma" class="fw-bold">Observación:</label>
-                        <textarea id="obsOdontograma" class="form-control" rows="2" [(ngModel)]="obsodontograma"
-                                  placeholder="Ingrese una observación al odontograma">  </textarea>
+                    <div class="row">
+                        <div id="tr" class="col-6 text-end">
+                            <ng-container *ngFor="let diente of dentadura.A">
+                                <app-grppiezadent [diente]="diente"
+                                                  [estilo]="allcssobj[diente.numero]"
+                                                  (ondntstatechange)="saveOdontoSilent()"
+                                                  (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                            </ng-container>
+                        </div>
+                        <div id="tl" class="col-6">
+                            <ng-container *ngFor="let diente of dentadura.B">
+                                <app-grppiezadent [diente]="diente"
+                                                  [estilo]="allcssobj[diente.numero]"
+                                                  (ondntstatechange)="saveOdontoSilent()"
+                                                  (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                            </ng-container>
+                        </div>
+
+                        <div id="br" class="col-6 text-end" style="padding-top: 30px">
+                            <ng-container *ngFor="let diente of dentadura.C">
+                                <app-grppiezadent [diente]="diente"
+                                                  [estilo]="allcssobj[diente.numero]"
+                                                  (ondntstatechange)="saveOdontoSilent()"
+                                                  (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                            </ng-container>
+                        </div>
+                        <div id="bl" class="col-6" style="padding-top: 30px">
+                            <ng-container *ngFor="let diente of dentadura.D">
+                                <app-grppiezadent [diente]="diente"
+                                                  [estilo]="allcssobj[diente.numero]"
+                                                  (ondntstatechange)="saveOdontoSilent()"
+                                                  (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                            </ng-container>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="table-responsive mt-1">
-                <table class="table table-bordered table-sm">
-                    <thead>
-                    <tr>
-                        <th scope="col" width="6%">Pieza</th>
-                        <th scope="col" width="88%">Diagnóstico</th>
-                        <th scope="col" width="6%">Acción</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <ng-container *ngFor="let itdiente of dentadura.A">
-                        <tr *ngIf="isDienteModif(itdiente)">
-                            <td>
-                                {{itdiente.numero}}
-                            </td>
-                            <td>
-                                <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-outline-secondary"
-                                        (click)="clearDienteCssTBLRC(itdiente)"> Limpiar
-                                </button>
-                            </td>
-                        </tr>
-                    </ng-container>
-                    <ng-container *ngFor="let itdiente of dentadura.B">
-                        <tr *ngIf="isDienteModif(itdiente)">
-                            <td>
-                                {{itdiente.numero}}
-                            </td>
-                            <td>
-                                <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-outline-secondary"
-                                        (click)="clearDienteCssTBLRC(itdiente)"> Limpiar
-                                </button>
-                            </td>
-                        </tr>
-                    </ng-container>
-                    <ng-container *ngFor="let itdiente of dentadura.C">
-                        <tr *ngIf="isDienteModif(itdiente)">
-                            <td>
-                                {{itdiente.numero}}
-                            </td>
-                            <td>
-                                <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-outline-secondary"
-                                        (click)="clearDienteCssTBLRC(itdiente)"> Limpiar
-                                </button>
-                            </td>
-                        </tr>
-                    </ng-container>
-                    <ng-container *ngFor="let itdiente of dentadura.D">
-                        <tr *ngIf="isDienteModif(itdiente)">
-                            <td>
-                                {{itdiente.numero}}
-                            </td>
-                            <td>
-                                <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-outline-secondary"
-                                        (click)="clearDienteCssTBLRC(itdiente)"> Limpiar
-                                </button>
-                            </td>
-                        </tr>
-                    </ng-container>
-                    <ng-container *ngFor="let protesis of protesisList">
+
+            <div style="margin-top: 20px">
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="obsOdontograma" class="fw-bold">Observación:</label>
+                            <textarea id="obsOdontograma" class="form-control" rows="2" [(ngModel)]="obsodontograma"
+                                      placeholder="Ingrese una observación al odontograma">  </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive mt-1">
+                    <table class="table table-bordered table-sm">
+                        <thead>
                         <tr>
-                            <td>
-                                {{protesis.piezas}}
-                            </td>
-                            <td>
-                                Prótesis {{protesis.tipo}} ({{protesis.estado}}
-                                ): {{protesis.piezas}} {{protesis.retens.length > 0 ? ' - Retenedores:' + protesis.retens : ''}}
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-outline-secondary"
-                                        (click)="clearProtesis(protesis)"> Limpiar
-                                </button>
-                            </td>
+                            <th scope="col" width="6%">Pieza</th>
+                            <th scope="col" width="88%">Diagnóstico</th>
+                            <th scope="col" width="6%">Acción</th>
                         </tr>
-                    </ng-container>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        <ng-container *ngFor="let itdiente of dentadura.A">
+                            <tr *ngIf="isDienteModif(itdiente)">
+                                <td>
+                                    {{itdiente.numero}}
+                                </td>
+                                <td>
+                                    <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-secondary"
+                                            (click)="clearDienteCssTBLRC(itdiente)"> Limpiar
+                                    </button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngFor="let itdiente of dentadura.B">
+                            <tr *ngIf="isDienteModif(itdiente)">
+                                <td>
+                                    {{itdiente.numero}}
+                                </td>
+                                <td>
+                                    <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-secondary"
+                                            (click)="clearDienteCssTBLRC(itdiente)"> Limpiar
+                                    </button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngFor="let itdiente of dentadura.C">
+                            <tr *ngIf="isDienteModif(itdiente)">
+                                <td>
+                                    {{itdiente.numero}}
+                                </td>
+                                <td>
+                                    <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-secondary"
+                                            (click)="clearDienteCssTBLRC(itdiente)"> Limpiar
+                                    </button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngFor="let itdiente of dentadura.D">
+                            <tr *ngIf="isDienteModif(itdiente)">
+                                <td>
+                                    {{itdiente.numero}}
+                                </td>
+                                <td>
+                                    <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-secondary"
+                                            (click)="clearDienteCssTBLRC(itdiente)"> Limpiar
+                                    </button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngFor="let protesis of protesisList">
+                            <tr>
+                                <td>
+                                    {{protesis.piezas}}
+                                </td>
+                                <td>
+                                    Prótesis {{protesis.tipo}} ({{protesis.estado}}
+                                    ): {{protesis.piezas}} {{protesis.retens.length > 0 ? ' - Retenedores:' + protesis.retens : ''}}
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-secondary"
+                                            (click)="clearProtesis(protesis)"> Limpiar
+                                    </button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+        </div>
+        <div *ngIf="isShowHisto">
+            <app-odontogramahistlist [codpac]="codpaciente" (evCerrarHisto)="showHideHisto()"></app-odontogramahistlist>
         </div>
 
         <div *ngIf="dienteSelected!=null">

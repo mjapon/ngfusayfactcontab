@@ -7,3 +7,4 @@ yarn.lock
 .idea/
 .idea/*
 /.browserslistrc
+/yarn-error.log

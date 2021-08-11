@@ -61,6 +61,8 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     private iniciaSelProt: boolean;
     allcssobj = {};
 
+    isShowHisto = false;
+
     constructor(private render: Renderer2, private arrayUtil: ArrayutilService, private swalService: SwalService,
                 private toolsDienteServ: ToolsDienteService,
                 private odontoService: OdontogramaService, private loadingUiService: LoadingUiService) {
@@ -684,5 +686,9 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
         if (result) {
             this.saveChangeState();
         }
+    }
+
+    showHideHisto() {
+        this.isShowHisto = !this.isShowHisto;
     }
 }

@@ -28,4 +28,12 @@ export class OdontogramaService extends BaseService {
     getCss() {
         return this._doGetAction('getccss');
     }
+
+    getHisto(pac) {
+        return this._doGetAction('histo', {pac});
+    }
+
+    getOdontoHisto(odhid) {
+        return this._doGetAction('getodonhisto', {odhid});
+    }
 }

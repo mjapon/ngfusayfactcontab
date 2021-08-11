@@ -136,6 +136,8 @@ import {MavilgridComponent} from './components/shared/mavilgrid.component';
 import {ArtviewComponent} from './components/articulos/artview/artview.component';
 import {ReportesComponent} from './components/reportes/reportes.component';
 import {CalcupreciomavilComponent} from './components/shared/calcupreciomavil/calcupreciomavil.component';
+import {OdontogramaviewComponent} from './modules/odontologo/odontograma/odontogramaview.component';
+import {OdongramahistlistComponent} from './modules/odontologo/odontograma/odongramahistlist.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -237,7 +239,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         MavilgridComponent,
         ArtviewComponent,
         ReportesComponent,
-        CalcupreciomavilComponent
+        CalcupreciomavilComponent,
+        OdontogramaviewComponent,
+        OdongramahistlistComponent
     ],
     imports: [
         CommonModule,
