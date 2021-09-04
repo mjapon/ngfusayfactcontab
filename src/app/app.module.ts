@@ -138,6 +138,7 @@ import {ReportesComponent} from './components/reportes/reportes.component';
 import {CalcupreciomavilComponent} from './components/shared/calcupreciomavil/calcupreciomavil.component';
 import {OdontogramaviewComponent} from './modules/odontologo/odontograma/odontogramaview.component';
 import {OdongramahistlistComponent} from './modules/odontologo/odontograma/odongramahistlist.component';
+import {RblistComponent} from './components/transac/rubros/list/rblist.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -241,7 +242,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         ReportesComponent,
         CalcupreciomavilComponent,
         OdontogramaviewComponent,
-        OdongramahistlistComponent
+        OdongramahistlistComponent,
+        RblistComponent
     ],
     imports: [
         CommonModule,

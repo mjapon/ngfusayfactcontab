@@ -42,6 +42,12 @@ import {PersonEvService} from '../../services/personev.service';
                 <app-credreflist [codref]="codref" [clase]="2"
                                  (evDeudasChange)="reloadStatusDeudas($event)"></app-credreflist>
             </div>
+
+            <div *ngIf="tabactive ===8">
+                <app-contraguaform [codref]="codref" [modotab]="true">
+                </app-contraguaform>
+            </div>
+
         </div>
     `
 })

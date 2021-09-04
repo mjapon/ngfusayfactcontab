@@ -18,8 +18,20 @@ export class ContratoaguaService extends BaseService {
         return this._doGetAction(this.ctes.form, {tipo});
     }
 
+    getFormEdit(cna) {
+        return this._doGetAction(this.ctes.gformed, {cna});
+    }
+
     crear(form) {
         return this._doPostAction(this.ctes.crea, form);
+    }
+
+    editar(form) {
+        return this._doPostAction(this.ctes.editar, form);
+    }
+
+    anular(form) {
+        return this._doPostAction(this.ctes.anular, form);
     }
 
     findByRef(codref) {

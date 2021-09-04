@@ -30,6 +30,7 @@ export class CobroaguaComponent extends BaseComponent implements OnInit {
     msgEstadoPago = '';
     facturaPago: any = {};
     isShowFact = false;
+    tipoBusqueda = 1;
 
     constructor(private ctes: CtesAguapService,
                 private swalService: SwalService,
@@ -40,12 +41,18 @@ export class CobroaguaComponent extends BaseComponent implements OnInit {
                 private contratoAguaService: ContratoaguaService,
                 private cobroAguaServ: CobroaguaService,
                 private asientoService: AsientoService,
+                private lectomedService: LectomedaguaService,
                 private router: Router) {
         super();
     }
 
     ngOnInit(): void {
         this.loadForm();
+    }
+
+    setDatosMedToForm() {
+        this.form.mdg_num = this.medsel.mdg_num;
+        this.form.mdg_id = this.medsel.mdg_id;
     }
 
     loadForm() {
@@ -56,6 +63,28 @@ export class CobroaguaComponent extends BaseComponent implements OnInit {
             this.steps = res.form.steps;
             this.domService.setFocusTm(this.ctes.refAutoCom, 100);
         });
+    }
+
+    onSelMedFromBus() {
+        this.medsel = this.form.medidor;
+        this.setDatosMedToForm();
+        this.loadingServ.publishBlockMessage();
+        this.personaService.buscarPorCod(this.medsel.per_id).subscribe(res => {
+            if (this.isResultOk(res)) {
+                this.form.referente = res.persona;
+                this.medidores = [this.medsel];
+                this.currentStep = 1;
+            }
+        });
+    }
+
+    changeFocusBusca($ev) {
+        this.tipoBusqueda = $ev;
+        if (this.tipoBusqueda === 1) {
+            this.domService.setFocusTm(this.ctes.refAutoCom);
+        } else {
+            this.domService.setFocusTm(this.ctes.medAutoCom);
+        }
     }
 
     loadMedidores() {
@@ -74,6 +103,10 @@ export class CobroaguaComponent extends BaseComponent implements OnInit {
         this.msgEstadoPago = '';
         this.hasLecturas = false;
         this.form.montos.formcab = null;
+    }
+
+    anularConsumo(consumo) {
+
     }
 
     loadConsumosInpagos() {
@@ -124,6 +157,21 @@ export class CobroaguaComponent extends BaseComponent implements OnInit {
         this.router.navigate([this.ctes.rutaHome]);
     }
 
+    getParamsComproAgua(trn) {
+        const params = {
+            trn,
+            pexceso: this.form.montos?.consumo_exceso,
+            pvconsumo: this.form.montos?.costobase + this.form.montos?.comision_mavil,
+            pvexceso: this.form.montos?.costoexceso,
+            pvsubt: this.form.montos?.costobase + this.form.montos?.costoexceso,
+            pvdesc: this.form.montos?.descuento,
+            pvmulta: this.form.montos?.multa,
+            pvtotal: this.form.montos?.total,
+            pfechamaxpago: this.form.montos?.fecha_max_pago
+        };
+        return params;
+    }
+
     doSave() {
         this.swalService.fireDialog(this.ctes.msgConfirmSave).then(confirm => {
             if (confirm.value) {
@@ -134,7 +182,7 @@ export class CobroaguaComponent extends BaseComponent implements OnInit {
                         this.loadConsumosInpagos();
                         this.swalService.fireDialog(res.msg, '').then(confprint => {
                             if (confprint.value) {
-                                this.asientoService.imprimirFactura(res.trncod);
+                                this.asientoService.imprimirComproAgua(this.getParamsComproAgua(res.trncod));
                             }
                         });
                     }
@@ -183,5 +231,43 @@ export class CobroaguaComponent extends BaseComponent implements OnInit {
     doFinish() {
         this.currentStep = 0;
         this.loadForm();
+    }
+
+    imprimirComproAgua() {
+        this.cobroAguaServ.getDetallesPago(this.lastPago.trn_codigo).subscribe(res => {
+            if (this.isResultOk(res)) {
+                const params = res.datospago.pg_json_obj;
+                params.trncod = this.lastPago.trn_codigo;
+                this.asientoService.imprimirComproAgua(params);
+            }
+        });
+    }
+
+    anularCobro() {
+        this.swalService.fireDialog(this.ctes.msgSureWishAnulRecord).then(confirm => {
+            if (confirm.value) {
+                this.loadingServ.publishBlockMessage();
+                this.cobroAguaServ.anular(this.lastPago.pg_id).subscribe(res => {
+                    if (this.isResultOk(res)) {
+                        this.swalService.fireToastSuccess(res.msg);
+                        this.loadConsumosInpagos();
+                    }
+                });
+            }
+        });
+    }
+
+
+    anulaLectura(fila: any) {
+        this.swalService.fireDialog(this.ctes.msgSureWishAnulRecord).then(confirm => {
+            if (confirm.value) {
+                this.lectomedService.anular(fila).subscribe(res => {
+                    if (this.isResultOk(res)) {
+                        this.swalService.fireToastSuccess(res.msg);
+                        this.loadConsumosInpagos();
+                    }
+                });
+            }
+        });
     }
 }

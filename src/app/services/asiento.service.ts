@@ -99,6 +99,16 @@ export class AsientoService extends BaseService {
         window.open(`${urlTomcat}/Abono?trn=${trncod}&sqm=${sqm}`, this.ctes._blank, this.ctes.featuresOpenNewWin);
     }
 
+    imprimirComproAgua(params: any) {
+        const sqm = this.fautService.getEsquema();
+        params.sqm = sqm;
+        const urlTomcat = this.ctes.urlTomcat;
+        const queryString = Object.keys(params).map(key => key + '=' + params[key]).join('&');
+        const uri = `${urlTomcat}/ComproAgua?${queryString}`;
+        console.log('Valor de uri string es:', uri);
+        window.open(uri, this.ctes._blank, this.ctes.featuresOpenNewWin);
+    }
+
     getFormFiltroLibroDiario() {
         return this._doGetAction(this.ctes.formfiltrolibd);
     }

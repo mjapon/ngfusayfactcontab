@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Router} from '@angular/router';
 import {ContratoaguaService} from '../../../services/agua/contratoagua.service';
 import {FechasService} from '../../../services/fechas.service';
@@ -13,7 +13,7 @@ import {BaseComponent} from '../../shared/base.component';
     selector: 'app-contraguaform',
     templateUrl: './contraguaform.component.html'
 })
-export class ContraguaformComponent extends BaseComponent implements OnInit {
+export class ContraguaformComponent extends BaseComponent implements OnInit, OnChanges {
     form: any = {};
     formref: any = {};
     formmed: any = {};
@@ -27,6 +27,10 @@ export class ContraguaformComponent extends BaseComponent implements OnInit {
     isRefSearched = false;
     validfl: Array<any> = [];
 
+    @Input() codref;
+    @Input() modotab = false;
+    isShowFormCrea = true;
+
     constructor(private router: Router,
                 private fechasService: FechasService,
                 private domService: DomService,
@@ -38,16 +42,41 @@ export class ContraguaformComponent extends BaseComponent implements OnInit {
         super();
     }
 
+
+    ngOnChanges(changes: SimpleChanges): void {
+        const chng = changes.codref;
+        if (chng.currentValue) {
+            this.formref.per_id = this.codref;
+            this.loadContratosRef();
+        } else {
+
+        }
+
+        const changeModoTab = changes.modotab;
+        if (changeModoTab.currentValue) {
+            this.isShowFormCrea = false;
+        }
+    }
+
     ngOnInit(): void {
         this.loadForm();
     }
 
     gotomain() {
-        this.router.navigate([this.ctes.rutaHome]);
+        if (!this.modotab) {
+            this.router.navigate([this.ctes.rutaHome]);
+        } else {
+            this.loadContratosRef();
+            this.isShowFormCrea = false;
+        }
     }
 
     cancelar() {
-        this.gotomain();
+        if (this.modotab) {
+            this.isShowFormCrea = false;
+        } else {
+            this.gotomain();
+        }
     }
 
     loadForm() {
@@ -89,6 +118,7 @@ export class ContraguaformComponent extends BaseComponent implements OnInit {
     }
 
     loadContratosRef() {
+        this.contratosPrevios = [];
         this.contraService.findByRef(this.formref.per_id).subscribe(res => {
             if (res.items && res.items.length > 0) {
                 this.swalService.fireToastInfo(this.ctes.msgRefTieneMed);
@@ -100,7 +130,9 @@ export class ContraguaformComponent extends BaseComponent implements OnInit {
     calcularEdad() {
         this.personService.setPerEdad(this.formref, true);
         this.isTercedad = this.personService.isTercedad(this.formref, this.teredad);
-        this.form.cna_teredad = this.isTercedad;
+        if (!this.form.cna_teredad) {
+            this.form.cna_teredad = this.isTercedad;
+        }
         if (this.isTercedad) {
             this.swalService.fireToastInfo(this.ctes.msgAplTarfTercedad);
         }
@@ -116,11 +148,13 @@ export class ContraguaformComponent extends BaseComponent implements OnInit {
 
     guardar() {
         const vfieldref = this.personService.getBasicValidFieldList();
-        const isValidRef = this.domService.validFormData(this.formref, vfieldref);
-
-        if (!isValidRef) {
-            return;
+        if (!this.modotab) {
+            const isValidRef = this.domService.validFormData(this.formref, vfieldref);
+            if (!isValidRef) {
+                return;
+            }
         }
+
         const isValidContra = this.domService.validFormData(this.form, this.validfl);
         if (!isValidContra) {
             return;
@@ -131,22 +165,69 @@ export class ContraguaformComponent extends BaseComponent implements OnInit {
         }
 
         this.personService.parsePerFechanac(this.formref);
+        const edcrearef = !this.modotab;
+
+        if (!edcrearef) {
+            this.formref.per_id = this.codref;
+        }
+
         const form = {
             form: this.form,
             formref: this.formref,
-            formmed: this.formmed
+            formmed: this.formmed,
+            edcrearef
         };
         this.loadingService.publishBlockMessage();
         this.swalService.fireDialog(this.ctes.msgConfirmSave, '').then(confirm => {
             if (confirm.value) {
                 this.loadingService.publishBlockMessage();
-                this.contraService.crear(form).subscribe(res => {
+                if (this.form.cna_id > 0) {
+                    this.contraService.editar(form).subscribe(res => {
+                        if (this.isResultOk(res)) {
+                            this.swalService.fireToastSuccess(res.msg);
+                            this.gotomain();
+                        }
+                    });
+                } else {
+                    this.contraService.crear(form).subscribe(res => {
+                        if (this.isResultOk(res)) {
+                            this.swalService.fireToastSuccess(res.msg);
+                            this.gotomain();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    onEdit($event: any) {
+        this.turnOnLoading();
+        this.contraService.getFormEdit($event.cna_id).subscribe(res => {
+            this.turnOffLoading();
+            if (this.isResultOk(res)) {
+                this.form = res.form.form;
+                this.formmed = res.form.formmed;
+                this.personService.loadDataToform(this.formref, res.form.formper);
+                this.isShowFormCrea = true;
+                this.calcularEdad();
+            }
+        });
+    }
+
+    onAnula($event: any) {
+        this.swalService.fireDialog(this.ctes.msgSureWishAnulRecord, '').then(confirm => {
+            if (confirm.value) {
+                this.contraService.anular({form: $event}).subscribe(res => {
                     if (this.isResultOk(res)) {
                         this.swalService.fireToastSuccess(res.msg);
-                        this.gotomain();
+                        this.loadContratosRef();
                     }
                 });
             }
         });
+    }
+
+    showFormCrea() {
+        this.isShowFormCrea = true;
     }
 }

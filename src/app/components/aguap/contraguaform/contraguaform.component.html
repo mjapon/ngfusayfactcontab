@@ -1,94 +1,106 @@
-<h4 class="pt-3 pb-2">Registro de solicitudes de conexión de agua potable</h4>
-<div class="alert alert-info">
-    Por favor ingrese la información que se solicita:
+<div *ngIf="!modotab">
+    <h4 class="pt-3 pb-2">Registro de solicitudes de conexión de agua potable</h4>
+    <div class="alert alert-info" *ngIf="form.cna_id === 0">
+        Por favor ingrese la información que se solicita:
+    </div>
 </div>
 
-<div class="border rounded border-2 mt-2 p-2">
+<div class="alert alert-warning" *ngIf="form.cna_id > 0 && isShowFormCrea">
+    Editando información de contrato:
+</div>
+
+<div class="border rounded border-2 mt-2 p-2" *ngIf="isShowFormCrea">
     <div *ngIf="isLoading">
         <app-loading></app-loading>
     </div>
     <div *ngIf="!isLoading">
         <div class="row">
             <div class="col-md-5">
-                <div class="row">
-                    <div class="col-md-4 ">
+
+                <div *ngIf="!modotab">
+                    <div class="row">
+                        <div class="col-md-4 ">
                         <span class="fw-normal fontsizenr">
                             <span class="text-rojo">*</span>Ci/Ruc:
                         </span>
-                    </div>
-                    <div class="col-md">
-                        <div class="input-group">
-                            <input type="text" class="form-control"
-                                   [(ngModel)]="formref.per_ciruc"
-                                   maxlength="13"
-                                   autocomplete="off"
-                                   (blur)="verifiRefRegistrado()"
-                                   (keydown.enter)="buscarReferente()"
-                                   id="perCirucInput">
-                            <button class="btn btn-outline-secondary" type="button"
-                                    (click)="buscarReferente()"
-                                    title="Presiona este botón para buscar el referente por numero de cédula, ruc o pasaporte ">
-                                <span class="fa fa-search"></span>
-                            </button>
+                        </div>
+                        <div class="col-md">
+                            <div class="input-group">
+                                <input type="text" class="form-control"
+                                       [(ngModel)]="formref.per_ciruc"
+                                       [disabled]="form.cna_id>0"
+                                       maxlength="13"
+                                       autocomplete="off"
+                                       (blur)="verifiRefRegistrado()"
+                                       (keydown.enter)="buscarReferente()"
+                                       id="perCirucInput">
+                                <button class="btn btn-outline-secondary" type="button"
+                                        (click)="buscarReferente()"
+                                        title="Presiona este botón para buscar el referente por numero de cédula, ruc o pasaporte ">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row mt-2">
-                    <div class="col-md-4 ">
-                        <span class="fw-normal fontsizenr"> <span class="text-rojo">*</span>Nombres: </span>
+                    <div class="row mt-2">
+                        <div class="col-md-4 ">
+                            <span class="fw-normal fontsizenr"> <span class="text-rojo">*</span>Nombres: </span>
+                        </div>
+                        <div class="col-md">
+                            <input type="text" class="form-control" id="per_nombres" [(ngModel)]="formref.per_nombres"
+                                   autocomplete="off" maxlength="40">
+                        </div>
                     </div>
-                    <div class="col-md">
-                        <input type="text" class="form-control" id="per_nombres" [(ngModel)]="formref.per_nombres"
-                               autocomplete="off" maxlength="40">
-                    </div>
-                </div>
 
-                <div class="row mt-2">
-                    <div class="col-md-4 ">
-                        <span class="fw-normal fontsizenr"> <span class="text-rojo">*</span>Apellidos: </span>
+                    <div class="row mt-2">
+                        <div class="col-md-4 ">
+                            <span class="fw-normal fontsizenr"> <span class="text-rojo">*</span>Apellidos: </span>
+                        </div>
+                        <div class="col-md">
+                            <input type="text" maxlength="40" class="form-control" autocomplete="off"
+                                   [(ngModel)]="formref.per_apellidos">
+                        </div>
                     </div>
-                    <div class="col-md">
-                        <input type="text" maxlength="40" class="form-control" autocomplete="off"
-                               [(ngModel)]="formref.per_apellidos">
-                    </div>
-                </div>
 
-                <div class="row mt-2">
-                    <div class="col-md-4 ">
-                        <span class="fw-normal fontsizenr"> Celular: </span>
+                    <div class="row mt-2">
+                        <div class="col-md-4 ">
+                            <span class="fw-normal fontsizenr"> Celular: </span>
+                        </div>
+                        <div class="col-md">
+                            <input type="text" class="form-control" maxlength="20" [(ngModel)]="formref.per_movil">
+                        </div>
                     </div>
-                    <div class="col-md">
-                        <input type="text" class="form-control" maxlength="20" [(ngModel)]="formref.per_movil">
-                    </div>
-                </div>
 
-                <div class="row mt-2">
-                    <div class="col-md-4 ">
-                        <span class="fw-normal fontsizenr"> Email: </span>
+                    <div class="row mt-2">
+                        <div class="col-md-4 ">
+                            <span class="fw-normal fontsizenr"> Email: </span>
+                        </div>
+                        <div class="col-md">
+                            <input type="text" class="form-control" maxlength="30" [(ngModel)]="formref.per_email"
+                                   autocomplete="off">
+                        </div>
                     </div>
-                    <div class="col-md">
-                        <input type="text" class="form-control" maxlength="30" [(ngModel)]="formref.per_email"
-                               autocomplete="off">
-                    </div>
-                </div>
 
-                <div class="row mt-2">
-                    <div class="col-md-4 ">
-                        <span class="fw-normal fontsizenr"> Fecha de nacimiento (dd/mm/aaaa): </span>
+                    <div class="row mt-2">
+                        <div class="col-md-4 ">
+                            <span class="fw-normal fontsizenr"> Fecha de nacimiento (dd/mm/aaaa): </span>
+                        </div>
+                        <div class="col-md p-fluid">
+                            <p-calendar id="per_fechanac"
+                                        [(ngModel)]="formref.per_fechanacobj"
+                                        [showIcon]="true"
+                                        inputId="per_fechanac"
+                                        [monthNavigator]="true" [yearNavigator]="true"
+                                        [maxDate]="currentDate"
+                                        (onSelect)="calcularEdad()"
+                                        yearRange="1900:2100"
+                                        dateFormat="dd/mm/yy"></p-calendar>
+                            <span class="fontsizenr"> {{formref.per_edad?.years}} año(s) </span>
+                        </div>
                     </div>
-                    <div class="col-md p-fluid">
-                        <p-calendar id="per_fechanac"
-                                    [(ngModel)]="formref.per_fechanacobj"
-                                    [showIcon]="true"
-                                    inputId="per_fechanac"
-                                    [monthNavigator]="true" [yearNavigator]="true"
-                                    [maxDate]="currentDate"
-                                    (onSelect)="calcularEdad()"
-                                    yearRange="1900:2100"
-                                    dateFormat="dd/mm/yy"></p-calendar>
-                        <span class="fontsizenr"> {{formref.per_edad?.years}} año(s) </span>
-                    </div>
+
+
                 </div>
                 <div class="row mt-2">
                     <div class="col-md offset-md-4">
@@ -209,7 +221,9 @@
             </div>
             <div class="col-md-2">
                 <div class="d-flex flex-column">
-                    <button class="btn btn-outline-primary" (click)="guardar()"><i class="fa fa-save"></i> Guardar
+                    <button class="btn btn-outline-primary" (click)="guardar()"><i class="fa fa-save"></i>
+                        <span *ngIf="form.cna_id===0">Guardar</span>
+                        <span *ngIf="form.cna_id>0">Actualizar</span>
                     </button>
                     <button class="mt-2 btn btn-outline-secondary" (click)="cancelar()">Cancelar</button>
                 </div>
@@ -221,8 +235,21 @@
 
 
 <div *ngIf="contratosPrevios.length>0" class="mt-2">
-    <div class="text-primary p-1">
+    <div class="text-primary p-1" *ngIf="!modotab">
         El referente ya tiene medidores registrados:
     </div>
-    <app-tblmedidores [medidores]="contratosPrevios"></app-tblmedidores>
+    <app-tblmedidores [medidores]="contratosPrevios" [showbtns]="true" (evEdit)="onEdit($event)"
+                      (evAnula)="onAnula($event)"></app-tblmedidores>
+
+    <div class="mt-2" *ngIf="modotab">
+        <button class="btn btn-outline-primary" (click)="showFormCrea()"><i class="fa fa-plus-circle"></i> Crear
+        </button>
+    </div>
+
+</div>
+
+<div *ngIf="contratosPrevios.length===0 &&modotab" class="mt-2">
+    <div class="text-primary p-1">
+        El referente no tiene medidores registrados
+    </div>
 </div>

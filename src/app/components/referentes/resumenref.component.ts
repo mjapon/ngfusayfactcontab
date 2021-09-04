@@ -75,6 +75,11 @@ import {PersonEvService} from '../../services/personev.service';
                                                         class="badge "
                                                         [ngClass]="classBadge(7)"> {{totalestrns.cxpagar}} </span> </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link hand" [ngClass]="{'active':cssIsActive(8)}"
+                               (click)="selectMasterTab(8)">
+                                Contratos agua </a>
+                        </li>
                     </ul>
                 </div>
                 <div>

@@ -23,6 +23,12 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
                         <th scope="col">
                             <div class="fontsizesm">Dirección</div>
                         </th>
+                        <th scope="col">
+                            <div class="fontsizesm">Terc. Edad</div>
+                        </th>
+                        <th scope="col" *ngif="showbtns">
+
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -43,6 +49,20 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
                             <td>
                                 <div class="fontsizenr">{{fila.cna_direccion}}</div>
                             </td>
+                            <td>
+                                <div class="fontsizenr">{{fila.cna_teredad ? 'Si' : 'No'}}</div>
+                            </td>
+
+                            <td *ngIf="showbtns">
+                                <button class="btn btn-outline-primary btn-sm" title="Editar "
+                                        (click)="performEditAccion(fila)"><span
+                                        class="fa fa-edit"></span>
+                                </button>
+                                <button class="btn btn-outline-primary btn-sm" title="Anular"
+                                        (click)="performRemoveAccion(fila)"><span
+                                        class="fa fa-trash"></span>
+                                </button>
+                            </td>
                         </tr>
                     </ng-container>
                     </tbody>
@@ -55,12 +75,23 @@ export class TblmedidoresComponent {
 
     @Input() medidores: Array<any> = [];
     @Output() evSelectFila = new EventEmitter<any>();
+    @Output() evEdit = new EventEmitter<any>();
+    @Output() evAnula = new EventEmitter<any>();
     @Input() isForSelect = false;
+    @Input() showbtns = false;
 
     constructor() {
     }
 
     onRowClic(fila: any) {
         this.evSelectFila.emit(fila);
+    }
+
+    performEditAccion(fila: any) {
+        this.evEdit.emit(fila);
+    }
+
+    performRemoveAccion(fila: any) {
+        this.evAnula.emit(fila);
     }
 }

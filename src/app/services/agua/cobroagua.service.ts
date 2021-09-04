@@ -49,4 +49,11 @@ export class CobroaguaService extends BaseService {
         return this._doPostAction(this.ctes.saverepagmavil, form);
     }
 
+    getDetallesPago(trncod) {
+        return this._doGetAction('gdatospago', {trncod});
+    }
+
+    anular(pgm_id: any) {
+        return this._doPostAction(this.ctes.anular, {pgm_id});
+    }
 }
