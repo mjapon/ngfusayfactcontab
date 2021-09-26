@@ -14,7 +14,7 @@ import {DomService} from '../../../services/dom.service';
                                 (completeMethod)="findRefs($event)" field="nomapel"
                                 inputId="refAutoCom"
                                 autofocus="true"
-                                inputStyleClass="form-control {{form.referente?.per_id?'is-valid':'is-invalid'}}"
+                                inputStyleClass="form-control {{stylevalidinvalid?(form.referente?.per_id?'is-valid':'is-invalid'):''}}"
                                 [delay]="200"
                                 (keyup.enter)="onEnterRef()"
                                 [forceSelection]="true"
@@ -24,13 +24,14 @@ import {DomService} from '../../../services/dom.service';
                         <div>
                             <div class="d-flex justify-content-between">
                                 <span>{{ref.nomapel}}</span>
+                                <span *ngIf="showlugres">{{ref.lugresidencia}}</span>
                                 <span>{{ref.per_ciruc}}</span>
                             </div>
                         </div>
                     </ng-template>
                 </p-autoComplete>
             </div>
-            <div class="col-sm d-flex" *ngIf="form.referente?.per_id>0">
+            <div class="col-sm-1 d-flex" *ngIf="form.referente?.per_id>0">
                 <button title="Limpiar búsqueda" class="btn btn-outline-secondary" type="button"
                         (click)="limpiarRef()">
                     <i class="fa fa-eraser"></i>
@@ -45,6 +46,10 @@ export class BuscarefComponent extends BaseComponent {
     @Output() evOnSelectRef = new EventEmitter<any>();
     @Output() evOnClearRef = new EventEmitter<any>();
 
+    @Input() stylevalidinvalid = true;
+    @Input() showlugres = false;
+    lastquery = '';
+
     personFiltered: Array<any> = [];
 
     constructor(private personService: PersonaService,
@@ -54,6 +59,8 @@ export class BuscarefComponent extends BaseComponent {
     }
 
     findRefs($event: any) {
+        this.lastquery = $event.query;
+        this.form.lastquery = this.lastquery;
         this.personService.buscarPorNomapelCiPag($event.query, 0).subscribe(res => {
             if (this.isResultOk(res)) {
                 this.personFiltered = res.items;
@@ -69,7 +76,7 @@ export class BuscarefComponent extends BaseComponent {
 
 
     onEnterRef() {
-        this.evOnEnterRef.emit('');
+        this.evOnEnterRef.emit(this.lastquery);
     }
 
     onRefSelect() {

@@ -68,8 +68,15 @@ export class TicketService extends BaseService {
         } else if (formcli.per_nombres == null || formcli.per_nombres.trim().length === 0) {
             swalService.fireError('Debe ingresar el nombre del paciente');
             return false;
+        } else if (form.tk_servicios === null || form.tk_servicios.trim().length === 0) {
+            swalService.fireError('Debe seleccionar el servicio');
+            return false;
         }
         return true;
+    }
+
+    listarHistPac(perid) {
+        return this._doGetAction('histservpac', {perid});
     }
 
     getCodServicios(servicios) {

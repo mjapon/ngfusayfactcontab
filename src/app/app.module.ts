@@ -139,6 +139,9 @@ import {CalcupreciomavilComponent} from './components/shared/calcupreciomavil/ca
 import {OdontogramaviewComponent} from './modules/odontologo/odontograma/odontogramaview.component';
 import {OdongramahistlistComponent} from './modules/odontologo/odontograma/odongramahistlist.component';
 import {RblistComponent} from './components/transac/rubros/list/rblist.component';
+import {CierrecajaComponent} from './components/transac/cajas/cierrecaja.component';
+import {TickethistpacComponent} from './components/tickets/ticket/tickethistpac.component';
+import {BasepreciosComponent} from './components/shared/baseprecios.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -243,7 +246,10 @@ export function HttpLoaderFactory(http: HttpClient) {
         CalcupreciomavilComponent,
         OdontogramaviewComponent,
         OdongramahistlistComponent,
-        RblistComponent
+        RblistComponent,
+        CierrecajaComponent,
+        TickethistpacComponent,
+        BasepreciosComponent
     ],
     imports: [
         CommonModule,

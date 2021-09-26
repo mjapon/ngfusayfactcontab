@@ -41,6 +41,8 @@ import {AgplistadohomeComponent} from './components/aguap/utils/agplistadohome.c
 import {RepagomavilComponent} from './components/aguap/utils/repagomavil.component';
 import {ReportesComponent} from './components/reportes/reportes.component';
 import {RblistComponent} from './components/transac/rubros/list/rblist.component';
+import {CierrecajaComponent} from './components/transac/cajas/cierrecaja.component';
+import {BasepreciosComponent} from './components/shared/baseprecios.component';
 // import {AdminGuard} from './guards/admin/admin.guard';
 
 const aguapmod: CtesAguapService = new CtesAguapService();
@@ -67,6 +69,7 @@ const routes: Routes = [
         /*data: {perml: ['PRODS_DET_VIEW']}*/
     },
     {path: 'categorias', component: CategoriasComponent},
+    {path: 'preciosmavil', component: BasepreciosComponent},
     {path: 'tickets', component: TicketComponent},
     {path: 'ticket/form', component: TicketformComponent},
     {path: 'vtickets', component: IngegrComponent},
@@ -92,6 +95,7 @@ const routes: Routes = [
     {path: 'utilventas', component: UtilidadesComponent},
     {path: 'reportes', component: ReportesComponent},
     {path: 'rubros', component: RblistComponent},
+    {path: 'cierrecaja', component: CierrecajaComponent},
     {path: aguapmod.rutaHome, component: AguaHomeComponent},
     {path: aguapmod.rutaContraForm, component: ContraguaformComponent},
     {path: aguapmod.rutaLectoMedForm, component: LectomedComponent},

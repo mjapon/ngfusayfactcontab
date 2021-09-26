@@ -8,6 +8,7 @@ import {LugarService} from '../../../services/lugar.service';
 import {ArrayutilService} from '../../../services/arrayutil.service';
 import {forkJoin} from 'rxjs';
 import {DomService} from '../../../services/dom.service';
+import {NumberService} from "../../../services/number.service";
 
 @Component({
     selector: 'app-ticketform',
@@ -17,10 +18,12 @@ export class TicketformComponent implements OnInit {
 
     servicios: Array<any>;
     form: any;
+    formautoref: any = {};
     formcli: any;
     seccion: any;
     lugares: Array<any>;
     isLoading = false;
+    isShowBuscaRef = true;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -28,6 +31,7 @@ export class TicketformComponent implements OnInit {
                 private swalService: SwalService,
                 private domService: DomService,
                 private personaService: PersonaService,
+                private numberService: NumberService,
                 private arrayUtil: ArrayutilService,
                 private lugarService: LugarService,
                 private loadingUiService: LoadingUiService) {
@@ -57,7 +61,8 @@ export class TicketformComponent implements OnInit {
                 this.lugares = res[2].items;
             }
             this.isLoading = false;
-            this.domService.setFocusTm('ciPasInput', 300);
+            // this.domService.setFocusTm('ciPasInput', 300);
+            this.domService.setFocusTm('refAutoCom', 300);
         });
     }
 
@@ -99,6 +104,7 @@ export class TicketformComponent implements OnInit {
 
     guardar() {
         this.form.tk_servicios = this.tkService.getCodServicios(this.servicios);
+        console.log('Valor de tkservicios es:', this.form.tk_servicios);
         if (this.tkService.isDataValid(this.form, this.formcli, this.swalService)) {
             this.loadingUiService.publishBlockMessage();
             this.tkService.guardar(this.form, this.formcli).subscribe(res => {
@@ -109,5 +115,37 @@ export class TicketformComponent implements OnInit {
                 }
             });
         }
+    }
+
+    onEnterRef($ev) {
+        console.log('on enter ref', this.formautoref, $ev);
+        this.logicNewPac();
+
+    }
+
+    onRefSelect() {
+        console.log('on ref select', this.formautoref);
+        if (this.formautoref.referente && this.formautoref.referente.per_ciruc) {
+            this.formcli.per_ciruc = this.formautoref.referente.per_ciruc;
+            this.isShowBuscaRef = false;
+            this.buscarPersona();
+        }
+    }
+
+    logicNewPac() {
+        console.log('Valor de this.lastquwery:' + this.formautoref);
+        if (this.formautoref.lastquery && !this.formautoref.referente) {
+            if (this.numberService.isNumeric(this.formautoref.lastquery)) {
+                this.formcli.per_ciruc = this.formautoref.lastquery;
+                this.buscarPersona();
+                this.domService.setFocusTm('nomApelInput', 300);
+            } else {
+                this.formcli.per_ciruc = '';
+                this.domService.setFocusTm('ciPasInput', 300);
+            }
+        } else {
+            this.domService.setFocusTm('ciPasInput', 300);
+        }
+        this.isShowBuscaRef = false;
     }
 }

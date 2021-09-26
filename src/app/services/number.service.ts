@@ -145,5 +145,9 @@ export class NumberService {
         formaspago[1].dt_valor = totalcred;
     }
 
+    isNumeric(val) {
+        return /^-?\d+$/.test(val);
+    }
+
 }
 

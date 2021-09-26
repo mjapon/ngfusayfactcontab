@@ -143,6 +143,16 @@ import {ArticulostockService} from '../../../services/articulostock.service';
                                     $ {{artFromDb.icdp_precioventa}}
                                 </div>
                             </div>
+
+                            <div class="d-flex">
+                                <div>
+                                    <span class="fw-normal">Precio de venta min <span *ngIf="artFromDb.icdp_grabaiva">(Con Iva)</span> :</span>
+                                </div>
+                                <div class="ms-2">
+                                    $ {{artFromDb.icdp_precioventamin}}
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -159,7 +169,7 @@ import {ArticulostockService} from '../../../services/articulostock.service';
                                     {{item.sec_nombre}}
                                 </div>
                                 <div class="col-md">
-                                    <span> {{item.ice_stock}}  </span>
+                                    <span> {{item.ice_stock}} unidades </span>
                                 </div>
                             </div>
                         </li>

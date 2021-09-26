@@ -316,7 +316,10 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
             dtPrecio = 0.0;
         }
         if (fila.icdp_grabaiva) {
-            dtPrecio = this.numberService.quitarIva(dtPrecio);
+            if (!this.isfacturacompra) {
+                dtPrecio = this.numberService.quitarIva(dtPrecio);
+            }
+            // dtPrecio = this.numberService.quitarIva(dtPrecio);
         }
         fila.dt_precio = dtPrecio;
         this.recalcTotalFila(fila);

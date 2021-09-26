@@ -473,6 +473,10 @@ export class ArticulosFormComponent implements OnInit {
         this.domService.setFocus(this.ctes.ic_nota);
     }
 
+    onEnterPrecioVentaMin() {
+        this.domService.setFocus(this.ctes.ic_nota);
+    }
+
     onEnterPrecioCompra() {
         this.domService.setFocus(this.ctes.precioVentaInput);
     }

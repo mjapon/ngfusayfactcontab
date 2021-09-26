@@ -147,6 +147,7 @@ export class CtesService {
     protected RefAutoCom = 'refAutoCom';
     protected Registra = 'registra';
     protected Repagmavil = 'repagmavil';
+    protected Reporte = 'reporte';
     protected Saverepagmavil = 'saverepagmavil';
     protected Seccodbarra = 'seccodbarra';
     protected Setseccion = 'setseccion';
@@ -717,6 +718,10 @@ export class CtesService {
 
     get repagmavil() {
         return this.Repagmavil;
+    }
+
+    get reporte() {
+        return this.Reporte;
     }
 
     get saverepagmavil() {
