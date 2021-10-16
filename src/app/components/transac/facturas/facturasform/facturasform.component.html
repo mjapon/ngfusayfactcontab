@@ -213,7 +213,7 @@
                                                (focusin)="$event.target.select()"
                                                [showButtons]="true" mode="decimal"
                                                [minFractionDigits]="1" maxFractionDigits="3"
-                                               (ngModelChange)="recalcTotalFila(fila)"></p-inputNumber>
+                                               (ngModelChange)="onDtCantChange(fila)"></p-inputNumber>
                             </div>
                         </td>
                         <td>
@@ -275,11 +275,22 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6"><span
-                                class="fw-light">(-)Descuento $:</span>
+                                class="fw-light">(-)Desc por item $:</span>
                         </div>
                         <div class="col-md-6">
                             <input type="text" class="form-control form-control-sm" disabled
                                    [(ngModel)]="form.totales.descuentos">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><span
+                                class="fw-light">(-)Desc Global $:</span>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control form-control-sm" (keyup)="onDescgenChange()"
+                                   [ngClass]="{'is-invalid':form.totales.dt_dectogenerr}"
+                                   (focusin)="$event.target?.select()"
+                                   [(ngModel)]="form.totales.descglobalin">
                         </div>
                     </div>
                     <div class="row">

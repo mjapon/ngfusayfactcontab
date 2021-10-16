@@ -87,6 +87,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         this.isLoading = true;
         this.initformfact();
         this.initTotales();
+        this.form.totales.descglobalin = 0;
         this.currentdate = new Date();
         this.seccionSel = 1;
         this.ivas = this.numberService.getIvasArray();
@@ -110,6 +111,8 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         this.form.totales = {
             subtotal: 0.0,
             descuentos: 0.0,
+            descglobal: 0.0,
+            descglobalin: '',
             subtforiva: 0.0,
             iva: 0.0,
             total: 0.0
@@ -130,8 +133,10 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     }
 
     totalizar() {
+        const descglobalin = this.form.totales.descglobalin;
         this.initTotales();
         this.form.totales = this.numberService.totalizar(this.form.detalles);
+        this.form.totales.descglobalin = descglobalin;
         if (this.isedit && this.trncodedit > 0) {
             this.numberService.checkPagosPrevios(this.datosdocedit.pagos, this.form.totales, this.form.pagos);
         } else {
@@ -319,7 +324,6 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
             if (!this.isfacturacompra) {
                 dtPrecio = this.numberService.quitarIva(dtPrecio);
             }
-            // dtPrecio = this.numberService.quitarIva(dtPrecio);
         }
         fila.dt_precio = dtPrecio;
         this.recalcTotalFila(fila);
@@ -446,8 +450,9 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
                     this.form.form_cab.trn_fecregobj = this.fechasService.parseString(this.form.form_cab.trn_fecreg);
                     this.form.form_persona = resedit.doc.datosref;
                     this.form.detalles.forEach(det => {
-                        this.recalcTotalFila(det);
+                        this.numberService.recalcTotalFila(det);
                     });
+                    this.form.totales = resedit.doc.totales;
                     this.totalizar();
                     this.isConsumidorFinal = this.form.form_cab.per_codigo === -1;
                 });
@@ -499,6 +504,47 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         this.loadFormReferente();
     }
 
+    onDescgenChange() {
+        this.form.totales.dt_dectogenerr = false;
+        const numberdectogen = Number(this.form.totales.descglobalin);
+        let dtdectogen = 0.0;
+        if (numberdectogen >= 0) {
+            dtdectogen = numberdectogen;
+        } else {
+            this.form.totales.dt_dectogenerr = true;
+        }
+
+        this.numberService.setDectoGenInDetails(dtdectogen, this.form.totales, this.form.detalles);
+        this.totalizar();
+    }
+
+    onDtCantChange(fila) {
+        //const dtDecto = this.computeDtDecto(fila);
+        //fila.dt_decto = (dtDecto * fila.dt_cant);
+        this.recalcTotalFila(fila);
+    }
+
+    /*
+    computeDtDecto(fila) {
+        let dtDecto = 0.0;
+        const numberdtdecto = Number(fila.dt_dectoin);
+        if (numberdtdecto >= 0 && this.numberService.round2(numberdtdecto) <= this.numberService.round2(fila.dt_precioiva)) {
+            dtDecto = numberdtdecto;
+        } else {
+            fila.dt_dectoerr = true;
+        }
+
+        let dtDectoAjuste = dtDecto;
+        if (fila.icdp_grabaiva) {
+            if (!this.isfacturacompra) {
+                dtDectoAjuste = this.numberService.quitarIva(dtDecto);
+            }
+        }
+        return dtDectoAjuste;
+    }
+     */
+
+
     onFilaDescChange(fila: any) {
         let dtDecto = 0.0;
         fila.dt_dectoerr = false;
@@ -516,6 +562,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
                 dtDectoAjuste = this.numberService.quitarIva(dtDecto);
             }
         }
+        // fila.dt_decto = (dtDectoAjuste * fila.dt_cant);
         fila.dt_decto = dtDectoAjuste;
         this.recalcTotalFila(fila);
     }
