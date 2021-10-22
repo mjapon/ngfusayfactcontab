@@ -144,6 +144,9 @@ export class LectomedComponent extends BaseComponent implements OnInit {
                 this.lectomedService.guardar(this.form).subscribe(res => {
                     if (this.isResultOk(res)) {
                         this.swalService.fireToastSuccess(res.msg);
+                        if (res.trn_codigo > 0) {
+                            this.swalService.fireToastInfo(res.msg_pago_adel);
+                        }
                         this.clear();
                     }
                 });

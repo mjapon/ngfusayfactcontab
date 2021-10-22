@@ -37,6 +37,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     codConsFinal = -1;
     trncodedit = 0;
     datosdocedit: any = {};
+    formvuelto = {input: 0, vuelto: 0};
 
     @Input() form: any;
     @Input() tracodigo: number;
@@ -148,6 +149,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
             }
         }
         this.evTotalesUpd.emit(this.form);
+        this.onVueltoChange();
     }
 
     getNewEmptyRow(art) {
@@ -543,6 +545,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         return dtDectoAjuste;
     }
      */
+    totvuelto: any;
 
 
     onFilaDescChange(fila: any) {
@@ -586,5 +589,21 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     showDetallesProd(art: any) {
         this.codartsel = art.art_codigo;
         this.isShowDetProd = true;
+    }
+
+    onVueltoChange() {
+        const total = this.form.totales.total;
+        const inputv = Number(this.formvuelto.input);
+        let inputvv = total;
+        if (inputv && inputv >= 0) {
+            inputvv = inputv;
+        }
+
+        const cambio = this.numberService.round2(inputvv - total);
+        if (cambio && cambio > 0) {
+            this.formvuelto.vuelto = cambio;
+        } else {
+            this.formvuelto.vuelto = 0.0;
+        }
     }
 }
