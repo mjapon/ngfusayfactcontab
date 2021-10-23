@@ -163,7 +163,7 @@
             </div>
             <div class="table-responsive mt-2">
                 <table class="table table-bordered table-sm">
-                    <thead>
+                    <thead class="table-primary">
                     <tr>
                         <th scope="col" width="3%">
                             <span class="fw-normal fontsizenr">#</span>
@@ -253,7 +253,6 @@
         </div>
         <div class="border p-2 mt-2" *ngIf="showtotales">
             <div class="row">
-                <hr class="text-muted quitaPaddingMargin">
                 <div class="col-md-4">
                     <div class="mb-3">
                         <span class="fw-lighter">Observación:</span>
@@ -335,31 +334,32 @@
                                    [(ngModel)]="pago.dt_valor" (keyup)="calculaPagos(pago)">
                         </div>
                     </div>
-                    <div class="row mt-2">
-                        <div class="col-md-3 d-flex flex-row-reverse">
-                            <span class="fw-bold"> Cambio: </span>
-                        </div>
-                        <div class="col-md-4">
+
+                    <div class="mt-3">
+                        <span class="text-muted">CAMBIO:</span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-7">
                             <input type="text" class="form-control" (focusin)="$event.target.select()"
                                    (keyup)="onVueltoChange()"
                                    [(ngModel)]="formvuelto.input">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md">
                             <span class="fw-bold text-success fs-2">{{formvuelto.vuelto}}</span>
                         </div>
-
                     </div>
-
 
                 </div>
             </div>
         </div>
         <div class="p-2 mt-3" *ngIf="showbuttons">
             <p class="d-flex justify-content-center">
-                <button class="btn btn-outline-secondary" (click)="cancelarCreaFactura()"><i
+                <button class="btn btn-lg btn-outline-secondary" (click)="cancelarCreaFactura()"><i
                         class="fa fa-times"></i> Cancelar
                 </button>
-                <button class="ms-3 btn btn-outline-primary" (click)="crearFactura()" *ngIf="form.detalles.length>0">
+                <button class="ms-3 btn btn-lg btn-outline-primary" (click)="crearFactura()"
+                        *ngIf="form.detalles.length>0">
                     <i class="fa fa-save"></i>
                     Guardar
                 </button>
