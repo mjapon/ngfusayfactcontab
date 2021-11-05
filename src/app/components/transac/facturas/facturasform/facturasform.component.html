@@ -170,7 +170,7 @@
                         </th>
                         <th scope="col" width="33%">
                             <span class="fw-normal fontsizenr">
-                                Servicio </span>
+                                Producto/Servicio </span>
                         </th>
                         <th scope="col" width="10%">
                             <span class="fw-normal fontsizenr">
@@ -301,13 +301,16 @@
                                    [(ngModel)]="form.totales.iva">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row  my-2 mx-0">
                         <div class="col-md-6">
-                            <span class="fw-bold">Total $:</span>
+                            <span class="fw-bold fs-3 text-success">Total $:</span>
                         </div>
                         <div class="col-md-6">
+                            <span class="fw-bold text-success fs-3">{{form.totales.total | number: '.2'}}</span>
+                            <!--
                             <input type="text" class="form-control form-control-sm" disabled
                                    [(ngModel)]="form.totales.total">
+                                   -->
                         </div>
                     </div>
                 </div>
@@ -346,7 +349,7 @@
                                    [(ngModel)]="formvuelto.input">
                         </div>
                         <div class="col-md">
-                            <span class="fw-bold text-success fs-2">{{formvuelto.vuelto}}</span>
+                            <span class="fw-bold text-info fs-4">{{formvuelto.vuelto | number: '.2'}}</span>
                         </div>
                     </div>
 

@@ -60,7 +60,8 @@ import {CtesAguapService} from './ctes-aguap.service';
                     <div>
                         <p class="fw-bold"> Contratos <span>{{reporte.gridcontracts.data?.length}}</span>: </p>
                     </div>
-                    <app-mavilgrid [grid]="reporte.gridcontracts"></app-mavilgrid>
+                    <app-mavilgrid [grid]="reporte.gridcontracts"
+                                   (evRowDoubleClick)="onFilaClick($event)"></app-mavilgrid>
                     <div class="mt-1 d-flex flex-row-reverse">
                         <span class="fw-bold"> {{reporte.totalnc}} </span>
                         <span class="fw-bold me-2">Total:</span>
@@ -75,6 +76,15 @@ import {CtesAguapService} from './ctes-aguap.service';
                     <button class="btn btn-outline-primary" (click)="guardar()"> Registrar Pago</button>
                 </div>
             </div>
+
+            <div *ngIf="isShowDetallesFactura">
+                <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
+                          [(visible)]="isShowDetallesFactura">
+                    <app-facturaview [trncod]="codFacturaSel" (evBtnClosed)="closeDetFact()" [isPermAnul]="false"
+                                     [isPermEdit]="false"
+                                     [isPermChangeSec]="false"></app-facturaview>
+                </p-dialog>
+            </div>
         </div>
 
     `
@@ -84,6 +94,8 @@ export class RepagomavilComponent extends BaseComponent implements OnInit {
     meses: Array<any> = [];
     form: any = {};
     reporte: any = {gridfacts: {}, gridcontracts: {}};
+    isShowDetallesFactura = false;
+    codFacturaSel = 0;
 
     constructor(private cobroAguaServ: CobroaguaService,
                 private swalService: SwalService,
@@ -141,5 +153,15 @@ export class RepagomavilComponent extends BaseComponent implements OnInit {
                 }
             });
         }
+    }
+
+    closeDetFact() {
+        this.isShowDetallesFactura = false;
+    }
+
+    onFilaClick($event: any) {
+        console.log('onfila click', $event);
+        alert('hola');
+
     }
 }

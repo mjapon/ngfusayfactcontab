@@ -142,6 +142,9 @@ import {RblistComponent} from './components/transac/rubros/list/rblist.component
 import {CierrecajaComponent} from './components/transac/cajas/cierrecaja.component';
 import {TickethistpacComponent} from './components/tickets/ticket/tickethistpac.component';
 import {BasepreciosComponent} from './components/shared/baseprecios.component';
+import {AgpReporteLecturasComponent} from './components/aguap/reportes/lecturasagua.component';
+import {CrealectomedComponent} from './components/aguap/lectomed/crealectomed.component';
+import {AgpReportePagosComponent} from './components/aguap/reportes/pagosagua.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -249,7 +252,10 @@ export function HttpLoaderFactory(http: HttpClient) {
         RblistComponent,
         CierrecajaComponent,
         TickethistpacComponent,
-        BasepreciosComponent
+        BasepreciosComponent,
+        AgpReporteLecturasComponent,
+        CrealectomedComponent,
+        AgpReportePagosComponent
     ],
     imports: [
         CommonModule,

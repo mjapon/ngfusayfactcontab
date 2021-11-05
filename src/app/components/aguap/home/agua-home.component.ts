@@ -96,7 +96,11 @@ export class AguaHomeComponent extends BaseComponent implements OnInit {
     }
 
     gotoListaLecturas() {
-        this.router.navigate([this._getRuta(this.ctes.agp_lecturas)]);
+        this.router.navigate([this.ctes.rutaReporteLecturas]);
+    }
+
+    gotoListaPagos() {
+        this.router.navigate([this.ctes.rutaReportePagos]);
     }
 
     gotoRepPagoMavil() {

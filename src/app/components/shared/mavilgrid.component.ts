@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
     selector: 'app-mavilgrid',
@@ -22,7 +22,7 @@ import {Component, Input} from '@angular/core';
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-rowData>
-                    <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
+                    <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="onrowdblclick(rowData)">
                         <td *ngFor="let item of grid.cols" [width]="item.width">
                             <span class="p-column-title">{{item.label}}</span>
                             <span class="fontsizesm">{{rowData[item.field]}}</span>
@@ -35,7 +35,6 @@ import {Component, Input} from '@angular/core';
                             <span class="text-muted">No hay registros</span>
                         </td>
                         <td *ngIf="isViewCol">
-
                         </td>
                     </tr>
                 </ng-template>
@@ -45,7 +44,14 @@ import {Component, Input} from '@angular/core';
 export class MavilgridComponent {
     @Input() grid: any = {};
     @Input() isViewCol = false;
+    @Output() evRowDoubleClick = new EventEmitter<any>();
 
     constructor() {
+    }
+
+    onrowdblclick($ev: any) {
+        // console.log('onrowdblclick comp', $ev);
+        this.evRowDoubleClick.emit('');
+        console.log('onrowdblclick comp', $ev);
     }
 }

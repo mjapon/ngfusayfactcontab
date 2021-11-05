@@ -64,6 +64,7 @@ export class CtesService {
     protected Gallctascontables = 'gallctascontables';
     protected Gartsserv = 'gartsserv';
     protected Gbyref = 'gbyref';
+    protected Gbycodmed = 'gbycodmed';
     protected Gcalpag = 'gcalpag';
     protected Gctascontables = 'gctascontables';
     protected Gcuentafacts = 'gcuentafacts';
@@ -233,6 +234,10 @@ export class CtesService {
 
     get bgyref() {
         return this.Gbyref;
+    }
+
+    get gbycodmed() {
+        return this.Gbycodmed;
     }
 
     get borrar() {

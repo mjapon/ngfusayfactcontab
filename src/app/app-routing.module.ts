@@ -43,6 +43,8 @@ import {ReportesComponent} from './components/reportes/reportes.component';
 import {RblistComponent} from './components/transac/rubros/list/rblist.component';
 import {CierrecajaComponent} from './components/transac/cajas/cierrecaja.component';
 import {BasepreciosComponent} from './components/shared/baseprecios.component';
+import {AgpReporteLecturasComponent} from './components/aguap/reportes/lecturasagua.component';
+import {AgpReportePagosComponent} from './components/aguap/reportes/pagosagua.component';
 // import {AdminGuard} from './guards/admin/admin.guard';
 
 const aguapmod: CtesAguapService = new CtesAguapService();
@@ -102,6 +104,8 @@ const routes: Routes = [
     {path: aguapmod.rutaPagos, component: CobroaguaComponent},
     {path: aguapmod.rutaListados, component: AgplistadohomeComponent},
     {path: aguapmod.rutaPagoMavil, component: RepagomavilComponent},
+    {path: aguapmod.rutaReporteLecturas, component: AgpReporteLecturasComponent},
+    {path: aguapmod.rutaReportePagos, component: AgpReportePagosComponent},
     {path: '**', component: HomeComponent}
 ];
 

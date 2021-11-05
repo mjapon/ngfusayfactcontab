@@ -38,6 +38,13 @@ export class ContratoaguaService extends BaseService {
         return this._doGetAction(this.ctes.bgyref, {codref});
     }
 
+    findByCodMed(codmed) {
+        return this._doGetAction(this.ctes.gbycodmed, {codmed});
+        /**
+         * return {datosmed}
+         */
+    }
+
     findByNumMed(num) {
         return this._doGetAction(this.ctes.findbynum, {num});
     }
