@@ -16,7 +16,7 @@ import {BaseComponent} from '../../../components/shared/base.component';
                  src="assets/imgs/dienteodonto/{{getTipoEndo()}}" alt=""
                  [style]="estilo?.odc_raiz">
             <img *ngIf="dienteHasImplante()"
-                 src="assets/imgs/dienteodonto/implante.png" alt="Implante"
+                 src="assets/imgs/implante/{{diente.numero}}.png" alt="Implante"
                  [style]="estilo?.odc_perno">
             <img *ngIf="dienteHasCorona()"
                  src="assets/imgs/dienteodonto/{{getTipoCorona()}}" alt=""
@@ -27,7 +27,8 @@ import {BaseComponent} from '../../../components/shared/base.component';
             <img *ngIf="dienteIsReten()"
                  src="assets/imgs/retens/{{diente.numero}}.png" alt=""
                  [style]="estilo?.odc_reten">
-            <img *ngIf="isDienteSano()" src="/assets/imgs/dientesano.png" alt=""
+            <img *ngIf="isDienteSano()"
+                 src="assets/imgs/dientesano/{{diente.numero}}.png" alt=""
                  [style]="estilo?.odc_ds">
         </div>
     `

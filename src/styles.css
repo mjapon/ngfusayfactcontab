@@ -159,7 +159,7 @@ form .form-group:first-child .floating-label-form-group {
 .contdienteimg {
     position: relative;
     display: inline-block;
-    height: 160px;
+    height: 122px;
 }
 
 .dtndf {
@@ -167,15 +167,15 @@ form .form-group:first-child .floating-label-form-group {
 }
 
 .dntsmall {
-    width: 52px;
+    width: 60px;
 }
 
 .dntxsmall {
-    width: 46px;
+    width: 60px;
 }
 
 .dntbig {
-    width: 70px;
+    width: 60px;
 }
 
 .dntsup {

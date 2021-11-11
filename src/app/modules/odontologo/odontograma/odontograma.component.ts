@@ -141,7 +141,8 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
         this.showStateButtons = [
             this.toolsDienteServ.isShowTrataPend(this.dienteSelected),
             this.toolsDienteServ.isShowTrataHecho(this.dienteSelected),
-            this.toolsDienteServ.isShowTratExt(this.dienteSelected)
+            this.toolsDienteServ.isShowTratExt(this.dienteSelected),
+            this.toolsDienteServ.isShowTrataClear(this.dienteSelected),
         ];
     }
 
@@ -683,6 +684,14 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     changeStateExt($event: MouseEvent) {
         $event.preventDefault();
         const result = this.toolsDienteServ.changeStateExt(this.dienteSelected);
+        if (result) {
+            this.saveChangeState();
+        }
+    }
+
+    changeStateClear($event: MouseEvent) {
+        $event.preventDefault();
+        const result = this.toolsDienteServ.changeStateClear(this.dienteSelected);
         if (result) {
             this.saveChangeState();
         }

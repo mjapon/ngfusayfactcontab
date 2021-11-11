@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {OdatencionesService} from '../../../services/odatenciones.service';
+import {OdontogramaService} from '../../../services/odontograma.service';
 
 @Component({
     selector: 'app-citaodontodet',
@@ -60,24 +61,28 @@ import {OdatencionesService} from '../../../services/odatenciones.service';
                                 <div class="d-flex">
                                     <div id="tr" class="text-end d-flex">
                                         <ng-container *ngFor="let diente of dentadura.A">
-                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"
+                                                              [estilo]="allcssobj[diente.numero]"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                     <div id="tl" class="d-flex ms-4">
                                         <ng-container *ngFor="let diente of dentadura.B">
-                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"
+                                                              [estilo]="allcssobj[diente.numero]"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                 </div>
                                 <div class="d-flex">
                                     <div id="br" class="d-flex text-end" style="padding-top: 30px">
                                         <ng-container *ngFor="let diente of dentadura.C">
-                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"
+                                                              [estilo]="allcssobj[diente.numero]"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                     <div id="bl" style="padding-top: 30px" class="ms-4 d-flex">
                                         <ng-container *ngFor="let diente of dentadura.D">
-                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"
+                                                              [estilo]="allcssobj[diente.numero]"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                 </div>
@@ -95,24 +100,28 @@ import {OdatencionesService} from '../../../services/odatenciones.service';
                                 <div class="d-flex">
                                     <div id="tr" class="text-end d-flex">
                                         <ng-container *ngFor="let diente of dentaduraSm.A">
-                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"
+                                                              [estilo]="allcssobj[diente.numero]"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                     <div id="tl" class="d-flex ms-4">
                                         <ng-container *ngFor="let diente of dentaduraSm.B">
-                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"
+                                                              [estilo]="allcssobj[diente.numero]"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                 </div>
                                 <div class="d-flex">
                                     <div id="br" class="d-flex text-end" style="padding-top: 30px">
                                         <ng-container *ngFor="let diente of dentaduraSm.C">
-                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"
+                                                              [estilo]="allcssobj[diente.numero]"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                     <div id="bl" style="padding-top: 30px" class="ms-4 d-flex">
                                         <ng-container *ngFor="let diente of dentaduraSm.D">
-                                            <app-grppiezadent [diente]="diente"></app-grppiezadent>
+                                            <app-grppiezadent [diente]="diente"
+                                                              [estilo]="allcssobj[diente.numero]"></app-grppiezadent>
                                         </ng-container>
                                     </div>
                                 </div>
@@ -140,10 +149,13 @@ export class CitaodontodetComponent implements OnInit {
     dentadura: any;
     dentaduraSm: any;
 
+    allcssobj = {};
+
     @Output() evShowHistoria = new EventEmitter<any>();
     @Output() evCerrar = new EventEmitter<any>();
 
-    constructor(private odatenserv: OdatencionesService) {
+    constructor(private odatenserv: OdatencionesService,
+                private odontoService: OdontogramaService) {
 
     }
 
@@ -174,6 +186,11 @@ export class CitaodontodetComponent implements OnInit {
         if (this.datosAtencion.ate_odontograma_sm) {
             this.dentaduraSm = JSON.parse(this.datosAtencion.ate_odontograma_sm);
         }
+        this.odontoService.getCss().subscribe(rescss => {
+            if (rescss.status === 200) {
+                this.allcssobj = rescss.css;
+            }
+        });
     }
 
     doCerrar() {

@@ -215,6 +215,11 @@ export class ToolsDienteService {
         return diente?.estado === 1;
     }
 
+    isShowTrataClear(diente) {
+        const estado = diente?.estado || 0;
+        return estado > 0;
+    }
+
     changeState(diente): number {
         const currentState = diente.estado ? diente.estado : 0;
         let newState = 0;
@@ -238,6 +243,14 @@ export class ToolsDienteService {
     changeStateExt(diente): number {
         if (confirm('¿Confirma marca tratamiento externo?')) {
             diente.estado = 3;
+            return 1;
+        }
+        return 0;
+    }
+
+    changeStateClear(diente): number {
+        if (confirm('¿Confirma limpiar estado?')) {
+            diente.estado = 0;
             return 1;
         }
         return 0;
