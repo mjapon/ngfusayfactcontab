@@ -6,6 +6,7 @@ import {SwalService} from '../../../services/swal.service';
 import {CtesService} from '../../../services/ctes.service';
 import {Router} from '@angular/router';
 import {CtesAguapService} from './ctes-aguap.service';
+import {FechasService} from '../../../services/fechas.service';
 
 @Component({
     selector: 'app-repagomavil',
@@ -19,18 +20,31 @@ import {CtesAguapService} from './ctes-aguap.service';
                 <div class="row">
                     <div class="col-md-9">
                         <div class="d-flex flex-row">
-                            <div class="me-2">
+                            <div class="me-4 d-flex">
+                                <span class="me-2">Consulta desde:</span>
+
+                                <p-calendar [(ngModel)]="form.fecha"
+                                            [showIcon]="false"
+                                            class="ms-2 p-inputtext-sm"
+                                            inputId="trn_fecha"
+                                            [monthNavigator]="true" [yearNavigator]="true"
+                                            yearRange="1900:2100"
+                                            dateFormat="dd/mm/yy"></p-calendar>
+                                <!--
                                 <p-dropdown [options]="anios" [(ngModel)]="form.pgm_anio"
                                             optionValue="value"
                                             optionLabel="label"
                                             (onChange)="onAnioChange()"></p-dropdown>
+                                            -->
                             </div>
+                            <!--
                             <div class="me-2">
                                 <p-dropdown [options]="meses" [(ngModel)]="form.pgm_mes"
                                             optionValue="mes_id"
                                             optionLabel="mes_nombre"
                                             (onChange)="onMesChange()"></p-dropdown>
                             </div>
+                            -->
                             <div>
                                 <button class="btn btn-outline-primary" (click)="loadReporte()"><i
                                         class="fas fa-sync-alt"></i>
@@ -100,6 +114,7 @@ export class RepagomavilComponent extends BaseComponent implements OnInit {
     constructor(private cobroAguaServ: CobroaguaService,
                 private swalService: SwalService,
                 private ctes: CtesService,
+                private fechasServ: FechasService,
                 private ctesAgp: CtesAguapService,
                 private router: Router,
                 private loadingServ: LoadingUiService) {
@@ -118,6 +133,7 @@ export class RepagomavilComponent extends BaseComponent implements OnInit {
                 this.form = res.form.form;
                 this.anios = res.form.anios;
                 this.meses = res.form.meses;
+                this.form.fecha = this.fechasServ.parseString(res.form.form.fecha);
                 this.loadReporte();
             }
         });
@@ -125,6 +141,7 @@ export class RepagomavilComponent extends BaseComponent implements OnInit {
 
     loadReporte() {
         this.loadingServ.publishBlockMessage();
+        this.form.fechaobj = this.fechasServ.formatDate(this.form.fecha);
         this.cobroAguaServ.getReportePagoMavil(this.form).subscribe(res => {
             if (this.isResultOk(res)) {
                 this.reporte = res.reporte;

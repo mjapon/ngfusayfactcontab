@@ -78,9 +78,8 @@
                                 <div class="mb-3">
                                     <label for="ApelInput" class="text-primary">Apellidos:</label>
                                     <input type="email" maxlength="80" class="form-control " id="ApelInput"
-                                           (keyup)="$event.target.value=$event.target.value.toUpperCase()"
-                                           (keyup.enter)="setFocus('numCelInput')" name="per_apellidos"
-                                           [(ngModel)]="formcli.per_apellidos" placeholder="" autocomplete="off">
+                                           name="per_apellidos"                                           
+                                           [(ngModel)]="formcli.per_apellidos" placeholder="" autocomplete="off" (ngModelChange) ="formcli.per_apellidos=$event.toUpperCase()">
                                 </div>
 
                                 <div class="mb-3">

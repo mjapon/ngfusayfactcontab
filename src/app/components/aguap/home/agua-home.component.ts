@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {ContratoaguaService} from '../../../services/agua/contratoagua.service';
-import {Router} from '@angular/router';
-import {CtesAguapService} from '../utils/ctes-aguap.service';
-import {UsertokenService} from '../../../services/usertoken.service';
-import {BaseComponent} from '../../shared/base.component';
+import { Component, OnInit } from '@angular/core';
+import { ContratoaguaService } from '../../../services/agua/contratoagua.service';
+import { Router } from '@angular/router';
+import { CtesAguapService } from '../utils/ctes-aguap.service';
+import { UsertokenService } from '../../../services/usertoken.service';
+import { BaseComponent } from '../../shared/base.component';
 
-import {SwalService} from '../../../services/swal.service';
-import {forkJoin} from 'rxjs';
+import { SwalService } from '../../../services/swal.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-contratos',
@@ -22,10 +22,10 @@ export class AguaHomeComponent extends BaseComponent implements OnInit {
     hasRolListaLecto = false;
 
     constructor(private contraAgua: ContratoaguaService,
-                private userTokenServ: UsertokenService,
-                private ctes: CtesAguapService,
-                private swalService: SwalService,
-                private router: Router) {
+        private userTokenServ: UsertokenService,
+        private ctes: CtesAguapService,
+        private swalService: SwalService,
+        private router: Router) {
         super();
     }
 
@@ -39,39 +39,31 @@ export class AguaHomeComponent extends BaseComponent implements OnInit {
 
         forkJoin([pagmavilobs, creacontraobs, admlectoobs,
             cobroaguaobs, listacontraobs, listalectoobs]).subscribe(res => {
-            const res0 = res[0];
-            const res1 = res[1];
-            const res2 = res[2];
-            const res3 = res[3];
-            const res4 = res[4];
-            const res5 = res[5];
-            if (this.isResultOk(res0)) {
-                this.hasRolViewPagMavil = res0.hasperm;
-            }
-            if (this.isResultOk(res1)) {
-                this.hasRolCreaContra = res1.hasperm;
-            }
-            if (this.isResultOk(res2)) {
-                this.hasRolAdmlecto = res2.hasperm;
-            }
-            if (this.isResultOk(res3)) {
-                this.hasRolCobroAgua = res3.hasperm;
-            }
-            if (this.isResultOk(res4)) {
-                this.hasRolListaContra = res4.hasperm;
-            }
-            if (this.isResultOk(res5)) {
-                this.hasRolListaLecto = res5.hasperm;
-            }
-        });
-
-        /*
-        this.userTokenServ.chkrol(this.ctes.agp_pagosmavil).subscribe(res => {
-            if (this.isResultOk(res)) {
-                this.hasRolViewPagMavil = res.hasperm;
-            }
-        });
-         */
+                const res0 = res[0];
+                const res1 = res[1];
+                const res2 = res[2];
+                const res3 = res[3];
+                const res4 = res[4];
+                const res5 = res[5];
+                if (this.isResultOk(res0)) {
+                    this.hasRolViewPagMavil = res0.hasperm;
+                }
+                if (this.isResultOk(res1)) {
+                    this.hasRolCreaContra = res1.hasperm;
+                }
+                if (this.isResultOk(res2)) {
+                    this.hasRolAdmlecto = res2.hasperm;
+                }
+                if (this.isResultOk(res3)) {
+                    this.hasRolCobroAgua = res3.hasperm;
+                }
+                if (this.isResultOk(res4)) {
+                    this.hasRolListaContra = res4.hasperm;
+                }
+                if (this.isResultOk(res5)) {
+                    this.hasRolListaLecto = res5.hasperm;
+                }
+            });
     }
 
     goToForm() {
@@ -83,6 +75,10 @@ export class AguaHomeComponent extends BaseComponent implements OnInit {
     }
 
     gotoPagos() {
+        this.router.navigate([this.ctes.rutaMain]);
+    }
+
+    gotoMain() {
         this.router.navigate([this.ctes.rutaPagos]);
     }
 

@@ -145,7 +145,7 @@ export class LectomedComponent extends BaseComponent implements OnInit {
                     if (this.isResultOk(res)) {
                         this.swalService.fireToastSuccess(res.msg);
                         if (res.trn_codigo > 0) {
-                            this.swalService.fireToastInfo(res.msg_pago_adel);
+                            this.swalService.fireInfo(res.msg_pago_adel);
                         }
                         this.clear();
                     }

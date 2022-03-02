@@ -10,7 +10,7 @@ import {ToolsDienteService} from '../../../services/toolsdiente.service';
              (mouseleave)="onmouseleave()"
              [title]="titulo">
             <div class="d-flex flex-column align-items-center">
-                <app-numpiezadent [diente]="diente"></app-numpiezadent>
+                <app-numpiezadent [diente]="diente" style="margin-bottom: 4px"></app-numpiezadent>
                 <app-piezadental [diente]="diente" [estilo]="estilo"
                                  (ondienteclic)="raiseClicEvent(diente)"></app-piezadental>
                 <app-caraspd [diente]="diente" (ondienteclic)="raiseClicEvent(diente)"></app-caraspd>

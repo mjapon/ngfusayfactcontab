@@ -165,32 +165,32 @@
                 <table class="table table-bordered table-sm">
                     <thead class="table-primary">
                     <tr>
-                        <th scope="col" width="3%">
+                        <th scope="col" style="width: 3%">
                             <span class="fw-normal fontsizenr">#</span>
                         </th>
-                        <th scope="col" width="33%">
+                        <th scope="col" style="width: 33%">
                             <span class="fw-normal fontsizenr">
                                 Producto/Servicio </span>
                         </th>
-                        <th scope="col" width="10%">
+                        <th scope="col" style="width: 10%">
                             <span class="fw-normal fontsizenr">
                                 Cantidad </span></th>
-                        <th scope="col" width="10%">
+                        <th scope="col" style="width: 10%">
                             <span class="fw-normal fontsizenr">
                                 P. Uni. </span></th>
-                        <th scope="col" width="10%">
+                        <th scope="col" style="width: 10%">
                             <span class="fw-normal fontsizenr">
                                 Subt.</span></th>
-                        <th scope="col" width="9%">
+                        <th scope="col" style="width: 9%">
                             <span class="fw-normal fontsizenr">
                                 Desc </span></th>
-                        <th scope="col" width="10%">
+                        <th scope="col" style="width: 10%">
                             <span class="fw-normal fontsizenr">
                                 Iva </span></th>
-                        <th scope="col" width="10%">
+                        <th scope="col" style="width: 10%">
                             <span class="fw-normal fontsizenr">
                                 Total </span></th>
-                        <th scope="col" width="5%">
+                        <th scope="col" style="width: 5%">
                         </th>
                     </tr>
                     </thead>
@@ -206,35 +206,45 @@
                             </div>
                         </td>
                         <td>
-                            <div class="p-fluid">
-                                <p-inputNumber [(ngModel)]="fila.dt_cant"
-                                               [min]="0" [max]="1000"
-                                               styleClass="form-control-sm"
-                                               (focusin)="$event.target.select()"
-                                               [showButtons]="true" mode="decimal"
-                                               [minFractionDigits]="1" maxFractionDigits="3"
-                                               (ngModelChange)="onDtCantChange(fila)"></p-inputNumber>
+                            <div style="min-width: 100px !important;">
+                                <div class="p-fluid">
+                                    <p-inputNumber [(ngModel)]="fila.dt_cant"
+                                                   [min]="0" [max]="1000"
+                                                   styleClass="form-control-sm"
+                                                   (focusin)="$event.target.select()"
+                                                   [showButtons]="true" mode="decimal"
+                                                   [minFractionDigits]="1" maxFractionDigits="3"
+                                                   (ngModelChange)="onDtCantChange(fila)"></p-inputNumber>
+                                </div>
                             </div>
                         </td>
                         <td>
-                            <input type="text" class="form-control form-control-sm"
-                                   (keyup)="onFilaPrecioChange(fila)"
-                                   [(ngModel)]="fila.dt_precioiva">
+                            <div style="min-width: 70px !important;">
+                                <input type="text" class="form-control form-control-sm"
+                                       (keyup)="onFilaPrecioChange(fila)"
+                                       [(ngModel)]="fila.dt_precioiva">
+                            </div>
                         </td>
                         <td>
-                            <input class="form-control form-control-sm" [(ngModel)]="fila.subtotal" disabled>
+                            <div style="min-width: 70px !important;">
+                                <input class="form-control form-control-sm" [(ngModel)]="fila.subtotal" disabled>
+                            </div>
                         </td>
                         <td>
-                            <input type="text" class="form-control form-control-sm"
-                                   (keyup)="onFilaDescChange(fila)" [ngClass]="{'is-invalid':fila.dt_dectoerr}"
-                                   (focusin)="$event.target?.select()"
-                                   [(ngModel)]="fila.dt_dectoin">
+                            <div style="min-width: 70px !important;">
+                                <input type="text" class="form-control form-control-sm"
+                                       (keyup)="onFilaDescChange(fila)" [ngClass]="{'is-invalid':fila.dt_dectoerr}"
+                                       (focusin)="$event.target?.select()"
+                                       [(ngModel)]="fila.dt_dectoin">
+                            </div>
                         </td>
                         <td>
-                            <select class="form-control form-control-sm" [(ngModel)]="fila.icdp_grabaiva"
-                                    (ngModelChange)="onFilaIvaChange(fila)">
-                                <option *ngFor="let iv of ivas" [ngValue]="iv.value">{{iv.label}}</option>
-                            </select>
+                            <div style="min-width: 70px !important;">
+                                <select class="form-control form-control-sm" [(ngModel)]="fila.icdp_grabaiva"
+                                        (ngModelChange)="onFilaIvaChange(fila)">
+                                    <option *ngFor="let iv of ivas" [ngValue]="iv.value">{{iv.label}}</option>
+                                </select>
+                            </div>
                         </td>
                         <td>
                             <div class="d-flex flex-row-reverse">

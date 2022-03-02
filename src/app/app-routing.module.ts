@@ -45,6 +45,7 @@ import {CierrecajaComponent} from './components/transac/cajas/cierrecaja.compone
 import {BasepreciosComponent} from './components/shared/baseprecios.component';
 import {AgpReporteLecturasComponent} from './components/aguap/reportes/lecturasagua.component';
 import {AgpReportePagosComponent} from './components/aguap/reportes/pagosagua.component';
+import { AguaMainComponent } from './components/aguap/main/agua-main.component';
 // import {AdminGuard} from './guards/admin/admin.guard';
 
 const aguapmod: CtesAguapService = new CtesAguapService();
@@ -99,6 +100,7 @@ const routes: Routes = [
     {path: 'rubros', component: RblistComponent},
     {path: 'cierrecaja', component: CierrecajaComponent},
     {path: aguapmod.rutaHome, component: AguaHomeComponent},
+    { path: aguapmod.rutaMain, component: AguaMainComponent},
     {path: aguapmod.rutaContraForm, component: ContraguaformComponent},
     {path: aguapmod.rutaLectoMedForm, component: LectomedComponent},
     {path: aguapmod.rutaPagos, component: CobroaguaComponent},

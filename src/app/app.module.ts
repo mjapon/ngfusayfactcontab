@@ -145,6 +145,12 @@ import {BasepreciosComponent} from './components/shared/baseprecios.component';
 import {AgpReporteLecturasComponent} from './components/aguap/reportes/lecturasagua.component';
 import {CrealectomedComponent} from './components/aguap/lectomed/crealectomed.component';
 import {AgpReportePagosComponent} from './components/aguap/reportes/pagosagua.component';
+import { AguaMainComponent } from './components/aguap/main/agua-main.component';
+import { DatosmedidorserverComponent } from './components/aguap/datosmedidorserver.component';
+import { AguadashComponent } from './components/aguap/aguadash.component';
+import { LecturasmedComponent } from './components/aguap/lecturasmed.component';
+import { CrealectomedsmComponent } from './components/aguap/lectomed/crealectomedsm.component';
+import { FacturaguaComponent } from './components/aguap/facturagua.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -255,7 +261,13 @@ export function HttpLoaderFactory(http: HttpClient) {
         BasepreciosComponent,
         AgpReporteLecturasComponent,
         CrealectomedComponent,
-        AgpReportePagosComponent
+        AgpReportePagosComponent,
+        AguaMainComponent,
+        DatosmedidorserverComponent,
+        AguadashComponent,
+        LecturasmedComponent,
+        CrealectomedsmComponent,
+        FacturaguaComponent
     ],
     imports: [
         CommonModule,

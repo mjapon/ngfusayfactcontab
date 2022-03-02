@@ -1,0 +1,91 @@
+<div>
+    <div>
+        <div class="d-flex flex-column mt-2">
+            <div class="fontsizenr">Fecha máxima de pago: <span
+                    class="ms-2 fw-bold">{{montos?.fecha_max_pago}}</span>
+            </div>
+        </div>
+        <div class="d-flex flex-column mt-2">
+            <div class="fontsizenr">Fecha de cobro: <span class="ms-2 fw-bold">{{montos?.fecha_actual}}</span>
+            </div>
+        </div>
+        <div class="d-flex  mt-2">
+            <div class="fontsizenr">Nro Recibo:</div>
+            <div class="ms-2">
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="montos.formcab.secuencia"
+                    [disabled]="true">
+            </div>
+        </div>
+        <div class="d-flex flex-column mt-2">
+            <div class="fontsizenr fw-bold">Observación:</div>
+            <textarea class="form-control" [(ngModel)]="form.obs" rows="4" autocomplete="off"
+                placeholder="Ingrese una observación sobre el pago" id="trn_observ"></textarea>
+
+        </div>
+        <div class="mt-2 p-3 bg-success bg-gradient shadow-sm">
+            <div class="row">
+                <div class="col-md-8">
+                    <span class="fw-normal text-white">Consumo Base ({{montos?.consumo_base}}
+                        m<sup>3</sup>):</span>
+                </div>
+                <div class="col-md">
+                    <span class="fw-bold text-white"> +${{ montos?.costobase | number: '.2'}} </span>
+                </div>
+            </div>
+
+            <div class="row mt-1">
+                <div class="col-md-8">
+                    <span class="fw-normal text-white">Exceso ({{montos?.consumo_exceso}}
+                        m<sup>3</sup>):</span>
+                </div>
+                <div class="col-md">
+                    <span class="fw-bold text-white"> +${{ montos?.costoexceso | number: '.2'}} </span>
+                </div>
+            </div>
+
+            <div class="row mt-1">
+                <div class="col-md-8">
+                    <span class="fw-normal text-white">Multa:</span>
+                </div>
+                <div class="col-md">
+                    <span class="fw-bold text-white"> +${{ montos?.multa | number: '.2'}}</span>
+                </div>
+            </div>
+
+            <div class="row mt-1">
+                <div class="col-md-8">
+                    <span class="fw-normal text-white" title="Descuento por tercera edad">Comisión Mavil:</span>
+                </div>
+                <div class="col-md">
+                    <span class="fw-bold text-white"> +${{ montos?.comision_mavil | number: '.2'}}</span>
+                </div>
+            </div>
+
+            <div class="row mt-1">
+                <div class="col-md-8">
+                    <span class="fw-normal text-white" title="Descuento por tercera edad">Descuento:</span>
+                </div>
+                <div class="col-md">
+                    <span class="fw-bold text-white"> -${{ montos?.descuento | number: '.2'}}</span>
+                </div>
+            </div>
+
+            <div class="row mt-1">
+                <div class="col-md-8">
+                    <span class="fw-bold text-white fs-5">TOTAL:</span>
+                </div>
+                <div class="col-md">
+                    <span class="fw-bold text-white fs-5"> ${{ montos?.total | number: '.2'}} </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-100 mt-4 d-flex justify-content-center">
+        <button class="ms-2 btn btn-outline-primary" id="btnNextS3" (click)="doSave()"> Guardar
+            <i class="fa fa-save"></i></button>
+        <button class="ms-2 btn btn-outline-secondary" id="btnNextS4" (click)="doCancel()"> Cancelar
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+</div>
