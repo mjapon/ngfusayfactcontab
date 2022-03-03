@@ -48,7 +48,13 @@
                     <span class="fw-normal text-white">Multa:</span>
                 </div>
                 <div class="col-md">
+
+                    <input type="text" class="form-control" (focusin)="$event.target.select()"
+                                   (keyup)="onMultaChange()"
+                                   [(ngModel)]="montos.multa">
+                    <!--
                     <span class="fw-bold text-white"> +${{ montos?.multa | number: '.2'}}</span>
+                    -->
                 </div>
             </div>
 

@@ -279,12 +279,15 @@ export class LecturasmedComponent extends BaseComponent implements OnInit {
         this.lectoMedServ.getLecturasPend(this.numed).subscribe(resLecto => {
             if (this.isResultOk(resLecto)) {
                 this.lecturaspend = resLecto.lectopends;
+                this.lecturaspend.forEach(el => {
+                    el.marcado = true;
+                });
                 this.datoscontrato = resLecto.contrato;
+                this.updateLectoidsPagar();
                 if (resLecto.haspagospend) {
                     this.swalService.fireToastWarn(resLecto.msg);
                     this.msgpagospend = resLecto.msg;
                     this.isModalPagosVisible = true;
-                    this.updateLectoidsPagar();
                 }
                 else {
                     this.swalService.fireToastSuccess(resLecto.msg);
@@ -359,7 +362,7 @@ export class LecturasmedComponent extends BaseComponent implements OnInit {
         this.isModalPagosVisible = false;
     }
 
-    closeDetFact(){
+    closeDetFact() {
         this.isShowFact = false;
     }
 

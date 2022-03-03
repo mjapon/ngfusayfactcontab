@@ -20,6 +20,8 @@ export class FacturaguaComponent extends BaseComponent implements OnInit, OnChan
     datosmedidor: any = null
     referente: any = null;
     montos: any = {};
+    initotal: number = 0;
+    inimulta: number = 0;
 
     form: any = {
         montos: { formcab: { secuencia: 0 } }
@@ -56,6 +58,8 @@ export class FacturaguaComponent extends BaseComponent implements OnInit, OnChan
         const change = changes.lectoids;
         const changeCodmed = changes.codmed;
         if (change && change.currentValue) {
+            console.log('Valor de lecto id es:', change.currentValue);
+
             this.calcularPago();
         }
 
@@ -71,6 +75,8 @@ export class FacturaguaComponent extends BaseComponent implements OnInit, OnChan
             this.cobroAguaServ.getDatosPago(this.form.lecturas).subscribe(res => {
                 if (this.isResultOk(res)) {
                     this.montos = res.datospago;
+                    this.initotal = this.montos.total;
+                    this.inimulta = this.montos.multa;
                 }
             });
         }
@@ -109,6 +115,22 @@ export class FacturaguaComponent extends BaseComponent implements OnInit, OnChan
         };
         return params;
     }
+
+    onMultaChange() {
+        const inputv = Number(this.montos.multa);
+        let multa = 0;
+        if (inputv && inputv >= 0) {
+            multa = inputv;
+        }
+        this.montos.total = (this.initotal-this.inimulta) + multa;
+        let firstprop = null;
+        for (let prop in this.montos.pagosdet) {
+            firstprop = prop;
+            this.montos.pagosdet[prop].multa = 0;
+        }
+        this.montos.pagosdet[firstprop].multa = multa;
+    }
+
     doCancel() {
         this.evCancel.emit();
     }
@@ -118,8 +140,11 @@ export class FacturaguaComponent extends BaseComponent implements OnInit, OnChan
             if (confirm.value) {
                 this.form.mdg_num = this.datosmedidor.mdg_num;
                 this.form.mdg_id = this.datosmedidor.mdg_id;
+                this.form.lecturas = this.lectoids;
                 this.form.montos = this.montos;
                 this.form.referente = this.referente;
+                console.log('Valor de form que se envia:', this.form);
+
                 this.loadingServ.publishBlockMessage();
                 this.cobroAguaServ.crearFactura(this.form).subscribe(res => {
                     if (this.isResultOk(res)) {
