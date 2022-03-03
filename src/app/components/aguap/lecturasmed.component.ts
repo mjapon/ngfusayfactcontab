@@ -7,8 +7,6 @@ import { DomService } from "src/app/services/dom.service";
 import { SwalService } from "src/app/services/swal.service";
 import { BaseComponent } from "../shared/base.component";
 import { CtesAguapService } from "./utils/ctes-aguap.service";
-import { ArrayutilService } from "src/app/services/arrayutil.service";
-import { ContratoaguaService } from "src/app/services/agua/contratoagua.service";
 import { AsientoService } from "src/app/services/asiento.service";
 
 @Component({
