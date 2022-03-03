@@ -3,7 +3,6 @@ import { MenuItem } from "primeng/api";
 import { CobroaguaService } from "src/app/services/agua/cobroagua.service";
 import { LoadingUiService } from "src/app/services/loading-ui.service";
 import { LectomedaguaService } from "src/app/services/agua/lectomedagua.service";
-import { DomService } from "src/app/services/dom.service";
 import { SwalService } from "src/app/services/swal.service";
 import { BaseComponent } from "../shared/base.component";
 import { CtesAguapService } from "./utils/ctes-aguap.service";
@@ -17,16 +16,15 @@ import { AsientoService } from "src/app/services/asiento.service";
             <app-loading></app-loading>
         </div>
         <div *ngIf="!isLoading">
-
-        <div class="d-flex justify-content-center my-1">
-            <div class="btn-group" role="group" aria-label="Small button group">
-                <button type="button" class="btn btn-outline-primary" (click)="loadGrid()"> <i class="fas fa-sync-alt"></i> </button> 
-                <button type="button" class="btn btn-outline-primary" (click)="showModalCrea()">Crear Lectura <span class="fa fa-plus-circle"></span></button> 
-                <button type="button" class="btn btn-outline-primary" (click)="showModalCobra()">Cobrar <span class="fa fa-money-bill"></span> </button> 
+            <div class="d-flex justify-content-center my-1">
+                <div class="btn-group" role="group" aria-label="Small button group">
+                    <button type="button" class="btn btn-outline-primary" (click)="loadGrid()"> <i class="fas fa-sync-alt"></i> </button> 
+                    <button type="button" class="btn btn-outline-primary" (click)="showModalCrea()">Crear Lectura <span class="fa fa-plus-circle"></span></button> 
+                    <button type="button" class="btn btn-outline-primary" (click)="showModalCobra()">Cobrar <span class="fa fa-money-bill"></span> </button> 
+                </div>
             </div>
-        </div>
-        <p-menu #menu [popup]="true" appendTo="body" [model]="items"></p-menu>
-        <p-contextMenu #com [model]="items" appendTo="body"></p-contextMenu>
+            <p-menu #menu [popup]="true" appendTo="body" [model]="items"></p-menu>
+            <p-contextMenu #com [model]="items" appendTo="body"></p-contextMenu>
         
 
         <p-table [value]="gridLecturas.data" [paginator]="true" [rows]="50" selectionMode="single" [responsive]="true" 

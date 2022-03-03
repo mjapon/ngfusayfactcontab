@@ -26,33 +26,26 @@ import {TabViewModule} from 'primeng/tabview';
 import {ToastModule} from 'primeng/toast';
 import {TreeModule} from 'primeng/tree';
 import {TreeTableModule} from 'primeng/treetable';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './components/login/login.component';
 import {HomeComponent} from './components/home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
-
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
-
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {StartComponent} from './components/start/start.component';
 import {ArticulosListComponent} from './components/articulos/articulos-list/articulos-list.component';
-
 import {ArticulosFormComponent} from './components/articulos/articulos-form/articulos-form.component';
 import {AuditInterceptorService} from './services/rates/audit-interceptor.service';
 import {FusaynavbarComponent} from './components/shared/initnavbar/fusaynavbar.component';
 import {FusayfooterComponent} from './components/shared/initfooter/fusayfooter.component';
 import {LoggednavbarComponent} from './components/shared/loggednavbar/loggednavbar.component';
 import {LoggedHomeComponent} from './components/logged/logged-home/logged-home.component';
-
 import {AppfooterComponent} from './components/shared/loggedfooter/appfooter.component';
 import {TicketComponent} from './components/tickets/ticket/ticket.component';
 import {TicketformComponent} from './components/tickets/ticketform/ticketform.component';
 import {ArticulosViewComponent} from './components/articulos/articulos-view/articulos-view.component';
 import localeEs from '@angular/common/locales/es-EC';
-
 import {CitasmedicasComponent} from './modules/medico/citasmedicas/citasmedicas.component';
 import {OdontogramaComponent} from './modules/odontologo/odontograma/odontograma.component';
 import {RoleslistComponent} from './components/usuarios/roles/roleslist/roleslist.component';
@@ -83,7 +76,6 @@ import {RecetasComponent} from './modules/odontologo/recetas.component';
 import {RxdocsComponent} from './modules/sharedmed/rxdocs.component';
 import {PlantratamientoComponent} from './modules/odontologo/citasodonto/plantratamiento/plantratamiento.component';
 import {FactpagosComponent} from './modules/odontologo/citasodonto/factpagos/factpagos.component';
-
 import {FacturaviewComponent} from './components/transac/facturas/facturasview/facturaview.component';
 import {AbonosviewComponent} from './components/transac/abonos/abonosview/abonosview.component';
 import {LoadingComponent} from './components/home/loading.component';
@@ -95,7 +87,6 @@ import {ResumenrefComponent} from './components/referentes/resumenref.component'
 import {ReferenteviewComponent} from './components/referentes/referenteview.component';
 import {AgendaComponent} from './modules/agenda/agenda.component';
 import {PlanctaslistComponent} from './components/contabilidad/plancuentas/planctaslist.component';
-
 import {LibrodiariolistComponent} from './components/contabilidad/librodiario/librodiariolist/librodiariolist.component';
 import {LibrodiarioformComponent} from './components/contabilidad/librodiario/librodiarioform/librodiarioform.component';
 import {LibromayorlistComponent} from './components/contabilidad/libromayor/libromayorlist/libromayorlist.component';
@@ -116,8 +107,6 @@ import {TicketviewComponent} from './components/tickets/ticketview/ticketview.co
 import {DetfactviewComponent} from './components/transac/facturas/facturasview/detfactview.component';
 import {AguaHomeComponent} from './components/aguap/home/agua-home.component';
 import {ContraguaformComponent} from './components/aguap/contraguaform/contraguaform.component';
-import {LectomedComponent} from './components/aguap/lectomed/lectomed.component';
-import {CobroaguaComponent} from './components/aguap/cobroagua/cobroagua.component';
 import {StepsModule} from 'primeng/steps';
 import {DatosmedidorComponent} from './components/aguap/utils/datosmedidor.component';
 import {TblmedidoresComponent} from './components/aguap/utils/tblmedidores.component';
@@ -237,8 +226,6 @@ export function HttpLoaderFactory(http: HttpClient) {
         TicketviewComponent,
         AguaHomeComponent,
         ContraguaformComponent,
-        LectomedComponent,
-        CobroaguaComponent,
         DatosmedidorComponent,
         TblmedidoresComponent,
         BasicdatosrefComponent,
