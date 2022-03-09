@@ -11,6 +11,25 @@ import { BaseComponent } from "../shared/base.component";
         </div>
         <div *ngIf="!isLoading">
 
+        <div class="row mt-1" *ngIf="datosmedidor.cna_teredad">
+                <div class="col-md">
+                    <div class="alert alert-info">
+                        <span class="fa fa-info-circle"></span>
+                        <span> Aplica descuento tercera edad </span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row mt-1" *ngIf="datosmedidor.cna_discapacidad">
+                <div class="col-md">
+                    <div class="alert alert-info">
+                        <span class="fa fa-info-circle"></span>
+                        <span> Aplica descuento discapacidad </span>
+                    </div>
+                </div>
+            </div>        
+
             <div class="row mt-1">
                 <div class="col-md-2">
                     <span class="fw-normal fontsizenr"> Referente: </span>
@@ -74,24 +93,7 @@ import { BaseComponent } from "../shared/base.component";
                 </div>
             </div>
 
-            <div class="row mt-1" *ngIf="datosmedidor.cna_teredad">
-                <div class="col-md">
-                    <div class="alert alert-info">
-                        <span class="fa fa-info-circle"></span>
-                        <span> Aplica descuento tercera edad </span>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="row mt-1" *ngIf="datosmedidor.cna_discapacidad">
-                <div class="col-md">
-                    <div class="alert alert-info">
-                        <span class="fa fa-info-circle"></span>
-                        <span> Aplica descuento discapacidad </span>
-                    </div>
-                </div>
-            </div>        
+            
         </div>
     </div>`
 })

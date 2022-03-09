@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
     selector: 'app-mavilgrid',
@@ -50,8 +50,6 @@ export class MavilgridComponent {
     }
 
     onrowdblclick($ev: any) {
-        // console.log('onrowdblclick comp', $ev);
         this.evRowDoubleClick.emit('');
-        console.log('onrowdblclick comp', $ev);
     }
 }

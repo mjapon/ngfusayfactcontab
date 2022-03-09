@@ -104,7 +104,6 @@ export class TicketformComponent implements OnInit {
 
     guardar() {
         this.form.tk_servicios = this.tkService.getCodServicios(this.servicios);
-        console.log('Valor de tkservicios es:', this.form.tk_servicios);
         if (this.tkService.isDataValid(this.form, this.formcli, this.swalService)) {
             this.loadingUiService.publishBlockMessage();
             this.tkService.guardar(this.form, this.formcli).subscribe(res => {
@@ -118,13 +117,10 @@ export class TicketformComponent implements OnInit {
     }
 
     onEnterRef($ev) {
-        console.log('on enter ref', this.formautoref, $ev);
         this.logicNewPac();
-
     }
 
     onRefSelect() {
-        console.log('on ref select', this.formautoref);
         if (this.formautoref.referente && this.formautoref.referente.per_ciruc) {
             this.formcli.per_ciruc = this.formautoref.referente.per_ciruc;
             this.isShowBuscaRef = false;
@@ -133,7 +129,6 @@ export class TicketformComponent implements OnInit {
     }
 
     logicNewPac() {
-        console.log('Valor de this.lastquwery:' + this.formautoref);
         if (this.formautoref.lastquery && !this.formautoref.referente) {
             if (this.numberService.isNumeric(this.formautoref.lastquery)) {
                 this.formcli.per_ciruc = this.formautoref.lastquery;

@@ -29,22 +29,27 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
                 </li>
                 <li class="nav-item hand" (click)="currentTab=2">
                     <a class="nav-link" [ngClass]="currentTab===2?'active':''"> Datos del contrato </a>
-                </li>  
-                <!--
+                </li>
                 <li class="nav-item hand" (click)="currentTab=3">
                     <a class="nav-link" [ngClass]="currentTab===3?'active':''"> Adelantos </a>
-                </li>  
-                -->
+                </li>
             </ul>
             <div *ngIf="currentTab===1">
-                <app-lecturasmed [numed]="datosmedidor.mdg_id"></app-lecturasmed>                
+                <div class="mt-4">
+                    <app-lecturasmed [numed]="datosmedidor.mdg_id"></app-lecturasmed>                
+                </div>
             </div>
             <div *ngIf="currentTab===2">
                 <div class="m-3">
                 <app-datosmedserver [numed]="datosmedidor.mdg_id"></app-datosmedserver>
-                </div>
-                
+                </div>                
             </div>
+            <div *ngIf="currentTab===3">
+                <div class="m-3">
+                    <app-adelantos [perid]="datosmedidor.per_id"></app-adelantos>
+                </div>
+            </div>
+
         </div>
     </div>    
     `

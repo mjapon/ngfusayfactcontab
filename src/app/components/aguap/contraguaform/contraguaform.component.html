@@ -20,23 +20,18 @@
                 <div *ngIf="!modotab">
                     <div class="row">
                         <div class="col-md-4 ">
-                        <span class="fw-normal fontsizenr">
-                            <span class="text-rojo">*</span>Ci/Ruc:
-                        </span>
+                            <span class="fw-normal fontsizenr">
+                                <span class="text-rojo">*</span>Ci/Ruc:
+                            </span>
                         </div>
                         <div class="col-md">
                             <div class="input-group">
-                                <input type="text" class="form-control"
-                                       [(ngModel)]="formref.per_ciruc"
-                                       [disabled]="form.cna_id>0"
-                                       maxlength="13"
-                                       autocomplete="off"
-                                       (blur)="verifiRefRegistrado()"
-                                       (keydown.enter)="buscarReferente()"
-                                       id="perCirucInput">
-                                <button class="btn btn-outline-secondary" type="button"
-                                        (click)="buscarReferente()"
-                                        title="Presiona este botón para buscar el referente por numero de cédula, ruc o pasaporte ">
+                                <input type="text" class="form-control" [(ngModel)]="formref.per_ciruc"
+                                    [disabled]="form.cna_id>0" maxlength="13" autocomplete="off"
+                                    (blur)="verifiRefRegistrado()" (keydown.enter)="buscarReferente()"
+                                    id="perCirucInput">
+                                <button class="btn btn-outline-secondary" type="button" (click)="buscarReferente()"
+                                    title="Presiona este botón para buscar el referente por numero de cédula, ruc o pasaporte ">
                                     <span class="fa fa-search"></span>
                                 </button>
                             </div>
@@ -49,7 +44,7 @@
                         </div>
                         <div class="col-md">
                             <input type="text" class="form-control" id="per_nombres" [(ngModel)]="formref.per_nombres"
-                                   autocomplete="off" maxlength="40">
+                                autocomplete="off" maxlength="40">
                         </div>
                     </div>
 
@@ -59,7 +54,7 @@
                         </div>
                         <div class="col-md">
                             <input type="text" maxlength="40" class="form-control" autocomplete="off"
-                                   [(ngModel)]="formref.per_apellidos">
+                                [(ngModel)]="formref.per_apellidos">
                         </div>
                     </div>
 
@@ -78,7 +73,7 @@
                         </div>
                         <div class="col-md">
                             <input type="text" class="form-control" maxlength="30" [(ngModel)]="formref.per_email"
-                                   autocomplete="off">
+                                autocomplete="off">
                         </div>
                     </div>
 
@@ -87,15 +82,10 @@
                             <span class="fw-normal fontsizenr"> Fecha de nacimiento (dd/mm/aaaa): </span>
                         </div>
                         <div class="col-md p-fluid">
-                            <p-calendar id="per_fechanac"
-                                        [(ngModel)]="formref.per_fechanacobj"
-                                        [showIcon]="true"
-                                        inputId="per_fechanac"
-                                        [monthNavigator]="true" [yearNavigator]="true"
-                                        [maxDate]="currentDate"
-                                        (onSelect)="calcularEdad()"
-                                        yearRange="1900:2100"
-                                        dateFormat="dd/mm/yy"></p-calendar>
+                            <p-calendar id="per_fechanac" [(ngModel)]="formref.per_fechanacobj" [showIcon]="true"
+                                inputId="per_fechanac" [monthNavigator]="true" [yearNavigator]="true"
+                                [maxDate]="currentDate" (onSelect)="calcularEdad()" yearRange="1900:2100"
+                                dateFormat="dd/mm/yy"></p-calendar>
                             <span class="fontsizenr"> {{formref.per_edad?.years}} año(s) </span>
                         </div>
                     </div>
@@ -106,13 +96,12 @@
                     <div class="col-md offset-md-4">
                         <div>
                             <div class="alert alert-info" *ngIf="isTercedad">
-                                <span class="fa fa-info-circle"></span> <span
-                                    class="fw-bold"> Adulto Mayor </span>
+                                <span class="fa fa-info-circle"></span> <span class="fw-bold"> Adulto Mayor </span>
                             </div>
                             <div>
                                 <div class="p-field-checkbox d-flex flex-row align-items-start">
                                     <p-checkbox id="consfinalinput" binary="true" name="consfinalinput" inputId="binary"
-                                                [(ngModel)]="form.cna_teredad"></p-checkbox>
+                                        [(ngModel)]="form.cna_teredad"></p-checkbox>
                                     <label class="ms-2 hand fontsizenr" (click)="toggleTercedad()">Tarifa
                                         Tercera Edad</label>
                                 </div>
@@ -120,7 +109,7 @@
                             <div class="mt-2">
                                 <div class="p-field-checkbox d-flex flex-row align-items-start">
                                     <p-checkbox id="discainput" binary="true" name="discainput" inputId="binary"
-                                                [(ngModel)]="form.cna_discapacidad"></p-checkbox>
+                                        [(ngModel)]="form.cna_discapacidad"></p-checkbox>
                                     <label class="ms-2 hand fontsizenr" (click)="toggleDisca()">Tarifa
                                         Discapacidad</label>
                                 </div>
@@ -140,10 +129,8 @@
                     <div class="col-md">
                         <div class="p-fluid">
                             <p-dropdown [options]="tarifas" optionLabel="ic_nombre" optionValue="trf_id"
-                                        inputId="cna_tarifa"
-                                        placeholder="Seleccione la tarifa que aplica"
-                                        [showClear]="false"
-                                        [(ngModel)]="form.cna_tarifa"></p-dropdown>
+                                inputId="cna_tarifa" placeholder="Seleccione la tarifa que aplica" [showClear]="false"
+                                [(ngModel)]="form.cna_tarifa"></p-dropdown>
                         </div>
                     </div>
                 </div>
@@ -151,26 +138,22 @@
 
                 <div class="row mt-2">
                     <div class="col-md-4">
-                        <span class="fw-normal fontsizenr "> <span
-                                class="text-rojo">*</span>Num. Medidor: </span>
+                        <span class="fw-normal fontsizenr "> <span class="text-rojo">*</span>Num. Medidor: </span>
                     </div>
                     <div class="col-md">
                         <input type="text" class="form-control form-control-sm" maxlength="40"
-                               [(ngModel)]="formmed.mdg_num">
+                            [(ngModel)]="formmed.mdg_num">
                     </div>
                 </div>
 
                 <div class="row mt-2">
                     <div class="col-md-4">
-                        <span class="fw-normal fontsizenr "> <span
-                                class="text-rojo">*</span>Comunidad: </span>
+                        <span class="fw-normal fontsizenr "> <span class="text-rojo">*</span>Comunidad: </span>
                     </div>
                     <div class="col-md p-fluid">
-                        <p-dropdown [options]="comunidades" optionLabel="cmn_nombre"
-                                    optionValue="cmn_id"
-                                    placeholder="Seleccione la comunidad"
-                                    [showClear]="false"
-                                    [(ngModel)]="form.cna_barrio"></p-dropdown>
+                        <p-dropdown [options]="comunidades" optionLabel="cmn_nombre" optionValue="cmn_id"
+                            placeholder="Seleccione la comunidad" [showClear]="false" [(ngModel)]="form.cna_barrio">
+                        </p-dropdown>
                     </div>
                 </div>
 
@@ -185,12 +168,11 @@
 
                 <div class="row mt-2">
                     <div class="col-md-4">
-                        <span class="fw-normal fontsizenr "> <span
-                                class="text-rojo">*</span>Dirección Servicio: </span>
+                        <span class="fw-normal fontsizenr "> <span class="text-rojo">*</span>Dirección Servicio: </span>
                     </div>
                     <div class="col-md">
                         <input type="text" class="form-control" autocomplete="off" [(ngModel)]="form.cna_direccion"
-                               maxlength="80">
+                            maxlength="80">
                     </div>
                 </div>
 
@@ -239,171 +221,17 @@
         El referente ya tiene medidores registrados:
     </div>
     <app-tblmedidores [medidores]="contratosPrevios" [showbtns]="true" (evEdit)="onEdit($event)"
-                      (evAnula)="onAnula($event)"></app-tblmedidores>
+        (evAnula)="onAnula($event)"></app-tblmedidores>
 
     <div class="mt-2" *ngIf="modotab">
         <button class="btn btn-outline-primary" (click)="showFormCrea()"><i class="fa fa-plus-circle"></i> Crear
         </button>
+        <!--
         <button class="ms-3 btn btn-outline-primary" (click)="showFormCreaPagoAdelantado()">
             Adelantos
         </button>
+        -->
     </div>
-</div>
-
-<div *ngIf="modotab && isShowFormPagoAdelantado" class="card mt-2">
-    <div class="card-header">
-        <span>Registro de pago adelantado</span>
-    </div>
-    <div class="card-body">
-
-        <div class="alert alert-info" role="alert" *ngIf="!isEnabledCreaAdelanto">
-            <span class="fa fa-info-circle"></span> Ya tiene adelantos registrados
-        </div>
-
-        <table class="table table-bordered table-hover table-sm" *ngIf="adelantos.length>0">
-            <thead>
-            <tr>
-                <th scope="col" style="width: 5%">
-                            <span class="fontsizesm">
-                                #</span></th>
-                <th scope="col">
-                            <span class="fontsizesm">
-                                Fecha </span></th>
-                <th scope="col"><span class="fontsizesm"> Monto </span></th>
-                <th scope="col"><span class="fontsizesm"> Saldo </span></th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let fila of adelantos" class="hand">
-                <th scope="row" style="width: 5%">
-                    <span class="fontsizesm">
-                    {{adelantos.indexOf(fila) + 1}}
-                    </span>
-                </th>
-                <td>
-                    <span class="fontsizesm">
-                        {{fila.trn_fecreg}}</span>
-                </td>
-                <td>
-                    <span class="fontsizesm">
-                        {{fila.dt_valor}}</span>
-                </td>
-                <td>
-                    <span class="fontsizesm">{{fila.cre_saldopen}}</span>
-                </td>
-                <td>
-                    <button class="btn btn-outline-secondary btn-sm" (click)="anularAdelanto(fila)">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                    <button class="btn btn-outline-secondary btn-sm" (click)="loadAbonos(fila)"
-                            title="Ver facturas pagadas con el adelanto" *ngIf="fila.cre_saldopen<fila.dt_valor">
-                        <i class="fa fa-eye"></i>
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-
-        <div class="row mt-2" *ngIf="abonosList.length>0">
-            <div class="col-md">
-                <div class="table-responsive ">
-                    <p class="quitaPaddingMargin fw-bold">Facturas cobradas con el adelanto <span
-                            class="badge rounded-pill bg-primary">{{abonosList.length}}</span>:</p>
-                    <table class="table table-sm table-bordered">
-                        <thead>
-                        <tr>
-                            <th scope="col">
-                                <span class="fontsizesm">#</span>
-                            </th>
-                            <th scope="col">
-                                <span class="fontsizesm">Fecha</span>
-                            </th>
-                            <th scope="col">
-                                <span class="fontsizesm">Monto</span>
-                            </th>
-                            <th scope="col">
-                                        <span class="fontsizesm">
-                                            Observación
-                                        </span>
-                            </th>
-                            <th scope="col">
-
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <!-- editado -->
-                        <tr *ngFor="let abo of abonosList" class="hand">
-                            <td>
-                                        <span class="fontsizesm">
-                                        {{abonosList.indexOf(abo) + 1}}
-                                        </span>
-                            </td>
-                            <td>
-                                        <span class="fontsizesm">
-                                            {{abo.trn_fecha}}</span>
-                            </td>
-                            <td>
-                                        <span class="fontsizesm">
-                                            {{abo.dt_valor}}</span>
-                            </td>
-                            <td>
-                                <p class="fontsizesm" style="white-space: pre-line">
-                                    {{abo.trn_observ}}
-                                </p>
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-outline-primary" (click)="anularAbono(abo)"
-                                        title="Anular abono"><i
-                                        class="fa fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="quitaPaddingMargin p-1">
-                                <div class="d-flex flex-row-reverse">
-                                    <span class="fw-bold"> Total:</span>
-                                </div>
-                            </td>
-                            <td class="quitaPaddingMargin p-1">
-                                <span class="fw-bold">${{totalabonos}}</span>
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-md-2">
-                Monto del adelanto:
-            </div>
-            <div class="col-md-4">
-                <input type="text" id="inputMontoPagAdel" class="form-control" [disabled]="!isEnabledCreaAdelanto"
-                       [(ngModel)]="formPagoAdelantado.monto">
-            </div>
-        </div>
-    </div>
-    <div class="card-footer">
-        <button class="btn btn-outline-primary" [disabled]="!isEnabledCreaAdelanto" (click)="guardaPagoAdelantado()"><i
-                class="fa fa-save"></i> Guardar
-        </button>
-        <button class="btn btn-outline-secondary ms-2" (click)="cancelarCreaPagoAdelantado()"><i
-                class="fa fa-times"></i>
-            Cancelar
-        </button>
-    </div>
-
-
 </div>
 
 <div *ngIf="contratosPrevios.length===0 &&modotab" class="mt-2">

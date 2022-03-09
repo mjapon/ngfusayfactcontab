@@ -1,12 +1,12 @@
-import {BaseComponent} from '../../shared/base.component';
-import {Component, OnInit} from '@angular/core';
-import {CobroaguaService} from '../../../services/agua/cobroagua.service';
-import {LoadingUiService} from '../../../services/loading-ui.service';
-import {SwalService} from '../../../services/swal.service';
-import {CtesService} from '../../../services/ctes.service';
-import {Router} from '@angular/router';
-import {CtesAguapService} from './ctes-aguap.service';
-import {FechasService} from '../../../services/fechas.service';
+import { BaseComponent } from '../../shared/base.component';
+import { Component, OnInit } from '@angular/core';
+import { CobroaguaService } from '../../../services/agua/cobroagua.service';
+import { LoadingUiService } from '../../../services/loading-ui.service';
+import { SwalService } from '../../../services/swal.service';
+import { CtesService } from '../../../services/ctes.service';
+import { Router } from '@angular/router';
+import { CtesAguapService } from './ctes-aguap.service';
+import { FechasService } from '../../../services/fechas.service';
 
 @Component({
     selector: 'app-repagomavil',
@@ -107,17 +107,17 @@ export class RepagomavilComponent extends BaseComponent implements OnInit {
     anios: Array<any> = [];
     meses: Array<any> = [];
     form: any = {};
-    reporte: any = {gridfacts: {}, gridcontracts: {}};
+    reporte: any = { gridfacts: {}, gridcontracts: {} };
     isShowDetallesFactura = false;
     codFacturaSel = 0;
 
     constructor(private cobroAguaServ: CobroaguaService,
-                private swalService: SwalService,
-                private ctes: CtesService,
-                private fechasServ: FechasService,
-                private ctesAgp: CtesAguapService,
-                private router: Router,
-                private loadingServ: LoadingUiService) {
+        private swalService: SwalService,
+        private ctes: CtesService,
+        private fechasServ: FechasService,
+        private ctesAgp: CtesAguapService,
+        private router: Router,
+        private loadingServ: LoadingUiService) {
         super();
     }
 
@@ -177,8 +177,6 @@ export class RepagomavilComponent extends BaseComponent implements OnInit {
     }
 
     onFilaClick($event: any) {
-        console.log('onfila click', $event);
         alert('hola');
-
     }
 }

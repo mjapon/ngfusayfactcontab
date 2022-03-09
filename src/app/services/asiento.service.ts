@@ -105,7 +105,6 @@ export class AsientoService extends BaseService {
         const urlTomcat = this.ctes.urlTomcat;
         const queryString = Object.keys(params).map(key => key + '=' + params[key]).join('&');
         const uri = `${urlTomcat}/ComproAgua?${queryString}`;
-        console.log('Valor de uri string es:', uri);
         window.open(uri, this.ctes._blank, this.ctes.featuresOpenNewWin);
     }
 

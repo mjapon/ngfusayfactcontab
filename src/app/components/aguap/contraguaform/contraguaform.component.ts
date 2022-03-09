@@ -1,17 +1,13 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {Router} from '@angular/router';
-import {ContratoaguaService} from '../../../services/agua/contratoagua.service';
-import {FechasService} from '../../../services/fechas.service';
-import {PersonaService} from '../../../services/persona.service';
-import {SwalService} from '../../../services/swal.service';
-import {LoadingUiService} from '../../../services/loading-ui.service';
-import {DomService} from '../../../services/dom.service';
-import {BaseComponent} from '../../shared/base.component';
-import {CobroaguaService} from '../../../services/agua/cobroagua.service';
-import {AsientoService} from '../../../services/asiento.service';
-import {CtesService} from '../../../services/ctes.service';
-import {CtesAguapService} from '../utils/ctes-aguap.service';
-import {AbonoService} from '../../../services/abono.service';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
+import { ContratoaguaService } from '../../../services/agua/contratoagua.service';
+import { PersonaService } from '../../../services/persona.service';
+import { SwalService } from '../../../services/swal.service';
+import { LoadingUiService } from '../../../services/loading-ui.service';
+import { DomService } from '../../../services/dom.service';
+import { BaseComponent } from '../../shared/base.component';
+import { CtesService } from '../../../services/ctes.service';
+import { CtesAguapService } from '../utils/ctes-aguap.service';
 
 @Component({
     selector: 'app-contraguaform',
@@ -29,32 +25,20 @@ export class ContraguaformComponent extends BaseComponent implements OnInit, OnC
     teredad = 0;
     isTercedad = false;
     isRefSearched = false;
-    isShowFormPagoAdelantado = false;
-    isEnabledCreaAdelanto = false;
-    adelantos: Array<any> = [];
     validfl: Array<any> = [];
-    formPagoAdelantado: any = {};
-
-    abonosList: Array<any> = [];
-    totalabonos: number;
-    adelantosel: any = {};
 
     @Input() codref;
     @Input() modotab = false;
     isShowFormCrea = true;
 
     constructor(private router: Router,
-                private fechasService: FechasService,
-                private domService: DomService,
-                private swalService: SwalService,
-                private personService: PersonaService,
-                private loadingService: LoadingUiService,
-                private cobroAguaService: CobroaguaService,
-                private asientoService: AsientoService,
-                private ctesAgua: CtesAguapService,
-                private abonoService: AbonoService,
-                private ctes: CtesService,
-                private contraService: ContratoaguaService) {
+        private domService: DomService,
+        private swalService: SwalService,
+        private personService: PersonaService,
+        private loadingService: LoadingUiService,
+        private ctesAgua: CtesAguapService,
+        private ctes: CtesService,
+        private contraService: ContratoaguaService) {
         super();
     }
 
@@ -233,7 +217,7 @@ export class ContraguaformComponent extends BaseComponent implements OnInit, OnC
     onAnula($event: any) {
         this.swalService.fireDialog(this.ctes.msgSureWishAnulRecord, '').then(confirm => {
             if (confirm.value) {
-                this.contraService.anular({form: $event}).subscribe(res => {
+                this.contraService.anular({ form: $event }).subscribe(res => {
                     if (this.isResultOk(res)) {
                         this.swalService.fireToastSuccess(res.msg);
                         this.loadContratosRef();
@@ -247,93 +231,4 @@ export class ContraguaformComponent extends BaseComponent implements OnInit, OnC
         this.isShowFormCrea = true;
     }
 
-    showFormCreaPagoAdelantado() {
-        this.formPagoAdelantado = {};
-        this.cobroAguaService.getFormPagoAdelantado(this.codref).subscribe(res => {
-            if (this.isResultOk(res)) {
-                this.domService.setFocusTm('inputMontoPagAdel');
-                this.formPagoAdelantado = res.form;
-                this.isShowFormPagoAdelantado = true;
-                this.loadAdelantos();
-            }
-        });
-    }
-
-
-    loadAdelantos() {
-        this.adelantos = [];
-        this.isEnabledCreaAdelanto = true;
-        this.cobroAguaService.getAdelantos(this.codref).subscribe(res => {
-            if (this.isResultOk(res)) {
-                console.log('Valor de res:');
-                this.adelantos = res.adelantos;
-                console.log(this.adelantos);
-                if (this.adelantos.length > 0) {
-                    this.swalService.fireToastInfo('Ya tiene adelantos registrados');
-                    this.isEnabledCreaAdelanto = false;
-                }
-            }
-        });
-    }
-
-    loadAbonos(fila) {
-        this.adelantosel = fila;
-        this.totalabonos = 0.0;
-        this.abonosList = [];
-        this.abonoService.listaAbonosFact(fila.trn_codigo).subscribe(res => {
-            if (res.status === 200) {
-                this.abonosList = res.abonos;
-                this.totalabonos = res.total;
-            }
-        });
-    }
-
-    guardaPagoAdelantado() {
-        this.swalService.fireDialog(this.ctes.msgConfirmSave).then(confirm => {
-            if (confirm.value) {
-                this.cobroAguaService.creaPagoAdelantado(this.formPagoAdelantado).subscribe(res => {
-                    if (this.isResultOk(res)) {
-                        this.swalService.fireToastSuccess(res.msg);
-                        this.isShowFormPagoAdelantado = false;
-                    }
-                });
-            }
-        });
-    }
-
-    cancelarCreaPagoAdelantado() {
-        this.isShowFormPagoAdelantado = false;
-        this.isEnabledCreaAdelanto = true;
-    }
-
-    anularAdelanto(fila: any) {
-        this.swalService.fireDialog(this.ctes.msgSureWishAnulRecord).then(confirm => {
-            if (confirm.value) {
-                this.asientoService.anular(fila.trn_codigo, '').subscribe(res => {
-                    if (this.isResultOk(res)) {
-                        this.swalService.fireToastSuccess(res.msg);
-                        this.loadAdelantos();
-                    }
-                });
-
-            }
-        });
-    }
-
-    anularAbono(abono) {
-        const msg = '¿Confirma que desea anular este pago?';
-        if (confirm(msg)) {
-            this.cobroAguaService.anularAboPagoAdel({
-                trn_cod_abo: abono.trn_codigo_abo,
-                codabo: abono.abo_codigo,
-                obs: ''
-            }).subscribe(res => {
-                if (res.status === 200) {
-                    this.swalService.fireToastSuccess(res.msg);
-                    this.loadAbonos(this.adelantosel);
-                    this.loadAdelantos();
-                }
-            });
-        }
-    }
 }

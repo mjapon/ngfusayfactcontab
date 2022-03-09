@@ -1,7 +1,6 @@
 import {CommonModule, DatePipe, registerLocaleData} from '@angular/common';
 import {BrowserModule} from '@angular/platform-browser';
 import {LOCALE_ID, NgModule} from '@angular/core';
-
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {BlockUIModule} from 'primeng/blockui';
 import {CalendarModule} from 'primeng/calendar';
@@ -139,7 +138,8 @@ import { DatosmedidorserverComponent } from './components/aguap/datosmedidorserv
 import { AguadashComponent } from './components/aguap/aguadash.component';
 import { LecturasmedComponent } from './components/aguap/lecturasmed.component';
 import { CrealectomedsmComponent } from './components/aguap/lectomed/crealectomedsm.component';
-import { FacturaguaComponent } from './components/aguap/facturagua.component';
+import { FacturaguaComponent } from './components/aguap/facturagua/facturagua.component';
+import { AdelantosComponent } from './components/aguap/adelantos/adelantos.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -254,7 +254,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         AguadashComponent,
         LecturasmedComponent,
         CrealectomedsmComponent,
-        FacturaguaComponent
+        FacturaguaComponent,
+        AdelantosComponent
     ],
     imports: [
         CommonModule,

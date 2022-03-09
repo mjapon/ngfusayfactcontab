@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
     providedIn: 'root'
@@ -96,7 +96,6 @@ export class NumberService {
     setDectoGenInDetails(descglobal, totales, detalles) {
         //  TODO: Tomar en cuenta el valor que se calcula del iva para realizar el calculo del descuento general
         const total = totales.subtotal - totales.descuentos + totales.ivasindescg;
-        console.log('subtforiva:', total);
         if (descglobal > total) {
             descglobal = 0;
         }
@@ -108,7 +107,6 @@ export class NumberService {
         detalles.forEach(fila => {
             fila.dt_dectogen = this.round6(porcDescGlobal * ((fila.dt_cant * fila.dt_precio) - fila.dt_decto));
             this.recalcTotalFila(fila);
-            //console.log(fila);
         });
     }
 
@@ -144,10 +142,6 @@ export class NumberService {
             }
         });
 
-        // console.log('Detalles:', detalles);
-        // const recaltotal = this.round2(subtotal) - this.round2(descuentos) - this.round2(descglobal) + this.round2(ivaval);
-        // console.log('Valores:subtotal, descuentos, descglobal, ivaval, total: ', subtotal, descuentos, descglobal, ivaval, total);
-
         const totales = {
             subtotal: this.round2(subtotal),
             subtotal12: this.round2(subtotal12),
@@ -159,12 +153,11 @@ export class NumberService {
             descglobal: this.round2(descglobal),
             subtforiva: this.round2(subtforiva)
         };
-        // console.log('totales:', totales);
         return totales;
     }
 
     getIvasArray() {
-        return [{label: 'Si', value: true}, {label: 'No', value: false}];
+        return [{ label: 'Si', value: true }, { label: 'No', value: false }];
     }
 
     checkPagosPrevios(docpagos, totales, formaspago) {

@@ -144,7 +144,6 @@ export class RblistComponent extends BaseComponent implements OnInit {
     }
 
     loadform() {
-        console.log('Se manda ejecutar loadform');
         this.rbService.getForm().subscribe(res => {
             if (this.isResultOk(res)) {
                 console.log('Valor de res es:', res);

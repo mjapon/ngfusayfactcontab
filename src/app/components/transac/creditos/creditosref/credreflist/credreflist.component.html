@@ -2,7 +2,7 @@
 
     <div class="m-2 d-flex justify-content-between">
         <span class="fw-light">
-                Cuentas por {{clase === 1 ? 'cobrar' : 'pagar'}} </span>
+            Cuentas por {{clase === 1 ? 'cobrar' : 'pagar'}} </span>
 
         <button class="btn btn-outline-primary btn-sm" (click)="showFormCrea()">
             <i class="fa fa-plus-circle"></i> Crear
@@ -15,78 +15,81 @@
         <div *ngIf="creditosList.length>0" class="table-responsive">
             <table class="table table-bordered table-hover table-sm">
                 <thead>
-                <tr>
-                    <th scope="col" style="width: 5%">
+                    <tr>
+                        <th scope="col" style="width: 5%">
                             <span class="fontsizesm">
-                                #</span></th>
-                    <th scope="col">
+                                #</span>
+                        </th>
+                        <th scope="col">
                             <span class="fontsizesm">
-                                Fecha </span></th>
-                    <th scope="col"><span class="fontsizesm"> Nro factura </span></th>
-                    <th scope="col"><span class="fontsizesm"> Observación </span></th>
-                    <th scope="col"><span class="fontsizesm"> Total Crédito </span></th>
-                    <th scope="col"><span class="fontsizesm"> Saldo Pendiente </span></th>
-                    <th scope="col"></th>
-                </tr>
+                                Fecha </span>
+                        </th>
+                        <th scope="col"><span class="fontsizesm"> Nro factura </span></th>
+                        <th scope="col"><span class="fontsizesm"> Observación </span></th>
+                        <th scope="col"><span class="fontsizesm"> Total Crédito </span></th>
+                        <th scope="col"><span class="fontsizesm"> Saldo Pendiente </span></th>
+                        <th scope="col"></th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let fila of creditosList" class="hand" (click)="showDetallesCredito(fila)">
-                    <th scope="row" style="width: 5%">
+                    <tr *ngFor="let fila of creditosList" class="hand" (click)="showDetallesCredito(fila)">
+                        <th scope="row" style="width: 5%">
                             <span class="fontsizesm">
-                            {{creditosList.indexOf(fila) + 1}}
+                                {{creditosList.indexOf(fila) + 1}}
                             </span>
-                    </th>
-                    <td>
+                        </th>
+                        <td>
                             <span class="fontsizesm">
                                 {{fila.trn_fecreg}}</span>
-                    </td>
-                    <td>
+                        </td>
+                        <td>
                             <span class="fontsizesm">
                                 {{fila.trn_compro}}</span>
-                    </td>
-                    <td>
-                        <span class="fontsizesm">{{fila.trn_observ}}</span>
-                    </td>
-                    <td>
+                        </td>
+                        <td>
+                            <span class="fontsizesm">{{fila.trn_observ}}</span>
+                        </td>
+                        <td>
                             <span class="fontsizesm">
                                 {{fila.dt_valor}}</span>
-                    </td>
-                    <td>
+                        </td>
+                        <td>
                             <span class="fontsizesm">
                                 {{fila.cre_saldopen}} </span>
-                    </td>
-                    <td>
-                        <button class="btn btn-outline-secondary btn-sm">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4">
-                        <div class="d-flex flex-row-reverse">
-                            <span class="fw-bold">Total:</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div>
-                            <span class="fw-bold">{{totalescred.totalcred}}</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div>
-                            <span class="fw-bold">{{totalescred.totalsalpend}}</span>
-                        </div>
-                    </td>
-                    <td>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-secondary btn-sm">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div class="d-flex flex-row-reverse">
+                                <span class="fw-bold">Total:</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <span class="fw-bold">{{totalescred.totalcred}}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <span class="fw-bold">{{totalescred.totalsalpend}}</span>
+                            </div>
+                        </td>
+                        <td>
 
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
         <div class="card-body" *ngIf="creditosList.length===0">
             <div class="p-5 d-flex justify-content-center">
-                <h2 class="text-muted">No registra créditos</h2>
+                <h2 class="text-muted">
+                    {{clase===1?'No tiene deudas':'No hay cuentas por pagar'}}</h2>
             </div>
         </div>
     </div>
@@ -94,12 +97,12 @@
 
 <div *ngIf="isShowDetCred" class="my-2 shadow-sm">
     <app-abonosview [codCredito]="credsel.cre_codigo" [codFactura]="credsel.trn_codigo"
-                    (evDeudaChange)="onDeudasChange($event)" (evCerrar)="hideDetCredito()"></app-abonosview>
+        (evDeudaChange)="onDeudasChange($event)" (evCerrar)="hideDetCredito()"></app-abonosview>
 </div>
 
 <div *ngIf="isShowCreaCred" class="mt-2 shadow-sm">
     <app-credrefform [tipo]="clase" [codref]="codref" (evCancelar)="onCancelaCreaCred()"
-                     (evDeudaCreada)="onDeudasChange($event)">
+        (evDeudaCreada)="onDeudasChange($event)">
 
     </app-credrefform>
 </div>

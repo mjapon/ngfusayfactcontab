@@ -16,9 +16,9 @@ import { AsientoService } from "src/app/services/asiento.service";
             <app-loading></app-loading>
         </div>
         <div *ngIf="!isLoading">
-            <div class="d-flex justify-content-center my-1">
+            <div class="d-flex justify-content-center">
                 <div class="btn-group" role="group" aria-label="Small button group">
-                    <button type="button" class="btn btn-outline-primary" (click)="loadGrid()"> <i class="fas fa-sync-alt"></i> </button> 
+                    <button type="button" class="btn btn-outline-primary" (click)="loadGrid()" title="Actualizar"> <i class="fas fa-sync-alt"></i> </button> 
                     <button type="button" class="btn btn-outline-primary" (click)="showModalCrea()">Crear Lectura <span class="fa fa-plus-circle"></span></button> 
                     <button type="button" class="btn btn-outline-primary" (click)="showModalCobra()">Cobrar <span class="fa fa-money-bill"></span> </button> 
                 </div>
@@ -231,7 +231,6 @@ export class LecturasmedComponent extends BaseComponent implements OnInit {
         this.loadGrid();
         this.items = [
             { label: 'Anular Lectura', icon: 'pi pi-fw pi-trash', command: () => this.anulaLecto(this.selectedLecto) },
-            /*{ label: 'Registrar Pago', icon: 'pi pi-fw pi-money-bill', command: () => this.registrarPago(this.selectedLecto) },*/
             { label: 'Imprimir factura', icon: 'pi pi-fw pi-print', command: () => this.imprimirFactura(this.selectedLecto) },
             { label: 'Anular Pago', icon: 'pi pi-fw pi-times-circle', command: () => this.anulaPago(this.selectedLecto) },
             { label: 'Ver factura', icon: 'pi pi-fw pi-eye', command: () => this.verFactura() }
@@ -279,8 +278,8 @@ export class LecturasmedComponent extends BaseComponent implements OnInit {
                     el.marcado = true;
                 });
                 this.datoscontrato = resLecto.contrato;
-                this.updateLectoidsPagar();
                 if (resLecto.haspagospend) {
+                    this.updateLectoidsPagar();
                     this.swalService.fireToastWarn(resLecto.msg);
                     this.msgpagospend = resLecto.msg;
                     this.isModalPagosVisible = true;

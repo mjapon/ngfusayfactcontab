@@ -5,8 +5,8 @@ import { AsientoService } from "src/app/services/asiento.service";
 import { LoadingUiService } from "src/app/services/loading-ui.service";
 import { PersonaService } from "src/app/services/persona.service";
 import { SwalService } from "src/app/services/swal.service";
-import { BaseComponent } from "../shared/base.component";
-import { CtesAguapService } from "./utils/ctes-aguap.service";
+import { BaseComponent } from "../../shared/base.component";
+import { CtesAguapService } from "../utils/ctes-aguap.service";
 
 @Component({
     selector: 'app-facturagua',
@@ -58,8 +58,6 @@ export class FacturaguaComponent extends BaseComponent implements OnInit, OnChan
         const change = changes.lectoids;
         const changeCodmed = changes.codmed;
         if (change && change.currentValue) {
-            console.log('Valor de lecto id es:', change.currentValue);
-
             this.calcularPago();
         }
 
@@ -71,10 +69,11 @@ export class FacturaguaComponent extends BaseComponent implements OnInit, OnChan
     calcularPago() {
         if (this.lectoids.length > 0) {
             this.form.lecturas = this.lectoids;
-            this.montos = {}
+            this.montos = { formcab: { secuencia: 0 } };
             this.cobroAguaServ.getDatosPago(this.form.lecturas).subscribe(res => {
                 if (this.isResultOk(res)) {
                     this.montos = res.datospago;
+                    this.form.obs = this.montos.obs;
                     this.initotal = this.montos.total;
                     this.inimulta = this.montos.multa;
                 }
@@ -122,7 +121,7 @@ export class FacturaguaComponent extends BaseComponent implements OnInit, OnChan
         if (inputv && inputv >= 0) {
             multa = inputv;
         }
-        this.montos.total = (this.initotal-this.inimulta) + multa;
+        this.montos.total = (this.initotal - this.inimulta) + multa;
         let firstprop = null;
         for (let prop in this.montos.pagosdet) {
             firstprop = prop;
@@ -143,8 +142,6 @@ export class FacturaguaComponent extends BaseComponent implements OnInit, OnChan
                 this.form.lecturas = this.lectoids;
                 this.form.montos = this.montos;
                 this.form.referente = this.referente;
-                console.log('Valor de form que se envia:', this.form);
-
                 this.loadingServ.publishBlockMessage();
                 this.cobroAguaServ.crearFactura(this.form).subscribe(res => {
                     if (this.isResultOk(res)) {
