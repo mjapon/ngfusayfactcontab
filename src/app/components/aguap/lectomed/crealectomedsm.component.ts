@@ -38,13 +38,13 @@ import { CtesAguapService } from "../utils/ctes-aguap.service";
             <div class="row mt-3">
                 <div class="col-md-6">
                     <div>
-                        <label class="form-label fw-bold fontsizenr">Lectura Anterior
+                        <label class="form-label fw-bold fontsizenr">Lectura Anterior                            
                             m<sup>3</sup>:</label>
                         <input type="text" class="form-control" id="lmd_valorant"
                                 (focusin)=$event.target.select()
                                 [disabled]="previulectomed!==null"
                                 [min]="0.0"
-                                [(ngModel)]="form.lmd_valorant">
+                                [(ngModel)]="form.label_valorant">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -138,10 +138,12 @@ export class CrealectomedsmComponent extends BaseComponent implements OnInit {
 
     loadPrevious() {
         this.form.lmd_valorant = 0;
+        this.form.label_valorant = '';
         this.previuslectomed = {};
         this.lectomedService.getBack(this.form.mdg_id, this.form.lmd_anio, this.form.lmd_mes).subscribe(res => {
             if (this.isResultOk(res)) {
                 this.previuslectomed = res.lectomed;
+                this.form.label_valorant = this.previuslectomed.mes_nombre + ': ' + this.previuslectomed.lmd_valor
                 this.form.lmd_valorant = this.previuslectomed.lmd_valor;
                 this.calculaConsumo();
             }
