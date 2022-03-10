@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {SwalService} from '../../../services/swal.service';
-import {UsertokenService} from '../../../services/usertoken.service';
+import { Component, OnInit } from '@angular/core';
+
+import { Router } from '@angular/router';
+import { SwalService } from '../../../services/swal.service';
+import { UsertokenService } from '../../../services/usertoken.service';
 
 @Component({
     selector: 'app-userlist',
@@ -10,13 +11,12 @@ import {UsertokenService} from '../../../services/usertoken.service';
 export class UserlistComponent implements OnInit {
     grid: any = {};
     selectedItem: any;
-
-    enableBtns: boolean;
+    isShowModal = false;
+    formCambioClave: any = {};
 
     constructor(private router: Router,
-                private route: ActivatedRoute,
-                private swalService: SwalService,
-                private fautService: UsertokenService) {
+        private swalService: SwalService,
+        private fautService: UsertokenService) {
     }
 
     ngOnInit(): void {
@@ -27,16 +27,34 @@ export class UserlistComponent implements OnInit {
         this.router.navigate(['usuarios', 'form', 0]);
     }
 
-    onRowSelect(event) {
-        this.enableBtns = true;
+    cambiarEstado(rowData) {
+        let newState = 1;
+        let newStateMsg = 'inactivar';
+        if (rowData.us_estado === 1) {
+            newState = 0;
+            newStateMsg = 'activar';
+        }
+
+        let msg = `¿Seguro que desea ${newStateMsg} este usuario?`
+        this.swalService.fireDialog(msg).then(confirm => {
+            if (confirm.value) {
+                this.fautService.cambiarEstado({ user: rowData.us_id, state: newState }).subscribe(res => {
+                    if (res.status === 200 && res.resultado === 1) {
+                        this.loadGrid();
+                        this.swalService.fireSuccess(res.msg);
+                    }
+                });
+            }
+        });
     }
 
-    onUnRowSelect(event) {
-        this.enableBtns = false;
-    }
-
-    anularRow(rowData) {
-        this.swalService.fireToastInfo('Logica anulacion de usuario no implementado');
+    cambiarClave(rowData) {
+        this.formCambioClave = {
+            us_id: rowData.us_id,
+            us_clave: '',
+            us_confirmclave: ''
+        };
+        this.isShowModal = true;
     }
 
     loadGrid() {
@@ -47,6 +65,36 @@ export class UserlistComponent implements OnInit {
 
     editarRow(rowData) {
         this.router.navigate(['usuarios', 'form', rowData.us_id]);
+    }
+
+    guardarCambioClave() {
+        if (this.formCambioClave.us_clave.trim().length > 0
+            && this.formCambioClave.us_confirmclave.trim().length > 0) {
+            this.swalService.fireDialog('¿Seguro que desea realizar el cambio de clave?').then(
+                confirm => {
+                    if (confirm.value) {
+                        this.fautService.cambiarClave(this.formCambioClave).subscribe(res => {
+                            if (res.status === 200) {
+                                if (res.res === 1) {
+                                    this.swalService.fireSuccess(res.msg);
+                                }
+                                else {
+                                    this.swalService.fireError(res.msg);
+                                }
+                                this.isShowModal = false;
+                            }
+                        });
+                    }
+                }
+            )
+        }
+        else {
+            this.swalService.fireError('Debe ingresar las claves')
+        }
+    }
+
+    cancelarCambioClave() {
+        this.isShowModal = false;
     }
 
 }

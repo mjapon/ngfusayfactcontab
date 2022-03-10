@@ -17,11 +17,7 @@
 <hr>
 
 <p-table [value]="grid.data" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
-         (onRowSelect)="onRowSelect($event)"
-         [autoLayout]="true"
-         [resizableColumns]="true"
-         [(contextMenuSelection)]="selectedItem"
-         (onRowUnselect)="onUnRowSelect($event)">
+    [autoLayout]="true" [resizableColumns]="true" [(contextMenuSelection)]="selectedItem">
     <ng-template pTemplate="header">
         <tr>
             <th *ngFor="let item of grid.cols" [pSortableColumn]="item.field" [ngSwitch]="item.field">
@@ -39,17 +35,20 @@
                 {{rowData[item['field']]}}
             </td>
             <td>
-                <button class="btn btn-sm btn-outline-dark" style="margin-right: 5px" (click)="anularRow(rowData)"
-                        title="Anular">
-                    <i class="fas fa-trash"></i>
+                <button class="btn btn-sm btn-outline-dark" style="margin-right: 5px" (click)="cambiarEstado(rowData)"
+                    title="{{rowData.us_estado===0?'Desactivar':'Activar'}}">
+                    <i class="fas {{rowData.us_estado===0?'fa-trash':'fa-toggle-on'}}"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-dark" (click)="editarRow(rowData)" title="Editar">
+                <button class="btn btn-sm btn-outline-dark" (click)="editarRow(rowData)"
+                    title="Editar Roles del sistema">
                     <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-dark" title="Cambiar clave" (click)="cambiarClave(rowData)">
+                    <i class="fas fa-key"></i>
                 </button>
             </td>
         </tr>
     </ng-template>
-
     <ng-template pTemplate="emptymessage" let-columns>
         <tr>
             <td [attr.colspan]="grid?.cols?.length+1">
@@ -58,3 +57,33 @@
         </tr>
     </ng-template>
 </p-table>
+
+<div *ngIf="isShowModal">
+    <p-dialog header="Realizar cambio de clave" [modal]="true" [style]="{width: '50vw'}" [closeOnEscape]="true"
+        [autoZIndex]="false" [(visible)]="isShowModal">
+        <div class="m-3">
+            <div class="mb-3">
+                <label for="numCelInput">
+                    <span class="required">*</span>
+                    Nueva Clave:</label>
+                <input type="password" class="form-control " id="usClaveInput" maxlength="15" name="us_clave"
+                    [(ngModel)]="formCambioClave.us_clave" placeholder="" autocomplete="off">
+            </div>
+            <div class="mb-3">
+                <label for="numCelInput">
+                    <span class="required">*</span>
+                    Confirma clave:</label>
+                <input type="password" class="form-control " id="usConfirmClaveInput" maxlength="15"
+                    name="us_confirmclave" [(ngModel)]="formCambioClave.us_confirmclave" placeholder=""
+                    autocomplete="off">
+            </div>
+
+            <div class="mt-2 d-flex justify-content-around">
+                <button class="btn btn-outline-primary" (click)="guardarCambioClave()">
+                    <span class="fa fa-save"></span> Guardar </button>
+                <button class="btn btn-outline-secondary" (click)="cancelarCambioClave()"> <span
+                        class="fa fa-times"></span> Cancelar </button>
+            </div>
+        </div>
+    </p-dialog>
+</div>
