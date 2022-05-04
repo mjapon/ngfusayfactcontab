@@ -30,6 +30,14 @@ import { FechasService } from '../../../services/fechas.service';
                                             [monthNavigator]="true" [yearNavigator]="true"
                                             yearRange="1900:2100"
                                             dateFormat="dd/mm/yy"></p-calendar>
+
+                                <p-calendar [(ngModel)]="form.fecha_hasta"
+                                            [showIcon]="false"
+                                            class="ms-2 p-inputtext-sm"
+                                            inputId="trn_fecha_hasta"
+                                            [monthNavigator]="true" [yearNavigator]="true"
+                                            yearRange="1900:2100"
+                                            dateFormat="dd/mm/yy"></p-calendar>
                                 <!--
                                 <p-dropdown [options]="anios" [(ngModel)]="form.pgm_anio"
                                             optionValue="value"
@@ -134,6 +142,7 @@ export class RepagomavilComponent extends BaseComponent implements OnInit {
                 this.anios = res.form.anios;
                 this.meses = res.form.meses;
                 this.form.fecha = this.fechasServ.parseString(res.form.form.fecha);
+                this.form.fecha_hasta = this.fechasServ.parseString(res.form.form.fecha_hasta);
                 this.loadReporte();
             }
         });
@@ -142,6 +151,7 @@ export class RepagomavilComponent extends BaseComponent implements OnInit {
     loadReporte() {
         this.loadingServ.publishBlockMessage();
         this.form.fechaobj = this.fechasServ.formatDate(this.form.fecha);
+        this.form.fechaobjhasta = this.fechasServ.formatDate(this.form.fecha_hasta);
         this.cobroAguaServ.getReportePagoMavil(this.form).subscribe(res => {
             if (this.isResultOk(res)) {
                 this.reporte = res.reporte;

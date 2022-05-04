@@ -1,10 +1,10 @@
-import {BaseService} from './base-service';
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {LocalStorageService} from './local-storage.service';
-import {FautService} from './faut.service';
-import {environment} from '../../environments/environment';
-import {CtesService} from './ctes.service';
+import { BaseService } from './base-service';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { LocalStorageService } from './local-storage.service';
+import { FautService } from './faut.service';
+import { environment } from '../../environments/environment';
+import { CtesService } from './ctes.service';
 
 @Injectable({
     providedIn: 'root'
@@ -22,11 +22,11 @@ export class RxdocsService extends BaseService {
     }
 
     getForm(pacId: number, tipo: number) {
-        return this._doGetAction(this.ctes.form, {pac_id: pacId, tipo});
+        return this._doGetAction(this.ctes.form, { pac_id: pacId, tipo });
     }
 
     listar(pacId: number, tipo: number) {
-        return this._doGetAction(this.ctes.listar, {pac_id: pacId, tipo});
+        return this._doGetAction(this.ctes.listar, { pac_id: pacId, tipo });
     }
 
     crear(form: any) {
@@ -39,12 +39,22 @@ export class RxdocsService extends BaseService {
         return `${burl}/getrxdoc/${sqm}/${doc.rxd_id}/${doc.rxd_filename}`;
     }
 
+    getDownloadAdjUrlNode(doc: any) {
+        const sqm = this.fautService.getEsquema();
+        const burl = this.baseUrlDwFileNode;
+        return `${burl}/getatach/${sqm}/${doc.pgc_adj}/${doc.adj_filename}`;
+    }
+
     eliminar(codoc: any) {
-        return this._doPostAction(this.ctes.borrar, {cod: codoc});
+        return this._doPostAction(this.ctes.borrar, { cod: codoc });
     }
 
     editar(form: any) {
         return this._doPostAction(this.ctes.editar, form);
+    }
+
+    openWindows(url){
+        window.open(url, '_blank', 'toolbar=yes,scrollb ars=yes,resizable=yes,top=50,left=100,width=800,height=600');
     }
 
 }

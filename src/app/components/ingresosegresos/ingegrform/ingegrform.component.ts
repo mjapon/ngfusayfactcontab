@@ -93,7 +93,7 @@ export class IngegrformComponent implements OnInit {
                 let filetopost = null;
                 if (this.datafile && this.base64data) {
                     filetopost = {
-                        rxd_filename: this.datafile.name,
+                        adj_filename: this.datafile.name,
                         archivo: this.base64data
                     };
                 }
@@ -171,7 +171,7 @@ export class IngegrformComponent implements OnInit {
             };
         } else {
             this.clearFile();
-            this.swalService.fireError('Este tipo de archivo no esta admitido');
+            this.swalService.fireError(this.ctes.msgTipoArchivoNoAdm);
         }
     }
 
@@ -182,7 +182,7 @@ export class IngegrformComponent implements OnInit {
             const length = (this.datafile.size / 1024) / 1024;
             if (length > 10) {
                 this.clearFile();
-                this.swalService.fireError('El tamaño del archivo es muy grande, elija otro (Tamaño máximo 10MB)');
+                this.swalService.fireError(this.ctes.msgTamanioArchivo);
             } else {
                 this.processFile();
             }

@@ -1,0 +1,404 @@
+<div>
+    <h5>Tabla de pagos</h5>
+
+    <div *ngIf="isLoading">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="!isLoading">
+        <div class="my-3">
+            <div class="row">
+                <div class="col-md">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="d-flex">
+                                <div class="fw-light">
+                                    Total Crédito:
+                                </div>
+                                <div class="fw-bold ms-3">
+                                    $ {{datoscred.cre_monto}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="d-flex">
+                                <div class="fw-light">
+                                    Saldo Pendiente:
+                                </div>
+                                <div class="fw-bold ms-3">
+                                    $ {{datoscred.cre_saldopend}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="d-flex">
+                                <div class="fw-light">
+                                    Num Cuotas Pendientes:
+                                </div>
+                                <div class="fw-bold ms-3">
+                                    {{datoscred.cre_plazo - gridpagos.ncuotaspag}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="d-flex">
+                                <div class="fw-light">
+                                    Num Cuotas Pagadas:
+                                </div>
+                                <div class="fw-bold ms-3">
+                                    {{gridpagos.ncuotaspag}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md d-flex justify-content-end">
+                    <div class="d-grid">
+                        <button class="btn btn-outline-primary"
+                            [disabled]="selectedCuotas.length ==0 || (datoscred.cre_estado!==2 && datoscred.cre_estado!==3)"
+                            (click)="showModalCobrar()" *ngIf="puedeCambiarPagos">
+                            Cobrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <p-table [value]="gridpagos.tabla" responsiveLayout="scroll" [responsive]="true" [resizableColumns]="true"
+                [(selection)]="selectedCuotas" [rowSelectable]="isRowSelectable">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th *ngFor="let item of gridpagos.cols" [pSortableColumn]="item.field" [ngSwitch]="item.field"
+                            [width]="item.width">
+                            <span>{{item.label}}</span>
+                            <p-sortIcon [field]="item.field"></p-sortIcon>
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData>
+                    <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
+                        <td *ngFor="let item of gridpagos.cols" [width]="item.width">
+                            <span class="p-column-title">{{item.label}}</span>
+                            <span>{{rowData[item.field]}}</span>
+                        </td>
+                        <td>
+                            <div *ngIf="rowData.pg_id==0 && rowData.enablepago && puedeCambiarPagos">
+                                <p-tableCheckbox [pSelectableRow]="rowData" [value]="rowData"></p-tableCheckbox>
+                            </div>
+                            <div *ngIf="rowData.pg_id>0 && puedeCambiarPagos">
+                                <button class="btn btn-sm btn-outline-danger" (click)="anularPago(rowData)"> <span
+                                        class="fa fa-trash"></span> </button>
+
+                                <button class="btn btn-sm btn-outline-primary" (click)="showModalDatosPago(rowData)">
+                                    <span class="fa fa-eye"></span> </button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                    <tr>
+                        <td [attr.colspan]="gridpagos.cols?.length+2">
+                            <span class="fw-normal">No hay registros</span>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+    <div *ngIf="isModalDatosPagoVisible">
+        <p-dialog header="Detalles del pago" [modal]="true" [style]="{width: '85vw'}" [closeOnEscape]="true"
+            [autoZIndex]="false" [(visible)]="isModalDatosPagoVisible">
+            <div>
+                <div class="row">
+                    <div class="col-md">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <span class="fw-bold">Fecha del Pago:</span>
+                            </div>
+                            <div class="col-md">
+                                {{datosPago.pgc_fechacrea}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <span class="fw-bold">Registrado por:</span>
+                            </div>
+                            <div class="col-md">
+                                {{datosPago.user}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <span class="fw-bold">Monto Total:</span>
+                            </div>
+                            <div class="col-md">
+                                <span class="fw-bold">{{datosPago.pgc_total}}</span>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <span class="fw-bold">Saldo Pendiente:</span>
+                            </div>
+                            <div class="col-md">
+                                <span class="fw-bold">{{datosPago.pgc_saldopend}}</span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <span class="fw-bold">Abono Capital:</span>
+                            </div>
+                            <div class="col-md">
+                                {{datosPago.pgc_adelanto}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <span class="fw-light">Capital:</span>
+                            </div>
+                            <div class="col-md">
+                                {{datosPago.pgc_total_capital}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <span class="fw-light">Interés:</span>
+                            </div>
+                            <div class="col-md">
+                                {{datosPago.pgc_total_interes}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <span class="fw-bold">Mora:</span>
+                            </div>
+                            <div class="col-md">
+                                {{datosPago.pgc_total_intmora}}
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <span class="fw-bold">Observación:</span>
+                            </div>
+                            <div class="col-md">
+                                {{datosPago.pgc_obs}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <span class="fw-bold"> Adjunto: </span>
+                    </div>
+                    <div class="col-md">
+                        <div *ngIf="datosPago.pgc_adj>0">
+                            <span> <i class="fas fa-paperclip"></i> {{datosPago.adj_filename}}
+                            </span>
+                            <button class="btn btn-outline-secondary btn-sm ms-3" (click)="showAdjunto()"> Ver
+                            </button>
+                        </div>
+                        <span class="text-muted" *ngIf="!datosPago.pgc_adj>0"> Sin adjunto </span>
+                    </div>
+                </div>
+
+
+                <div class="mt-5 d-flex justify-content-end">
+                    <button class="btn btn-outline-secondary" (click)="cerrarModalDatosPago()"> <span
+                            class="fa fa-times"></span>
+                        Cerrar </button>
+                </div>
+
+            </div>
+        </p-dialog>
+    </div>
+
+    <div *ngIf="isModalAnulaVisible">
+        <p-dialog header="Anular pago registrado" [modal]="true" [style]="{width: '70vw'}" [closeOnEscape]="true"
+            [autoZIndex]="false" [(visible)]="isModalAnulaVisible">
+            <div>
+                <div>
+                    Se anularan todas las cuotas registradas en este pago
+                </div>
+                <div class="d-flex flex-column mt-2">
+                    <div class="fw-bold">Observación:</div>
+                    <textarea class="form-control" [(ngModel)]="formanul.obs" rows="4" autocomplete="off"
+                        placeholder="Ingrese una observación sobre la anulación del pago" id="obs"></textarea>
+                </div>
+                <div class="mt-3 d-flex justify-content-around">
+                    <button class="btn btn-outline-primary" (click)="guardaAnularPago()"> <span
+                            class="fa fa-save"></span>
+                        Anular Pago </button>
+                    <button class="btn btn-outline-secondary" (click)="cancelAnulaPago()"> <span
+                            class="fa fa-times"></span>
+                        Cancelar </button>
+                </div>
+            </div>
+        </p-dialog>
+    </div>
+
+    <div *ngIf="isModalPagosVisible">
+        <p-dialog header="Registrar pago crédito" [modal]="true" [style]="{width: '70vw'}" [closeOnEscape]="true"
+            [autoZIndex]="false" [(visible)]="isModalPagosVisible">
+            <div>
+
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 5%">
+                                <span class="fw-bold">
+                                    #
+                                </span>
+                            </th>
+                            <th scope="col">
+                                <span class="fw-bold">
+                                    Fecha pago </span>
+                            </th>
+                            <th scope="col"><span class="fw-bold"> Capital </span></th>
+                            <th scope="col"><span class="fw-bold"> Interes </span></th>
+                            <th scope="col"><span class="fw-bold"> Mora </span></th>
+                            <th scope="col"><span class="fw-bold"> Total </span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let fila of formcobro.cuotaspagar" class="hand">
+                            <th scope="row" style="width: 5%">
+                                <span>
+                                    {{fila.pg_npago}}
+                                </span>
+                            </th>
+                            <td>
+                                <span>
+                                    {{fila.pg_fecpagocalc}}
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                    {{fila.pg_capital}}
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                    {{fila.pg_interes}}
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                    {{fila.pg_mora}}
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                    {{fila.pg_total}}
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="mt-2">
+
+                    <div class="row my-2">
+                        <div class="col d-flex flex-row-reverse">
+                            <div class="field-checkbox hand">
+                                <p-checkbox [(ngModel)]="showInputAbono" [binary]="true" inputId="binary" class="me-2">
+                                </p-checkbox>
+                                <label for="binary" class="hand">Abono de capital</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="showInputAbono">
+                        <div class="col-md-3">
+                            <span class="fw-bold"> Abono Capital: </span>
+                        </div>
+                        <div class="col-md">
+                            <input type="text" class="form-control" placeholder="" [(ngModel)]="formcobro.pgc_adelanto"
+                                (keyup)="onAbonoCapitalChange()">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="fw-bold"> Pago Total: </span>
+                        </div>
+                        <div class="col-md">
+                            <input type="text" class="form-control" placeholder="" [(ngModel)]="formcobro.pgc_total">
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="fw-bold"> Cuenta Afectada: </span>
+                        </div>
+                        <div class="col-md">
+                            <p-dropdown [options]="formcobro.cta_pagos" id="cre_prod" [(ngModel)]="ctapagosel"
+                                (onChange)="oncuentachange($event)" filter="false" optionLabel="ic_nombre"
+                                inputId="ic_code"></p-dropdown>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="fw-bold"> Comprobante: </span>
+                        </div>
+                        <div class="col-md d-flex">
+
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" id="archivoinput"
+                                        accept="image/*,application/pdf, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                        class="form-control" (change)="onFileChange($event)" />
+                                </div>
+                                <div class="input-group-append" *ngIf="filepreview">
+                                    <button class="btn btn-outline-secondary" type="button" (click)="clearFile()">
+                                        <span class="fa fa-times"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-1" *ngIf="filepreview && adjisimage">
+                        <img [src]="filepreview" class="img-responsive" *ngIf="filepreview" width="260px"
+                            height="270px" />
+                    </div>
+
+                    <div class="d-flex flex-column mt-2">
+                        <div class="fw-bold">Observación:</div>
+                        <textarea class="form-control" [(ngModel)]="formcobro.pgc_obs" rows="4" autocomplete="off"
+                            placeholder="Ingrese una observación sobre el pago" id="pgc_obs"></textarea>
+                    </div>
+
+                </div>
+            </div>
+            <div class="mt-3 d-flex justify-content-around">
+                <button class="btn btn-outline-primary" (click)="guardarPago()"> <span class="fa fa-save"></span>
+                    Guardar </button>
+                <button class="btn btn-outline-secondary" (click)="cancelPago()"> <span class="fa fa-times"></span>
+                    Cancelar </button>
+            </div>
+        </p-dialog>
+    </div>
+</div>

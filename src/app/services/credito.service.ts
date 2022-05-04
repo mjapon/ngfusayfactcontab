@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {BaseService} from './base-service';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
+import { FautService } from './faut.service';
+import { CtesService } from './ctes.service';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +11,7 @@ import {LocalStorageService} from './local-storage.service';
 export class CreditoService extends BaseService {
     constructor(
         protected http: HttpClient,
-        protected localStrgServ: LocalStorageService
+        protected localStrgServ: LocalStorageService        
     ) {
         super('/tasicredito', localStrgServ, http);
     }
@@ -32,5 +34,6 @@ export class CreditoService extends BaseService {
 
     guardaCredRef(form: any) {
         return this._doPost(this.getHOT({accion: 'crea'}), form);
-    }
+    }    
+
 }
