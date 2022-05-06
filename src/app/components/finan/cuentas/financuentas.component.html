@@ -1,0 +1,95 @@
+<div>
+    <div *ngIf="isLoading">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="!isLoading">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-2">
+                    <h3 class="card-title">Apertura de cuenta</h3>
+                    <hr>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10">
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span>Socio:</span>
+                            </div>
+                            <div class="col-md d-flex">
+
+                                <div style="width: 100%">
+                                    <app-buscaref [form]="formautoref" (evOnEnterRef)="onEnterRef($event)"
+                                        [showlugres]="false" [stylevalidinvalid]="false" (evOnSelectRef)="onRefSelect()"
+                                        (evOnClearRef)="onClearRef()">
+                                    </app-buscaref>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="referente.per_id>0">                            
+                            <div class="row my-2">
+                                <div class="col-md-3">
+                                    <span>CI/RUC:</span>
+                                </div>
+                                <div class="col-md">
+                                    <span>{{referente.per_ciruc}}</span>
+                                </div>
+                            </div>
+                            <div class="row my-2">
+                                <div class="col-md-3">
+                                    <span>Dirección:</span>
+                                </div>
+                                <div class="col-md">
+                                    <span>{{referente.per_direccion}}</span>
+                                </div>
+                            </div>
+                            <div class="row my-2">
+                                <div class="col-md-3">
+                                    <span>Celular:</span>
+                                </div>
+                                <div class="col-md">
+                                    <span>{{referente.per_movil}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div *ngIf="referente.per_id>0" class="mb-4">
+                            <div class="row mt-2">
+                                <div class="col-md-3">
+                                    <span>Tipo de cuenta:</span>
+                                </div>
+                                <div class="col-md">
+                                    <p-dropdown [options]="tiposcuentas" id="tc_id" [(ngModel)]="tipoctasel"
+                                        (onChange)="ontipoctasel($event)" filter="false" optionLabel="tc_nombre"
+                                        inputId="tc_id"></p-dropdown>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-3">
+                                    <span>Nro Cuenta:</span>
+                                </div>
+                                <div class="col-md">
+                                    <span> {{form.max_cue_id}} </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 d-flex justify-content-around">
+                            <button class="btn btn-outline-primary" type="button" *ngIf="referente.per_id>0"
+                                (click)="guardar()">
+                                <span class="fa fa-save"></span> Guardar
+                            </button>
+                            <button class="btn btn-outline-secondary" type="button" (click)="cancelar()">
+                                <span class="fa fa-times"></span> Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

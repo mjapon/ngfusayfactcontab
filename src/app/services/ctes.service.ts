@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {environment} from 'src/environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -31,6 +31,7 @@ export class CtesService {
     protected Buscaporidfull = 'buscaporidfull';
     protected Buscatipo = 'buscatipo';
     protected Changesec = 'changesec';
+    protected Chgstate = 'chgstate';
     protected CodbarraInput = 'codbarraInput';
     protected Confirmar = 'confirmar';
     protected Conspend = 'conspend';
@@ -70,6 +71,7 @@ export class CtesService {
     protected Gcuentafacts = 'gcuentafacts';
     protected Gdetctacontable = 'gdetctacontable';
     protected Gdetdoc = 'gdetdoc';
+    protected Gdetcred = 'gdetcred';
     protected Getasientos = 'getasientos';
     protected Getbalancegeneral = 'getbalancegeneral';
     protected Getcuentasbytipo = 'getcuentasbytipo';
@@ -112,6 +114,8 @@ export class CtesService {
     protected MsgDataIncompleteRef = 'Datos incompletos del referente, favor completar';
     protected MsgDatosIncorr = 'Datos Incorrectos';
     protected MsgEditingFact = 'Editando comprobante';
+    protected MsgTipoArchivoNoAdm = 'Este tipo de archivo no esta admitido';
+    protected MsgTamanioArchivo = 'El tamaño del archivo es muy grande, elija otro (Tamaño máximo 10MB)';
     protected MsgEnterCatName = 'Ingrese el nombre de la categoría';
     protected MsgFactIsCredMustEnterRef = 'Factura a crédito, se debe especificar el referente';
     protected MsgMontoIncVerif = 'Monto incorrecto, favor verificar';
@@ -154,6 +158,7 @@ export class CtesService {
     protected Setseccion = 'setseccion';
     protected Servticktes = 'servticktes';
     protected Stock = 'stock';
+    protected TablaAmor = 'tblamor';
     protected Trncoded = 'trncoded';
     protected True = 'true';
     protected Updatecode = 'updatecode';
@@ -278,6 +283,10 @@ export class CtesService {
 
     get changesec() {
         return this.Changesec;
+    }
+
+    get chgstate() {
+        return this.Chgstate;
     }
 
     get codbarraInput() {
@@ -418,6 +427,10 @@ export class CtesService {
 
     get gdetdoc() {
         return this.Gdetdoc;
+    }
+
+    get gdetcred() {
+        return this.Gdetcred;
     }
 
     get getasientos() {
@@ -572,8 +585,16 @@ export class CtesService {
         return this.MsgDatosIncorr;
     }
 
+    get msgTamanioArchivo() {
+        return this.MsgTamanioArchivo;
+    }
+
     get msgEditingFact() {
         return this.MsgEditingFact;
+    }
+
+    get msgTipoArchivoNoAdm(){
+        return this.MsgTipoArchivoNoAdm
     }
 
     get msgEnterCatName() {
@@ -747,6 +768,10 @@ export class CtesService {
 
     get stock() {
         return this.Stock;
+    }
+
+    get tablaAmor() {
+        return this.TablaAmor;
     }
 
     get trncoded() {

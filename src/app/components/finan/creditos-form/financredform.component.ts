@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { DomService } from "src/app/services/dom.service";
 import { FinanCreditosService } from "src/app/services/finan/finacreditos.service";
+import { FinanCuentasService } from "src/app/services/finan/finacuentas.service";
 import { PersonaService } from "src/app/services/persona.service";
 import { SwalService } from "src/app/services/swal.service";
 import { convertTypeAcquisitionFromJson } from "typescript";
@@ -19,7 +20,7 @@ export class FinanCredFormComponent extends BaseComponent implements OnInit {
     prodsel: any = {};
     datostabla: any = {};
     isLoadingTabla = false;
-
+    datoscuenta: any = {};
     formautoref: any = {};
 
     constructor(private credSerice: FinanCreditosService,
@@ -27,6 +28,7 @@ export class FinanCredFormComponent extends BaseComponent implements OnInit {
         private personService: PersonaService,
         private domService: DomService,
         private swalService: SwalService,
+        private cuentasService: FinanCuentasService,
         private router: Router) {
         super();
     }
@@ -34,6 +36,21 @@ export class FinanCredFormComponent extends BaseComponent implements OnInit {
     ngOnInit() {
         this.loadForm();
         this.domService.setFocusTm('per_ciruc');
+    }
+
+    loadDatosCuenta() {
+        this.datoscuenta = {};
+        this.cuentasService.getDatosCuenta(this.form.per_id, 1).subscribe(res => {
+            if (this.isResultOk(res)) {
+                if (res.existe) {
+                    this.datoscuenta = res.datoscuenta;
+                }
+                else {
+                    this.swalService.fireError('No tiene una cuenta aperturada, verifique')
+                    this.datoscuenta = {};
+                }
+            }
+        });
     }
 
     onprodchange(event: any) {
@@ -49,6 +66,8 @@ export class FinanCredFormComponent extends BaseComponent implements OnInit {
                 this.referente = res.persona;
                 this.form.per_id = this.referente.per_id;
                 this.domService.setFocusTm('cre_monto');
+
+                this.loadDatosCuenta();
             }
             else {
                 this.swalService.fireError(msg);
@@ -104,7 +123,6 @@ export class FinanCredFormComponent extends BaseComponent implements OnInit {
         this.gotoHome();
     }
 
-
     onEnterRef($ev) {
 
     }
@@ -117,9 +135,9 @@ export class FinanCredFormComponent extends BaseComponent implements OnInit {
     }
 
     onClearRef() {
-        console.log('on clear ref-->');
         this.ngOnInit();
         this.referente = {};
+        this.datoscuenta = {};
     }
 
 }

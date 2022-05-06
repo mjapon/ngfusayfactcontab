@@ -11,6 +11,7 @@ import { CtesService } from './ctes.service';
 })
 export class RxdocsService extends BaseService {
     private baseUrlDwFileNode = environment.baseUrlDwfileNode;
+    private baseTomcat = environment.tomcat;
 
     constructor(
         protected http: HttpClient,
@@ -35,14 +36,14 @@ export class RxdocsService extends BaseService {
 
     getDownloadUrlNode(doc: any) {
         const sqm = this.fautService.getEsquema();
-        const burl = this.baseUrlDwFileNode;
-        return `${burl}/getrxdoc/${sqm}/${doc.rxd_id}/${doc.rxd_filename}`;
+        const burl = this.baseTomcat;
+        return `${burl}/GetAttach?sqm=${sqm}&cod=${doc.rxd_id}&tipo=rxd`;
     }
 
     getDownloadAdjUrlNode(doc: any) {
         const sqm = this.fautService.getEsquema();
-        const burl = this.baseUrlDwFileNode;
-        return `${burl}/getatach/${sqm}/${doc.pgc_adj}/${doc.adj_filename}`;
+        const burl = this.baseTomcat;
+        return `${burl}/GetAttach?sqm=${sqm}&cod=${doc.pgc_adj}&tipo=adj`;
     }
 
     eliminar(codoc: any) {
@@ -53,7 +54,7 @@ export class RxdocsService extends BaseService {
         return this._doPostAction(this.ctes.editar, form);
     }
 
-    openWindows(url){
+    openWindows(url) {
         window.open(url, '_blank', 'toolbar=yes,scrollb ars=yes,resizable=yes,top=50,left=100,width=800,height=600');
     }
 

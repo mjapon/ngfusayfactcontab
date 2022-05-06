@@ -44,9 +44,15 @@ import { BasepreciosComponent } from './components/shared/baseprecios.component'
 import { AgpReporteLecturasComponent } from './components/aguap/reportes/lecturasagua.component';
 import { AgpReportePagosComponent } from './components/aguap/reportes/pagosagua.component';
 import { AguaMainComponent } from './components/aguap/main/agua-main.component';
+import { CtesFinanService } from './components/finan/ctesfina.service';
+import { FinanCredListComponent } from './components/finan/creditos/financredlist.component';
+import { FinanCredFormComponent } from './components/finan/creditos-form/financredform.component';
+import { FinanCredDetComponent } from './components/finan/creditos-det/financreddet.component';
+import { FinanCuentasComponent } from './components/finan/cuentas/financuentas.component';
 // import {AdminGuard} from './guards/admin/admin.guard';
 
 const aguapmod: CtesAguapService = new CtesAguapService();
+const finamod: CtesFinanService = new CtesFinanService();
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -104,8 +110,11 @@ const routes: Routes = [
     { path: aguapmod.rutaPagoMavil, component: RepagomavilComponent },
     { path: aguapmod.rutaReporteLecturas, component: AgpReporteLecturasComponent },
     { path: aguapmod.rutaReportePagos, component: AgpReportePagosComponent },
-    { path: '**', component: HomeComponent }
-];
+    { path: finamod.rutaHome, component: FinanCredListComponent },
+    { path: finamod.rutaCreaCred, component: FinanCredFormComponent },
+    { path: finamod.rutaDetCred, component: FinanCredDetComponent },
+    { path: finamod.rutaAperturaCta, component: FinanCuentasComponent },
+    { path: '**', component: HomeComponent }];
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
