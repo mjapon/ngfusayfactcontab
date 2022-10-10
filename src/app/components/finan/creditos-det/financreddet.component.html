@@ -49,8 +49,14 @@
                                                 <span class="fw-normal fontsizenr labelcred"> Fecha Registro </span>
                                                 <span class="fw-bold fontsizenr"> {{datoscred.cre_fechacrea}}
                                                 </span>
-
                                             </div>
+
+                                            <div class=" mt-1">
+                                                <span class="fw-normal fontsizenr labelcred"> Fecha Préstamo </span>
+                                                <span class="fw-bold fontsizenr"> {{datoscred.cre_fecprestamo}}
+                                                </span>
+                                            </div>
+
                                             <div class="mt-1">
                                                 <span class="fw-normal fontsizenr labelcred"> Monto Solicitado ($)
                                                 </span>
@@ -80,6 +86,11 @@
                                             <div class="mt-1">
                                                 <span class="fw-normal fontsizenr labelcred"> Interes Calculado </span>
                                                 <span class="fw-bold fontsizenr"> {{datoscred.cre_totalint}} </span>
+                                            </div>
+
+                                            <div class="mt-1">
+                                                <span class="fw-normal fontsizenr labelcred"> Total Seguro </span>
+                                                <span class="fw-bold fontsizenr"> {{datoscred.cre_totalseguro}} </span>
                                             </div>
                                         </div>
 
@@ -184,7 +195,7 @@
                                         <span class="fa fa-trash"></span> Anular
                                     </button>
                                     <button class="btn btn-outline-primary" (click)="imprimir()">
-                                        <span class="fa fa-print"></span> Tabla 
+                                        <span class="fa fa-print"></span> Tabla
                                     </button>
                                     <button class="btn btn-outline-primary" (click)="imprimirPagare()"
                                         *ngIf="datoscred.cre_estado===2">

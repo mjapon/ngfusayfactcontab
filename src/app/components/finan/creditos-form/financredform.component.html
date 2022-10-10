@@ -7,138 +7,169 @@
             <div class="card-body">
                 <div class="mb-2">
                     <h3 class="card-title">Crear solicitud de crédito</h3>
-                    <hr>
+                    <hr class="text-primary">
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
 
-                        <div class="row">
-                            <div class="col-md-3">
-                                <span>Ci/Ruc:</span>
-                            </div>
-                            <div class="col-md d-flex">
+                        <div class="card">
+                            <div class="card-body">
 
-                                <div style="width: 100%">
-                                    <app-buscaref [form]="formautoref" (evOnEnterRef)="onEnterRef($event)"
-                                        [showlugres]="false" [stylevalidinvalid]="false" (evOnSelectRef)="onRefSelect()"
-                                        (evOnClearRef)="onClearRef()">
-                                    </app-buscaref>
+                                <div class="row" *ngIf="!(referente.per_id>0)">
+                                    <div class="col-md-2">
+                                        <span>Socio:</span>
+                                    </div>
+                                    <div class="col-md d-flex">
+                                        <div style="width: 100%">
+                                            <app-buscaref [form]="formautoref" (evOnEnterRef)="onEnterRef($event)"
+                                                [showlugres]="false" [stylevalidinvalid]="false"
+                                                (evOnSelectRef)="onRefSelect()" (evOnClearRef)="onClearRef()">
+                                            </app-buscaref>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <!--
-                                <input type="text" class="form-control" placeholder="Ingrese el número de cedula"
-                                    id="per_ciruc" (keydown.enter)="buscarReferente()" [(ngModel)]="form.per_ciruc">
-                                <button class="btn btn-outline-primary" (click)="buscarReferente()"> Buscar </button>
-                                -->
+                                <div *ngIf="referente.per_id>0">
+                                    <div class="row my-2">
+                                        <div class="col-md-4">
+                                            <span>Nombres y Apellidos:</span>
+                                        </div>
+                                        <div class="col-md">
+                                            <span>{{referente.nomapel}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row my-2">
+                                        <div class="col-md-4">
+                                            <span>Dirección:</span>
+                                        </div>
+                                        <div class="col-md">
+                                            <span>{{referente.per_direccion}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row my-2">
+                                        <div class="col-md-4">
+                                            <span>Celular:</span>
+                                        </div>
+                                        <div class="col-md">
+                                            <span>{{referente.per_movil}}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2" *ngIf="datoscuenta.cue_id>0">
+                                        <div class="col-md-4">
+                                            <span>Nro Cuenta:</span>
+                                        </div>
+                                        <div class="col-md">
+                                            <span>{{datoscuenta.cue_id}}</span>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
 
-                        <div *ngIf="referente.per_id>0">
-                            <div class="row my-2">
-                                <div class="col-md-3">
-                                    <span>Referente:</span>
+                        <div class="card  mt-2" *ngIf="cuentaok">
+                            <div class="card-body">
+                                <div class="row mt-2">
+                                    <div class="col-md-4">
+                                        <span>Producto:</span>
+                                    </div>
+                                    <div class="col-md">
+                                        <p-dropdown [options]="productos" id="cre_prod" [(ngModel)]="prodsel"
+                                            (onChange)="onprodchange($event)" filter="false" optionLabel="prod_nombre"
+                                            inputId="cre_prod"></p-dropdown>
+                                    </div>
                                 </div>
-                                <div class="col-md">
-                                    <span>{{referente.nomapel}}</span>
+
+                                <div class="row mt-2">
+                                    <div class="col-md-4">
+                                        <span>Tasa (%):</span>
+                                    </div>
+                                    <div class="col-md">
+                                        <input type="text" [(ngModel)]="form.cre_tasa" [disabled]="true"
+                                            class="form-control">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row my-2">
-                                <div class="col-md-3">
-                                    <span>Dirección:</span>
+
+                                <div class="row mt-2">
+                                    <div class="col-md-4">
+                                        <span>Monto ($):</span>
+                                    </div>
+                                    <div class="col-md">
+                                        <input type="text" [(ngModel)]="form.cre_monto" class="form-control"
+                                            id="cre_monto">
+                                    </div>
                                 </div>
-                                <div class="col-md">
-                                    <span>{{referente.per_direccion}}</span>
+
+                                <div class="row mt-2">
+                                    <div class="col-md-4">
+                                        <span>Fecha Préstamo:</span>
+                                    </div>
+                                    <div class="col-md">
+                                        <p-calendar id="cre_fecpres" [(ngModel)]="form.fecprestamo" [showIcon]="true"
+                                            inputId="fecprestamo" [monthNavigator]="true" [yearNavigator]="true" (onSelect) = "generaCuotas()"
+                                            yearRange="1900:2100" dateFormat="dd/mm/yy"></p-calendar>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row my-2">
-                                <div class="col-md-3">
-                                    <span>Celular:</span>
+
+                                <div class="row mt-2">
+                                    <div class="col-md-12">
+                                        <span>Plazo (Meses):</span>
+                                    </div>
+                                    <div class="col-md-12 d-flex">
+                                        <input type="text" [(ngModel)]="form.cre_plazo" class="form-control">
+                                        <div class="btn-group ms-1" role="group" aria-label="Basic outlined example">
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                (click)="setYear(1)">1</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                (click)="setYear(2)">2</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                (click)="setYear(3)">3</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                (click)="setYear(4)">4</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                (click)="setYear(5)">5</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                (click)="setYear(6)">6</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                (click)="setYear(7)">7</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md">
-                                    <span>{{referente.per_movil}}</span>
+
+                                <div class="my-2">
+                                    <div class="d-flex flex-row-reverse">
+                                        <p-checkbox class="ms-2" [(ngModel)]="form.marca_aprobado" [binary]="true"
+                                            inputId="binary">
+                                        </p-checkbox>
+                                        <label for="binary" class="hand text-muted">Registrar como crédito antiguo ya
+                                            aprobado</label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-1">
+                                    <label for="ic_nota">Observación:</label>
+                                    <br>
+                                    <textarea maxlength="1000" class="form-control" [(ngModel)]="form.cre_obs"
+                                        name="cre_obs" id="cre_obs" rows="5"></textarea>
+                                    <br>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row mt-2" *ngIf="datoscuenta.cue_id>0">
-                            <div class="col-md-3">
-                                <span>Nro Cuenta:</span>
-                            </div>
-                            <div class="col-md">
-                                <span>{{datoscuenta.cue_id}}</span>
-                            </div>
-                        </div>
-
-
-                        <div class="row mt-2">
-                            <div class="col-md-3">
-                                <span>Producto:</span>
-                            </div>
-                            <div class="col-md">
-                                <p-dropdown [options]="productos" id="cre_prod" [(ngModel)]="prodsel"
-                                    (onChange)="onprodchange($event)" filter="false" optionLabel="prod_nombre"
-                                    inputId="cre_prod"></p-dropdown>
-                            </div>
-                        </div>
-
-                        <div class="row mt-2">
-                            <div class="col-md-3">
-                                <span>Tasa (%):</span>
-                            </div>
-                            <div class="col-md">
-                                <input type="text" [(ngModel)]="form.cre_tasa" [disabled]="true" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="row mt-2">
-                            <div class="col-md-3">
-                                <span>Monto ($):</span>
-                            </div>
-                            <div class="col-md">
-                                <input type="text" [(ngModel)]="form.cre_monto" class="form-control" id="cre_monto">
-                            </div>
-                        </div>
-
-                        <div class="row mt-2">
-                            <div class="col-md-3">
-                                <span>Plazo (Meses):</span>
-                            </div>
-                            <div class="col-md d-flex">
-                                <input type="text" [(ngModel)]="form.cre_plazo" class="form-control">
-                                <div class="btn-group ms-1" role="group" aria-label="Basic outlined example">
-                                    <button type="button" class="btn btn-outline-secondary"
-                                        (click)="setYear(1)">1</button>
-                                    <button type="button" class="btn btn-outline-secondary"
-                                        (click)="setYear(2)">2</button>
-                                    <button type="button" class="btn btn-outline-secondary"
-                                        (click)="setYear(3)">3</button>
-                                    <button type="button" class="btn btn-outline-secondary"
-                                        (click)="setYear(4)">4</button>
-                                    <button type="button" class="btn btn-outline-secondary"
-                                        (click)="setYear(5)">5</button>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="mb-1">
-                            <label for="ic_nota">Observación:</label>
-                            <br>
-                            <textarea maxlength="1000" class="form-control" [(ngModel)]="form.cre_obs" name="cre_obs"
-                                id="cre_obs" rows="5"></textarea>
-                            <br>
-                        </div>
 
                         <div class="mt-4 d-flex justify-content-around">
-                            <button class="btn btn-outline-primary" (click)="generaCuotas()"
+
+                            <button class="btn btn-outline-primary" *ngIf="cuentaok" (click)="generaCuotas()"
                                 [disabled]="!referente.per_id>0">
                                 <span class="fa fa-table"></span>
                                 Calcular Cuotas </button>
-                            <button class="btn btn-outline-primary" type="button" (click)="guardar()"
+                            <button class="btn btn-outline-primary" *ngIf="cuentaok" type="button" (click)="guardar()"
                                 [disabled]="!datostabla.tabla">
                                 <span class="fa fa-save"></span> Guardar
                             </button>
+
                             <button class="btn btn-outline-secondary" type="button" (click)="cancelar()">
                                 <span class="fa fa-times"></span> Cancelar
                             </button>
@@ -167,6 +198,14 @@
                                     </div>
                                     <div class="col-md">
                                         <span>{{datostabla.total_int}}</span>
+                                    </div>
+                                </div>
+                                <div class="row my-2">
+                                    <div class="col-md">
+                                        <span>Total Seguro:</span>
+                                    </div>
+                                    <div class="col-md">
+                                        <span>{{datostabla.total_seguro}}</span>
                                     </div>
                                 </div>
                                 <div class="row my-2">

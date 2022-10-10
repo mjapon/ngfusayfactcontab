@@ -10,6 +10,7 @@ export class CtesFinanService {
     private RutaDetCred = 'finan/detcred/:cred';
     private RutaDetCredSm = 'finan/detcred/';
     private RutaAperturaCta = 'finan/aperturacta';
+    private RutaMovsCta = 'finan/movscta';
 
     get rutaHome() {
         return this.RutaHome;
@@ -29,6 +30,10 @@ export class CtesFinanService {
 
     get rutaAperturaCta() {
         return this.RutaAperturaCta;
+    }
+
+    get rutaMovsCta() {
+        return this.RutaMovsCta;
     }
 
 }

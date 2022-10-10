@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {ArticuloService} from '../../../services/articulo.service';
-import {MenuItem, TreeNode} from 'primeng/api';
-import {DomService} from '../../../services/dom.service';
-import {LoadingUiService} from '../../../services/loading-ui.service';
-import {SwalService} from '../../../services/swal.service';
+import { Component, OnInit } from '@angular/core';
+import { ArticuloService } from '../../../services/articulo.service';
+import { MenuItem, TreeNode } from 'primeng/api';
+import { DomService } from '../../../services/dom.service';
+import { LoadingUiService } from '../../../services/loading-ui.service';
+import { SwalService } from '../../../services/swal.service';
+import { PrimeTreeUtil } from 'src/app/services/utils/treeutil.service';
 
 @Component({
     selector: 'app-planctaslist',
@@ -239,9 +240,10 @@ export class PlanctaslistComponent implements OnInit {
     secciones: Array<any> = [];
 
     constructor(private artService: ArticuloService,
-                private domService: DomService,
-                private swalService: SwalService,
-                private loadingUiService: LoadingUiService) {
+        private domService: DomService,
+        private swalService: SwalService,
+        private primeTreeUtil: PrimeTreeUtil,
+        private loadingUiService: LoadingUiService) {
 
     }
 
@@ -262,10 +264,10 @@ export class PlanctaslistComponent implements OnInit {
 
     loadContextMenu() {
         this.itemsMenu = [
-            {label: 'Crear subcuenta', icon: 'fa fa-plus', command: (event => this.creaSubCuenta(event))},
-            {label: 'Anular', icon: 'fa fa-trash', command: (event => this.anularCuenta(event))},
-            {label: 'Editar', icon: 'fa fa-edit', command: (event => this.editarCuenta(event))},
-            {label: 'Ver', icon: 'fa fa-eye', command: (event => this.verCuenta(event))}
+            { label: 'Crear subcuenta', icon: 'fa fa-plus', command: (event => this.creaSubCuenta(event)) },
+            { label: 'Anular', icon: 'fa fa-trash', command: (event => this.anularCuenta(event)) },
+            { label: 'Editar', icon: 'fa fa-edit', command: (event => this.editarCuenta(event)) },
+            { label: 'Ver', icon: 'fa fa-eye', command: (event => this.verCuenta(event)) }
         ];
     }
 
@@ -368,17 +370,24 @@ export class PlanctaslistComponent implements OnInit {
     }
 
     expandAll() {
+
+        this.primeTreeUtil.expandAll(this.planctas);
+        /*
         this.planctas.forEach(node => {
             this.expandRecursive(node, true);
         });
+        */
     }
 
     contractAll() {
+        this.primeTreeUtil.collapseAll(this.planctas);
+        /*
         this.planctas.forEach(node => {
             this.expandRecursive(node, false);
         });
+        */
     }
-
+    /*
     expandRecursive(node: TreeNode, isExpanded: boolean) {
         node.expanded = isExpanded;
         if (node.children) {
@@ -386,11 +395,12 @@ export class PlanctaslistComponent implements OnInit {
                 this.expandRecursive(childNode, isExpanded);
             });
         }
-    }
+    }*/
 
     toggleExpand($event: MouseEvent) {
         if (this.selectedPlan) {
-            this.selectedPlan.expanded = !this.selectedPlan.expanded;
+            this.primeTreeUtil.toggleExpand(this.selectedPlan);
+            //this.selectedPlan.expanded = !this.selectedPlan.expanded;
         }
     }
 }

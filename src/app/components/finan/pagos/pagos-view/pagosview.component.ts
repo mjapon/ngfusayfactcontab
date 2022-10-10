@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { BaseComponent } from "src/app/components/shared/base.component";
 import { CtesService } from "src/app/services/ctes.service";
+import { FechasService } from "src/app/services/fechas.service";
 import { FinanCreditosService } from "src/app/services/finan/finacreditos.service";
 import { FinanPagosService } from "src/app/services/finan/finapagos.service";
 import { NumberService } from "src/app/services/number.service";
@@ -19,7 +20,9 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
     isModalPagosVisible = false;
     isModalAnulaVisible = false;
     isModalDatosPagoVisible = false;
+    isModalMarcaPagadosVisible = false;
     formcobro: any = {};
+    formcalcobro: any = {};
     formanul: any = { obs: '' };
     pagoAnulSel: any = {};
     selectedCuotas: Array<any> = [];
@@ -33,12 +36,15 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
     base64data: any = null;
     adjisimage = false;
     aux_pgc_total = 0.0;
+    isSavingPago = false;
+    loadingInfoPago = false;
 
     constructor(private swalService: SwalService,
         private credService: FinanCreditosService,
         private ctes: CtesService,
         private adjService: RxdocsService,
         private numberService: NumberService,
+        private fechasService: FechasService,
         private pagosService: FinanPagosService) {
         super();
 
@@ -103,16 +109,47 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
     }
 
     showModalCobrar() {
+        this.isSavingPago = false;
+        this.formcalcobro = {};
+        this.showInputAbono = false;
+        this.loadingInfoPago = true;
+        this.pagosService.getFormCalcPagos().subscribe(res => {
+            if (this.isResultOk(res)) {
+                this.formcalcobro = res.form;
+                this.formcalcobro.fecpagoobj = this.fechasService.parseString(this.formcalcobro.fecpago);
+                const cuotas = this.selectedCuotas.map(function (c: any) {
+                    return { 'cre_id': c.cre_id, 'amo_id': c.amo_id };
+                });
+                const fecpago = this.fechasService.formatDate(this.formcalcobro.fecpagoobj);
+                this.pagosService.calcularValoresPagar(cuotas, fecpago).subscribe(res => {
+                    this.loadingInfoPago = false;
+                    if (this.isResultOk(res)) {
+                        this.formcobro = res.form;
+                        this.aux_pgc_total = this.formcobro.pgc_total;
+                        this.isModalPagosVisible = true;
+                        if (this.formcobro.cta_pagos.length > 0) {
+                            this.ctapagosel = this.formcobro.cta_pagos[0];
+                        }
+                    }
+                });
+            }
+            else {
+                this.loadingInfoPago = false;
+            }
+        });
+    }
+
+    updateFechaPago() {
+        this.loadingInfoPago = true;
         const cuotas = this.selectedCuotas.map(function (c: any) {
             return { 'cre_id': c.cre_id, 'amo_id': c.amo_id };
         });
-        this.showInputAbono = false;
-        this.pagosService.getFormPago(cuotas).subscribe(res => {
+        const fecpago = this.fechasService.formatDate(this.formcalcobro.fecpagoobj);
+        this.pagosService.calcularValoresPagar(cuotas, fecpago).subscribe(res => {
+            this.loadingInfoPago = false;
             if (this.isResultOk(res)) {
-                console.log('Valor de res', res);
                 this.formcobro = res.form;
                 this.aux_pgc_total = this.formcobro.pgc_total;
-                this.isModalPagosVisible = true;
                 if (this.formcobro.cta_pagos.length > 0) {
                     this.ctapagosel = this.formcobro.cta_pagos[0];
                 }
@@ -125,6 +162,7 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
     }
 
     guardarPago() {
+        this.isSavingPago = true;
         const msg = '¿Seguro que desea registrar el pago?';
         let filetopost = null;
         if (this.datafile && this.base64data) {
@@ -138,15 +176,20 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
         }
         this.swalService.fireDialog(msg).then(confirm => {
             if (confirm.value) {
+                this.isSavingPago = true;
+                this.formcobro.pgc_fechapago = this.fechasService.formatDate(this.formcalcobro.fecpagoobj);
                 this.pagosService.guardarPago(this.formcobro).subscribe(res => {
                     if (this.isResultOk(res)) {
-                        console.log('Valor de res es', res);
+                        this.isSavingPago = false;
                         this.swalService.fireToastSuccess(res.msg);
                         this.isModalPagosVisible = false;
                         this.loadDatosPagosCred();
                         this.selectedCuotas = [];
                     }
                 });
+            }
+            else {
+                this.isSavingPago = false;
             }
         });
     }
@@ -183,9 +226,9 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
 
     anularPago(pago) {
         this.pagoAnulSel = pago;
+        this.formanul.obs = '';
         this.isModalAnulaVisible = true;
     }
-
 
     onFileChange(fileInput: any) {
         this.datafile = fileInput.target.files[0];
@@ -243,6 +286,53 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
 
     showAdjunto() {
         this.adjService.openWindows(this.adjService.getDownloadAdjUrlNode(this.datosPago));
+    }
+
+    showModalMarcaPagados() {
+        this.isSavingPago = false;
+        this.formcobro = {};
+        this.pagosService.getFormCalcPagos().subscribe(res => {
+            if (this.isResultOk(res)) {
+                this.formcalcobro = res.form;
+                this.formcalcobro.fecpagoobj = this.fechasService.parseString(this.formcalcobro.fecpago);
+            }
+            const cuotas = this.selectedCuotas.map(function (c: any) {
+                return { 'cre_id': c.cre_id, 'amo_id': c.amo_id };
+            });
+            this.pagosService.getFormMarcaPagado(cuotas).subscribe(res => {
+                if (this.isResultOk(res)) {
+                    this.formcobro = res.form;
+                    this.isModalMarcaPagadosVisible = true;
+                }
+            });
+        });
+    }
+
+    guardarMarcaPago() {
+        this.isSavingPago = true;
+        const msg = '¿Seguro que desea registrar estas cuotas como Pagadas?';
+        this.swalService.fireDialog(msg).then(confirm => {
+            if (confirm.value) {
+                this.isSavingPago = true;
+                this.formcobro.pgc_fechapago = this.fechasService.formatDate(this.formcalcobro.fecpagoobj);
+                this.pagosService.guardarMarcarPagados(this.formcobro).subscribe(res => {
+                    if (this.isResultOk(res)) {
+                        this.isSavingPago = false;
+                        this.swalService.fireToastSuccess(res.msg);
+                        this.isModalMarcaPagadosVisible = false;
+                        this.loadDatosPagosCred();
+                        this.selectedCuotas = [];
+                    }
+                });
+            }
+            else {
+                this.isSavingPago = false;
+            }
+        });
+    }
+
+    cancelMarcaPago() {
+        this.isModalMarcaPagadosVisible = false;
     }
 
 }

@@ -21,8 +21,20 @@ export class FinanPagosService extends BaseService {
         return this._doGetAction('tblpagos', { cred });
     }
 
-    getFormPago(cuotas) {
-        return this._doPostAction('formpago', { cuotas });
+    getFormCalcPagos() {
+        return this._doGetAction('gformcalpagos');
+    }
+
+    calcularValoresPagar(cuotas, fecpago) {
+        return this._doPostAction('calcuotaspago', { cuotas, fecpago });
+    }
+
+    getFormMarcaPagado(cuotas) {
+        return this._doPostAction('cuotasformarcapago', { cuotas });
+    }
+
+    guardarMarcarPagados(form){
+        return this._doPostAction('savemarcapag', { form });
     }
 
     guardarPago(form) {

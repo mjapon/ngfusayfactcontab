@@ -33,4 +33,12 @@ export class FinanCuentasService extends BaseService {
         return this._doGetAction('gdatoscuenta', { perid, tipo });
     }
 
+    getDatosCuentaByNum(numcta) {
+        return this._doGetAction('gdatctabynum', { numcta });
+    }
+
+    getCuentasSocio(socio) {
+        return this._doGetAction('listctasbysocio', { socio });
+    }
+
 }

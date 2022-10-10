@@ -49,6 +49,7 @@ import { FinanCredListComponent } from './components/finan/creditos/financredlis
 import { FinanCredFormComponent } from './components/finan/creditos-form/financredform.component';
 import { FinanCredDetComponent } from './components/finan/creditos-det/financreddet.component';
 import { FinanCuentasComponent } from './components/finan/cuentas/financuentas.component';
+import { FinanMovsFormComponent } from './components/finan/movimientos/movs-form/movsform.component';
 // import {AdminGuard} from './guards/admin/admin.guard';
 
 const aguapmod: CtesAguapService = new CtesAguapService();
@@ -114,6 +115,7 @@ const routes: Routes = [
     { path: finamod.rutaCreaCred, component: FinanCredFormComponent },
     { path: finamod.rutaDetCred, component: FinanCredDetComponent },
     { path: finamod.rutaAperturaCta, component: FinanCuentasComponent },
+    { path: finamod.rutaMovsCta, component: FinanMovsFormComponent },
     { path: '**', component: HomeComponent }];
 
 @NgModule({

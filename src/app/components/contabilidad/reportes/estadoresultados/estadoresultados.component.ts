@@ -1,17 +1,25 @@
-import {Component, OnInit} from '@angular/core';
-import {AsientoService} from '../../../../services/asiento.service';
-import {FechasService} from '../../../../services/fechas.service';
-import {LoadingUiService} from '../../../../services/loading-ui.service';
-import {TreeNode} from 'primeng/api';
-import {ReportscontaService} from '../../../../services/reportsconta.service';
-import {SwalService} from '../../../../services/swal.service';
+import { Component, OnInit } from '@angular/core';
+import { AsientoService } from '../../../../services/asiento.service';
+import { FechasService } from '../../../../services/fechas.service';
+import { LoadingUiService } from '../../../../services/loading-ui.service';
+import { TreeNode } from 'primeng/api';
+import { ReportscontaService } from '../../../../services/reportsconta.service';
+import { SwalService } from '../../../../services/swal.service';
+import { PrimeTreeUtil } from 'src/app/services/utils/treeutil.service';
+import { PeriodoContableService } from 'src/app/services/contable/periodocontab.service';
 
 @Component({
     selector: 'app-estadoresultados',
     template: `
         <div>
             <h2>Estado de Resultados</h2>
-
+            <div class="alert alert-primary" role="alert">
+                <p *ngIf="periodocontable">
+                    Periodo contable actual
+                    Desde: {{periodocontable.pc_desde}}
+                    Hasta: {{periodocontable.pc_hasta}} 
+                </p>
+            </div>
             <div class="row mt-3 mb-3">
                 <div class="col-md-8">
                     <app-rangofechas [form]="form"
@@ -19,7 +27,7 @@ import {SwalService} from '../../../../services/swal.service';
                                      (evHastaChange)="onHastaChange($event)"
                                      (evFilterSel)="onTipoFiltroChange()">
                     </app-rangofechas>
-                </div>
+                </div>  
                 <div class="col-md-4 d-flex flex-column justify-content-end">
                     <div class="d-flex">
                         <div class="btn-group btn-block">
@@ -90,7 +98,7 @@ import {SwalService} from '../../../../services/swal.service';
                                         <span class="fw-bold">INGRESOS:</span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> {{getabs(parents['5'].total)| number: '.2'}}</span>
+                                        <span class="fw-bold"> {{getabs(parents['5'])| number: '.2'}}</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -98,7 +106,7 @@ import {SwalService} from '../../../../services/swal.service';
                                         <span class="fw-bold">GASTOS:</span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold">{{getabs(parents['4'].total)| number: '.2'}} </span>
+                                        <span class="fw-bold">{{getabs(parents['4'])| number: '.2'}} </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -106,9 +114,9 @@ import {SwalService} from '../../../../services/swal.service';
                                         <span class="fw-bold">UTILIDAD O PÉRDIDA:</span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold">{{getabs(parents['5'].total)| number: '.2'}}
-                                            - {{getabs(parents['4'].total)| number: '.2'}}
-                                            = {{(getabs(parents['5'].total) - getabs(parents['4'].total))| number: '.2'}} </span>
+                                        <span class="fw-bold">{{getabs(parents['5'])| number: '.2'}}
+                                            - {{getabs(parents['4'])| number: '.2'}}
+                                            = {{(getabs(parents['5']) - getabs(parents['4']))| number: '.2'}} </span>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -126,17 +134,28 @@ export class EstadoresultadosComponent implements OnInit {
     form: any;
     selectedTreeRow: TreeNode;
     datosbalancetree: TreeNode[];
+    periodocontable: any;
 
     constructor(private asientoService: AsientoService,
-                private loadingUiServ: LoadingUiService,
-                private fechasService: FechasService,
-                private swalService: SwalService,
-                private reportsContaServ: ReportscontaService) {
+        private loadingUiServ: LoadingUiService,
+        private fechasService: FechasService,
+        private swalService: SwalService,
+        private treeUtil: PrimeTreeUtil,
+        private periodoContabServ: PeriodoContableService,
+        private reportsContaServ: ReportscontaService) {
     }
 
     ngOnInit(): void {
         this.datosbalance = [];
-        this.form = {desde: null, hasta: null, desdestr: '', hastastr: ''};
+        this.form = { desde: null, hasta: null, desdestr: '', hastastr: '' };
+        this.loadPeriodoContable();
+    }
+
+    loadPeriodoContable() {
+        this.periodoContabServ.getCurrent().subscribe(res => {
+            this.periodocontable = res.periodo;
+            console.log('Datos del periodo contable:', this.periodocontable);
+        });
     }
 
     loadBalance() {
@@ -150,9 +169,11 @@ export class EstadoresultadosComponent implements OnInit {
         this.loadingUiServ.publishBlockMessage();
         this.asientoService.getEstadoResultados(desdestr, hastastr).subscribe(res => {
             if (res.status === 200) {
-                this.datosbalance = res.balance;
-                this.parents = res.parents;
-                this.datosbalancetree = res.balancetree;
+                this.datosbalance = res.reporte_list;
+                this.parents = res.total_grupos;
+                this.datosbalancetree = res.reporte_tree;
+
+                this.treeUtil.expandAll(this.datosbalancetree);
             }
         });
     }
@@ -195,7 +216,7 @@ export class EstadoresultadosComponent implements OnInit {
 
     togglexpand($event: any) {
         if (this.selectedTreeRow) {
-            this.selectedTreeRow.expanded = !this.selectedTreeRow.expanded;
+            this.treeUtil.toggleExpand(this.selectedTreeRow);
         }
     }
 
@@ -205,10 +226,12 @@ export class EstadoresultadosComponent implements OnInit {
     }
 
     exportPdf() {
-        this.reportsContaServ.exportPdf(this.datosbalance, this.form, this.getnombrearchivo(), 'ESTADO DE RESULTADOS');
+        alert('En construcción');
+        //this.reportsContaServ.exportPdf(this.datosbalance, this.form, this.getnombrearchivo(), 'ESTADO DE RESULTADOS');
     }
 
     exportExcel() {
-        this.reportsContaServ.exportExcel(this.datosbalance, this.getnombrearchivo());
+        alert('En construcción');
+        //this.reportsContaServ.exportExcel(this.datosbalance, this.getnombrearchivo());
     }
 }

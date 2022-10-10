@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
 import {Observable} from 'rxjs';
 import {CtesService} from './ctes.service';
+import { FautService } from './faut.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +13,7 @@ export class TicketService extends BaseService {
 
     constructor(protected http: HttpClient,
                 protected localStrgServ: LocalStorageService,
+                private fautService: FautService,
                 private ctes: CtesService) {
         super('/tticket', localStrgServ, http);
     }
@@ -54,7 +56,8 @@ export class TicketService extends BaseService {
 
     imprimir(ticketid: any) {
         const basetomcat = this.ctes.urlTomcat;
-        const url = `${basetomcat}/TicketServlet?tkid=${ticketid}`;
+        const sqm = this.fautService.getEsquema();
+        const url = `${basetomcat}/TicketServlet?tkid=${ticketid}&sqm=${sqm}`;
         window.open(url, this.ctes._blank, 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=500,height=700');
     }
 
