@@ -50,6 +50,8 @@ import { FinanCredFormComponent } from './components/finan/creditos-form/financr
 import { FinanCredDetComponent } from './components/finan/creditos-det/financreddet.component';
 import { FinanCuentasComponent } from './components/finan/cuentas/financuentas.component';
 import { FinanMovsFormComponent } from './components/finan/movimientos/movs-form/movsform.component';
+import { LoginfacteComponent } from './components/facte/loginfacte/loginfacte.component';
+import { HomefacteComponent } from './components/facte/homefacte/homefacte.component';
 // import {AdminGuard} from './guards/admin/admin.guard';
 
 const aguapmod: CtesAguapService = new CtesAguapService();
@@ -78,6 +80,8 @@ const routes: Routes = [
     },
     { path: 'categorias', component: CategoriasComponent },
     { path: 'preciosmavil', component: BasepreciosComponent },
+    { path: 'loginfacte', component: LoginfacteComponent },
+    { path: 'homefacte', component: HomefacteComponent },
     { path: 'tickets', component: TicketComponent },
     { path: 'ticket/form', component: TicketformComponent },
     { path: 'vtickets', component: IngegrComponent },

@@ -1,5 +1,6 @@
-<app-fusaynavbar *ngIf="!isLogged"></app-fusaynavbar>
-<app-loggednavbar *ngIf="isLogged"></app-loggednavbar>
+<app-fusaynavbar *ngIf="!isLogged && !isLoggedFacte"></app-fusaynavbar>
+<app-loggednavbar *ngIf="isLogged && !isLoggedFacte"></app-loggednavbar>
+<app-facteloggedhead *ngIf="!isLogged && isLoggedFacte"></app-facteloggedhead>
 
 <div>
     <p-toast position="top-right"></p-toast>
@@ -13,10 +14,10 @@
     </p-blockUI>
 </div>
 
-<div class="{{isLogged?'container-fluid':'container'}}">
+<div class="{{isLogged||isLoggedFacte?'container-fluid':'container'}}">
     <div class="mt-2">
         <router-outlet></router-outlet>
     </div>
 </div>
 
-<app-fusayfooter *ngIf="!isLogged"></app-fusayfooter>
+<app-fusayfooter *ngIf="!isLogged && !isLoggedFacte"></app-fusayfooter>

@@ -1,10 +1,11 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {LocalStorageService} from './services/local-storage.service';
-import {NavigationEnd, Router} from '@angular/router';
-import {FautService} from './services/faut.service';
-import {LoadingUiService} from './services/loading-ui.service';
-import {TranslateService} from '@ngx-translate/core';
-import {PrimeNGConfig} from 'primeng/api';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { LocalStorageService } from './services/local-storage.service';
+import { NavigationEnd, Router } from '@angular/router';
+import { FautService } from './services/faut.service';
+import { LoadingUiService } from './services/loading-ui.service';
+import { TranslateService } from '@ngx-translate/core';
+import { PrimeNGConfig } from 'primeng/api';
+import { FacteContribService } from './services/facte/contrib.service';
 
 @Component({
     selector: 'app-root',
@@ -14,17 +15,19 @@ import {PrimeNGConfig} from 'primeng/api';
 export class AppComponent implements OnInit, AfterViewInit {
     title = 'sysprint';
     isLogged = false;
+    isLoggedFacte = false;
     blocked = false;
     stylemaindiv: string;
     classrouteroutlet: string;
     isshowAppMenu: boolean;
 
     constructor(private localStorageService: LocalStorageService,
-                private router: Router,
-                private fautService: FautService,
-                private loadingUiService: LoadingUiService,
-                private config: PrimeNGConfig,
-                private translateService: TranslateService) {
+        private router: Router,
+        private fautService: FautService,
+        private contribService: FacteContribService,
+        private loadingUiService: LoadingUiService,
+        private config: PrimeNGConfig,
+        private translateService: TranslateService) {
     }
 
     ngOnInit(): void {
@@ -35,6 +38,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.translateService.setDefaultLang('es');
         this.translate('es');
         this.isLogged = this.fautService.isAuthenticated();
+        this.isLoggedFacte = this.contribService.isAuthenticated();
         if (this.isLogged) {
             if (this.isshowAppMenu) {
                 this.classrouteroutlet = 'ms-2 mt-2 me-0';
@@ -68,6 +72,15 @@ export class AppComponent implements OnInit, AfterViewInit {
             } else {
                 this.classrouteroutlet = '';
                 this.stylemaindiv = 'width: 100%;';
+            }
+        });
+
+        this.contribService.source.subscribe(msg => {
+            if (msg === 'loginFacte') {
+                this.isLoggedFacte = true;
+            }
+            else if (msg === 'logoutFacte') {
+                this.isLoggedFacte = false;
             }
         });
 

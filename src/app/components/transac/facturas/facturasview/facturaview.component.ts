@@ -14,6 +14,7 @@ export class FacturaviewComponent extends BaseComponent implements OnInit, OnCha
     isShowImprimir = false;
     isLoading = false;
     isShowChangeSec = false;
+    isCompele = false;
 
     @Input() trncod: number;
     @Input() isPermEdit = false;
@@ -52,6 +53,7 @@ export class FacturaviewComponent extends BaseComponent implements OnInit, OnCha
                 this.doc = res.doc;
                 this.evFacturaLoaded.emit(this.doc);
                 this.isShowImprimir = this.doc.tasiento.tra_codigo === 1 || this.doc.tasiento.tra_codigo === 2;
+                this.isCompele = this.doc.isCompele||false;
             }
         });
     }

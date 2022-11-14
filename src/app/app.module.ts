@@ -147,6 +147,9 @@ import { FinanPagosViewComponent } from './components/finan/pagos/pagos-view/pag
 import { FinanAdjuntosCredComponent } from './components/finan/adjuntoscred/adjuntoscred.component';
 import { FinanCuentasComponent } from './components/finan/cuentas/financuentas.component';
 import { FinanMovsFormComponent } from './components/finan/movimientos/movs-form/movsform.component';
+import { LoginfacteComponent } from './components/facte/loginfacte/loginfacte.component';
+import { HomefacteComponent } from './components/facte/homefacte/homefacte.component';
+import { FacteloggedheadComponent } from './components/shared/facteloggedhead/facteloggedhead.component';
 
 
 
@@ -270,7 +273,10 @@ export function HttpLoaderFactory(http: HttpClient) {
         FinanPagosViewComponent,
         FinanAdjuntosCredComponent,
         FinanCuentasComponent,
-        FinanMovsFormComponent
+        FinanMovsFormComponent,
+        LoginfacteComponent,
+        HomefacteComponent,
+        FacteloggedheadComponent
     ],
     imports: [
         CommonModule,

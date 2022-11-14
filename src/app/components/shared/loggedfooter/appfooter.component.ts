@@ -13,7 +13,7 @@ import {FautService} from '../../../services/faut.service';
     template: `
         <div class="footer h-auto py-5">
             <div class="text-center">
-                <p class="text-muted">Copyright © 2021 Mavil <span>v{{versionApp}}</span> <a
+                <p class="text-muted">Copyright © 2022 Mavil <span>v{{versionApp}}</span> <a
                         href="http://agenciachel.com" target="_blank">
                     agenciachel.com</a></p>
             </div>

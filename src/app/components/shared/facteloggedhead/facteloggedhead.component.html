@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex" href="#"
+           title="Mavil, Comprobantes Electrónicos">
+            <div class="d-flex justify-content-center align-items-center">
+                <img src="/assets/imgs/logomavilsm.png">
+            </div>
+            <span class="ms-2">COMPROBANTES ELECTRÓNICOS</span>
+        </a>
+        <button class="btn btn-sm btn-outline-primary ms-2" (click)="goHome()" title="Ir al inicio">
+            <span class="fa fa-home">Facturas</span>
+        </button>
+        <div class="w-100 d-flex flex-row-reverse">
+            <div class="d-none d-md-inline d-lg-inline-block d-xl-inline-block" id="navbarSupportedContent">
+                <ul class="navbar-nav d-flex flex-row">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-primary dropdown-toggle" href="#" id="navbarDropdown"
+                           role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false" title="{{userinfo?.cnt_nombres + ' ' + userinfo?.cnt_apellidos}}">
+                            <i class="fas fa-user"></i>
+                            {{userinfo?.cnt_nombres?.charAt(0) + userinfo?.cnt_apellidos?.charAt(0)}}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li>
+                                <button class="dropdown-item"
+                                        type="button">{{userinfo.cnt_nombres + ' ' + userinfo.cnt_apellidos}}</button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item" type="button" (click)="logout()">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Salir
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+                <!--
+                <ul class="navbar-nav d-none d-md-block d-lg-block d-xl-block">
+
+                </ul>
+                <ul class="navbar-nav d-none d-md-block d-lg-block d-xl-block">
+
+                </ul>
+                -->
+
+            </div>
+        </div>
+    </div>
+
+</nav>
+
+

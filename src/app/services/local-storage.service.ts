@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,10 @@ export class LocalStorageService {
 
   public getAuthToken(): string {
     return this.getItem('auToken');
+  }
+
+  public getFacteAuthToken(): string {
+    return this.getItem('MvFacteAuToken');
   }
 
 }

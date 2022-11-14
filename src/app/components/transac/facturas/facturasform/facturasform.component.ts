@@ -1,20 +1,21 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {AsientoService} from '../../../../services/asiento.service';
-import {NumberService} from '../../../../services/number.service';
-import {DomService} from '../../../../services/dom.service';
-import {SwalService} from '../../../../services/swal.service';
-import {ArticuloService} from '../../../../services/articulo.service';
-import {LoadingUiService} from '../../../../services/loading-ui.service';
-import {ArrayutilService} from '../../../../services/arrayutil.service';
-import {FechasService} from '../../../../services/fechas.service';
-import {Router} from '@angular/router';
-import {SeccionService} from '../../../../services/seccion.service';
-import {PersonaService} from '../../../../services/persona.service';
-import {forkJoin, Subscription} from 'rxjs';
-import {FacturasmsgService} from '../../../../services/facturasmsg.service';
-import {LocalStorageService} from '../../../../services/local-storage.service';
-import {CtesService} from '../../../../services/ctes.service';
-import {BaseComponent} from '../../../shared/base.component';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AsientoService } from '../../../../services/asiento.service';
+import { NumberService } from '../../../../services/number.service';
+import { DomService } from '../../../../services/dom.service';
+import { SwalService } from '../../../../services/swal.service';
+import { ArticuloService } from '../../../../services/articulo.service';
+import { LoadingUiService } from '../../../../services/loading-ui.service';
+import { ArrayutilService } from '../../../../services/arrayutil.service';
+import { FechasService } from '../../../../services/fechas.service';
+import { Router } from '@angular/router';
+import { SeccionService } from '../../../../services/seccion.service';
+import { PersonaService } from '../../../../services/persona.service';
+import { forkJoin, Subscription } from 'rxjs';
+import { FacturasmsgService } from '../../../../services/facturasmsg.service';
+import { LocalStorageService } from '../../../../services/local-storage.service';
+import { CtesService } from '../../../../services/ctes.service';
+import { BaseComponent } from '../../../shared/base.component';
+import { CompeleService } from 'src/app/services/compele.service';
 
 @Component({
     selector: 'app-facturasform',
@@ -37,7 +38,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     codConsFinal = -1;
     trncodedit = 0;
     datosdocedit: any = {};
-    formvuelto = {input: 0, vuelto: 0};
+    formvuelto = { input: 0, vuelto: 0 };
 
     @Input() form: any;
     @Input() tracodigo: number;
@@ -63,21 +64,23 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     formisloaded = false;
     codartsel = 0;
     isShowDetProd = false;
+    totvuelto: any;
 
     constructor(private asientoService: AsientoService,
-                private numberService: NumberService,
-                private domService: DomService,
-                private seccionService: SeccionService,
-                private artService: ArticuloService,
-                private loadingUiService: LoadingUiService,
-                private arrayService: ArrayutilService,
-                private fechasService: FechasService,
-                private swalService: SwalService,
-                private facturaMsgService: FacturasmsgService,
-                private localStrgService: LocalStorageService,
-                private router: Router,
-                private ctes: CtesService,
-                private personaServ: PersonaService) {
+        private numberService: NumberService,
+        private domService: DomService,
+        private seccionService: SeccionService,
+        private artService: ArticuloService,
+        private loadingUiService: LoadingUiService,
+        private arrayService: ArrayutilService,
+        private fechasService: FechasService,
+        private swalService: SwalService,
+        private facturaMsgService: FacturasmsgService,
+        private localStrgService: LocalStorageService,
+        private router: Router,
+        private ctes: CtesService,
+        private personaServ: PersonaService,
+        private compele: CompeleService) {
         super();
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
@@ -177,6 +180,20 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         this.totalizar();
     }
 
+    testFacte() {
+        console.log('Test facte-->');
+        this.compele.enviar(656).subscribe(res => {
+            console.log('Valor de res es:', res);
+        });
+    }
+
+    testAutorizaFacte() {
+        console.log('Test facte autoriza-->');
+        this.compele.consultaEstadoAut(656).subscribe(res => {
+            console.log('Valor de res es:', res);
+        });
+    }
+
     buscaServs(event) {
         this.artsearched = false;
         this.artsearchedcount = 0;
@@ -245,11 +262,11 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
 
     quitarItem(fila: any) {
         this.swalService.fireDialog(this.ctes.msgSureWishRemveItemFact).then(confirm => {
-                if (confirm.value) {
-                    this.arrayService.removeElement(this.form.detalles, fila);
-                    this.totalizar();
-                }
+            if (confirm.value) {
+                this.arrayService.removeElement(this.form.detalles, fila);
+                this.totalizar();
             }
+        }
         );
     }
 
@@ -290,6 +307,18 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
                                         this.asientoService.imprimirFactura(res.trn_codigo);
                                     }
                                 });
+                            }
+                            let compelenviado = res.compelenviado || false;
+                            if (compelenviado) {
+                                console.log("Se envio comprobante electronico", res);
+                                if (!res.is_cons_final) {
+                                    this.compele.saveComprobContrib(res.trn_codigo, res.estado_envio).subscribe(rescomprob => {
+                                        console.log("Respuesta de recomprob es", rescomprob);
+                                    });
+                                }
+                                else {
+                                    console.log('No se guarda el comprobante por que es consumidor final');
+                                }
                             }
                         }
                         this.evGuardarOk.emit(res);
@@ -482,14 +511,14 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         const per_ciruc = this.form.form_persona.per_ciruc;
         this.loadingUiService.publishBlockMessage();
         this.personaServ.buscarPorCi(per_ciruc).subscribe(res => {
-                if (this.isResultOk(res)) {
-                    this.form.form_persona = res.persona;
-                    this.domService.setFocusTm(this.ctes.artsAutoCom);
-                    this.swalService.fireToastSuccess(this.ctes.msgRefRegistered);
-                } else {
-                    this.domService.setFocusTm(this.ctes.perNombresInput);
-                }
+            if (this.isResultOk(res)) {
+                this.form.form_persona = res.persona;
+                this.domService.setFocusTm(this.ctes.artsAutoCom);
+                this.swalService.fireToastSuccess(this.ctes.msgRefRegistered);
+            } else {
+                this.domService.setFocusTm(this.ctes.perNombresInput);
             }
+        }
         );
     }
 
@@ -521,32 +550,8 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     }
 
     onDtCantChange(fila) {
-        //const dtDecto = this.computeDtDecto(fila);
-        //fila.dt_decto = (dtDecto * fila.dt_cant);
         this.recalcTotalFila(fila);
     }
-
-    /*
-    computeDtDecto(fila) {
-        let dtDecto = 0.0;
-        const numberdtdecto = Number(fila.dt_dectoin);
-        if (numberdtdecto >= 0 && this.numberService.round2(numberdtdecto) <= this.numberService.round2(fila.dt_precioiva)) {
-            dtDecto = numberdtdecto;
-        } else {
-            fila.dt_dectoerr = true;
-        }
-
-        let dtDectoAjuste = dtDecto;
-        if (fila.icdp_grabaiva) {
-            if (!this.isfacturacompra) {
-                dtDectoAjuste = this.numberService.quitarIva(dtDecto);
-            }
-        }
-        return dtDectoAjuste;
-    }
-     */
-    totvuelto: any;
-
 
     onFilaDescChange(fila: any) {
         let dtDecto = 0.0;
