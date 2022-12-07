@@ -2,8 +2,8 @@
     <div *ngIf="!showForm">
         <div class="card shadow-sm rounded mt-2">
             <div class="card-header d-flex justify-content-between">
-            <span class="fw-bold">Planes de tratamiento <span class="badge bg-info"
-                                                              *ngIf="listaPlanes.length>0">{{listaPlanes.length}}</span></span>
+                <span class="fw-bold">Planes de tratamiento <span class="badge bg-info"
+                        *ngIf="listaPlanes.length>0">{{listaPlanes.length}}</span></span>
                 <button class="btn btn-outline-primary btn-sm" (click)="initFormCrea()">
                     <i class="fa fa-plus"></i> Crear
                 </button>
@@ -12,35 +12,35 @@
             <div *ngIf="isLoadingPlanes">
                 <app-loading></app-loading>
             </div>
-            <div class="table-responsive" *ngIf="!isLoadingPlanes && listaPlanes.length>0">
+            <div class="table-responsive" *ngIf="!isLoadingPlanes && listaPlanes.length>0 && !isShowDetallesPlan">
                 <table class="table table-bordered">
                     <thead>
-                    <tr>
-                        <th scope="col"><span class="fontsizesm">#</span></th>
-                        <th scope="col"><span class="fontsizesm">Fecha Crea</span></th>
-                        <th scope="col"><span class="fontsizesm">Nombre Plan</span></th>
-                        <th scope="col"><span class="fontsizesm">Estado</span></th>
-                        <th scope="col"></th>
-                    </tr>
+                        <tr>
+                            <th scope="col"><span class="fontsizesm">#</span></th>
+                            <th scope="col"><span class="fontsizesm">Fecha Crea</span></th>
+                            <th scope="col"><span class="fontsizesm">Nombre Plan</span></th>
+                            <th scope="col"><span class="fontsizesm">Estado</span></th>
+                            <th scope="col"></th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let fila of listaPlanes" class="hand" (click)="showDetallesPlan(fila)">
-                        <th scope="row" style="width: 5%">{{listaPlanes.indexOf(fila) + 1}}</th>
-                        <td>
-                            {{fila.pnt_fechacrea}}
-                        </td>
-                        <td>
-                            {{fila.pnt_nombre}}
-                        </td>
-                        <td>
-                            {{fila.estadodesc}}
-                        </td>
-                        <td>
-                            <button class="btn btn-outline-secondary btn-sm">
-                                <i class="fa fa-eye"></i>
-                            </button>
-                        </td>
-                    </tr>
+                        <tr *ngFor="let fila of listaPlanes" class="hand" (click)="showDetallesPlan(fila)">
+                            <th scope="row" style="width: 5%">{{listaPlanes.indexOf(fila) + 1}}</th>
+                            <td>
+                                {{fila.pnt_fechacrea}}
+                            </td>
+                            <td>
+                                {{fila.pnt_nombre}}
+                            </td>
+                            <td>
+                                {{fila.estadodesc}}
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-secondary btn-sm">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -51,7 +51,7 @@
             </div>
         </div>
 
-        <div *ngIf="datosDocPlan.plan" class="p-2 mt-3 mb-3 shadow border">
+        <div *ngIf="datosDocPlan.plan && isShowDetallesPlan" class="p-2 mt-3 mb-3 shadow border">
             <div *ngIf="datosDocPlan.plan">
                 <div class="row">
                     <div class="col-md-8">
@@ -107,38 +107,52 @@
                         </div>
                         <div class="mt-3">
                             <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" class="btn btn-outline-primary"
-                                        (click)="cerrarVerDetallesFact()" title="Cerrar detalle del plan">
+                                <button type="button" class="btn btn-outline-primary" (click)="cerrarVerDetallesFact()"
+                                    title="Cerrar detalle del plan">
                                     <i class="fa fa-times"></i>
                                     Cerrar
                                 </button>
                                 <button type="button" class="btn btn-outline-primary"
-                                        (click)="imprimirPlan(datosDocPlan.plan.pnt_id)"
-                                        title="Imprimir el plan">
+                                    (click)="imprimirPlan(datosDocPlan.plan.pnt_id)" title="Imprimir el plan">
                                     <i class="fa fa-print"></i>
                                     Imprimir
                                 </button>
-                                <button type="button" *ngIf="datosDocPlan.plan.pnt_estado === 1"
-                                        class="btn btn-outline-primary" (click)="confirmarPlan()"
-                                        title="Confirmar este plan de tratamiento">
+
+                                <button type="button" class="btn btn-outline-primary" (click)="showModalEmiteFactura()"
+                                    title="Confirmar plan de tratamiento">
                                     <i class="fa fa-check"></i>
                                     Confirmar
                                 </button>
+
+
+                                <!--
+                                <div class="btn-group" *ngIf="datosDocPlan.plan.pnt_estado === 1"
+                                    title="Confirmar este plan de tratamiento">
+                                    <button type="button" class="btn btn-outline-primary dropdown-toggle"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        Confirmar
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" (click)="confirmarPlan(1)">Emitir Factura</a></li>
+                                        <li><a class="dropdown-item" (click)="confirmarPlan(2)">Emitir Nota de venta</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                -->
                                 <button type="button" *ngIf="datosDocPlan.plan.pnt_estado === 2"
-                                        class="btn btn-outline-primary" (click)="finalizarPlan()"
-                                        title="Marcar como finalizado este plan de tratamiento">
+                                    class="btn btn-outline-primary" (click)="finalizarPlan()"
+                                    title="Marcar como finalizado este plan de tratamiento">
                                     <i class="fa fa-check"></i>
                                     Finalizar
                                 </button>
                                 <button type="button" class="btn btn-outline-primary" (click)="anularPlan()"
-                                        title="Anular este plan de tratamiento"
-                                        *ngIf="datosDocPlan.plan.pnt_estado === 1">
+                                    title="Anular este plan de tratamiento" *ngIf="datosDocPlan.plan.pnt_estado === 1">
                                     <i class="fa fa-trash"></i>
                                     Anular
                                 </button>
                                 <button type="button" class="btn btn-outline-primary" (click)="editarPlan()"
-                                        title="Modificar este plan de tratamiento"
-                                        *ngIf="datosDocPlan.plan.pnt_estado <= 2">
+                                    title="Modificar este plan de tratamiento"
+                                    *ngIf="datosDocPlan.plan.pnt_estado <= 2">
                                     <i class="fa fa-edit"></i>
                                     Editar
                                 </button>
@@ -149,94 +163,93 @@
                 <div class="table-responsive mt-1">
                     <table class="table table-bordered table-sm table-striped">
                         <thead>
-                        <tr>
-                            <th scope="col"><span class="fontsizesm">#</span></th>
-                            <th scope="col"><span class="fontsizesm">Servicio</span></th>
-                            <th scope="col"><span class="fontsizesm">Cant.</span></th>
-                            <th scope="col"><span class="fontsizesm">Precio U.</span></th>
-                            <th scope="col"><span class="fontsizesm">Descuento</span></th>
-                            <th scope="col"><span class="fontsizesm">Iva</span></th>
-                            <th scope="col">
-                                <div class="d-flex flex-row-reverse">
-                                    <span class="fontsizesm">Precio T.</span>
-                                </div>
-                            </th>
-                        </tr>
+                            <tr>
+                                <th scope="col"><span class="fontsizesm">#</span></th>
+                                <th scope="col"><span class="fontsizesm">Servicio</span></th>
+                                <th scope="col"><span class="fontsizesm">Cant.</span></th>
+                                <th scope="col"><span class="fontsizesm">Precio U.</span></th>
+                                <th scope="col"><span class="fontsizesm">Descuento</span></th>
+                                <th scope="col"><span class="fontsizesm">Iva</span></th>
+                                <th scope="col">
+                                    <div class="d-flex flex-row-reverse">
+                                        <span class="fontsizesm">Precio T.</span>
+                                    </div>
+                                </th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let fila of datosDocPlan.doc.detalles" class="hand">
-                            <td>
-                                {{datosDocPlan.doc.detalles.indexOf(fila) + 1}}
-                            </td>
-                            <td>
-                                {{fila.ic_nombre}}
-                            </td>
-                            <td>
-                                {{fila.dt_cant}}
-                            </td>
-                            <td>
-                                {{fila.dt_precio}}
-                            </td>
-                            <td>
-                                {{fila.dt_decto}}
-                            </td>
-                            <td>
-                                {{fila.dai_impg > 0 ? 'S' : 'N'}}
-                            </td>
-                            <td>
-                                <div class="d-flex flex-row-reverse">
-                                    <span>{{fila.dt_valor}}</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">
-                                <div>
-                                    <div class="d-flex flex-row justify-content-end">
-                                        <span class="text-muted">FORMAS DE PAGO:</span>
-                                    </div>
-                                    <div class="d-flex flex-row justify-content-end"
-                                         *ngFor="let pago of datosDocPlan.doc.pagos">
-                                        <span class="fw-bold">{{pago.ic_nombre}} $:</span>
-                                        <span class="ms-2">${{pago.dt_valor|number:'.2'}}</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td colspan="2">
-                                <div class="d-flex flex-column align-items-end">
-                                    <span class="fw-light">Subtotal $:</span>
-                                    <span class="fw-light">(-)Descuento $:</span>
-                                    <span class="fw-light">(+)Iva {{datosDocPlan.doc.tasiento.trn_impref * 100}}
-                                        % de ${{datosDocPlan.doc.totales.subtotal12}}:</span>
-                                    <span
-                                            class="fw-bolder">Total $:</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column">
+                            <tr *ngFor="let fila of datosDocPlan.doc.detalles" class="hand">
+                                <td>
+                                    {{datosDocPlan.doc.detalles.indexOf(fila) + 1}}
+                                </td>
+                                <td>
+                                    {{fila.ic_nombre}}
+                                </td>
+                                <td>
+                                    {{fila.dt_cant}}
+                                </td>
+                                <td>
+                                    {{fila.dt_precio}}
+                                </td>
+                                <td>
+                                    {{fila.dt_decto}}
+                                </td>
+                                <td>
+                                    {{fila.dai_impg > 0 ? 'S' : 'N'}}
+                                </td>
+                                <td>
                                     <div class="d-flex flex-row-reverse">
-                                        <span class="fw-light">
-                                        {{datosDocPlan.doc.totales.subtotal|number:'.2'}}
-                                        </span>
+                                        <span>{{fila.dt_valor}}</span>
                                     </div>
-                                    <div class="d-flex flex-row-reverse">
-                                    <span class="fw-light">
-                                        {{datosDocPlan.doc.totales.descuentos|number:'.2'}}
-                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <div>
+                                        <div class="d-flex flex-row justify-content-end">
+                                            <span class="text-muted">FORMAS DE PAGO:</span>
+                                        </div>
+                                        <div class="d-flex flex-row justify-content-end"
+                                            *ngFor="let pago of datosDocPlan.doc.pagos">
+                                            <span class="fw-bold">{{pago.ic_nombre}} $:</span>
+                                            <span class="ms-2">${{pago.dt_valor|number:'.2'}}</span>
+                                        </div>
                                     </div>
-                                    <div class="d-flex flex-row-reverse">
-                                    <span class="fw-light">
-                                        {{datosDocPlan.doc.totales.iva|number:'.2'}}
-                                    </span>
+                                </td>
+                                <td colspan="2">
+                                    <div class="d-flex flex-column align-items-end">
+                                        <span class="fw-light">Subtotal $:</span>
+                                        <span class="fw-light">(-)Descuento $:</span>
+                                        <span class="fw-light">(+)Iva {{datosDocPlan.doc.tasiento.trn_impref * 100}}
+                                            % de ${{datosDocPlan.doc.totales.subtotal12}}:</span>
+                                        <span class="fw-bolder">Total $:</span>
                                     </div>
-                                    <div class="d-flex flex-row-reverse">
-                                    <span class="fw-bold">
-                                        {{datosDocPlan.doc.totales.total|number:'.2'}}
-                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <div class="d-flex flex-row-reverse">
+                                            <span class="fw-light">
+                                                {{datosDocPlan.doc.totales.subtotal|number:'.2'}}
+                                            </span>
+                                        </div>
+                                        <div class="d-flex flex-row-reverse">
+                                            <span class="fw-light">
+                                                {{datosDocPlan.doc.totales.descuentos|number:'.2'}}
+                                            </span>
+                                        </div>
+                                        <div class="d-flex flex-row-reverse">
+                                            <span class="fw-light">
+                                                {{datosDocPlan.doc.totales.iva|number:'.2'}}
+                                            </span>
+                                        </div>
+                                        <div class="d-flex flex-row-reverse">
+                                            <span class="fw-bold">
+                                                {{datosDocPlan.doc.totales.total|number:'.2'}}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -245,7 +258,8 @@
     </div>
     <div *ngIf="showForm" class="shadow border mt-1 p-3">
         <p class="alert" [ngClass]="formcab.trn_codigo === 0 ? 'alert-info':'alert-warning'">
-            {{formcab.trn_codigo === 0 ? 'Nuevo plan de tratamiento, ingrese la información que se solicita:' : 'Editando plan de tratamiento'}}
+            {{formcab.trn_codigo === 0 ? 'Nuevo plan de tratamiento, ingrese la información que se solicita:' :
+            'Editando plan de tratamiento'}}
         </p>
         <div class="mt-4">
             <div class="row">
@@ -264,9 +278,8 @@
                             <span class="text-rojo">*</span><span>Nombre:</span>
                         </div>
                         <div class="col-md">
-                            <input type="text" class="form-control" id="pnt_nombre"
-                                   [(ngModel)]="formplan.pnt_nombre" placeholder="Nombre para el plan de tratamiento"
-                                   maxlength="40">
+                            <input type="text" class="form-control" id="pnt_nombre" [(ngModel)]="formplan.pnt_nombre"
+                                placeholder="Nombre para el plan de tratamiento" maxlength="40">
                         </div>
                     </div>
                     <div class="row">
@@ -275,13 +288,10 @@
                         </div>
                         <div class="col-md">
                             <div class="p-fluid">
-                                <p-dropdown [options]="medicos" [disabled]="formcab.trn_codigo>0"
-                                            [showClear]="true"
-                                            placeholder="Seleccione el/la profesional a cargo"
-                                            filter="true"
-                                            (onChange)="onMedicoChange($event)"
-                                            optionLabel="nomapel" optionValue="per_id"
-                                            [(ngModel)]="formplan.med_id"></p-dropdown>
+                                <p-dropdown [options]="medicos" [disabled]="formcab.trn_codigo>0" [showClear]="true"
+                                    placeholder="Seleccione el/la profesional a cargo" filter="true"
+                                    (onChange)="onMedicoChange($event)" optionLabel="nomapel" optionValue="per_id"
+                                    [(ngModel)]="formplan.med_id"></p-dropdown>
                             </div>
                         </div>
                     </div>
@@ -290,8 +300,7 @@
                     <div class="d-flex flex-column">
                         <span>Observación:</span>
                         <textarea class="form-control" [(ngModel)]="formplan.pnt_obs" rows="3" autocomplete="off"
-                                  placeholder="Ingrese una observación para este nuevo plan de tratamiento"
-                                  id="pnt_obs">
+                            placeholder="Ingrese una observación para este nuevo plan de tratamiento" id="pnt_obs">
                 </textarea>
                     </div>
                 </div>
@@ -302,7 +311,7 @@
                     <div class="card">
                         <div class="card-header quitaPaddingMargin p-1">
                             <input type="text" class="form-control form-control-sm" [(ngModel)]="filtroserv"
-                                   (keyup)="doFilter()" placeholder="Buscar procedimiento a realizar:">
+                                (keyup)="doFilter()" placeholder="Buscar procedimiento a realizar:">
                         </div>
 
                         <ul class="list-group list-group-flush scrol-list-dental">
@@ -311,8 +320,8 @@
                                 <div class="d-flex flex-row">
                                     <div style="width: 90%;">
                                         <span style="font-size: small">{{item.ic_nombre}}</span>
-                                        <span style="font-size: small"
-                                              class="text-muted font-italic"> ${{item.icdp_precioventa}} </span>
+                                        <span style="font-size: small" class="text-muted font-italic">
+                                            ${{item.icdp_precioventa}} </span>
                                     </div>
                                     <div style="width: 10%;">
                                         <button class="btn btn-sm btn-outline-primary" (click)="selectServicio(item)">
@@ -329,82 +338,88 @@
                     <div class="table-responsive shadow-sm">
                         <table class="table table-bordered table-sm">
                             <thead>
-                            <tr>
-                                <th scope="col" style="width: 3%">
-                                    <span class="fw-normal fontsizesm">#</span>
-                                </th>
-                                <th scope="col" style="width: 31%">
-                            <span class="fw-bold fontsizesm">
-                                Servicio </span>
-                                </th>
-                                <th scope="col" style="width: 12%">
-                            <span class="fw-bold fontsizesm">
-                                Cant. </span></th>
-                                <th scope="col" style="width: 10%">
-                            <span class="fw-bold fontsizesm">
-                                P. Uni. </span></th>
-                                <th scope="col" style="width: 10%">
-                            <span class="fw-bold fontsizesm">
-                                Subt.</span></th>
-                                <th scope="col" style="width: 9%">
-                            <span class="fw-bold fontsizesm">
-                                Desc </span></th>
-                                <th scope="col" style="width: 10%">
-                            <span class="fw-bold fontsizesm">
-                                Iva </span></th>
-                                <th scope="col" style="width: 10%">
-                            <span class="fw-bold fontsizesm">
-                                Total </span></th>
-                                <th scope="col" style="width: 5%">
-                                </th>
-                            </tr>
+                                <tr>
+                                    <th scope="col" style="width: 3%">
+                                        <span class="fw-normal fontsizesm">#</span>
+                                    </th>
+                                    <th scope="col" style="width: 31%">
+                                        <span class="fw-bold fontsizesm">
+                                            Servicio </span>
+                                    </th>
+                                    <th scope="col" style="width: 12%">
+                                        <span class="fw-bold fontsizesm">
+                                            Cant. </span>
+                                    </th>
+                                    <th scope="col" style="width: 10%">
+                                        <span class="fw-bold fontsizesm">
+                                            P. Uni. </span>
+                                    </th>
+                                    <th scope="col" style="width: 10%">
+                                        <span class="fw-bold fontsizesm">
+                                            Subt.</span>
+                                    </th>
+                                    <th scope="col" style="width: 9%">
+                                        <span class="fw-bold fontsizesm">
+                                            Desc </span>
+                                    </th>
+                                    <th scope="col" style="width: 10%">
+                                        <span class="fw-bold fontsizesm">
+                                            Iva </span>
+                                    </th>
+                                    <th scope="col" style="width: 10%">
+                                        <span class="fw-bold fontsizesm">
+                                            Total </span>
+                                    </th>
+                                    <th scope="col" style="width: 5%">
+                                    </th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr *ngFor="let fila of detalles">
-                                <th scope="row">
-                                    <span class="fw-normal fontsizesm">{{detalles.indexOf(fila) + 1}}</span>
-                                </th>
-                                <td>
-                                    <div class="d-flex flex-column">
-                                        <span class="fw-light fontsizesm">{{fila.ic_code}}</span>
-                                        <span class="fw-bold fontsizesm">{{fila.ic_nombre}}</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="p-fluid">
-                                        <p-inputNumber [(ngModel)]="fila.dt_cant" [min]="1" [max]="1000"
-                                                       styleClass="form-control-sm"
-                                                       [showButtons]="true"
-                                                       (ngModelChange)="recalcTotalFila(fila)"></p-inputNumber>
-                                    </div>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control form-control-sm"
-                                           (keyup)="onFilaPrecioChange(fila)" (focusin)="$event.target.select()"
-                                           [(ngModel)]="fila.dt_precioiva"></td>
-                                <td>
-                                    <input type="text" class="form-control form-control-sm" [(ngModel)]="fila.subtotal"
-                                           disabled>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control form-control-sm"
-                                           (keyup)="onFilaDescChange(fila)" [ngClass]="{'is-invalid':fila.dt_dectoerr}"
-                                           (focusin)="$event.target.select()"
-                                           [(ngModel)]="fila.dt_dectoin"></td>
-                                <td>
-                                    <select class="form-control form-control-sm" [(ngModel)]="fila.icdp_grabaiva"
+                                <tr *ngFor="let fila of detalles">
+                                    <th scope="row">
+                                        <span class="fw-normal fontsizesm">{{detalles.indexOf(fila) + 1}}</span>
+                                    </th>
+                                    <td>
+                                        <div class="d-flex flex-column">
+                                            <span class="fw-light fontsizesm">{{fila.ic_code}}</span>
+                                            <span class="fw-bold fontsizesm">{{fila.ic_nombre}}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="p-fluid">
+                                            <p-inputNumber [(ngModel)]="fila.dt_cant" [min]="1" [max]="1000"
+                                                styleClass="form-control-sm" [showButtons]="true"
+                                                (ngModelChange)="recalcTotalFila(fila)"></p-inputNumber>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm"
+                                            (keyup)="onFilaPrecioChange(fila)" (focusin)="$event.target.select()"
+                                            [(ngModel)]="fila.dt_precioiva">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm"
+                                            [(ngModel)]="fila.subtotal" disabled>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm"
+                                            (keyup)="onFilaDescChange(fila)" [ngClass]="{'is-invalid':fila.dt_dectoerr}"
+                                            (focusin)="$event.target.select()" [(ngModel)]="fila.dt_dectoin">
+                                    </td>
+                                    <td>
+                                        <select class="form-control form-control-sm" [(ngModel)]="fila.icdp_grabaiva"
                                             (ngModelChange)="onFilaIvaChange(fila)">
-                                        <option *ngFor="let iv of ivas" [ngValue]="iv.value">{{iv.label}}</option>
-                                    </select>
-                                <td>
-                                    <span class="fontsizesm fw-bold">${{fila.total | number: '.2'}}</span>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-secondary" (click)="quitarItem(fila)"
+                                            <option *ngFor="let iv of ivas" [ngValue]="iv.value">{{iv.label}}</option>
+                                        </select>
+                                    <td>
+                                        <span class="fontsizesm fw-bold">${{fila.total | number: '.2'}}</span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-secondary" (click)="quitarItem(fila)"
                                             title="Quitar">
-                                        <i class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
+                                            <i class="fa fa-trash"></i></button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -413,21 +428,19 @@
                         <div class="row">
                             <div class="col-md-7">
                                 <div class="row">
-                                    <div class="col-md-5"><span
-                                            class="fw-bold fontsizenr">Subtotal $:</span>
+                                    <div class="col-md-5"><span class="fw-bold fontsizenr">Subtotal $:</span>
                                     </div>
                                     <div class="col-md">
                                         <input type="text" class="form-control form-control-sm" disabled
-                                               [(ngModel)]="totales.subtotal">
+                                            [(ngModel)]="totales.subtotal">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-5"><span
-                                            class="fw-bold fontsizenr">(-)Descuento $:</span>
+                                    <div class="col-md-5"><span class="fw-bold fontsizenr">(-)Descuento $:</span>
                                     </div>
                                     <div class="col-md">
                                         <input type="text" class="form-control form-control-sm" disabled
-                                               [(ngModel)]="totales.descuentos">
+                                            [(ngModel)]="totales.descuentos">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -437,16 +450,15 @@
                                     </div>
                                     <div class="col-md">
                                         <input type="text" class="form-control form-control-sm" disabled
-                                               [(ngModel)]="totales.iva">
+                                            [(ngModel)]="totales.iva">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-5"><span
-                                            class="fw-bolder fontsizenr">Total $:</span>
+                                    <div class="col-md-5"><span class="fw-bolder fontsizenr">Total $:</span>
                                     </div>
                                     <div class="col-md">
                                         <input type="text" class="form-control form-control-sm" disabled
-                                               [(ngModel)]="totales.total">
+                                            [(ngModel)]="totales.total">
                                     </div>
                                 </div>
                             </div>
@@ -460,8 +472,8 @@
                                     </div>
                                     <div class="col-md-7">
                                         <input type="number" class="form-control form-control-sm"
-                                               (focusin)="$event.target.select()"
-                                               [(ngModel)]="pago.dt_valor" (keyup)="calculaPagos(pago)">
+                                            (focusin)="$event.target.select()" [(ngModel)]="pago.dt_valor"
+                                            (keyup)="calculaPagos(pago)">
                                     </div>
                                 </div>
                             </div>
@@ -470,7 +482,7 @@
                     <div class="mt-2 d-flex justify-content-around">
                         <div>
                             <button class="btn btn-outline-primary" (click)="creaPlanTratamiento()"
-                                    *ngIf="detalles.length>0">
+                                *ngIf="detalles.length>0">
                                 <i class="fa fa-save"></i>
                                 Guardar
                             </button>
@@ -482,5 +494,15 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div *ngIf="showModalConfirma">
+        <p-dialog header="Confirmar Plan de Tratamiento" [modal]="true" [style]="{width: '50vw'}" [closeOnEscape]="true"
+            [autoZIndex]="false" [(visible)]="showModalConfirma">
+            <div>
+                <app-formnewref [codref]="datosDocPlan.doc.datosref.per_id" [planid]="plansel.pnt_id"
+                    (confirmPlanSaved)="onPlanConfirmSaved()" (canceledSavePlan)="onPlanConfirmCancel()">
+                </app-formnewref>
+            </div>
+        </p-dialog>
     </div>
 </div>

@@ -1,12 +1,13 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {ArticuloService} from '../../../../services/articulo.service';
-import {DomService} from '../../../../services/dom.service';
-import {PlantratamientoService} from '../../../../services/plantratamiento.service';
-import {SwalService} from '../../../../services/swal.service';
-import {ArrayutilService} from '../../../../services/arrayutil.service';
-import {LoadingUiService} from '../../../../services/loading-ui.service';
-import {NumberService} from '../../../../services/number.service';
-import {BaseComponent} from '../../../../components/shared/base.component';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ArticuloService } from '../../../../services/articulo.service';
+import { DomService } from '../../../../services/dom.service';
+import { PlantratamientoService } from '../../../../services/plantratamiento.service';
+import { SwalService } from '../../../../services/swal.service';
+import { ArrayutilService } from '../../../../services/arrayutil.service';
+import { LoadingUiService } from '../../../../services/loading-ui.service';
+import { NumberService } from '../../../../services/number.service';
+import { BaseComponent } from '../../../../components/shared/base.component';
+import { CompeleService } from 'src/app/services/compele.service';
 
 @Component({
     selector: 'app-plantratamiento',
@@ -32,19 +33,23 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
     plansel: any;
     ivas: Array<any>;
     filtroserv: any;
-    tracodFact = 1;
+    tracodFact = 2;
     isLoadingPlanes = false;
+    showModalConfirma = false;
+
+    isShowDetallesPlan =false;
 
     @Input()
     codpaciente: number;
 
     constructor(private artService: ArticuloService,
-                private domService: DomService,
-                private loadinUIServ: LoadingUiService,
-                private arrayService: ArrayutilService,
-                private swalService: SwalService,
-                private numberService: NumberService,
-                private planService: PlantratamientoService) {
+        private domService: DomService,
+        private loadinUIServ: LoadingUiService,
+        private arrayService: ArrayutilService,
+        private swalService: SwalService,
+        private numberService: NumberService,
+        private planService: PlantratamientoService,
+        private compele: CompeleService) {
         super();
     }
 
@@ -57,6 +62,8 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
                 this.filteredServ = res.items;
             }
         });
+
+
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -180,7 +187,7 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
                     const form = {
                         formplan: this.formplan,
                         form_cab: this.formcab,
-                        form_persona: {per_id: this.codpaciente},
+                        form_persona: { per_id: this.codpaciente },
                         detalles: this.detalles,
                         pagos: this.formaspago,
                         totales: this.totales
@@ -243,11 +250,13 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
     showDetallesPlan(plan) {
         this.plansel = plan;
         this.loadDatosPlan(this.plansel.pnt_id);
+        this.isShowDetallesPlan = true;
     }
 
     cerrarVerDetallesFact() {
         this.plansel = {};
         this.datosDocPlan = {};
+        this.isShowDetallesPlan = false;
     }
 
     calculaPagos(filapago) {
@@ -270,22 +279,6 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
 
     imprimirPlan(planid: any) {
         this.planService.imprimirPlan(planid);
-    }
-
-    confirmarPlan() {
-        const msg = '¿Seguro que desea marcar como confirmado este plan?';
-        this.swalService.fireDialog(msg).then(confirm => {
-                if (confirm.value) {
-                    this.planService.cambiarEstado(this.plansel.pnt_id, 2).subscribe(res => {
-                        if (res.status === 200) {
-                            this.swalService.fireToastSuccess(res.msg);
-                            this.loadPlanes();
-                            this.cerrarVerDetallesFact();
-                        }
-                    });
-                }
-            }
-        );
     }
 
     anularPlan() {
@@ -322,16 +315,16 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
     finalizarPlan() {
         const msg = '¿Seguro que desea marcar como finalizado?';
         this.swalService.fireDialog(msg).then(confirm => {
-                if (confirm.value) {
-                    this.planService.cambiarEstado(this.plansel.pnt_id, 4).subscribe(res => {
-                        if (res.status === 200) {
-                            this.swalService.fireToastSuccess(res.msg);
-                            this.loadPlanes();
-                            this.cerrarVerDetallesFact();
-                        }
-                    });
-                }
+            if (confirm.value) {
+                this.planService.cambiarEstado(this.plansel.pnt_id, 4).subscribe(res => {
+                    if (res.status === 200) {
+                        this.swalService.fireToastSuccess(res.msg);
+                        this.loadPlanes();
+                        this.cerrarVerDetallesFact();
+                    }
+                });
             }
+        }
         );
     }
 
@@ -386,4 +379,24 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
         fila.dt_precio = dtPrecio;
         this.recalcTotalFila(fila);
     }
+
+    showModalEmiteFactura() {
+        this.tracodFact = 2;
+        this.showModalConfirma = true;
+    }
+
+    cancelEmiteFactura() {
+        this.showModalConfirma = false;
+    }
+
+    onPlanConfirmSaved() {
+        this.loadPlanes();
+        this.cerrarVerDetallesFact();
+        this.showModalConfirma = false;
+    }
+
+    onPlanConfirmCancel() {
+        this.cancelEmiteFactura();
+    }
+
 }

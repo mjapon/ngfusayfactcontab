@@ -150,6 +150,7 @@ import { FinanMovsFormComponent } from './components/finan/movimientos/movs-form
 import { LoginfacteComponent } from './components/facte/loginfacte/loginfacte.component';
 import { HomefacteComponent } from './components/facte/homefacte/homefacte.component';
 import { FacteloggedheadComponent } from './components/shared/facteloggedhead/facteloggedhead.component';
+import { FormNewrefBasic } from './components/referentes/formnewref/formnewref.component';
 
 
 
@@ -276,7 +277,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         FinanMovsFormComponent,
         LoginfacteComponent,
         HomefacteComponent,
-        FacteloggedheadComponent
+        FacteloggedheadComponent,
+        FormNewrefBasic
     ],
     imports: [
         CommonModule,

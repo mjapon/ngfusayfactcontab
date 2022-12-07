@@ -40,6 +40,8 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     datosdocedit: any = {};
     formvuelto = { input: 0, vuelto: 0 };
 
+    formautoref: any = {};
+
     @Input() form: any;
     @Input() tracodigo: number;
     @Input() isedit = false;
@@ -178,20 +180,6 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         this.checkInventarios(fila);
         this.numberService.recalcTotalFila(fila);
         this.totalizar();
-    }
-
-    testFacte() {
-        console.log('Test facte-->');
-        this.compele.enviar(656).subscribe(res => {
-            console.log('Valor de res es:', res);
-        });
-    }
-
-    testAutorizaFacte() {
-        console.log('Test facte autoriza-->');
-        this.compele.consultaEstadoAut(656).subscribe(res => {
-            console.log('Valor de res es:', res);
-        });
     }
 
     buscaServs(event) {
@@ -509,17 +497,18 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
 
     buscarReferente() {
         const per_ciruc = this.form.form_persona.per_ciruc;
-        this.loadingUiService.publishBlockMessage();
-        this.personaServ.buscarPorCi(per_ciruc).subscribe(res => {
-            if (this.isResultOk(res)) {
-                this.form.form_persona = res.persona;
-                this.domService.setFocusTm(this.ctes.artsAutoCom);
-                this.swalService.fireToastSuccess(this.ctes.msgRefRegistered);
-            } else {
-                this.domService.setFocusTm(this.ctes.perNombresInput);
-            }
+        if (per_ciruc && per_ciruc.trim().length > 3) {
+            this.loadingUiService.publishBlockMessage();
+            this.personaServ.buscarPorCi(per_ciruc).subscribe(res => {
+                if (this.isResultOk(res)) {
+                    this.form.form_persona = res.persona;
+                    this.domService.setFocusTm(this.ctes.artsAutoCom);
+                    this.swalService.fireToastSuccess(this.ctes.msgRefRegistered);
+                } else {
+                    this.domService.setFocusTm(this.ctes.perNombresInput);
+                }
+            });
         }
-        );
     }
 
     onConsFinalChange() {
@@ -533,6 +522,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
 
     clearFormPersona() {
         this.loadFormReferente();
+        this.formautoref = {};
     }
 
     onDescgenChange() {
@@ -609,6 +599,18 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
             this.formvuelto.vuelto = cambio;
         } else {
             this.formvuelto.vuelto = 0.0;
+        }
+    }
+
+
+    onEnterRef($ev) {
+
+    }
+
+    onRefSelect() {
+        if (this.formautoref.referente && this.formautoref.referente.per_ciruc) {
+            this.form.form_persona.per_ciruc = this.formautoref.referente.per_ciruc;
+            this.buscarReferente();
         }
     }
 }

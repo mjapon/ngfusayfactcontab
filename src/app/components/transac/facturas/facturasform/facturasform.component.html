@@ -51,9 +51,15 @@
             </div>
             <div *ngIf="!isConsumidorFinal">
                 <div class="row">
+                    <div class="col-lg-6 col-md my-3">
+                        <app-buscaref [form]="formautoref" (evOnEnterRef)="onEnterRef($event)" [showlugres]="false"
+                            [stylevalidinvalid]="false" (evOnSelectRef)="onRefSelect()"></app-buscaref>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-2">
                         <div class="mb-3">
-                            <span class="fontsizenr fw-light">CI/Ruc: </span>
+                            <span class="fontsizenr fw-bold">CI/Ruc: </span>
                             <div class="input-group">
                                 <input type="text" class="form-control form-control-sm"
                                     [(ngModel)]="form.form_persona.per_ciruc" (blur)="verificaRefRegistrado()"
@@ -73,7 +79,7 @@
                     </div>
                     <div class="col-md-2">
                         <div class="mb-3">
-                            <span class="fontsizenr">Nombres: </span>
+                            <span class="fontsizenr fw-bold">Nombres: </span>
                             <input type="text" class="form-control form-control-sm" id="perNombresInput" tabindex="11"
                                 [(ngModel)]="form.form_persona.per_nombres" [disabled]="isDisabledFormRef"
                                 maxlength="70">
@@ -81,7 +87,7 @@
                     </div>
                     <div class="col-md-2">
                         <div class="mb-3">
-                            <span class="fontsizenr">Apellidos: </span>
+                            <span class="fontsizenr fw-bold">Apellidos: </span>
                             <input type="text" class="form-control form-control-sm" id="perApellidosInput" tabindex="12"
                                 [(ngModel)]="form.form_persona.per_apellidos" [disabled]="isDisabledFormRef"
                                 maxlength="60">
@@ -89,7 +95,7 @@
                     </div>
                     <div class="col-md-2">
                         <div class="mb-3">
-                            <span class="fontsizenr">Dirección: </span>
+                            <span class="fontsizenr fw-bold">Dirección: </span>
                             <input type="text" class="form-control form-control-sm" id="perDireccionInput" tabindex="13"
                                 [(ngModel)]="form.form_persona.per_direccion" [disabled]="isDisabledFormRef"
                                 maxlength="90">
@@ -97,14 +103,14 @@
                     </div>
                     <div class="col-md-2">
                         <div class="mb-3">
-                            <span class="fontsizenr">Teléfono: </span>
+                            <span class="fontsizenr fw-bold">Teléfono: </span>
                             <input type="text" class="form-control form-control-sm" id="perTelfInput" tabindex="14"
                                 [(ngModel)]="form.form_persona.per_telf" [disabled]="isDisabledFormRef" maxlength="20">
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="mb-3">
-                            <span class="fontsizenr">Email: </span>
+                            <span class="fontsizenr fw-bold">Email: </span>
                             <input type="text" class="form-control form-control-sm" id="perEamilInput" tabindex="15"
                                 [(ngModel)]="form.form_persona.per_email" [disabled]="isDisabledFormRef" maxlength="40">
                         </div>

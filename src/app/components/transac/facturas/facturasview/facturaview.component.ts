@@ -1,8 +1,10 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {AsientoService} from '../../../../services/asiento.service';
-import {SwalService} from '../../../../services/swal.service';
-import {CtesService} from '../../../../services/ctes.service';
-import {BaseComponent} from '../../../shared/base.component';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AsientoService } from '../../../../services/asiento.service';
+import { SwalService } from '../../../../services/swal.service';
+import { CtesService } from '../../../../services/ctes.service';
+import { BaseComponent } from '../../../shared/base.component';
+import { FacteComprobService } from 'src/app/services/facte/comprob.service';
+import { CompeleService } from 'src/app/services/compele.service';
 
 @Component({
     selector: 'app-facturaview',
@@ -15,6 +17,7 @@ export class FacturaviewComponent extends BaseComponent implements OnInit, OnCha
     isLoading = false;
     isShowChangeSec = false;
     isCompele = false;
+    facteleinfo: any = {};
 
     @Input() trncod: number;
     @Input() isPermEdit = false;
@@ -28,8 +31,10 @@ export class FacturaviewComponent extends BaseComponent implements OnInit, OnCha
     @Input() showBtns = true;
 
     constructor(private tasientoService: AsientoService,
-                private ctes: CtesService,
-                private swalService: SwalService) {
+        private facteService: FacteComprobService,
+        private ctes: CtesService,
+        private compele: CompeleService,
+        private swalService: SwalService) {
         super();
     }
 
@@ -53,7 +58,8 @@ export class FacturaviewComponent extends BaseComponent implements OnInit, OnCha
                 this.doc = res.doc;
                 this.evFacturaLoaded.emit(this.doc);
                 this.isShowImprimir = this.doc.tasiento.tra_codigo === 1 || this.doc.tasiento.tra_codigo === 2;
-                this.isCompele = this.doc.isCompele||false;
+                this.isCompele = this.doc.isCompele || false;
+                this.facteleinfo = this.doc.facteleinfo;
             }
         });
     }
@@ -94,6 +100,55 @@ export class FacturaviewComponent extends BaseComponent implements OnInit, OnCha
         this.evAnulado.emit();
         this.onCloseClick();
     }
+
+    imprimirRIDE() {
+        this.facteService.genRIDEPDF(this.facteleinfo.tfe_claveacceso);
+    }
+
+    enviarSRI() {
+        this.showAnim = true;
+        this.swalService.fireToastInfo('Se envió comprobante al SRI, favor esperar respuesta');
+        this.compele.enviar(this.trncod).subscribe(res => {
+            this.showAnim = false;
+            this.loadDatosFactura();
+        });
+    }
+
+    isEnableEnviarSRI() {
+        return this.facteleinfo.tfe_estado === 0 || this.facteleinfo.tfe_estado === 4;
+    }
+
+    isEnableAutorizarSRI() {
+        return this.facteleinfo.tfe_estado === 5;
+    }
+
+    isEnableImprimeRIDE() {
+        return this.facteleinfo.tfe_estado === 1;
+    }
+
+    autorizarSRI() {
+        this.showAnim = true;
+        this.compele.consultaEstadoAut(this.trncod).subscribe(res => {
+            this.swalService.fireToastInfo('Se envió consulta al SRI, favor esperar');
+            setTimeout(() => {
+                this.showAnim = false;
+                this.loadDatosFactura();
+            }, 5000);
+        });
+    }
+
+    getClassBadgeFactele() {
+        let classbadge = 'bg-warning';
+        let tfe_estado = this.facteleinfo.tfe_estado;
+        if (tfe_estado === 1) {
+            classbadge = 'bg-success';
+        }
+        else if (tfe_estado === 2) {
+            classbadge = 'bg-danger';
+        }
+        return classbadge;
+    }
+
 
 }
 
