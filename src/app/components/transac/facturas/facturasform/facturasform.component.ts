@@ -94,6 +94,8 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         this.initformfact();
         this.initTotales();
         this.form.totales.descglobalin = 0;
+        this.form.totales.descglobaltipo = '1';
+        this.form.totales.descglobalpin = 0;
         this.currentdate = new Date();
         this.seccionSel = 1;
         this.ivas = this.numberService.getIvasArray();
@@ -118,7 +120,9 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
             subtotal: 0.0,
             descuentos: 0.0,
             descglobal: 0.0,
-            descglobalin: '',
+            descglobalin: '0',
+            descglobaltipo: '1',
+            descglobalpin:'0',
             subtforiva: 0.0,
             iva: 0.0,
             total: 0.0
@@ -140,9 +144,15 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
 
     totalizar() {
         const descglobalin = this.form.totales.descglobalin;
+        const descglobaltipo = this.form.totales.descglobaltipo;
+        const descglobalpin = this.form.totales.descglobalpin;
+
         this.initTotales();
         this.form.totales = this.numberService.totalizar(this.form.detalles);
         this.form.totales.descglobalin = descglobalin;
+        this.form.totales.descglobaltipo = descglobaltipo;
+        this.form.totales.descglobalpin = descglobalpin;
+
         if (this.isedit && this.trncodedit > 0) {
             this.numberService.checkPagosPrevios(this.datosdocedit.pagos, this.form.totales, this.form.pagos);
         } else {
@@ -395,6 +405,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     showFormCreaFact() {
         this.isLoading = true;
         this.initformfact();
+        this.initTotales();
         const formCabObs = this.asientoService.getFormCab(this.tracodigo);
         const secObs = this.seccionService.listarUserSecs();
 
@@ -525,7 +536,21 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         this.formautoref = {};
     }
 
-    onDescgenChange() {
+    computeDescGenPorcen(){
+        const total = this.form.totales.subtotal - this.form.totales.descuentos + this.form.totales.ivasindescg;
+        let numberdectogen = Number(this.form.totales.descglobalin);
+        if (numberdectogen > total) {
+            numberdectogen = 0;
+        }
+
+        let porcDescGlobal = 0.0;
+        if (total > 0) {
+            porcDescGlobal = this.numberService.round2((numberdectogen / total)*100);
+        }
+        this.form.totales.descglobalpin = porcDescGlobal;
+    }
+
+    onDescgenChange(fromui=true) {        
         this.form.totales.dt_dectogenerr = false;
         const numberdectogen = Number(this.form.totales.descglobalin);
         let dtdectogen = 0.0;
@@ -533,17 +558,67 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
             dtdectogen = numberdectogen;
         } else {
             this.form.totales.dt_dectogenerr = true;
-        }
-
+        }        
         this.numberService.setDectoGenInDetails(dtdectogen, this.form.totales, this.form.detalles);
         this.totalizar();
+        if (fromui){
+            this.computeDescGenPorcen();
+        }
+    }
+
+    onDescgenPorcChange(){        
+        const total = (this.form.totales.subtotal||0) - (this.form.totales.descuentos||0) + (this.form.totales.ivasindescg||0);
+        let porcDescGlobal = Number(this.form.totales.descglobalpin);
+        let descglobal = 0.0;
+        if (total > 0 && porcDescGlobal>=0 && porcDescGlobal<=100) {
+            descglobal = total * (porcDescGlobal/100);
+        }       
+        this.form.totales.descglobalin = this.numberService.round4(descglobal);
+        this.onDescgenChange(false);
+    }
+
+    setFocusDescGlobal(){
+        const inputid =  `descglobal${this.form.totales.descglobaltipo}`;
+        this.domService.setFocusTm(inputid);
     }
 
     onDtCantChange(fila) {
         this.recalcTotalFila(fila);
     }
+    
+    setFocusDesc(fila){
+        const inputid = `desfil${fila.dt_dectotipo}_${this.form.detalles.indexOf(fila)}`;
+        this.domService.setFocusTm(inputid);
+    }
 
-    onFilaDescChange(fila: any) {
+    auxCalcDescPorc(fila){
+        const descPorcent = this.numberService.round4( Number( (fila.dt_dectoin * 100)/fila.dt_precioiva ));
+        if (descPorcent){
+            fila.dt_dectoporcin = descPorcent;
+        }
+        else{
+            fila.dt_dectoporcin = 0;
+        }
+    }    
+
+    onFilaDescPorcChange(fila:any){        
+        const numberdtdecto = Number(fila.dt_dectoporcin);
+        if (numberdtdecto>=0 && numberdtdecto<=100){            
+            const dt_dectocal = this.numberService.round4( (numberdtdecto* fila.dt_precioiva)/100 );
+            if (dt_dectocal){
+                fila.dt_dectoin = dt_dectocal;
+            }
+            else{
+                fila.dt_dectoin = 0;
+            }
+        }
+        else{
+            fila.dt_dectoerr = true;
+            fila.dt_dectoin = 0;
+        }
+        this.onFilaDescChange(fila, false);
+    }
+    onFilaDescChange(fila: any, fromui=true) {
         let dtDecto = 0.0;
         fila.dt_dectoerr = false;
         const subt = fila.dt_cant * fila.dt_precioiva;
@@ -563,6 +638,10 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         // fila.dt_decto = (dtDectoAjuste * fila.dt_cant);
         fila.dt_decto = dtDectoAjuste;
         this.recalcTotalFila(fila);
+
+        if (fromui){
+            this.auxCalcDescPorc(fila);
+        }
     }
 
     onServFilaSelected($event: any) {

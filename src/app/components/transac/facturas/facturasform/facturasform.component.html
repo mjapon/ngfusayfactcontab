@@ -225,15 +225,28 @@
                                 </div>
                             </td>
                             <td>
-                                <div style="min-width: 70px !important;">
-                                    <input type="text" class="form-control form-control-sm"
+                                <div class="d-flex" style="min-width: 70px !important;">
+                                    <div>
+                                        <select class="mt-1" [(ngModel)]="fila.dt_dectotipo" (change)="setFocusDesc(fila)">
+                                            <option value="1">$</option>
+                                            <option value="2">%</option>
+                                        </select>
+                                    </div>
+                                    <div *ngIf="fila.dt_dectotipo==='1'">
+                                        <input type="text" id="desfil1_{{form.detalles.indexOf(fila)}}" class="form-control form-control-sm"
                                         (keyup)="onFilaDescChange(fila)" [ngClass]="{'is-invalid':fila.dt_dectoerr}"
                                         (focusin)="$event.target?.select()" [(ngModel)]="fila.dt_dectoin">
+                                    </div>
+                                    <div *ngIf="fila.dt_dectotipo==='2'">
+                                        <input type="text" id="desfil2_{{form.detalles.indexOf(fila)}}" class="form-control "
+                                        (keyup)="onFilaDescPorcChange(fila)" [ngClass]="{'is-invalid':fila.dt_dectoerr}"
+                                        (focusin)="$event.target?.select()" [(ngModel)]="fila.dt_dectoporcin">
+                                    </div>
                                 </div>
                             </td>
                             <td>
                                 <div style="min-width: 70px !important;">
-                                    <select class="form-control form-control-sm" [(ngModel)]="fila.icdp_grabaiva"
+                                    <select class="form-select form-select-sm" [(ngModel)]="fila.icdp_grabaiva"
                                         (ngModelChange)="onFilaIvaChange(fila)">
                                         <option *ngFor="let iv of ivas" [ngValue]="iv.value">{{iv.label}}</option>
                                     </select>
@@ -282,12 +295,21 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6"><span class="fw-light">(-)Desc Global $:</span>
+                        <div class="col-md-6 d-flex">
+                            <span class="fw-light">(-)Desc Global: </span>                                                        
                         </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control form-control-sm" (keyup)="onDescgenChange()"
+                        <div class="col-md-6 d-flex">
+                            <input *ngIf="form.totales.descglobaltipo==='1'" type="text" id="descglobal1" class="form-control form-control-sm" (keyup)="onDescgenChange()"
                                 [ngClass]="{'is-invalid':form.totales.dt_dectogenerr}"
                                 (focusin)="$event.target?.select()" [(ngModel)]="form.totales.descglobalin">
+                            
+                            <input *ngIf="form.totales.descglobaltipo==='2'" type="text" id="descglobal2" class="form-control form-control-sm" (keyup)="onDescgenPorcChange()"
+                                [ngClass]="{'is-invalid':form.totales.dt_dectogenerr}"
+                                (focusin)="$event.target?.select()" [(ngModel)]="form.totales.descglobalpin">
+                            <select class="ms-1 mt-1" [(ngModel)]="form.totales.descglobaltipo" (change)="setFocusDescGlobal()">
+                                    <option value="1">$</option>
+                                    <option value="2">%</option>
+                                </select>
                         </div>
                     </div>
                     <div class="row">

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { LoggedHomeComponent } from '../components/logged/logged-home/logged-home.component';
 
 @Injectable({
     providedIn: 'root'
@@ -93,9 +94,8 @@ export class NumberService {
         return fila;
     }
 
-    setDectoGenInDetails(descglobal, totales, detalles) {
-        //  TODO: Tomar en cuenta el valor que se calcula del iva para realizar el calculo del descuento general
-        const total = totales.subtotal - totales.descuentos + totales.ivasindescg;
+    setDectoGenInDetails(descglobal, totales, detalles) {        
+        const total = (totales.subtotal||0) - (totales.descuentos||0) + (totales.ivasindescg||0);        
         if (descglobal > total) {
             descglobal = 0;
         }
