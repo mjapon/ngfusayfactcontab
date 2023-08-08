@@ -63,6 +63,15 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
         }
     }
 
+    calcularAbonoTotalPend(){
+        let totalcapital = 0.0;
+        this.formcobro.cuotaspagar.forEach(cuota => {
+            totalcapital+=cuota.pg_capital;
+        });       
+        this.formcobro.pgc_adelanto = this.numberService.round2( this.datoscred.cre_saldopend - totalcapital);        
+        this.onAbonoCapitalChange();
+    }
+
     loadDatosPagosCred() {
         this.loadTablaPagos();
         this.loadDatosCredito();
@@ -161,6 +170,12 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
         this.isModalPagosVisible = false;
     }
 
+    onPagoAbonoCapChange(){
+        console.log('on pago abono cap change', this.showInputAbono);
+        this.formcobro.pgc_adelanto = 0.0;
+        this.onAbonoCapitalChange();
+    }
+
     guardarPago() {
         this.isSavingPago = true;
         const msg = '¿Seguro que desea registrar el pago?';
@@ -200,6 +215,7 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
 
     onAbonoCapitalChange() {
         const numberadelanto = Number(this.formcobro.pgc_adelanto);
+        console.log('Valor de adelanto:', numberadelanto);
         let valadelanto = 0;
         if (numberadelanto >= 0) {
             valadelanto = numberadelanto;

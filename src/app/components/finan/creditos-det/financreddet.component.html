@@ -4,9 +4,15 @@
             <div class="d-flex justify-content-between">
                 <div>
                     <h4 class="card-title">
-                        Detalles del Crédito: {{datoscred.cre_id}}
+                        Crédito Nro: {{datoscred.cre_id}}
                     </h4>
                 </div>
+                <div>
+                    <h5>
+                        {{referente.per_nombres}}  {{referente.per_apellidos}}  - MONTO: {{datoscred.cre_monto}}
+                    </h5>
+                </div>
+                <div class="text-{{getEstilo()}}">Estado: {{datoscred.est_nombre}}</div>
                 <button class="btn btn-outline-primary" (click)="gotoList()">
                     <span class="fa fa-times"></span> Cerrar
                 </button>
@@ -60,7 +66,7 @@
                                             <div class="mt-1">
                                                 <span class="fw-normal fontsizenr labelcred"> Monto Solicitado ($)
                                                 </span>
-                                                <span class="fw-bold fontsizenr"> {{datoscred.cre_monto}} </span>
+                                                <span class="fw-bold fs-5"> {{datoscred.cre_monto}} </span>
                                             </div>
 
                                             <div class="mt-1">
@@ -149,10 +155,17 @@
                                                     {{referente.per_movil}}
                                                 </span>
                                             </div>
+
+                                            <div class="mt-2">
+                                                <div class="alert alert-{{getEstilo()}}">
+                                                    Crédito en estado: {{datoscred.est_nombre}}
+                                                </div>
+                                            </div> 
                                         </div>
                                     </div>
                                 </div>
-
+                                
+                                <!--
                                 <div class="mt-3">
                                     <h4>Tabla de amortización</h4>
                                     <p-table [value]="tablamor.tabla" [paginator]="true" [rows]="50"
@@ -183,6 +196,7 @@
                                         </ng-template>
                                     </p-table>
                                 </div>
+                                -->
                             </div>
                             <div class="col-md">
                                 <div class="mt-2 d-grid gap-2">

@@ -450,11 +450,27 @@
                             </table>
 
                             <div class="mt-2">
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row alert alert-info" role="alert">
+                                            <div class="col-md">
+                                                <span class="fw-bold"> Saldo Pendiente Total: </span>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="fw-bold ms-3">
+                                                    $ {{datoscred.cre_saldopend}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
 
                                 <div class="row my-2">
                                     <div class="col d-flex flex-row-reverse">
                                         <div class="field-checkbox hand">
-                                            <p-checkbox [(ngModel)]="showInputAbono" [binary]="true" inputId="binary"
+                                            <p-checkbox [(ngModel)]="showInputAbono" (onChange)="onPagoAbonoCapChange()" [binary]="true" inputId="binary"
                                                 class="me-2">
                                             </p-checkbox>
                                             <label for="binary" class="hand">Abono de capital</label>
@@ -466,9 +482,10 @@
                                     <div class="col-md-3">
                                         <span class="fw-bold"> Abono Capital: </span>
                                     </div>
-                                    <div class="col-md">
+                                    <div class="col-md d-flex">
                                         <input type="text" class="form-control" placeholder=""
                                             [(ngModel)]="formcobro.pgc_adelanto" (keyup)="onAbonoCapitalChange()">
+                                        <button class="btn btn-outline-primary" (click)="calcularAbonoTotalPend()">Calcular</button>
                                     </div>
                                 </div>
 

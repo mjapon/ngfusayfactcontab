@@ -4,10 +4,12 @@ import { DomService } from "src/app/services/dom.service";
 import { FinanCreditosService } from "src/app/services/finan/finacreditos.service";
 import { BaseComponent } from "../../shared/base.component";
 import { CtesFinanService } from "../ctesfina.service";
+import { LocalStorageService } from "src/app/services/local-storage.service";
 
 @Component({
     selector: 'app-financredlist',
-    templateUrl: "./financredlist.component.html"
+    templateUrl: "./financredlist.component.html",
+    styleUrls: ['./financredlist.component.css']
 })
 export class FinanCredListComponent extends BaseComponent implements OnInit {
 
@@ -18,16 +20,26 @@ export class FinanCredListComponent extends BaseComponent implements OnInit {
     estados: any = [];
     estadosel: any = {};
 
+    estilos = {
+        1:'otros',
+        2:'aprobado',
+        3:'otros',
+        4:'anulado',
+        5:'cancelado'
+    };
+    keyssfiltro = 'cred_filtro';
+
     constructor(private credService: FinanCreditosService,
         private router: Router,
         private ctesFinanceService: CtesFinanService,
+        private localStorage: LocalStorageService,
         private domService: DomService) {
         super();
     }
 
     ngOnInit() {
         this.loadForm();
-        this.loadCreditos();
+        //this.loadCreditos();
     }
 
     onestadochange(event) {
@@ -40,8 +52,18 @@ export class FinanCredListComponent extends BaseComponent implements OnInit {
                 this.estados = res.estados;
                 this.estadosel = this.estados[0];
             }
+            let ssfiltro = this.localStorage.getItem(this.keyssfiltro);
+            if (ssfiltro) {
+                this.filtro = ssfiltro;                
+            }
+            this.loadCreditos();
         });
     }
+
+    getStyle(row){
+        return this.estilos[row.cre_estado];
+    }
+
 
     setRowOver(rowNumber: number) {
         this.currentRowOver = rowNumber;
@@ -52,6 +74,12 @@ export class FinanCredListComponent extends BaseComponent implements OnInit {
         let codestado = 0;
         if (this.estadosel.est_id) {
             codestado = this.estadosel.est_id;
+        }
+        if (this.filtro){
+            this.localStorage.setItem(this.keyssfiltro, this.filtro);
+        }
+        else{
+            this.localStorage.removeItem(this.keyssfiltro);
         }
         this.credService.getGrid(this.filtro, codestado).subscribe(res => {
             if (this.isResultOk(res)) {

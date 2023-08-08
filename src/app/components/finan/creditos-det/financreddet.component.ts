@@ -33,6 +33,13 @@ export class FinanCredDetComponent extends BaseComponent implements OnInit {
     codcred: number = 0;
     currentTab = 1;
 
+    estilos = {
+        1:'info',
+        2:'warning',
+        3:'info',
+        4:'secondary',
+        5:'success'
+    }
     constructor(private credService: FinanCreditosService,
         private router: Router,
         private ctesFinanServ: CtesFinanService,
@@ -78,6 +85,11 @@ export class FinanCredDetComponent extends BaseComponent implements OnInit {
 
     anular() {
         this.auxCambiaEstado('¿Seguro que desea anular este crédito?', 4);
+    }
+
+    getEstilo(){
+        return this.estilos[this.datoscred.cre_estado];
+
     }
 
 

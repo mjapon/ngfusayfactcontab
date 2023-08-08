@@ -205,7 +205,7 @@
                             <td>
                                 <div style="min-width: 100px !important;">
                                     <div class="p-fluid">
-                                        <p-inputNumber [(ngModel)]="fila.dt_cant" [min]="0" [max]="1000"
+                                        <p-inputNumber [(ngModel)]="fila.dt_cant" [min]="0" [max]="100000"
                                             styleClass="form-control-sm" (focusin)="$event.target.select()"
                                             [showButtons]="true" mode="decimal" [minFractionDigits]="1"
                                             maxFractionDigits="3" (ngModelChange)="onDtCantChange(fila)">

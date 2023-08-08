@@ -46,7 +46,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-rowData>
                 <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="onrowdblclick(rowData)"
-                    styleClass="p-0" (mouseover)="setRowOver(gridCreditos.data.indexOf(rowData))">
+                    styleClass="p-0" [ngClass]="getStyle(rowData)" (mouseover)="setRowOver(gridCreditos.data.indexOf(rowData))">
                     <td *ngFor="let item of gridCreditos.cols" [width]="item.width">
                         <span class="p-column-title">{{item.label}}</span>
                         <span class="fontsizesm">{{rowData[item.field]}}</span>

@@ -118,7 +118,7 @@
                                     Imprimir
                                 </button>
 
-                                <button type="button" class="btn btn-outline-primary" (click)="showModalEmiteFactura()"
+                                <button type="button" *ngIf="datosDocPlan.plan.pnt_estado === 1" class="btn btn-outline-primary" (click)="showModalEmiteFactura()"
                                     title="Confirmar plan de tratamiento">
                                     <i class="fa fa-check"></i>
                                     Confirmar
