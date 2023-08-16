@@ -1,6 +1,7 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {PersonaService} from '../../services/persona.service';
-import {PersonEvService} from '../../services/personev.service';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { PersonaService } from '../../services/persona.service';
+import { PersonEvService } from '../../services/personev.service';
+import { DatosloggedService } from 'src/app/services/datoslogged.service';
 
 @Component({
     selector: 'app-resumenref',
@@ -49,33 +50,33 @@ import {PersonEvService} from '../../services/personev.service';
                                (click)="selectMasterTab(1)">
                                 Datos </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" *ngIf="hasRoleVentas">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(3)}"
                                (click)="selectMasterTab(3)">
                                 Ventas <span class="badge " *ngIf="totalestrns?.ventas>0"
                                              [ngClass]="classBadge(3)"> {{totalestrns.ventas}} </span> </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" *ngIf="hasRoleCompras">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(5)}"
                                (click)="selectMasterTab(5)">
                                 Compras <span class="badge " *ngIf="totalestrns?.compras>0"
                                               [ngClass]="classBadge(5)"> {{totalestrns.compras}} </span> </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" *ngIf="hasRoleCxc">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(6)}"
                                (click)="selectMasterTab(6)">
                                 Cuentas por cobrar <span *ngIf="totalestrns?.cxcobrar>0"
                                                          class="badge "
                                                          [ngClass]="classBadge(6)"> {{totalestrns.cxcobrar}} </span></a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" *ngIf="hasRoleCxp">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(7)}"
                                (click)="selectMasterTab(7)">
                                 Cuentas por pagar <span *ngIf="totalestrns.cxpagar>0"
                                                         class="badge "
                                                         [ngClass]="classBadge(7)"> {{totalestrns.cxpagar}} </span> </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" *ngIf="hasRoleAgua">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(8)}"
                                (click)="selectMasterTab(8)">
                                 Contratos agua </a>
@@ -105,8 +106,16 @@ export class ResumenrefComponent implements OnInit, OnChanges {
     totaldeuda: number;
     totalcxp: number;
 
+    hasRoleCompras = false;
+    hasRoleVentas = false;
+    hasRoleCxc = false;
+    hasRoleCxp = false;
+    hasRoleAgua = false;
+
+
     constructor(private personService: PersonaService,
-                private personEvService: PersonEvService) {
+        private datosLoggedServ: DatosloggedService,
+        private personEvService: PersonEvService) {
         this.personEvService.source.subscribe(msg => {
             if (msg && msg.tipo === 1) {
                 this.loadDeudas();
@@ -146,7 +155,47 @@ export class ResumenrefComponent implements OnInit, OnChanges {
         if (!this.referente) {
             this.referente = {};
         }
+        else {
+            this.checkRoles();
+        }
     }
+
+    checkRoles() {
+
+        this.hasRoleCompras = false;
+        this.hasRoleVentas = false;
+        this.hasRoleCxc = false;
+        this.hasRoleCxp = false;
+        this.hasRoleAgua = false;
+
+        this.datosLoggedServ.checkPermiso("VN_LISTAR").subscribe(res => {
+            if (res.chkperm) {
+                this.hasRoleVentas = true;
+            }
+        });
+        this.datosLoggedServ.checkPermiso("CM_LISTAR").subscribe(res1 => {
+            if (res1.chkperm) {
+                this.hasRoleCompras = true;
+            }
+        });
+        this.datosLoggedServ.checkPermiso("CXC_LISTAR").subscribe(res2 => {
+            if (res2.chkperm) {
+                this.hasRoleCxc = true;
+            }
+        });
+        this.datosLoggedServ.checkPermiso("CXP_LISTAR").subscribe(res3 => {
+            if (res3.chkperm) {
+                this.hasRoleCxp = true;
+            }
+        });
+        this.datosLoggedServ.checkPermiso("AGP_ADM").subscribe(res4 => {
+            if (res4.chkperm) {
+                this.hasRoleAgua = true;
+            }
+        });
+    }
+
+
 
     selectMasterTab(btnId: number) {
         this.selectedMasterTab = btnId;

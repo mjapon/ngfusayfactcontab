@@ -54,7 +54,7 @@ import { PeriodoContableService } from 'src/app/services/contable/periodocontab.
             <div class="mt-2 border" *ngIf="datosbalance.length>0">                
                 <div class="text-center mt-2 mb-2">
                     <h5>BALANCE GENERAL</h5>
-                    <h6> {{form.desdestr}} - {{form.hastastr}} </h6>
+                    <h6> {{periodocontable.pc_desde}} - {{form.hastastr}} </h6>
                 </div>
                 
                 <p-treeTable [value]="datosbalancetree" [(selection)]="selectedTreeRow" selectionMode="single"
@@ -209,15 +209,15 @@ export class BalancegeneralComponent implements OnInit {
     }
 
     loadBalance() {
-        if (!(this.form.desde && this.form.hasta)) {
+        if (!this.form.hasta) {
             this.swalService.fireToastError('Verifique las fechas');
             return;
         }
 
-        const desdestr = this.fechasService.formatDate(this.form.desde);
+        //const desdestr = this.fechasService.formatDate(this.form.desde);
         const hastastr = this.fechasService.formatDate(this.form.hasta);
         this.loadingUiServ.publishBlockMessage();
-        this.asientoService.getBalanceGeneral(desdestr, hastastr).subscribe(res => {
+        this.asientoService.getBalanceGeneral('', hastastr).subscribe(res => {
             if (res.status === 200) {
                 this.datosbalance = res.balance;
                 this.parents = res.total_grupos;

@@ -1,12 +1,12 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
-import { BaseComponent } from "src/app/components/shared/base.component";
-import { CtesService } from "src/app/services/ctes.service";
-import { FechasService } from "src/app/services/fechas.service";
-import { FinanCreditosService } from "src/app/services/finan/finacreditos.service";
-import { FinanPagosService } from "src/app/services/finan/finapagos.service";
-import { NumberService } from "src/app/services/number.service";
-import { RxdocsService } from "src/app/services/rxdocs.service";
-import { SwalService } from "src/app/services/swal.service";
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {BaseComponent} from 'src/app/components/shared/base.component';
+import {CtesService} from 'src/app/services/ctes.service';
+import {FechasService} from 'src/app/services/fechas.service';
+import {FinanCreditosService} from 'src/app/services/finan/finacreditos.service';
+import {FinanPagosService} from 'src/app/services/finan/finapagos.service';
+import {NumberService} from 'src/app/services/number.service';
+import {RxdocsService} from 'src/app/services/rxdocs.service';
+import {SwalService} from 'src/app/services/swal.service';
 
 @Component({
     selector: 'app-finpagosview',
@@ -14,7 +14,7 @@ import { SwalService } from "src/app/services/swal.service";
 })
 export class FinanPagosViewComponent extends BaseComponent implements OnInit, OnChanges {
 
-    @Input() cred: number = 0;
+    @Input() cred = 0;
     gridpagos: any = {};
     datoscred: any = {};
     isModalPagosVisible = false;
@@ -23,7 +23,7 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
     isModalMarcaPagadosVisible = false;
     formcobro: any = {};
     formcalcobro: any = {};
-    formanul: any = { obs: '' };
+    formanul: any = {obs: ''};
     pagoAnulSel: any = {};
     selectedCuotas: Array<any> = [];
     puedeCambiarPagos = false;
@@ -38,14 +38,19 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
     aux_pgc_total = 0.0;
     isSavingPago = false;
     loadingInfoPago = false;
+    saldo_total = 0.0;
+    isShowDetAsi = false;
+    trn_codigo_pago = 0;
+    filapagosel = {};
+    datosCancelacion = {};
 
     constructor(private swalService: SwalService,
-        private credService: FinanCreditosService,
-        private ctes: CtesService,
-        private adjService: RxdocsService,
-        private numberService: NumberService,
-        private fechasService: FechasService,
-        private pagosService: FinanPagosService) {
+                private credService: FinanCreditosService,
+                private ctes: CtesService,
+                private adjService: RxdocsService,
+                private numberService: NumberService,
+                private fechasService: FechasService,
+                private pagosService: FinanPagosService) {
         super();
 
         this.isRowSelectable = this.isRowSelectable.bind(this);
@@ -63,12 +68,12 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
         }
     }
 
-    calcularAbonoTotalPend(){
+    calcularAbonoTotalPend() {
         let totalcapital = 0.0;
         this.formcobro.cuotaspagar.forEach(cuota => {
-            totalcapital+=cuota.pg_capital;
-        });       
-        this.formcobro.pgc_adelanto = this.numberService.round2( this.datoscred.cre_saldopend - totalcapital);        
+            totalcapital += cuota.pg_capital;
+        });
+        this.formcobro.pgc_adelanto = this.numberService.round2(this.datoscred.cre_saldopend - totalcapital);
         this.onAbonoCapitalChange();
     }
 
@@ -77,8 +82,17 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
         this.loadDatosCredito();
     }
 
+    hideDetAsi() {
+        this.isShowDetAsi = false;
+    }
+
+    verAsientoPago() {
+        this.trn_codigo_pago = this.datosPago.trncod;
+        this.isShowDetAsi = true;
+    }
+
     initGridPagos() {
-        this.gridpagos = { cols: [], tabla: [] };
+        this.gridpagos = {cols: [], tabla: []};
     }
 
     loadDatosCredito() {
@@ -109,12 +123,39 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
                 this.turnOffLoading();
                 if (this.isResultOk(res)) {
                     this.gridpagos = res.tblpagos;
+                    this.calcularSaldoTotal();
                 }
-            })
+            });
     }
 
     oncuentachange(event: any) {
         this.formcobro.cta_pago = this.ctapagosel.ic_code;
+    }
+
+    calcularSaldoTotal() {
+        this.saldo_total = 0.0;
+        this.datosCancelacion = {};
+        const firstAmortRow = this.gridpagos.tabla.find(el => el.pg_id === 0);
+        if (firstAmortRow) {
+            const cuotas = [{cre_id: firstAmortRow.cre_id, amo_id: firstAmortRow.amo_id}];
+
+            this.pagosService.getFormCalcPagos().subscribe(res1 => {
+                if (this.isResultOk(res1)) {
+                    const formcobro = res1.form;
+                    console.log('res1:', res1);
+                    const fecpago = formcobro.fecpagoobj;
+                    this.pagosService.calcularValoresPagar(cuotas, fecpago).subscribe(res2 => {
+                        if (this.isResultOk(res2)) {
+                            console.log('res2:', res2);
+                            this.datosCancelacion = res2.form;
+                            const saldopend = Number(this.datoscred.cre_saldopend);
+                            const adelanto = this.numberService.round2(saldopend - res2.form.pgc_total_capital);
+                            this.saldo_total = this.numberService.round2(res2.form.pgc_total + adelanto);
+                        }
+                    });
+                }
+            });
+        }
     }
 
     showModalCobrar() {
@@ -127,7 +168,7 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
                 this.formcalcobro = res.form;
                 this.formcalcobro.fecpagoobj = this.fechasService.parseString(this.formcalcobro.fecpago);
                 const cuotas = this.selectedCuotas.map(function (c: any) {
-                    return { 'cre_id': c.cre_id, 'amo_id': c.amo_id };
+                    return {cre_id: c.cre_id, amo_id: c.amo_id};
                 });
                 const fecpago = this.fechasService.formatDate(this.formcalcobro.fecpagoobj);
                 this.pagosService.calcularValoresPagar(cuotas, fecpago).subscribe(res => {
@@ -141,8 +182,7 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
                         }
                     }
                 });
-            }
-            else {
+            } else {
                 this.loadingInfoPago = false;
             }
         });
@@ -151,7 +191,7 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
     updateFechaPago() {
         this.loadingInfoPago = true;
         const cuotas = this.selectedCuotas.map(function (c: any) {
-            return { 'cre_id': c.cre_id, 'amo_id': c.amo_id };
+            return {cre_id: c.cre_id, amo_id: c.amo_id};
         });
         const fecpago = this.fechasService.formatDate(this.formcalcobro.fecpagoobj);
         this.pagosService.calcularValoresPagar(cuotas, fecpago).subscribe(res => {
@@ -170,7 +210,7 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
         this.isModalPagosVisible = false;
     }
 
-    onPagoAbonoCapChange(){
+    onPagoAbonoCapChange() {
         console.log('on pago abono cap change', this.showInputAbono);
         this.formcobro.pgc_adelanto = 0.0;
         this.onAbonoCapitalChange();
@@ -202,8 +242,7 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
                         this.selectedCuotas = [];
                     }
                 });
-            }
-            else {
+            } else {
                 this.isSavingPago = false;
             }
         });
@@ -287,7 +326,8 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
     }
 
     showModalDatosPago(pago) {
-        this.datosPago = {}
+        this.datosPago = {};
+        this.filapagosel = pago;
         this.pagosService.getDetallesPago(pago.pgc_id).subscribe(res => {
             if (this.isResultOk(res)) {
                 this.isModalDatosPagoVisible = true;
@@ -313,7 +353,7 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
                 this.formcalcobro.fecpagoobj = this.fechasService.parseString(this.formcalcobro.fecpago);
             }
             const cuotas = this.selectedCuotas.map(function (c: any) {
-                return { 'cre_id': c.cre_id, 'amo_id': c.amo_id };
+                return {cre_id: c.cre_id, amo_id: c.amo_id};
             });
             this.pagosService.getFormMarcaPagado(cuotas).subscribe(res => {
                 if (this.isResultOk(res)) {
@@ -340,8 +380,7 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
                         this.selectedCuotas = [];
                     }
                 });
-            }
-            else {
+            } else {
                 this.isSavingPago = false;
             }
         });
