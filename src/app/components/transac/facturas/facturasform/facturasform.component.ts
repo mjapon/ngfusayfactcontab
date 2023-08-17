@@ -179,7 +179,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
             if (fila.tipic_id === 1) {
                 if (fila.dt_cant > fila.ice_stock) {
                     continuar = false;
-                    this.swalService.fireToastError(`No hay unidades disponibles para ${fila.ic_nombre}, el total disponible actual es de: ${fila.ice_stock}`);
+                    this.swalService.fireToastWarn(`No hay unidades disponibles para ${fila.ic_nombre}, el total disponible actual es de: ${fila.ice_stock}`);
                 }
             }
         }

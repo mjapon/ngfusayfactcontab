@@ -16,7 +16,22 @@ import {TtpdvService} from '../../../services/ttpdv.service';
             background: #e2e2e2;
             border-radius: 5px;
         }
-        `]
+
+        .page-container {
+            position: relative;
+            min-height: 88vh;
+        }
+
+        .content-wrap {
+            padding-bottom: 0rem;
+        }
+
+        .footerd {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 3rem;
+        }`]
 })
 export class LoggedHomeComponent implements OnInit {
 
@@ -137,11 +152,11 @@ export class LoggedHomeComponent implements OnInit {
     }
 
     onAccDirOver(acc: any) {
-        this.changeCss(acc, 'btn-outline-primary');
+        this.changeCss(acc, 'btnmenuin');
     }
 
     onAccDirOut(acc: any) {
-        this.changeCss(acc, 'btn-outline-secondary');
+        this.changeCss(acc, 'btnmenuout');
     }
 
     doroute(acc: any) {

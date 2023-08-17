@@ -4,10 +4,10 @@
         <app-loading></app-loading>
     </div>
 
-    <div *ngIf="!isLoading">
+    <div *ngIf="!isLoading" class="rounded-3 p-2">
         <div class="row">
             <div class="col">
-                <h4>{{editing ? 'Editar ' + artFromDb.ic_nombre : 'Crear Producto o Servicio'}} </h4>
+                <h4>{{editing ? 'Editar ' + artFromDb.ic_nombre : 'Crear producto o servicio'}} </h4>
             </div>
             <div class="col-3 d-flex justify-content-end">
                 <div class="btn-group" role="group" aria-label="Default button group">
