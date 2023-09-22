@@ -15,7 +15,7 @@ import {CtesService} from '../../../services/ctes.service';
 @Component({
     selector: 'app-articulos-list',
     templateUrl: './articulos-list.component.html',
-    styleUrls: ['./articulos-list.component.css']
+    styleUrls: ['./articulos-list.component.scss']
 })
 export class ArticulosListComponent implements OnInit {
 

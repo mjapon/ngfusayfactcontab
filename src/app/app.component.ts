@@ -1,16 +1,16 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { LocalStorageService } from './services/local-storage.service';
-import { NavigationEnd, Router } from '@angular/router';
-import { FautService } from './services/faut.service';
-import { LoadingUiService } from './services/loading-ui.service';
-import { TranslateService } from '@ngx-translate/core';
-import { PrimeNGConfig } from 'primeng/api';
-import { FacteContribService } from './services/facte/contrib.service';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {LocalStorageService} from './services/local-storage.service';
+import {NavigationEnd, Router} from '@angular/router';
+import {FautService} from './services/faut.service';
+import {LoadingUiService} from './services/loading-ui.service';
+import {TranslateService} from '@ngx-translate/core';
+import {PrimeNGConfig} from 'primeng/api';
+import {FacteContribService} from './services/facte/contrib.service';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterViewInit {
     title = 'sysprint';
@@ -22,12 +22,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     isshowAppMenu: boolean;
 
     constructor(private localStorageService: LocalStorageService,
-        private router: Router,
-        private fautService: FautService,
-        private contribService: FacteContribService,
-        private loadingUiService: LoadingUiService,
-        private config: PrimeNGConfig,
-        private translateService: TranslateService) {
+                private router: Router,
+                private fautService: FautService,
+                private contribService: FacteContribService,
+                private loadingUiService: LoadingUiService,
+                private config: PrimeNGConfig,
+                private translateService: TranslateService) {
     }
 
     ngOnInit(): void {
@@ -78,8 +78,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.contribService.source.subscribe(msg => {
             if (msg === 'loginFacte') {
                 this.isLoggedFacte = true;
-            }
-            else if (msg === 'logoutFacte') {
+            } else if (msg === 'logoutFacte') {
                 this.isLoggedFacte = false;
             }
         });

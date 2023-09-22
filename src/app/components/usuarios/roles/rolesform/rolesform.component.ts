@@ -9,7 +9,7 @@ import {DomService} from '../../../../services/dom.service';
 @Component({
     selector: 'app-rolesform',
     templateUrl: './rolesform.component.html',
-    styleUrls: ['./rolesform.component.css']
+    styleUrls: ['./rolesform.component.scss']
 })
 export class RolesformComponent implements OnInit {
     form: any;

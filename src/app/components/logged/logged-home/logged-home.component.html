@@ -60,7 +60,7 @@
                         </div>
                         <div class="card mt-2">
                             <ul class="list-group">
-                                <li class="list-group-item hand quitaPaddingMargin py-1 px-3 list-group-item-action d-flex flex-row justify-content-between"
+                                <li class="list-group-item hand list-group-item-action d-flex flex-row justify-content-between"
                                     *ngFor="let item of secciones" (click)="cambiarSeccion(item)">
                                     <span>{{item.sec_nombre}}</span>
                                     <i class="fa  {{item.sec_id==seccion.sec_id?'fa-check':''}}"></i>

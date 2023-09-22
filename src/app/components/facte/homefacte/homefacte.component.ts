@@ -6,7 +6,7 @@ import { BaseComponent } from '../../shared/base.component';
 @Component({
   selector: 'app-homefacte',
   templateUrl: './homefacte.component.html',
-  styleUrls: ['./homefacte.component.css']
+  styleUrls: ['./homefacte.component.scss']
 })
 export class HomefacteComponent extends BaseComponent implements OnInit {
 

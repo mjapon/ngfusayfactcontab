@@ -12,7 +12,7 @@ import {LocalStorageService} from '../../../services/local-storage.service';
 @Component({
     selector: 'app-mvcalendar',
     templateUrl: './odcalendar.component.html',
-    styleUrls: ['./odcalendar.component.css']
+    styleUrls: ['./odcalendar.component.scss']
 })
 export class MvcalendarComponent implements OnInit, OnChanges {
     @Input() tipoCita: number;

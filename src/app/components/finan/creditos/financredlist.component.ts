@@ -9,7 +9,7 @@ import { LocalStorageService } from "src/app/services/local-storage.service";
 @Component({
     selector: 'app-financredlist',
     templateUrl: "./financredlist.component.html",
-    styleUrls: ['./financredlist.component.css']
+    styleUrls: ['./financredlist.component.scss']
 })
 export class FinanCredListComponent extends BaseComponent implements OnInit {
 

@@ -14,13 +14,19 @@ import { PeriodoContableService } from 'src/app/services/contable/periodocontab.
             <div class="row mt-3 mb-3">
                 <div class="col-md-8">
 
+                    <app-rangofechas [form]="form"
+                                     (evDesdeChange)="onDesdeChange($event)"
+                                     (evHastaChange)="onHastaChange($event)"
+                                     (evFilterSel)="onTipoFiltroChange()">
+                    </app-rangofechas>
+                    <!--
                     <p-calendar [showIcon]="true"
                                 [(ngModel)]="form.hasta"
                                 styleClass="p-inputtext-sm"
                                 [monthNavigator]="true" [yearNavigator]="true"
                                 (ngModelChange)="onHastaChange($event)"
                                 yearRange="2019:2050"
-                                dateFormat="dd/mm/yy"></p-calendar>
+                                dateFormat="dd/mm/yy"></p-calendar>-->
 
                     <!--
                     <app-rangofechas [form]="form"
@@ -77,7 +83,7 @@ import { PeriodoContableService } from 'src/app/services/contable/periodocontab.
                                     class="ms-3"> {{rowNode.node.dbdata.ic_code}} </span>
                             </td>
                             <td class="quitaPadding">
-                                <span [style]="getfuente(rowNode.node)"> {{rowNode.node.dbdata.ic_nombre}} </span>
+                                <span [style]="getfuente(rowNode.node)"> {{rowNode.node.dbdata.ic_nombre}} </span>  
                             </td>
                             <td class="quitaPadding d-flex flex-row-reverse">
                                 <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
@@ -205,7 +211,7 @@ export class BalancegeneralComponent implements OnInit {
     loadPeriodoContable() {
         this.periodoContabService.getCurrent().subscribe(res => {
             this.periodocontable = res.periodo;
-        })
+        });
     }
 
     loadBalance() {
@@ -214,10 +220,10 @@ export class BalancegeneralComponent implements OnInit {
             return;
         }
 
-        //const desdestr = this.fechasService.formatDate(this.form.desde);
+        const desdestr = this.fechasService.formatDate(this.form.desde);
         const hastastr = this.fechasService.formatDate(this.form.hasta);
         this.loadingUiServ.publishBlockMessage();
-        this.asientoService.getBalanceGeneral('', hastastr).subscribe(res => {
+        this.asientoService.getBalanceGeneral(desdestr, hastastr).subscribe(res => {
             if (res.status === 200) {
                 this.datosbalance = res.balance;
                 this.parents = res.total_grupos;

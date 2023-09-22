@@ -54,6 +54,7 @@
             <p-tabPanel header="Atenciones">
                 <app-odatenciones [codPaciente]="pacienteSelected.per_id"></app-odatenciones>
             </p-tabPanel>
+            <!--
             <p-tabPanel header="Antecedentes">
                 <app-antcodonto [codPaciente]="pacienteSelected.per_id" (evGuardar)="onAntePerSave($event)"
                                 [tipo]="1"></app-antcodonto>
@@ -62,6 +63,7 @@
                 <app-antcodonto [codPaciente]="pacienteSelected.per_id" (evGuardar)="onExamFisSave($event)"
                                 [tipo]="2"></app-antcodonto>
             </p-tabPanel>
+            -->
             <p-tabPanel header="Odontograma">
                 <div class="d-flex justify-content-between mb-2" *ngIf="pacienteSelected.per_id>0">
                     <div class="btn-group btn-group-sm" role="group">

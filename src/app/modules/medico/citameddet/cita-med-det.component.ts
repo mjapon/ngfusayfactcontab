@@ -8,7 +8,7 @@ import {SwalService} from '../../../services/swal.service';
 @Component({
     selector: 'app-citameddet',
     templateUrl: './cita-med-det.component.html',
-    styleUrls: ['./cita-med-det.component.css']
+    styleUrls: ['./cita-med-det.component.scss']
 })
 export class CitaMedDetComponent implements OnInit, OnDestroy {
 

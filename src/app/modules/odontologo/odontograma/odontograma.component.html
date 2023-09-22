@@ -7,8 +7,7 @@
         <div class="d-flex flex-row-reverse mb-2" style="margin-top: -40px">
             <div class="btn-group btn-group-sm" role="group" *ngIf="tipodontograma===1">
                 <button id="thebutton" #thebutton type="button" class="btn btn-sm btn-outline-primary"
-                        (click)="showModalProtesis()"
-                        title="Crear protesis fija, removible o total">
+                    (click)="showModalProtesis()" title="Crear protesis fija, removible o total">
                     Crear Protesis
                 </button>
                 <button class="btn btn-sm btn-outline-primary" (click)="guardarOdontograma()">
@@ -28,35 +27,31 @@
                     <div class="row">
                         <div id="tr" class="col-6 text-end">
                             <ng-container *ngFor="let diente of dentadura.A">
-                                <app-grppiezadent [diente]="diente"
-                                                  [estilo]="allcssobj[diente.numero]"
-                                                  (ondntstatechange)="saveOdontoSilent()"
-                                                  (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                                <app-grppiezadent [diente]="diente" [estilo]="allcssobj[diente.numero]"
+                                    (ondntstatechange)="saveOdontoSilent()"
+                                    (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                             </ng-container>
                         </div>
                         <div id="tl" class="col-6">
                             <ng-container *ngFor="let diente of dentadura.B">
-                                <app-grppiezadent [diente]="diente"
-                                                  [estilo]="allcssobj[diente.numero]"
-                                                  (ondntstatechange)="saveOdontoSilent()"
-                                                  (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                                <app-grppiezadent [diente]="diente" [estilo]="allcssobj[diente.numero]"
+                                    (ondntstatechange)="saveOdontoSilent()"
+                                    (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                             </ng-container>
                         </div>
 
                         <div id="br" class="col-6 text-end" style="padding-top: 30px">
                             <ng-container *ngFor="let diente of dentadura.C">
-                                <app-grppiezadent [diente]="diente"
-                                                  [estilo]="allcssobj[diente.numero]"
-                                                  (ondntstatechange)="saveOdontoSilent()"
-                                                  (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                                <app-grppiezadent [diente]="diente" [estilo]="allcssobj[diente.numero]"
+                                    (ondntstatechange)="saveOdontoSilent()"
+                                    (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                             </ng-container>
                         </div>
                         <div id="bl" class="col-6" style="padding-top: 30px">
                             <ng-container *ngFor="let diente of dentadura.D">
-                                <app-grppiezadent [diente]="diente"
-                                                  [estilo]="allcssobj[diente.numero]"
-                                                  (ondntstatechange)="saveOdontoSilent()"
-                                                  (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
+                                <app-grppiezadent [diente]="diente" [estilo]="allcssobj[diente.numero]"
+                                    (ondntstatechange)="saveOdontoSilent()"
+                                    (ongrpdntclic)="showModalPieza(diente)"></app-grppiezadent>
                             </ng-container>
                         </div>
                     </div>
@@ -69,96 +64,101 @@
                         <div class="mb-3">
                             <label for="obsOdontograma" class="fw-bold">Observación:</label>
                             <textarea id="obsOdontograma" class="form-control" rows="2" [(ngModel)]="obsodontograma"
-                                      placeholder="Ingrese una observación al odontograma">  </textarea>
+                                placeholder="Ingrese una observación al odontograma">  </textarea>
                         </div>
                     </div>
                 </div>
                 <div class="table-responsive mt-1">
                     <table class="table table-bordered table-sm">
                         <thead>
-                        <tr>
-                            <th scope="col" width="6%">Pieza</th>
-                            <th scope="col" width="88%">Diagnóstico</th>
-                            <th scope="col" width="6%">Acción</th>
-                        </tr>
+                            <tr>
+                                <th scope="col" width="6%">Pieza</th>
+                                <th scope="col" width="88%">Diagnóstico</th>
+                                <th scope="col" width="6%">Acción</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <ng-container *ngFor="let itdiente of dentadura.A">
-                            <tr *ngIf="isDienteModif(itdiente)">
-                                <td>
-                                    {{itdiente.numero}}
-                                </td>
-                                <td>
-                                    <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-secondary"
-                                            (click)="clearDienteCssTBLRC(itdiente)"> Limpiar
-                                    </button>
-                                </td>
-                            </tr>
-                        </ng-container>
-                        <ng-container *ngFor="let itdiente of dentadura.B">
-                            <tr *ngIf="isDienteModif(itdiente)">
-                                <td>
-                                    {{itdiente.numero}}
-                                </td>
-                                <td>
-                                    <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-secondary"
-                                            (click)="clearDienteCssTBLRC(itdiente)"> Limpiar
-                                    </button>
-                                </td>
-                            </tr>
-                        </ng-container>
-                        <ng-container *ngFor="let itdiente of dentadura.C">
-                            <tr *ngIf="isDienteModif(itdiente)">
-                                <td>
-                                    {{itdiente.numero}}
-                                </td>
-                                <td>
-                                    <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-secondary"
-                                            (click)="clearDienteCssTBLRC(itdiente)"> Limpiar
-                                    </button>
-                                </td>
-                            </tr>
-                        </ng-container>
-                        <ng-container *ngFor="let itdiente of dentadura.D">
-                            <tr *ngIf="isDienteModif(itdiente)">
-                                <td>
-                                    {{itdiente.numero}}
-                                </td>
-                                <td>
-                                    <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-secondary"
-                                            (click)="clearDienteCssTBLRC(itdiente)"> Limpiar
-                                    </button>
-                                </td>
-                            </tr>
-                        </ng-container>
-                        <ng-container *ngFor="let protesis of protesisList">
-                            <tr>
-                                <td>
-                                    {{protesis.piezas}}
-                                </td>
-                                <td>
-                                    Prótesis {{protesis.tipo}} ({{protesis.estado}}
-                                    ): {{protesis.piezas}} {{protesis.retens.length > 0 ? ' - Retenedores:' + protesis.retens : ''}}
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-secondary"
-                                            (click)="clearProtesis(protesis)"> Limpiar
-                                    </button>
-                                </td>
-                            </tr>
-                        </ng-container>
+                            <ng-container *ngFor="let itdiente of dentadura.A">
+                                <tr *ngIf="isDienteModif(itdiente)">
+                                    <td>
+                                        {{itdiente.numero}}
+                                    </td>
+                                    <td>
+                                        <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-secondary"
+                                            (click)="clearDienteCssTBLRC(itdiente)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngFor="let itdiente of dentadura.B">
+                                <tr *ngIf="isDienteModif(itdiente)">
+                                    <td>
+                                        {{itdiente.numero}}
+                                    </td>
+                                    <td>
+                                        <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-secondary"
+                                            (click)="clearDienteCssTBLRC(itdiente)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngFor="let itdiente of dentadura.C">
+                                <tr *ngIf="isDienteModif(itdiente)">
+                                    <td>
+                                        {{itdiente.numero}}
+                                    </td>
+                                    <td>
+                                        <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-secondary"
+                                            (click)="clearDienteCssTBLRC(itdiente)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngFor="let itdiente of dentadura.D">
+                                <tr *ngIf="isDienteModif(itdiente)">
+                                    <td>
+                                        {{itdiente.numero}}
+                                    </td>
+                                    <td>
+                                        <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-secondary"
+                                            (click)="clearDienteCssTBLRC(itdiente)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngFor="let protesis of protesisList">
+                                <tr>
+                                    <td>
+                                        {{protesis.piezas}}
+                                    </td>
+                                    <td>
+                                        Prótesis {{protesis.tipo}} ({{protesis.estado}}
+                                        ): {{protesis.piezas}} {{protesis.retens.length > 0 ? ' - Retenedores:' +
+                                        protesis.retens : ''}}
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-secondary"
+                                            (click)="clearProtesis(protesis)"> <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
                         </tbody>
                     </table>
                 </div>
@@ -170,8 +170,7 @@
 
         <div *ngIf="dienteSelected!=null">
             <p-dialog header="Pieza dental Nro: {{dienteSelected.numero}}" [modal]="true" [style]="{width: '90vw'}"
-                      [baseZIndex]="10000" (visibleChange)="onModalPiezaHide($event)"
-                      [(visible)]="modalPiezaVisible">
+                [baseZIndex]="10000" (visibleChange)="onModalPiezaHide($event)" [(visible)]="modalPiezaVisible">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-4">
@@ -181,7 +180,7 @@
                                         <div>
                                             <p class="quitaPaddingMargin">Obturado</p>
                                             <button type="button" class="btn {{cssSelectedTool(13)}} text-azul"
-                                                    title="Obturado" (click)="selectTool(13)">
+                                                title="Obturado" (click)="selectTool(13)">
                                                 <div class="obturado"></div>
                                             </button>
                                         </div>
@@ -190,15 +189,15 @@
                                         <div>
                                             <p class="quitaPaddingMargin">Caries</p>
                                             <button type="button" class="btn {{cssSelectedTool(14)}} text-rojo"
-                                                    (click)="selectTool(14)" title="Caries">
+                                                (click)="selectTool(14)" title="Caries">
                                                 <div class="caries"></div>
                                             </button>
                                             <button type="button" class="btn {{cssSelectedTool(17)}} text-rojo"
-                                                    (click)="selectTool(17)" title="Caries">
+                                                (click)="selectTool(17)" title="Caries">
                                                 <div class="cariesm"></div>
                                             </button>
                                             <button type="button" class="btn {{cssSelectedTool(16)}} text-rojo"
-                                                    (click)="selectTool(16)" title="Caries">
+                                                (click)="selectTool(16)" title="Caries">
                                                 <div class="cariesp"></div>
                                             </button>
                                         </div>
@@ -210,8 +209,8 @@
                                             <div class="d-flex flex-row">
                                                 <span class=" text-rojo">*</span>
                                                 <span class="ms-2">
-                                            Sellante necesario
-                                        </span>
+                                                    Sellante necesario
+                                                </span>
                                             </div>
                                             <button class="btn " [ngClass]="cssMarkedTool(1)">
                                                 <i class="fas fa-check"></i>
@@ -223,8 +222,8 @@
                                             <div class="d-flex flex-row">
                                                 <span class="text-azul">*</span>
                                                 <span class="ms-2">
-                                            Sellante realizado
-                                        </span>
+                                                    Sellante realizado
+                                                </span>
                                             </div>
                                             <button class="btn " [ngClass]="cssMarkedTool(2)">
                                                 <i class="fas fa-check"></i>
@@ -234,11 +233,11 @@
                                     <li class="list-group-item hand" (click)="checkUncheckTool(3)">
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row">
-                                        <span class="text-rojo"><span class="fa fa-times text-danger"></span>
-                                        </span>
+                                                <span class="text-rojo"><span class="fa fa-times text-danger"></span>
+                                                </span>
                                                 <span class="ms-2">
-                                            Extracción indicada
-                                        </span>
+                                                    Extracción indicada
+                                                </span>
                                             </div>
                                             <button class="btn" [ngClass]="cssMarkedTool(3)">
                                                 <i class="fas fa-check"></i>
@@ -250,8 +249,8 @@
                                             <div class="d-flex flex-row">
                                                 <span class="text-azul"><span class="fa fa-times"></span></span>
                                                 <span class="ms-2">
-                                        Pérdida por caries
-                                    </span>
+                                                    Pérdida por caries
+                                                </span>
                                             </div>
                                             <button class="btn" [ngClass]="cssMarkedTool(4)">
                                                 <i class="fas fa-check"></i>
@@ -261,11 +260,12 @@
                                     <li class="list-group-item hand" (click)="checkUncheckTool(6)">
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row">
-                                    <span>
-                                        <p class="endonecesaria"></p></span>
+                                                <span>
+                                                    <p class="endonecesaria"></p>
+                                                </span>
                                                 <span class="ms-2">
-                                        Endodoncia necesaria
-                                    </span>
+                                                    Endodoncia necesaria
+                                                </span>
                                             </div>
                                             <button class="btn" [ngClass]="cssMarkedTool(6)">
                                                 <i class="fas fa-check"></i>
@@ -275,11 +275,12 @@
                                     <li class="list-group-item hand" (click)="checkUncheckTool(7)">
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row">
-                                    <span>
-                                        <p class="endorealizada"></p></span>
+                                                <span>
+                                                    <p class="endorealizada"></p>
+                                                </span>
                                                 <span class="ms-2">
-                                        Endodoncia realizada
-                                    </span>
+                                                    Endodoncia realizada
+                                                </span>
                                             </div>
                                             <button class="btn" [ngClass]="cssMarkedTool(7)">
                                                 <i class="fas fa-check"></i>
@@ -289,12 +290,12 @@
                                     <li class="list-group-item hand" (click)="checkUncheckTool(11)">
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row">
-                                    <span class="text-rojo">
-                                        O
-                                    </span>
+                                                <span class="text-rojo">
+                                                    O
+                                                </span>
                                                 <span class="ms-2">
-                                        Corona necesaria
-                                    </span>
+                                                    Corona necesaria
+                                                </span>
                                             </div>
                                             <button class="btn" [ngClass]="cssMarkedTool(11)">
                                                 <i class="fas fa-check"></i>
@@ -306,8 +307,8 @@
                                             <div class="d-flex flex-row">
                                                 <span class="text-azul">O</span>
                                                 <span class="ms-2">
-                                        Corona realizada
-                                        </span>
+                                                    Corona realizada
+                                                </span>
                                             </div>
                                             <button class="btn" [ngClass]="cssMarkedTool(12)">
                                                 <i class="fas fa-check"></i>
@@ -345,47 +346,47 @@
                                 <div class="col">
                                     <div class="text-center">
                                         <div class="contdiente-large" data-name="value"
-                                             id="m_diente{{dienteSelected.numero}}"
-                                             [title]="dienteSelected?.texto">
+                                            id="m_diente{{dienteSelected.numero}}" [title]="dienteSelected?.texto">
                                             <div class="mdiente-large">
                                                 <div id="m_t{{dienteSelected.numero}}"
-                                                     class="mcuadro-large marriba-large"
-                                                     (click)="toggleClassTop(dienteSelected)"
-                                                     [ngClass]="getCssClass(dienteSelected.t.estilos)">
+                                                    class="mcuadro-large marriba-large"
+                                                    (click)="toggleClassTop(dienteSelected)"
+                                                    [ngClass]="getCssClass(dienteSelected.t.estilos)">
                                                 </div>
                                                 <div id="m_l{{dienteSelected.numero}}"
-                                                     class="mcuadro-large mizquierdo-large"
-                                                     (click)="toggleClassLeft(dienteSelected)"
-                                                     [ngClass]="getCssClass(dienteSelected.l.estilos)">
+                                                    class="mcuadro-large mizquierdo-large"
+                                                    (click)="toggleClassLeft(dienteSelected)"
+                                                    [ngClass]="getCssClass(dienteSelected.l.estilos)">
                                                 </div>
                                                 <div id="m_b{{dienteSelected.numero}}"
-                                                     class="mcuadro-large mdebajo-large"
-                                                     (click)="toggleClassBottom(dienteSelected)"
-                                                     [ngClass]="getCssClass(dienteSelected.b.estilos)">
+                                                    class="mcuadro-large mdebajo-large"
+                                                    (click)="toggleClassBottom(dienteSelected)"
+                                                    [ngClass]="getCssClass(dienteSelected.b.estilos)">
                                                 </div>
                                                 <div id="m_r{{dienteSelected.numero}}"
-                                                     class="mcuadro-large mderecha-large"
-                                                     (click)="toggleClassRight(dienteSelected)"
-                                                     [ngClass]="getCssClass(dienteSelected.r.estilos)">
+                                                    class="mcuadro-large mderecha-large"
+                                                    (click)="toggleClassRight(dienteSelected)"
+                                                    [ngClass]="getCssClass(dienteSelected.r.estilos)">
                                                 </div>
                                                 <div id="m_c{{dienteSelected.numero}}" class="mcentro-large"
-                                                     (click)="toggleClassCenter(dienteSelected)"
-                                                     [ngClass]="getCssClass(dienteSelected.c.estilos)">
+                                                    (click)="toggleClassCenter(dienteSelected)"
+                                                    [ngClass]="getCssClass(dienteSelected.c.estilos)">
                                                 </div>
                                             </div>
                                             <div class="mfondodiente-large {{dienteSelected.classTapa}}"
-                                                 *ngIf="dienteSelected.tapaVisible">
+                                                *ngIf="dienteSelected.tapaVisible">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <app-piezadental [diente]="dienteSelected"
-                                                     [estilo]="allcssobj[dienteSelected.numero]"></app-piezadental>
+                                        [estilo]="allcssobj[dienteSelected.numero]"></app-piezadental>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center">
-                                <span class="fw-bold text-{{estadoDienteBg}}"> {{getEstadoDiente(dienteSelected)}} </span>
+                                <span class="fw-bold text-{{estadoDienteBg}}"> {{getEstadoDiente(dienteSelected)}}
+                                </span>
                             </div>
                             <div>
                                 <app-diagnospieza [itdiente]="dienteSelected"></app-diagnospieza>
@@ -395,12 +396,12 @@
                             <div class="mb-3">
                                 <label for="obsPiezaDental">Observación:</label>
                                 <textarea id="obsPiezaDental" class="form-control" rows="8"
-                                          [(ngModel)]="dienteSelected.texto"
-                                          placeholder="Ingrese una observación para esta pieza dental">  </textarea>
+                                    [(ngModel)]="dienteSelected.texto"
+                                    placeholder="Ingrese una observación para esta pieza dental">  </textarea>
                             </div>
                             <button class="btn btn-sm btn-outline-secondary" *ngIf="isDienteModif(dienteSelected)"
-                                    title="Borra todos los diagnósticos asociados a esta pieza dental"
-                                    (click)="clearDienteCssTBLRC(dienteSelected)"><i class="fa fa-eraser"></i> Limpiar
+                                title="Borra todos los diagnósticos asociados a esta pieza dental"
+                                (click)="clearDienteCssTBLRC(dienteSelected)"><i class="fa fa-eraser"></i> Limpiar
                             </button>
                         </div>
                     </div>
@@ -410,24 +411,21 @@
                         <div class="col-md-3">
                             <div class="d-flex flex-row">
                                 <div class="btn-group dropup">
-                                    <button type="button"
-                                            class="btn btn-{{estadoDienteBg}} dropdown-toggle"
-                                            aria-expanded="false"
-                                            data-bs-toggle="dropdown"> {{estadoDienteStr}}  </button>
+                                    <button type="button" class="btn btn-{{estadoDienteBg}} dropdown-toggle"
+                                        aria-expanded="false" data-bs-toggle="dropdown"> {{estadoDienteStr}} </button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="#" *ngIf="showStateButtons[0]"
-                                               (click)="changeState($event)" title="Marcar como tratamiento iniciado">
-                                            <i class="fa fa-teeth-open"></i> Iniciar
-                                            Tratamiento </a></li>
+                                                (click)="changeState($event)" title="Marcar como tratamiento iniciado">
+                                                <i class="fa fa-teeth-open"></i> Iniciar
+                                                Tratamiento </a></li>
                                         <li><a class="dropdown-item" href="#" *ngIf="showStateButtons[1]"
-                                               title="Marcar como tratamiento finalizado"
-                                               (click)="changeState($event)"> Tratamiento Realizado </a></li>
+                                                title="Marcar como tratamiento finalizado"
+                                                (click)="changeState($event)"> Tratamiento Realizado </a></li>
                                         <li><a class="dropdown-item" href="#" *ngIf="showStateButtons[2]"
-                                               title="Marcar como tratamiento externo"
-                                               (click)="changeStateExt($event)"> Tratamiento Externo </a></li>
+                                                title="Marcar como tratamiento externo"
+                                                (click)="changeStateExt($event)"> Tratamiento Externo </a></li>
                                         <li><a class="dropdown-item" href="#" *ngIf="showStateButtons[3]"
-                                               title="Limpiar"
-                                               (click)="changeStateClear($event)"> Limpiar </a></li>
+                                                title="Limpiar" (click)="changeStateClear($event)"> Limpiar </a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -448,27 +446,23 @@
             </p-dialog>
         </div>
 
-        <p-dialog header="Registro de prótesis" [modal]="true" [style]="{width: '50vw'}"
-                  [baseZIndex]="10000"
-                  [(visible)]="modalCreaProtesis">
+        <p-dialog header="Registro de prótesis" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+            [(visible)]="modalCreaProtesis">
             <div class="container-fluid">
                 <div class="d-flex flex-row">
                     <span class="me-2">Tipo:</span>
                     <p-selectButton [options]="tiposProtesis" [(ngModel)]="tipoProtesisSel" optionLabel="label"
-                                    optionValue="value"
-                                    (onChange)="onTipoProtesisChange($event)"></p-selectButton>
+                        optionValue="value" (onChange)="onTipoProtesisChange($event)"></p-selectButton>
                 </div>
                 <div class="d-flex flex-row" *ngIf="tipoProtesisSel">
                     <span class="me-2">Estado:</span>
                     <p-selectButton [options]="estadosProtesis" [(ngModel)]="estadoProtesisSel" optionLabel="label"
-                                    optionValue="value"
-                                    (onChange)="onEstadoProtesisSel($event)"></p-selectButton>
+                        optionValue="value" (onChange)="onEstadoProtesisSel($event)"></p-selectButton>
                 </div>
                 <div class="d-flex flex-row" *ngIf="estadoProtesisSel">
                     <span class="me-2">Zona:</span>
                     <p-selectButton [options]="zonasProtesis" [(ngModel)]="zonaProtesisSel" optionLabel="label"
-                                    optionValue="value"
-                                    (onChange)="onZonaProtChange($event)"></p-selectButton>
+                        optionValue="value" (onChange)="onZonaProtChange($event)"></p-selectButton>
                 </div>
 
                 <div *ngIf="zonaProtesisSel">
@@ -481,16 +475,14 @@
                         </div>
                         <div *ngIf="tipoProtesisSel===2">
                             <p-selectButton [options]="tiposPiezas" [(ngModel)]="tipoPiezaSel" optionLabel="label"
-                                            optionValue="value"></p-selectButton>
+                                optionValue="value"></p-selectButton>
                         </div>
                     </div>
                     <div class="d-flex flex-row justify-content-center mt-2">
                         <div class="d-flex align-items-center justify-content-center border rounded piezaforprot noselect hand {{it.sel?
                 (it.tipo===1?(estadoProtesisSel===1?'border-primary piezaforprotsel':'piezaforprotxdosel'):'piezaretforprotsel'):''}} "
-                             (mousedown)="onMouseDownProtDiente(it)"
-                             (mouseover)="onMouseOverProtDiente(it)"
-                             (mouseup)="onMouseUpProtDiente(it)"
-                             *ngFor="let it of dientesProtesis">
+                            (mousedown)="onMouseDownProtDiente(it)" (mouseover)="onMouseOverProtDiente(it)"
+                            (mouseup)="onMouseUpProtDiente(it)" *ngFor="let it of dientesProtesis">
                             <span class="fw-bold">{{it.value}}</span>
                         </div>
                     </div>
@@ -498,8 +490,8 @@
             </div>
             <p-footer>
                 <div class="d-flex flex-row justify-content-center">
-                    <button *ngIf="dientesProtesisMarked()"
-                            class="btn btn-outline-primary me-2" (click)="creaProtesis()">
+                    <button *ngIf="dientesProtesisMarked()" class="btn btn-outline-primary me-2"
+                        (click)="creaProtesis()">
                         <i class="fas fa-save"></i> Crear Protesis
                     </button>
                     <button class="btn btn-outline-secondary" (click)="closeModalProtesis()">Cancelar</button>

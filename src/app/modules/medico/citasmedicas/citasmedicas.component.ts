@@ -17,7 +17,7 @@ import {CtesService} from '../../../services/ctes.service';
 @Component({
     selector: 'app-citasmedicas',
     templateUrl: './citasmedicas.component.html',
-    styleUrls: ['./citasmedicas.component.css']
+    styleUrls: ['./citasmedicas.component.scss']
 })
 export class CitasmedicasComponent implements OnInit, OnDestroy {
 

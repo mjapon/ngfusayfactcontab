@@ -11,7 +11,7 @@ import { SwalService } from 'src/app/services/swal.service';
 @Component({
   selector: 'app-loginfacte',
   templateUrl: './loginfacte.component.html',
-  styleUrls: ['./loginfacte.component.css']
+  styleUrls: ['./loginfacte.component.scss']
 })
 export class LoginfacteComponent implements OnInit {
 

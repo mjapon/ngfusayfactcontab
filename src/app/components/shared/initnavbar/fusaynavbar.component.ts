@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 @Component({
     selector: 'app-fusaynavbar',
     templateUrl: './fusaynavbar.component.html',
-    styleUrls: ['./fusaynavbar.component.css']
+    styleUrls: ['./fusaynavbar.component.scss']
 })
 export class FusaynavbarComponent implements OnInit {
 

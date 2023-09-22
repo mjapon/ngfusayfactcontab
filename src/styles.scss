@@ -3,14 +3,23 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
+
+// Variable overrides first
+$primary: #9D1F63;
+$enable-shadows: true;
+$prefix: "mo-";
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+
 /*Estilos agregados de la pagin del blog*/
 html {
-    font-size: 16px;
+    /*font-size: 16px;*/
 }
 
 body {
-    color: #212529;
-    font-family: 'Poppins', 'Times New Roman', serif !important;
+    /*color: #212529;
+    font-family: 'Poppins', 'Times New Roman', serif !important;*/
 }
 
 body, html {
@@ -24,9 +33,10 @@ h3,
 h4,
 h5,
 h6 {
-    font-weight: 800;
+    /*font-weight: 800;*/
 }
 
+/*
 a {
     color: #212529;
     transition: all 0.2s;
@@ -43,7 +53,7 @@ form .form-group:first-child .floating-label-form-group {
 .ui-table table {
     table-layout: auto !important;
 }
-
+*/
 .required {
     color: #f21d00;
 }
@@ -112,14 +122,18 @@ form .form-group:first-child .floating-label-form-group {
 
 }
 .bgapp{
-    background-color: #c2c2c2;
+    background-color:#F5F5F5;
 }
 
 .bgbody{
-    background-color: #fafafa;
+    /*background-color: #fafafa;
     border-radius: 8px;
-    /*box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;*/
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+     */
+
+    background-color:white;
+    border-radius: 8px;
+    border: 1px solid #F5F5F5;
 }
 
 .menuhome{
@@ -558,3 +572,6 @@ form .form-group:first-child .floating-label-form-group {
     color: #9f0158 !important;
 }
 
+.fullHeight {
+    height: 100vh;
+}

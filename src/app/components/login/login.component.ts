@@ -12,7 +12,7 @@ import {TtpdvService} from '../../services/ttpdv.service';
 
 @Component({
     selector: 'app-login',
-    styleUrls: ['./login.component.css'],
+    styleUrls: ['./login.component.scss'],
     templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {

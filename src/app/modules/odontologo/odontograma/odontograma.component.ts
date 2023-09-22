@@ -9,7 +9,7 @@ import {LoadingUiService} from '../../../services/loading-ui.service';
 @Component({
     selector: 'app-odontograma',
     templateUrl: './odontograma.component.html',
-    styleUrls: ['./odontograma.component.css']
+    styleUrls: ['./odontograma.component.scss']
 })
 export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
 

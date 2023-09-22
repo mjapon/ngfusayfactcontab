@@ -6,7 +6,7 @@ import { SwalService } from 'src/app/services/swal.service';
 @Component({
   selector: 'app-facteloggedhead',
   templateUrl: './facteloggedhead.component.html',
-  styleUrls: ['./facteloggedhead.component.css']
+  styleUrls: ['./facteloggedhead.component.scss']
 })
 export class FacteloggedheadComponent implements OnInit {
 
