@@ -59,8 +59,8 @@ export class AsientoService extends BaseService {
         return this._doPostAction(this.ctes.editasiento, form);
     }
 
-    getAsientos(desde, hasta) {
-        return this._doGetAction(this.ctes.getasientos, {desde, hasta});
+    getAsientos(desde, hasta,cta) {
+        return this._doGetAction(this.ctes.getasientos, {desde, hasta,cta});
     }
 
     listarMovsCtaContable(cta, desde, hasta) {

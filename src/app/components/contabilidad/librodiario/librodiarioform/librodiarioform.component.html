@@ -5,7 +5,7 @@
     <div *ngIf="!isLoading">
         <div>
             <h4 class="quitaPaddingMargin">
-                {{codasi > 0 ? 'Editar Asiento Contable' : 'Crear asiento contable'}}</h4>
+                {{isedit ? 'Editar asiento contable' : 'Crear asiento contable'}}</h4>
         </div>
         <div class="mt-2 border ps-3 pe-3 pt-3">
             <div class="row">
@@ -15,7 +15,7 @@
                         <div class="col-md">
                             <p-calendar [(ngModel)]="formasiento.trn_fecregobj"
                                         [showIcon]="false"
-                                        [disabled]="codasi>0"
+                                        [disabled]="isedit"
                                         class="ms-2 p-inputtext-sm"
                                         [maxDate]="currentdate"
                                         inputId="trn_fecregobj"
@@ -161,7 +161,7 @@
                                             <button type="button" class="btn btn-sm btn-outline-secondary"
                                                     (click)="movDown(fila)"
                                                     [disabled]="detalles.indexOf(fila)===detalles.length-1"
-                                                    title="Mover hacia arriba"><i
+                                                    title="Mover hacia abajo"><i
                                                     class="fas fa-arrow-alt-circle-down"></i>
                                             </button>
                                         </div>

@@ -11,6 +11,21 @@
                              (evFilterSel)="onTipoFechaSel()">
             </app-rangofechas>
         </div>
+
+        <div class="p-fluid">
+            <p-dropdown [options]="ctasContables" id="cta_codigo"
+                        [(ngModel)]="formfiltros.cta_codigo"
+                        placeholder="Seleccione la cuenta contable"
+                        [showClear]="true"
+                        [style]="{width:'100%', overflow:'visible'}"
+                        (ngModelChange)="onCuentaContableChange($event)"
+                        [filterMatchMode]="'contains'"
+                        filter="true"
+                        optionLabel="ctacontab"
+                        optionValue="ic_id"
+                        inputId="cta_codigo"></p-dropdown>
+        </div>
+
         <div>
             <div class="btn-group">
                 <button class="btn btn-outline-primary" (click)="loadLibroDiario()"><i
@@ -89,6 +104,23 @@
                                                 (click)="gotoEditAsiento(fila)">
                                             <i class="fa fa-edit"></i>
                                         </button>
+
+                                        <!--
+                                        <button class="btn btn-sm btn-outline-primary"
+                                                *ngIf="fila.tra_codigo===13"
+                                                title="Crear una copia"
+                                                (click)="gotoCloneAsiento(fila)">
+                                            <i class="fas fa-clone"></i>
+                                        </button>
+
+                                        <button class="btn btn-sm btn-outline-primary"
+                                                *ngIf="fila.tra_codigo===13"
+                                                title="Crear un asiento reverso"
+                                                (click)="gotoRevertAsiento(fila)">
+                                            <i class="fas fa-recycle"></i>
+                                        </button>
+                                        -->
+
                                         <button class="btn btn-sm btn-outline-primary"
                                                 title="Ver Detalles"
                                                 (click)="verDetalles(fila)">

@@ -14,7 +14,7 @@ import {CtesService} from '../../../../services/ctes.service';
     selector: 'app-librodiarioform',
     templateUrl: './librodiarioform.component.html',
     styles: [
-            `.haberl {
+        `.haberl {
             margin-left: 70px;
         }
         `]
@@ -31,6 +31,8 @@ export class LibrodiarioformComponent implements OnInit {
     formdetinst: any;
     totales: any;
     codasi: number;
+    accion: string;
+    isedit = false;
 
     constructor(private asientoService: AsientoService,
                 private artService: ArticuloService,
@@ -45,6 +47,11 @@ export class LibrodiarioformComponent implements OnInit {
                 private router: Router) {
         this.route.paramMap.subscribe(params => {
             this.codasi = parseInt(params.get('cod'), 10);
+        });
+        this.route.queryParams.subscribe(params => {
+            console.log('params:', params);
+            this.accion = params.accion || null;
+            console.log('Valor de accion es:', this.accion);
         });
     }
 
@@ -78,6 +85,24 @@ export class LibrodiarioformComponent implements OnInit {
                             this.formasiento.trn_fecregobj = this.fechasService.parseString(this.formasiento.trn_fecreg);
                             this.formasiento.estabptoemi = auxformasiento.estabptoemi;
                             this.formasiento.impuestos = auxformasiento.impuestos;
+
+                            if (this.accion && this.accion === 'clone') {
+                                this.formasiento.trn_observ = '[CLON] ' + this.formasiento.trn_observ;
+                                this.formasiento.trn_fecregobj = this.fechasService.parseString(auxformasiento.trn_fecreg);
+                                this.formasiento.secuencia = auxformasiento.secuencia;
+                                this.formasiento.tps_codigo = auxformasiento.tps_codigo;
+                            } else if (this.accion && this.accion === 'revert') {
+                                this.detalles.forEach(det => {
+                                    det.dt_debito = det.dt_debito * -1;
+                                });
+                                this.detalles.sort((a, b) => (a.dt_debito < b.dt_debito) ? 1 : (a.dt_debito > b.dt_debito) ? -1 : 0);
+                                this.formasiento.trn_fecregobj = this.fechasService.parseString(auxformasiento.trn_fecreg);
+                                this.formasiento.trn_observ = '[REVERSO]' + this.formasiento.trn_observ;
+                                this.formasiento.secuencia = auxformasiento.secuencia;
+                                this.formasiento.tps_codigo = auxformasiento.tps_codigo;
+                            } else {
+                                this.isedit = true;
+                            }
                             this.totalizar();
                         }
                     });
@@ -145,6 +170,7 @@ export class LibrodiarioformComponent implements OnInit {
 
     onCtaContableSelect($event: any) {
         this.setCtaContableSel($event);
+        this.domService.setFocusTm('montoInput');
     }
 
     quitarItem(fila: any) {
@@ -199,13 +225,13 @@ export class LibrodiarioformComponent implements OnInit {
         };
 
         let msg = '¿Confirma el registro de este asiento?';
-        if (this.codasi > 0) {
+        if (this.isedit) {
             msg = '¿Confirma la actualización de este asiento?';
         }
         this.swalService.fireDialog(msg).then(confirm => {
             if (confirm.value) {
                 this.loadingServ.publishBlockMessage();
-                if (this.codasi > 0) {
+                if (this.isedit) {
                     this.asientoService.editarAsiento(formtopost).subscribe(res => {
                         if (res.status === 200) {
                             this.swalService.fireToastSuccess(res.msg);

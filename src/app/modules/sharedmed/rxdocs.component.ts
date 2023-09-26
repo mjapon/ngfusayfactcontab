@@ -225,11 +225,13 @@ export class RxdocsComponent implements OnInit, OnChanges {
 
     loadDocs() {
         this.loadingServ.publishBlockMessage();
-        this.rxDocsServ.listar(this.codPaciente, this.tipo).subscribe(res => {
-            if (res.status === 200) {
-                this.docs = res.docs;
-            }
-        });
+        if (this.codPaciente) {
+            this.rxDocsServ.listar(this.codPaciente, this.tipo).subscribe(res => {
+                if (res.status === 200) {
+                    this.docs = res.docs;
+                }
+            });
+        }
     }
 
     anular(doc: any) {

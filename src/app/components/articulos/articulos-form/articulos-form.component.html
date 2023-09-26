@@ -56,7 +56,7 @@
                                     <div class="mb-3">
                                         <label for="codbarraInput" class="form-label">
                                             <span class="required">*</span>Código: <span *ngIf="!editing"
-                                                                                         class="hand badge {{artCodAutomatic?'bg-primary':'bg-secondary'}} "
+                                                                                         class="hand badge {{artCodAutomatic?'bg-info':'bg-secondary'}} "
                                                                                          (click)="generarCodigoBarra()"
                                                                                          title="Seleccione esta opción si desea que el sistema genere el código para el producto o servicio">
                                         <i class="fa fa-check" *ngIf="artCodAutomatic"></i>Automático </span>
@@ -144,7 +144,7 @@
                                             <span class="required">*</span>Precio Venta: <span
                                                 *ngIf="artForm.tipic_id && artForm.tipic_id.value===1"
                                                 (click)="toggleAsistentePrecios()"
-                                                class="hand badge {{isShowAsistPre?'bg-primary':'bg-secondary'}}"
+                                                class="hand badge {{isShowAsistPre?'bg-info':'bg-secondary'}}"
                                                 title="Muestra el asitente para establecimiento de precios de un producto">Asistente de precios</span>
                                         </label>
                                         <br>
@@ -220,7 +220,7 @@
                                             </tr>
                                             </tbody>
                                         </table>
-                                        <span class="hand badge bg-primary" (click)="toggleAsistentePrecios()"
+                                        <span class="hand badge bg-info" (click)="toggleAsistentePrecios()"
                                               title="Cierra el asistente de precios">Cerrar</span>
                                     </div>
                                     <div class="mb-3">

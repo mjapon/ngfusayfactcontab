@@ -148,9 +148,18 @@
 
         <div class="row" *ngIf="showBtns">
             <div class="col-md">
-                <button class="btn btn-sm btn-outline-primary ms-md-1" [disabled]="isLoading"
-                        (click)="changeSec()">
+                <button class="btn btn-outline-primary ms-md-1" [disabled]="isLoading"
+                        (click)="changeSec()" title="Cambiar Sección">
                     <i class="fas fa-exchange-alt" title="Cambiar Sección"></i>
+                </button>
+                <button class="btn btn-outline-primary ms-1" [disabled]="isLoading"
+                        (click)="doCloneAction()" title="Crear una copia de este asiento">
+                    <i class="fa fa-clone"></i>
+                </button>
+
+                <button class="btn btn-outline-primary ms-1" [disabled]="isLoading"
+                        (click)="doReverseAction()" title="Crear un reverso de este asiento">
+                    <i class="fa fa-recycle"></i>
                 </button>
             </div>
             <div class="col-md">
@@ -159,13 +168,6 @@
                             class="fa fa-times"></i>
                         Cerrar
                     </button>
-                    <!--
-                    <button class="btn btn-outline-primary" (click)="onAnularBtn()"
-                            *ngIf="datosasi.cabecera.trn_valido===0">
-                        <i class="fa fa-trash"></i>
-                        Anular
-                    </button>
-                    -->
                 </div>
             </div>
         </div>
@@ -175,6 +177,7 @@
 <div *ngIf="isShowChangeSec">
     <p-dialog header="Cambio de sección" [modal]="true" [style]="{width: '50vw'}" [autoZIndex]="true"
               [(visible)]="isShowChangeSec">
-        <app-changesecdoc [trncod]="trncod" (evDoed)="onChangeSecDoed()" (evHide)="onChangeSecHide()"></app-changesecdoc>
+        <app-changesecdoc [trncod]="trncod" (evDoed)="onChangeSecDoed()"
+                          (evHide)="onChangeSecHide()"></app-changesecdoc>
     </p-dialog>
 </div>

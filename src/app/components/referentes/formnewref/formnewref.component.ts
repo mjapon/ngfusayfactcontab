@@ -138,11 +138,11 @@ export class FormNewrefBasic extends BaseComponent implements OnInit, OnChanges 
                 this.planService.cambiarEstado(this.planid, 2, tipo, this.referente).subscribe(res => {
                     if (res.status === 200) {
                         this.swalService.fireToastSuccess(res.msg);
-                        let compelenviado = res.compele.compelenviado || false;
+                        const compelenviado = res.compele.compelenviado || false;
                         if (compelenviado) {
                             if (!res.is_cons_final) {
                                 this.compele.saveComprobContrib(res.compele.trn_codigo, res.compele.estado_envio).subscribe(rescomprob => {
-                                    console.log("Respuesta de recomprob es", rescomprob);
+                                    console.log('Respuesta de recomprob es', rescomprob);
                                 });
                             }
                             else {

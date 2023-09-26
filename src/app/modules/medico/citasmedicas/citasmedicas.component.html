@@ -131,7 +131,7 @@
                                         *ngIf="historias.length>0">
                                     <i class="fa fa-history"></i>
                                     Citas Anteriores <span
-                                        class="badge rounded-pill bg-primary">{{historias.length}}</span></button>
+                                        class="badge rounded-pill bg-info">{{historias.length}}</span></button>
                             </div>
 
                             <div id="citasPanel" class="collapse">
@@ -202,7 +202,7 @@
                               (creacionCancelada)="limpiar()"></app-datosref>
             </p-tabPanel>
 
-            <p-tabPanel header="2. Motivo">
+            <p-tabPanel header="2. Motivo"  *ngIf="pacienteSelected.per_id && pacienteSelected.per_id>0">
                 <div class="row my-1 mx-md-3">
                     <div class="col-12">
                         <span class="required">*</span><span>Motivo Consulta:</span>
@@ -229,7 +229,7 @@
                 </div>
             </p-tabPanel>
 
-            <p-tabPanel header="3. Antecedentes">
+            <p-tabPanel header="3. Antecedentes" *ngIf="pacienteSelected.per_id && pacienteSelected.per_id>0">
                 <div class="row">
                     <div class="col">
                         <div *ngFor="let it of form.antecedentes.slice(0,4);">
@@ -303,7 +303,7 @@
                 </div>
             </p-tabPanel>
 
-            <p-tabPanel header="4. Rev x Sistemas">
+            <p-tabPanel header="4. Rev x Sistemas" *ngIf="pacienteSelected.per_id && pacienteSelected.per_id>0">
                 <div class="row">
                     <div class="col">
                         <div class="row my-1 mx-md-3" *ngFor="let it of form.revxsistemas.slice(0,5)">
@@ -351,14 +351,14 @@
                 </div>
             </p-tabPanel>
 
-            <p-tabPanel header="5. Exm Físico">
+            <p-tabPanel header="5. Exm Físico" *ngIf="pacienteSelected.per_id && pacienteSelected.per_id>0">
                 <div>
                     <div class="row">
                         <div class="col">
                             <div class="row my-1 mx-md-3" *ngFor="let it of form.examsfisicos.slice(0,4)">
                                 <div class="col-12">
                                     <span>{{it.cmtv_valor}}</span>
-                                    <span class="badge bg-primary">{{it.cmtv_unidad}}</span>:
+                                    <span>({{it.cmtv_unidad}})</span>:
                                 </div>
                                 <div class="col-12">
                                     <div *ngIf="it.cmtv_tinput===1">
@@ -390,7 +390,7 @@
                                  *ngFor="let it of form.examsfisicos.slice(4,9)">
                                 <div class="col-12">
                                     <span>{{it.cmtv_valor}}</span>
-                                    <span class="badge bg-primary">{{it.cmtv_unidad}}</span>:
+                                    <span class="badge bg-info">{{it.cmtv_unidad}}</span>:
                                 </div>
                                 <div class="col-12">
                                     <div *ngIf="it.cmtv_tinput===1">
@@ -437,7 +437,7 @@
                 </div>
             </p-tabPanel>
 
-            <p-tabPanel header="6. Exm Complementario">
+            <p-tabPanel header="6. Exm Complementario" *ngIf="pacienteSelected.per_id && pacienteSelected.per_id>0">
                 <app-rxdocs [codPaciente]="pacienteSelected.per_id" [tipo]="1"></app-rxdocs>
                 <div class="padding15">
                     <button class="btn btn-primary" (click)="guardarExamCompl()" [disabled]="saved"> Siguiente <i
@@ -445,7 +445,7 @@
                 </div>
             </p-tabPanel>
 
-            <p-tabPanel header="7. Diagnóstico">
+            <p-tabPanel header="7. Diagnóstico" *ngIf="pacienteSelected.per_id && pacienteSelected.per_id>0">
                 <div #diagnosticoDiv id="diagnosticoDiv" *ngIf="!showCalendar">
                     <div class="row my-1 mx-md-3">
                         <div class="col-12">

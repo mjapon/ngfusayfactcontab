@@ -3,12 +3,13 @@ import {Router} from '@angular/router';
 import {AsientoService} from '../../../../services/asiento.service';
 import {SwalService} from '../../../../services/swal.service';
 import {FechasService} from '../../../../services/fechas.service';
+import {ArticuloService} from "../../../../services/articulo.service";
 
 @Component({
     selector: 'app-librodiariolist',
     templateUrl: './librodiariolist.component.html',
     styles: [
-            `
+        `
             .haberl {
                 margin-left: 70px;
             }
@@ -24,21 +25,29 @@ export class LibrodiariolistComponent implements OnInit {
     isShowDetAsi = false;
     asisel: any = {};
     formfiltros: any = {};
+    ctasContables: Array<any>;
 
     constructor(private router: Router,
                 private asientoService: AsientoService,
+                private artService: ArticuloService,
                 private fechasService: FechasService,
                 private swalService: SwalService) {
     }
 
     ngOnInit(): void {
         this.isLoading = true;
+        const ctasObs = this.artService.getAllCtasContables().subscribe(resCtas => {
+            this.ctasContables = resCtas.items || [];
+        });
+
         this.asientoService.getFormFiltroLibroDiario().subscribe(res => {
             this.formfiltros = res.form;
             this.formfiltros.desde = this.fechasService.parseString(this.formfiltros.desde);
             this.formfiltros.hasta = this.fechasService.parseString(this.formfiltros.hasta);
             this.loadLibroDiario();
         });
+
+
     }
 
     gotoFormAsiento() {
@@ -54,6 +63,24 @@ export class LibrodiariolistComponent implements OnInit {
         });
     }
 
+    gotoCloneAsiento(fila) {
+        const msg = '¿Confirma que desea crear una copia de este asiento?';
+        this.swalService.fireDialog(msg, '').then(confirm => {
+            if (confirm.value) {
+                this.router.navigate(['newasiento', fila.trn_codigo], {queryParams: {accion: 'clone'}});
+            }
+        });
+    }
+
+    gotoRevertAsiento(fila) {
+        const msg = '¿Confirma que desea crear un reverso de este asiento?';
+        this.swalService.fireDialog(msg, '').then(confirm => {
+            if (confirm.value) {
+                this.router.navigate(['newasiento', fila.trn_codigo], {queryParams: {accion: 'revert'}});
+            }
+        });
+    }
+
     loadLibroDiario() {
         let desdestr = '';
         if (this.formfiltros.desde) {
@@ -64,7 +91,8 @@ export class LibrodiariolistComponent implements OnInit {
             hastastr = this.fechasService.formatDate(this.formfiltros.hasta);
         }
         this.isLoading = true;
-        this.asientoService.getAsientos(desdestr, hastastr).subscribe(res => {
+        const ctaCodigo = this.formfiltros.cta_codigo || '';
+        this.asientoService.getAsientos(desdestr, hastastr, ctaCodigo).subscribe(res => {
             this.isLoading = false;
             if (res.status === 200) {
                 this.librodiario = res.items;
@@ -105,5 +133,10 @@ export class LibrodiariolistComponent implements OnInit {
 
     onTipoFechaSel() {
         this.loadLibroDiario();
+    }
+
+    onCuentaContableChange($event: any) {
+        this.loadLibroDiario();
+
     }
 }

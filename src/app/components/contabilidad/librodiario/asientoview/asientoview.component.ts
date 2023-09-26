@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {AsientoService} from '../../../../services/asiento.service';
 import {SwalService} from '../../../../services/swal.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-asientoview',
@@ -32,7 +33,8 @@ export class AsientoviewComponent implements OnInit, OnChanges {
     isShowChangeSec = false;
 
     constructor(private asientoService: AsientoService,
-                private swalService: SwalService) {
+                private swalService: SwalService,
+                private router: Router) {
 
     }
 
@@ -66,17 +68,6 @@ export class AsientoviewComponent implements OnInit, OnChanges {
         this.evCerrar.emit('');
     }
 
-    onAnularBtn() {
-        this.swalService.fireToastSuccess('No implementado');
-    }
-
-    anular(fila: any) {
-    }
-
-    gotoEditAsiento(fila: any) {
-
-    }
-
     toggleShowDocRel() {
         this.isShowDocRel = !this.isShowDocRel;
     }
@@ -96,5 +87,23 @@ export class AsientoviewComponent implements OnInit, OnChanges {
 
     onChangeSecHide() {
         this.isShowChangeSec = false;
+    }
+
+    doCloneAction() {
+        const msg = '¿Confirma que desea crear una copia de este asiento?';
+        this.swalService.fireDialog(msg, '').then(confirm => {
+            if (confirm.value) {
+                this.router.navigate(['newasiento', this.trncod], {queryParams: {accion: 'clone'}});
+            }
+        });
+    }
+
+    doReverseAction() {
+        const msg = '¿Confirma que desea crear un reverso de este asiento?';
+        this.swalService.fireDialog(msg, '').then(confirm => {
+            if (confirm.value) {
+                this.router.navigate(['newasiento', this.trncod], {queryParams: {accion: 'revert'}});
+            }
+        });
     }
 }
