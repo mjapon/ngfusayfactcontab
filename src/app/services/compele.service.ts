@@ -1,7 +1,7 @@
-import {HttpClient} from "@angular/common/http";
-import {Injectable} from "@angular/core";
-import {BaseService} from "./base-service";
-import {LocalStorageService} from "./local-storage.service";
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { BaseService } from "./base-service";
+import { LocalStorageService } from "./local-storage.service";
 
 @Injectable({
     providedIn: 'root'
@@ -16,15 +16,19 @@ export class CompeleService extends BaseService {
     }
 
     enviar(trncod: number) {
-        return this._doPostAction('validar', {trncod});
+        return this._doPostAction('validar', { trncod });
+    }
+
+    redisEnviar(trncod: number) {
+        return this._doPostAction('redis_enviar', { trncod });
     }
 
     consultaEstadoAut(trncod: number) {
-        return this._doPostAction('autoriza', {trncod});
+        return this._doPostAction('autoriza', { trncod });
     }
 
     saveComprobContrib(trncod: number, estado: number) {
-        return this._doPostAction('savecomprob', {trncod, estado});
+        return this._doPostAction('savecomprob', { trncod, estado });
     }
 
     sheduleChkEstadoAut(trncod: number, timetocheck: number) {

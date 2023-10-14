@@ -145,9 +145,9 @@ export class FormNewrefBasic extends BaseComponent implements OnInit, OnChanges 
                                     console.log('Respuesta de recomprob es', rescomprob);
                                 });
                             }
-                            else {
-                                console.log('No se guarda el comprobante por que es consumidor final');
-                            }
+                            this.compele.redisEnviar(res.compele.trn_codigo).subscribe(resfact => {
+                                console.log('Respuesta de envio:', resfact);
+                            });//cambio
                         }
                         this.confirmPlanSaved.emit('');
                     }
