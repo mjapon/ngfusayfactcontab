@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {FautService} from '../../../services/faut.service';
-import {Router} from '@angular/router';
-import {SeccionService} from '../../../services/seccion.service';
-import {SwalService} from '../../../services/swal.service';
-import {MenuItem} from 'primeng/api';
-import {FechasService} from '../../../services/fechas.service';
-import {DatosloggedService} from '../../../services/datoslogged.service';
-import {TtpdvService} from '../../../services/ttpdv.service';
+import { Component, OnInit } from '@angular/core';
+import { FautService } from '../../../services/faut.service';
+import { Router } from '@angular/router';
+import { SeccionService } from '../../../services/seccion.service';
+import { SwalService } from '../../../services/swal.service';
+import { MenuItem } from 'primeng/api';
+import { FechasService } from '../../../services/fechas.service';
+import { DatosloggedService } from '../../../services/datoslogged.service';
+import { TtpdvService } from '../../../services/ttpdv.service';
 
 @Component({
     selector: 'app-logged-home',
@@ -46,12 +46,12 @@ export class LoggedHomeComponent implements OnInit {
     vapp = '';
 
     constructor(private fautService: FautService,
-                private router: Router,
-                private fechasService: FechasService,
-                private seccionService: SeccionService,
-                private ttpdvService: TtpdvService,
-                private datosLoggedServ: DatosloggedService,
-                private swalService: SwalService) {
+        private router: Router,
+        private fechasService: FechasService,
+        private seccionService: SeccionService,
+        private ttpdvService: TtpdvService,
+        private datosLoggedServ: DatosloggedService,
+        private swalService: SwalService) {
         this.menuApp = [];
     }
 
@@ -117,6 +117,7 @@ export class LoggedHomeComponent implements OnInit {
                 this.accesosdir = res.datlogged.accesosdir;
                 this.fautService.setMenuApp(res.datlogged.menu);
                 this.fautService.setVersionApp(res.datlogged.vapp);
+                this.fautService.setEmpCodigoFromRest(res.datlogged.emp);
                 this.fautService.publishMessage('loadmenu');
                 this.fautService.publishMessage('loadvapp');
                 this.datosempresa = res.datlogged.datosemp;

@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {BaseService} from './base-service';
-import {HttpClient} from '@angular/common/http';
-import {LocalStorageService} from './local-storage.service';
-import {Observable} from 'rxjs';
-import {CtesService} from './ctes.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { BaseService } from './base-service';
+import { CtesService } from './ctes.service';
 import { FautService } from './faut.service';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
     providedIn: 'root'
@@ -57,7 +57,10 @@ export class TicketService extends BaseService {
     imprimir(ticketid: any) {
         const basetomcat = this.ctes.urlTomcat;
         const sqm = this.fautService.getEsquema();
-        const url = `${basetomcat}/TicketServlet?tkid=${ticketid}&sqm=${sqm}`;
+
+        const empCodigo = this.fautService.getEmpCodigo();
+
+        const url = `${basetomcat}/ticket/${empCodigo}/${ticketid}`;
         window.open(url, this.ctes._blank, 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=100,width=500,height=700');
     }
 

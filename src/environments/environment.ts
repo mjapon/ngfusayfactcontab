@@ -7,7 +7,7 @@ export const environment = {
     baseUrlEndPoint: 'http://127.0.0.1:6543/api',
     baseUrlDwfile: 'http://127.0.0.1:6543/getrxdoc',
     baseUrlDwfileNode: 'http://127.0.0.1:3010',
-    tomcat: 'http://localhost:8080/imprentas',
+    tomcat: 'http://localhost:8080/reports',
     socket: 'http://192.168.0.130:3000'
 };
 

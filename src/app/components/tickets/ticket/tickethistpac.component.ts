@@ -6,7 +6,8 @@ import {TicketService} from '../../../services/ticket.service';
     selector: 'app-tkhistpac',
     template: `
         <div>
-            <h5>Historial atenciones <span class="badge rounded-pill bg-primary">{{historia.length}}</span></h5>
+            <h5>Historial atenciones <span class="badge rounded-pill border border-primary text-primary">                
+                {{historia.length}}</span></h5>
             <div class="table-responsive">
                 <table class="table table-sm table-bordered">
                     <thead>

@@ -3,7 +3,7 @@ import {Component, Input} from '@angular/core';
 @Component({
     selector: 'app-numpiezadent',
     template: `
-        <span class="hand badge rounded-pill bg-{{getBadgeStatus(diente)}} numdiente">
+        <span class="hand badge rounded-pill text-bg-{{getBadgeStatus(diente)}} numdiente">
                                 <span *ngIf="diente.texto" class="text-warning">!</span>
             {{diente.numero}}
                             </span>

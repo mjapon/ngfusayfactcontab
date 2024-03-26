@@ -1,9 +1,10 @@
-import {Injectable} from '@angular/core';
-import {BaseService} from './base-service';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
-import {LocalStorageService} from './local-storage.service';
-import {CtesService} from './ctes.service';
+import { Injectable } from '@angular/core';
+import { BaseService } from './base-service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { LocalStorageService } from './local-storage.service';
+import { CtesService } from './ctes.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
     providedIn: 'root'
@@ -13,8 +14,8 @@ export class FautService extends BaseService {
     public source = this.bssource.asObservable();
 
     constructor(protected http: HttpClient,
-                protected localStorageService: LocalStorageService,
-                private ctes: CtesService) {
+        protected localStorageService: LocalStorageService,
+        private ctes: CtesService) {
         super('/tfuser', localStorageService, http);
     }
 
@@ -25,7 +26,7 @@ export class FautService extends BaseService {
             username,
             password
         };
-        const httpOptions = this.getHO({accion: 'auth'});
+        const httpOptions = this.getHO({ accion: 'auth' });
         return this.doPost(this.http, endpoint, httpOptions, form);
     }
 
@@ -109,7 +110,7 @@ export class FautService extends BaseService {
     getTtpdvs(): any {
         const infoTtpdvs: string = this.localStorageService.getItem('ttpdvs');
         if (!infoTtpdvs) {
-            return [{tdv_codigo: 1, tdv_numero: '001', tdv_nombre: 'PRINCIPAL'}];
+            return [{ tdv_codigo: 1, tdv_numero: '001', tdv_nombre: 'PRINCIPAL' }];
         } else {
             return JSON.parse(infoTtpdvs);
         }
@@ -131,6 +132,30 @@ export class FautService extends BaseService {
         this.localStorageService.removeItem('sqm');
         this.localStorageService.removeItem('versionApp');
         this.localStorageService.removeItem('empNombreComercial');
+        this.localStorageService.removeItem('emp');
+    }
+
+    decodeToken() {
+        const token = this.localStorageService.getAuthToken();
+        const decoded = jwtDecode(token);
+        console.log('Decoded token:', decoded);
+    }
+
+    getEmpCodigo() {
+        const token = this.localStorageService.getAuthToken();
+        const decoded: any = jwtDecode(token);
+        if (decoded) {
+            return decoded.emp_id;
+        }
+        const empFromStorage = this.localStorageService.getItem('emp');
+        if (empFromStorage) {
+            return empFromStorage;
+        }
+        return 0
+    }
+
+    setEmpCodigoFromRest(empCodigo) {
+        this.localStorageService.setItem('emp', empCodigo);
     }
 
     getUserInfoSaved(): any {
@@ -156,7 +181,7 @@ export class FautService extends BaseService {
     }
 
     chkRol(rol) {
-        return this._doPostAction(this.ctes.chkrol, {rol});
+        return this._doPostAction(this.ctes.chkrol, { rol });
     }
 
 }

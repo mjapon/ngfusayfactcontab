@@ -1,9 +1,10 @@
-import {Injectable} from '@angular/core';
-import {BaseService} from './base-service';
-import {HttpClient} from '@angular/common/http';
-import {LocalStorageService} from './local-storage.service';
-import {FautService} from './faut.service';
-import {CtesService} from './ctes.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BaseService } from './base-service';
+import { CtesService } from './ctes.service';
+import { FautService } from './faut.service';
+import { LocalStorageService } from './local-storage.service';
+
 
 @Injectable({
     providedIn: 'root'
@@ -19,19 +20,19 @@ export class AsientoService extends BaseService {
     }
 
     getDoc(trncod: number, foredit = 0) {
-        return this._doGetAction(this.ctes.gdetdoc, {trncod, foredit});
+        return this._doGetAction(this.ctes.gdetdoc, { trncod, foredit });
     }
 
     getFormCab(traCod: number) {
-        return this._doGetAction(this.ctes.formcab, {tra_cod: traCod});
+        return this._doGetAction(this.ctes.formcab, { tra_cod: traCod });
     }
 
     auxListarFacturas(per, clase) {
-        return this._doGetAction(this.ctes.gfact, {per, clase});
+        return this._doGetAction(this.ctes.gfact, { per, clase });
     }
 
     listarGridVentas(desde, hasta, filtro, tracod, tipo) {
-        return this._doGetAction(this.ctes.gridventas, {desde, hasta, filtro, tracod, tipo});
+        return this._doGetAction(this.ctes.gridventas, { desde, hasta, filtro, tracod, tipo });
     }
 
     crearDocumento(form: any) {
@@ -39,12 +40,12 @@ export class AsientoService extends BaseService {
     }
 
     anular(trncod: number, obs: string) {
-        const form = {trncod, obs};
+        const form = { trncod, obs };
         return this._doPostAction(this.ctes.anular, form);
     }
 
     duplicar(trncod: number) {
-        return this._doPostAction(this.ctes.duplicar, {trn_codigo: trncod});
+        return this._doPostAction(this.ctes.duplicar, { trn_codigo: trncod });
     }
 
     getAsientoForm() {
@@ -59,12 +60,12 @@ export class AsientoService extends BaseService {
         return this._doPostAction(this.ctes.editasiento, form);
     }
 
-    getAsientos(desde, hasta,cta) {
-        return this._doGetAction(this.ctes.getasientos, {desde, hasta,cta});
+    getAsientos(desde, hasta, cta) {
+        return this._doGetAction(this.ctes.getasientos, { desde, hasta, cta });
     }
 
     listarMovsCtaContable(cta, desde, hasta) {
-        return this._doGetAction(this.ctes.getmovscta, {cta, desde, hasta});
+        return this._doGetAction(this.ctes.getmovscta, { cta, desde, hasta });
     }
 
     getFormLibroMayor() {
@@ -72,40 +73,73 @@ export class AsientoService extends BaseService {
     }
 
     getDatosAsiContab(cod: number) {
-        return this._doGetAction(this.ctes.getdatosasiconta, {cod});
+        return this._doGetAction(this.ctes.getdatosasiconta, { cod });
     }
 
     getBalanceGeneral(desde, hasta) {
-        return this._doGetAction(this.ctes.getbalancegeneral, {desde, hasta});
+        return this._doGetAction(this.ctes.getbalancegeneral, { desde, hasta });
     }
 
     getEstadoResultados(desde, hasta) {
-        return this._doGetAction(this.ctes.getestadoresultados, {desde, hasta});
+        return this._doGetAction(this.ctes.getestadoresultados, { desde, hasta });
     }
 
     listarTransaccsBytTipo(tipo) {
-        return this._doGetAction(this.ctes.gettransaccs, {tipo});
+        return this._doGetAction(this.ctes.gettransaccs, { tipo });
     }
 
     imprimirFactura(trncod) {
-        const sqm = this.fautService.getEsquema();
+        const empCodigo = this.fautService.getEmpCodigo();
         const urlTomcat = this.ctes.urlTomcat;
-        window.open(`${urlTomcat}/Factura?trn=${trncod}&sqm=${sqm}`, this.ctes._blank, this.ctes.featuresOpenNewWin);
+        window.open(`${urlTomcat}/factura/${empCodigo}/${trncod}`, this.ctes._blank, this.ctes.featuresOpenNewWin);
     }
 
     imprimirAbono(trncod) {
-        const sqm = this.fautService.getEsquema();
+        const empCodigo = this.fautService.getEmpCodigo();
         const urlTomcat = this.ctes.urlTomcat;
-        window.open(`${urlTomcat}/Abono?trn=${trncod}&sqm=${sqm}`, this.ctes._blank, this.ctes.featuresOpenNewWin);
+        window.open(`${urlTomcat}/abono/${empCodigo}/${trncod}`, this.ctes._blank, this.ctes.featuresOpenNewWin);
+    }
+
+    _viewBlob(data, contentType) {
+        var file = new Blob([data], {
+            type: contentType
+        });
+        var fileURL = URL.createObjectURL(file);
+        window.open(fileURL, this.ctes._blank, this.ctes.featuresOpenNewWin);
     }
 
     imprimirComproAgua(params: any) {
-        const sqm = this.fautService.getEsquema();
-        params.sqm = sqm;
+        const empCodigo = this.fautService.getEmpCodigo();
         const urlTomcat = this.ctes.urlTomcat;
-        const queryString = Object.keys(params).map(key => key + '=' + params[key]).join('&');
-        const uri = `${urlTomcat}/ComproAgua?${queryString}`;
-        window.open(uri, this.ctes._blank, this.ctes.featuresOpenNewWin);
+        const uri = `${urlTomcat}/compro-agua/${empCodigo}`;
+        const req = this.http.post(uri, params, {
+            responseType: 'arraybuffer'
+        });
+        req.subscribe((res: ArrayBuffer) => {
+            this._viewBlob(res, 'application/pdf');
+        });
+    }
+
+    genPdfBanlance(items: Array<any>, periodo: string, resumen: any) {
+        const urlTomcat = this.ctes.urlTomcat;
+        const uri = `${urlTomcat}/contable/genPdf`;//
+        const body = { 'titulo': periodo, 'items': items, 'resumen': resumen };
+        const req = this.http.post(uri, body, {
+            responseType: 'arraybuffer'
+        });
+        req.subscribe((res: ArrayBuffer) => {
+            this._viewBlob(res, 'application/pdf');
+        });
+    }
+
+    genExcelBalanceGeneral(items: Array<any>, periodo: string) {
+        const urlTomcat = this.ctes.urlTomcat;
+        const uri = `${urlTomcat}/contable/genBalanceGeneral`;
+        const body = { 'titulo': periodo, 'items': items };
+
+        return this.http.post(uri, body, {
+            responseType: 'blob',
+        });
     }
 
     getFormFiltroLibroDiario() {
@@ -117,7 +151,7 @@ export class AsientoService extends BaseService {
     }
 
     getFormChangeSec(trncod) {
-        return this._doGetAction(this.ctes.formchangesec, {trncod});
+        return this._doGetAction(this.ctes.formchangesec, { trncod });
     }
 
 }

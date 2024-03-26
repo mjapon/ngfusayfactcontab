@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { PersonaService } from '../../services/persona.service';
-import { PersonEvService } from '../../services/personev.service';
-import { DatosloggedService } from 'src/app/services/datoslogged.service';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {PersonaService} from '../../services/persona.service';
+import {PersonEvService} from '../../services/personev.service';
+import {DatosloggedService} from 'src/app/services/datoslogged.service';
 
 @Component({
     selector: 'app-resumenref',
@@ -53,26 +53,26 @@ import { DatosloggedService } from 'src/app/services/datoslogged.service';
                         <li class="nav-item" *ngIf="hasRoleVentas">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(3)}"
                                (click)="selectMasterTab(3)">
-                                Ventas <span class="badge " *ngIf="totalestrns?.ventas>0"
+                                Ventas <span role="button" class="badge " *ngIf="totalestrns?.ventas>0"
                                              [ngClass]="classBadge(3)"> {{totalestrns.ventas}} </span> </a>
                         </li>
                         <li class="nav-item" *ngIf="hasRoleCompras">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(5)}"
                                (click)="selectMasterTab(5)">
-                                Compras <span class="badge " *ngIf="totalestrns?.compras>0"
+                                Compras <span role="button" class="badge " *ngIf="totalestrns?.compras>0"
                                               [ngClass]="classBadge(5)"> {{totalestrns.compras}} </span> </a>
                         </li>
                         <li class="nav-item" *ngIf="hasRoleCxc">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(6)}"
                                (click)="selectMasterTab(6)">
-                                Cuentas por cobrar <span *ngIf="totalestrns?.cxcobrar>0"
+                                Cuentas por cobrar <span role="button" *ngIf="totalestrns?.cxcobrar>0"
                                                          class="badge "
                                                          [ngClass]="classBadge(6)"> {{totalestrns.cxcobrar}} </span></a>
                         </li>
                         <li class="nav-item" *ngIf="hasRoleCxp">
                             <a class="nav-link hand" [ngClass]="{'active':cssIsActive(7)}"
                                (click)="selectMasterTab(7)">
-                                Cuentas por pagar <span *ngIf="totalestrns.cxpagar>0"
+                                Cuentas por pagar <span role="button" *ngIf="totalestrns.cxpagar>0"
                                                         class="badge "
                                                         [ngClass]="classBadge(7)"> {{totalestrns.cxpagar}} </span> </a>
                         </li>
@@ -146,7 +146,7 @@ export class ResumenrefComponent implements OnInit, OnChanges {
     }
 
     classBadge(tabnum: number) {
-        return tabnum === this.selectedMasterTab ? 'bg-light text-primary' : 'bg-primary text-light';
+        return tabnum === this.selectedMasterTab ? 'text-bg-dark' : 'text-bg-primary';
     }
 
     ngOnInit(): void {

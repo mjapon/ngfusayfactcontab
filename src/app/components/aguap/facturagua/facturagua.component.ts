@@ -102,7 +102,7 @@ export class FacturaguaComponent extends BaseComponent implements OnInit, OnChan
 
     getParamsComproAgua(trn) {
         const params = {
-            trn,
+            trncod:trn,
             pexceso: this.form.montos?.consumo_exceso,
             pvconsumo: this.form.montos?.costobase + this.form.montos?.comision_mavil,
             pvexceso: this.form.montos?.costoexceso,

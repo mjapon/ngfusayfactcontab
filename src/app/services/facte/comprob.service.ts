@@ -21,12 +21,12 @@ export class FacteComprobService extends BaseFacteService {
 
     genRIDEPDF(clave) {
         const urlTomcat = this.ctes.urlTomcat;
-        window.open(`${urlTomcat}/RideServlet?claveacceso=${clave}`, this.ctes._blank, this.ctes.featuresOpenNewWin);
+        window.open(`${urlTomcat}/ride/${clave}?fmt=pdf`, this.ctes._blank, this.ctes.featuresOpenNewWin);
     }
 
     genRIDEXML(clave) {
         const urlTomcat = this.ctes.urlTomcat;
-        window.open(`${urlTomcat}/XmlCompeServlet?claveacceso=${clave}`, this.ctes._blank, this.ctes.featuresOpenNewWin);
+        window.open(`${urlTomcat}/ride/${clave}?fmt=xml`, this.ctes._blank, this.ctes.featuresOpenNewWin);
     }
 
 }

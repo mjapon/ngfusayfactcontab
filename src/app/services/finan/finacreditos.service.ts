@@ -71,15 +71,15 @@ export class FinanCreditosService extends BaseService {
     }
 
     imprimirTablaAmor(cred) {
-        const sqm = this.fautService.getEsquema();
+        const empCodigo = this.fautService.getEmpCodigo();
         const urlTomcat = this.ctes.urlTomcat;
-        window.open(`${urlTomcat}/ReporteCreditoServlet?cred=${cred}&sqm=${sqm}`, this.ctes._blank, this.ctes.featuresOpenNewWin);
+        window.open(`${urlTomcat}/credito/${empCodigo}/${cred}`, this.ctes._blank, this.ctes.featuresOpenNewWin);
     }
 
     imprimirPagare(cred) {
-        const sqm = this.fautService.getEsquema();
+        const empCodigo = this.fautService.getEmpCodigo();
         const urlTomcat = this.ctes.urlTomcat;
-        window.open(`${urlTomcat}/ReportePagareServlet?cred=${cred}&sqm=${sqm}`, this.ctes._blank, this.ctes.featuresOpenNewWin);
+        window.open(`${urlTomcat}/pagare/${empCodigo}/${cred}`, this.ctes._blank, this.ctes.featuresOpenNewWin);
 
     }
 }

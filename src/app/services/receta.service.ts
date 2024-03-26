@@ -36,9 +36,9 @@ export class RecetaService extends BaseService {
     }
 
     imprimir(codReceta: any) {
-        const sqm = this.fautService.getEsquema();
+        const empCodigo = this.fautService.getEmpCodigo();
         const urlTomcat = this.ctes.urlTomcat;
-        const url = `${urlTomcat}/RecetaOdServlet?rec=${codReceta}&sqm=${sqm}`;
+        const url = `${urlTomcat}/receta-odonto/${empCodigo}/${codReceta}`;
         window.open(url, this.ctes._blank, this.ctes.featuresOpenNewWin);
     }
 }

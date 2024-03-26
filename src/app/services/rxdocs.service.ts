@@ -37,7 +37,7 @@ export class RxdocsService extends BaseService {
     getDownloadUrlNode(doc: any) {
         const sqm = this.fautService.getEsquema();
         const burl = this.baseTomcat;
-        return `${burl}/GetAttach?sqm=${sqm}&cod=${doc.rxd_id}&tipo=rxd`;
+        return `${burl}/attach?sqm=${sqm}&cod=${doc.rxd_id}&tipo=rxd`;
     }
 
     getDownloadAdjUrlNode(doc: any) {

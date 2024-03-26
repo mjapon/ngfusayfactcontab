@@ -1,10 +1,9 @@
-import {BaseComponent} from '../shared/base.component';
-import {Component, OnInit} from '@angular/core';
-import {CtesService} from '../../services/ctes.service';
-import {ReporteService} from '../../services/reporte.service';
-import {FechasService} from '../../services/fechas.service';
-import {DomService} from '../../services/dom.service';
-
+import { BaseComponent } from '../shared/base.component';
+import { Component, OnInit } from '@angular/core';
+import { CtesService } from '../../services/ctes.service';
+import { ReporteService } from '../../services/reporte.service';
+import { FechasService } from '../../services/fechas.service';
+import { DomService } from '../../services/dom.service';
 @Component({
     selector: 'app-reportes',
     template: `
@@ -102,9 +101,9 @@ export class ReportesComponent extends BaseComponent implements OnInit {
     form: any = {};
 
     constructor(private ctes: CtesService,
-                private fechasService: FechasService,
-                private domService: DomService,
-                private repService: ReporteService) {
+        private fechasService: FechasService,
+        private domService: DomService,
+        private repService: ReporteService) {
         super();
     }
 
@@ -145,8 +144,18 @@ export class ReportesComponent extends BaseComponent implements OnInit {
     }
 
     genReporte() {
+        this.turnOnLoading();
         const urlparams = this.repService.getParsedParams(this.form, this.repsel.rep_id, this.secciones, this.usuarios);
-        this.repService.imprimirReporte(urlparams);
+        //this.repService.imprimirReporte(urlparams);
+        this.repService.runGenReporte(urlparams).subscribe((res: Blob) => {
+            if (urlparams.fmt.toString() === '1') {
+                this.repService.showPdfGenReporte(res);
+            }
+            else if (urlparams.fmt.toString() === '2') {
+                this.repService.downloadExcelGenReporte(res);
+            }
+            this.turnOffLoading();
+        });
     }
 
 

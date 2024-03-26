@@ -44,9 +44,9 @@ export class PlantratamientoService extends BaseService {
     }
 
     imprimirPlan(codPlan: any) {
-        const sqm = this.fautService.getEsquema();
+        const empCodigo = this.fautService.getEmpCodigo();
         const urlTomcat = this.ctes.urlTomcat;
-        const url = `${urlTomcat}/PlanTratamientoServlet?cod=${codPlan}&sqm=${sqm}`;
+        const url = `${urlTomcat}/plan-tratamiento/${empCodigo}/${codPlan}`;
         window.open(url, this.ctes._blank, this.ctes.featuresOpenNewWin);
     }
 

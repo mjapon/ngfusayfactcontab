@@ -28,6 +28,7 @@ export class UserlistComponent implements OnInit {
     }
 
     cambiarEstado(rowData) {
+        console.log('rowdata:', rowData);
         let newState = 1;
         let newStateMsg = 'inactivar';
         if (rowData.us_estado === 1) {
@@ -35,7 +36,7 @@ export class UserlistComponent implements OnInit {
             newStateMsg = 'activar';
         }
 
-        let msg = `¿Seguro que desea ${newStateMsg} este usuario?`
+        const msg = `¿Seguro que desea ${newStateMsg} este usuario?`;
         this.swalService.fireDialog(msg).then(confirm => {
             if (confirm.value) {
                 this.fautService.cambiarEstado({ user: rowData.us_id, state: newState }).subscribe(res => {

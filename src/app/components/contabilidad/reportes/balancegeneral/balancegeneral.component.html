@@ -1,0 +1,171 @@
+<div>
+    <h2>Balance general</h2>
+    <div class="row mt-3 mb-3">
+        <div class="col-md-8">
+            <app-rangofechas [form]="form" (evDesdeChange)="onDesdeChange($event)"
+                (evHastaChange)="onHastaChange($event)" (evFilterSel)="onTipoFiltroChange()">
+            </app-rangofechas>
+            <!--
+            <p-calendar [showIcon]="true"
+                        [(ngModel)]="form.hasta"
+                        styleClass="p-inputtext-sm"
+                        [monthNavigator]="true" [yearNavigator]="true"
+                        (ngModelChange)="onHastaChange($event)"
+                        yearRange="2019:2050"
+                        dateFormat="dd/mm/yy"></p-calendar>-->
+
+            <!--
+            <app-rangofechas [form]="form"
+                             (evDesdeChange)="onDesdeChange($event)"
+                             (evHastaChange)="onHastaChange($event)"
+                             (evFilterSel)="onTipoFiltroChange()">
+            </app-rangofechas>
+            -->
+        </div>
+        <div class="col-md-4 d-flex flex-column justify-content-end">
+            <div class="d-flex">
+                <div class="btn-group btn-block">
+                    <button class="btn btn-outline-primary" (click)="loadBalance()">
+                        <span class="fa fa-play-circle"></span>
+                        Generar
+                    </button>
+                    <button class="btn btn-outline-primary" [disabled]="!(datosbalance.length>0)"
+                        title="Exportar resultados a pdf" (click)="exportPdf()">
+                        <span class="fa fa-file-pdf"></span>
+                        PDF
+                    </button>
+                    <button class="btn btn-outline-primary" [disabled]="!(datosbalance.length>0)"
+                        title="Exportar resultados a Excel" (click)="exportExcel()">
+                        <span class="fa fa-file-excel"></span>
+                        Excel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-2 border" *ngIf="datosbalance.length>0">
+        <div class="text-center mt-2 mb-2">
+            <h5>BALANCE GENERAL</h5>
+            <h6> {{fechasLabel.desde}} - {{fechasLabel.hasta}} </h6>
+        </div>
+
+        <p-treeTable [value]="datosbalancetree" [(selection)]="selectedTreeRow" selectionMode="single"
+            (dblclick)="togglexpand($event)">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th scope="col" width="10%">Código</th>
+                    <th scope="col" width="55%">Nombre</th>
+                    <th scope="col" width="35%">
+                        <div class="d-flex flex-row-reverse w-100">
+                            <span>Saldo</span>
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                <tr class="hand" [ttSelectableRow]="rowNode">
+                    <td class="quitaPadding">
+                        <span [style]="getfuente(rowNode.node)" class="ms-3"> {{rowNode.node.dbdata.ic_code}} </span>
+                    </td>
+                    <td class="quitaPadding">
+                        <span [style]="getfuente(rowNode.node)"> {{rowNode.node.dbdata.ic_nombre}} </span>
+                    </td>
+                    <td class="quitaPadding d-flex flex-row-reverse">
+                        <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                        <span [style]="getestilo(rowNode.node)"> $ {{getabs(rowNode.node.total)}} </span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-treeTable>
+
+        <!--
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm">
+                <thead>
+                <tr>
+                    <th scope="col" width="65%">Cuenta Contable</th>
+                    <th scope="col" width="35%">
+                        <div class="d-flex flex-row-reverse w-100">
+                            <span>Saldo</span>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let fila of datosbalance">
+                        <tr>
+                            <td>
+                                <div class="fontsizenr">{{fila.codenombre}}</div>
+                            </td>
+                            <td>
+                                <div class="fontsizenr">{{getabs(fila.total)}}</div>
+                            </td>  
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+        -->
+    </div>
+
+    <div class="mt-2" *ngIf="datosbalance.length>0">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="mt-2 mb-2">
+                    <h5>Ecuación Contable</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span class="fw-bold">ACTIVOS:</span>
+                                </td>
+                                <td>
+                                    <span class="fw-bold"> {{parents['1']| number: '.2'}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="fw-bold">PASIVOS:</span>
+                                </td>
+                                <td>
+                                    <span class="fw-bold">{{getabs(parents['2'])| number: '.2'}} </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="fw-bold">PATRIMONIO:</span>
+                                </td>
+                                <td>
+                                    <span class="fw-bold">{{getabs(parents['3']) | number: '.2'}} </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="fw-bold">RESULTADO DEL EJERCICIO:</span>
+                                </td>
+                                <td>
+                                    <span class="fw-bold">{{getabs(resultadoejercicio) | number: '.2'}} </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="fw-bold">ACTIVO = PASIVO + PATRIMONIO:</span>
+                                </td>
+                                <td>
+                                    <span class="fw-bold">{{parents['1']| number: '.2'}}
+                                        = {{getabs(parents['2'])| number: '.2'}}
+                                        + {{getabs(parents['3'])| number: '.2'}}
+                                        ({{(getabs(parents['2']) + getabs(parents['3']))| number: '.2'}})
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

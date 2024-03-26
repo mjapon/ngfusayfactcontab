@@ -1,12 +1,14 @@
-import {BaseService} from './base-service';
-import {HttpClient} from '@angular/common/http';
-import {LocalStorageService} from './local-storage.service';
-import {FautService} from './faut.service';
-import {CtesService} from './ctes.service';
-import {Injectable} from '@angular/core';
-import {DomService} from './dom.service';
-import {FechasService} from './fechas.service';
-import {ArrayutilService} from './arrayutil.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ArrayutilService } from './arrayutil.service';
+import { BaseService } from './base-service';
+import { CtesService } from './ctes.service';
+import { DomService } from './dom.service';
+import { FautService } from './faut.service';
+import { FechasService } from './fechas.service';
+import { LocalStorageService } from './local-storage.service';
+import { ExcelUtilService } from './utils/excelutil.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +22,8 @@ export class ReporteService extends BaseService {
         private ctes: CtesService,
         private domService: DomService,
         private arrayService: ArrayutilService,
-        private fechasService: FechasService
+        private fechasService: FechasService,
+        private excelUtil: ExcelUtilService
     ) {
         super('/treporte', localStrgServ, http);
     }
@@ -72,14 +75,51 @@ export class ReporteService extends BaseService {
             labelparamsArray.push(`Referente:${form.referente.nomapel}`);
         }
         const labelparams = labelparamsArray.join(',');
-        return {sqm, codrep, pdesde, phasta, secid, refid, usid, fmt, labelparams};
+        const codemp = this.fautService.getEmpCodigo();
+        return { codemp, codrep, pdesde, phasta, secid, refid, usid, fmt, labelparams };
     }
 
-    imprimirReporte(params: any) {
+    _viewBlob(data, contentType) {
+        var file = new Blob([data], {
+            type: contentType
+        });
+        var fileURL = URL.createObjectURL(file);
+        window.open(fileURL, this.ctes._blank, this.ctes.featuresOpenNewWin);
+    }
+
+    showPdfGenReporte(data) {
+        this._viewBlob(data, 'application/pdf');
+    }
+
+    downloadExcelGenReporte(data) {
+        this.excelUtil.downloadExcelFile(data, 'ReporteGen');
+    }
+
+    runGenReporte(params) {
         const urlTomcat = this.ctes.urlTomcat;
-        const urlparams = this.domService.getUrlParams(params);
-        const url = `${urlTomcat}/ReporteServlet?${urlparams}`;
-        window.open(url, this.ctes._blank, this.ctes.featuresOpenNewWin);
+        const empCodigo = this.fautService.getEmpCodigo();
+        const uri = `${urlTomcat}/report-gen/${empCodigo}`;
+        return this.http.post(uri, params, {
+            responseType: 'blob'
+        });
+    }
+
+
+    imprimirReporte(params: any) {
+        /*const urlTomcat = this.ctes.urlTomcat;
+        const empCodigo = this.fautService.getEmpCodigo();
+        const uri = `${urlTomcat}/report-gen/${empCodigo}`;
+        const req = this.http.post(uri, params, {
+            responseType: 'blob'
+        });*/
+        this.runGenReporte(params).subscribe((res: Blob) => {
+            if (params.fmt.toString() === '1') {
+                this._viewBlob(res, 'application/pdf');
+            }
+            else if (params.fmt.toString() === '2') {
+                this.excelUtil.downloadExcelFile(res, 'ReporteGen');
+            }
+        });
     }
 
 }

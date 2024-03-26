@@ -45,23 +45,24 @@ export class CitasMedicasService extends BaseService {
     }
 
     imprimir(ccm: any) {
-        const sqm = this.fautService.getEsquema();
+        const empCodigo = this.fautService.getEmpCodigo();
         const baseurl = this.ctes.urlTomcat;
-        const url = `${baseurl}/RecetaServlet?ccm=${ccm}&sqm=${sqm}`;
+        const url = `${baseurl}/receta/${empCodigo}/${ccm}`;
         window.open(url, this.ctes._blank, this.ctes.featuresOpenNewWin);
     }
 
     imprimirRecBlank() {
-        const sqm = this.fautService.getEsquema();
+        const empCodigo = this.fautService.getEmpCodigo();
         const baseurl = this.ctes.urlTomcat;
-        const url = `${baseurl}/RecetaEmptyServlet?sqm=${sqm}`;
+        const url = `${baseurl}/receta-empty/${empCodigo}`;
         window.open(url, this.ctes._blank, this.ctes.featuresOpenNewWin);
     }
 
     imprimirHistoria(ch: any) {
         const sqm = this.fautService.getEsquema();
         const baseurl = this.ctes.urlTomcat;
-        const url = `${baseurl}/HistoriaClinicaServlet?ch=${ch}&sqm=${sqm}`;
+        const empCodigo = this.fautService.getEmpCodigo();
+        const url = `${baseurl}/historia-clinica/${empCodigo}/${ch}`;
         window.open(url, this.ctes._blank, this.ctes.featuresOpenNewWin);
     }
 
