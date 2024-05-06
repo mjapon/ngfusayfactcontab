@@ -35,15 +35,15 @@ export class RxdocsService extends BaseService {
     }
 
     getDownloadUrlNode(doc: any) {
-        const sqm = this.fautService.getEsquema();
+        const emp = this.fautService.getEmpCodigo();
         const burl = this.baseTomcat;
-        return `${burl}/attach?sqm=${sqm}&cod=${doc.rxd_id}&tipo=rxd`;
+        return `${burl}/attach/${emp}/${doc.rxd_id}?tipo=rxd`;
     }
 
     getDownloadAdjUrlNode(doc: any) {
-        const sqm = this.fautService.getEsquema();
+        const emp = this.fautService.getEmpCodigo();
         const burl = this.baseTomcat;
-        return `${burl}/GetAttach?sqm=${sqm}&cod=${doc.pgc_adj}&tipo=adj`;
+        return `${burl}/attach/${emp}/${doc.pgc_adj}?tipo=adj`;
     }
 
     eliminar(codoc: any) {

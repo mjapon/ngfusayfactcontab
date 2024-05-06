@@ -1,0 +1,130 @@
+<div class="p-2">
+    <div>
+        <div>
+            <h4 class="quitaPaddingMargin">
+                Cierre del periodo contable
+            </h4>
+        </div>
+        <div *ngIf="isLoading">
+            <app-loading></app-loading>
+        </div>
+        <div *ngIf="!isLoading">
+            
+            <div class="alert alert-warning" *ngIf="!pactual.pc_id>0">
+                No existe un periodo contable activo
+            </div>
+
+            <div class="mt-2 ps-3 pe-3 pt-3" *ngIf="pactual.pc_id>0">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="alert alert-info">
+                            El periodo actual comprende: {{pactual.pc_desde}} - {{pactual.pc_hasta}}
+                        </div>
+                        <div class="d-flex">
+                            <div>
+                                <span class="fw-bold">Desde:</span>
+                            </div>
+                            <div class="ms-3">
+                                <span>{{pactual.pc_desde}}</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <div>
+                                <span class="fw-bold">Hasta:</span>
+                            </div>
+                            <div class="ms-3">
+                                <p-calendar [(ngModel)]="form.fecha_cierre_obj" [showIcon]="false"
+                                    class="ms-2 p-inputtext-sm" [maxDate]="currentdate" inputId="fecha_cierre"
+                                    [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2100"
+                                    dateFormat="dd/mm/yy"></p-calendar>
+                            </div>
+                        </div>
+                        <div class="row mt-3 d-flex">
+                            <div>
+                                <button class="btn btn-outline-primary" [disabled]="closedCurrentPer" (click)="loadSaldos()">Cargar Saldos</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-2" *ngIf="loadedSaldos">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="alert alert-info">
+                            <span class="fa fa-triangle-o"></span> Resultado del ejercicio: {{resultadoejercicio}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 d-flex">
+                        <label>Fecha del asiento de cierre:</label>
+                        <div class="ms-3">
+                            <p-calendar [(ngModel)]="fechacierre" [showIcon]="false" class="ms-2 p-inputtext-sm"
+                                [maxDate]="currentdate" inputId="trn_fecregobj" [monthNavigator]="true"
+                                [yearNavigator]="true" yearRange="1900:2100" dateFormat="dd/mm/yy"></p-calendar>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-2">
+                    <div class="card-header">
+                        Cierre de las cuentas del activo
+                    </div>
+                    
+                    <app-asientocierreview [detalles]="asiActivo.detalles" 
+                    [totales]="totales.activo">
+                    </app-asientocierreview>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        Cierre de las cuentas del pasivo
+                    </div>
+
+                    <app-asientocierreview [detalles]="asiPasivo.detalles" 
+                    [totales]="totales.pasivo">
+                    </app-asientocierreview>
+
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        Cierre de las cuentas de patrimonio
+                    </div>
+                    <app-asientocierreview [detalles]="asiPatrimonio.detalles" 
+                    [totales]="totales.patrimonio">
+                    </app-asientocierreview>                    
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        Cierre de las cuentas de ingreso
+                    </div>
+                    <app-asientocierreview [detalles]="asiIngresos.detalles" 
+                    [totales]="totales.ingreso">
+                    </app-asientocierreview>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        Cierre de las cuentas de gasto
+                    </div>
+
+                    <app-asientocierreview [detalles]="asiGastos.detalles" 
+                    [totales]="totales.gasto">
+                    </app-asientocierreview>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-outline-primary" [disabled]="closedCurrentPer" (click)="cerrarPeriodo()">Cerrar periodo</button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

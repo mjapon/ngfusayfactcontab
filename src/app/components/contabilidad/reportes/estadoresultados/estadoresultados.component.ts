@@ -7,126 +7,11 @@ import { ReportscontaService } from '../../../../services/reportsconta.service';
 import { SwalService } from '../../../../services/swal.service';
 import { PrimeTreeUtil } from 'src/app/services/utils/treeutil.service';
 import { PeriodoContableService } from 'src/app/services/contable/periodocontab.service';
+import { ExcelUtilService } from 'src/app/services/utils/excelutil.service';
 
 @Component({
     selector: 'app-estadoresultados',
-    template: `
-        <div>
-            <h2>Estado de Resultados</h2>
-            <div class="alert alert-primary" role="alert">
-                <p *ngIf="periodocontable">
-                    Periodo contable actual
-                    Desde: {{periodocontable.pc_desde}}
-                    Hasta: {{periodocontable.pc_hasta}} 
-                </p>
-            </div>
-            <div class="row mt-3 mb-3">
-                <div class="col-md-8">
-                    <app-rangofechas [form]="form"
-                                     (evDesdeChange)="onDesdeChange($event)"
-                                     (evHastaChange)="onHastaChange($event)"
-                                     (evFilterSel)="onTipoFiltroChange()">
-                    </app-rangofechas>
-                </div>  
-                <div class="col-md-4 d-flex flex-column justify-content-end">
-                    <div class="d-flex">
-                        <div class="btn-group btn-block">
-                            <button class="btn btn-outline-primary" (click)="loadBalance()">
-                                <i class="fa fa-play-circle"></i>
-                                Generar
-                            </button>
-                            <button class="btn btn-outline-primary" [disabled]="!(datosbalance.length>0)"
-                                    title="Exportar a pdf" (click)="exportPdf()">
-                                <i class="fa fa-file-pdf"></i>
-                            </button>
-                            <button class="btn btn-outline-primary" [disabled]="!(datosbalance.length>0)"
-                                    title="Exportar a excel" (click)="exportExcel()">
-                                <i class="fa fa-file-excel"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-2 border" *ngIf="datosbalance.length>0">
-                <div class="text-center mt-2 mb-2">
-                    <h5>ESTADO DE RESULTADOS</h5>
-                    <h6> {{form.desdestr}} - {{form.hastastr}} </h6>
-                </div>
-                <p-treeTable [value]="datosbalancetree" [(selection)]="selectedTreeRow" selectionMode="single"
-                             (dblclick)="togglexpand($event)">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th scope="col" width="10%">Código</th>
-                            <th scope="col" width="55%">Nombre</th>
-                            <th scope="col" width="35%">
-                                <div class="d-flex flex-row-reverse w-100">
-                                    <span>Saldo</span>
-                                </div>
-                            </th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-                        <tr class="hand" [ttSelectableRow]="rowNode">
-                            <td class="quitaPadding">
-                                <span [style]="getfuente(rowNode.node)"
-                                      class="ms-3"> {{rowNode.node.dbdata.ic_code}} </span>
-                            </td>
-                            <td class="quitaPadding">
-                                <span [style]="getfuente(rowNode.node)"> {{rowNode.node.dbdata.ic_nombre}} </span>
-                            </td>
-                            <td class="quitaPadding d-flex flex-row-reverse">
-                                <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                                <span [style]="getestilo(rowNode.node)"> $ {{rowNode.node.total| number: '.2'}} </span>
-                            </td>
-                        </tr>
-                    </ng-template>
-                </p-treeTable>
-            </div>
-
-            <div class="mt-2" *ngIf="datosbalance.length>0">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="mt-2 mb-2">
-                            <h5>UTILIDAD O PÉRDIDA DEL EJERCICIO</h5>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-sm table-bordered">
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <span class="fw-bold">INGRESOS:</span>
-                                    </td>
-                                    <td>
-                                        <span class="fw-bold"> {{getabs(parents['5'])| number: '.2'}}</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="fw-bold">GASTOS:</span>
-                                    </td>
-                                    <td>
-                                        <span class="fw-bold">{{getabs(parents['4'])| number: '.2'}} </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="fw-bold">UTILIDAD O PÉRDIDA:</span>
-                                    </td>
-                                    <td>
-                                        <span class="fw-bold">{{getabs(parents['5'])| number: '.2'}}
-                                            - {{getabs(parents['4'])| number: '.2'}}
-                                            = {{(getabs(parents['5']) - getabs(parents['4']))| number: '.2'}} </span>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `
+    templateUrl: './estadoresultados.component.html'
 })
 export class EstadoresultadosComponent implements OnInit {
     datosbalance: any;
@@ -135,12 +20,14 @@ export class EstadoresultadosComponent implements OnInit {
     selectedTreeRow: TreeNode;
     datosbalancetree: TreeNode[];
     periodocontable: any;
+    titulo = 'ESTADO DE RESULTADOS';
 
     constructor(private asientoService: AsientoService,
         private loadingUiServ: LoadingUiService,
         private fechasService: FechasService,
         private swalService: SwalService,
-        private treeUtil: PrimeTreeUtil,
+        private treeUtil: PrimeTreeUtil,        
+        private excelUtilService: ExcelUtilService,
         private periodoContabServ: PeriodoContableService,
         private reportsContaServ: ReportscontaService) {
     }
@@ -155,6 +42,11 @@ export class EstadoresultadosComponent implements OnInit {
         this.periodoContabServ.getCurrent().subscribe(res => {
             this.periodocontable = res.periodo;
             console.log('Datos del periodo contable:', this.periodocontable);
+            if (this.periodocontable){
+                this.form.desde = this.fechasService.parseString(this.periodocontable.pc_desde);
+                this.form.hasta = new Date();
+            }
+
         });
     }
 
@@ -166,6 +58,8 @@ export class EstadoresultadosComponent implements OnInit {
 
         const desdestr = this.fechasService.formatDate(this.form.desde);
         const hastastr = this.fechasService.formatDate(this.form.hasta);
+        this.form.desdestr = desdestr;
+        this.form.hastastr = hastastr;
         this.loadingUiServ.publishBlockMessage();
         this.asientoService.getEstadoResultados(desdestr, hastastr).subscribe(res => {
             if (res.status === 200) {
@@ -225,13 +119,47 @@ export class EstadoresultadosComponent implements OnInit {
         return `estadoresultados_${fechaactual}`;
     }
 
-    exportPdf() {
-        alert('En construcción');
-        //this.reportsContaServ.exportPdf(this.datosbalance, this.form, this.getnombrearchivo(), 'ESTADO DE RESULTADOS');
+    exportPdf() {        
+        this.loadingUiServ.publishBlockMessage();
+        const balanceItems: Array<any> = [];
+        if (this.datosbalancetree) {
+            this.datosbalancetree.forEach(it => this.treeUtil.loadBalanceItems(it, balanceItems));
+        }
+
+        let desde = this.fechasService.formatDate(this.form.desde);
+        let hasta = this.fechasService.formatDate(this.form.hasta);
+
+        let periodo = `${desde} - ${hasta}`;
+        let resumenitem = [];
+        resumenitem.push({ label: 'INGRESOS:', value: this.getabs(this.parents['5']) });
+        resumenitem.push({ label: 'GASTOS:', value: this.getabs(this.parents['4']) });        
+        resumenitem.push({ label: 'UTILIDAD O PERDIDA:', value: `${this.getabs(this.parents['5'])} - ${this.getabs(this.parents['4'])}  = ${this.getabs(this.parents['5']) - this.getabs(this.parents['4'])} `});
+
+        this.asientoService.genPdfBanlance(balanceItems, periodo, resumenitem, this.titulo).subscribe((res: ArrayBuffer) => {
+            this.viewBalance(res);
+        });
+
     }
 
-    exportExcel() {
-        alert('En construcción');
-        //this.reportsContaServ.exportExcel(this.datosbalance, this.getnombrearchivo());
+    viewBalance(res) {
+        this.asientoService.viewBlob(res, 'application/pdf');
+    }
+
+    exportExcel() {        
+        this.loadingUiServ.publishBlockMessage();
+        const balanceItems: Array<any> = [];
+        if (this.datosbalancetree) {
+            this.datosbalancetree.forEach(it => this.treeUtil.loadBalanceItems(it, balanceItems));
+        }
+
+        let desde = this.fechasService.formatDate(this.form.desde);
+        let hasta = this.fechasService.formatDate(this.form.hasta);
+
+        let periodo = `${desde} - ${hasta}`;
+
+        this.asientoService.genExcelBalanceGeneral(balanceItems, periodo, this.titulo).subscribe((res: Blob) => {
+            this.excelUtilService.downloadExcelFile(res, 'ESTADO_RESULTADOS', true);
+        });
+
     }
 }

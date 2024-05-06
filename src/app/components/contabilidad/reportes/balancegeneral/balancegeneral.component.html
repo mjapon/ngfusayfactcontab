@@ -1,7 +1,15 @@
 <div>
     <h2>Balance general</h2>
+    <!--<div class="row">
+        <div class="alert alert-success" *ngIf="periodocontable.pc_id>0">
+            Periodo contable actual {{periodocontable.pc_desde}} - {{panterior.pc_hasta}}
+        </div>
+    
+
+    </div>-->
+    
     <div class="row mt-3 mb-3">
-        <div class="col-md-8">
+        <div class="col-md-4">
             <app-rangofechas [form]="form" (evDesdeChange)="onDesdeChange($event)"
                 (evHastaChange)="onHastaChange($event)" (evFilterSel)="onTipoFiltroChange()">
             </app-rangofechas>
@@ -41,6 +49,12 @@
                     </button>
                 </div>
             </div>
+        </div>
+        <div class="col-md d-flex flex-column flex-column-reverse">
+            <div class="alert alert-info">
+                Periodo contable actual {{periodocontable.pc_desde}} - {{periodocontable.pc_hasta}}
+            </div>
+        
         </div>
     </div>
 

@@ -1,10 +1,11 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
     format,
     getDate,
     getDay,
     getMonth,
     getWeekOfMonth,
+    getYear,
     isAfter,
     isEqual,
     isSameWeek,
@@ -12,8 +13,8 @@ import {
     isToday,
     parse
 } from 'date-fns';
-import {es} from 'date-fns/locale';
-import {TranslateService} from '@ngx-translate/core';
+import { es } from 'date-fns/locale';
+import { TranslateService } from '@ngx-translate/core';
 
 import eachDayOfInterval from 'date-fns/eachDayOfInterval';
 import endOfISOWeek from 'date-fns/endOfISOWeek';
@@ -22,7 +23,9 @@ import isSameMonth from 'date-fns/isSameMonth';
 import startOfISOWeek from 'date-fns/startOfISOWeek';
 import startOfMonth from 'date-fns/startOfMonth';
 import eachWeekOfInterval from 'date-fns/eachWeekOfInterval';
-import {CtesService} from './ctes.service';
+import { CtesService } from './ctes.service';
+import { differenceInDays } from 'date-fns/esm';
+import { end } from '@popperjs/core';
 
 type Options = {
     year: number,
@@ -30,9 +33,9 @@ type Options = {
 };
 
 // tslint:disable-next-line:variable-name
-type convertFn = (Date, {isSameMonth: boolean}) => any;
+type convertFn = (Date, { isSameMonth: boolean }) => any;
 const getMountMatrix = (
-    {year, month}: Options,
+    { year, month }: Options,
     // tslint:disable-next-line:no-shadowed-variable
     convertDate: convertFn = date => date,
 ) => {
@@ -42,7 +45,7 @@ const getMountMatrix = (
             start: startOfMonth(date),
             end: endOfMonth(date),
         },
-        {weekStartsOn: 1},
+        { weekStartsOn: 1 },
     );
     return matrix.map(weekDay =>
         eachDayOfInterval({
@@ -70,7 +73,7 @@ export class FechasService {
     private promiseMontNames: Promise<any>;
 
     constructor(private translateService: TranslateService,
-                private ctes: CtesService) {
+        private ctes: CtesService) {
         this.formatoFecha = this.ctes.fmtfecha;
         this.loaded = false;
         this.loadDayNamesShort();
@@ -106,8 +109,8 @@ export class FechasService {
 
     getDayString(date: Date): Promise<any> {
         const diasemana = getDay(date);
-        const diames = format(date, 'd', {locale: es});
-        const respuesta: any = {diames, fecha: date};
+        const diames = format(date, 'd', { locale: es });
+        const respuesta: any = { diames, fecha: date };
         return new Promise((resolve) => {
             if (this.loaded) {
                 respuesta.diastr = this.dayNamesShort[diasemana];
@@ -158,7 +161,7 @@ export class FechasService {
         const css = [];
         const bordecss = [];
         let csstd = '';
-        const matrix = getMountMatrix({year, month});
+        const matrix = getMountMatrix({ year, month });
         return matrix.map(week => {
             return week.map(tday => {
                 csstd = isToday(tday) ? 'smDiaCalHoy' : '';
@@ -208,7 +211,7 @@ export class FechasService {
     }
 
     getWeekOfMonth(date: Date) {
-        return getWeekOfMonth(date, {weekStartsOn: 1});
+        return getWeekOfMonth(date, { weekStartsOn: 1 });
     }
 
     getMonth(date: Date) {
@@ -220,7 +223,7 @@ export class FechasService {
     }
 
     dateInSameWeek(dateA: Date, dateB) {
-        return isSameWeek(dateA, dateB, {weekStartsOn: 1});
+        return isSameWeek(dateA, dateB, { weekStartsOn: 1 });
     }
 
     isAfter(dateA: Date, dateB: Date) {
@@ -239,5 +242,13 @@ export class FechasService {
         return isSameYear(dateA, dateB);
     }
 
+    isCurrentYearBisiesto() {
+        const anio = getYear(new Date());
+        return (anio % 4 === 0 && anio % 100 !== 0) || (anio % 400 === 0);
+    }
 
+    getEndYearDate(date:Date){
+        const endDate = "31/12/"+date.getFullYear();          
+        return this.parseString(endDate);
+    }
 }

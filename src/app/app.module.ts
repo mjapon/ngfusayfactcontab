@@ -151,6 +151,9 @@ import { LoginfacteComponent } from './components/facte/loginfacte/loginfacte.co
 import { HomefacteComponent } from './components/facte/homefacte/homefacte.component';
 import { FacteloggedheadComponent } from './components/shared/facteloggedhead/facteloggedhead.component';
 import { FormNewrefBasic } from './components/referentes/formnewref/formnewref.component';
+import { PcontableCierreComponent } from './components/contabilidad/periodocontable/cierre/pcontablecierre.component';
+import { PcontableNewComponent } from './components/contabilidad/periodocontable/apertura/pcontablenew.component';
+import { AsientoCierreViewComponent } from './components/contabilidad/periodocontable/asientocierreview/asientocierreview.component';
 
 
 
@@ -278,7 +281,10 @@ export function HttpLoaderFactory(http: HttpClient) {
         LoginfacteComponent,
         HomefacteComponent,
         FacteloggedheadComponent,
-        FormNewrefBasic
+        FormNewrefBasic,
+        PcontableCierreComponent,
+        PcontableNewComponent,
+        AsientoCierreViewComponent
     ],
     imports: [
         CommonModule,

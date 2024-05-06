@@ -52,6 +52,8 @@ import { FinanCuentasComponent } from './components/finan/cuentas/financuentas.c
 import { FinanMovsFormComponent } from './components/finan/movimientos/movs-form/movsform.component';
 import { LoginfacteComponent } from './components/facte/loginfacte/loginfacte.component';
 import { HomefacteComponent } from './components/facte/homefacte/homefacte.component';
+import { PcontableCierreComponent } from './components/contabilidad/periodocontable/cierre/pcontablecierre.component';
+import { PcontableNewComponent } from './components/contabilidad/periodocontable/apertura/pcontablenew.component';
 // import {AdminGuard} from './guards/admin/admin.guard';
 
 const aguapmod: CtesAguapService = new CtesAguapService();
@@ -104,6 +106,8 @@ const routes: Routes = [
     { path: 'libromayor', component: LibromayorlistComponent },
     { path: 'contabilidad/balancegeneral', component: BalancegeneralComponent },
     { path: 'contabilidad/estadoresultados', component: EstadoresultadosComponent },
+    { path: 'contabilidad/periodo/cierre', component: PcontableCierreComponent },
+    { path: 'contabilidad/periodo/apertura', component: PcontableNewComponent },
     { path: 'utilventas', component: UtilidadesComponent },
     { path: 'reportes', component: ReportesComponent },
     { path: 'rubros', component: RblistComponent },

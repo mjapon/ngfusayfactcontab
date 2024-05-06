@@ -1,0 +1,80 @@
+<div class="table-responsive mt-2">
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                <th scope="col" style="width: 3%">
+                    <span class="fw-normal">#</span>
+                </th>
+                <th scope="col" style="width: 33%">
+                    <span class="fw-normal">
+                        Cuenta Contable </span>
+                </th>
+                <th scope="col" style="width: 10%">
+                    <div class="d-flex flex-row-reverse">
+                        <span class="fw-normal">
+                            Debe </span>
+                    </div>
+                    
+                </th>
+                <th scope="col" style="width: 10%">
+                    <div class="d-flex flex-row-reverse">
+                    <span class="fw-normal">
+                        Haber </span>
+                    </div>
+                </th>                                    
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngIf="detalles.length>0">
+                <tr *ngFor="let fila of detalles">
+                    <th scope="row">
+                        <span class="fw-normal fontsizesm">{{detalles.indexOf(fila) + 1}}</span>
+                    </th>
+                    <td>
+                        <div class="d-flex flex-column">
+                            <span class="fw-lighter fontsizenr"
+                                [ngClass]="{'haberl':fila.dt_debito===-1}">{{fila.ic_code}}</span>
+                            <span class="fw-light fontsizenr"
+                                [ngClass]="{'haberl':fila.dt_debito===-1}">{{fila.ic_nombre}}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex flex-row-reverse" *ngIf="fila.dt_debito===1">
+                            <span>{{fila.dt_valor}}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex flex-row-reverse" *ngIf="fila.dt_debito===-1">
+                            <span>{{fila.dt_valor}}</span>
+                        </div>
+                    </td>                                        
+                </tr>
+            </ng-container>
+            <tr>
+                <th>
+
+                </th>
+                <td>
+                    <div class="d-flex flex-row-reverse">
+                        <span
+                        class="fw-bold {{totales.debe===totales.haber?'text-success':'text-danger'}}">TOTAL:</span>
+                    </div>
+                    
+                </td>
+                <td>
+                    <div class="d-flex flex-row-reverse">
+                    <span
+                        class="fw-bold {{totales.debe===totales.haber?'text-success':'text-danger'}}">{{totales.debe}}</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex flex-row-reverse">
+                    <span
+                        class="fw-bold {{totales.debe===totales.haber?'text-success':'text-danger'}}">{{totales.haber}}</span>
+                    </div>
+                </td>                                    
+            </tr>
+
+        </tbody>
+    </table>
+</div>

@@ -76,8 +76,8 @@ export class AsientoService extends BaseService {
         return this._doGetAction(this.ctes.getdatosasiconta, { cod });
     }
 
-    getBalanceGeneral(desde, hasta) {
-        return this._doGetAction(this.ctes.getbalancegeneral, { desde, hasta });
+    getBalanceGeneral(desde, hasta, chkper='1') {
+        return this._doGetAction(this.ctes.getbalancegeneral, { desde, hasta,chkper });
     }
 
     getEstadoResultados(desde, hasta) {
@@ -100,7 +100,7 @@ export class AsientoService extends BaseService {
         window.open(`${urlTomcat}/abono/${empCodigo}/${trncod}`, this.ctes._blank, this.ctes.featuresOpenNewWin);
     }
 
-    _viewBlob(data, contentType) {
+    viewBlob(data, contentType) {
         var file = new Blob([data], {
             type: contentType
         });
@@ -116,26 +116,24 @@ export class AsientoService extends BaseService {
             responseType: 'arraybuffer'
         });
         req.subscribe((res: ArrayBuffer) => {
-            this._viewBlob(res, 'application/pdf');
+            this.viewBlob(res, 'application/pdf');
         });
     }
 
-    genPdfBanlance(items: Array<any>, periodo: string, resumen: any) {
+    genPdfBanlance(items: Array<any>, periodo: string, resumen: any, titulo:string) {
         const urlTomcat = this.ctes.urlTomcat;
         const uri = `${urlTomcat}/contable/genPdf`;//
-        const body = { 'titulo': periodo, 'items': items, 'resumen': resumen };
-        const req = this.http.post(uri, body, {
+        const body = {'titulo':titulo,  'periodo': periodo, 'items': items, 'resumenItems': resumen };
+        return this.http.post(uri, body, {
             responseType: 'arraybuffer'
         });
-        req.subscribe((res: ArrayBuffer) => {
-            this._viewBlob(res, 'application/pdf');
-        });
+        
     }
 
-    genExcelBalanceGeneral(items: Array<any>, periodo: string) {
+    genExcelBalanceGeneral(items: Array<any>, periodo: string, titulo:string) {
         const urlTomcat = this.ctes.urlTomcat;
         const uri = `${urlTomcat}/contable/genBalanceGeneral`;
-        const body = { 'titulo': periodo, 'items': items };
+        const body = { 'titulo':titulo, 'periodo': periodo, 'items': items };
 
         return this.http.post(uri, body, {
             responseType: 'blob',
@@ -153,5 +151,7 @@ export class AsientoService extends BaseService {
     getFormChangeSec(trncod) {
         return this._doGetAction(this.ctes.formchangesec, { trncod });
     }
+
+    
 
 }

@@ -142,15 +142,15 @@ export class FautService extends BaseService {
     }
 
     getEmpCodigo() {
+        const empFromStorage = this.localStorageService.getItem('emp');
+        if (empFromStorage) {
+            return empFromStorage;
+        }        
         const token = this.localStorageService.getAuthToken();
         const decoded: any = jwtDecode(token);
         if (decoded) {
             return decoded.emp_id;
-        }
-        const empFromStorage = this.localStorageService.getItem('emp');
-        if (empFromStorage) {
-            return empFromStorage;
-        }
+        }        
         return 0
     }
 

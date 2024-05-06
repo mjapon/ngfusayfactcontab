@@ -35,4 +35,11 @@ export class PrimeTreeUtil {
         node.expanded = !node.expanded;
     }
 
+    loadBalanceItems(node: any, items: Array<any>) {
+        items.push({ codigo: node.dbdata.ic_code, nombre: node.dbdata.ic_nombre, total: node.total });
+        if (node.children) {
+            node.children.forEach(childIt => this.loadBalanceItems(childIt, items));
+        }
+    }
+
 }

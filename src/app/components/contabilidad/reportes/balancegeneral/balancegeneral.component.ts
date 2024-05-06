@@ -6,6 +6,8 @@ import { TreeNode } from 'primeng/api';
 import { SwalService } from '../../../../services/swal.service';
 import { PeriodoContableService } from 'src/app/services/contable/periodocontab.service';
 import { ExcelUtilService } from 'src/app/services/utils/excelutil.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { PrimeTreeUtil } from 'src/app/services/utils/treeutil.service';
 
 @Component({
     selector: 'app-balancegeneral',
@@ -28,6 +30,7 @@ export class BalancegeneralComponent implements OnInit {
         private fechasService: FechasService,
         private excelUtilService: ExcelUtilService,
         private periodoContabService: PeriodoContableService,
+        private primeTreeUtil: PrimeTreeUtil,
         private swalService: SwalService) {
     }
 
@@ -63,7 +66,7 @@ export class BalancegeneralComponent implements OnInit {
         this.asientoService.getBalanceGeneral(desdestr, hastastr).subscribe(res => {
             if (res.status === 200) {
                 this.datosbalance = res.balance;
-                this.parents = res.total_grupos;                
+                this.parents = res.total_grupos;
                 this.resultadoejercicio = res.resultado_ejercicio;
                 this.datosbalancetree = res.balancetree;
             }
@@ -113,6 +116,7 @@ export class BalancegeneralComponent implements OnInit {
     }
 
     exportPdf() {
+        this.loadingUiServ.publishBlockMessage();
         const balanceItems: Array<any> = [];
         if (this.datosbalancetree) {
             this.datosbalancetree.forEach(it => this.loadBalanceItems(it, balanceItems));
@@ -120,25 +124,31 @@ export class BalancegeneralComponent implements OnInit {
 
         let desde = this.fechasService.formatDate(this.form.desde);
         let hasta = this.fechasService.formatDate(this.form.hasta);
-        
+
         let periodo = `${desde} - ${hasta}`;
+        let resumenitem = [];
+        resumenitem.push({ label: 'ACTIVOS:', value: this.parents['1'] });
+        resumenitem.push({ label: 'PASIVOS:', value: this.getabs(this.parents['2']) });
+        resumenitem.push({ label: 'PATRIMONIO:', value: this.getabs(this.parents['3']) });
+        resumenitem.push({ label: 'RESULTADO DEL EJERCICIO:', value: this.getabs(this.resultadoejercicio) });
+        resumenitem.push({ label: 'ACTIVO = PASIVO + PATRIMONIO:', value: `${this.parents['1']} = ${this.getabs(this.parents['2'])} + ${this.getabs(this.parents['3'])} (${this.getabs(this.parents['2']) + this.getabs(this.parents['3'])}) ` });
 
-        const resumen = {
-            activos: this.parents['1'],
-            pasivos: this.getabs(this.parents['2']),
-            patrimonio: this.getabs(this.parents['3']),
-            resultado: this.getabs(this.resultadoejercicio),
-            resumen: `${this.parents['1']} = ${this.getabs(this.parents['2'])} + ${this.getabs(this.parents['3'])} (${this.getabs(this.parents['2']) + this.getabs(this.parents['3'])}) `
-        };
+        this.asientoService.genPdfBanlance(balanceItems, periodo, resumenitem, this.titulo).subscribe((res: ArrayBuffer) => {
+            this.viewBalance(res);
+        });
+    }
 
-        this.asientoService.genPdfBanlance(balanceItems, periodo, resumen);        
+    viewBalance(res) {
+        this.asientoService.viewBlob(res, 'application/pdf');
     }
 
     loadBalanceItems(node: any, items: Array<any>) {
+        this.primeTreeUtil.loadBalanceItems(node, items);
+        /*
         items.push({ codigo: node.dbdata.ic_code, nombre: node.dbdata.ic_nombre, total: node.total });
         if (node.children) {
             node.children.forEach(childIt => this.loadBalanceItems(childIt, items));
-        }
+        }*/
     }
 
     exportExcel() {
@@ -153,9 +163,10 @@ export class BalancegeneralComponent implements OnInit {
 
         let periodo = `${desde} - ${hasta}`;
 
-        this.asientoService.genExcelBalanceGeneral(balanceItems, periodo).subscribe((res: Blob) => {
-            this.excelUtilService.downloadExcelFile(res, 'BALANCE_GENERAL', true);
+        this.asientoService.genExcelBalanceGeneral(balanceItems, periodo, '').subscribe((res: Blob) => {
+            this.excelUtilService.downloadExcelFile(res, this.titulo, true);
         });
     }
 
+    titulo = 'BALANCE GENERAL';
 }

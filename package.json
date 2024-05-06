@@ -33,7 +33,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "@popperjs/core": "^2.9.2",
-    "bootstrap": "^5.3.2",
+    "bootstrap": "^5.3.3",
     "date-fns": "^2.16.1",
     "jwt-decode": "^4.0.0",
     "ngx-socket-io": "^4.1.0",

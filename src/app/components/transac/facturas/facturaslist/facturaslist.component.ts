@@ -6,6 +6,7 @@ import {FechasService} from '../../../../services/fechas.service';
 import {LocalStorageService} from '../../../../services/local-storage.service';
 import {DomService} from '../../../../services/dom.service';
 
+
 @Component({
     selector: 'app-facturaslist',
     templateUrl: './facturaslist.component.html'
@@ -16,6 +17,7 @@ export class FacturaslistComponent implements OnInit {
     isLoading: boolean;
     grid: any;
     selectedItem: any;
+    rowDataSel:any;
     isShowDetallesFactura: boolean;
     codFacturaSel: number;
     form: any = {};
@@ -108,6 +110,8 @@ export class FacturaslistComponent implements OnInit {
     }
 
     verRow(rowData) {
+        console.log('Datos de la factura:', rowData);
+        this.rowDataSel = rowData;
         this.codFacturaSel = rowData.trn_codigo;
         this.isShowDetallesFactura = true;
     }
@@ -119,6 +123,6 @@ export class FacturaslistComponent implements OnInit {
     onEditar($event: any) {
         this.closeDetFact();
         this.localStgServ.setItem('trncoded', $event);
-        this.router.navigate(['trndocform', this.tracodigo, 'e']);
+        this.router.navigate(['trndocform', this.rowDataSel['tra_codigo'], 'e']);
     }
 }

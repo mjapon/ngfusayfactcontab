@@ -20,5 +20,16 @@ export class PeriodoContableService extends BaseService {
         return this._doGetAction('current');
     }
 
+    getAnterior(){
+        return this._doGetAction('anterior');
+    }
+
+    cerrar(form){
+        return this._doPostAction('cerrar',form);
+    }
+
+    abrir(form){
+        return this._doPostAction('abrir',form);
+    }
 
 }

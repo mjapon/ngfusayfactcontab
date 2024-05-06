@@ -1,0 +1,114 @@
+<div>
+    <h2>Estado de Resultados</h2>
+    <div class="row mt-3 mb-3">
+        <div class="col-md-4">
+            <app-rangofechas [form]="form" (evDesdeChange)="onDesdeChange($event)"
+                (evHastaChange)="onHastaChange($event)" (evFilterSel)="onTipoFiltroChange()">
+            </app-rangofechas>
+        </div>
+        <div class="col-md-4 d-flex flex-column justify-content-end">
+            <div class="d-flex">
+                <div class="btn-group btn-block">
+                    <button class="btn btn-outline-primary" (click)="loadBalance()">
+                        <span class="fa fa-play-circle"></span>
+                        Generar
+                    </button>
+                    <button class="btn btn-outline-primary" [disabled]="!(datosbalance.length>0)" title="Exportar a pdf"
+                        (click)="exportPdf()">
+                        <span class="fa fa-file-pdf"></span>
+                        PDF
+                    </button>
+                    <button class="btn btn-outline-primary" [disabled]="!(datosbalance.length>0)"
+                        title="Exportar a excel" (click)="exportExcel()">
+                        <span class="fa fa-file-excel"></span>
+                        Excel
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="alert alert-info" role="alert" *ngIf="periodocontable">
+                Periodo contable actual
+                Desde: {{periodocontable.pc_desde}}
+                Hasta: {{periodocontable.pc_hasta}}
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-2 border" *ngIf="datosbalance.length>0">
+        <div class="text-center mt-2 mb-2">
+            <h5>ESTADO DE RESULTADOS</h5>
+            <h6> {{form.desdestr}} - {{form.hastastr}} </h6>
+        </div>
+        <p-treeTable [value]="datosbalancetree" [(selection)]="selectedTreeRow" selectionMode="single"
+            (dblclick)="togglexpand($event)">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th scope="col" width="10%">Código</th>
+                    <th scope="col" width="55%">Nombre</th>
+                    <th scope="col" width="35%">
+                        <div class="d-flex flex-row-reverse w-100">
+                            <span>Saldo</span>
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                <tr class="hand" [ttSelectableRow]="rowNode">
+                    <td class="quitaPadding">
+                        <span [style]="getfuente(rowNode.node)" class="ms-3"> {{rowNode.node.dbdata.ic_code}} </span>
+                    </td>
+                    <td class="quitaPadding">
+                        <span [style]="getfuente(rowNode.node)"> {{rowNode.node.dbdata.ic_nombre}} </span>
+                    </td>
+                    <td class="quitaPadding d-flex flex-row-reverse">
+                        <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                        <span [style]="getestilo(rowNode.node)"> $ {{rowNode.node.total| number: '.2'}} </span>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-treeTable>
+    </div>
+
+    <div class="mt-2" *ngIf="datosbalance.length>0">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mt-2 mb-2">
+                    <h5>UTILIDAD O PÉRDIDA DEL EJERCICIO</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span class="fw-bold">INGRESOS:</span>
+                                </td>
+                                <td>
+                                    <span class="fw-bold"> {{getabs(parents['5'])| number: '.2'}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="fw-bold">GASTOS:</span>
+                                </td>
+                                <td>
+                                    <span class="fw-bold">{{getabs(parents['4'])| number: '.2'}} </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="fw-bold">UTILIDAD O PÉRDIDA:</span>
+                                </td>
+                                <td>
+                                    <span class="fw-bold">{{getabs(parents['5'])| number: '.2'}}
+                                        - {{getabs(parents['4'])| number: '.2'}}
+                                        = {{(getabs(parents['5']) - getabs(parents['4']))| number: '.2'}} </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
