@@ -143,12 +143,7 @@ export class BalancegeneralComponent implements OnInit {
     }
 
     loadBalanceItems(node: any, items: Array<any>) {
-        this.primeTreeUtil.loadBalanceItems(node, items);
-        /*
-        items.push({ codigo: node.dbdata.ic_code, nombre: node.dbdata.ic_nombre, total: node.total });
-        if (node.children) {
-            node.children.forEach(childIt => this.loadBalanceItems(childIt, items));
-        }*/
+        this.primeTreeUtil.loadBalanceItems(node, items);        
     }
 
     exportExcel() {
