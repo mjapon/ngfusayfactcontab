@@ -126,7 +126,7 @@
                 <div class="d-flex flex-column">
                     <div class="row">
                         <div class="col-md-8"><span class="fw-bold fontsizenr">Subtotal $:</span></div>
-                        <div class="col-md"><span class="fw-bold fontsizenr"> {{doc.totales.subtotal|number:'.2'}}
+                        <div class="col-md"><span class="fw-bold fontsizenr"> {{doc.totales.subtotal|number:'.4'}}
                             </span>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
                             <span class="fw-bold fontsizenr">(-)Descuento $:</span>
                         </div>
                         <div class="col-md">
-                            <span class="fw-bold fontsizenr"> {{doc.totales.descuentos|number:'.2'}} </span>
+                            <span class="fw-bold fontsizenr"> {{doc.totales.descuentos|number:'.4'}} </span>
                         </div>
                     </div>
                     <div class="row">
@@ -144,7 +144,7 @@
                                 de ${{doc.totales.subtotal12}}:</span>
                         </div>
                         <div class="col-md">
-                            <span class="fw-bold fontsizenr"> {{doc.totales.iva|number:'.2'}} </span>
+                            <span class="fw-bold fontsizenr"> {{doc.totales.iva|number:'.4'}} </span>
                         </div>
                     </div>
                     <div class="row">

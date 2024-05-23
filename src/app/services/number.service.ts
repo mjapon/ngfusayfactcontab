@@ -111,16 +111,16 @@ export class NumberService {
     }
 
     totalizar(detalles: Array<any>) {
-        let subtotal12 = 0.0;
-        let subtotal0 = 0.0;
-        let ivaval = 0.0;
-        let ivavaldescg = 0.0;
-        let descuentos = 0.0;
-        let descglobal = 0.0;
-        let total = 0.0;
-        let subtotal = 0.0;
-        let subtforivadescg = 0.0;
-        let subtforiva = 0.0;
+        let subtotal12 = 0.0000;
+        let subtotal0 = 0.0000;
+        let ivaval = 0.0000;
+        let ivavaldescg = 0.0000;
+        let descuentos = 0.0000;
+        let descglobal = 0.0000;
+        let total = 0.00;
+        let subtotal = 0.0000;
+        let subtforivadescg = 0.0000;
+        let subtforiva = 0.0000;
 
         detalles.forEach(fila => {
             try {
@@ -143,15 +143,15 @@ export class NumberService {
         });
 
         const totales = {
-            subtotal: this.round2(subtotal),
-            subtotal12: this.round2(subtotal12),
-            subtotal0: this.round2(subtotal0),
-            iva: this.round2(ivaval),
-            ivasindescg: this.round2(ivavaldescg),
-            descuentos: this.round2(descuentos),
+            subtotal: this.round4(subtotal),
+            subtotal12: this.round4(subtotal12),
+            subtotal0: this.round4(subtotal0),
+            iva: this.round4(ivaval),
+            ivasindescg: this.round4(ivavaldescg),
+            descuentos: this.round4(descuentos),
             total: this.round2(total),
-            descglobal: this.round2(descglobal),
-            subtforiva: this.round2(subtforiva)
+            descglobal: this.round4(descglobal),
+            subtforiva: this.round4(subtforiva)
         };
         return totales;
     }

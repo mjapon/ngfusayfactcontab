@@ -14,10 +14,39 @@
     </p-blockUI>
 </div>
 
+<div class="bd-layout">
+    <aside class="bd-sidebar">
+        <p-panelMenu [model]="menuApp" [transitionOptions]="'0ms'" [style]="{'width':'100%'}"
+                     [multiple]="false" styleClass="quitaPaddingMargin"></p-panelMenu>
+
+    </aside>
+    <main class="bd-master-main">
+        <div class="container">
+            <router-outlet></router-outlet>
+        </div>
+
+        <!--
+        <div class="bd-main-content">
+            <router-outlet></router-outlet>
+        </div>
+        <div class="bd-main-actions">
+            <pre>
+                actions
+                dfas
+                fasd
+            </pre>
+        </div>
+        -->
+    </main>
+</div>
+
+
+<!--
 <div class="  {{isLogged||isLoggedFacte?'container-fluid':'container'}}">
     <div class="mt-2 p-2 bgbody">
         <router-outlet></router-outlet>
     </div>
 </div>
+-->
 
 <app-fusayfooter *ngIf="!isLogged && !isLoggedFacte"></app-fusayfooter>

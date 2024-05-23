@@ -4,7 +4,7 @@ import {NavigationEnd, Router} from '@angular/router';
 import {FautService} from './services/faut.service';
 import {LoadingUiService} from './services/loading-ui.service';
 import {TranslateService} from '@ngx-translate/core';
-import {PrimeNGConfig} from 'primeng/api';
+import {MenuItem, PrimeNGConfig} from 'primeng/api';
 import {FacteContribService} from './services/facte/contrib.service';
 
 @Component({
@@ -20,6 +20,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     stylemaindiv: string;
     classrouteroutlet: string;
     isshowAppMenu: boolean;
+
+
+    menuApp: MenuItem[];
 
     constructor(private localStorageService: LocalStorageService,
                 private router: Router,
@@ -89,6 +92,16 @@ export class AppComponent implements OnInit, AfterViewInit {
             }
             window.scrollTo(0, 0);
         });
+
+        this.menuApp = [];
+        this.loadmenu();
+    }
+
+    loadmenu(){
+        const menuAppCli = this.fautService.getMenuApp();
+        if (menuAppCli) {
+            this.menuApp = menuAppCli;
+        }
     }
 
     hideMenu() {
