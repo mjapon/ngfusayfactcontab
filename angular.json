@@ -27,8 +27,13 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/primeicons/primeicons.css"
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/aura-light-pink/theme.css",
+              "node_modules/primeng/resources/primeng.min.css"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules/"]
+            },
             "scripts": [
               "@popperjs/core/dist/umd/popper.min.js",
               "bootstrap/dist/js/bootstrap.min.js"
@@ -62,19 +67,29 @@
                   "maximumError": "5mb"
                 }
               ]
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "sysprint:build"
-          },
           "configurations": {
             "production": {
-              "browserTarget": "sysprint:build:production"
+              "buildTarget": "sysprint:build:production"
+            },
+            "development": {
+              "buildTarget": "sysprint:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -131,6 +146,5 @@
     "@schematics/angular:component": {
       "style": "scss"
     }
-  },
-  "defaultProject": "sysprint"
+  }
 }

@@ -16,12 +16,36 @@
 
 <div class="bd-layout">
     <aside class="bd-sidebar">
-        <p-panelMenu [model]="menuApp" [transitionOptions]="'0ms'" [style]="{'width':'100%'}"
-                     [multiple]="false" styleClass="quitaPaddingMargin"></p-panelMenu>
+        <div>
+            <p-panelMenu [model]="menuApp" styleClass="w-full md:w-20rem"/>
+            <div class="sidebar-footer">
+                <span class="text-secondary">Mavil &trade; 2024</span>
+            </div>
+        </div>
+
+
 
     </aside>
     <main class="bd-master-main">
         <div class="container">
+
+            <p-breadcrumb class="max-w-full" [model]="navigateMenuApp">
+                <ng-template pTemplate="item" let-item>
+                    <ng-container *ngIf="item.route; else elseBlock">
+                        <a [routerLink]="item.route" class="p-menuitem-link">
+                            <span [ngClass]="[item.icon ? item.icon : '', 'text-color']"></span>
+                            <span class="text-primary font-semibold">{{ item.label }}</span>
+                        </a>
+                    </ng-container>
+                    <ng-template #elseBlock>
+                        <a [href]="item.url">
+                            <span class="text-color">{{ item.label }}</span>
+                        </a>
+                    </ng-template>
+                </ng-template>
+            </p-breadcrumb>
+
+
             <router-outlet></router-outlet>
         </div>
 

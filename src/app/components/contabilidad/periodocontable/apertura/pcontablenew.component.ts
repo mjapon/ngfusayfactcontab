@@ -1,14 +1,12 @@
-import { Component, OnInit } from "@angular/core";
-import { BaseComponent } from "src/app/components/shared/base.component";
-import { AsientoService } from "src/app/services/asiento.service";
-import { PeriodoContableService } from "src/app/services/contable/periodocontab.service";
-import { DomService } from "src/app/services/dom.service";
-import { FechasService } from "src/app/services/fechas.service";
-import { LoadingUiService } from "src/app/services/loading-ui.service";
-import { SwalService } from "src/app/services/swal.service";
-import { forkJoin } from 'rxjs';
-import { NumberService } from "src/app/services/number.service";
-import { ThrowStmt } from "@angular/compiler";
+import {Component, OnInit} from "@angular/core";
+import {BaseComponent} from "src/app/components/shared/base.component";
+import {AsientoService} from "src/app/services/asiento.service";
+import {PeriodoContableService} from "src/app/services/contable/periodocontab.service";
+import {DomService} from "src/app/services/dom.service";
+import {FechasService} from "src/app/services/fechas.service";
+import {LoadingUiService} from "src/app/services/loading-ui.service";
+import {SwalService} from "src/app/services/swal.service";
+import {NumberService} from "src/app/services/number.service";
 
 @Component({
     selector: 'app-pcontablenew',

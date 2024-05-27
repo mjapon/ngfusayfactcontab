@@ -1,13 +1,11 @@
-import { i18nMetaToJSDoc } from "@angular/compiler/src/render3/view/i18n/meta";
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { BaseComponent } from "src/app/components/shared/base.component";
-import { DomService } from "src/app/services/dom.service";
-import { FechasService } from "src/app/services/fechas.service";
-import { FinanCuentasService } from "src/app/services/finan/finacuentas.service";
-import { FinanMovService } from "src/app/services/finan/finamovs.service";
-import { PersonaService } from "src/app/services/persona.service";
-import { SwalService } from "src/app/services/swal.service";
+import {Component, OnInit} from "@angular/core";
+import {Router} from "@angular/router";
+import {BaseComponent} from "src/app/components/shared/base.component";
+import {DomService} from "src/app/services/dom.service";
+import {FechasService} from "src/app/services/fechas.service";
+import {FinanCuentasService} from "src/app/services/finan/finacuentas.service";
+import {FinanMovService} from "src/app/services/finan/finamovs.service";
+import {SwalService} from "src/app/services/swal.service";
 
 @Component({
     selector: 'app-finan-mov-form',

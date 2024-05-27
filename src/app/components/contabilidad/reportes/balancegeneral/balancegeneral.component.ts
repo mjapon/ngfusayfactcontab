@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { AsientoService } from '../../../../services/asiento.service';
-import { FechasService } from '../../../../services/fechas.service';
-import { LoadingUiService } from '../../../../services/loading-ui.service';
-import { TreeNode } from 'primeng/api';
-import { SwalService } from '../../../../services/swal.service';
-import { PeriodoContableService } from 'src/app/services/contable/periodocontab.service';
-import { ExcelUtilService } from 'src/app/services/utils/excelutil.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { PrimeTreeUtil } from 'src/app/services/utils/treeutil.service';
+import {Component, OnInit} from '@angular/core';
+import {AsientoService} from '../../../../services/asiento.service';
+import {FechasService} from '../../../../services/fechas.service';
+import {LoadingUiService} from '../../../../services/loading-ui.service';
+import {TreeNode} from 'primeng/api';
+import {SwalService} from '../../../../services/swal.service';
+import {PeriodoContableService} from 'src/app/services/contable/periodocontab.service';
+import {ExcelUtilService} from 'src/app/services/utils/excelutil.service';
+import {PrimeTreeUtil} from 'src/app/services/utils/treeutil.service';
 
 @Component({
     selector: 'app-balancegeneral',

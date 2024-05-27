@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe, registerLocaleData } from '@angular/common';
+import {CommonModule, DatePipe, NgOptimizedImage, registerLocaleData} from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -154,6 +154,9 @@ import { FormNewrefBasic } from './components/referentes/formnewref/formnewref.c
 import { PcontableCierreComponent } from './components/contabilidad/periodocontable/cierre/pcontablecierre.component';
 import { PcontableNewComponent } from './components/contabilidad/periodocontable/apertura/pcontablenew.component';
 import { AsientoCierreViewComponent } from './components/contabilidad/periodocontable/asientocierreview/asientocierreview.component';
+import {BadgeModule} from "primeng/badge";
+import {RippleModule} from "primeng/ripple";
+import {BreadcrumbModule} from "primeng/breadcrumb";
 
 
 
@@ -325,6 +328,10 @@ export function HttpLoaderFactory(http: HttpClient) {
         InputNumberModule,
         TreeTableModule,
         StepsModule,
+        BadgeModule,
+        RippleModule,
+        BreadcrumbModule,
+        NgOptimizedImage,
         // SocketIoModule.forRoot(config)
     ],
     providers: [

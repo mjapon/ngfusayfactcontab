@@ -4,8 +4,9 @@ import {NavigationEnd, Router} from '@angular/router';
 import {FautService} from './services/faut.service';
 import {LoadingUiService} from './services/loading-ui.service';
 import {TranslateService} from '@ngx-translate/core';
-import {MenuItem, PrimeNGConfig} from 'primeng/api';
+import {MenuItem, MessageService, PrimeNGConfig} from 'primeng/api';
 import {FacteContribService} from './services/facte/contrib.service';
+import {MenuNavigateAppService} from './services/shared/menu-navigate-app.service';
 
 @Component({
     selector: 'app-root',
@@ -20,13 +21,15 @@ export class AppComponent implements OnInit, AfterViewInit {
     stylemaindiv: string;
     classrouteroutlet: string;
     isshowAppMenu: boolean;
-
-
     menuApp: MenuItem[];
+    home: MenuItem | undefined;
+    navigateMenuApp: MenuItem[] | undefined = [];
 
     constructor(private localStorageService: LocalStorageService,
                 private router: Router,
                 private fautService: FautService,
+                private messageService: MessageService,
+                private menuNavigateService: MenuNavigateAppService,
                 private contribService: FacteContribService,
                 private loadingUiService: LoadingUiService,
                 private config: PrimeNGConfig,
@@ -63,7 +66,20 @@ export class AppComponent implements OnInit, AfterViewInit {
                 this.classrouteroutlet = 'ms-2 mt-2 me-0';
             } else if (msg === 'hideappmenu') {
                 this.hideMenu();
+            } else if (msg === 'loadmenu') {
+                const menu = this.fautService.getMenuApp();
+                if (menu) {
+                    this.menuApp = menu;
+                }
+            } else if (msg === 'addnavigate') {
+
+                this.navigateMenuApp = this.menuNavigateService.currentNavigateItem;
+
+                /*console.log('listening addnavigate-->');
+                this.navigateMenuApp.push(this.menuNavigateService.currentNavigateItem[0]);*/
+                console.log('Resultado-->', this.navigateMenuApp);
             }
+
             if (this.isLogged) {
                 if (this.isshowAppMenu) {
                     this.stylemaindiv = 'width: 92%;';
@@ -92,12 +108,16 @@ export class AppComponent implements OnInit, AfterViewInit {
             }
             window.scrollTo(0, 0);
         });
-
-        this.menuApp = [];
         this.loadmenu();
+        /*this.navigateMenuApp = [{
+            icon: 'fa-solid fa-house',
+            route: '/'
+        },{label:'asdfa',
+            icon: 'fa-solid fa-house',
+            route: '/'}];*/
     }
 
-    loadmenu(){
+    loadmenu() {
         const menuAppCli = this.fautService.getMenuApp();
         if (menuAppCli) {
             this.menuApp = menuAppCli;

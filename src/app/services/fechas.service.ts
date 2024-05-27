@@ -33,7 +33,7 @@ type Options = {
 };
 
 // tslint:disable-next-line:variable-name
-type convertFn = (Date, { isSameMonth: boolean }) => any;
+type convertFn = (Date, { isSameMonth }) => any;
 const getMountMatrix = (
     { year, month }: Options,
     // tslint:disable-next-line:no-shadowed-variable

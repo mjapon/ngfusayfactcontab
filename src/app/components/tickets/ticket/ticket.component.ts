@@ -6,6 +6,8 @@ import {SwalService} from '../../../services/swal.service';
 import {FechasService} from '../../../services/fechas.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {MenuItem} from 'primeng/api';
+import {MenuNavigateAppService} from '../../../services/shared/menu-navigate-app.service';
+import {FautService} from '../../../services/faut.service';
 
 @Component({
     selector: 'app-ticket',
@@ -33,8 +35,9 @@ export class TicketComponent implements OnInit {
     tksel: any = {};
 
     constructor(private router: Router,
-                private route: ActivatedRoute,
                 private swalService: SwalService,
+                private fautService: FautService,
+                private menuNavigateService: MenuNavigateAppService,
                 private fechasService: FechasService,
                 private ticketService: TicketService,
                 private loadingUiService: LoadingUiService) {
@@ -70,6 +73,10 @@ export class TicketComponent implements OnInit {
             {label: 'Imprimir', icon: 'fa fa-print', command: (event) => this.imprimirRow(this.selectedItem)},
             {label: 'Anular', icon: 'fa fa-trash', command: (event) => this.anularRow(this.selectedItem)}
         ];
+
+        const menuItem = {label: 'Listado', icon: 'fa-solid fa-rectangle-list', route: '/tickets'};
+        this.menuNavigateService.addItem(menuItem);
+        this.fautService.publishMessageAddNavigate();
 
     }
 

@@ -30,6 +30,7 @@ export class LoggednavbarComponent implements OnInit {
                 private router: Router) {
         this.userinfo = {};
         this.menuApp = [];
+        /*
         router.events.pipe(
             filter((ev): ev is RouterEvent => {
                 return ev instanceof RouterEvent;
@@ -40,7 +41,7 @@ export class LoggednavbarComponent implements OnInit {
             } else if (evn instanceof NavigationEnd) {
                 // console.log('Evento NavigationEnd: ', evn);
             }
-        });
+        });*/
     }
 
     ngOnInit() {
