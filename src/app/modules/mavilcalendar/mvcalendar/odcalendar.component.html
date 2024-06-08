@@ -37,16 +37,16 @@
             <div class="mt-3 d-flex flex-column quitaPaddingMargin">
                 <div class="text-center">
                     <div class="btn-group btn-group-sm" role="group">
-                        <button class="btn btn-sm btn-outline-secondary" title="Ir a la fecha actual" (click)="hoy()">
+                        <button class="btn btn-sm btn-outline-dark" title="Ir a la fecha actual" (click)="hoy()">
                             Hoy
                         </button>
-                        <button class="btn btn-sm btn-outline-secondary" title="7 dias posteriores a la fecha actual"
+                        <button class="btn btn-sm btn-outline-dark" title="7 dias posteriores a la fecha actual"
                                 (click)="hoyplusdays(7)">+7
                         </button>
-                        <button class="btn btn-sm btn-outline-secondary"
+                        <button class="btn btn-sm btn-outline-dark"
                                 title="15 dias posteriores a la fecha actual" (click)="hoyplusdays(15)">+15
                         </button>
-                        <button class="btn btn-sm btn-outline-secondary"
+                        <button class="btn btn-sm btn-outline-dark"
                                 title="30 dias posteriores a la fecha actual" (click)="hoyplusdays(30)">+30
                         </button>
                     </div>
@@ -85,7 +85,7 @@
                     </button>
                     <button class="btn btn-sm btn-outline-primary" title="Crear una nueva cita"
                             (click)="onCreaEvClic()"><i
-                            class="fa fa-plus-circle"></i> Crear
+                            class="fa-solid fa-plus"></i> Crear
                     </button>
                 </div>
             </div>
@@ -148,7 +148,7 @@
         </div>
     </div>
 
-    <p-dialog [header]="titEvNewEdCita" [modal]="true" [style]="{width: '70vw'}"
+    <p-dialog [header]="titEvNewEdCita" [modal]="true" [style]="{width: '60vw'}"
               [(visible)]="showModalCrea" #detdialog id="detdialog"
               (onShow)="onModalNewEvShow($event)">
         <div class="row">
@@ -176,7 +176,7 @@
             </div>
             <div class="col-md-1">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-outline-secondary dropdown-toggle mpbtncol d-flex"
+                    <button type="button" class="btn btn-outline-dark dropdown-toggle mpbtncol d-flex"
                             data-bs-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false">
@@ -202,11 +202,11 @@
                 <div class="d-flex flex-row">
                     <p-dropdown [options]="horasList" optionLabel="label"
                                 optionValue="value"
-                                placeholder="Desde" [appendTo]="detdialog"
+                                placeholder="Desde" appendTo="body"
                                 [(ngModel)]="form.ct_hora"></p-dropdown>
                     <p-dropdown [options]="horasList" optionLabel="label"
                                 optionValue="value"
-                                placeholder="Hasta" [appendTo]="detdialog"
+                                placeholder="Hasta" appendTo="body"
                                 [(ngModel)]="form.ct_hora_fin"></p-dropdown>
                 </div>
             </div>
@@ -219,8 +219,8 @@
                     <div *ngIf="pacForCalendar" class="input-group">
                         <input type="text" class="form-control"
                                [ngModel]="pacForCalendar.per_nombres + ' ' + pacForCalendar.per_apellidos" disabled>
-                        <button class="btn btn-outline-secondary" (click)="clearPacForCalendar()"><i
-                                class="fa fa-times"></i>
+                        <button class="btn btn-outline-dark" (click)="clearPacForCalendar()"><i
+                                class="fa-solid fa-xmark"></i>
                         </button>
                     </div>
                     <div *ngIf="!pacForCalendar && !isShowFormCreaRef">
@@ -243,8 +243,8 @@
                                 </p-autoComplete>
                             </div>
                             <div style="width: 7% !important;" class="d-grid gap-2">
-                                <button class="btn btn-outline-secondary" (click)="showFormCreaRef()"
-                                        title="Crear un nuevo referente"><i class="fa fa-plus-circle"></i></button>
+                                <button class="btn btn-outline-dark" (click)="showFormCreaRef()"
+                                        title="Crear un nuevo referente"><i class="fa-solid fa-plus"></i></button>
                             </div>
                         </div>
                     </div>
@@ -296,9 +296,9 @@
 
         <ng-template pTemplate="footer">
             <div class="d-flex justify-content-around">
-                <button class="btn btn-outline-primary" (click)="guardarEv()"><i class="fa fa-save"></i> Guardar
+                <button class="btn btn-outline-primary" (click)="guardarEv()"><i class="fa-solid fa-floppy-disk"></i> Guardar
                 </button>
-                <button class="btn btn-outline-secondary" (click)="closeModalNewEv()"><i class="fa fa-times"></i>
+                <button class="btn btn-outline-dark" (click)="closeModalNewEv()"><i class="fa-solid fa-xmark"></i>
                     Cancelar
                 </button>
             </div>
@@ -343,11 +343,11 @@
 
         <ng-template pTemplate="footer">
             <div class="d-flex justify-content-around">
-                <button class="btn btn-outline-secondary" (click)="anularEv()"><i class="fa fa-trash"></i> Anular
+                <button class="btn btn-outline-dark" (click)="anularEv()"><i class="fa fa-trash"></i> Anular
                 </button>
-                <button class="btn btn-outline-secondary" (click)="editarEv()"><i class="fa fa-edit"></i> Editar
+                <button class="btn btn-outline-dark" (click)="editarEv()"><i class="fa fa-edit"></i> Editar
                 </button>
-                <button class="btn btn-outline-secondary" (click)="closeModalDetEv()"><i class="fa fa-times"></i> Cerrar
+                <button class="btn btn-outline-dark" (click)="closeModalDetEv()"><i class="fa-solid fa-xmark"></i> Cerrar
                 </button>
             </div>
         </ng-template>

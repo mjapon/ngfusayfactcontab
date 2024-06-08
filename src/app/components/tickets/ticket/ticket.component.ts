@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {TicketService} from '../../../services/ticket.service';
 import {parse} from 'date-fns';
 import {SwalService} from '../../../services/swal.service';
@@ -74,7 +74,7 @@ export class TicketComponent implements OnInit {
             {label: 'Anular', icon: 'fa fa-trash', command: (event) => this.anularRow(this.selectedItem)}
         ];
 
-        const menuItem = {label: 'Listado', icon: 'fa-solid fa-rectangle-list', route: '/tickets'};
+        const menuItem = {label: 'Listado', icon: 'fa-solid fa-rectangle-list', route: '/tickets', id: 'tk_list'};
         this.menuNavigateService.addItem(menuItem);
         this.fautService.publishMessageAddNavigate();
 

@@ -54,8 +54,9 @@
                         <a class="nav-link text-primary dropdown-toggle" href="#" id="navbarDropdown"
                            role="button" data-bs-toggle="dropdown" aria-haspopup="true"
                            aria-expanded="false" title="{{userinfo?.per_nombres + ' ' + userinfo?.per_apellidos}}">
-                            <i class="fas fa-user"></i>
-                            {{userinfo?.per_nombres?.charAt(0) + userinfo?.per_apellidos?.charAt(0)}}
+
+                            <i class="fa-solid fa-circle-user"></i>
+                            {{userinfo?.per_nombres}}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li>

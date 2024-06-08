@@ -47,10 +47,10 @@ import {CtesService} from '../../services/ctes.service';
                             <div class="card-footer">
                                 <div class="d-flex justify-content-around">
                                     <button class="btn btn-outline-primary" (click)="guardar()"><i
-                                            class="fa fa-save"></i> Guardar
+                                            class="fa-solid fa-floppy-disk"></i> Guardar
                                     </button>
-                                    <button class="btn btn-outline-secondary" (click)="cancelar()"><i
-                                            class="fa fa-times"></i> Cancelar
+                                    <button class="btn btn-outline-dark" (click)="cancelar()"><i
+                                            class="fa-solid fa-xmark"></i> Cancelar
                                     </button>
                                 </div>
                             </div>
@@ -115,14 +115,12 @@ import {CtesService} from '../../services/ctes.service';
                         </div>
                     </div>
                     <div class="col-md-2" *ngIf="!showForm">
-                        <div>
+                        <div class="d-grid mt-4 gap-2">
                             <button class="btn btn-outline-primary"
                                     title="Cargar un nuevo examen al sistema"
                                     (click)="loadForm()">Crear <i
-                                    class="fa fa-plus-circle"></i></button>
-                        </div>
-                        <div *ngIf="tipo===1" class="mt-4">
-                            <button class="btn btn-outline-secondary" (click)="imprimirRecetario()"
+                                    class="fa-solid fa-plus"></i></button>
+                            <button *ngIf="tipo===1" class="btn btn-outline-dark" (click)="imprimirRecetario()"
                                     title="Imprimir recetario en blanco">Recetario <i
                                     class="fas fa-print"></i></button>
                         </div>

@@ -1,7 +1,16 @@
 .dato-fila {
-    margin: 15px 5px;
+  margin: 15px 5px;
 }
 
 .dato-adc-fila {
-    margin: 6px 1px;
+  margin: 3px 1px;
+}
+
+.p-preline {
+  white-space: pre-line
+}
+
+.bodydet {
+  height: calc(65vh);
+  overflow-y: auto;
 }

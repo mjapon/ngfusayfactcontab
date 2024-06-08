@@ -5,14 +5,18 @@ import {MenuItem} from 'primeng/api';
     providedIn: 'root'
 })
 export class MenuNavigateAppService {
+
     currentNavigateItem: MenuItem[] = [{
         icon: 'fa-solid fa-house',
-        route: '/'
-    },
-        {label: 'Listado', icon: 'fa-solid fa-rectangle-list', route: '/tickets'}];
+        route: '/',
+        id: '0'
+    }];
 
     addItem(item: MenuItem) {
-        this.currentNavigateItem.push(item);
+        const exist = this.currentNavigateItem.some(it => it.id === item.id);
+        if (!exist) {
+            this.currentNavigateItem.push(item);
+        }
     }
 
     addItems(items: MenuItem[]) {

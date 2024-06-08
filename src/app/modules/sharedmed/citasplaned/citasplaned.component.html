@@ -2,25 +2,22 @@
     <div class="d-md-flex justify-content-start">
         <div class="d-md-flex">
             <div class="btn-group btn-group-sm" role="group">
-                <button class="btn btn-outline-secondary btn-sm"><span><i
-                        class="fa fa-filter"></i> Filtro: </span>
-                </button>
-                <button class="btn btn-sm {{tipoFiltro===1?'btn-primary':'btn-outline-secondary'}}"
+                <button class="btn btn-sm {{tipoFiltro===1?'btn-primary':'btn-outline-dark'}}"
                         (click)="clickFiltro(1,$event)">
                     <i class="fa fa-check-circle" *ngIf="tipoFiltro===1"></i>
                     Hoy
                 </button>
-                <button class="btn btn-sm {{tipoFiltro===2?'btn-primary':'btn-outline-secondary'}}"
+                <button class="btn btn-sm {{tipoFiltro===2?'btn-primary':'btn-outline-dark'}}"
                         (click)="clickFiltro(2,$event)">
                     <i class="fa fa-check-circle" *ngIf="tipoFiltro===2"></i>
                     Mañana
                 </button>
-                <button class="btn btn-sm {{tipoFiltro===3?'btn-primary':'btn-outline-secondary'}}"
+                <button class="btn btn-sm {{tipoFiltro===3?'btn-primary':'btn-outline-dark'}}"
                         (click)="clickFiltro(3,$event)">
                     <i class="fa fa-check-circle" *ngIf="tipoFiltro===3"></i>
                     Esta semana
                 </button>
-                <button class="btn btn-sm {{tipoFiltro===4?'btn-primary':'btn-outline-secondary'}}"
+                <button class="btn btn-sm {{tipoFiltro===4?'btn-primary':'btn-outline-dark'}}"
                         (click)="clickFiltro(4,$event)">
                     <i class="fa fa-check-circle" *ngIf="tipoFiltro===4"></i>
                     Este mes
@@ -30,9 +27,9 @@
 
         <div *ngIf="tipoFiltro>0" class="ms-3">
             <span class="fontsizesm">Filtro aplicado: {{fechasstr}}</span>
-            <button class="btn btn-sm btn-outline-secondary ms-2" title="Limpiar filtro"
+            <button class="btn btn-sm btn-outline-dark ms-2" title="Limpiar filtro"
                     (click)="clearFiltro()">
-                <i class="fa fa-times"></i>
+                <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
         <div class="ms-3">

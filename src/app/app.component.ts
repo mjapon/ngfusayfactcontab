@@ -1,12 +1,10 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {LocalStorageService} from './services/local-storage.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {FautService} from './services/faut.service';
 import {LoadingUiService} from './services/loading-ui.service';
 import {TranslateService} from '@ngx-translate/core';
-import {MenuItem, MessageService, PrimeNGConfig} from 'primeng/api';
+import {MenuItem, PrimeNGConfig} from 'primeng/api';
 import {FacteContribService} from './services/facte/contrib.service';
-import {MenuNavigateAppService} from './services/shared/menu-navigate-app.service';
 
 @Component({
     selector: 'app-root',
@@ -23,13 +21,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     isshowAppMenu: boolean;
     menuApp: MenuItem[];
     home: MenuItem | undefined;
-    navigateMenuApp: MenuItem[] | undefined = [];
 
-    constructor(private localStorageService: LocalStorageService,
-                private router: Router,
+    constructor(private router: Router,
                 private fautService: FautService,
-                private messageService: MessageService,
-                private menuNavigateService: MenuNavigateAppService,
                 private contribService: FacteContribService,
                 private loadingUiService: LoadingUiService,
                 private config: PrimeNGConfig,
@@ -71,14 +65,11 @@ export class AppComponent implements OnInit, AfterViewInit {
                 if (menu) {
                     this.menuApp = menu;
                 }
-            } else if (msg === 'addnavigate') {
-
+            } /*else if (msg === 'addnavigate') {
                 this.navigateMenuApp = this.menuNavigateService.currentNavigateItem;
-
-                /*console.log('listening addnavigate-->');
-                this.navigateMenuApp.push(this.menuNavigateService.currentNavigateItem[0]);*/
-                console.log('Resultado-->', this.navigateMenuApp);
-            }
+                console.log('listening addnavigate-->');
+                this.navigateMenuApp.push(this.menuNavigateService.currentNavigateItem[0]);
+            }*/
 
             if (this.isLogged) {
                 if (this.isshowAppMenu) {

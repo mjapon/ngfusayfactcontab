@@ -17,7 +17,7 @@ import {DomService} from '../../../services/dom.service';
                     </div>
                     <div class="ms-2 d-flex">
                         <button class="btn btn-outline-primary px-3" (click)="calcular()"> Calcular</button>
-                        <button class="ms-4 btn btn-outline-secondary px-3" (click)="doCerrar()"> Cerrar</button>
+                        <button class="ms-4 btn btn-outline-dark px-3" (click)="doCerrar()"> Cerrar</button>
                     </div>
                 </div>
             </div>

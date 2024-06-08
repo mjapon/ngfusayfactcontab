@@ -4,277 +4,443 @@
     </div>
 
     <div *ngIf="!showAnim">
-        <div class="card border-secondary">
-            <div id="HistPanelMotivoConsulta">
-                <div class="row dato-adc-fila">
-                    <div class="col-md-5">
+        <div class="card border bodydet">
+            <div id="HistPanelMotivoConsulta" class="p-3">
+                <div class="row">
+                    <div class="col-md">
                         <h6>
-                            {{historiaSel.paciente.per_nombres + ' ' + historiaSel.paciente.per_apellidos}}
-                            -  {{historiaSel.paciente.per_ciruc}}
+                            {{ historiaSel.paciente.per_nombres + ' ' + historiaSel.paciente.per_apellidos }}
+                            -  {{ historiaSel.paciente.per_ciruc }}
                         </h6>
                     </div>
-                    <div class="col-md-7">
-                        <div class="d-md-flex justify-content-md-between">
-                            <div>
-                                <span>Fecha nacimiento:</span>
-                                {{historiaSel.paciente.per_fechanac}}
-                            </div>
-                            <div class="btn-group btn-group-sm" role="group"
-                                 aria-label="Button group with nested dropdown">
-                                <div class="btn-group" role="group">
-                                    <button type="button"
-                                            class="btn btn-outline-primary btn-sm dropdown-toggle"
-                                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Imprimir
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                        <a class="dropdown-item" href="#" (click)="auximprime(1, $event)">
-                                            <i class="fas fa-print"></i>Historia </a>
-                                        <a class="dropdown-item" href="#" (click)="auximprime(2, $event)">
-                                            <i class="fas fa-print"></i>Receta </a>
-                                    </div>
-                                </div>
-                                <div class="btn-group" role="group">
-                                    <button type="button"
-                                            class="btn btn-outline-primary btn-sm dropdown-toggle"
-                                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Editar
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                        <a class="dropdown-item" href="#" (click)="auxEditaAnula(1, $event)">
-                                            <i class="fas fa-edit"></i> Editar </a>
-                                        <a class="dropdown-item" href="#" (click)="auxEditaAnula(2, $event)">
-                                            <i class="fas fa-trash"></i>
-                                            Anular </a>
-                                    </div>
-                                </div>
-                                <button class="btn btn-outline-primary" title="Ver ficha clínica"
-                                        (click)="verFichaClinica()" *ngIf="showFichaCli">
-                                    <i class="fas fas fa-stethoscope"></i>
-                                </button>
-                                <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()">
-                                    <i class="fas fa-times"></i> Cerrar
-                                </button>
-                            </div>
+                    <div class="col-md" >
+                        <div *ngIf="!editing && historiaSel.datosconsulta.cosm_fechaedita"
+                             class="alert alert-info d-flex justify-content-start align-items-center"
+                             role="alert">
+                            <i class="fs-2 fa-solid fa-circle-info"></i>
+                            <span class="ms-2">Historia editada el {{ historiaSel.datosconsulta.cosm_fechaedita }}</span>
                         </div>
+
+                        <div *ngIf="editing"
+                             class="alert alert-warning d-flex justify-content-start align-items-center"
+                             role="alert">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <span class="ms-2">Editando Historia</span>
+                        </div>
+
                     </div>
                 </div>
-                <div class="row dato-adc-fila">
+                <div class="row ">
                     <div class="col-md-3">
                         <span class="text-muted">Fecha Atención:</span>
                     </div>
                     <div class="col">
                         <p>
-                            {{rowHistoriaSel.cosm_fechacrea}}
+                            {{ rowHistoriaSel.cosm_fechacrea }}
                         </p>
                     </div>
                 </div>
 
-                <div class="row dato-adc-fila">
+                <div class="row " *ngIf="!editing">
                     <div class="col-md-3">
                         <span class="text-muted">Motivo Consulta:</span>
                     </div>
                     <div class="col">
                         <p>
-                            {{historiaSel.datosconsulta.cosm_motivo}}
+                            {{ historiaSel.datosconsulta.cosm_motivo }}
                         </p>
                     </div>
                 </div>
-                <div class="row dato-adc-fila">
+                <div class="row" *ngIf="!editing">
                     <div class="col-md-3">
-                        <span class="text-muted">Enfermedad actual:</span>
+                        <span class="text-muted">Detalle:</span>
                     </div>
                     <div class="col">
                         <p>
-                            {{historiaSel.datosconsulta.cosm_enfermactual}}
+                            {{ historiaSel.datosconsulta.cosm_enfermactual }}
                         </p>
                     </div>
                 </div>
-
-                <div class="row dato-adc-fila" *ngIf="historiaSel.datosconsulta.cosm_fechaedita">
-                    <div class="col">
-                        <div class="alert alert-warning" role="alert">
-                            Historia editada el {{historiaSel.datosconsulta.cosm_fechaedita}}
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
 
-        <div class="card border-secondary" *ngIf="hasAntecedentes()">
-            <div class="card-header quitaPadding">
-                Antecedentes Personales
-            </div>
-            <div id="HistPanelAntecedentes">
-                <ng-container *ngFor="let it of historiaSel.antecedentes;">
-                    <div class="row dato-adc-fila" *ngIf="it.valorreg">
-                        <div class="col-md-4">
-                            <span class="text-muted">{{it.cmtv_valor}}:</span>
+
+            <div class="p-3" *ngIf="!editing">
+                <div id="HistPanelDiagnostico">
+                    <div class="row my-2">
+                        <div class="col-md-3">
+                            <span class="text-muted">Diagnóstico:</span>
                         </div>
                         <div class="col-md-8">
-                            <p>
-                                {{it.valorreg}}
-                            </p>
+                            {{ historiaSel.datosconsulta.diagnosticos }} <i class="fa-solid fa-comment-medical"></i>
                         </div>
                     </div>
-                </ng-container>
-            </div>
-        </div>
 
-        <div class="card border-secondary" *ngIf="hasRevXSistemas()">
-            <div class="card-header quitaPadding">
-                Revisión por sistemas
-            </div>
-            <div id="HistPanelRevXSistemas">
-                <ng-container *ngFor="let it of historiaSel.revxsistemas">
-                    <div class="row dato-adc-fila" *ngIf="it.valorreg">
-                        <div class="col-md-4">
-                            <span class="text-muted">{{it.cmtv_valor}}:</span>
+                    <div class="row my-2">
+                        <div class="col-md-3">
+                            <span class="text-muted">Diagnóstico Alternativo:</span>
                         </div>
                         <div class="col-md-8">
-                            <p>
-                                {{it.valorreg}}
-                            </p>
+                            {{ historiaSel.datosconsulta.cosm_diagnosticoal }}
                         </div>
                     </div>
-                </ng-container>
-            </div>
-        </div>
 
-        <div class="card border-secondary" *ngIf="hasExamsFisico()">
-            <div class="card-header quitaPadding">
-                Exámen Físico
-            </div>
-            <div id="HistPanelExamenFisico">
-                <ng-container *ngFor="let it of historiaSel.examsfisicos">
-                    <div class="row dato-adc-fila" *ngIf="it.valorreg">
-                        <div class="col-md-4">
-                            <span class="text-muted">{{it.cmtv_valor}}</span>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="text-muted">Tratamiento:</span>
                         </div>
                         <div class="col-md-8">
-                            <p>
-                                {{it.valorreg}} <span class="badge bg-light">{{it.cmtv_unidad}}</span>
-                            </p>
+                            <p class="p-preline">{{ historiaSel.datosconsulta.cosm_tratamiento }}</p>
                         </div>
                     </div>
-                </ng-container>
-                <div class="row dato-adc-fila" *ngIf="historiaSel.datosconsulta.cosm_hallazgoexamfis">
-                    <div class="col-md-4">
-                        <span class="text-muted">Descripción de Hallazgos:</span>
-                    </div>
-                    <div class="col-md-8">
-                        {{historiaSel.datosconsulta.cosm_hallazgoexamfis}}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card border-secondary mb-3">
-            <div class="card-header quitaPadding">
-                Diagnóstico
-            </div>
-            <div id="HistPanelDiagnostico">
-                <div class="row dato-fila">
-                    <div class="col-md-4">
-                        <span class="text-muted">Diagnóstico:</span>
-                    </div>
-                    <div class="col-md-8">
-                        {{historiaSel.datosconsulta.diagnosticos}}
-                    </div>
-                </div>
-
-                <div class="row dato-fila">
-                    <div class="col-md-4">
-                        <span class="text-muted">Diagnóstico Alternativo:</span>
-                    </div>
-                    <div class="col-md-8">
-                        {{historiaSel.datosconsulta.cosm_diagnosticoal}}
-                    </div>
-                </div>
-
-                <div class="row dato-fila">
-                    <div class="col-md-4">
-                        <span class="text-muted">Tratamiento:</span>
-                    </div>
-                    <div class="col-md-8">
-                        <p style="white-space: pre-line">{{historiaSel.datosconsulta.cosm_tratamiento}}</p>
-                    </div>
-                </div>
-                <div class="row dato-fila">
-                    <div class="col-md-4">
-                        <span class="text-muted">Receta:</span>
-                    </div>
-                    <div class="col-md-8">
-                        <p style="white-space: pre-line">{{historiaSel.datosconsulta.cosm_receta}}</p>
-                        <button class="btn btn-sm btn-outline-primary" title="Imprimir" 
-                                (click)="auximprime(2, $event)">Imprimir
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="text-muted">Receta:</span>
+                        </div>
+                        <div class="col-md-8">
+                            <p class="p-preline">{{ historiaSel.datosconsulta.cosm_receta }}</p>
+                            <button class="btn btn-sm btn-outline-primary" title="Imprimir"
+                                    (click)="auximprime(2, $event)">Imprimir
                                 <i class="fas fa-print"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="row dato-fila">
-                    <div class="col-md-4">
-                        <span class="text-muted">Indicaciones Receta:</span>
-                    </div>
-                    <div class="col-md-8">
-                        <p style="white-space: pre-line">{{historiaSel.datosconsulta.cosm_indicsreceta}}</p>
-                    </div>
-                </div>
-                <div class="row dato-fila">
-                    <div class="col-md-4">
-                        <span class="text-muted">Recomendaciones:</span>
-                    </div>
-                    <div class="col-md-8">
-                        <p style="white-space: pre-line">{{historiaSel.datosconsulta.cosm_recomendaciones}}</p>
-                    </div>
-                </div>
-                <div class="row dato-fila">
-                    <div class="col-md-4">
-                        <span class="text-muted">Fecha Próxima Cita:</span>
-                    </div>
-                    <div class="col-md-8">
-                        {{historiaSel.datosconsulta.cosm_fechaproxcita}}
-                    </div>
-                </div>
-                <div class="d-flex flex-row-reverse">
-                    <div class="btn-group btn-group-sm" role="group"
-                         aria-label="Button group with nested dropdown">
-                        <div class="btn-group" role="group">
-                            <button type="button"
-                                    class="btn btn-outline-primary btn-sm dropdown-toggle"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Imprimir
                             </button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="#" (click)="auximprime(1, $event)">
-                                    <i class="fas fa-print"></i>Historia </a>
-                                <a class="dropdown-item" href="#" (click)="auximprime(2, $event)">
-                                    <i class="fas fa-print"></i>Receta </a>
-                            </div>
                         </div>
-                        <div class="btn-group" role="group">
-                            <button type="button"
-                                    class="btn btn-outline-primary btn-sm dropdown-toggle"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Editar
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="#" (click)="auxEditaAnula(1, $event)">
-                                    <i class="fas fa-edit"></i> Editar </a>
-                                <a class="dropdown-item" href="#" (click)="auxEditaAnula(2, $event)">
-                                    <i class="fas fa-trash"></i>
-                                    Anular </a>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="text-muted">Indicaciones Receta:</span>
                         </div>
-                        <button class="btn btn-outline-primary" title="Ver ficha clínica" *ngIf="showFichaCli"
-                                (click)="verFichaClinica()">
-                            <i class="fas fas fa-stethoscope"></i>
-                        </button>
-                        <button class="btn btn-outline-primary" (click)="cerrarHistoriaAnt()">
-                            <i class="fas fa-times"></i> Cerrar
-                        </button>
+                        <div class="col-md-8">
+                            <p class="p-preline">{{ historiaSel.datosconsulta.cosm_indicsreceta }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="text-muted">Recomendaciones:</span>
+                        </div>
+                        <div class="col-md-8">
+                            <p class="p-preline">{{ historiaSel.datosconsulta.cosm_recomendaciones }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="text-muted">Fecha próxima cita:</span>
+                        </div>
+                        <div class="col-md-8">
+                            {{ historiaSel.datosconsulta.cosm_fechaproxcita }}
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="p-3" *ngIf="!editing && (hasRevXSistemas() || hasExamsFisico())">
+                <p-tabView>
+                    <p-tabPanel header="Revisión por sistemas" *ngIf="hasRevXSistemas()">
+                        <div id="HistPanelRevXSistemas">
+                            <ng-container *ngFor="let it of historiaSel.revxsistemas">
+                                <div class="row" *ngIf="it.valorreg">
+                                    <div class="col-md-4">
+                                        <span class="text-muted">{{ it.cmtv_valor }}:</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <p>
+                                            {{ it.valorreg }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="Exámen Físico" *ngIf="hasExamsFisico()">
+                        <ng-container *ngFor="let it of historiaSel.examsfisicos">
+                            <div class="row" *ngIf="it.valorreg">
+                                <div class="col-md-4">
+                                    <span class="text-muted">{{ it.cmtv_valor }}</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>
+                                        {{ it.valorreg }} <span
+                                            class="badge text-bg-primary">{{ it.cmtv_unidad }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <div class="row" *ngIf="historiaSel.datosconsulta.cosm_hallazgoexamfis">
+                            <div class="col-md-4">
+                                <span class="text-muted">Descripción de Hallazgos:</span>
+                            </div>
+                            <div class="col-md-8">
+                                {{ historiaSel.datosconsulta.cosm_hallazgoexamfis }}
+                            </div>
+                        </div>
+
+                    </p-tabPanel>
+                </p-tabView>
+
+            </div>
+            <div class="p-3" *ngIf="editing">
+
+                <div class="my-1">
+                    <div>
+                        <span class="required">*</span><span>Motivo Consulta:</span>
+                    </div>
+                    <div>
+                        <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_motivo"
+                                  id="motivoConsultaTextArea">
+                        </textarea>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div>
+                        <span class="required">*</span><span>Enfermedad actual:</span>
+                    </div>
+                    <div>
+                        <textarea class="form-control" rows="5"
+                                  [(ngModel)]="form.datosconsulta.cosm_enfermactual">
+                        </textarea>
+                    </div>
+                </div>
+
+
+                <div>
+                    <span class="required">*</span><span>Diagnóstico:</span>
+                </div>
+                <div class="mt-1">
+                    <div class="d-flex w-100"
+                         *ngFor="let sdiag of selectedDiags; let i=index">
+                        <div style="width: 90%">
+                            <p-dropdown [options]="ciedataArray" id="diagnostico_id_{{i}}"
+                                        [(ngModel)]="selectedDiags[i]"
+                                        [virtualScroll]="true"
+                                        [virtualScrollItemSize]="50"
+                                        appendTo="body"
+                                        placeholder="Seleccione o busque la enfermedad diagnosticada"
+                                        [showClear]="true"
+                                        [style]="{width:'100%', overflow:'visible'}"
+                                        filter="true"
+                                        optionLabel="ciekeyval"
+                                        styleClass="p-fluid"
+                                        inputId="diagnostico_id_{{i}}"></p-dropdown>
+                        </div>
+                        <div class="d-flex">
+                            <button class="btn btn-sm btn-outline-primary py-2"
+                                    (click)="addDiagnostico()"
+                                    *ngIf="i===selectedDiags.length-1 && sdiag"
+                                    title="Agregar otro diagnóstico"><span
+                                    class="fa-solid fa-plus"></span></button>
+                            <button class="btn btn-sm btn-outline-dark py-2"
+                                    (click)="removeDiagnostico(sdiag)"
+                                    *ngIf="i>0"
+                                    title="Quitar este diagnóstico"><span
+                                    class="fa fa-minus-circle"></span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-2">
+                    <span>Diagnóstico Alternativo:</span>
+                </div>
+                <div class="mt-1">
+                                        <textarea class="form-control"
+                                                  [(ngModel)]="form.datosconsulta.cosm_diagnosticoal">
+                                        </textarea>
+                </div>
+
+                <div>
+                    <div class="mt-2">
+                        <span class="required">*</span><span>Tratamiento:</span>
+                    </div>
+                    <div class="mt-1">
+                            <textarea class="form-control"
+                                      [(ngModel)]="form.datosconsulta.cosm_tratamiento">
+                            </textarea>
+                    </div>
+                </div>
+
+                <div class="mt-2">
+                    <div>
+                        <span class="required">*</span><span>Receta:</span>
+                    </div>
+                    <div class="mt-1">
+                            <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_receta"
+                                      rows="8">
+                            </textarea>
+                    </div>
+                </div>
+
+                <div class="mt-2">
+                    <div>
+                        <span class="required">*</span><span>Indicaciones de la receta:</span>
+                    </div>
+                    <div class="mt-1">
+                            <textarea class="form-control"
+                                      [(ngModel)]="form.datosconsulta.cosm_indicsreceta" rows="8">
+                            </textarea>
+                    </div>
+                </div>
+
+                <div class="mt-2">
+                    <div>
+                        <span>Recomendaciones:</span>
+                    </div>
+                    <div class="mt-1">
+                            <textarea class="form-control"
+                                      [(ngModel)]="form.datosconsulta.cosm_recomendaciones">
+                            </textarea>
+                    </div>
+                </div>
+
+                <p-tabView>
+                    <p-tabPanel header="Revisión por sistemas">
+                        <div class="row">
+                            <div class="col">
+                                <div class="row my-1 mx-md-3" *ngFor="let it of form.revxsistemas.slice(0,5)">
+                                    <div class="col-12">
+                                        <span>{{ it.cmtv_valor }}:</span>
+                                    </div>
+                                    <div class="col">
+                                        <div *ngIf="it.cmtv_tinput===1">
+                                            <input type="text" class="form-control" [disabled]="saved"
+                                                   [(ngModel)]="it.valorreg"
+                                                   id="inrevxsis_{{form.revxsistemas.indexOf(it)}}">
+                                        </div>
+                                        <div *ngIf="it.cmtv_tinput===2">
+                                                    <textarea class="form-control" [(ngModel)]="it.valorreg"
+                                                              [disabled]="saved"
+                                                              id="inrevxsis_{{form.revxsistemas.indexOf(it)}}">
+                                                    </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row my-1 mx-md-3" *ngFor="let it of form.revxsistemas.slice(5,9)">
+                                    <div class="col-12">
+                                        <span>{{ it.cmtv_valor }}:</span>
+                                    </div>
+                                    <div class="col">
+                                        <div *ngIf="it.cmtv_tinput===1">
+                                            <input type="text" class="form-control" [disabled]="saved"
+                                                   [(ngModel)]="it.valorreg"
+                                                   id="inrevxsis_{{form.revxsistemas.indexOf(it)}}">
+                                        </div>
+                                        <div *ngIf="it.cmtv_tinput===2">
+                                                    <textarea class="form-control" [(ngModel)]="it.valorreg"
+                                                              [disabled]="saved"
+                                                              id="inrevxsis_{{form.revxsistemas.indexOf(it)}}">
+                                                    </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="Exámen Físico">
+                        <div class="row">
+                            <div class="col">
+                                <div class="row my-1 mx-md-3" *ngFor="let it of form.examsfisicos.slice(0,4)">
+                                    <div class="col-md">
+                                        <span>{{ it.cmtv_valor }}</span>
+                                        <span *ngIf="it.cmtv_unidad">({{ it.cmtv_unidad }})</span>:
+                                    </div>
+                                    <div class="col-md">
+                                        <div *ngIf="it.cmtv_tinput===1">
+                                            <input type="text" class="form-control" [disabled]="saved"
+                                                   [(ngModel)]="it.valorreg"
+                                                   id="inexamfis_{{form.examsfisicos.indexOf(it)}}"
+                                                   (focusout)="calcularIMC(it)">
+                                        </div>
+                                        <div *ngIf="it.cmtv_tinput===2">
+                                        <textarea class="form-control" [(ngModel)]="it.valorreg" [disabled]="saved"
+                                                  id="inexamfis_{{form.examsfisicos.indexOf(it)}}">
+                                        </textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md"
+                                         *ngIf="it.cmtv_nombre === 'EXFIS_TA' && datosAlertaPresion.msg? datosAlertaPresion.msg.length>0:false ">
+                                        <span style="color: {{datosAlertaPresion.color}}"> {{ datosAlertaPresion.msg }} </span>
+                                        <br>
+                                    </div>
+                                    <div class="col-md"
+                                         *ngIf="it.cmtv_nombre === 'EXFIS_IMC' && datosAlertaImc.msg?datosAlertaImc.msg.length>0:false">
+                                        <span style="color: {{datosAlertaImc.color}}"> {{ datosAlertaImc.msg }} </span>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row my-1 mx-md-3"
+                                     *ngFor="let it of form.examsfisicos.slice(4,9)">
+                                    <div class="col-md">
+                                        <span>{{ it.cmtv_valor }}</span>
+                                        <span class="badge text-bg-primary">{{ it.cmtv_unidad }}</span>:
+                                    </div>
+                                    <div class="col-md">
+                                        <div *ngIf="it.cmtv_tinput===1">
+                                            <input type="text" class="form-control"
+                                                   [(ngModel)]="it.valorreg" [disabled]="saved"
+                                                   id="inexamfis_{{form.examsfisicos.indexOf(it)}}"
+                                                   (focusout)="calcularIMC(it)">
+                                        </div>
+                                        <div *ngIf="it.cmtv_tinput===2">
+                                                    <textarea class="form-control" [(ngModel)]="it.valorreg"
+                                                              [disabled]="saved"
+                                                              id="inexamfis_{{form.examsfisicos.indexOf(it)}}">
+                                                    </textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md"
+                                         *ngIf="it.cmtv_nombre === 'EXFIS_TA' && datosAlertaPresion.msg? datosAlertaPresion.msg.length>0:false ">
+                                        <span style="color: {{datosAlertaPresion.color}}"> {{ datosAlertaPresion.msg }} </span>
+                                        <br>
+                                    </div>
+                                    <div class="col-md"
+                                         *ngIf="it.cmtv_nombre === 'EXFIS_IMC' && datosAlertaImc.msg?datosAlertaImc.msg.length>0:false">
+                                        <span style="color: {{datosAlertaImc.color}}"> {{ datosAlertaImc.msg }} </span>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </p-tabPanel>
+                </p-tabView>
+
+
+            </div>
         </div>
+
+        <div class="row">
+            <div class="col-md">
+                <div class="d-flex mt-2">
+                    <button class="btn btn-outline-primary" title="Editar" *ngIf="!editing"
+                            (click)="loadDataForEdit()">
+                        Editar <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button class="btn btn-outline-primary ms-1" title="Anular" *ngIf="!editing"
+                            (click)="anular()">
+                        Eliminar <i class="fa-regular fa-trash-can"></i>
+                    </button>
+
+                    <button class="btn btn-outline-primary ms-1" title="Actualizar" *ngIf="editing"
+                            (click)="guardar()">
+                        Actualizar <i class="fa-regular fa-floppy-disk"></i>
+                    </button>
+
+                    <button class="btn btn-outline-primary ms-1" title="Actualizar" *ngIf="editing"
+                            (click)="cancelar()">
+                        Cancelar <i class="fa-regular fa-circle-xmark"></i>
+                    </button>
+
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="mt-2 d-flex flex-row-reverse">
+                    <button class="btn btn-outline-dark ms-1" (click)="cerrarHistoriaAnt()"><i
+                            class="fa-solid fa-xmark"></i>
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

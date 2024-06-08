@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PersonaService} from '../../../services/persona.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {Router} from '@angular/router';
+import {DomService} from '../../../services/dom.service';
 
 @Component({
     selector: 'app-citasodonto',
@@ -19,12 +20,13 @@ export class CitasodontoComponent implements OnInit {
     isShowCalendar = false;
 
     constructor(private personaService: PersonaService,
-                private router: Router,
+                private domService:DomService,
                 private loadUiService: LoadingUiService) {
     }
 
     ngOnInit(): void {
         this.clearAll();
+        this.domService.setFocusTm('buscaPacNomCiInput',500);
     }
 
     selectSupTab(tab: number, event: Event) {

@@ -77,16 +77,16 @@
                                         </div>
                                         <div>
                                             <div class="ms-1 btn-group btn-group-sm" role="group">
-                                                <button class="btn btn-outline-secondary btn-sm  p-1"
+                                                <button class="btn btn-outline-dark btn-sm  p-1"
                                                         *ngIf="i>0"
                                                         title="Quitar esta fila"
                                                         (click)="removeCuenta(fmotivo)">
                                                     <i class="fa fa-minus-circle"> </i>
                                                 </button>
-                                                <button class="btn btn-outline-secondary btn-sm  p-1"
+                                                <button class="btn btn-outline-dark btn-sm  p-1"
                                                         *ngIf="i===form.motivos.length-1"
                                                         title="Agregar otro ingreso" (click)="addcuentas()">
-                                                    <i class="fa fa-plus-circle"> </i>
+                                                    <i class="fa-solid fa-plus"> </i>
                                                 </button>
                                             </div>
                                         </div>
@@ -109,11 +109,11 @@
                 <div class="col-md-2">
                     <div class="d-grid gap-2">
                         <button type="button" class="btn btn-outline-primary" (click)="guardar()">
-                            <i class="fa fa-save"></i>
+                            <i class="fa-solid fa-floppy-disk"></i>
                             Guardar
                         </button>
-                        <button type="button" class="btn btn-outline-secondary" (click)="cancelar()">
-                            <i class="fa fa-times"></i>
+                        <button type="button" class="btn btn-outline-dark" (click)="cancelar()">
+                            <i class="fa-solid fa-xmark"></i>
                             Cancelar
                         </button>
                     </div>

@@ -23,7 +23,6 @@ export class ArticulosViewComponent extends BaseComponent implements OnInit {
                 private swalService: SwalService,
                 private ctes: CtesService,
                 private loadingServ: LoadingUiService,
-                private artStockService: ArticulostockService,
                 private kardexProdService: KardexProdService,
                 private route: ActivatedRoute) {
         super();

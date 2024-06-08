@@ -17,25 +17,29 @@ import { PrimeTreeUtil } from 'src/app/services/utils/treeutil.service';
                 <p-contextMenu #cm [model]="itemsMenu"></p-contextMenu>
                 <div class="row">
                     <div class="col-md-8">
-                        <h4 class="ms-2">Plan de cuentas</h4>
+                        <h1 class="bd-title">
+                            <i class="fa-solid fa-list-ol"></i>
+                            Plan de cuentas</h1>
                     </div>
-                    <div class="col-md-4 d-flex flex-row-reverse">
-                        <button class="btn btn-outline-primary" (click)="contractAll()" title="Contraer Todo">
-                            <i class="fas fa-angle-double-up"></i>
-                        </button>
-                        <button class="btn btn-outline-primary me-1" (click)="expandAll()" title="Expandir Todo">
-                            <i class="fas fa-angle-double-down"></i>
-                        </button>
-                        <button class="btn btn-outline-primary me-1" (click)="loadPlanCuentas()" title="Actualizar">
-                            <i class="fas fa-sync"></i>
-                        </button>
+                    <div class="col-md-4">
+                        <div class="d-flex flex-row-reverse">
+                            <button class="btn btn-outline-primary" (click)="contractAll()" title="Contraer Todo">
+                                <i class="fas fa-angle-double-up"></i>
+                            </button>
+                            <button class="btn btn-outline-primary me-1" (click)="expandAll()" title="Expandir Todo">
+                                <i class="fas fa-angle-double-down"></i>
+                            </button>
+                            <button class="btn btn-outline-primary me-1" (click)="loadPlanCuentas()" title="Actualizar">
+                                <i class="fas fa-sync"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div class="mt-2">
-                    <p-tree [value]="planctas" selectionMode="single" [(selection)]="selectedPlan"
-                            (dblclick)="toggleExpand($event)"
-                            (onNodeSelect)="onNodeSelect($event)" [contextMenu]="cm"></p-tree>
-                </div>
+
+                <p-tree [value]="planctas" selectionMode="single" [(selection)]="selectedPlan"
+                        (dblclick)="toggleExpand($event)"
+                        (onNodeSelect)="onNodeSelect($event)" [contextMenu]="cm"></p-tree>
+                
             </div>
 
             <div *ngIf="isShowDet">
@@ -52,7 +56,7 @@ import { PrimeTreeUtil } from 'src/app/services/utils/treeutil.service';
                                 <span class="fw-bold"> Código: </span>
                             </div>
                             <div class="col-md-8">
-                                {{datosCtaContable.ic_code}}
+                                {{ datosCtaContable.ic_code }}
                             </div>
                         </div>
                         <div class="row">
@@ -60,7 +64,7 @@ import { PrimeTreeUtil } from 'src/app/services/utils/treeutil.service';
                                 <span class="fw-bold"> Cuenta padre: </span>
                             </div>
                             <div class="col-md-8">
-                                {{datosCtaContable.padre}}
+                                {{ datosCtaContable.padre }}
                             </div>
                         </div>
                         <div class="row">
@@ -68,7 +72,7 @@ import { PrimeTreeUtil } from 'src/app/services/utils/treeutil.service';
                                 <span class="fw-bold"> Nombre: </span>
                             </div>
                             <div class="col-md-8">
-                                {{datosCtaContable.ic_nombre}}
+                                {{ datosCtaContable.ic_nombre }}
                             </div>
                         </div>
                         <div class="row">
@@ -76,7 +80,7 @@ import { PrimeTreeUtil } from 'src/app/services/utils/treeutil.service';
                                 <span class="fw-bold"> Clase: </span>
                             </div>
                             <div class="col-md-8">
-                                {{datosCtaContable.ic_clasecc}}
+                                {{ datosCtaContable.ic_clasecc }}
                             </div>
                         </div>
                         <div class="row">
@@ -85,7 +89,7 @@ import { PrimeTreeUtil } from 'src/app/services/utils/treeutil.service';
                             </div>
                             <div class="col-md-8">
                                 <p style="white-space: pre-line">
-                                    {{datosCtaContable.ic_nota}}
+                                    {{ datosCtaContable.ic_nota }}
                                 </p>
                             </div>
                         </div>
@@ -99,13 +103,13 @@ import { PrimeTreeUtil } from 'src/app/services/utils/treeutil.service';
                                     <p-checkbox [inputId]="itsec.seccion.sec_id" binary="true" [disabled]="true"
                                                 [(ngModel)]="itsec.value"></p-checkbox>
                                     <label [for]="itsec.seccion.sec_id"
-                                           class="ms-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
+                                           class="ms-2 mt-1 hand">{{ itsec.seccion.sec_nombre }}</label>
                                 </div>
                             </div>
                         </div>
                         <div class="text-center pt-3">
-                            <button class="btn btn-outline-secondary" (click)="cerrarVerDet()"><i
-                                    class="fa fa-times"></i> Cerrar
+                            <button class="btn btn-outline-dark" (click)="cerrarVerDet()"><i
+                                    class="fa-solid fa-xmark"></i> Cerrar
                             </button>
                         </div>
                     </div>
@@ -198,17 +202,17 @@ import { PrimeTreeUtil } from 'src/app/services/utils/treeutil.service';
                                             <p-checkbox [inputId]="itsec.seccion.sec_id" binary="true"
                                                         [(ngModel)]="itsec.value"></p-checkbox>
                                             <label [for]="itsec.seccion.sec_id"
-                                                   class="ms-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
+                                                   class="ms-2 mt-1 hand">{{ itsec.seccion.sec_nombre }}</label>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="text-center pt-3">
                                     <button class="btn btn-outline-primary me-2" (click)="guardarCta()"><i
-                                            class="fa fa-save"></i> Guardar
+                                            class="fa-solid fa-floppy-disk"></i> Guardar
                                     </button>
-                                    <button class="btn btn-outline-secondary" (click)="cancelarCrearCta()"><i
-                                            class="fa fa-times"></i> Cancelar
+                                    <button class="btn btn-outline-dark" (click)="cancelarCrearCta()"><i
+                                            class="fa-solid fa-xmark"></i> Cancelar
                                     </button>
                                 </div>
                             </div>

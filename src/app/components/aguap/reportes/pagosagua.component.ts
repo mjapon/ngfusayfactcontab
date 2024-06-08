@@ -81,7 +81,7 @@ import {ArrayutilService} from "../../../services/arrayutil.service";
                                         <!--
                                         <button *ngIf="rowData.trn_codigo ===0 && rowData.lmd_id>0" class="btn btn-sm"
                                                 title="Registrar Pago" (click)="gotoCreaPago(rowData)">
-                                            <i class="fa fa-plus-circle"></i>
+                                            <i class="fa-solid fa-plus"></i>
                                         </button>
                                         <button *ngIf="rowData.trn_codigo >0" class="btn btn-sm"
                                                 title="Anular pago" (click)="borrarPago(rowData)">

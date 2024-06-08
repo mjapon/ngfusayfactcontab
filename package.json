@@ -38,7 +38,7 @@
     "jwt-decode": "^4.0.0",
     "ngx-socket-io": "^4.1.0",
     "primeicons": "latest",
-    "primeng": "latest",
+    "primeng": "^17.17",
     "rxjs": "~6.5.5",
     "sweetalert2": "^8.13.2",
     "tslib": "^2.0.0",

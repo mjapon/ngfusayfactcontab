@@ -16,7 +16,7 @@ import {Component, Input, OnInit} from '@angular/core';
         </div>
         <div class="viewtooldiente rounded border border-primary text-azul hand"
              title="Pérdida por caries" *ngIf="idtool===4">
-            <span class="fa fa-times"></span>
+            <span class="fa-solid fa-xmark"></span>
         </div>
         <div class="viewtooldiente rounded border border-danger hand"
              title="Endodoncia Necesaria" *ngIf="idtool===6">

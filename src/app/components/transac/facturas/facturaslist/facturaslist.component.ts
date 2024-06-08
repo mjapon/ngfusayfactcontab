@@ -123,6 +123,7 @@ export class FacturaslistComponent implements OnInit {
     onEditar($event: any) {
         this.closeDetFact();
         this.localStgServ.setItem('trncoded', $event);
+        console.log('this.rowDataSel', this.rowDataSel);
         this.router.navigate(['trndocform', this.rowDataSel['tra_codigo'], 'e']);
     }
 }

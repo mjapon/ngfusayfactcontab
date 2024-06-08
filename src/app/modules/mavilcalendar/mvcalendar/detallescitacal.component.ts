@@ -49,7 +49,7 @@ import {TcitaService} from '../../../services/tcita.service';
 
             <div class="d-flex flex-row-reverse mt-4">
                 <button class="btn btn-sm btn-outline-primary" (click)="registraAtencion()"><i
-                        class="fa fa-plus-circle"></i> Registrar
+                        class="fa-solid fa-plus"></i> Registrar
                     Atención
                 </button>
             </div>

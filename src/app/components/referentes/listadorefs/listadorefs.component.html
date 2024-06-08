@@ -1,0 +1,62 @@
+
+<div>
+    <div class="row">
+        <div class="col-md">
+            <input class="form-control form-rounded" id="buscaPacNomCiInput" type="text"
+                   autocomplete="false"
+                   placeholder="Busque pacientes por nombres o número de cédula" [(ngModel)]="filtro"
+                   (keyup)="onFiltroTyped()">
+        </div>
+        <div class="col-md-3">
+            <div class="d-grid">
+                <button class="btn btn-outline-primary" (click)="crearPaciente()">
+                    <span class="fa-solid fa-plus"></span> Nuevo </button>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2">
+        <div class="divpacientesemtpy rounded-lg"
+             *ngIf="pacientesArray.length===0 && filtro && filtro.trim().length>0 && !showAnim">
+            <div class="text-center">
+                <h3 class="text-muted"> No hay resultados <i class="fa-solid fa-magnifying-glass"></i></h3>
+            </div>
+        </div>
+        <div class="shadow rounded">
+            <div *ngIf="showAnim">
+                <app-loading></app-loading>
+            </div>
+            <div class="list-group" *ngIf="pacientesArray.length>0">
+                <a class="list-group-item list-group-item-action hand" *ngFor="let item of pacientesArray"
+                   (click)="selectPaciente(item)">
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                        <div class="avatar">
+                            <!--<i class="fa-solid fa-person avatar-ico" *ngIf="item.per_genero!==2"></i>
+                            <i class="fa-solid fa-person-dress avatar-ico" *ngIf="item.per_genero===2"></i>-->
+                            <span class="labelref label-{{randomStyle()}}">
+                                {{getIniciales(item.nomapel)}}
+                            </span>
+                        </div>
+                        <div class="avatardet">
+                            <h6 class="mb-0">{{item.nomapel}}</h6>
+                            <div class="mb-0 text-muted">
+                                <h6>{{item.per_ciruc}}</h6>
+                            </div>
+                            <div class="mb-0 text-muted">
+                                <h6>{{item.lugresidencia}}</h6>
+                            </div>
+                        </div>
+                        <div>
+                            <i class="fa fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </a>
+                <a class="list-group-item list-group-item-action" *ngIf="hayMasFilasPac">
+                    <p class="text-center">
+                        <button class="btn btn-outline-primary" (click)="loadMorePacientes()"> Listar mas
+                        </button>
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

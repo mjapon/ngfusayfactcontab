@@ -40,7 +40,7 @@ export class BaseService {
                 // return throwError(e);
             }
             if (e.msg) {
-                swal.fire(msgept, e.msg, error);
+                swal.fire('',e.msg, error);
             } else {
                 swal.fire(msgept, 'Verifique su conexión a internet', error);
             }

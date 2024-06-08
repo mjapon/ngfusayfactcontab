@@ -1,7 +1,8 @@
-<h4 class="fw-bold">
-    {{title}} <span *ngIf="grid?.data"> ({{grid.data.length}}) </span>
-</h4>
-<div class="row mt-1 mb-1">
+<h1 class="bd-title">
+    <i class="fa-solid fa-table-list"></i>
+    {{title}} <span *ngIf="grid?.data"> ({{grid.data.length}}) </span></h1>
+
+<div class="row mt-2">
     <div class="col-md-3">
         <app-rangofechas [form]="form" (evFilterSel)="listar()" [showlabels]="false"></app-rangofechas>
     </div>
@@ -21,7 +22,7 @@
                    placeholder="Buscar comprobante por número o por referente">
             <button class="btn btn-outline-primary" type="button" id="buttonSearh" (click)="listar()"
                     title="Buscar comprobante">
-                <i class="fa fa-search"></i>
+                <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </div>
     </div>
@@ -30,7 +31,7 @@
         <div class="ms-1 btn-group btn-group-sm dropend" *ngIf="tracodigo!==7">
             <button type="button" class="btn btn-outline-primary dropdown-toggle"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-plus-circle"></i> Crear
+                <i class="fa-solid fa-plus"></i> Crear
             </button>
             <div class="dropdown-menu">
                 <a href="#" class="dropdown-item" (click)="goToFormFact(1, $event)"> Factura </a>
@@ -40,22 +41,24 @@
 
         <button type="button" class="btn btn-outline-primary" (click)="goToForm()" *ngIf="tracodigo===7"
                 title="Registrar un nuevo producto o servicio">
-            Crear <i class="fa fa-plus-circle"></i>
+            Crear <i class="fa-solid fa-plus"></i>
         </button>
     </div>
 </div>
-<div class="mt-2 border">
+<div class="mt-4">
     <div *ngIf="isLoading">
         <app-loading></app-loading>
     </div>
     <div *ngIf="!isLoading">
-        <p-table [value]="grid.data" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
+        <p-table [value]="grid.data" [paginator]="true" [rows]="15" selectionMode="single" [(selection)]="selectedItem"
                  (onRowSelect)="onRowSelect($event)"
                  [resizableColumns]="true"
+                 tableStyleClass="table table-hover table-striped table-bordered fusay-table"
                  [(contextMenuSelection)]="selectedItem"
                  (onRowUnselect)="onUnRowSelect($event)">
             <ng-template pTemplate="header">
                 <tr>
+                    <th>#</th>
                     <th *ngFor="let item of grid.cols" [pSortableColumn]="item.field" [ngSwitch]="item.field"
                         [width]="item.width">
                         <span class="fontsizenr">{{item.label}}</span>
@@ -68,6 +71,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
                 <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="verRow(rowData)">
+                    <td>{{rowIndex+1}}</td>
                     <td *ngFor="let item of grid.cols">
                         <span class="fontsizesm">{{rowData[item['field']]}}</span>
                     </td>
@@ -86,6 +90,9 @@
             </ng-template>
             <ng-template pTemplate="footer">
                 <tr>
+                    <th>
+
+                    </th>
                     <th>
 
                     </th>

@@ -1,10 +1,10 @@
 <div>
     <div *ngIf="!showForm">
-        <div class="card shadow-sm rounded mt-2">
+        <div class="card shadow rounded mt-2" *ngIf="!isShowDetallesPlan">
             <div class="card-header d-flex justify-content-between">
-                <span class="fw-bold">Planes de tratamiento <span class="badge bg-info"
-                                                                  *ngIf="listaPlanes.length>0">{{listaPlanes.length}}</span></span>
-                <button class="btn btn-outline-primary btn-sm" (click)="initFormCrea()">
+                <span class="fs-5">Planes de tratamiento <span class="badge text-bg-primary"
+                                                               *ngIf="listaPlanes.length>0">{{ listaPlanes.length }}</span></span>
+                <button class="btn btn-outline-primary" (click)="initFormCrea()">
                     <i class="fa fa-plus"></i> Crear
                 </button>
             </div>
@@ -12,38 +12,50 @@
             <div *ngIf="isLoadingPlanes">
                 <app-loading></app-loading>
             </div>
-            <div class="table-responsive" *ngIf="!isLoadingPlanes && listaPlanes.length>0 && !isShowDetallesPlan">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th scope="col"><span class="fontsizesm">#</span></th>
-                        <th scope="col"><span class="fontsizesm">Fecha Crea</span></th>
-                        <th scope="col"><span class="fontsizesm">Nombre Plan</span></th>
-                        <th scope="col"><span class="fontsizesm">Estado</span></th>
-                        <th scope="col"></th>
+
+            <p-table [value]="listaPlanes" [paginator]="true" *ngIf="!isLoadingPlanes && listaPlanes.length>0"
+                     tableStyleClass="table table-hover table-striped table-bordered fusay-table"
+                     [rows]="5">
+                <ng-template pTemplate="header">
+                    <tr class="table-light">
+                        <th>#</th>
+                        <th pSortableColumn="pnt_fechacrea" ngSwitch="pnt_fechacrea">
+                            Fecha de creación
+                            <p-sortIcon field="pnt_fechacrea"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="pnt_nombre" ngSwitch="pnt_nombre">
+                            Nombre del plan
+                            <p-sortIcon field="pnt_nombre"></p-sortIcon>
+                        </th>
+                        <th>
+                            Estado
+                        </th>
+                        <th class="colaction"></th>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let fila of listaPlanes" class="hand" (click)="showDetallesPlan(fila)">
-                        <th scope="row" style="width: 5%">{{listaPlanes.indexOf(fila) + 1}}</th>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                    <tr (click)="showDetallesPlan(rowData)" class="hand">
+                        <th scope="row" style="width: 5%">{{ listaPlanes.indexOf(rowData) + 1 }}</th>
                         <td>
-                            {{fila.pnt_fechacrea}}
+                            {{ rowData.pnt_fechacrea }}
                         </td>
                         <td>
-                            {{fila.pnt_nombre}}
+                            {{ rowData.pnt_nombre }}
                         </td>
                         <td>
-                            {{fila.estadodesc}}
+                            {{ rowData.estadodesc }}
                         </td>
                         <td>
-                            <button class="btn btn-outline-secondary btn-sm">
+                            <button class="btn btn-outline-dark btn-sm">
                                 <i class="fa fa-eye"></i>
                             </button>
                         </td>
                     </tr>
-                    </tbody>
-                </table>
-            </div>
+                </ng-template>
+            </p-table>
+
+
             <div class="card-body" *ngIf="listaPlanes.length==0">
                 <div class="p-5 d-flex justify-content-center">
                     <h2 class="text-muted"> No registra planes de tratamiento </h2>
@@ -51,98 +63,97 @@
             </div>
         </div>
 
-        <div *ngIf="datosDocPlan.plan && isShowDetallesPlan" class="p-2 mt-3 mb-3 shadow border">
+        <div *ngIf="datosDocPlan.plan && isShowDetallesPlan" class="p-2 my-2 shadow rounded border">
+            <div class="d-flex justify-content-between">
+                <h4 class="mt-1 mb-3">Detalles del plan</h4>
+                <div class="d-flex">
+                    <div class="btn-group btn-group-sm" role="group">
+                        <button type="button" class="btn btn-outline-info" (click)="cerrarVerDetallesFact()"
+                                title="Cerrar detalle del plan">
+                            <i class="fa-solid fa-xmark"></i>
+                            Cerrar
+                        </button>
+                        <button type="button" class="btn btn-outline-info"
+                                (click)="imprimirPlan(datosDocPlan.plan.pnt_id)" title="Imprimir el plan">
+                            <i class="fa fa-print"></i>
+                            Imprimir
+                        </button>
+                        <button type="button" *ngIf="datosDocPlan.plan.pnt_estado === 1"
+                                class="btn btn-outline-info" (click)="showModalEmiteFactura()"
+                                title="Confirmar plan de tratamiento">
+                            <i class="fa fa-check"></i>
+                            Confirmar
+                        </button>
+                        <button type="button" *ngIf="datosDocPlan.plan.pnt_estado === 2"
+                                class="btn btn-outline-info" (click)="finalizarPlan()"
+                                title="Marcar como finalizado este plan de tratamiento">
+                            <i class="fa fa-check"></i>
+                            Finalizar
+                        </button>
+                        <button type="button" class="btn btn-outline-info" (click)="anularPlan()"
+                                title="Anular este plan de tratamiento"
+                                *ngIf="datosDocPlan.plan.pnt_estado === 1">
+                            <i class="fa fa-trash"></i>
+                            Anular
+                        </button>
+                        <button type="button" class="btn btn-outline-info" (click)="editarPlan()"
+                                title="Modificar este plan de tratamiento"
+                                *ngIf="datosDocPlan.plan.pnt_estado <= 2">
+                            <i class="fa fa-edit"></i>
+                            Editar
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
             <div *ngIf="datosDocPlan.plan">
                 <div class="row">
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <span class="fw-lighter">Nombre del plan:</span>
-                            </div>
-                            <div class="col-md">
-                                <span class="fw-bold">{{datosDocPlan.plan.pnt_nombre}}</span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <span class="fw-lighter">Médico:</span>
-                            </div>
-                            <div class="col-md">
-                                <span class="fw-bold">{{datosDocPlan.plan.medico}}</span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <span class="fw-lighter">Nro Factura:</span>
-                            </div>
-                            <div class="col-md">
-                                <span class="fw-light">{{datosDocPlan.doc.tasiento.trn_compro}}</span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <span class="fw-lighter">Fecha factura:</span>
-                            </div>
-                            <div class="col-md">
-                                <span class="fw-bold">{{datosDocPlan.doc.tasiento.trn_fecha}}</span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <span class="fw-lighter">Estado:</span>
-                            </div>
-                            <div class="col-md">
-                                <span class="fw-bold">{{plansel.estadodesc}}</span>
-                            </div>
-                        </div>
+                    <div class="col-md-3">
+                        <span class="fw-lighter">Nombre del plan:</span>
                     </div>
-                    <div class="col-md-4 d-flex flex-column align-content-between">
-                        <div *ngIf="datosDocPlan.plan.pnt_obs">
-                            <div>
-                                <span class="fw-lighter">Observación:</span>
-                            </div>
-                            <div>
-                                <span class="fw-light">{{datosDocPlan.plan.pnt_obs}}</span>
-                            </div>
-                        </div>
-                        <div class="mt-3">
-                            <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" class="btn btn-outline-primary" (click)="cerrarVerDetallesFact()"
-                                        title="Cerrar detalle del plan">
-                                    <i class="fa fa-times"></i>
-                                    Cerrar
-                                </button>
-                                <button type="button" class="btn btn-outline-primary"
-                                        (click)="imprimirPlan(datosDocPlan.plan.pnt_id)" title="Imprimir el plan">
-                                    <i class="fa fa-print"></i>
-                                    Imprimir
-                                </button>
-                                <button type="button" *ngIf="datosDocPlan.plan.pnt_estado === 1"
-                                        class="btn btn-outline-primary" (click)="showModalEmiteFactura()"
-                                        title="Confirmar plan de tratamiento">
-                                    <i class="fa fa-check"></i>
-                                    Confirmar
-                                </button>
-                                <button type="button" *ngIf="datosDocPlan.plan.pnt_estado === 2"
-                                        class="btn btn-outline-primary" (click)="finalizarPlan()"
-                                        title="Marcar como finalizado este plan de tratamiento">
-                                    <i class="fa fa-check"></i>
-                                    Finalizar
-                                </button>
-                                <button type="button" class="btn btn-outline-primary" (click)="anularPlan()"
-                                        title="Anular este plan de tratamiento"
-                                        *ngIf="datosDocPlan.plan.pnt_estado === 1">
-                                    <i class="fa fa-trash"></i>
-                                    Anular
-                                </button>
-                                <button type="button" class="btn btn-outline-primary" (click)="editarPlan()"
-                                        title="Modificar este plan de tratamiento"
-                                        *ngIf="datosDocPlan.plan.pnt_estado <= 2">
-                                    <i class="fa fa-edit"></i>
-                                    Editar
-                                </button>
-                            </div>
-                        </div>
+                    <div class="col-md">
+                        <span class="fw-bold">{{ datosDocPlan.plan.pnt_nombre }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <span class="fw-lighter">Médico:</span>
+                    </div>
+                    <div class="col-md">
+                        <span class="fw-bold">{{ datosDocPlan.plan.medico }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <span class="fw-lighter">Nro Factura:</span>
+                    </div>
+                    <div class="col-md">
+                        <span class="fw-light">{{ datosDocPlan.doc.tasiento.trn_compro }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <span class="fw-lighter">Fecha factura:</span>
+                    </div>
+                    <div class="col-md">
+                        <span class="fw-bold">{{ datosDocPlan.doc.tasiento.trn_fecha }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <span class="fw-lighter">Estado:</span>
+                    </div>
+                    <div class="col-md">
+                        <span class="fw-bold">{{ plansel.estadodesc }}</span>
+                    </div>
+                </div>
+                <div class="row" *ngIf="datosDocPlan.plan.pnt_obs">
+                    <div class="col-md-3">
+                        <span class="fw-lighter">Observación:</span>
+                    </div>
+                    <div class="col-md">
+                        <pre class="fw-light">{{ datosDocPlan.plan.pnt_obs }}</pre>
                     </div>
                 </div>
                 <div class="table-responsive mt-1">
@@ -165,26 +176,26 @@
                         <tbody>
                         <tr *ngFor="let fila of datosDocPlan.doc.detalles" class="hand">
                             <td>
-                                {{datosDocPlan.doc.detalles.indexOf(fila) + 1}}
+                                {{ datosDocPlan.doc.detalles.indexOf(fila) + 1 }}
                             </td>
                             <td>
-                                {{fila.ic_nombre}}
+                                {{ fila.ic_nombre }}
                             </td>
                             <td>
-                                {{fila.dt_cant}}
+                                {{ fila.dt_cant }}
                             </td>
                             <td>
-                                {{fila.dt_precio}}
+                                {{ fila.dt_precio }}
                             </td>
                             <td>
-                                {{fila.dt_decto}}
+                                {{ fila.dt_decto }}
                             </td>
                             <td>
-                                {{fila.dai_impg > 0 ? 'S' : 'N'}}
+                                {{ fila.dai_impg > 0 ? 'S' : 'N' }}
                             </td>
                             <td>
                                 <div class="d-flex flex-row-reverse">
-                                    <span>{{fila.dt_valor}}</span>
+                                    <span>{{ fila.dt_valor }}</span>
                                 </div>
                             </td>
                         </tr>
@@ -196,8 +207,8 @@
                                     </div>
                                     <div class="d-flex flex-row justify-content-end"
                                          *ngFor="let pago of datosDocPlan.doc.pagos">
-                                        <span class="fw-bold">{{pago.ic_nombre}} $:</span>
-                                        <span class="ms-2">${{pago.dt_valor|number:'.2'}}</span>
+                                        <span class="fw-bold">{{ pago.ic_nombre }} $:</span>
+                                        <span class="ms-2">${{ pago.dt_valor|number:'.2' }}</span>
                                     </div>
                                 </div>
                             </td>
@@ -205,8 +216,8 @@
                                 <div class="d-flex flex-column align-items-end">
                                     <span class="fw-light">Subtotal $:</span>
                                     <span class="fw-light">(-)Descuento $:</span>
-                                    <span class="fw-light">(+)Iva {{datosDocPlan.doc.tasiento.trn_impref * 100}}
-                                        % de ${{datosDocPlan.doc.totales.subtotal12}}:</span>
+                                    <span class="fw-light">(+)Iva {{ datosDocPlan.doc.tasiento.trn_impref * 100 }}
+                                        % de ${{ datosDocPlan.doc.totales.subtotal12 }}:</span>
                                     <span class="fw-bolder">Total $:</span>
                                 </div>
                             </td>
@@ -214,22 +225,22 @@
                                 <div class="d-flex flex-column">
                                     <div class="d-flex flex-row-reverse">
                                             <span class="fw-light">
-                                                {{datosDocPlan.doc.totales.subtotal|number:'.2'}}
+                                                {{ datosDocPlan.doc.totales.subtotal|number:'.2' }}
                                             </span>
                                     </div>
                                     <div class="d-flex flex-row-reverse">
                                             <span class="fw-light">
-                                                {{datosDocPlan.doc.totales.descuentos|number:'.2'}}
+                                                {{ datosDocPlan.doc.totales.descuentos|number:'.2' }}
                                             </span>
                                     </div>
                                     <div class="d-flex flex-row-reverse">
                                             <span class="fw-light">
-                                                {{datosDocPlan.doc.totales.iva|number:'.2'}}
+                                                {{ datosDocPlan.doc.totales.iva|number:'.2' }}
                                             </span>
                                     </div>
                                     <div class="d-flex flex-row-reverse">
                                             <span class="fw-bold">
-                                                {{datosDocPlan.doc.totales.total|number:'.2'}}
+                                                {{ datosDocPlan.doc.totales.total|number:'.2' }}
                                             </span>
                                     </div>
                                 </div>
@@ -242,19 +253,21 @@
         </div>
     </div>
     <div *ngIf="showForm" class="shadow border mt-1 p-3">
-        <p class="alert" [ngClass]="formcab.trn_codigo === 0 ? 'alert-info':'alert-warning'">
-            {{formcab.trn_codigo === 0 ? 'Nuevo plan de tratamiento, ingrese la información que se solicita:' :
-            'Editando plan de tratamiento'}}
-        </p>
+        <div class="alert" [ngClass]="formcab.trn_codigo === 0 ? 'alert-info':'alert-warning'">
+            {{
+                formcab.trn_codigo === 0 ? 'Nuevo plan de tratamiento, ingrese la información que se solicita:' :
+                    'Editando plan de tratamiento'
+            }}
+        </div>
         <div class="mt-4">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6" #newformplan>
                     <div class="row my-2">
                         <div class="col-md-3">
-                            <span class="text-rojo">*</span> <span>Nro:</span>
+                            <span>Nro:</span>
                         </div>
                         <div class="col-md">
-                            <span class="fw-bold">{{formcab.secuencia}}</span>
+                            <span class="fw-bold">{{ formcab.secuencia }}</span>
                         </div>
                     </div>
 
@@ -294,7 +307,7 @@
             </div>
 
             <div class="row mt-4">
-                <div class="col-md-4 quitaPaddingMargin">
+                <div class="col-md-4">
                     <div class="card">
                         <div class="card-header quitaPaddingMargin p-1">
                             <input type="text" class="form-control form-control-sm" [(ngModel)]="filtroserv"
@@ -306,13 +319,13 @@
                                 *ngFor="let item of filteredServ" (dblclick)="selectServicio(item)">
                                 <div class="d-flex flex-row">
                                     <div style="width: 90%;">
-                                        <span style="font-size: small">{{item.ic_nombre}}</span>
+                                        <span style="font-size: small">{{ item.ic_nombre }}</span>
                                         <span style="font-size: small" class="text-muted font-italic">
-                                            ${{item.icdp_precioventa}} </span>
+                                            ${{ item.icdp_precioventa }} </span>
                                     </div>
                                     <div style="width: 10%;">
                                         <button class="btn btn-sm btn-outline-primary" (click)="selectServicio(item)">
-                                            <i class="fa fa-arrow-right"> </i>
+                                            <i class="fa-solid fa-arrow-right"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -321,8 +334,8 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md quitaPaddingMargin ms-md-2">
-                    <div class="table-responsive shadow-sm">
+                <div class="col-md border border-primary rounded ms-md-2">
+                    <div class="table-responsive scrol-items-dental">
                         <table class="table table-bordered table-sm">
                             <thead>
                             <tr>
@@ -364,18 +377,18 @@
                             <tbody>
                             <tr *ngFor="let fila of detalles">
                                 <th scope="row">
-                                    <span class="fw-normal fontsizesm">{{detalles.indexOf(fila) + 1}}</span>
+                                    <span class="fw-normal fontsizesm">{{ detalles.indexOf(fila) + 1 }}</span>
                                 </th>
                                 <td>
                                     <div class="d-flex flex-column">
-                                        <span class="fw-light fontsizesm">{{fila.ic_code}}</span>
-                                        <span class="fw-bold fontsizesm">{{fila.ic_nombre}}</span>
+                                        <span class="fw-light fontsizesm">{{ fila.ic_code }}</span>
+                                        <span class="fw-bold fontsizesm">{{ fila.ic_nombre }}</span>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="p-fluid">
                                         <p-inputNumber [(ngModel)]="fila.dt_cant" [min]="1" [max]="1000"
-                                                       styleClass="form-control-sm" [showButtons]="true"
+                                                       [showButtons]="true"
                                                        (ngModelChange)="recalcTotalFila(fila)"></p-inputNumber>
                                     </div>
                                 </td>
@@ -396,22 +409,22 @@
                                 <td>
                                     <select class="form-control form-control-sm" [(ngModel)]="fila.icdp_grabaiva"
                                             (ngModelChange)="onFilaIvaChange(fila)">
-                                        <option *ngFor="let iv of ivas" [ngValue]="iv.value">{{iv.label}}</option>
+                                        <option *ngFor="let iv of ivas" [ngValue]="iv.value">{{ iv.label }}</option>
                                     </select>
                                 <td>
-                                    <span class="fontsizesm fw-bold">${{fila.total | number: '.2'}}</span>
+                                    <span class="fontsizesm fw-bold">${{ fila.total | number: '.2' }}</span>
                                 </td>
                                 <td>
-                                    <button class="btn btn-sm btn-outline-secondary" (click)="quitarItem(fila)"
+                                    <button class="btn btn-sm btn-outline-dark" (click)="quitarItem(fila)"
                                             title="Quitar">
-                                        <i class="fa fa-trash"></i></button>
+                                        <i class="fa-regular fa-trash-can"></i></button>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
 
-                    <div class="border shadow-sm p-2 mt-2" *ngIf="detalles.length>0">
+                    <div class="border p-2 mt-2">
                         <div class="row">
                             <div class="col-md-7">
                                 <div class="row">
@@ -432,8 +445,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-5">
-                                        <span class="fw-bold fontsizenr">(+)Iva {{impuestos?.iva * 100}}
-                                            % de ${{totales.subtotal12}}:</span>
+                                        <span class="fw-bold fontsizenr">(+)Iva {{ impuestos?.iva * 100 }}
+                                            % de ${{ totales.subtotal12 }}:</span>
                                     </div>
                                     <div class="col-md">
                                         <input type="text" class="form-control form-control-sm" disabled
@@ -455,7 +468,7 @@
                                 </div>
                                 <div class="row" *ngFor="let pago of formaspago">
                                     <div class="col-md-5">
-                                        <span class="fw-bold">{{pago.ic_nombre}} $:</span>
+                                        <span class="fw-bold">{{ pago.ic_nombre }} $:</span>
                                     </div>
                                     <div class="col-md-7">
                                         <input type="number" class="form-control form-control-sm"
@@ -470,11 +483,11 @@
                         <div>
                             <button class="btn btn-outline-primary" (click)="creaPlanTratamiento()"
                                     *ngIf="detalles.length>0">
-                                <i class="fa fa-save"></i>
+                                <i class="fa-regular fa-floppy-disk"></i>
                                 Guardar
                             </button>
-                            <button class="ms-3 btn btn-outline-secondary" (click)="cancelarCreaPlan()"><i
-                                    class="fa fa-times"></i> Cancelar
+                            <button class="ms-3 btn btn-outline-dark" (click)="cancelarCreaPlan()"><i
+                                    class="fa-solid fa-xmark"></i> Cancelar
                             </button>
                         </div>
                     </div>

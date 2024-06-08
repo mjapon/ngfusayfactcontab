@@ -19,7 +19,7 @@ import { AsientoService } from "src/app/services/asiento.service";
             <div class="d-flex justify-content-center">
                 <div class="btn-group" role="group" aria-label="Small button group">
                     <button type="button" class="btn btn-outline-primary" (click)="loadGrid()" title="Actualizar"> <i class="fas fa-sync-alt"></i> </button> 
-                    <button type="button" class="btn btn-outline-primary" (click)="showModalCrea()">Crear Lectura <span class="fa fa-plus-circle"></span></button> 
+                    <button type="button" class="btn btn-outline-primary" (click)="showModalCrea()">Crear Lectura <span class="fa-solid fa-plus"></span></button> 
                     <button type="button" class="btn btn-outline-primary" (click)="showModalCobra()">Cobrar <span class="fa fa-money-bill"></span> </button> 
                 </div>
             </div>

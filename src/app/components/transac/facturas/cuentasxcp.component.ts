@@ -8,10 +8,10 @@ import {DomService} from '../../../services/dom.service';
 @Component({
     selector: 'app-cuentasxcp',
     template: `
-        <h4>
-            {{title}}
-        </h4>
-        <div class="row mt-1 mb-1">
+        <h1 class="bd-title">
+            <i class="fa-solid fa-person-arrow-down-to-line"></i>
+            {{ title }}</h1>
+        <div class="row my-2">
             <div class="col-md-3">
                 <app-rangofechas [form]="form" (evFilterSel)="listar()" [showlabels]="false"></app-rangofechas>
             </div>
@@ -24,7 +24,7 @@ import {DomService} from '../../../services/dom.service';
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="button" id="buttonSearh" (click)="listar()"
                                 title="Buscar producto o servicio">
-                            <i class="fa fa-search"></i>
+                            <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
                     </div>
                 </div>
@@ -33,13 +33,14 @@ import {DomService} from '../../../services/dom.service';
 
             </div>
         </div>
-        <div class="mt-2 border">
+        <div class="mt-4">
             <div *ngIf="isLoading">
                 <app-loading></app-loading>
             </div>
             <div *ngIf="!isLoading">
                 <p-table [value]="grid.data" [paginator]="true" [rows]="50" selectionMode="single"
                          [(selection)]="selectedItem"
+                         tableStyleClass="table table-hover table-striped table-bordered fusay-table"
                          (onRowSelect)="onRowSelect($event)"
                          [resizableColumns]="true"
                          [autoLayout]="false"
@@ -49,7 +50,7 @@ import {DomService} from '../../../services/dom.service';
                         <tr>
                             <th *ngFor="let item of grid.cols" [pSortableColumn]="item.field" [ngSwitch]="item.field"
                                 [width]="item.width">
-                                {{item.label}}
+                                {{ item.label }}
                                 <p-sortIcon [field]="item.field"></p-sortIcon>
                             </th>
                             <th></th>
@@ -58,7 +59,7 @@ import {DomService} from '../../../services/dom.service';
                     <ng-template pTemplate="body" let-rowData>
                         <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="verRow(rowData)">
                             <td *ngFor="let item of grid.cols">
-                                <span class="fontsizesm">{{rowData[item['field']]}}</span>
+                                <span class="fontsizesm">{{ rowData[item['field']] }}</span>
                             </td>
                             <td>
                                 <button class="btn btn-sm btn-outline-dark" (click)="verRow(rowData)" title="Editar">
@@ -73,10 +74,10 @@ import {DomService} from '../../../services/dom.service';
                                 <span class="fw-bold">TOTAL:</span>
                             </th>
                             <th>
-                                <span> {{totales.credito|number:'.2'}}</span>
+                                <span> {{ totales.credito|number:'.2' }}</span>
                             </th>
                             <th>
-                                <span> {{totales.saldopend|number:'.2'}}</span>
+                                <span> {{ totales.saldopend|number:'.2' }}</span>
                             </th>
                             <th>
 
@@ -94,14 +95,14 @@ import {DomService} from '../../../services/dom.service';
             </div>
         </div>
         <div *ngIf="isShowDetallesFactura">
-            <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="9"
+            <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '70vw'}" [baseZIndex]="9"
                       [(visible)]="isShowDetallesFactura">
                 <app-facturaview [trncod]="codFacturaSel" (evBtnClosed)="closeDetFact()"></app-facturaview>
             </p-dialog>
         </div>
 
         <div *ngIf="isShowDetallesCred">
-            <p-dialog header="Detalles del crédito" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10"
+            <p-dialog header="Detalles del crédito" [modal]="true" [style]="{width: '70vw'}" [baseZIndex]="10"
                       [(visible)]="isShowDetallesCred">
                 <app-abonosview [codCredito]="credsel.cre_codigo" [codFactura]="credsel.trn_codigo"
                                 (evDeudaChange)="onDeudasChange($event)" (evCerrar)="hideDetCredito()"></app-abonosview>
@@ -113,6 +114,7 @@ import {DomService} from '../../../services/dom.service';
 export class CuentasxcpComponent implements OnInit {
     tipo: number;
     title: any;
+    ico: any;
     filtro: string;
     isLoading: boolean;
     grid: any = {};

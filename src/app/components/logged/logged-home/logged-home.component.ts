@@ -4,7 +4,6 @@ import {Router} from '@angular/router';
 import {SeccionService} from '../../../services/seccion.service';
 import {SwalService} from '../../../services/swal.service';
 import {MenuItem} from 'primeng/api';
-import {FechasService} from '../../../services/fechas.service';
 import {DatosloggedService} from '../../../services/datoslogged.service';
 import {TtpdvService} from '../../../services/ttpdv.service';
 
@@ -113,7 +112,7 @@ export class LoggedHomeComponent implements OnInit {
             this.isLoading = false;
             if (res.status === 200) {
                 this.fechaactualstr = res.datlogged.fecha;
-                this.accesosdir = res.datlogged.accesosdir;
+                this.accesosdir = res.datlogged.accesosdir;//TODO: Esto se debe quitar
                 this.fautService.setMenuApp(res.datlogged.menu);
                 this.fautService.setVersionApp(res.datlogged.vapp);
                 this.fautService.setEmpCodigoFromRest(res.datlogged.emp);

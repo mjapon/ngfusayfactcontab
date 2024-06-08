@@ -15,7 +15,7 @@ import {DomService} from '../../services/dom.service';
                                 class="badge badge-pill badge-primary">{{anteriones.length}}</span>
                     </h5>
                     <button *ngIf="!showform" class="btn btn-outline-primary" (click)="showFormCrear()"> Crear <i
-                            class="fa fa-plus-circle"></i></button>
+                            class="fa-solid fa-plus"></i></button>
                 </div>
                 <h5 class="text-muted" *ngIf="anteriones.length===0 &&!showform">
                     No registra atenciones
@@ -45,11 +45,11 @@ import {DomService} from '../../services/dom.service';
                             </div>
                         </div>
                         <div class="mt-3 d-flex justify-content-center">
-                            <button class="btn btn-outline-primary" (click)="guardar()"><i class="fa fa-save"></i>
+                            <button class="btn btn-outline-primary" (click)="guardar()"><i class="fa-solid fa-floppy-disk"></i>
                                 Guardar
                             </button>
-                            <button class="ms-3 btn btn-outline-secondary" (click)="cancelar()"><i
-                                    class="fa fa-times"></i>
+                            <button class="ms-3 btn btn-outline-dark" (click)="cancelar()"><i
+                                    class="fa-solid fa-xmark"></i>
                                 Cancelar
                             </button>
                         </div>

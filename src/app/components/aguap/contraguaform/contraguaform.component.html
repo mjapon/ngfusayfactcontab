@@ -30,9 +30,9 @@
                                     [disabled]="form.cna_id>0" maxlength="13" autocomplete="off"
                                     (blur)="verifiRefRegistrado()" (keydown.enter)="buscarReferente()"
                                     id="perCirucInput">
-                                <button class="btn btn-outline-secondary" type="button" (click)="buscarReferente()"
+                                <button class="btn btn-outline-dark" type="button" (click)="buscarReferente()"
                                     title="Presiona este botón para buscar el referente por numero de cédula, ruc o pasaporte ">
-                                    <span class="fa fa-search"></span>
+                                    <span class="fa-solid fa-magnifying-glass"></span>
                                 </button>
                             </div>
                         </div>
@@ -203,11 +203,11 @@
             </div>
             <div class="col-md-2">
                 <div class="d-flex flex-column">
-                    <button class="btn btn-outline-primary" (click)="guardar()"><i class="fa fa-save"></i>
+                    <button class="btn btn-outline-primary" (click)="guardar()"><i class="fa-solid fa-floppy-disk"></i>
                         <span *ngIf="form.cna_id===0">Guardar</span>
                         <span *ngIf="form.cna_id>0">Actualizar</span>
                     </button>
-                    <button class="mt-2 btn btn-outline-secondary" (click)="cancelar()">Cancelar</button>
+                    <button class="mt-2 btn btn-outline-dark" (click)="cancelar()">Cancelar</button>
                 </div>
             </div>
         </div>
@@ -224,7 +224,7 @@
         (evAnula)="onAnula($event)"></app-tblmedidores>
 
     <div class="mt-2" *ngIf="modotab">
-        <button class="btn btn-outline-primary" (click)="showFormCrea()"><i class="fa fa-plus-circle"></i> Crear
+        <button class="btn btn-outline-primary" (click)="showFormCrea()"><i class="fa-solid fa-plus"></i> Crear
         </button>
         <!--
         <button class="ms-3 btn btn-outline-primary" (click)="showFormCreaPagoAdelantado()">

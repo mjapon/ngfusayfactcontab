@@ -1,15 +1,15 @@
 <div>
+
+    <h1 class="bd-title">
+        <i class="fa-regular fa-folder-open"></i>
+        Apertura de cuenta</h1>
+
     <div *ngIf="isLoading">
         <app-loading></app-loading>
     </div>
     <div *ngIf="!isLoading">
         <div class="card">
             <div class="card-body">
-                <div class="mb-2">
-                    <h3 class="card-title">Apertura de cuenta</h3>
-                    <hr>
-                </div>
-
                 <div class="row">
                     <div class="col-md-10">
 
@@ -81,10 +81,10 @@
                         <div class="mt-4 d-flex justify-content-around">
                             <button class="btn btn-outline-primary" type="button" *ngIf="referente.per_id>0"
                                 (click)="guardar()">
-                                <span class="fa fa-save"></span> Guardar
+                                <span class="fa-solid fa-floppy-disk"></span> Guardar
                             </button>
-                            <button class="btn btn-outline-secondary" type="button" (click)="cancelar()">
-                                <span class="fa fa-times"></span> Cancelar
+                            <button class="btn btn-outline-dark" type="button" (click)="cancelar()">
+                                <span class="fa-solid fa-xmark"></span> Cancelar
                             </button>
                         </div>
                     </div>

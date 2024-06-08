@@ -9,22 +9,21 @@ import {CtesService} from '../../../services/ctes.service';
     selector: 'app-categorias',
     template: `
         <div>
+            <h1 class="bd-title">
+                Categorías </h1>
+
             <div *ngIf="isloading">
                 <app-loading></app-loading>
             </div>
             <div *ngIf="!isloading">
-                <div class="row">
-                    <div class="col-md-8">
-                        <h4>Categorías</h4>
-                    </div>
-                    <div class="col-md d-flex flex-row-reverse">
-                        <button class="btn btn-outline-primary" (click)="showModalCrear()">Crear <i
-                                class="fa fa-plus-circle"></i></button>
-                    </div>
+                <div class="d-flex">
+                    <button class="btn btn-outline-primary" (click)="showModalCrear()">Crear <i
+                            class="fa-solid fa-plus"></i></button>
                 </div>
-                <div class="table-responsive mt-1">
-                    <table class="table table-bordered table-sm">
-                        <thead>
+
+                <p-table [value]="categorias" [paginator]="true" [rows]="10"
+                         tableStyleClass="table table-sm table-hover table-striped table-bordered fusay-table">
+                    <ng-template pTemplate="header">
                         <tr>
                             <th scope="col">Código</th>
                             <th scope="col">Nombre</th>
@@ -33,34 +32,33 @@ import {CtesService} from '../../../services/ctes.service';
                                 Acción
                             </th>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <tr *ngFor="let fila of categorias" class="hand">
+                    </ng-template>
+                    <ng-template pTemplate="body" let-fila>
+                        <tr class="hand">
                             <td>
-                                {{fila.catic_id}}
+                                {{ fila.catic_id }}
                             </td>
                             <td>
-                                {{fila.catic_nombre}}
+                                {{ fila.catic_nombre }}
                             </td>
                             <td>
-                                {{fila.caja}}
+                                {{ fila.caja }}
                             </td>
                             <td>
                                 <div *ngIf="fila.catic_id>1">
-                                    <button class="btn btn-sm btn-outline-secondary" title="Anular esta categoría"
+                                    <button class="btn btn-sm btn-outline-dark" title="Anular esta categoría"
                                             (click)="anular(fila)"><i class="fa fa-trash"></i></button>
-                                    <button class="btn btn-sm btn-outline-secondary" title="Editar esta categoría"
+                                    <button class="btn btn-sm btn-outline-dark" title="Editar esta categoría"
                                             (click)="editar(fila)"><i class="fa fa-edit"></i></button>
                                 </div>
                             </td>
                         </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    </ng-template>
+                </p-table>
             </div>
 
             <div *ngIf="isModalVisible">
-                <p-dialog header="Datos de la categoría" [modal]="true" [style]="{width: '70vw'}"
+                <p-dialog header="Datos de la categoría" [modal]="true" [style]="{width: '40vw'}"
                           [closeOnEscape]="true"
                           [autoZIndex]="false"
                           [(visible)]="isModalVisible">
@@ -90,11 +88,12 @@ import {CtesService} from '../../../services/ctes.service';
                         </div>
 
                         <div class="mt-5 text-center">
-                            <button class="btn btn-outline-primary" (click)="doSave()"><i class="fa fa-save"></i>
+                            <button class="btn btn-outline-primary" (click)="doSave()"><i
+                                    class="fa-solid fa-floppy-disk"></i>
                                 Guardar
                             </button>
-                            <button class="ms-3 btn btn-outline-secondary" (click)="cancelSave()"><i
-                                    class="fa fa-times"></i> Cancelar
+                            <button class="ms-3 btn btn-outline-dark" (click)="cancelSave()"><i
+                                    class="fa-solid fa-xmark"></i> Cancelar
                             </button>
                         </div>
                     </div>

@@ -1,13 +1,13 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ArticuloService } from '../../../../services/articulo.service';
-import { DomService } from '../../../../services/dom.service';
-import { PlantratamientoService } from '../../../../services/plantratamiento.service';
-import { SwalService } from '../../../../services/swal.service';
-import { ArrayutilService } from '../../../../services/arrayutil.service';
-import { LoadingUiService } from '../../../../services/loading-ui.service';
-import { NumberService } from '../../../../services/number.service';
-import { BaseComponent } from '../../../../components/shared/base.component';
-import { CompeleService } from 'src/app/services/compele.service';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {ArticuloService} from '../../../../services/articulo.service';
+import {DomService} from '../../../../services/dom.service';
+import {PlantratamientoService} from '../../../../services/plantratamiento.service';
+import {SwalService} from '../../../../services/swal.service';
+import {ArrayutilService} from '../../../../services/arrayutil.service';
+import {LoadingUiService} from '../../../../services/loading-ui.service';
+import {NumberService} from '../../../../services/number.service';
+import {BaseComponent} from '../../../../components/shared/base.component';
+import {CompeleService} from 'src/app/services/compele.service';
 
 @Component({
     selector: 'app-plantratamiento',
@@ -37,19 +37,20 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
     isLoadingPlanes = false;
     showModalConfirma = false;
 
-    isShowDetallesPlan =false;
+    isShowDetallesPlan = false;
+
+    @ViewChild('newformplan') formPlanDiv: any;
 
     @Input()
     codpaciente: number;
 
     constructor(private artService: ArticuloService,
-        private domService: DomService,
-        private loadinUIServ: LoadingUiService,
-        private arrayService: ArrayutilService,
-        private swalService: SwalService,
-        private numberService: NumberService,
-        private planService: PlantratamientoService,
-        private compele: CompeleService) {
+                private domService: DomService,
+                private loadinUIServ: LoadingUiService,
+                private arrayService: ArrayutilService,
+                private swalService: SwalService,
+                private numberService: NumberService,
+                private planService: PlantratamientoService) {
         super();
     }
 
@@ -62,8 +63,6 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
                 this.filteredServ = res.items;
             }
         });
-
-
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -81,6 +80,13 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
         this.showForm = true;
         this.detalles = [];
         this.loadForm();
+        this.setFocusFormPlan();
+    }
+
+    setFocusFormPlan() {
+        setTimeout(() => {
+            this.formPlanDiv.nativeElement.scrollIntoView({behavior: 'smooth'});
+        }, 500);
     }
 
     loadPlanes() {
@@ -105,6 +111,10 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
             this.domService.setFocusTm('pnt_nombre');
             this.impuestos = res.formcab.impuestos;
             this.numberService.setIva(this.impuestos.iva);
+            if (this.medicos && this.medicos.length > 0) {
+                console.log('medicos', this.medicos);
+                this.formplan.med_id = this.medicos[0].per_id;
+            }
         }
     }
 
@@ -187,7 +197,7 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
                     const form = {
                         formplan: this.formplan,
                         form_cab: this.formcab,
-                        form_persona: { per_id: this.codpaciente },
+                        form_persona: {per_id: this.codpaciente},
                         detalles: this.detalles,
                         pagos: this.formaspago,
                         totales: this.totales
@@ -309,22 +319,23 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
             this.formcab = this.datosDocPlan.doc.tasiento;
             this.totalizar();
             this.checkPagosPrevios();
+            this.setFocusFormPlan();
         });
     }
 
     finalizarPlan() {
         const msg = '¿Seguro que desea marcar como finalizado?';
         this.swalService.fireDialog(msg).then(confirm => {
-            if (confirm.value) {
-                this.planService.cambiarEstado(this.plansel.pnt_id, 4).subscribe(res => {
-                    if (res.status === 200) {
-                        this.swalService.fireToastSuccess(res.msg);
-                        this.loadPlanes();
-                        this.cerrarVerDetallesFact();
-                    }
-                });
+                if (confirm.value) {
+                    this.planService.cambiarEstado(this.plansel.pnt_id, 4).subscribe(res => {
+                        if (res.status === 200) {
+                            this.swalService.fireToastSuccess(res.msg);
+                            this.loadPlanes();
+                            this.cerrarVerDetallesFact();
+                        }
+                    });
+                }
             }
-        }
         );
     }
 

@@ -1,5 +1,7 @@
-<h4 class="mt-2">Utilidades</h4>
-<div>
+<h1 class="bd-title">
+    <i class="fa-solid fa-coins"></i>
+    Utilidades</h1>
+<div class="mt-2">
     <div *ngIf="isLoading">
         <app-loading></app-loading>
     </div>
@@ -43,17 +45,19 @@
             </div>
             <div class="col-md-1 d-flex align-items-end">
                 <button class="btn btn-outline-primary" (click)="loadGrid()">
+                    <i class="fa-solid fa-magnifying-glass"></i>
                     Buscar
                 </button>
             </div>
         </div>
 
-        <div class="mt-2">
+        <div class="mt-4">
             <div *ngIf=" isLoadingGrid">
                 <app-loading></app-loading>
             </div>
             <p-table *ngIf="!isLoadingGrid" [value]="grid.data" [paginator]="true" [rows]="50"
                      selectionMode="single"
+                     tableStyleClass="table table-hover table-striped table-bordered fusay-table"
                      [resizableColumns]="true">
                 <ng-template pTemplate="header">
                     <tr>

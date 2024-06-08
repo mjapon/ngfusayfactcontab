@@ -72,7 +72,7 @@
                         <div *ngIf="datosmov.rxd_id>0">
                                     <span class="fw-bold"> <i
                                             class="fas fa-paperclip"></i> {{datosmov.rxd_filename}} </span>
-                            <button class="btn btn-outline-secondary btn-sm ms-3" (click)="showAdjunto()"> Ver
+                            <button class="btn btn-outline-dark btn-sm ms-3" (click)="showAdjunto()"> Ver
                             </button>
                         </div>
                         <span class="text-muted" *ngIf="!datosmov.rxd_id>0"> Sin adjunto </span>
@@ -164,7 +164,7 @@
             <div class="col">
                 <div class="mt-2 d-flex flex-row-reverse">
                     <button class="btn btn-outline-primary ms-1" (click)="onCerraBtn()"><i
-                            class="fa fa-times"></i>
+                            class="fa-solid fa-xmark"></i>
                         Cerrar
                     </button>
                     <button class="btn btn-outline-primary ms-1" (click)="onConfirmarBtn()"

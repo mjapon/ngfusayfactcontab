@@ -8,18 +8,16 @@ import { DomService } from '../../services/dom.service';
     selector: 'app-reportes',
     template: `
         <div>
-            <div class="row">
-                <div class="col offset-1">
-                    <h3 class="my-2 ">Reportes</h3>
-                </div>
-            </div>
+            <h1 class="bd-title">
+                <i class="fa-solid fa-chart-pie"></i>
+                Reportes</h1>
 
             <div *ngIf="isLoading">
                 <app-loading></app-loading>
             </div>
 
             <div class="row mt-1" *ngIf="!isLoading">
-                <div class="col-md-4 offset-1">
+                <div class="col-md-4">
                     <div class="card">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item hand d-flex justify-content-between"

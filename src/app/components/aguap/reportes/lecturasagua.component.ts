@@ -79,7 +79,7 @@ import {ArrayutilService} from '../../../services/arrayutil.service';
                                     <td>
                                         <button *ngIf="rowData.lmd_id ===0" class="btn btn-sm"
                                                 title="Registrar Lectura" (click)="gotoCreaLectura(rowData)">
-                                            <i class="fa fa-plus-circle"></i>
+                                            <i class="fa-solid fa-plus"></i>
                                         </button>
                                         <button *ngIf="rowData.lmd_id >0" class="btn btn-sm"
                                                 title="Borrar lectura" (click)="borrarLectura(rowData)">

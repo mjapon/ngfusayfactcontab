@@ -33,14 +33,14 @@
                             <input type="text" class="form-control" [(ngModel)]="referente.per_ciruc" id="input_per_id"
                                 [disabled]="referente.per_id>0" autocomplete="off" (blur)="verificaRefRegistrado()"
                                 (keydown.enter)="buscarReferente(true)">
-                            <button class="btn btn-sm btn-outline-secondary" type="button"
+                            <button class="btn btn-sm btn-outline-dark" type="button"
                                 (click)="buscarReferente(true)"
                                 title="Presiona este botón para buscar el referente por número de cédula, ruc o pasaporte ">
-                                <span class="fa fa-search"></span>
+                                <span class="fa-solid fa-magnifying-glass"></span>
                             </button>
-                            <button class="btn btn-sm btn-outline-secondary" title="Buscar otro referente" type="button"
+                            <button class="btn btn-sm btn-outline-dark" title="Buscar otro referente" type="button"
                                 *ngIf="referente.per_id>0" (click)="clearFormPersona()">
-                                <span class="fa fa-times"></span>
+                                <span class="fa-solid fa-xmark"></span>
                             </button>
                         </div>
                     </div>
@@ -91,10 +91,10 @@
                 <div class="d-flex justify-content-around">
                     <button class="btn btn-outline-primary" (click)="doEmiteFactura()"
                         [disabled]="referente.per_ciruc?.trim().length === 0">
-                        <span class="fa fa-save"></span> Emitir {{tipoComproEmite.label}}
+                        <span class="fa-solid fa-floppy-disk"></span> Emitir {{tipoComproEmite.label}}
                     </button>
-                    <button class="btn btn-outline-secondary" (click)="cancelEmiteFactura()">
-                        <span class="fa fa-times"></span> Cancelar
+                    <button class="btn btn-outline-dark" (click)="cancelEmiteFactura()">
+                        <span class="fa-solid fa-xmark"></span> Cancelar
                     </button>
                 </div>
             </div>

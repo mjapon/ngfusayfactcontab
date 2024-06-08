@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { AsientoService } from '../../../../services/asiento.service';
-import { SwalService } from '../../../../services/swal.service';
-import { CtesService } from '../../../../services/ctes.service';
-import { BaseComponent } from '../../../shared/base.component';
-import { FacteComprobService } from 'src/app/services/facte/comprob.service';
-import { CompeleService } from 'src/app/services/compele.service';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {AsientoService} from '../../../../services/asiento.service';
+import {SwalService} from '../../../../services/swal.service';
+import {CtesService} from '../../../../services/ctes.service';
+import {BaseComponent} from '../../../shared/base.component';
+import {FacteComprobService} from 'src/app/services/facte/comprob.service';
+import {CompeleService} from 'src/app/services/compele.service';
 
 @Component({
     selector: 'app-facturaview',
@@ -31,10 +31,10 @@ export class FacturaviewComponent extends BaseComponent implements OnInit, OnCha
     @Input() showBtns = true;
 
     constructor(private tasientoService: AsientoService,
-        private facteService: FacteComprobService,
-        private ctes: CtesService,
-        private compele: CompeleService,
-        private swalService: SwalService) {
+                private facteService: FacteComprobService,
+                private ctes: CtesService,
+                private compele: CompeleService,
+                private swalService: SwalService) {
         super();
     }
 
@@ -142,8 +142,7 @@ export class FacturaviewComponent extends BaseComponent implements OnInit, OnCha
         let tfe_estado = this.facteleinfo.tfe_estado;
         if (tfe_estado === 1) {
             classbadge = 'bg-success';
-        }
-        else if (tfe_estado === 2) {
+        } else if (tfe_estado === 2) {
             classbadge = 'bg-danger';
         }
         return classbadge;

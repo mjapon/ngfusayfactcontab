@@ -1,25 +1,22 @@
-<div style="margin-bottom: 10px">
-    <div *ngIf="!showfiltro" class="d-flex justify-content-start">
-        <button class="btn btn-outline-primary" (click)="toggleShowFiltro()"><i class="fa fa-filter"></i> Filtrar
+<div class="mt-2">
+    <div *ngIf="!showfiltro" class="d-flex justify-content-end">
+        <button class="btn btn-outline-primary" (click)="toggleShowFiltro()"><i class="fa fa-filter"></i>
         </button>
     </div>
-    <div class="row d-flex align-items-end" *ngIf="showfiltro">
+    <div class="row border rounded my-2 mx-1 px-2 py-3 d-flex align-items-end" *ngIf="showfiltro">
         <div class="col-md-4">
             <div class="d-flex justify-content-center">
                 <div>
                     <p class="quitaPaddingMargin">Desde:</p>
                     <p-calendar [showIcon]="true"
                                 [(ngModel)]="desde"
-                                [monthNavigator]="true" [yearNavigator]="true"
-                                yearRange="2019:2050"
                                 dateFormat="dd/mm/yy"></p-calendar>
                 </div>
                 <div>
                     <p class="quitaPaddingMargin">Hasta:</p>
                     <p-calendar [showIcon]="true"
                                 [(ngModel)]="hasta"
-                                [monthNavigator]="true" [yearNavigator]="true" [minDate]="desde"
-                                yearRange="2019:2050"
+                                [minDate]="desde"
                                 dateFormat="dd/mm/yy"></p-calendar>
                 </div>
             </div>
@@ -27,13 +24,13 @@
         <div class="col-md-5">
             <input class="form-control form-rounded" id="buscaPacNomCiInput" type="text"
                    placeholder="Buscar paciente por nombres o número de cédula" [(ngModel)]="filtro"
-                   (keyup)="onFiltroTyped()">
+                   (keyup.enter)="onFiltroTyped()">
         </div>
         <div class="col-md-3">
             <div class="d-flex justify-content-around">
-                <button class="btn btn-primary" (click)="buscar()"><i class="fa fa-search"></i> Buscar
+                <button class="btn btn-outline-primary" (click)="buscar()"><i class="fa-solid fa-magnifying-glass"></i> Buscar
                 </button>
-                <button class="btn btn-outline-primary" (click)="toggleShowFiltro()"><i class="fa fa-times"></i>
+                <button class="btn btn-outline-dark" (click)="toggleShowFiltro()"><i class="fa-solid fa-xmark"></i>
                     Cancelar
                 </button>
             </div>
@@ -41,14 +38,15 @@
     </div>
 </div>
 
-<div *ngIf="atencionesArray.length>0" class="divpacientes rounded-lg">
+<div *ngIf="atencionesArray.length>0" class="shadow rounded">
     <div class="list-group">
         <a *ngFor="let item of atencionesArray" class="list-group-item {{!item.tipo?'list-group-item-action hand':''}}"
            (click)="selectPaciente(item)">
             <span *ngIf="item.tipo" class="text-primary"> {{item.mes}} </span>
             <div class="row" *ngIf="!item.tipo">
-                <div class="col-1 col-xs-1">
-                    <img src="assets/imgs/{{item.genero===2?'female.png':'male.png'}}" class="img-fluid" alt="Avatar">
+                <div class="col-1 col-xs-1 d-flex align-items-center">
+                    <i class="fa-solid fa-person avatar-ico" *ngIf="item.genero!==2"></i>
+                    <i class="fa-solid fa-person-dress avatar-ico" *ngIf="item.genero===2"></i>
                 </div>
                 <div class="col-md-5">
                     <p class="quitaPaddingMargin text-muted"> {{item.horacreastr}} </p>
@@ -90,7 +88,7 @@
 </div>
 
 <div *ngIf="showModalDet && tipocita===1">
-    <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
+    <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '70vw'}" [baseZIndex]="10000"
               [(visible)]="showModalDet">
         <app-citameddet [rowHistoriaSel]="rowHistoriaSel"
                         (closed)="onCerrarDetHistoria($event)" [showFichaCli]="true"></app-citameddet>

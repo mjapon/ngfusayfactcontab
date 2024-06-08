@@ -6,8 +6,7 @@ import {TicketService} from '../../../services/ticket.service';
     selector: 'app-tkhistpac',
     template: `
         <div>
-            <h5>Historial atenciones <span class="badge rounded-pill border border-primary text-primary">                
-                {{historia.length}}</span></h5>
+            <h5>Historial atenciones <span class="badge rounded-pill text-bg-primary">{{ historia.length }}</span></h5>
             <div class="table-responsive">
                 <table class="table table-sm table-bordered">
                     <thead>
@@ -21,16 +20,16 @@ import {TicketService} from '../../../services/ticket.service';
                     <tbody>
                     <tr *ngFor="let row of historia">
                         <td>
-                            {{historia.indexOf(row) + 1}}
+                            {{ historia.indexOf(row) + 1 }}
                         </td>
                         <td>
-                            {{row['tk_dia']}}
+                            {{ row['tk_dia'] }}
                         </td>
                         <td>
-                            {{row['sec_nombre']}}
+                            {{ row['sec_nombre'] }}
                         </td>
                         <td>
-                            {{row['servicios']}}
+                            {{ row['servicios'] }}
                         </td>
                     </tr>
                     </tbody>

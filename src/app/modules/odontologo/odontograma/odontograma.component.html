@@ -11,7 +11,7 @@
                     Crear Protesis
                 </button>
                 <button class="btn btn-sm btn-outline-primary" (click)="guardarOdontograma()">
-                    <i class="fa fa-save"></i>
+                    <i class="fa-solid fa-floppy-disk"></i>
                     Guardar Odontograma
                 </button>
                 <button class="btn btn-sm btn-outline-primary" (click)="showHideHisto()">
@@ -87,7 +87,7 @@
                                         <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-secondary"
+                                        <button class="btn btn-sm btn-outline-dark"
                                             (click)="clearDienteCssTBLRC(itdiente)">
                                             <i class="fa fa-trash"></i>
                                         </button>
@@ -103,7 +103,7 @@
                                         <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-secondary"
+                                        <button class="btn btn-sm btn-outline-dark"
                                             (click)="clearDienteCssTBLRC(itdiente)">
                                             <i class="fa fa-trash"></i>
                                         </button>
@@ -119,7 +119,7 @@
                                         <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-secondary"
+                                        <button class="btn btn-sm btn-outline-dark"
                                             (click)="clearDienteCssTBLRC(itdiente)">
                                             <i class="fa fa-trash"></i>
                                         </button>
@@ -135,7 +135,7 @@
                                         <app-diagnospieza [itdiente]="itdiente"></app-diagnospieza>
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-secondary"
+                                        <button class="btn btn-sm btn-outline-dark"
                                             (click)="clearDienteCssTBLRC(itdiente)">
                                             <i class="fa fa-trash"></i>
                                         </button>
@@ -153,7 +153,7 @@
                                         protesis.retens : ''}}
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-secondary"
+                                        <button class="btn btn-sm btn-outline-dark"
                                             (click)="clearProtesis(protesis)"> <i class="fa fa-trash"></i>
                                         </button>
                                     </td>
@@ -247,7 +247,7 @@
                                     <li class="list-group-item hand" (click)="checkUncheckTool(4)">
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row">
-                                                <span class="text-azul"><span class="fa fa-times"></span></span>
+                                                <span class="text-azul"><span class="fa-solid fa-xmark"></span></span>
                                                 <span class="ms-2">
                                                     Pérdida por caries
                                                 </span>
@@ -399,7 +399,7 @@
                                     [(ngModel)]="dienteSelected.texto"
                                     placeholder="Ingrese una observación para esta pieza dental">  </textarea>
                             </div>
-                            <button class="btn btn-sm btn-outline-secondary" *ngIf="isDienteModif(dienteSelected)"
+                            <button class="btn btn-sm btn-outline-dark" *ngIf="isDienteModif(dienteSelected)"
                                 title="Borra todos los diagnósticos asociados a esta pieza dental"
                                 (click)="clearDienteCssTBLRC(dienteSelected)"><i class="fa fa-eraser"></i> Limpiar
                             </button>
@@ -439,7 +439,7 @@
                             </button>
                         </div>
                         <div class="col-md-2 d-flex flex-row justify-content-end">
-                            <button class="btn btn-outline-secondary" (click)="cerrarDialogDiente()">Cerrar</button>
+                            <button class="btn btn-outline-dark" (click)="cerrarDialogDiente()">Cerrar</button>
                         </div>
                     </div>
                 </p-footer>
@@ -494,7 +494,7 @@
                         (click)="creaProtesis()">
                         <i class="fas fa-save"></i> Crear Protesis
                     </button>
-                    <button class="btn btn-outline-secondary" (click)="closeModalProtesis()">Cancelar</button>
+                    <button class="btn btn-outline-dark" (click)="closeModalProtesis()">Cancelar</button>
                 </div>
             </p-footer>
         </p-dialog>

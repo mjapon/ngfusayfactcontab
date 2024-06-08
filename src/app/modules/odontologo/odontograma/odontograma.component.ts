@@ -335,7 +335,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     cssSelectedTool(idTool) {
-        return this.codSelectedTool === idTool ? 'btn-success' : 'btn-outline-secondary';
+        return this.codSelectedTool === idTool ? 'btn-success' : 'btn-outline-dark';
     }
 
     getCodToolFromEstilo(estilo: string) {
@@ -498,7 +498,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     cssMarkedTool(idTool: number) {
-        return this.dienteSelected.tools.indexOf(idTool) >= 0 ? 'btn-success' : 'btn-outline-secondary';
+        return this.dienteSelected.tools.indexOf(idTool) >= 0 ? 'btn-success' : 'btn-outline-dark';
     }
 
     cerrarDialogDiente() {

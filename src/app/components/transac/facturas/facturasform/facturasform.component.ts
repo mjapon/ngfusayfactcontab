@@ -1,25 +1,26 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { AsientoService } from '../../../../services/asiento.service';
-import { NumberService } from '../../../../services/number.service';
-import { DomService } from '../../../../services/dom.service';
-import { SwalService } from '../../../../services/swal.service';
-import { ArticuloService } from '../../../../services/articulo.service';
-import { LoadingUiService } from '../../../../services/loading-ui.service';
-import { ArrayutilService } from '../../../../services/arrayutil.service';
-import { FechasService } from '../../../../services/fechas.service';
-import { Router } from '@angular/router';
-import { SeccionService } from '../../../../services/seccion.service';
-import { PersonaService } from '../../../../services/persona.service';
-import { forkJoin, Subscription } from 'rxjs';
-import { FacturasmsgService } from '../../../../services/facturasmsg.service';
-import { LocalStorageService } from '../../../../services/local-storage.service';
-import { CtesService } from '../../../../services/ctes.service';
-import { BaseComponent } from '../../../shared/base.component';
-import { CompeleService } from 'src/app/services/compele.service';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {AsientoService} from '../../../../services/asiento.service';
+import {NumberService} from '../../../../services/number.service';
+import {DomService} from '../../../../services/dom.service';
+import {SwalService} from '../../../../services/swal.service';
+import {ArticuloService} from '../../../../services/articulo.service';
+import {LoadingUiService} from '../../../../services/loading-ui.service';
+import {ArrayutilService} from '../../../../services/arrayutil.service';
+import {FechasService} from '../../../../services/fechas.service';
+import {Router, withDebugTracing} from '@angular/router';
+import {SeccionService} from '../../../../services/seccion.service';
+import {PersonaService} from '../../../../services/persona.service';
+import {forkJoin, Subscription} from 'rxjs';
+import {FacturasmsgService} from '../../../../services/facturasmsg.service';
+import {LocalStorageService} from '../../../../services/local-storage.service';
+import {CtesService} from '../../../../services/ctes.service';
+import {BaseComponent} from '../../../shared/base.component';
+import {CompeleService} from 'src/app/services/compele.service';
 
 @Component({
     selector: 'app-facturasform',
-    templateUrl: './facturasform.component.html'
+    templateUrl: './facturasform.component.html',
+    styles: ['.detfact{height: 20rem;  overflow: auto;} .rowfact{height: 4rem}']
 })
 export class FacturasformComponent extends BaseComponent implements OnInit, OnDestroy {
     isLoading: boolean;
@@ -38,7 +39,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     codConsFinal = -1;
     trncodedit = 0;
     datosdocedit: any = {};
-    formvuelto = { input: 0, vuelto: 0 };
+    formvuelto = {input: 0, vuelto: 0};
 
     formautoref: any = {};
 
@@ -66,29 +67,32 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     formisloaded = false;
     codartsel = 0;
     isShowDetProd = false;
-    totvuelto: any;
+    showCreaNewRef = false;
+
+    stateOptions: any[] = [{label: 'Consumidor Final', value: true},
+        {label: 'Con datos', value: false}];
 
     constructor(private asientoService: AsientoService,
-        private numberService: NumberService,
-        private domService: DomService,
-        private seccionService: SeccionService,
-        private artService: ArticuloService,
-        private loadingUiService: LoadingUiService,
-        private arrayService: ArrayutilService,
-        private fechasService: FechasService,
-        private swalService: SwalService,
-        private facturaMsgService: FacturasmsgService,
-        private localStrgService: LocalStorageService,
-        private router: Router,
-        private ctes: CtesService,
-        private personaServ: PersonaService,
-        private compele: CompeleService) {
+                private numberService: NumberService,
+                private domService: DomService,
+                private seccionService: SeccionService,
+                private artService: ArticuloService,
+                private loadingUiService: LoadingUiService,
+                private arrayService: ArrayutilService,
+                private fechasService: FechasService,
+                private swalService: SwalService,
+                private facturaMsgService: FacturasmsgService,
+                private localStrgService: LocalStorageService,
+                private router: Router,
+                private ctes: CtesService,
+                private personaServ: PersonaService,
+                private compele: CompeleService) {
         super();
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
 
     ngOnInit(): void {
-        this.artFiltrado = {};
+        this.artFiltrado = null;
         this.formisloaded = false;
         this.isLoading = true;
         this.initformfact();
@@ -122,7 +126,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
             descglobal: 0.0,
             descglobalin: '0',
             descglobaltipo: '1',
-            descglobalpin:'0',
+            descglobalpin: '0',
             subtforiva: 0.0,
             iva: 0.0,
             total: 0.0
@@ -254,17 +258,17 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
             this.form.detalles.push(newrow);
         }
         this.totalizar();
-        this.artFiltrado = {};
+        this.artFiltrado = null;
         this.domService.setFocusTm(this.ctes.artsAutoCom);
     }
 
     quitarItem(fila: any) {
         this.swalService.fireDialog(this.ctes.msgSureWishRemveItemFact).then(confirm => {
-            if (confirm.value) {
-                this.arrayService.removeElement(this.form.detalles, fila);
-                this.totalizar();
+                if (confirm.value) {
+                    this.arrayService.removeElement(this.form.detalles, fila);
+                    this.totalizar();
+                }
             }
-        }
         );
     }
 
@@ -308,13 +312,12 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
                             }
                             let compelenviado = res.compelenviado || false;
                             if (compelenviado) {
-                                console.log("Se envio comprobante electronico", res);
+                                console.log('Se envio comprobante electronico', res);
                                 if (!res.is_cons_final) {
                                     this.compele.saveComprobContrib(res.trn_codigo, res.estado_envio).subscribe(rescomprob => {
-                                        console.log("Respuesta de recomprob es", rescomprob);
+                                        console.log('Respuesta de recomprob es', rescomprob);
                                     });
-                                }
-                                else {
+                                } else {
                                     console.log('No se guarda el comprobante por que es consumidor final');
                                 }
                             }
@@ -525,6 +528,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     onConsFinalChange() {
         if (!this.isConsumidorFinal) {
             this.loadFormReferente();
+            //this.showCreaNewRef = true;
         } else {
             this.loadConsumidorFinal();
             this.domService.setFocusTm(this.ctes.artsAutoCom);
@@ -536,7 +540,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         this.formautoref = {};
     }
 
-    computeDescGenPorcen(){
+    computeDescGenPorcen() {
         const total = this.form.totales.subtotal - this.form.totales.descuentos + this.form.totales.ivasindescg;
         let numberdectogen = Number(this.form.totales.descglobalin);
         if (numberdectogen > total) {
@@ -545,12 +549,12 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
 
         let porcDescGlobal = 0.0;
         if (total > 0) {
-            porcDescGlobal = this.numberService.round2((numberdectogen / total)*100);
+            porcDescGlobal = this.numberService.round2((numberdectogen / total) * 100);
         }
         this.form.totales.descglobalpin = porcDescGlobal;
     }
 
-    onDescgenChange(fromui=true) {        
+    onDescgenChange(fromui = true) {
         this.form.totales.dt_dectogenerr = false;
         const numberdectogen = Number(this.form.totales.descglobalin);
         let dtdectogen = 0.0;
@@ -558,67 +562,65 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
             dtdectogen = numberdectogen;
         } else {
             this.form.totales.dt_dectogenerr = true;
-        }        
+        }
         this.numberService.setDectoGenInDetails(dtdectogen, this.form.totales, this.form.detalles);
         this.totalizar();
-        if (fromui){
+        if (fromui) {
             this.computeDescGenPorcen();
         }
     }
 
-    onDescgenPorcChange(){        
-        const total = (this.form.totales.subtotal||0) - (this.form.totales.descuentos||0) + (this.form.totales.ivasindescg||0);
+    onDescgenPorcChange() {
+        const total = (this.form.totales.subtotal || 0) - (this.form.totales.descuentos || 0) + (this.form.totales.ivasindescg || 0);
         let porcDescGlobal = Number(this.form.totales.descglobalpin);
         let descglobal = 0.0;
-        if (total > 0 && porcDescGlobal>=0 && porcDescGlobal<=100) {
-            descglobal = total * (porcDescGlobal/100);
-        }       
+        if (total > 0 && porcDescGlobal >= 0 && porcDescGlobal <= 100) {
+            descglobal = total * (porcDescGlobal / 100);
+        }
         this.form.totales.descglobalin = this.numberService.round4(descglobal);
         this.onDescgenChange(false);
     }
 
-    setFocusDescGlobal(){
-        const inputid =  `descglobal${this.form.totales.descglobaltipo}`;
+    setFocusDescGlobal() {
+        const inputid = `descglobal${this.form.totales.descglobaltipo}`;
         this.domService.setFocusTm(inputid);
     }
 
     onDtCantChange(fila) {
         this.recalcTotalFila(fila);
     }
-    
-    setFocusDesc(fila){
+
+    setFocusDesc(fila) {
         const inputid = `desfil${fila.dt_dectotipo}_${this.form.detalles.indexOf(fila)}`;
         this.domService.setFocusTm(inputid);
     }
 
-    auxCalcDescPorc(fila){
-        const descPorcent = this.numberService.round4( Number( (fila.dt_dectoin * 100)/fila.dt_precioiva ));
-        if (descPorcent){
+    auxCalcDescPorc(fila) {
+        const descPorcent = this.numberService.round4(Number((fila.dt_dectoin * 100) / fila.dt_precioiva));
+        if (descPorcent) {
             fila.dt_dectoporcin = descPorcent;
-        }
-        else{
+        } else {
             fila.dt_dectoporcin = 0;
         }
-    }    
+    }
 
-    onFilaDescPorcChange(fila:any){        
+    onFilaDescPorcChange(fila: any) {
         const numberdtdecto = Number(fila.dt_dectoporcin);
-        if (numberdtdecto>=0 && numberdtdecto<=100){            
-            const dt_dectocal = this.numberService.round4( (numberdtdecto* fila.dt_precioiva)/100 );
-            if (dt_dectocal){
+        if (numberdtdecto >= 0 && numberdtdecto <= 100) {
+            const dt_dectocal = this.numberService.round4((numberdtdecto * fila.dt_precioiva) / 100);
+            if (dt_dectocal) {
                 fila.dt_dectoin = dt_dectocal;
-            }
-            else{
+            } else {
                 fila.dt_dectoin = 0;
             }
-        }
-        else{
+        } else {
             fila.dt_dectoerr = true;
             fila.dt_dectoin = 0;
         }
         this.onFilaDescChange(fila, false);
     }
-    onFilaDescChange(fila: any, fromui=true) {
+
+    onFilaDescChange(fila: any, fromui = true) {
         let dtDecto = 0.0;
         fila.dt_dectoerr = false;
         const subt = fila.dt_cant * fila.dt_precioiva;
@@ -639,14 +641,16 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         fila.dt_decto = dtDectoAjuste;
         this.recalcTotalFila(fila);
 
-        if (fromui){
+        if (fromui) {
             this.auxCalcDescPorc(fila);
         }
     }
 
     onServFilaSelected($event: any) {
+        console.log('Seleccionado,', $event, this.artFiltrado);
         this.artsFiltrados = [];
-        this.onServSelect($event);
+        this.onServSelect($event.value);
+
     }
 
     ngOnDestroy(): void {
@@ -691,5 +695,31 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
             this.form.form_persona.per_ciruc = this.formautoref.referente.per_ciruc;
             this.buscarReferente();
         }
+    }
+
+    quitarTodo() {
+        this.swalService.fireDialog('¿Seguro que desea eliminar todas las filas?').then(confirm => {
+                if (confirm.value) {
+                    this.form.detalles.splice(0, this.form.detalles.length);
+                    this.totalizar();
+                }
+            }
+        );
+    }
+
+    cancelBuscaRef() {
+        console.log('cancelBuscaRef--->');
+    }
+
+    showFormNewRef() {
+        console.log('showFormNewRef---->');
+    }
+
+    closeModalRef() {
+        this.showCreaNewRef = false;
+    }
+
+    closeOkModalRef() {
+        this.showCreaNewRef = false;
     }
 }

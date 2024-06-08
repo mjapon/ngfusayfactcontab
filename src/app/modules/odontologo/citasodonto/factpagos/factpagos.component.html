@@ -1,15 +1,19 @@
 <div *ngIf="!isShowFormCreaFact">
-    <div class="card rounded mt-2">
-        <div class="m-1 d-flex justify-content-between">
-            <span class="fw-light">Facturas de {{clase === 1 ? 'venta' : 'compra'}}</span>
+    <div class="card rounded shadow mt-2">
+        <div class="card-header d-flex justify-content-between">
+
+            <span class="fs-5">Facturas de {{clase === 1 ? 'venta' : 'compra'}} <span class="badge text-bg-primary"
+                                                           *ngIf="facturasList.length>0">{{ facturasList.length }}</span></span>
+
+            <!--<span class="fw-light">Facturas de {{clase === 1 ? 'venta' : 'compra'}}</span>-->
             <button class="ms-md-3 btn btn-outline-primary btn-sm" (click)="showFormCreaFact(7, $event)"
                     *ngIf="clase===2">
-                <i class="fa fa-plus-circle"></i> Crear
+                <i class="fa-solid fa-plus"></i> Crear
             </button>
-            <div class="ms-md-3 btn-group btn-group-sm dropend" *ngIf="clase===1">
+            <div class="ms-md-3 btn-group dropend" *ngIf="clase===1">
                 <button type="button" class="btn btn-outline-primary dropdown-toggle"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-plus-circle"></i> Crear
+                    <i class="fa-solid fa-plus"></i> Crear
                 </button>
                 <div class="dropdown-menu" style="">
                     <a href="#" class="dropdown-item" (click)="showFormCreaFact(1, $event)"> Factura </a>
@@ -17,71 +21,62 @@
                 </div>
             </div>
         </div>
-        <!--<div class="card-body">-->
         <app-loading *ngIf="loadingFacturas"></app-loading>
         <div *ngIf="!loadingFacturas">
-            <div class="table-responsive" *ngIf="facturasList.length>0">
-                <table class="table table-bordered table-hover table-sm">
-                    <thead>
-                    <tr>
-                        <th scope="col" style="width: 5%"><span class="fontsizesm">#</span></th>
-                        <th scope="col">
-                            <span class="fontsizesm">
-                                Fecha </span></th>
-                        <th scope="col">
-                            <span class="fontsizesm">
-                                Nro </span></th>
-                        <th scope="col">
-                            <span class="fontsizesm">
-                                Efectivo </span></th>
-                        <th scope="col">
-                            <span class="fontsizesm">
-                                Crédito </span></th>
-                        <th scope="col">
-                            <span class="fontsizesm">
-                                Total </span></th>
-                        <th scope="col">
-                            <span class="fontsizesm">
-                                Observación </span></th>
+            <p-table [value]="facturasList" [paginator]="true" *ngIf="facturasList.length>0"
+                     tableStyleClass="table table-hover table-striped table-bordered fusay-table"
+                     [rows]="5">
+
+                <ng-template pTemplate="header">
+                    <tr class="table-light">
+                        <th scope="col" style="width: 5%">#</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Nro</th>
+                        <th scope="col">Efectivo</th>
+                        <th scope="col">Crédito</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Observación</th>
                         <th scope="col"></th>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let fila of facturasList" class="hand" (click)="showDetallesFactura(fila)">
-                        <th scope="row" style="width: 5%">
-                            <span class="fontsizesm">
+                </ng-template>
+                <ng-template pTemplate="body" let-fila let-rowIndex="rowIndex">
+                    <tr (click)="showDetallesFactura(fila)">
+                        <td scope="row" style="width: 5%">
+                            <span >
                             {{facturasList.indexOf(fila) + 1}}
                             </span>
-                        </th>
+                        </td>
                         <td>
-                            <span class="fontsizesm">
+                            <span >
                                 {{fila.trn_fecreg}} </span>
                         </td>
                         <td>
-                            <span class="fontsizesm">
+                            <span >
                                 {{fila.trn_compro}} </span>
                         </td>
                         <td>
-                            <span class="fontsizesm">
+                            <span >
                                 {{fila.efectivo}} </span>
                         </td>
                         <td>
-                            <span class="fontsizesm">
+                            <span >
                                 {{fila.credito}} </span>
                         </td>
                         <td>
-                            <span class="fontsizesm">
+                            <span >
                                 {{fila.total}} </span>
                         </td>
                         <td>
-                            <span class="fontsizesm">{{fila.trn_observ}}</span>
+                            <span >{{fila.trn_observ}}</span>
                         </td>
                         <td>
-                            <button class="btn btn-outline-secondary btn-sm">
+                            <button class="btn btn-outline-dark btn-sm">
                                 <i class="fa fa-eye"></i>
                             </button>
                         </td>
                     </tr>
+                </ng-template>
+                <ng-template pTemplate="footer">
                     <tr>
                         <td colspan="3">
                             <div class="d-flex flex-row-reverse">
@@ -91,15 +86,15 @@
 
                         </td>
                         <td>
-                            <span class="fontsizenr fw-bold">
+                            <span class="fw-bold">
                                 {{totales.efectivo}} </span>
                         </td>
                         <td>
-                            <span class="fontsizenr fw-bold">
+                            <span class="fw-bold">
                                 {{totales.credito}} </span>
                         </td>
                         <td>
-                            <span class="fontsizenr fw-bold">
+                            <span class="fw-bold">
                                 {{totales.total}} </span>
                         </td>
                         <td>
@@ -108,13 +103,9 @@
                         <td>
 
                         </td>
-                        <td>
-
-                        </td>
                     </tr>
-                    </tbody>
-                </table>
-            </div>
+                </ng-template>
+            </p-table>
             <div class="card-body" *ngIf="facturasList.length===0">
                 <div class="p-5 d-flex justify-content-center">
                     <h2 class="text-muted"> No registra facturas </h2>

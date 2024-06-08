@@ -7,6 +7,8 @@ import {FinanPagosService} from 'src/app/services/finan/finapagos.service';
 import {NumberService} from 'src/app/services/number.service';
 import {RxdocsService} from 'src/app/services/rxdocs.service';
 import {SwalService} from 'src/app/services/swal.service';
+import {Router} from '@angular/router';
+import {CtesFinanService} from '../../ctesfina.service';
 
 @Component({
     selector: 'app-finpagosview',
@@ -47,6 +49,8 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
     constructor(private swalService: SwalService,
                 private credService: FinanCreditosService,
                 private ctes: CtesService,
+                private router: Router,
+                private ctesFinanServ: CtesFinanService,
                 private adjService: RxdocsService,
                 private numberService: NumberService,
                 private fechasService: FechasService,
@@ -390,4 +394,7 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
         this.isModalMarcaPagadosVisible = false;
     }
 
+    gotoList() {
+        this.router.navigate([this.ctesFinanServ.rutaHome]);
+    }
 }

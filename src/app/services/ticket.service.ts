@@ -66,16 +66,16 @@ export class TicketService extends BaseService {
 
     isDataValid(form, formcli, swalService) {
         if (form.tk_nro === null || form.tk_nro.toString().trim().length === 0) {
-            swalService.fireError('Debe ingresar el número del ticket');
+            swalService.fireWarning('Debe ingresar el número del ticket');
             return false;
         } else if (form.tk_costo == null || form.tk_costo.toString().trim().length === 0) {
-            swalService.fireError('Debe ingresar el precio del ticket');
+            swalService.fireWarning('Debe ingresar el precio del ticket');
             return false;
         } else if (formcli.per_nombres == null || formcli.per_nombres.trim().length === 0) {
-            swalService.fireError('Debe ingresar el nombre del paciente');
+            swalService.fireWarning('Debe ingresar el nombre del paciente');
             return false;
         } else if (form.tk_servicios === null || form.tk_servicios?.trim().length === 0) {
-            swalService.fireError('Debe seleccionar el servicio');
+            swalService.fireWarning('Debe seleccionar el servicio');
             return false;
         }
         return true;

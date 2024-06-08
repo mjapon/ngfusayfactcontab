@@ -16,7 +16,7 @@ import {FechasService} from '../../../../services/fechas.service';
                     <app-rangofechas [form]="form" (evFilterSel)="loadRubros()" [showlabels]="false"></app-rangofechas>
                 </div>
                 <div class="ms-3">
-                    <button class="btn btn-outline-primary" (click)="guardar()"><span class="fa fa-save"></span> Guardar
+                    <button class="btn btn-outline-primary" (click)="guardar()"><span class="fa-solid fa-floppy-disk"></span> Guardar
                     </button>
                     <button class="btn btn-outline-primary ms-2" (click)="loadRubros()"><span
                             class="fa fa-sync-alt"></span>

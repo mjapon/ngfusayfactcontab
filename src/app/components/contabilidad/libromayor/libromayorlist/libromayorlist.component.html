@@ -1,4 +1,6 @@
-<h4>Libro Mayor</h4>
+<h1 class="bd-title">
+    <i class="fa-solid fa-book-open"></i>
+    Libro Mayor</h1>
 <div *ngIf="isLoading">
     <app-loading></app-loading>
 </div>
@@ -29,7 +31,7 @@
         </div>
         <div class="col-md-2 d-flex justify-content-end align-items-end">
             <button type="button" class="btn btn-outline-primary" (click)="loadMovs()">
-                <i class="fa fa-search"></i> Buscar
+                <i class="fa-solid fa-magnifying-glass"></i> Buscar
             </button>
         </div>
     </div>
@@ -38,9 +40,9 @@
         <app-loading></app-loading>
     </div>
     <div *ngIf="!isLoadingData">
-        <div class="d-flex flex-row-reverse" *ngIf="grid.data && grid.data.length>0">
-            <h4 class="ms-3 quitaPaddingMargin fw-bolder text-success"> {{totales.resta}}</h4>
+        <div class="d-flex alert alert-info" role="alert" *ngIf="grid.data && grid.data.length>0">
             <h4>SALDO:</h4>
+            <h4 class="ms-3 quitaPaddingMargin fw-bolder text-success"> {{totales.resta}}</h4>
         </div>
 
         <p-table [value]="grid.data" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
@@ -74,7 +76,7 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="footer">
-                <tr>
+                <tr  class="table-primary">
                     <td colspan="3">
                         <span class="fw-bold">Total:  </span>
                     </td>

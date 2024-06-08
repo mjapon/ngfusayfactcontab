@@ -6,8 +6,11 @@ import {FechasService} from '../../../services/fechas.service';
 @Component({
     selector: 'app-cierre-caja',
     template: `
-        <div>
-            <h3>Reporte de cierre de caja</h3>
+        <h1 class="bd-title">
+            <i class="fa-solid fa-cash-register"></i>
+            Reporte de cierre de caja
+        </h1>
+        <div class="mt-2">
             <div class="my-2 d-flex">
                 <p-calendar [(ngModel)]="form.cie_dia"
                             id="cie_dia"
@@ -16,9 +19,11 @@ import {FechasService} from '../../../services/fechas.service';
                             [monthNavigator]="true" [yearNavigator]="true"
                             yearRange="2019:2050"
                             dateFormat="dd/mm/yy"></p-calendar>
-                <button class="btn btn-outline-primary ms-3 " (click)="loadReporte()"> Actualizar</button>
+                <button class="btn btn-outline-primary ms-3 " (click)="loadReporte()">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    Actualizar</button>
             </div>
-            <div class="ms-2">
+            <div class="mt-2">
                 <div *ngIf="isLoading">
                     <app-loading></app-loading>
                 </div>
@@ -27,13 +32,14 @@ import {FechasService} from '../../../services/fechas.service';
                     <!--Listado de ventaseditado -->
                     <h4>Listado de ventas</h4>
                     <p-table [value]="gridventas.data" [paginator]="true" [rows]="50" selectionMode="single"
+                             tableStyleClass="table table-hover table-striped table-bordered fusay-table"
                              [resizableColumns]="true">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th *ngFor="let item of gridventas.cols" [pSortableColumn]="item.field"
                                     [ngSwitch]="item.field"
                                     [width]="item.width">
-                                    <span class="fontsizenr">{{item.label}}</span>
+                                    <span class="fontsizenr">{{ item.label }}</span>
                                     <p-sortIcon [field]="item.field"></p-sortIcon>
                                 </th>
                                 <th>
@@ -45,7 +51,7 @@ import {FechasService} from '../../../services/fechas.service';
                             <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData"
                                 (dblclick)="verRowVentas(rowData)">
                                 <td *ngFor="let item of gridventas.cols">
-                                    <span class="fontsizesm">{{rowData[item['field']]}}</span>
+                                    <span class="fontsizesm">{{ rowData[item['field']] }}</span>
                                 </td>
                                 <td>
                                     <button class="btn btn-sm btn-outline-dark" (click)="verRowVentas(rowData)"
@@ -80,13 +86,14 @@ import {FechasService} from '../../../services/fechas.service';
                     <!--Listado de abonos -->
                     <h4 class="mt-2">Listado de abonos</h4>
                     <p-table [value]="gridabos.data" [paginator]="true" [rows]="50" selectionMode="single"
+                             tableStyleClass="table table-hover table-striped table-bordered fusay-table"
                              [resizableColumns]="true">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th *ngFor="let item of gridabos.cols" [pSortableColumn]="item.field"
                                     [ngSwitch]="item.field"
                                     [width]="item.width">
-                                    <span class="fontsizenr">{{item.label}}</span>
+                                    <span class="fontsizenr">{{ item.label }}</span>
                                     <p-sortIcon [field]="item.field"></p-sortIcon>
                                 </th>
                                 <th>
@@ -98,7 +105,7 @@ import {FechasService} from '../../../services/fechas.service';
                             <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData"
                                 (dblclick)="verRowAbos(rowData)">
                                 <td *ngFor="let item of gridabos.cols">
-                                    <span class="fontsizesm">{{rowData[item['field']]}}</span>
+                                    <span class="fontsizesm">{{ rowData[item['field']] }}</span>
                                 </td>
                                 <td>
                                     <button class="btn btn-sm btn-outline-dark" (click)="verRowAbos(rowData)"
@@ -133,13 +140,14 @@ import {FechasService} from '../../../services/fechas.service';
                     <!--Listado de gastos -->
                     <h4 class="mt-2">Listado de gastos</h4>
                     <p-table [value]="gridgast.data" [paginator]="true" [rows]="50" selectionMode="single"
+                             tableStyleClass="table table-hover table-striped table-bordered fusay-table"
                              [resizableColumns]="true">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th *ngFor="let item of gridgast.cols" [pSortableColumn]="item.field"
                                     [ngSwitch]="item.field"
                                     [width]="item.width">
-                                    <span class="fontsizenr">{{item.label}}</span>
+                                    <span class="fontsizenr">{{ item.label }}</span>
                                     <p-sortIcon [field]="item.field"></p-sortIcon>
                                 </th>
                                 <th>
@@ -151,7 +159,7 @@ import {FechasService} from '../../../services/fechas.service';
                             <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData"
                                 (dblclick)="verRowGastos(rowData)">
                                 <td *ngFor="let item of gridgast.cols">
-                                    <span class="fontsizesm">{{rowData[item['field']]}}</span>
+                                    <span class="fontsizesm">{{ rowData[item['field']] }}</span>
                                 </td>
                                 <td>
                                     <button class="btn btn-sm btn-outline-dark" (click)="verRowGastos(rowData)"

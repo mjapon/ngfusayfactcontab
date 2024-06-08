@@ -36,6 +36,8 @@ export class UtilidadesComponent implements OnInit {
                 this.transaccs = res.transaccs;
                 this.formpaspago = res.formaspago;
                 this.tiposprod = res.tiposprodserv;
+
+                this.loadGrid();
             }
         });
     }

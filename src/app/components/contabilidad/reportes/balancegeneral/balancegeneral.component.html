@@ -1,12 +1,15 @@
+<h1 class="bd-title">
+    <i class="fa-solid fa-chart-pie"></i>
+    Balance general</h1>
+
 <div>
-    <h2>Balance general</h2>
     <div class="row mt-3 mb-3">
         <div class="col-md-4">
             <app-rangofechas [form]="form" (evDesdeChange)="onDesdeChange($event)"
                 (evHastaChange)="onHastaChange($event)" (evFilterSel)="onTipoFiltroChange()">
             </app-rangofechas>
         </div>
-        <div class="col-md-4 d-flex flex-column justify-content-end">
+        <div class="col-md-4 d-flex flex-column justify-content-center">
             <div class="d-flex">
                 <div class="btn-group btn-block">
                     <button class="btn btn-outline-primary" (click)="loadBalance()">
@@ -28,7 +31,7 @@
         </div>
         <div class="col-md d-flex flex-column flex-column-reverse">
             <div class="alert alert-info">
-                Periodo contable actual {{periodocontable.pc_desde}} - {{periodocontable.pc_hasta}}
+                Periodo contable actual  <b>{{periodocontable.pc_desde}} - {{periodocontable.pc_hasta}}</b>
             </div>        
         </div>
     </div>

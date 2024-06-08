@@ -116,7 +116,7 @@ import {CitasMedicasService} from '../../services/citas-medicas.service';
 
                 <div class="mt-1 d-flex justify-content-center">
                     <button class="btn btn-outline-primary" (click)="guardar()">
-                        <i class="fa fa-save"></i> Guardar
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar
                     </button>
                 </div>
 

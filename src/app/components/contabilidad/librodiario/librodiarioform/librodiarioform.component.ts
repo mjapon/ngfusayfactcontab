@@ -154,7 +154,8 @@ export class LibrodiarioformComponent implements OnInit {
         });
     }
 
-    setCtaContableSel(art) {
+    setCtaContableSel(ev) {
+        const art = ev.value;
         this.formdetinst.cta_codigo = art.ic_id;
         this.formdetinst.ic_nombre = art.ic_nombre;
         this.formdetinst.ic_code = art.ic_code;

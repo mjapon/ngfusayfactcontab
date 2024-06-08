@@ -11,7 +11,7 @@ import {DomService} from '../../../services/dom.service';
             <div class="p-fluid {{form?.referente?.per_id>0?'col-sm-11':'col-sm-12'}}">
                 <p-autoComplete [(ngModel)]="form.referente"
                                 [suggestions]="personFiltered"
-                                (completeMethod)="findRefs($event)" field="nomapel"
+                                (completeMethod)="findRefs($event)" optionLabel="nomapel"
                                 inputId="refAutoCom"
                                 autofocus="true"
                                 inputStyleClass="form-control {{stylevalidinvalid?(form.referente?.per_id?'is-valid':'is-invalid'):''}}"
@@ -32,7 +32,7 @@ import {DomService} from '../../../services/dom.service';
                 </p-autoComplete>
             </div>
             <div class="col-sm-1 d-flex" *ngIf="form.referente?.per_id>0">
-                <button title="Limpiar búsqueda" class="btn btn-outline-secondary" type="button"
+                <button title="Limpiar búsqueda" class="btn btn-outline-dark" type="button"
                         (click)="limpiarRef()">
                     <i class="fa fa-eraser"></i>
                 </button>
@@ -69,7 +69,7 @@ export class BuscarefComponent extends BaseComponent {
     }
 
     limpiarRef() {
-        this.form.referente = {};
+        this.form.referente = null;
         this.domService.setFocusTm(this.ctes.refAutoCom, 100);
         this.evOnClearRef.emit('');
     }

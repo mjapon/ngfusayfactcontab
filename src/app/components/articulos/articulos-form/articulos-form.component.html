@@ -1,27 +1,17 @@
-<div class="container">
+<h1 class="bd-title">
+    <i class="fa-solid fa-kiwi-bird"></i>
+    {{ editing ? 'Editar ' + artFromDb.ic_nombre : 'Crear producto o servicio' }} </h1>
+
+<div>
 
     <div *ngIf="isLoading">
         <app-loading></app-loading>
     </div>
 
-    <div *ngIf="!isLoading" class="rounded-3 p-2">
-        <div class="row">
-            <div class="col">
-                <h4>{{editing ? 'Editar ' + artFromDb.ic_nombre : 'Crear producto o servicio'}} </h4>
-            </div>
-            <div class="col-3 d-flex justify-content-end">
-                <div class="btn-group" role="group" aria-label="Default button group">
-                    <button type="button" class="btn btn-outline-primary" (click)="cancelar()"
-                            title="Retornar a listado de productos y servicios">
-                        <i class="fa fa-arrow-left"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <hr>
+    <div *ngIf="!isLoading">
 
-        <div class="row">
-            <div class="col-md">
+        <div class="bd-grid">
+            <div class="bd-grid-content">
                 <p-tabView [(activeIndex)]="activeTabIndex">
                     <p-tabPanel header="Detalles">
                         <div>
@@ -61,9 +51,8 @@
                                                                                          title="Seleccione esta opción si desea que el sistema genere el código para el producto o servicio">
                                         <i class="fa fa-check" *ngIf="artCodAutomatic"></i>Automático </span>
                                             <span *ngIf="editing" (click)="showModalEditBarcode()"
-                                                  class="badge bg-info"
-                                                  title="Editar el código de barra"> <i
-                                                    class="fa fa-edit hand"> </i> </span>
+                                                  class="badge bg-info hand"
+                                                  title="Editar el código de barra"> <i class="fa-solid fa-pen-to-square"></i> </span>
                                         </label>
                                         <br>
                                         <input type="text" class="form-control" id="codbarraInput"
@@ -98,8 +87,7 @@
                                             <div class="mb-3">
                                                 <label for="precioCompraInput">
                                                     <span class="required">*</span>
-                                                    Precio Compra <span class="badge bg-info"
-                                                                        *ngIf="artForm.icdp_grabaiva && artForm.icdp_grabaiva.value">(Sin Iva)</span>:</label>
+                                                    Precio Compra <span *ngIf="artForm.icdp_grabaiva && artForm.icdp_grabaiva.value">(Sin Iva)</span>:</label>
                                                 <br>
                                                 <input type="text"
                                                        maxlength="10"
@@ -123,7 +111,7 @@
                                             <div class="mb-3">
                                                 <label for="precioCompraInput">
                                                     <span class="required">*</span>
-                                                    Precio Compra <span class="badge bg-info"> (Con Iva) </span>
+                                                    Precio Compra <span> (Con Iva) </span>
                                                     :</label>
                                                 <br>
                                                 <input type="text"
@@ -236,12 +224,12 @@
                                 <div class="col-md-4">
 
                                     <div class="mb-3">
-                                        <label for="catic_id">Categoría:
-                                            <span class="btn btn-sm btn-outline-secondary hand" title="Crear categoría"
+                                        <div class="d-flex">
+                                            <label for="catic_id">Categoría:</label>
+                                            <span class="badge bg-info hand ms-3" title="Crear categoría"
                                                   (click)="showModalCreaCateg()"> <i
-                                                    class="fa fa-plus-circle"></i> </span>
-                                        </label>
-                                        <br>
+                                                    class="fa-solid fa-plus"></i> </span>
+                                        </div>
                                         <p-dropdown [options]="categorias" id="catic_id"
                                                     [(ngModel)]="artForm.catic_id.value"
                                                     (onChange)="oncatselchange($event)"
@@ -290,7 +278,7 @@
                                             <p-checkbox [inputId]="itsec.seccion.sec_id" binary="true"
                                                         [(ngModel)]="itsec.value"></p-checkbox>
                                             <label [for]="itsec.seccion.sec_id"
-                                                   class="ms-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
+                                                   class="ms-2 mt-1 hand">{{ itsec.seccion.sec_nombre }}</label>
                                         </div>
                                     </div>
 
@@ -303,25 +291,26 @@
                                                     optionValue="mc_id" inputId="icdp_modcontab"></p-dropdown>
                                     </div>
 
+                                    <!--
                                     <div class="mt-2 d-grid gap-2">
                                         <button type="button" class="btn btn-outline-primary"
                                                 (click)="procesaForm()">
-                                            <i class="fa fa-save"></i>
+                                            <i class="fa-solid fa-floppy-disk"></i>
                                             Guardar
                                         </button>
-                                        <button type="button" class="btn btn-outline-secondary"
+                                        <button type="button" class="btn btn-outline-dark"
                                                 (click)="cancelar()">
-                                            <i class="fa fa-times"></i>
+                                            <i class="fa-solid fa-xmark"></i>
                                             Cancelar
                                         </button>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                         </div>
 
                     </p-tabPanel>
                     <p-tabPanel header="Stock" *ngIf="editing && artFromDb.tipic_id===1">
-                        <h5> Stock para: {{artFromDb.ic_nombre}} </h5>
+                        <h5> Stock para: {{ artFromDb.ic_nombre }} </h5>
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="card border-primary">
@@ -329,7 +318,7 @@
                                         <li class="list-group-item" *ngFor="let item of stock; index as i">
                                             <div class="row">
                                                 <div class="col">
-                                                    {{item.sec_nombre}}
+                                                    {{ item.sec_nombre }}
                                                 </div>
                                                 <div class="col">
                                                     <input type="text" class="form form-control" id="stock_{{i}}"
@@ -340,22 +329,26 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md">
-                                <div class="d-grid gap-2">
-                                    <button type="button" class="btn btn-outline-primary"
-                                            (click)="guardarStock()">
-                                        <i class="fa fa-save"></i>
-                                        Guardar
-                                    </button>
-                                    <button type="button" class="btn btn-outline-secondary" (click)="cancelar()">
-                                        <i class="fa fa-times"></i>
-                                        Cancelar
-                                    </button>
-                                </div>
-                            </div>
                         </div>
                     </p-tabPanel>
                 </p-tabView>
+            </div>
+            <div class="bd-grid-actions">
+
+                <div class="d-grid mt-4 gap-2">
+                    <button type="button" class="btn btn-outline-primary" *ngIf="activeTabIndex===0"
+                            (click)="procesaForm()">
+                        <i class="fa-solid fa-floppy-disk"></i> <span class="ms-2">Guardar</span>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" *ngIf="activeTabIndex===1"
+                            (click)="guardarStock()">
+                        <i class="fa-solid fa-floppy-disk"></i> <span class="ms-2">Guardar</span>
+                    </button>
+                    <button type="button" class="btn btn-outline-dark"
+                            (click)="cancelar()">
+                        <i class="fa-solid fa-xmark"></i> <span class="ms-2">Cancelar</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -369,7 +362,7 @@
                         <label> Codigo anterior: </label>
                     </div>
                     <div class="col-md">
-                        <span> {{artFromDb.ic_code}} </span>
+                        <span> {{ artFromDb.ic_code }} </span>
                     </div>
                 </div>
                 <div class="row">
@@ -397,7 +390,7 @@
     </div>
 
     <div *ngIf="isModalCatVisible">
-        <p-dialog header="Datos de la categoría" [modal]="true" [style]="{width: '70vw'}" [baseZIndex]="10000"
+        <p-dialog header="Datos de la categoría" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
                   [(visible)]="isModalCatVisible">
             <div>
                 <div class="row">
@@ -415,6 +408,7 @@
                     </div>
                     <div class="col-md">
                         <p-dropdown [options]="modscontabs" optionLabel="mc_nombre"
+                                    appendTo="body"
                                     optionValue="mc_id"
                                     placeholder="Seleccione el modelo contable para esta categoría"
                                     [(ngModel)]="formcat.catic_mc"></p-dropdown>
@@ -422,11 +416,12 @@
                 </div>
 
                 <div class="mt-5 text-center">
-                    <button class="btn btn-outline-primary" (click)="doSaveCat()"><i class="fa fa-save"></i>
+                    <button class="btn btn-outline-primary" (click)="doSaveCat()"><i
+                            class="fa-solid fa-floppy-disk"></i>
                         Guardar
                     </button>
-                    <button class="ms-3 btn btn-outline-secondary" (click)="cancelSaveCat()"><i
-                            class="fa fa-times"></i> Cancelar
+                    <button class="ms-3 btn btn-outline-dark" (click)="cancelSaveCat()"><i
+                            class="fa-solid fa-xmark"></i> Cancelar
                     </button>
                 </div>
             </div>

@@ -31,7 +31,7 @@ import {CtesService} from '../../../services/ctes.service';
                 </p-autoComplete>
             </div>
             <div class="col-sm d-flex" *ngIf="form.medidor?.mdg_id>0">
-                <button title="Limpiar búsqueda" class="btn btn-outline-secondary" type="button"
+                <button title="Limpiar búsqueda" class="btn btn-outline-dark" type="button"
                         (click)="limpiarMed()">
                     <i class="fa fa-eraser"></i>
                 </button>

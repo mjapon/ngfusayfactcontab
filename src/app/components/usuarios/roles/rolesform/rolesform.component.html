@@ -1,18 +1,6 @@
-<div class="row">
-    <div class="col">
-        <h4>{{rolId == 0 ? 'Crear' : 'Editar'}} rol del sistema</h4>
-    </div>
-    <div class="col-3 d-flex justify-content-end">
-        <div class="btn-group" role="group" aria-label="Default button group">
-            <button type="button" class="btn btn-outline-primary" (click)="cancelar()"
-                    title="Retornar a listado de roles del sistema">
-                <i class="fa fa-arrow-left"></i>
-            </button>
-        </div>
-    </div>
-</div>
-<hr>
-<div class="row">
+<h1 class="bd-title">{{ rolId == 0 ? 'Crear' : 'Editar' }} rol del sistema</h1>
+
+<div class="row mt-2">
     <div class="col-md-10">
         <div class="row">
             <div class="col">
@@ -44,26 +32,29 @@
                     <div class="card-header">
                         <span class="text-primary">Permisos</span>
                     </div>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush perm-list">
                         <li class="list-group-item hand list-group-item-action {{item.rl_marca?'list-group-item-success':''}}"
                             *ngFor="let item of permisos" (click)="selectPermiso(item)"><i
                                 class="fa  {{item.rl_marca?'fa-check-square-o':'fa-square-o'}}"></i>
-                            {{item.prm_nombre}} </li>
+                            {{ item.prm_nombre }}
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-md-2">
-        <div class="d-grid gap-2">
-            <button type="button" class="btn btn-outline-primary" (click)="guardar()">
-                <i class="fa fa-save"></i>
-                Guardar
-            </button>
-            <button type="button" class="btn btn-outline-secondary" (click)="cancelar()">
-                <i class="fa fa-times"></i>
-                Cancelar
-            </button>
+        <div class="bd-actions">
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-outline-primary" (click)="guardar()">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Guardar
+                </button>
+                <button type="button" class="btn btn-outline-dark" (click)="cancelar()">
+                    <i class="fa-solid fa-xmark"></i>
+                    Cancelar
+                </button>
+            </div>
         </div>
     </div>
 

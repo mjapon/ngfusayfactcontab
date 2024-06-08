@@ -151,7 +151,7 @@ export class FautService extends BaseService {
         if (decoded) {
             return decoded.emp_id;
         }
-        return 0
+        return 0;
     }
 
     setEmpCodigoFromRest(empCodigo) {

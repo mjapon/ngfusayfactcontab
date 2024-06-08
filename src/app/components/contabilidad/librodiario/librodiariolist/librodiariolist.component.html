@@ -1,8 +1,9 @@
+<h1 class="bd-title">
+    <i class="fa-solid fa-book"></i>
+    Libro Diario</h1>
+
 <div>
     <div class="d-md-flex justify-content-between align-items-end m-1">
-        <div>
-            <h4 class="quitaPaddingMargin">Libro Diario</h4>
-        </div>
         <div>
             <app-rangofechas [form]="formfiltros"
                              [showlabels]="false"
@@ -27,12 +28,13 @@
         </div>
 
         <div>
-            <div class="btn-group">
-                <button class="btn btn-outline-primary" (click)="loadLibroDiario()"><i
-                        class="fas fa-search"></i>
+            <div class="d-flex">
+                <button class="btn btn-outline-dark" (click)="loadLibroDiario()">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                        Buscar
                 </button>
-                <button class="btn btn-outline-primary" (click)="gotoFormAsiento()"><i
-                        class="fa fa-plus-circle"></i>
+                <button class="btn btn-outline-primary ms-2" (click)="gotoFormAsiento()"><i
+                        class="fa-solid fa-plus"></i>
                     Nuevo Asiento
                 </button>
             </div>
@@ -124,7 +126,7 @@
                                         <button class="btn btn-sm btn-outline-primary"
                                                 title="Ver Detalles"
                                                 (click)="verDetalles(fila)">
-                                            <i class="fa fa-eye"></i>
+                                            <i class="fa-solid fa-eye"></i>
                                         </button>
                                     </div>
                                 </div>

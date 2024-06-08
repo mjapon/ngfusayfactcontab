@@ -132,7 +132,7 @@ import {OdontogramaService} from '../../../services/odontograma.service';
 
                 <div class="mt-2 d-md-flex flex-row-reverse">
                     <button class="btn btn-outline-primary" (click)="doCerrar()">
-                        <i class="fa fa-times"></i> Cerrar
+                        <i class="fa-solid fa-xmark"></i> Cerrar
                     </button>
                     <button class="btn btn-outline-primary me-2" (click)="doVerHistoria()">
                         <i class="fa fa-tooth"></i> Ver Ficha

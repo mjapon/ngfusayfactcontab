@@ -32,7 +32,7 @@ import {CtesService} from '../../services/ctes.service';
                     <button class="btn btn-outline-primary" (click)="cambiar()"><i class="fas fa-exchange-alt"></i>
                         Cambiar
                     </button>
-                    <button class="btn btn-outline-secondary" (click)="cancelar()"><i class="fas fa-times"></i>
+                    <button class="btn btn-outline-dark" (click)="cancelar()"><i class="fas fa-times"></i>
                         Cancelar
                     </button>
                 </div>

@@ -183,10 +183,10 @@ import {SwalService} from '../../../services/swal.service';
                 <div class="w-100 mt-4 d-flex justify-content-center">
                     <button class="ms-2 btn btn-outline-primary"
                             id="btnNextS3" (click)="doSave()"> Guardar
-                        <i class="fa fa-save"></i></button>
-                    <button class="ms-2 btn btn-outline-secondary"
+                        <i class="fa-solid fa-floppy-disk"></i></button>
+                    <button class="ms-2 btn btn-outline-dark"
                             id="btnNextS4" (click)="doCancel()"> Cancelar
-                        <i class="fa fa-times"></i></button>
+                        <i class="fa-solid fa-xmark"></i></button>
                 </div>
             </div>
         </div>

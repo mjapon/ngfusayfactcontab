@@ -10,10 +10,9 @@ import {PersonEvService} from '../../services/personev.service';
             <app-loading></app-loading>
         </div>
         <div *ngIf="!isLoading">
-
-            <h5 class="quitaPaddingMargin mb-1 ms-2">
-                <span class="fas fa-user"></span> Datos del referente
-            </h5>
+            <h1 class="bd-title">
+                <i class="fa-solid fa-id-card"></i>
+                Datos del referente</h1>
 
             <div *ngIf="referente">
                 <app-resumenref [referente]="referente" (evBtnTabClic)="onTabRefClic($event)"

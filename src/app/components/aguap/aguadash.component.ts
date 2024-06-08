@@ -14,7 +14,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
                         </div>
                         <div>                    
                             <button class="btn btn-outline-primary" (click)="cerrar()"> 
-                                <span class="fa fa-times"></span>
+                                <span class="fa-solid fa-xmark"></span>
                                 Cerrar 
                             </button>
                         </div>

@@ -9,7 +9,8 @@ import {DomService} from '../../../services/dom.service';
 
 @Component({
     selector: 'app-userform',
-    templateUrl: './userform.component.html'
+    templateUrl: './userform.component.html',
+    styles: ['.rol-list { height:27rem;overflow: auto }']
 })
 export class UserformComponent implements OnInit {
     form: any;

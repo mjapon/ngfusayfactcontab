@@ -52,10 +52,10 @@ import {DomService} from '../../services/dom.service';
                             <div class="card-footer">
                                 <div class="d-flex justify-content-around">
                                     <button class="btn btn-outline-primary" (click)="guardar()"><i
-                                            class="fa fa-save"></i> Guardar
+                                            class="fa-solid fa-floppy-disk"></i> Guardar
                                     </button>
-                                    <button class="btn btn-outline-secondary" (click)="cancelar()"><i
-                                            class="fa fa-times"></i> Cancelar
+                                    <button class="btn btn-outline-dark" (click)="cancelar()"><i
+                                            class="fa-solid fa-xmark"></i> Cancelar
                                     </button>
                                 </div>
                             </div>
@@ -89,17 +89,17 @@ import {DomService} from '../../services/dom.service';
                                         </div>
                                         <div class="col-md-2 d-flex flex-column justify-content-end">
                                             <div class="d-flex flex-row-reverse">
-                                                <button class="ms-2 btn btn-outline-secondary btn-sm"
+                                                <button class="ms-2 btn btn-outline-dark btn-sm"
                                                         (click)="imprimir(receta)"
                                                         title="Imprimir">
                                                     <i class="fa fa-print"></i>
                                                 </button>
-                                                <button class="ms-2 btn btn-outline-secondary btn-sm"
+                                                <button class="ms-2 btn btn-outline-dark btn-sm"
                                                         (click)="anular(receta)"
                                                         title="Anular ">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
-                                                <button class="ms-2 btn btn-outline-secondary btn-sm"
+                                                <button class="ms-2 btn btn-outline-dark btn-sm"
                                                         (click)="editar(receta)"
                                                         title="Editar ">
                                                     <i class="fa fa-edit"></i>
@@ -118,7 +118,7 @@ import {DomService} from '../../services/dom.service';
                     </div>
                     <div class="col-md-2" *ngIf="!showForm">
                         <button class="btn btn-outline-primary" (click)="loadForm()">Crear <i
-                                class="fa fa-plus-circle"></i></button>
+                                class="fa-solid fa-plus"></i></button>
                     </div>
                 </div>
             </div>

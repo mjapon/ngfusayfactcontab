@@ -3,7 +3,7 @@
         <div class="row mt-2">
             <div class="col-md">
                 <div class="row quitaPaddingMargin mt-2">
-                    <div class="col-md-3 quitaPaddingMargin">
+                    <div class="col-md-3 quitaPaddingMargin" *ngIf="secciones.length>1">
                         <div class="d-flex">
                             <span class="me-2">Sección:</span>
                             <span class="datouser rounded px-2"> {{seccion.sec_nombre}} </span>
@@ -30,7 +30,9 @@
                 <div *ngIf="isLoading">
                     <app-loading></app-loading>
                 </div>
-                <div class="mt-4 border rounded" *ngIf="!isLoading">
+
+
+                <div class="mt-4" *ngIf="!isLoading">
                     <div class="row my-3">
                         <div class="col-md-3" *ngFor="let acc of accesosdir">
                             <div class="mx-2 my-1">
@@ -53,8 +55,9 @@
                 </div>
 
 
+
                 <div class="row mt-4">
-                    <div class="col-md-4">
+                    <div class="col-md-4" *ngIf="secciones.length>1">
                         <div>
                             <span class="text-muted"> Secciones Disponibles: </span>
                         </div>
@@ -70,7 +73,7 @@
                     </div>
                     <div class="col-md">
                         <div  *ngIf="!isLoading" class="d-flex justify-content-end align-content-end h-100">
-                        <span class="fontsizesm mt-5">
+                        <span class="mt-5">
                             Registrado a nombre de: {{datosempresa.emp_razonsocial}}
                         </span>
                         </div>

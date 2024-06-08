@@ -63,7 +63,6 @@ import { GrppiezadentComponent } from './modules/odontologo/odontograma/grppieza
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DatosrefComponent } from './components/referentes/datosref.component';
-import { ListadorefsComponent } from './components/referentes/listadorefs.component';
 import { AntcodontoComponent } from './modules/odontologo/antcodonto.component';
 import { CitasodontoComponent } from './modules/odontologo/citasodonto/citasodonto.component';
 import { OdatencionesComponent } from './modules/odontologo/odatenciones.component';
@@ -154,9 +153,11 @@ import { FormNewrefBasic } from './components/referentes/formnewref/formnewref.c
 import { PcontableCierreComponent } from './components/contabilidad/periodocontable/cierre/pcontablecierre.component';
 import { PcontableNewComponent } from './components/contabilidad/periodocontable/apertura/pcontablenew.component';
 import { AsientoCierreViewComponent } from './components/contabilidad/periodocontable/asientocierreview/asientocierreview.component';
-import {BadgeModule} from "primeng/badge";
-import {RippleModule} from "primeng/ripple";
-import {BreadcrumbModule} from "primeng/breadcrumb";
+import {BadgeModule} from 'primeng/badge';
+import {RippleModule} from 'primeng/ripple';
+import {BreadcrumbModule} from 'primeng/breadcrumb';
+import {ListadorefsComponent} from './components/referentes/listadorefs/listadorefs.component';
+import {AccordionModule} from 'primeng/accordion';
 
 
 
@@ -332,6 +333,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         RippleModule,
         BreadcrumbModule,
         NgOptimizedImage,
+        AccordionModule,
         // SocketIoModule.forRoot(config)
     ],
     providers: [

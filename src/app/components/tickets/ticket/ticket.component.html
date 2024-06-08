@@ -1,5 +1,6 @@
-<h4>Tickets</h4>
-
+<h1 class="bd-title">
+    <i class="fa-solid fa-ticket"></i>
+    Tikets</h1>
 <div *ngIf="isLoading">
     <app-loading></app-loading>
 </div>
@@ -18,7 +19,7 @@
                 <p class="quitaPaddingMargin fw-light">Tipo:</p>
                 <div class="p-fluid">
                     <p-multiSelect [options]="servicios" [(ngModel)]="selectedServices" [filter]="false"
-                                   defaultLabel="Filtrar por tipo de servicio"
+                                   placeholder="Filtrar por tipo de servicio"
                                    optionLabel="ic_nombre" optionValue="ic_id"></p-multiSelect>
                 </div>
             </div>
@@ -34,15 +35,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2 d-flex justify-content-end align-items-end">
-            <div class="btn-group" role="group" aria-label="Default button group">
-                <button type="button" class="btn btn-outline-secondary" (click)="loadGrid()">
-                    <i class="fa fa-search"></i> Buscar
+        <div class="col-md-2 d-flex justify-content-between align-items-end">
+
+                <button type="button" class="btn btn-outline-dark" (click)="loadGrid()">
+                    <i class="fa-solid fa-search"></i> Buscar
                 </button>
                 <button type="button" class="btn btn-outline-primary" (click)="nuevo()">
-                    <i class="fa fa-plus-circle"></i> Crear
+                    <i class="fa-solid fa-plus"></i> Crear
                 </button>
-            </div>
+
         </div>
     </div>
 
@@ -51,6 +52,7 @@
              [responsive]="true"
              [autoLayout]="false"
              [resizableColumns]="true"
+             tableStyleClass="table table-hover table-striped table-bordered fusay-table"
              [(contextMenuSelection)]="selectedItem"
              [contextMenu]="cm"
              (onRowUnselect)="onUnRowSelect($event)">

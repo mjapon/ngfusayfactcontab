@@ -29,6 +29,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     isHistoriaAntSel: boolean;
     rowHistoriaSel: any;
     selectedTab: number;
+    selectedMainTab = 1;
     saved: boolean;
     codConsultaGen: any;
     datosPacienteFull: any = {};
@@ -41,9 +42,11 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     codHistoriaEdit: number;
     pacienteSelected: any;
     isShowCalendar = false;
+    antecedentes = [];
+    hasAntencentes = false;
+    editAntper = false;
 
     @ViewChild('mainDiv') mainDiv: any;
-    @ViewChild('agendaDiv') agendaDiv: any;
     @ViewChild('diagnosticoDiv') diagnosticoDiv: any;
     @ViewChild('proxcitaDiv') proxcitaDiv: any;
 
@@ -60,7 +63,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 private domService: DomService,
                 private loadingUiService: LoadingUiService,
                 private route: ActivatedRoute,
-                private router: Router,
                 private ctes: CtesService,
                 private cosMsgService: ConsMedicaMsgService,
                 private tcitaServ: TcitaService
@@ -139,7 +141,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 user_crea: '',
                 cosm_odontograma: ''
             },
-            antecedentes: [],
             examsfisicos: [],
             revxsistemas: [],
             diagnostico: []
@@ -158,6 +159,31 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 this.form.paciente.per_id = this.pacienteSelected.per_id;
                 this.loadListaAtenciones();
                 this.domService.setFocusTm(this.ctes.motivoConsultaTextArea, 300);
+            }
+        });
+    }
+
+    loadAntecedentes() {
+        this.antecedentes = [];
+        this.citasMedicasServ.getAntecedentes(this.pacienteSelected.per_id).subscribe(res => {
+            if (res.antecedentes) {
+                this.antecedentes = res.antecedentes;
+                this.hasAntencentes = res.hasvalue;
+                console.log('Has antecedentes', this.hasAntencentes);
+            }
+        });
+    }
+
+    activateEditAntecedentes() {
+        this.editAntper = true;
+    }
+
+    guardarAntecedentes() {
+        this.citasMedicasServ.saveAntecedentes(this.pacienteSelected.per_id, this.antecedentes).subscribe(res => {
+            if (res.status === 200) {
+                this.swalService.fireToastSuccess(res.msg);
+                this.editAntper = false;
+                this.loadAntecedentes();
             }
         });
     }
@@ -182,7 +208,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                     this.selectedTab = 1;
                     this.citasMedicasServ.getDatosHistoriaByCod(this.codHistoriaEdit).subscribe(resHis => {
                         if (resHis.status === 200) {
-                            this.form.antecedentes = resHis.datoshistoria.antecedentes;
                             this.form.examsfisicos = resHis.datoshistoria.examsfisicos;
                             this.form.revxsistemas = resHis.datoshistoria.revxsistemas;
                             this.form.datosconsulta = resHis.datoshistoria.datosconsulta;
@@ -210,7 +235,16 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     }
 
     calcularIMC(it: any) {
-        let valorPeso: any = '0';
+        const resultIMC: any = {};
+        this.citasMedicasServ.calcularIMC(it, this.form.examsfisicos, resultIMC, () => {
+            if (resultIMC.imc) {
+                this.datosAlertaImc = resultIMC.imc;
+            }
+            if (resultIMC.presion) {
+                this.datosAlertaPresion = resultIMC.presion;
+            }
+        });
+        /*let valorPeso: any = '0';
         let valorTalla: any = '0';
         let filaIMC: any;
         this.form.examsfisicos.forEach(e => {
@@ -257,7 +291,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                     this.datosAlertaPresion = {msg: result, color};
                 }
             });
-        }
+        }*/
     }
 
     addDiagnostico() {
@@ -283,10 +317,6 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.citasMedicasServ.getListaAtenciones(this.pacienteSelected.per_ciruc).subscribe(resCitas => {
             if (resCitas.status === 200) {
                 this.historias = resCitas.items;
-                const antpers = resCitas.antpers;
-                if (antpers && antpers.length > 0) {
-                    this.form.antecedentes = antpers;
-                }
             }
         });
     }
@@ -295,35 +325,29 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.registrarCita();
     }
 
-    auxGuardaTab(tabId, inputFocusId) {
-        this.selectedTab = tabId;
-        if (inputFocusId) {
-            this.domService.setFocusTm(inputFocusId, 100);
+    siguiente() {
+        this.selectedTab++;
+        this.setFocusOnTAb();
+    }
+
+    auxSetFocus(inputFocusId) {
+        this.domService.setFocusTm(inputFocusId, 100);
+    }
+
+    setFocusOnTAb() {
+        if (this.selectedTab === 1) {
+            this.auxSetFocus('motivoConsultaTextArea');
+        } else if (this.selectedTab === 2) {
+            this.auxSetFocus('inexamfis_0');
+        } else if (this.selectedTab === 3) {
+            this.auxSetFocus('inrevxsis_0');
+        } else if (this.selectedTab === 4) {
+            this.auxSetFocus('diagnostico_id');
         }
     }
 
-    guardarExamCompl() {
-        this.auxGuardaTab(6, 'diagnostico_id');
-    }
-
-    guardarExamenFisico() {
-        this.auxGuardaTab(5, 'inexamcompl_0');
-    }
-
-    guardarRevXSistemas() {
-        this.auxGuardaTab(4, 'inexamfis_0');
-    }
-
-    guardaMotivoConsulta() {
-        this.auxGuardaTab(2, 'inantecedentes_0');
-    }
-
-    guardarAntecedentes() {
-        this.auxGuardaTab(3, 'inrevxsis_0');
-    }
-
     registrarCita() {
-        const msg = '¿Seguro?';
+        const msg = '¿Confirma que desea registrar nueva atención?';
         this.swalService.fireDialog(msg).then(confirm => {
             if (confirm.value) {
                 let fechaProxCita = '';
@@ -369,6 +393,8 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
 
     limpiar() {
         this.clearAll();
+        this.selectedMainTab = 1;
+        this.selectedTab = 1;
         this.showBuscaPaciente = true;
         this.domService.setFocusTm(this.ctes.buscaPacNomCiInput, 800);
     }
@@ -436,6 +462,9 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     selPacFromLista(row: any) {
         this.pacienteSelected.per_id = row.per_id;
         this.pacienteSelected.per_ciruc = row.per_ciruc;
+        this.selectedMainTab = 1;
+        this.selectedTab = 1;
+        this.saved = false;
         this.loadFormConsulta();
     }
 
@@ -448,6 +477,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
             this.datosPacienteFull = $event;
             this.reloadFormConsulta();
         }
+        this.selectedTab = 1;
     }
 
     reloadDatosPaciente(perId) {
@@ -461,19 +491,20 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     onPacienteSaved($event: any) {
         this.datosPacienteFull.per_id = $event;
         this.selectedTab = 1;
+        this.selectedMainTab = 2;
         this.form.paciente.per_id = $event;
         this.domService.setFocusTm(this.ctes.motivoConsultaTextArea, 600);
         this.reloadDatosPaciente(this.datosPacienteFull.per_id);
     }
 
     onDatosIncompletos($event: any) {
-        this.selectedTab = 0;
+        this.selectedMainTab = 1;
+        this.selectedTab = 1;
     }
 
     showModalCalendar() {
         this.lclStrgServ.setItem('PAC_FOR_CAL', JSON.stringify(this.datosPacienteFull));
         this.showCalendar = true; // modificado
-        this.scrollToDivAgenda();
     }
 
     closeModalCalendar() {
@@ -500,24 +531,11 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         });
     }
 
-    onTabChange($event: any) {
-        if ($event && $event.index === 6) {
-            this.loadLastCita();
-        }
-    }
-
     scrollToDivDiagnos() {
         setTimeout(() => {
             this.proxcitaDiv.nativeElement.scrollIntoView({behavior: 'smooth'});
         }, 400);
     }
-
-    scrollToDivAgenda() {
-        setTimeout(() => {
-            this.agendaDiv.nativeElement.scrollIntoView({behavior: 'smooth'});
-        }, 400);
-    }
-
 
     anularCita() {
         const msg = '¿Seguro que desea anular esta cita?';
@@ -553,5 +571,27 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
 
     showListado($event: any) {
         this.isShowCalendar = false;
+    }
+
+    changeMainTab(tab: number) {
+        this.selectedMainTab = tab;
+        if (this.selectedMainTab === 5) {
+            this.loadLastCita();
+            this.domService.setFocusTm('motivoConsultaTextArea', 500);
+        } else if (this.selectedMainTab === 4) {
+            this.loadListaAtenciones();
+        } else if (this.selectedMainTab === 2) {
+            this.loadAntecedentes();
+        }
+    }
+
+    changeTab(tab: number) {
+        this.selectedTab = tab;
+        this.setFocusOnTAb();
+    }
+
+    clearInfoPacLocStorage() {
+        this.lclStrgServ.removeItem('PAC_FOR_CAL');
+        console.log('Limpiado paciente local storage');
     }
 }

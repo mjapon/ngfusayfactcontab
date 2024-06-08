@@ -15,3 +15,14 @@
     flex-direction: row-reverse;
     padding: 0 15px;
 }
+
+.bd-buttons {
+    position: sticky;
+    top: 4rem;
+    display: block !important;
+    /*height: calc(100vh - 5rem);*/
+    overflow-y: auto;
+}
+.empty-aten{
+    height: 7rem;
+}

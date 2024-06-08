@@ -87,7 +87,7 @@ import {DatosloggedService} from 'src/app/services/datoslogged.service';
                     <ul class="nav nav-pills">
                         <li class="nav-item">
                             <a class="nav-link hand" (click)="cerrar()">
-                                <i class="fa fa-times"></i>
+                                <i class="fa-solid fa-xmark"></i>
                                 Cerrar</a>
                         </li>
                     </ul>

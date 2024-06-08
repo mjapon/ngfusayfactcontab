@@ -110,6 +110,7 @@ export class CtesService {
     protected Monto = 'monto';
     protected MotivoConsultaTextArea = 'motivoConsultaTextArea';
     protected MsgConfirmChangeSec = '¿Confirma que desea realizar el cambio de sección?';
+    protected MsgConfirmEditReg = '¿Confirma que desea editar este registro?';
     protected MsgConfirmSave = '¿Confirma que desea registrar la información ingresada?';
     protected MsgDataIncompleteRef = 'Datos incompletos del referente, favor completar';
     protected MsgDatosIncorr = 'Datos Incorrectos';
@@ -615,6 +616,10 @@ export class CtesService {
 
     get msgConfirmChangeSec() {
         return this.MsgConfirmChangeSec;
+    }
+
+    get msgConfirmEditReg(){
+        return this.MsgConfirmEditReg;
     }
 
     get msgMustEnterCodBarra() {

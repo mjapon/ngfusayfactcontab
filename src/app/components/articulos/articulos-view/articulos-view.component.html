@@ -1,83 +1,84 @@
-<div class="container">
-    <div class="row mb-2">
-        <div class="col-9">
-            <h4> {{datosart?.ic_nombre}} </h4>
-        </div>
-        <div class="col-3 d-flex justify-content-end">
-            <div class="btn-group" role="group" aria-label="Default button group">
-                <button type="button" class="btn btn-outline-primary" (click)="retornar()"
-                        title="Actualiza listado de productos y servicios">
-                    <i class="fa fa-arrow-left"></i>
-                </button>
-                <button type="button" class="btn btn-outline-primary" (click)="editar()"
-                        title="Editar la información de este producto o servicio">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button type="button" class="btn btn-outline-primary" (click)="elminar()"
-                        title="Borrar este producto o servicio">
-                    <i class="fa fa-trash"></i>
-                </button>
+<h1 class="bd-title">
+    <i class="fa-solid fa-lightbulb"></i>
+    Detalle del {{datosart.tipic_id===1?'producto':'servicio'}}</h1>
+<div class="bd-grid">
+    <div class="bd-grid-content">
+
+        <app-artview [codart]="artId" (evDatosArtLoaded)="onDatosArtLoaded($event)"></app-artview>
+
+        <div class="mt-2 card border-secondary" *ngIf="isShowKardex">
+            <div class="card-header">
+                Kardex
             </div>
+
+            <p-table [value]="kardex" [paginator]="true" [rows]="10" tableStyleClass="table table-sm table-hover table-striped table-bordered fusay-table">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>
+                            <span class="fontsizesm">Fecha</span>
+                        </th>
+                        <th>
+                            <span class="fontsizesm">Evento</span>
+                        </th>
+                        <th>
+                            <span class="fontsizesm">Valor Antes</span>
+                        </th>
+                        <th>
+                            <span class="fontsizesm">Valor Despues</span>
+                        </th>
+                        <th>
+                            <span class="fontsizesm">Referencia</span>
+                        </th>
+                        <th>
+                            <span class="fontsizesm">Observación</span>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData>
+                    <tr>
+                        <td>
+                            <span class="fontsizexsm">{{rowData.fecha_crea}}</span>
+                        </td>
+                        <td>
+                            <span class="fontsizexsm">{{rowData.evento}}</span>
+                        </td>
+                        <td>
+                            <span class="fontsizexsm">{{rowData.ica_valantes}}</span>
+                        </td>
+                        <td>
+                            <span class="fontsizexsm">{{rowData.ica_valdespues}}</span>
+                        </td>
+                        <td>
+                            <span class="fontsizexsm">{{rowData.referente}}</span>
+                        </td>
+                        <td>
+                            <span class="fontsizexsm">{{rowData.ica_obs}}</span>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </div>
+
     </div>
-
-    <app-artview [codart]="artId" (evDatosArtLoaded)="onDatosArtLoaded($event)"></app-artview>
-
-    <div class="mt-2">
-        <button class="btn btn-outline-success" (click)="verKardex()">Ver Kardex</button>
-    </div>
-    <div class="mt-2 card border-secondary" *ngIf="isShowKardex">
-        <div class="card-header">
-            Kardex
+    <div class="bd-grid-actions">
+        <div class="d-grid mt-1 gap-2">
+            <button type="button" class="btn  btn-outline-dark"
+                    (click)="elminar()">
+                <i class="fa fa-trash"></i> <span class="ms-2">Eliminar</span>
+            </button>
+            <button type="button" class="btn  btn-outline-dark"
+                    (click)="editar()">
+                <i class="fas fa-edit"></i> <span class="ms-2">Editar</span>
+            </button>
+            <button type="button" class="btn  btn-outline-dark"
+                    (click)="verKardex()">
+                <i class="fa-solid fa-clock-rotate-left"></i> <span class="ms-2">Kardex</span>
+            </button>
+            <button type="button" class="btn btn-outline-primary"
+                    (click)="retornar()">
+                <i class="fa fa-arrow-left"></i> <span class="ms-2">Regresar</span>
+            </button>
         </div>
-        <div class="table table-responsive">
-            <table class="table table-sm table-bordered">
-                <thead>
-                <tr>
-                    <th>
-                        <span class="fontsizesm">Fecha</span>
-                    </th>
-                    <th>
-                        <span class="fontsizesm">Evento</span>
-                    </th>
-                    <th>
-                        <span class="fontsizesm">Valor Antes</span>
-                    </th>
-                    <th>
-                        <span class="fontsizesm">Valor Despues</span>
-                    </th>
-                    <th>
-                        <span class="fontsizesm">Referencia</span>
-                    </th>
-                    <th>
-                        <span class="fontsizesm">Observación</span>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let fila of kardex">
-                    <td>
-                        <span class="fontsizexsm">{{fila.fecha_crea}}</span>
-                    </td>
-                    <td>
-                        <span class="fontsizexsm">{{fila.evento}}</span>
-                    </td>
-                    <td>
-                        <span class="fontsizexsm">{{fila.ica_valantes}}</span>
-                    </td>
-                    <td>
-                        <span class="fontsizexsm">{{fila.ica_valdespues}}</span>
-                    </td>
-                    <td>
-                        <span class="fontsizexsm">{{fila.referente}}</span>
-                    </td>
-                    <td>
-                        <span class="fontsizexsm">{{fila.ica_obs}}</span>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
 
-        </div>
     </div>
 </div>

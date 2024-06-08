@@ -40,6 +40,14 @@ export class CitasMedicasService extends BaseService {
         return this._doGetAction('listaatenciones', {ciruc});
     }
 
+    getAntecedentes(pac: number): Observable<any> {
+        return this._doGetAction('findhistantecedentes', {pac});
+    }
+
+    saveAntecedentes(pac, antecedentes) {
+        return this._doPostAction('saveantp', {pac, antecedentes});
+    }
+
     getDatosHistoriaByCod(codhistoria: any): Observable<any> {
         return this._doGetAction('findhistbycod', {codhistoria});
     }
@@ -81,4 +89,64 @@ export class CitasMedicasService extends BaseService {
     listarProximas(tipofecha: number, tipocita: number) {
         return this._doGetAction('proxcitas', {tipofecha, tipocita});
     }
+
+    calcularIMC(it: any, examsfisicos: any, resultIMC, fnthen) {
+        let datosAlertaImc: any = {};
+        let datosAlertaPresion: any = {};
+        let valorPeso: any = '0';
+        let valorTalla: any = '0';
+        let filaIMC: any;
+        examsfisicos.forEach(e => {
+            const nombredato = e.cmtv_nombre;
+            if (nombredato === 'EXFIS_PESO') {
+                valorPeso = e.valorreg;
+            } else if (nombredato === 'EXFIS_TALLA') {
+                valorTalla = e.valorreg;
+            } else if (nombredato === 'EXFIS_IMC') {
+                filaIMC = e;
+            }
+        });
+        const valorPesoNumber = Number(valorPeso);
+        const valorTallaNumber = Number(valorTalla);
+        let imc = Number('0');
+        if (valorTallaNumber !== 0) {
+            imc = valorPesoNumber / (valorTallaNumber * valorTallaNumber);
+        }
+        const imcRounded = imc.toFixed(2);
+        if (filaIMC) {
+            filaIMC.valorreg = imcRounded;
+            this.getDescValExamFisico(3, imcRounded).subscribe(resimc => {
+                if (resimc.status === 200) {
+                    const result = resimc.result;
+                    const color = resimc.color;
+                    datosAlertaImc = {msg: result, color};
+                    resultIMC.imc = datosAlertaImc;
+                    fnthen();
+                }
+            });
+        }
+
+        if (it.cmtv_nombre === 'EXFIS_IMC') {
+            this.getDescValExamFisico(3, imcRounded).subscribe(resa => {
+                if (resa.status === 200) {
+                    const result = resa.result;
+                    const color = resa.color;
+                    datosAlertaImc = {msg: result, color};
+                    resultIMC.imc = datosAlertaImc;
+                    fnthen();
+                }
+            });
+        } else if (it.cmtv_nombre === 'EXFIS_TA') {
+            this.getDescValExamFisico(1, it.valorreg).subscribe(resb => {
+                if (resb.status === 200) {
+                    const result = resb.result;
+                    const color = resb.color;
+                    datosAlertaPresion = {msg: result, color};
+                    resultIMC.presion = datosAlertaPresion;
+                    fnthen();
+                }
+            });
+        }
+    }
+
 }

@@ -1,22 +1,23 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { FinanCreditosService } from "src/app/services/finan/finacreditos.service";
-import { SwalService } from "src/app/services/swal.service";
-import { BaseComponent } from "../../shared/base.component";
-import { CtesFinanService } from "../ctesfina.service";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FinanCreditosService } from 'src/app/services/finan/finacreditos.service';
+import { SwalService } from 'src/app/services/swal.service';
+import { BaseComponent } from '../../shared/base.component';
+import { CtesFinanService } from '../ctesfina.service';
+import {FinanPagosViewComponent} from '../pagos/pagos-view/pagosview.component';
 
 
 @Component({
     selector: 'app-finacredet',
     styles: [
         `
-        .labelmj { 
+        .labelmj {
             width: 130px;
             float: left;
         }
         .labelmj:after { content: ": " }
 
-        .labelcred { 
+        .labelcred {
             width: 160px;
             float: left;
         }
@@ -30,21 +31,24 @@ export class FinanCredDetComponent extends BaseComponent implements OnInit {
     datoscred: any = {};
     referente: any = {};
     tablamor: Array<any> = [];
-    codcred: number = 0;
+    codcred = 0;
     currentTab = 1;
 
     estilos = {
-        1:'info',
-        2:'warning',
-        3:'info',
-        4:'secondary',
-        5:'success'
-    }
+        1: 'info',
+        2: 'warning',
+        3: 'info',
+        4: 'secondary',
+        5: 'success'
+    };
+
+    @ViewChild(FinanPagosViewComponent) child!: FinanPagosViewComponent;
+
     constructor(private credService: FinanCreditosService,
-        private router: Router,
-        private ctesFinanServ: CtesFinanService,
-        private swalService: SwalService,
-        private route: ActivatedRoute) {
+                private router: Router,
+                private ctesFinanServ: CtesFinanService,
+                private swalService: SwalService,
+                private route: ActivatedRoute) {
         super();
     }
 

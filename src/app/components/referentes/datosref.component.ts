@@ -149,7 +149,7 @@ import {CtesService} from '../../services/ctes.service';
                     </div>
                     <div class="col-md-3">
                         <div class="mt-3">
-                            <button class="btn btn-outline-secondary" (click)="editar()">
+                            <button class="btn btn-outline-dark" (click)="editar()">
                                 <i class="fa fa-edit"></i> Editar
                             </button>
                         </div>
@@ -171,10 +171,10 @@ import {CtesService} from '../../services/ctes.service';
                                            (keydown.enter)="buscarPaciente(false, 'perNombresInput')"
                                            id="perCirucInput">
                                     <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" type="button"
+                                        <button class="btn btn-outline-dark" type="button"
                                                 (click)="buscarPaciente(false, 'perNombresInput')"
                                                 title="Presiona este botón para buscar el paciente por numero de cédula, ruc o pasaporte ">
-                                            <span class="fa fa-search"></span>
+                                            <span class="fa-solid fa-magnifying-glass"></span>
                                         </button>
                                     </div>
                                 </div>
@@ -342,11 +342,11 @@ import {CtesService} from '../../services/ctes.service';
                 </div>
                 <div class="mt-1 d-flex justify-content-center">
                     <button class="btn btn-outline-primary" (click)="guardaDatosPaciente()">
-                        <i class="fa fa-save"></i> Guardar
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar
                     </button>
                     <button class="ms-4 btn btn-outline-primary" (click)="cancelarRegistro()"
                             *ngIf="codPaciente===0 || editando">
-                        <i class="fa fa-times"></i> Cancelar
+                        <i class="fa-solid fa-xmark"></i> Cancelar
                     </button>
                 </div>
             </div>
