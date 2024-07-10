@@ -178,7 +178,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     }
 
     checkInventarios(fila): boolean {
-        let continuar = true;
+        /*let continuar = true;
         if (this.ttransacc.tra_tipdoc === 1) {
             if (fila.tipic_id === 1) {
                 if (fila.dt_cant > fila.ice_stock) {
@@ -187,7 +187,8 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
                 }
             }
         }
-        return continuar;
+        return continuar;*/
+        return true;
     }
 
     recalcTotalFila(fila) {
@@ -382,7 +383,16 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     }
 
     cancelarCreaFactura() {
-        this.evCancela.emit('');
+        if (this.form.detalles && this.form.detalles.length > 0) {
+            this.swalService.fireDialog('¿Hay datos ingresados, seguro que desea cancelar?').then(confirm => {
+                    if (confirm.value) {
+                        this.evCancela.emit('');
+                    }
+                }
+            );
+        } else {
+            this.evCancela.emit('');
+        }
     }
 
     loadFormReferente() {

@@ -72,7 +72,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <div>
                                     <span>Monto:</span>
                                 </div>
@@ -81,13 +81,12 @@
                                        (keyup.enter)="onEnterMonto()"
                                        [(ngModel)]="formdetinst.dt_valor_in">
                             </div>
+                            <!--
                             <div class="col-md-2 pb-1 d-flex justify-content-end align-items-end">
                                 <div>
-                                    <button class="btn btn-outline-primary" [disabled]="!ctacontablesel" (click)="agregar()">
-                                        Agregar <i class="fa-solid fa-plus"></i>
-                                    </button>
+
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -205,6 +204,9 @@
         <div class="bd-grid-actions">
 
             <div class="d-grid mt-4 gap-2">
+                <button class="btn btn-outline-primary" [disabled]="!ctacontablesel" (click)="agregar()">
+                    Agregar <i class="fa-solid fa-plus"></i>
+                </button>
                 <button type="button" class="btn btn-outline-primary"
                         (click)="guardar()" [disabled]="detalles.length===0">
                     <i class="fa-solid fa-floppy-disk"></i> <span class="ms-2">Guardar</span>

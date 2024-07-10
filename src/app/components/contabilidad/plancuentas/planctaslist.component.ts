@@ -160,7 +160,7 @@ import { PrimeTreeUtil } from 'src/app/services/utils/treeutil.service';
                                     <div class="col-md-8">
                                         <input type="text" id="cta_ic_nombre" class="form-control"
                                                (keyup)="$event.target.value=$event.target.value.toUpperCase()"
-                                               autocomplete="false"
+                                               autocomplete="off"
                                                [(ngModel)]="formCrea.ic_nombre">
                                     </div>
                                 </div>

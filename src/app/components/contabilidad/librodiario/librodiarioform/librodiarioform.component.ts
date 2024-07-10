@@ -213,6 +213,7 @@ export class LibrodiarioformComponent implements OnInit {
     guardar() {
         if (this.detalles.length === 0) {
             this.swalService.fireToastError('Debe agregar items al asiento contable');
+            return;
         }
 
         if (this.formasiento.trn_fecregobj) {

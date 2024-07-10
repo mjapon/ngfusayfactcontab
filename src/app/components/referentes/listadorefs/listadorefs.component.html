@@ -1,10 +1,14 @@
 
 <div>
+    <div class="alert alert-info d-flex align-items-center" role="alert">
+        <i class="fa-solid fa-circle-info"></i>
+        <span class="ms-1">Puede buscar sus referentes ingresando solamente las <b>iniciales</b> de sus <i>nombres</i> o <i>apellidos</i></span>
+    </div>
     <div class="row">
         <div class="col-md">
             <input class="form-control form-rounded" id="buscaPacNomCiInput" type="text"
-                   autocomplete="false"
-                   placeholder="Busque pacientes por nombres o número de cédula" [(ngModel)]="filtro"
+                   autocomplete="off"
+                   placeholder="Busque por nombres, número de cédula o iniciales" [(ngModel)]="filtro"
                    (keyup)="onFiltroTyped()">
         </div>
         <div class="col-md-3">
@@ -30,14 +34,14 @@
                    (click)="selectPaciente(item)">
                     <div class="d-flex w-100 justify-content-between align-items-center">
                         <div class="avatar">
-                            <!--<i class="fa-solid fa-person avatar-ico" *ngIf="item.per_genero!==2"></i>
-                            <i class="fa-solid fa-person-dress avatar-ico" *ngIf="item.per_genero===2"></i>-->
-                            <span class="labelref label-{{randomStyle()}}">
+                            <span class="shadow shadow labelref label-{{randomStyles[getIndex(pacientesArray.indexOf(item))]}}">
                                 {{getIniciales(item.nomapel)}}
                             </span>
                         </div>
                         <div class="avatardet">
-                            <h6 class="mb-0">{{item.nomapel}}</h6>
+                            <h6 class="mb-0">
+                                <app-marklabel [label]="item.nomapel" [searchTerm]="filtro"></app-marklabel>
+                            </h6>
                             <div class="mb-0 text-muted">
                                 <h6>{{item.per_ciruc}}</h6>
                             </div>

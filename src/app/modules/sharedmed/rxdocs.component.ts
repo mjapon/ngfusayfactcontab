@@ -33,7 +33,7 @@ import {CtesService} from '../../services/ctes.service';
                                     <div class="p-fluid">
                                         <input type="text" class="form-control"
                                                [(ngModel)]="form.rxd_nombre" id="rxdNombresInput"
-                                               autocomplete="false" maxlength="80">
+                                               autocomplete="off" maxlength="80">
                                     </div>
                                 </div>
                                 <div class="d-flex flex-column mt-3"><span>Comentario:</span>

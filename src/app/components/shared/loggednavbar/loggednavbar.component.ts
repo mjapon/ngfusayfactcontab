@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FautService} from '../../../services/faut.service';
 import {NavigationEnd, NavigationStart, Router, RouterEvent} from '@angular/router';
 import {MenuItem} from 'primeng/api';
@@ -6,6 +6,7 @@ import {filter} from 'rxjs/operators';
 import {TtpdvService} from '../../../services/ttpdv.service';
 import {SwalService} from '../../../services/swal.service';
 import {SeccionService} from '../../../services/seccion.service';
+import {LocalStorageService} from '../../../services/local-storage.service';
 
 @Component({
     selector: 'app-loggednavbar',
@@ -23,10 +24,15 @@ export class LoggednavbarComponent implements OnInit {
     ttpdvs: Array<any> = [];
     currTdvcod = 1;
 
+    hideShowSide = true;
+
+    @Output() evHideMenu = new EventEmitter();
+
     constructor(private fautService: FautService,
                 private swalService: SwalService,
                 private seccionService: SeccionService,
                 private ttpdvService: TtpdvService,
+                private localStorage: LocalStorageService,
                 private router: Router) {
         this.userinfo = {};
         this.menuApp = [];
@@ -88,6 +94,14 @@ export class LoggednavbarComponent implements OnInit {
             }
         });
         this.isLogged = this.fautService.isAuthenticated();
+
+        const value = this.localStorage.getItem('sidehidemenu');
+        this.hideShowSide = true;
+        if (value === '1') {
+            this.hideShowSide = false;
+        }
+        this.evHideMenu.emit(this.hideShowSide);
+        console.log('value', value);
     }
 
     logout() {
@@ -135,5 +149,13 @@ export class LoggednavbarComponent implements OnInit {
 
     toggleSidebar() {
         this.isSideVisible = !this.isSideVisible;
+    }
+
+    sidebar() {
+        console.log('sidebar-->');
+        this.hideShowSide = !this.hideShowSide;
+        this.evHideMenu.emit(this.hideShowSide);
+        this.localStorage.setItem('sidehidemenu', this.hideShowSide ? '0' : '1');
+
     }
 }

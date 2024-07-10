@@ -667,7 +667,7 @@ export class MvcalendarComponent implements OnInit, OnChanges {
     }
 
     buscaPacs(event) {
-        this.personaService.buscarPorNomapelCiPag(event.query, 0).subscribe(res => {
+        this.personaService.buscarPorNomapelCiPag(event.query, 0, 0).subscribe(res => {
             if (res.status === 200) {
                 this.pacsFiltered = res.items;
             }

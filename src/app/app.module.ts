@@ -158,6 +158,7 @@ import {RippleModule} from 'primeng/ripple';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {ListadorefsComponent} from './components/referentes/listadorefs/listadorefs.component';
 import {AccordionModule} from 'primeng/accordion';
+import {MarklabelComponent} from './components/shared/marklabel/marklabel.component';
 
 
 
@@ -334,6 +335,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         BreadcrumbModule,
         NgOptimizedImage,
         AccordionModule,
+        MarklabelComponent,
         // SocketIoModule.forRoot(config)
     ],
     providers: [

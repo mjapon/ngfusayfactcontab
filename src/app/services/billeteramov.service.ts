@@ -22,8 +22,8 @@ export class BilleteramovService extends BaseService {
         return this._doPostAction(this.ctes.crear, form);
     }
 
-    listargrid(desde, hasta, tipo, cuenta, cuentabill, user) {
-        return this._doGetAction(this.ctes.listargrid, {desde, hasta, tipo, cuenta, cuentabill, user});
+    listargrid(desde, hasta, tipo, cuenta, cuentabill, user, limit, first) {
+        return this._doGetAction(this.ctes.listargrid, {desde, hasta, tipo, cuenta, cuentabill, user, limit, first});
     }
 
     getFormFiltros() {

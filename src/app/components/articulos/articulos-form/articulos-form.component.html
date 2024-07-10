@@ -1,5 +1,5 @@
 <h1 class="bd-title">
-    <i class="fa-solid fa-kiwi-bird"></i>
+    <i class="fa-solid fa-cookie"></i>
     {{ editing ? 'Editar ' + artFromDb.ic_nombre : 'Crear producto o servicio' }} </h1>
 
 <div>
@@ -190,7 +190,7 @@
                                             <tr>
                                                 <td>
                                                     <input type="text" (keyup)="onKeyupPorcentajeIncr()"
-                                                           autocomplete="false"
+                                                           autocomplete="off"
                                                            [(ngModel)]="artForm.asist_pre_porc.value"
                                                            id="porcIncAsistPre"
                                                            class="form-control form-control-sm">

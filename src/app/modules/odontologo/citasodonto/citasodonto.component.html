@@ -20,7 +20,7 @@
         </li>
     </ul>
     <div *ngIf="selectedSupTab===1">
-        <app-listadorefs (evCrearPaciente)="onCreaPaciente($event)"
+        <app-listadorefs (evCrearPaciente)="onCreaPaciente($event)" [tipo]="1"
                          (evSelPaciente)="onSelPaciente($event)"></app-listadorefs>
 
     </div>

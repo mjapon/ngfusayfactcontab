@@ -21,6 +21,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     isshowAppMenu: boolean;
     menuApp: MenuItem[];
     home: MenuItem | undefined;
+    sidebar = true;
 
     constructor(private router: Router,
                 private fautService: FautService,
@@ -143,5 +144,9 @@ export class AppComponent implements OnInit, AfterViewInit {
                 }
             });
         });
+    }
+
+    onHideMenu($event: any) {
+        this.sidebar = $event;
     }
 }

@@ -61,7 +61,7 @@ export class BuscarefComponent extends BaseComponent {
     findRefs($event: any) {
         this.lastquery = $event.query;
         this.form.lastquery = this.lastquery;
-        this.personService.buscarPorNomapelCiPag($event.query, 0).subscribe(res => {
+        this.personService.buscarPorNomapelCiPag($event.query, 0,0).subscribe(res => {
             if (this.isResultOk(res)) {
                 this.personFiltered = res.items;
             }

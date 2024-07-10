@@ -631,11 +631,8 @@ form .form-group:firs|t-child .floating-label-form-group {
 }
 
 .sidebar-footer{
-  //border:1px solid red;
-  height: 15vh;
   display:flex;
-  flex-direction:column-reverse;
-  align-items:center;
+  justify-content: center;
 }
 
 
@@ -654,18 +651,29 @@ form .form-group:firs|t-child .floating-label-form-group {
 }
 
 @media (max-width: 991px) {
-  .bd-sidebar {
-    display: none;
-  }
-}
-
-@media (max-width: 991px) {
   .bd-master-main {
     padding-top: 6rem;
     height: 100%;
     width: 100%;
     overflow-y: auto;
   }
+  .bd-sidebar {
+    display: none;
+  }
+  .bd-menu-side{
+    display: block;
+  }
+
+  .bd-menu-inline-side{
+    display: none;
+  }
+}
+
+.bd-master-main-full{
+  padding-top: 4rem;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
 }
 
 @media (min-width: 992px) {
@@ -677,9 +685,6 @@ form .form-group:firs|t-child .floating-label-form-group {
     width: 100%;
     overflow-y: auto;
   }
-}
-
-@media (min-width: 992px) {
   .bd-grid {
     display:grid;
     grid-template-areas: "main actions";
@@ -688,7 +693,14 @@ form .form-group:firs|t-child .floating-label-form-group {
     height: 100%;
     width: 100%;
   }
+  .bd-menu-side{
+    display: none;
+  }
+  .bd-menu-inline-side{
+    display: block;
+  }
 }
+
 
 .bd-grid-content {
   grid-area: main;

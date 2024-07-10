@@ -3,16 +3,16 @@
         <div class="row mt-2">
             <div class="col-md">
                 <div class="row quitaPaddingMargin mt-2">
-                    <div class="col-md-3 quitaPaddingMargin" *ngIf="secciones.length>1">
+                    <div class="col-md-3 quitaPaddingMargin" *ngIf="secciones&&secciones.length>1">
                         <div class="d-flex">
                             <span class="me-2">Sección:</span>
-                            <span class="datouser rounded px-2"> {{seccion.sec_nombre}} </span>
+                            <span class="datouser rounded px-2"> {{seccion?.sec_nombre}} </span>
                         </div>
                     </div>
                     <div class="col-md-5 quitaPaddingMargin">
                         <div class="d-flex">
                             <span class="text-primary me-2">Bienvenid&#64;</span>
-                            <span class="datouser rounded px-2"> {{userinfo.per_nombres}} {{userinfo.per_apellidos}} </span>
+                            <span class="datouser rounded px-2"> {{userinfo?.per_nombres}} {{userinfo?.per_apellidos}} </span>
                         </div>
                     </div>
                     <div class="col-md-4 quitaPaddingMargin">
@@ -57,7 +57,7 @@
 
 
                 <div class="row mt-4">
-                    <div class="col-md-4" *ngIf="secciones.length>1">
+                    <div class="col-md-4" *ngIf="secciones&&secciones.length>1">
                         <div>
                             <span class="text-muted"> Secciones Disponibles: </span>
                         </div>
@@ -74,7 +74,7 @@
                     <div class="col-md">
                         <div  *ngIf="!isLoading" class="d-flex justify-content-end align-content-end h-100">
                         <span class="mt-5">
-                            Registrado a nombre de: {{datosempresa.emp_razonsocial}}
+                            Registrado a nombre de: {{datosempresa?.emp_razonsocial}}
                         </span>
                         </div>
                     </div>

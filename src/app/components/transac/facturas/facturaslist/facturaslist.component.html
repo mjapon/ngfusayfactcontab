@@ -1,6 +1,6 @@
 <h1 class="bd-title">
     <i class="fa-solid fa-table-list"></i>
-    {{title}} <span *ngIf="grid?.data"> ({{grid.data.length}}) </span></h1>
+    {{title}} </h1>
 
 <div class="row mt-2">
     <div class="col-md-3">
@@ -18,20 +18,25 @@
     <div class="col-md-4">
         <div class="input-group">
             <input type="text" class="form-control" id="buscaInput" (keyup)="doFilter($event)" [(ngModel)]="filtro"
-                   autocomplete="false"
+                   autocomplete="off"
                    placeholder="Buscar comprobante por número o por referente">
-            <button class="btn btn-outline-primary" type="button" id="buttonSearh" (click)="listar()"
+            <button class="btn btn-outline-secondary" *ngIf="filtro" type="button" id="button-clear" (click)="limpiar()"
+                    title="Limpiar filtro">
+                <i class="fa-solid fa-times"></i>
+            </button>
+            <button class="btn btn-outline-secondary" type="button" id="buttonSearh" (click)="listar()"
                     title="Buscar comprobante">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </div>
     </div>
-    <div class="col-md-2 d-flex flex-row-reverse">
+    <div class="col-md-2 d-grid">
 
-        <div class="ms-1 btn-group btn-group-sm dropend" *ngIf="tracodigo!==7">
+        <div class="ms-1 btn-group btn-group-sm dropdown" *ngIf="tracodigo!==7">
             <button type="button" class="btn btn-outline-primary dropdown-toggle"
+                    title="Registrar nueva factura o nota de venta"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa-solid fa-plus"></i> Crear
+                <span class="px-4">Crear</span>
             </button>
             <div class="dropdown-menu">
                 <a href="#" class="dropdown-item" (click)="goToFormFact(1, $event)"> Factura </a>
@@ -40,19 +45,28 @@
         </div>
 
         <button type="button" class="btn btn-outline-primary" (click)="goToForm()" *ngIf="tracodigo===7"
-                title="Registrar un nuevo producto o servicio">
-            Crear <i class="fa-solid fa-plus"></i>
+                title="Registrar nueva factura de compra">
+            <span class="px-4"> Crear <i class="fa-solid fa-plus"></i> </span>
         </button>
     </div>
 </div>
 <div class="mt-4">
-    <div *ngIf="isLoading">
+    <!--<div *ngIf="isLoading">
         <app-loading></app-loading>
+    </div>-->
+    <!--<div *ngIf="!isLoading">-->
+    <div>
+        <span class="fst-italic text-body-secondary">Total de registros {{totalRecord}}</span>
     </div>
-    <div *ngIf="!isLoading">
-        <p-table [value]="grid.data" [paginator]="true" [rows]="15" selectionMode="single" [(selection)]="selectedItem"
+    <div>
+        <p-table [value]="grid.data" [paginator]="true" [rows]="rows" selectionMode="single" [(selection)]="selectedItem"
                  (onRowSelect)="onRowSelect($event)"
+                 [totalRecords]="totalRecord"
+                 [lazy]="true"
+                 #transaccTable
+                 [loading]="isLoading"
                  [resizableColumns]="true"
+                 (onLazyLoad)="doLazyLoad($event)"
                  tableStyleClass="table table-hover table-striped table-bordered fusay-table"
                  [(contextMenuSelection)]="selectedItem"
                  (onRowUnselect)="onUnRowSelect($event)">
@@ -132,7 +146,7 @@
 
 
 <div *ngIf="isShowDetallesFactura">
-    <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '90vw'}" [baseZIndex]="10000"
+    <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '60vw'}" [baseZIndex]="10000"
               [(visible)]="isShowDetallesFactura">
         <app-facturaview [trncod]="codFacturaSel" (evBtnClosed)="closeDetFact()" (evAnulado)="listar()"
                          (evEditar)="onEditar($event)" [isPermAnul]="true" [isPermEdit]="true"

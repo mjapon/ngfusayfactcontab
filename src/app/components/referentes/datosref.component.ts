@@ -167,7 +167,7 @@ import {CtesService} from '../../services/ctes.service';
                                 <div class="input-group">
                                     <input type="text" class="form-control"
                                            [(ngModel)]="paciente.per_ciruc"
-                                           (blur)="verificaPacienteRegistrado()" autocomplete="false"
+                                           (blur)="verificaPacienteRegistrado()" autocomplete="off"
                                            (keydown.enter)="buscarPaciente(false, 'perNombresInput')"
                                            id="perCirucInput">
                                     <div class="input-group-append">
@@ -198,7 +198,7 @@ import {CtesService} from '../../services/ctes.service';
                             <div class="col-12">
                                 <input type="text" class="form-control"
                                        [(ngModel)]="paciente.per_nombres" id="perNombresInput"
-                                       autocomplete="false">
+                                       autocomplete="off">
                             </div>
                         </div>
                         <div class="row dato-fila">
@@ -208,7 +208,7 @@ import {CtesService} from '../../services/ctes.service';
                             <div class="col-12">
                                 <input type="text" class="form-control"
                                        [(ngModel)]="paciente.per_apellidos"
-                                       autocomplete="false">
+                                       autocomplete="off">
                             </div>
                         </div>
                         <div class="row dato-fila" *ngIf="!isProveedor()">
@@ -288,7 +288,7 @@ import {CtesService} from '../../services/ctes.service';
                             <div class="col-12">
                                 <input type="text" class="form-control"
                                        [(ngModel)]="paciente.per_direccion"
-                                       autocomplete="false" maxlength="80">
+                                       autocomplete="off" maxlength="80">
                             </div>
                         </div>
                         <div class="row dato-fila" *ngIf="!isProveedor()">
@@ -316,7 +316,7 @@ import {CtesService} from '../../services/ctes.service';
                             <div class="col-12">
                                 <input type="text" class="form-control"
                                        [(ngModel)]="paciente.per_email"
-                                       autocomplete="false">
+                                       autocomplete="off">
                             </div>
                         </div>
                         <div class="row dato-fila">

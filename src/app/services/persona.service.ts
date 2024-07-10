@@ -39,8 +39,8 @@ export class PersonaService extends BaseService {
         return this._doGetAction(this.ctes.buscaporidfull, {perid});
     }
 
-    buscarPorNomapelCiPag(filtro: string, pag: number) {
-        return this._doGetAction(this.ctes.filtropag, {filtro, pag});
+    buscarPorNomapelCiPag(filtro: string, pag: number, tipo: number) {
+        return this._doGetAction(this.ctes.filtropag, {filtro, pag, tipo});
     }
 
     auxGetEndpointPerid(perid) {

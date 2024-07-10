@@ -32,15 +32,15 @@
                     {{ rowData[item['field']] }}
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-outline-dark" style="margin-right: 5px" (click)="cambiarEstado(rowData)"
+                    <button class="btn btn-sm btn-outline-primary me-2"  (click)="cambiarEstado(rowData)"
                             title="{{rowData.us_estado===0?'Desactivar':'Activar'}}">
                         <i class="fas {{rowData.us_estado===0?'fa-trash':'fa-toggle-on'}}"></i>
                     </button>
-                    <button class="btn btn-sm btn-outline-dark" (click)="editarRow(rowData)"
+                    <button class="btn btn-sm btn-outline-primary me-2" (click)="editarRow(rowData)"
                             title="Editar Roles del sistema">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-sm btn-outline-dark" title="Cambiar clave" (click)="cambiarClave(rowData)">
+                    <button class="btn btn-sm btn-outline-primary" title="Cambiar clave" (click)="cambiarClave(rowData)">
                         <i class="fas fa-key"></i>
                     </button>
                 </td>

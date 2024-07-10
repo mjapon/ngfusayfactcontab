@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {DomService} from '../../services/dom.service';
 
 @Component({
     selector: 'app-referentes',
@@ -14,11 +15,12 @@ import {Router} from '@angular/router';
 })
 export class ReferenteslistComponent implements OnInit {
 
-    constructor(private router: Router) {
+    constructor(private router: Router, private domService: DomService) {
 
     }
 
     ngOnInit(): void {
+        this.domService.setFocusTm('buscaPacNomCiInput',500);
     }
 
     onSelPaciente($event: any) {

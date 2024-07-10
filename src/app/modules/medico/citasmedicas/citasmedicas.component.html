@@ -24,7 +24,7 @@
         </ul>
 
         <div id="RegistrarHistoria" *ngIf="selectedSupTab===1">
-            <app-listadorefs (evCrearPaciente)="onCreaPaciente($event)"
+            <app-listadorefs (evCrearPaciente)="onCreaPaciente($event)" [tipo]="1"
                              (evSelPaciente)="selPacFromLista($event)"></app-listadorefs>
         </div>
 

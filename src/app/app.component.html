@@ -1,9 +1,9 @@
 <app-fusaynavbar *ngIf="!isLogged && !isLoggedFacte"></app-fusaynavbar>
-<app-loggednavbar *ngIf="isLogged && !isLoggedFacte"></app-loggednavbar>
+<app-loggednavbar (evHideMenu)="onHideMenu($event)" *ngIf="isLogged && !isLoggedFacte"></app-loggednavbar>
 <app-facteloggedhead *ngIf="!isLogged && isLoggedFacte"></app-facteloggedhead>
 
 <div>
-    <p-toast position="top-center"></p-toast>
+    <p-toast position="bottom-left"></p-toast>
     <p-blockUI [blocked]="blocked">
         <div class="loading-container">
             <p-progressSpinner></p-progressSpinner>
@@ -14,16 +14,17 @@
     </p-blockUI>
 </div>
 
-<div [ngClass]="{'bd-layout':isLogged}">
-    <aside class="bd-sidebar" *ngIf="isLogged">
+<div [ngClass]="{'bd-layout':isLogged && sidebar}">
+
+    <aside class="bd-sidebar" *ngIf="isLogged && sidebar">
         <div>
             <p-panelMenu [model]="menuApp" styleClass="w-full md:w-20rem"/>
-            <div class="sidebar-footer">
+            <div class="sidebar-footer mt-4">
                 <span class="text-secondary">Mavil &trade; 2024</span>
             </div>
         </div>
     </aside>
-    <main [ngClass]="{'bd-master-main':isLogged}">
+    <main [ngClass]="{'bd-master-main':isLogged && sidebar, 'bd-master-main-full':!sidebar}">
         <div class="container">
             <router-outlet></router-outlet>
         </div>

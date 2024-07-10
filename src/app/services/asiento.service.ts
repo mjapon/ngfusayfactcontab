@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BaseService } from './base-service';
-import { CtesService } from './ctes.service';
-import { FautService } from './faut.service';
-import { LocalStorageService } from './local-storage.service';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {BaseService} from './base-service';
+import {CtesService} from './ctes.service';
+import {FautService} from './faut.service';
+import {LocalStorageService} from './local-storage.service';
 
 
 @Injectable({
@@ -20,19 +20,19 @@ export class AsientoService extends BaseService {
     }
 
     getDoc(trncod: number, foredit = 0) {
-        return this._doGetAction(this.ctes.gdetdoc, { trncod, foredit });
+        return this._doGetAction(this.ctes.gdetdoc, {trncod, foredit});
     }
 
     getFormCab(traCod: number) {
-        return this._doGetAction(this.ctes.formcab, { tra_cod: traCod });
+        return this._doGetAction(this.ctes.formcab, {tra_cod: traCod});
     }
 
     auxListarFacturas(per, clase) {
-        return this._doGetAction(this.ctes.gfact, { per, clase });
+        return this._doGetAction(this.ctes.gfact, {per, clase});
     }
 
-    listarGridVentas(desde, hasta, filtro, tracod, tipo) {
-        return this._doGetAction(this.ctes.gridventas, { desde, hasta, filtro, tracod, tipo });
+    listarGridVentas(desde, hasta, filtro, tracod, tipo, limit, first) {
+        return this._doGetAction(this.ctes.gridventas, {desde, hasta, filtro, tracod, tipo, limit, first});
     }
 
     crearDocumento(form: any) {
@@ -40,12 +40,12 @@ export class AsientoService extends BaseService {
     }
 
     anular(trncod: number, obs: string) {
-        const form = { trncod, obs };
+        const form = {trncod, obs};
         return this._doPostAction(this.ctes.anular, form);
     }
 
     duplicar(trncod: number) {
-        return this._doPostAction(this.ctes.duplicar, { trn_codigo: trncod });
+        return this._doPostAction(this.ctes.duplicar, {trn_codigo: trncod});
     }
 
     getAsientoForm() {
@@ -61,11 +61,11 @@ export class AsientoService extends BaseService {
     }
 
     getAsientos(desde, hasta, cta) {
-        return this._doGetAction(this.ctes.getasientos, { desde, hasta, cta });
+        return this._doGetAction(this.ctes.getasientos, {desde, hasta, cta});
     }
 
     listarMovsCtaContable(cta, desde, hasta) {
-        return this._doGetAction(this.ctes.getmovscta, { cta, desde, hasta });
+        return this._doGetAction(this.ctes.getmovscta, {cta, desde, hasta});
     }
 
     getFormLibroMayor() {
@@ -73,19 +73,19 @@ export class AsientoService extends BaseService {
     }
 
     getDatosAsiContab(cod: number) {
-        return this._doGetAction(this.ctes.getdatosasiconta, { cod });
+        return this._doGetAction(this.ctes.getdatosasiconta, {cod});
     }
 
-    getBalanceGeneral(desde, hasta, chkper='1') {
-        return this._doGetAction(this.ctes.getbalancegeneral, { desde, hasta,chkper });
+    getBalanceGeneral(desde, hasta, chkper = '1') {
+        return this._doGetAction(this.ctes.getbalancegeneral, {desde, hasta, chkper});
     }
 
     getEstadoResultados(desde, hasta) {
-        return this._doGetAction(this.ctes.getestadoresultados, { desde, hasta });
+        return this._doGetAction(this.ctes.getestadoresultados, {desde, hasta});
     }
 
     listarTransaccsBytTipo(tipo) {
-        return this._doGetAction(this.ctes.gettransaccs, { tipo });
+        return this._doGetAction(this.ctes.gettransaccs, {tipo});
     }
 
     imprimirFactura(trncod) {
@@ -120,20 +120,20 @@ export class AsientoService extends BaseService {
         });
     }
 
-    genPdfBanlance(items: Array<any>, periodo: string, resumen: any, titulo:string) {
+    genPdfBanlance(items: Array<any>, periodo: string, resumen: any, titulo: string) {
         const urlTomcat = this.ctes.urlTomcat;
         const uri = `${urlTomcat}/contable/genPdf`;//
-        const body = {'titulo':titulo,  'periodo': periodo, 'items': items, 'resumenItems': resumen };
+        const body = {'titulo': titulo, 'periodo': periodo, 'items': items, 'resumenItems': resumen};
         return this.http.post(uri, body, {
             responseType: 'arraybuffer'
         });
-        
+
     }
 
-    genExcelBalanceGeneral(items: Array<any>, periodo: string, titulo:string) {
+    genExcelBalanceGeneral(items: Array<any>, periodo: string, titulo: string) {
         const urlTomcat = this.ctes.urlTomcat;
         const uri = `${urlTomcat}/contable/genBalanceGeneral`;
-        const body = { 'titulo':titulo, 'periodo': periodo, 'items': items };
+        const body = {'titulo': titulo, 'periodo': periodo, 'items': items};
 
         return this.http.post(uri, body, {
             responseType: 'blob',
@@ -149,9 +149,8 @@ export class AsientoService extends BaseService {
     }
 
     getFormChangeSec(trncod) {
-        return this._doGetAction(this.ctes.formchangesec, { trncod });
+        return this._doGetAction(this.ctes.formchangesec, {trncod});
     }
 
-    
 
 }

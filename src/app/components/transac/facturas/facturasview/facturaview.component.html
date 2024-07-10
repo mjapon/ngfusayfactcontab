@@ -89,9 +89,9 @@
         <app-detfactview [detalles]="doc.detalles"></app-detfactview>
     </div>
 
-    <div class="mt-1">
-        <div class="row">
-            <div class="col-md-5">
+    <div class="mx-2">
+        <div class="row border rounded">
+            <div class="col-md-4">
                 <div>
                     <span class="fw-normal">Observación:</span>
                 </div>
@@ -99,7 +99,7 @@
                 <p *ngIf="doc.tasiento.trn_observ.length>0" style="white-space: pre-line" class="fontsizenr fw-normal">
                     {{doc.tasiento.trn_observ}}</p>
             </div>
-            <div class="col-md-3 border">
+            <div class="col-md-4 border-start border-end">
                 <div>
                     <span class="text-muted">PAGOS:</span>
                 </div>
@@ -122,36 +122,36 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 border">
+            <div class="col-md-4">
                 <div class="d-flex flex-column">
-                    <div class="row">
-                        <div class="col-md-8"><span class="fw-bold fontsizenr">Subtotal $:</span></div>
-                        <div class="col-md"><span class="fw-bold fontsizenr"> {{doc.totales.subtotal|number:'.4'}}
+                    <div class="row ">
+                        <div class="col-md-8"><span class="fw-bold fontsizenr">SUBTOTAL $:</span></div>
+                        <div class="col-md d-flex justify-content-end"><span class="fw-bold fontsizenr"> {{doc.totales.subtotal|number:'.4'}}
                             </span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-8">
-                            <span class="fw-bold fontsizenr">(-)Descuento $:</span>
+                            <span class="fw-bold fontsizenr">DESCUENTO $:</span>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md d-flex justify-content-end">
                             <span class="fw-bold fontsizenr"> {{doc.totales.descuentos|number:'.4'}} </span>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row ">
                         <div class="col-md-8">
-                            <span class="fw-bold fontsizenr">(+)Iva {{doc.tasiento.trn_impref * 100}}%
+                            <span class="fw-bold fontsizenr">IVA {{doc.tasiento.trn_impref * 100}}%
                                 de ${{doc.totales.subtotal12}}:</span>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md d-flex justify-content-end">
                             <span class="fw-bold fontsizenr"> {{doc.totales.iva|number:'.4'}} </span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-8">
-                            <span class="fw-bold">Total $:</span>
+                            <span class="fw-bold">TOTAL $:</span>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md d-flex justify-content-end">
                             <span class="fw-bold"> {{doc.totales.total|number:'.2'}} </span>
                         </div>
                     </div>
@@ -208,7 +208,7 @@
 </div>
 
 <div *ngIf="isShowChangeSec">
-    <p-dialog header="Cambio de sección" [modal]="true" [style]="{width: '50vw'}" [autoZIndex]="true"
+    <p-dialog header="Cambio de sección" [modal]="true" [style]="{width: '70vw'}" [autoZIndex]="true"
         [(visible)]="isShowChangeSec">
         <app-changesecdoc [trncod]="trncod" (evDoed)="onChangeSecDoed()" (evHide)="isShowChangeSec=false"></app-changesecdoc>
     </p-dialog>

@@ -21,14 +21,14 @@
         <div class="p-3" *ngIf="!isLoading">
             <div class="row" *ngIf="billeteras.length>0">
                 <div class="col-md-3 quitaPaddingMargin" *ngFor="let bill of billeteras">
-                    <div class="pt-3 pb-1 ps-3 pe-3 me-4 mb-2 hand  border rounded shadow d-flex flex-column">
+                    <div class="pt-3 pb-1 ps-3 pe-3 me-4 mb-2 hand shadow d-flex flex-column border rounded {{formfiltros.cuentabill==bill.ic_id?'bg-warning-subtle bg-gradient border-warning':''}}" >
                         <div (click)="showMovsBill(bill)">
-                            <span class="fontsizenr">{{bill.bil_code}}</span>
-                            <h6 class="quitaPaddingMargin fw-bold">{{bill.bil_nombre}}</h6>
+                            <span class="fontsizenr">{{ bill.bil_code }}</span>
+                            <h6 class="quitaPaddingMargin fw-bold">{{ bill.bil_nombre }}</h6>
                             <div class="d-flex">
                                 <span class="fw-bold" style="font-size: large">SALDO:</span>
                                 <span class="ms-2 fw-bold text-success"
-                                      style="font-size: large">{{bill.bil_saldo | number: '.2'}}</span>
+                                      style="font-size: large">{{ bill.bil_saldo | number: '.2' }}</span>
                             </div>
                         </div>
                         <div class="d-flex flex-row-reverse">
@@ -39,10 +39,10 @@
             </div>
             <div class="row" *ngIf="billeteras.length>1">
                 <div class="col quitaPaddingMargin d-flex flex-row">
-                    <div class="px-2 pt-2 d-flex flex-row"
+                    <div class="px-2 pt-2 d-flex flex-row "
                          title="Saldo total en todas las billeteras">
                         <h6 class="fw-bold">TOTAL: </h6>
-                        <h6 class="fw-bold ms-2 text-success">{{saldotot}}</h6>
+                        <h6 class="fw-bold ms-2 text-success">{{ saldotot }}</h6>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                 <h6 class="text-muted"> No tiene billeteras registradas </h6>
             </div>
         </div>
-        <div class="mt-3">
+        <div class="mt-3" *ngIf="formfiltros.cuentabill">
             <div class="d-flex flex-row">
                 <h6>Movimientos <i class="fa fa-comments-dollar"></i></h6>
 
@@ -149,18 +149,18 @@
             </div>
 
             <div class="mt-2 mb-5">
-                <div *ngIf="isLoadingMovs">
-                    <app-loading></app-loading>
-                </div>
-                <p-table *ngIf="!isLoadingMovs" [value]="grid.data" [paginator]="true" [rows]="10"
+                <p-table [value]="grid.data" [paginator]="true" [rows]="rows" #movsTable
                          selectionMode="single"
-                         [responsive]="true"
-                         [resizableColumns]="true">
+                         [totalRecords]="totalRecord"
+                         [lazy]="true"
+                         [loading]="isLoadingMovs"
+                         (onLazyLoad)="doLazyLoad($event)"
+                         tableStyleClass="table table-hover table-striped table-bordered fusay-table">
                     <ng-template pTemplate="header">
                         <tr>
                             <th *ngFor="let item of grid.cols" [pSortableColumn]="item.field" [ngSwitch]="item.field"
                                 [width]="item.width">
-                                <span class="fontsizesm">{{item.label}}</span>
+                                <span class="fontsizesm">{{ item.label }}</span>
                                 <p-sortIcon [field]="item.field"></p-sortIcon>
                             </th>
                             <th>
@@ -171,9 +171,9 @@
                     <ng-template pTemplate="body" let-rowData>
                         <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="verDetalles(rowData)">
                             <td *ngFor="let item of grid.cols" [width]="item.width">
-                                <span class="p-column-title">{{item.label}}</span>
+                                <span class="p-column-title">{{ item.label }}</span>
                                 <span class="fontsizesm">
-                                    {{rowData[item['field']]}}
+                                    {{ rowData[item['field']] }}
                                 </span>
                             </td>
                             <td>
@@ -195,146 +195,144 @@
                 </p-table>
             </div>
         </div>
-
     </div>
-</div>
 
-<p-dialog *ngIf="isShowNewBill" [header]="titleFormBill" [modal]="true" [style]="{width:'70vw'}"
-          [(visible)]="isShowNewBill">
-    <div *ngIf="isLoadingFormBill">
-        <app-loading></app-loading>
-    </div>
-    <div *ngIf="!isLoadingFormBill">
-        <div class="row">
-            <div class="col-md-3">
-                <span class="fw-normal"> <span class="text-danger">*</span> Número: </span>
-            </div>
-            <div class="col-md">
-                <div class="input-group">
-                    <input type="text" class="form-control"
-                           [disabled]="formbill.bil_autogencode===1 && formbill.bil_id===0"
-                           [ngClass]="{'is-invalid':(isFormBillSubmit && fieldHasError('bil_code'))}"
-                           [(ngModel)]="formbill.bil_code.value" id="bil_code">
-                    <button class="btn btn-outline-dark" (click)="toggleAutogencode()"><i
-                            class="fa fa-edit"></i></button>
+    <p-dialog *ngIf="isShowNewBill" [header]="titleFormBill" [modal]="true" [style]="{width:'70vw'}"
+              [(visible)]="isShowNewBill">
+        <div *ngIf="isLoadingFormBill">
+            <app-loading></app-loading>
+        </div>
+        <div *ngIf="!isLoadingFormBill">
+            <div class="row">
+                <div class="col-md-3">
+                    <span class="fw-normal"> <span class="text-danger">*</span> Número: </span>
+                </div>
+                <div class="col-md">
+                    <div class="input-group">
+                        <input type="text" class="form-control"
+                               [disabled]="formbill.bil_autogencode===1 && formbill.bil_id===0"
+                               [ngClass]="{'is-invalid':(isFormBillSubmit && fieldHasError('bil_code'))}"
+                               [(ngModel)]="formbill.bil_code.value" id="bil_code">
+                        <button class="btn btn-outline-dark" (click)="toggleAutogencode()"><i
+                                class="fa fa-edit"></i></button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-md-3">
-                <span class="fw-normal"> <span class="text-danger">*</span> Nombre: </span>
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <span class="fw-normal"> <span class="text-danger">*</span> Nombre: </span>
+                </div>
+                <div class="col-md">
+                    <input type="text" class="form-control"
+                           [(ngModel)]="formbill.bil_nombre.value"
+                           [ngClass]="{'is-invalid':(isFormBillSubmit && fieldHasError('bil_nombre'))}"
+                           id="bil_nombre">
+                </div>
             </div>
-            <div class="col-md">
-                <input type="text" class="form-control"
-                       [(ngModel)]="formbill.bil_nombre.value"
-                       [ngClass]="{'is-invalid':(isFormBillSubmit && fieldHasError('bil_nombre'))}"
-                       id="bil_nombre">
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <span class="fw-normal"> <span class="text-danger">*</span> Saldo Inicial: </span>
+                </div>
+                <div class="col-md">
+                    <input type="text" class="form-control"
+                           (focusin)="$event.target.select()"
+                           [disabled]="formbill.bil_id>0 && selBillHasMoves"
+                           [ngClass]="{'is-invalid':(isFormBillSubmit && fieldHasError('bil_saldoini')||evalPattern('bil_saldoini',numbersPattern))}"
+                           [(ngModel)]="formbill.bil_saldoini.value">
+                </div>
             </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-md-3">
-                <span class="fw-normal"> <span class="text-danger">*</span> Saldo Inicial: </span>
+            <div class="row mt-2" *ngIf="formbill.haycajasdisp===1 && formbill.bil_id===0">
+                <div class="col-md-3">
+                    <span class="fw-normal"> <span class="text-danger">*</span> Cta Contable: </span>
+                </div>
+                <div class="col-md">
+                    <p-dropdown [options]="cajasdisp" optionLabel="ic_nombre"
+                                optionValue="ic_id"
+                                [ngClass]="{'ng-invalid ng-dirty':(isFormBillSubmit && ctacontabhaserror())}"
+                                placeholder="Seleccione la cuenta contable para esta billetera"
+                                [(ngModel)]="formbill.ic_id.value"></p-dropdown>
+                </div>
             </div>
-            <div class="col-md">
-                <input type="text" class="form-control"
-                       (focusin)="$event.target.select()"
-                       [disabled]="formbill.bil_id>0 && selBillHasMoves"
-                       [ngClass]="{'is-invalid':(isFormBillSubmit && fieldHasError('bil_saldoini')||evalPattern('bil_saldoini',numbersPattern))}"
-                       [(ngModel)]="formbill.bil_saldoini.value">
-            </div>
-        </div>
-        <div class="row mt-2" *ngIf="formbill.haycajasdisp===1 && formbill.bil_id===0">
-            <div class="col-md-3">
-                <span class="fw-normal"> <span class="text-danger">*</span> Cta Contable: </span>
-            </div>
-            <div class="col-md">
-                <p-dropdown [options]="cajasdisp" optionLabel="ic_nombre"
-                            optionValue="ic_id"
-                            [ngClass]="{'ng-invalid ng-dirty':(isFormBillSubmit && ctacontabhaserror())}"
-                            placeholder="Seleccione la cuenta contable para esta billetera"
-                            [(ngModel)]="formbill.ic_id.value"></p-dropdown>
-            </div>
-        </div>
 
-        <div class="row mt-2" *ngIf="formbill.bil_id>0">
-            <div class="col-md-3">
-                <span class="fw-normal"> <span class="text-danger">*</span> Cta Contable: </span>
+            <div class="row mt-2" *ngIf="formbill.bil_id>0">
+                <div class="col-md-3">
+                    <span class="fw-normal"> <span class="text-danger">*</span> Cta Contable: </span>
+                </div>
+                <div class="col-md">
+                    <input type="text" class="form-control" disabled [(ngModel)]="formbill.ic_nombre">
+                </div>
             </div>
-            <div class="col-md">
-                <input type="text" class="form-control" disabled [(ngModel)]="formbill.ic_nombre">
-            </div>
-        </div>
 
-        <div class="row mt-2">
-            <div class="col-md-3">
-                <span class="fw-normal">Observación: </span>
-            </div>
-            <div class="col-md">
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <span class="fw-normal">Observación: </span>
+                </div>
+                <div class="col-md">
                 <textarea maxlength="1000" class="form-control"
                           [(ngModel)]="formbill.bil_obs.value"
                           name="bil_obs" id="bil_obs"
                           rows="5"></textarea>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3">
-                        <span class="fw-bold"
-                              title="Selecciones las secciones donde esta cuenta contable es visible">Secciones:</span>
-            </div>
-            <div class="col-md">
-                <div *ngFor="let itsec of formbill.secciones" class="d-flex flex-row">
-                    <p-checkbox [inputId]="itsec.seccion.sec_id" binary="true"
-                                [(ngModel)]="itsec.value"></p-checkbox>
-                    <label [for]="itsec.seccion.sec_id"
-                           class="ms-2 mt-1 hand">{{itsec.seccion.sec_nombre}}</label>
                 </div>
             </div>
-        </div>
 
+            <div class="row">
+                <div class="col-md-3">
+                        <span class="fw-bold"
+                              title="Selecciones las secciones donde esta cuenta contable es visible">Secciones:</span>
+                </div>
+                <div class="col-md">
+                    <div *ngFor="let itsec of formbill.secciones" class="d-flex flex-row">
+                        <p-checkbox [inputId]="itsec.seccion.sec_id" binary="true"
+                                    [(ngModel)]="itsec.value"></p-checkbox>
+                        <label [for]="itsec.seccion.sec_id"
+                               class="ms-2 mt-1 hand">{{ itsec.seccion.sec_nombre }}</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <p-footer *ngIf="!isLoadingFormBill">
+            <div class="d-flex flex-row-reverse">
+                <button class="btn btn-outline-dark me-3" (click)="cancelCreaBill()">
+                    <i class="fa-solid fa-xmark"></i>
+                    Cancelar
+                </button>
+
+                <button class="btn btn-outline-primary me-3" (click)="doSaveBill()">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    {{ formbill.bil_id === 0 ? 'Crear' : 'Actualizar' }}
+                </button>
+                <button class="btn btn-outline-primary me-3" *ngIf="formbill.bil_id>0" (click)="doDeleteBill()"
+                        [disabled]="selBillHasMoves">
+                    <i class="fa fa-trash"></i>
+                    Borrar
+                </button>
+            </div>
+
+
+        </p-footer>
+    </p-dialog>
+
+    <div *ngIf="isShowDetalleMov">
+        <p-dialog header="Detalles de la transacción" [style]="{width: '60vw'}" [autoZIndex]="false"
+                  [modal]="true"
+                  [(visible)]="isShowDetalleMov">
+            <app-ingegrview [codmov]="codmovsel" (evCerrarBtn)="closeModalDet($event)"
+                            (evAnula)="onAnulaView($event)" (evConfirma)="onConfirmaView($event)"></app-ingegrview>
+        </p-dialog>
     </div>
-    <p-footer *ngIf="!isLoadingFormBill">
-        <div class="d-flex flex-row-reverse">
-            <button class="btn btn-outline-dark me-3" (click)="cancelCreaBill()">
-                <i class="fa-solid fa-xmark"></i>
-                Cancelar
-            </button>
-            
-            <button class="btn btn-outline-primary me-3" (click)="doSaveBill()">
-                <i class="fa-solid fa-floppy-disk"></i>
-                {{formbill.bil_id === 0 ? 'Crear' : 'Actualizar'}}
-            </button>
-            <button class="btn btn-outline-primary me-3" *ngIf="formbill.bil_id>0" (click)="doDeleteBill()"
-                    [disabled]="selBillHasMoves">
-                <i class="fa fa-trash"></i>
-                Borrar
-            </button>
-        </div>
+
+    <div *ngIf="isShowDetAsi">
+        <p-dialog header="Detalles del asiento" [style]="{width: '60vw'}" [autoZIndex]="false"
+                  [modal]="true"
+                  [(visible)]="isShowDetAsi">
+            <app-asientoview [trncod]="filasel.trn_codigo" (evCerrar)="hideDetAsi()"
+                             (evAnulado)="loadMovimientos()"></app-asientoview>
+        </p-dialog>
+    </div>
 
 
-    </p-footer>
-</p-dialog>
-
-<div *ngIf="isShowDetalleMov">
-    <p-dialog header="Detalles de la transacción" [style]="{width: '95vw'}" [autoZIndex]="false"
-              [modal]="true"
-              [(visible)]="isShowDetalleMov">
-        <app-ingegrview [codmov]="codmovsel" (evCerrarBtn)="closeModalDet($event)"
-                        (evAnula)="onAnulaView($event)" (evConfirma)="onConfirmaView($event)"></app-ingegrview>
+    <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '60vw'}" [baseZIndex]="10000"
+              [(visible)]="isShowFactura">
+        <app-facturaview [trncod]="filasel.trn_codigo" (evBtnClosed)="closeDetallesFact()"></app-facturaview>
     </p-dialog>
-</div>
-
-<div *ngIf="isShowDetAsi">
-    <p-dialog header="Detalles del asiento" [style]="{width: '95vw'}" [autoZIndex]="false"
-              [modal]="true"
-              [(visible)]="isShowDetAsi">
-        <app-asientoview [trncod]="filasel.trn_codigo" (evCerrar)="hideDetAsi()"
-                         (evAnulado)="loadMovimientos()"></app-asientoview>
-    </p-dialog>
-</div>
-
-
-<p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '95vw'}" [baseZIndex]="10000"
-          [(visible)]="isShowFactura">
-    <app-facturaview [trncod]="filasel.trn_codigo" (evBtnClosed)="closeDetallesFact()"></app-facturaview>
-</p-dialog>

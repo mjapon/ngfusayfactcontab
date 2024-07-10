@@ -1,10 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {AsientoService} from '../../../../services/asiento.service';
 import {startOfMonth} from 'date-fns';
 import {FechasService} from '../../../../services/fechas.service';
 import {LocalStorageService} from '../../../../services/local-storage.service';
 import {DomService} from '../../../../services/dom.service';
+import {Table, TableLazyLoadEvent} from 'primeng/table';
 
 
 @Component({
@@ -12,18 +13,25 @@ import {DomService} from '../../../../services/dom.service';
     templateUrl: './facturaslist.component.html'
 })
 export class FacturaslistComponent implements OnInit {
+
+    @ViewChild('transaccTable', {static: false}) private dataTable: Table;
+
     title: any;
     filtro: string;
     isLoading: boolean;
     grid: any;
     selectedItem: any;
-    rowDataSel:any;
+    rowDataSel: any;
     isShowDetallesFactura: boolean;
     codFacturaSel: number;
     form: any = {};
     previustimer: any = 0;
-    totales: any;
+    totales: any = {};
     transaccs: Array<any> = [];
+    rows = 12;
+    page = 0;
+    totalRecord = 0;
+
     @Input() tracodigo: number;
     @Input() tipo: number;
 
@@ -47,11 +55,11 @@ export class FacturaslistComponent implements OnInit {
         const hasta = new Date();
         const desde = startOfMonth(hasta);
         this.form = {desde, hasta, tipo: this.tipo};
+        this.form.tracod = 0;
         this.asientoService.listarTransaccsBytTipo(this.tipo).subscribe(res => {
             if (res.status === 200) {
                 this.transaccs = res.items;
             }
-            this.form.tracod = 0;
             this.listar();
         });
     }
@@ -74,6 +82,16 @@ export class FacturaslistComponent implements OnInit {
     }
 
     listar() {
+        this.isLoading = true;
+        this.dataTable.reset();
+    }
+
+    limpiar() {
+        this.filtro = '';
+        this.listar();
+    }
+
+    updateTable() {
         let desde = '';
         let hasta = '';
         if (this.form.desde) {
@@ -83,10 +101,16 @@ export class FacturaslistComponent implements OnInit {
             hasta = this.fechasservice.formatDate(this.form.hasta);
         }
         this.isLoading = true;
-        this.asientoService.listarGridVentas(desde, hasta, this.filtro, this.form.tracod, this.tipo).subscribe(res => {
+        this.asientoService.listarGridVentas(desde, hasta, this.filtro, this.form.tracod,
+            this.tipo, this.rows, this.page).subscribe(res => {
             if (res.status === 200) {
                 this.grid = res.grid;
-                this.totales = res.totales;
+                if (res.grid.total) {
+                    this.totalRecord = res.grid.total;
+                }
+                if (this.page === 0) {
+                    this.totales = res.totales;
+                }
             }
             this.isLoading = false;
         });
@@ -110,7 +134,6 @@ export class FacturaslistComponent implements OnInit {
     }
 
     verRow(rowData) {
-        console.log('Datos de la factura:', rowData);
         this.rowDataSel = rowData;
         this.codFacturaSel = rowData.trn_codigo;
         this.isShowDetallesFactura = true;
@@ -121,9 +144,16 @@ export class FacturaslistComponent implements OnInit {
     }
 
     onEditar($event: any) {
+        console.log('on editar, ', $event, this.rowDataSel);
         this.closeDetFact();
         this.localStgServ.setItem('trncoded', $event);
-        console.log('this.rowDataSel', this.rowDataSel);
-        this.router.navigate(['trndocform', this.rowDataSel['tra_codigo'], 'e']);
+        this.router.navigate(['trndocform', this.rowDataSel.tra_codigo, 'e']);
+    }
+
+    doLazyLoad($event: TableLazyLoadEvent) {
+        if (this.form) {
+            this.page = $event.first;
+            this.updateTable();
+        }
     }
 }

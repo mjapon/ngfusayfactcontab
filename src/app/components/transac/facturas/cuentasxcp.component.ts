@@ -19,7 +19,7 @@ import {DomService} from '../../../services/dom.service';
                 <div class="input-group">
                     <input type="text" class="form-control" id="buscaInput" (keyup)="doFilter($event)"
                            [(ngModel)]="filtro"
-                           autocomplete="false"
+                           autocomplete="off"
                            placeholder="Buscar comprobante por número o por referente">
                     <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="button" id="buttonSearh" (click)="listar()"

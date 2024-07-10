@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PersonaService} from '../../../services/persona.service';
 import {DomService} from '../../../services/dom.service';
 
@@ -9,6 +9,7 @@ import {DomService} from '../../../services/dom.service';
 })
 export class ListadorefsComponent implements OnInit {
 
+    @Input() tipo = 0;
     @Output() evCrearPaciente = new EventEmitter<any>();
     @Output() evSelPaciente = new EventEmitter<any>();
 
@@ -18,6 +19,7 @@ export class ListadorefsComponent implements OnInit {
     currentPagPacientes: number;
     showAnim: boolean;
     hayMasFilasPac: boolean;
+    randomStyles = [];
 
     constructor(private personaService: PersonaService,
                 private domService: DomService) {
@@ -29,10 +31,15 @@ export class ListadorefsComponent implements OnInit {
         this.currentPagPacientes = 0;
         this.hayMasFilasPac = false;
         this.buscarPacientes();
+        for (let i = 0; i < 72; i++) {
+            this.randomStyles.push(Math.floor(Math.random() * 71) + 1);
+        }
     }
 
-    randomStyle() {
-        return Math.floor(Math.random() * 72) + 1;
+    getIndex(index) {
+        const rangeMin = 1;
+        const rangeMax = 72;
+        return Math.round(((index / (this.randomStyles.length - 1)) * (rangeMax - rangeMin)) + rangeMin);
     }
 
     filtroDelayFn(context) {
@@ -58,7 +65,7 @@ export class ListadorefsComponent implements OnInit {
 
     buscarPacientes() {
         this.showAnim = true;
-        this.personaService.buscarPorNomapelCiPag(this.filtro, this.currentPagPacientes).subscribe(res => {
+        this.personaService.buscarPorNomapelCiPag(this.filtro, this.currentPagPacientes, this.tipo).subscribe(res => {
             if (res.status === 200) {
                 this.pacientesArray.push.apply(this.pacientesArray, res.items);
                 this.hayMasFilasPac = res.hasMore;
@@ -84,7 +91,7 @@ export class ListadorefsComponent implements OnInit {
             return palabras[0][0] + palabras[2][0];
         } else if (palabras.length >= 2) {
             return palabras[0][0] + palabras[1][0];
-        } else if (palabras.length > 1) {
+        } else if (palabras.length > 0) {
             return nombreCompleto.substring(0, 2);
         }
 

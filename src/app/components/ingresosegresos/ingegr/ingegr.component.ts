@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {BilleteraService} from '../../../services/billetera.service';
 import {SwalService} from '../../../services/swal.service';
 import {DomService} from '../../../services/dom.service';
@@ -6,12 +6,16 @@ import {LoadingUiService} from '../../../services/loading-ui.service';
 import {Router} from '@angular/router';
 import {BilleteramovService} from '../../../services/billeteramov.service';
 import {FechasService} from '../../../services/fechas.service';
+import {Table, TableLazyLoadEvent} from 'primeng/table';
 
 @Component({
     selector: 'app-ingegr',
     templateUrl: './ingegr.component.html'
 })
 export class IngegrComponent implements OnInit {
+
+    @ViewChild('movsTable', {static: false}) private dataTable: Table;
+
     isLoading = false;
     billeteras = [];
     isShowNewBill = false;
@@ -38,6 +42,9 @@ export class IngegrComponent implements OnInit {
     isShowFactura = false;
     filasel: any = {};
     users: Array<any> = [];
+    rows = 12;
+    page = 0;
+    totalRecord: number;
 
     constructor(private billeteraService: BilleteraService,
                 private billmovService: BilleteramovService,
@@ -52,17 +59,19 @@ export class IngegrComponent implements OnInit {
     ngOnInit(): void {
         this.isLoading = false;
         this.loadBilleteras();
-        this.loadMovimientos();
     }
 
     loadBilleteras() {
         this.isLoading = true;
         this.billeteraService.listar().subscribe(res => {
+            this.isLoading = false;
             if (res.status === 200) {
                 this.billeteras = res.billeteras;
                 this.saldotot = res.saldotot;
+                if (this.billeteras && this.billeteras.length > 0) {
+                    this.showMovsBill(this.billeteras[0]);
+                }
             }
-            this.isLoading = false;
         });
     }
 
@@ -197,6 +206,11 @@ export class IngegrComponent implements OnInit {
 
     loadMovimientos() {
         this.isLoadingMovs = true;
+        this.dataTable.reset();
+    }
+
+    updateTable() {
+        this.isLoadingMovs = true;
         let desde = '';
         let hasta = '';
         let tipo = 0;
@@ -223,9 +237,12 @@ export class IngegrComponent implements OnInit {
             user = this.formfiltros.user;
         }
 
-        this.billmovService.listargrid(desde, hasta, tipo, cuenta, cuentabill, user).subscribe(res => {
+        this.billmovService.listargrid(desde, hasta, tipo, cuenta, cuentabill, user, this.rows, this.page).subscribe(res => {
             if (res.status === 200) {
                 this.grid = res.grid;
+                if (res.grid.total) {
+                    this.totalRecord = res.grid.total;
+                }
             }
             this.isLoadingMovs = false;
         });
@@ -321,5 +338,10 @@ export class IngegrComponent implements OnInit {
 
     onUsuarioSel($event: any) {
         console.log('On usuario sel:', $event);
+    }
+
+    doLazyLoad($event: TableLazyLoadEvent) {
+        this.page = $event.first;
+        this.updateTable();
     }
 }

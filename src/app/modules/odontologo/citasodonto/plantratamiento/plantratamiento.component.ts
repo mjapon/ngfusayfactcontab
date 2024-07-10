@@ -7,7 +7,6 @@ import {ArrayutilService} from '../../../../services/arrayutil.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
 import {NumberService} from '../../../../services/number.service';
 import {BaseComponent} from '../../../../components/shared/base.component';
-import {CompeleService} from 'src/app/services/compele.service';
 
 @Component({
     selector: 'app-plantratamiento',
