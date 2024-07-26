@@ -68,6 +68,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     codartsel = 0;
     isShowDetProd = false;
     showCreaNewRef = false;
+    isFacteEle = false;
 
     stateOptions: any[] = [{label: 'Consumidor Final', value: true},
         {label: 'Con datos', value: false}];
@@ -108,6 +109,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         this.isDisabledFormRef = false;
         this.artsearchedcount = 0;
         this.artsearched = false;
+        this.isFacteEle = false;
 
         this.factMsgSubs = this.facturaMsgService.message.subscribe(msg => {
             if (msg) {
@@ -311,7 +313,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
                                     }
                                 });
                             }
-                            let compelenviado = res.compelenviado || false;
+                            const compelenviado = res.compelenviado || false;
                             if (compelenviado) {
                                 console.log('Se envio comprobante electronico', res);
                                 if (!res.is_cons_final) {
@@ -455,6 +457,8 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
                 this.impuestos = res0.impuestos;
                 this.numberService.setIva(this.impuestos.iva);
                 this.seccionSel = res0.secid;
+                this.isFacteEle = ((res0.sec_tipoamb || 0) > 0 || (res0.alm_tipoamb || 0))
+                    && this.ttransacc.tra_codigo === 1;
             }
 
             if (this.isResultOk(res1)) {

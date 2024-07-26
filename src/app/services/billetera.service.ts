@@ -33,6 +33,10 @@ export class BilleteraService extends BaseService {
         return this._doPost(this.getHOT({accion: 'update'}), form);
     }
 
+    totalizar(cta) {
+        return this._doPost(this.getHOT({accion: 'recalc'}), {cta});
+    }
+
     anular(bilid) {
         return this._doPost(this.getHOT({accion: 'anular'}), {bil_id: bilid});
     }

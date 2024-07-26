@@ -34,6 +34,7 @@
                                 <span class="fw-bold">Fecha:</span>
                             </div>
                             <p-calendar [(ngModel)]="form.form_cab.trn_fecregobj" [showIcon]="false"
+                                        [disabled]="isFacteEle"
                                         class="ms-2 p-inputtext-sm" [maxDate]="currentdate" inputId="trn_fecregobj"
                                         [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2100"
                                         dateFormat="dd/mm/yy">
@@ -438,12 +439,14 @@
     <div class="mt-3 d-flex flex-row-reverse">
         <button class="btn btn-outline-secondary" (click)="isShowDetProd=false">
             <i class="fa fa-times"></i>
-            Cerrar</button>
+            Cerrar
+        </button>
 
     </div>
 </p-dialog>
 
-<p-dialog [header]="ttransacc.tra_codigo===7?'Datos del proveedor':'Datos del cliente'" [modal]="true" [style]="{width:'50vw'}" [(visible)]="showCreaNewRef">
+<p-dialog [header]="ttransacc.tra_codigo===7?'Datos del proveedor':'Datos del cliente'" [modal]="true"
+          [style]="{width:'50vw'}" [(visible)]="showCreaNewRef">
 
     <div>
         <app-buscaref [form]="formautoref" (evOnEnterRef)="onEnterRef($event)"

@@ -45,6 +45,7 @@ export class IngegrComponent implements OnInit {
     rows = 12;
     page = 0;
     totalRecord: number;
+    selectedbill: any = {};
 
     constructor(private billeteraService: BilleteraService,
                 private billmovService: BilleteramovService,
@@ -101,6 +102,20 @@ export class IngegrComponent implements OnInit {
         }
     }
 
+    doRecalc() {
+        const msg = '¿Seguro que desea recalcular los saldos para esta billetera?';
+        if (confirm(msg)) {
+            this.loadingUiService.publishBlockMessage();
+            this.billeteraService.totalizar(this.selectedbill.ic_id).subscribe(res => {
+                if (res.status === 200) {
+                    this.isShowNewBill = false;
+                    this.swalService.fireToastSuccess(res.msg);
+                    this.loadMovimientos();
+                }
+            });
+        }
+    }
+
     doSaveBill() {
         this.isFormBillSubmit = true;
 
@@ -153,6 +168,7 @@ export class IngegrComponent implements OnInit {
     }
 
     showDetBill(bill) {
+        this.selectedbill = bill;
         this.titleFormBill = 'Datos de la billetera';
         this.selBillHasMoves = false;
         this.billeteraService.getFormSecs(bill.ic_id).subscribe(res => {

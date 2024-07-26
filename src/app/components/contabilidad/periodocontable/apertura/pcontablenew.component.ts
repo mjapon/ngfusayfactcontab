@@ -143,7 +143,7 @@ export class PcontableNewComponent extends BaseComponent implements OnInit {
     }
 
     createItemAsiento(cta, dt_debito, total) {
-        let newAsiRow = this.domService.clonarObjeto(this.formdet)
+        let newAsiRow = this.domService.clonarObjeto(this.formdet);
         newAsiRow.cta_codigo = cta.ic_id;
         newAsiRow.ic_nombre = cta.ic_nombre;
         newAsiRow.ic_code = cta.ic_code;

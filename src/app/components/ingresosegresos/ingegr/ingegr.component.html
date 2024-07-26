@@ -292,24 +292,30 @@
 
         </div>
         <p-footer *ngIf="!isLoadingFormBill">
-            <div class="d-flex flex-row-reverse">
-                <button class="btn btn-outline-dark me-3" (click)="cancelCreaBill()">
-                    <i class="fa-solid fa-xmark"></i>
-                    Cancelar
-                </button>
+            <div class="d-flex justify-content-between">
+                <div class="d-flex">
+                    <button class="btn btn-outline-danger" (click)="doRecalc()">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                        Corregir Saldos
+                    </button>
+                </div>
 
-                <button class="btn btn-outline-primary me-3" (click)="doSaveBill()">
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    {{ formbill.bil_id === 0 ? 'Crear' : 'Actualizar' }}
-                </button>
-                <button class="btn btn-outline-primary me-3" *ngIf="formbill.bil_id>0" (click)="doDeleteBill()"
-                        [disabled]="selBillHasMoves">
-                    <i class="fa fa-trash"></i>
-                    Borrar
-                </button>
+                <div class="d-flex flex-row-reverse">
+                    <button class="btn btn-outline-dark me-3" (click)="cancelCreaBill()">
+                        <i class="fa-solid fa-xmark"></i>
+                        Cancelar
+                    </button>
+                    <button class="btn btn-outline-primary me-3" (click)="doSaveBill()">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        {{ formbill.bil_id === 0 ? 'Crear' : 'Actualizar' }}
+                    </button>
+                    <button class="btn btn-outline-primary me-3" *ngIf="formbill.bil_id>0" (click)="doDeleteBill()"
+                            [disabled]="selBillHasMoves">
+                        <i class="fa fa-trash"></i>
+                        Borrar
+                    </button>
+                </div>
             </div>
-
-
         </p-footer>
     </p-dialog>
 
