@@ -8,7 +8,7 @@
             </div>
             <div class="d-flex justify-content-between">
                 <span class="leymes noselect">
-                    {{mesString}}
+                    {{ mesString }}
                 </span>
                 <div class="d-flex justify-content-around mt-1">
                     <div class="hand ps-2 pe-2" (click)="toggleMonth(-1)" title="Mes anterior">
@@ -22,14 +22,14 @@
             <div class="d-flex flex-column">
                 <div class="d-flex flex-row">
                     <div class="text-center smDiaCalLey" *ngFor="let day of diasSemana;">
-                        <span>{{day}}</span>
+                        <span>{{ day }}</span>
                     </div>
                 </div>
                 <div class="d-flex flex-row" *ngFor="let week of mesArray;">
                     <ng-container *ngFor="let day of week;">
                         <div (click)="setCalendarDate(day)"
                              class="hand noselect text-center smDiaCal {{day.csstd}}" [ngClass]="day.css">
-                            <span class="{{day.sm?'':'text-muted'}}" [ngClass]="day.bordecss">{{day.num}}</span>
+                            <span class="{{day.sm?'':'text-muted'}}" [ngClass]="day.bordecss">{{ day.num }}</span>
                         </div>
                     </ng-container>
                 </div>
@@ -76,7 +76,7 @@
         </div>
         <div class="col-md-10">
             <div class="d-flex justify-content-between mb-1">
-                <h4 class="quitaPaddingMargin fw-light">{{mesDateString}}</h4>
+                <h4 class="quitaPaddingMargin fw-light">{{ mesDateString }}</h4>
                 <div>
                     <button *ngIf="showListado" class="btn btn-sm btn-outline-primary me-2"
                             title="Rertorna a vista de listado de citas"
@@ -106,9 +106,9 @@
                         <th *ngFor="let dia of dias;" class="hand celdacal celdadia limitehora">
                             <div class="d-flex flex-column noselect ">
                                 <div class="d-flex justify-content-center" [title]="dia.fecha"><span
-                                        class="fw-light">{{dia.diastr|uppercase}}</span></div>
+                                        class="fw-light">{{ dia.diastr|uppercase }}</span></div>
                                 <div class="d-flex justify-content-center" [title]="dia.fecha"><span
-                                        class="ps-2 pe-2" [ngClass]="dia.css">{{dia.diames}}</span>
+                                        class="ps-2 pe-2" [ngClass]="dia.css">{{ dia.diames }}</span>
                                 </div>
                             </div>
                         </th>
@@ -122,16 +122,16 @@
                         <div *ngFor="let item of citas;" class="hand noselect border d-flex rounded cuadroEv"
                              (click)="onEventClic(item)"
                              [title]="item.texto" [style]="item.css">
-                            <span class="textoCitaCred"> {{item.texto}} </span>
+                            <span class="textoCitaCred"> {{ item.texto }} </span>
                         </div>
 
                         <div [style]="cssform" class="nuevoev noselect" *ngIf="clicfinish">
-                            <span class="textoEv text-muted"> {{textoNewEv}} </span>
+                            <span class="textoEv text-muted"> {{ textoNewEv }} </span>
                         </div>
                         <tr *ngFor="let pxrow of citasmatrix ? citasmatrix.slice(0,citasmatrix.length-1):[];">
                             <td class="hand celdacal celdahora noselect limitedia" *ngIf="addCol(pxrow)" rowspan="4">
                                 <div class="d-flex align-items-start w-100 h-100 noselect">
-                                    <span>{{gethoraStr(pxrow)}} </span>
+                                    <span>{{ gethoraStr(pxrow) }} </span>
                                 </div>
                             </td>
                             <td *ngFor="let px of pxrow;" class="hand celdacal celda noselect"
@@ -235,8 +235,8 @@
                                     <ng-template let-ref pTemplate="item">
                                         <div>
                                             <div class="d-flex justify-content-between">
-                                                <span>{{ref.nomapel}}</span>
-                                                <span>{{ref.per_ciruc}}</span>
+                                                <span>{{ ref.nomapel }}</span>
+                                                <span>{{ ref.per_ciruc }}</span>
                                             </div>
                                         </div>
                                     </ng-template>
@@ -266,6 +266,7 @@
                     <div class="p-fluid">
                         <p-dropdown [options]="medicos"
                                     [showClear]="true"
+                                    appendTo="body"
                                     placeholder="Seleccione el/la profesional a cargo"
                                     filter="true"
                                     (onChange)="onMedicoChange($event)"
@@ -277,12 +278,12 @@
         <div *ngIf="form.ct_id>0">
             <div class="row mt-2">
                 <div class="col-md-3">Paciente:</div>
-                <div class="col-md-9">{{datosCita.paciente}}</div>
+                <div class="col-md-9">{{ datosCita.paciente }}</div>
             </div>
 
             <div class="row mt-2">
                 <div class="col-md-3">Atiende:</div>
-                <div class="col-md-9">{{datosCita.medico}}</div>
+                <div class="col-md-9">{{ datosCita.medico }}</div>
             </div>
         </div>
 
@@ -296,7 +297,8 @@
 
         <ng-template pTemplate="footer">
             <div class="d-flex justify-content-around">
-                <button class="btn btn-outline-primary" (click)="guardarEv()"><i class="fa-solid fa-floppy-disk"></i> Guardar
+                <button class="btn btn-outline-primary" (click)="guardarEv()"><i class="fa-solid fa-floppy-disk"></i>
+                    Guardar
                 </button>
                 <button class="btn btn-outline-dark" (click)="closeModalNewEv()"><i class="fa-solid fa-xmark"></i>
                     Cancelar
@@ -315,29 +317,29 @@
             <div class="d-flex w-100">
                 <div class="colcal" style="background-color: {{datosCita.ct_color}}"></div>
                 <div class="ms-3 d-flex flex-column w-100">
-                    <div> {{datosCita.ct_titulo}} </div>
+                    <div> {{ datosCita.ct_titulo }}</div>
                     <div class="d-flex">
                         <div>
-                            {{datosCita.ct_fecha}}
+                            {{ datosCita.ct_fecha }}
                         </div>
                         <div class="ms-5">
-                            {{datosCita.ct_hora_str}} - {{datosCita.ct_hora_fin_str}}
+                            {{ datosCita.ct_hora_str }} - {{ datosCita.ct_hora_fin_str }}
                         </div>
                     </div>
                 </div>
             </div>
             <p class="mt-2">
-                {{datosCita.ct_obs}}
+                {{ datosCita.ct_obs }}
             </p>
 
             <div class="row">
                 <div>Paciente:</div>
-                <div>{{datosCita.paciente}}</div>
+                <div>{{ datosCita.paciente }}</div>
             </div>
 
             <div class="row">
                 <div>Atiende:</div>
-                <div>{{datosCita.medico}}</div>
+                <div>{{ datosCita.medico }}</div>
             </div>
         </div>
 
@@ -347,7 +349,8 @@
                 </button>
                 <button class="btn btn-outline-dark" (click)="editarEv()"><i class="fa fa-edit"></i> Editar
                 </button>
-                <button class="btn btn-outline-dark" (click)="closeModalDetEv()"><i class="fa-solid fa-xmark"></i> Cerrar
+                <button class="btn btn-outline-dark" (click)="closeModalDetEv()"><i class="fa-solid fa-xmark"></i>
+                    Cerrar
                 </button>
             </div>
         </ng-template>

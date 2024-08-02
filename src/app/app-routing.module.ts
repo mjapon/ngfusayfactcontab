@@ -34,7 +34,6 @@ import {
 } from './components/contabilidad/reportes/estadoresultados/estadoresultados.component';
 import {CategoriasComponent} from './components/articulos/categorias/categorias.component';
 import {FacturaslistgenComponent} from './components/transac/facturas/facturaslistgen.component';
-import {CuentasxcpComponent} from './components/transac/facturas/cuentasxcp.component';
 import {IngegrComponent} from './components/ingresosegresos/ingegr/ingegr.component';
 import {IngegrformComponent} from './components/ingresosegresos/ingegrform/ingegrform.component';
 import {UtilidadesComponent} from './components/transac/facturas/utilidades/utilidades.component';
@@ -60,6 +59,7 @@ import {LoginfacteComponent} from './components/facte/loginfacte/loginfacte.comp
 import {HomefacteComponent} from './components/facte/homefacte/homefacte.component';
 import {PcontableCierreComponent} from './components/contabilidad/periodocontable/cierre/pcontablecierre.component';
 import {PcontableNewComponent} from './components/contabilidad/periodocontable/apertura/pcontablenew.component';
+import {CuentasxcpComponent} from './components/transac/facturas/cuentasxcp/cuentasxcp.component';
 // import {AdminGuard} from './guards/admin/admin.guard';
 
 const aguapmod: CtesAguapService = new CtesAguapService();

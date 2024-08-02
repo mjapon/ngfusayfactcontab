@@ -21,7 +21,7 @@
         <div class="p-3" *ngIf="!isLoading">
             <div class="row" *ngIf="billeteras.length>0">
                 <div class="col-md-3 quitaPaddingMargin" *ngFor="let bill of billeteras">
-                    <div class="pt-3 pb-1 ps-3 pe-3 me-4 mb-2 hand shadow d-flex flex-column border rounded {{formfiltros.cuentabill==bill.ic_id?'bg-warning-subtle bg-gradient border-warning':''}}" >
+                    <div appShadowBg class="pt-3 pb-1 ps-3 pe-3 me-4 mb-2 hand d-flex flex-column border rounded {{formfiltros.cuentabill==bill.ic_id?'bg-warning-subtle bg-gradient border-warning shadow':'shadow-sm'}}" >
                         <div (click)="showMovsBill(bill)">
                             <span class="fontsizenr">{{ bill.bil_code }}</span>
                             <h6 class="quitaPaddingMargin fw-bold">{{ bill.bil_nombre }}</h6>

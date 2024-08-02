@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {BaseService} from './base-service';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
-import { FautService } from './faut.service';
-import { CtesService } from './ctes.service';
+import {FautService} from './faut.service';
+import {CtesService} from './ctes.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +11,7 @@ import { CtesService } from './ctes.service';
 export class CreditoService extends BaseService {
     constructor(
         protected http: HttpClient,
-        protected localStrgServ: LocalStorageService        
+        protected localStrgServ: LocalStorageService
     ) {
         super('/tasicredito', localStrgServ, http);
     }
@@ -24,8 +24,8 @@ export class CreditoService extends BaseService {
         return this._doGet(this.getHOT({accion: 'gdet', codcred}));
     }
 
-    listarGrid(tipo, desde, hasta, filtro) {
-        return this._doGet(this.getHOT({accion: 'listargrid', tipo, desde, hasta, filtro}));
+    listarGrid(tipo, desde, hasta, filtro, limit, first, tipopago) {
+        return this._doGet(this.getHOT({accion: 'listargrid', tipo, desde, hasta, filtro, limit, first, tipopago}));
     }
 
     getFormCrea(clase, ref) {
@@ -34,6 +34,6 @@ export class CreditoService extends BaseService {
 
     guardaCredRef(form: any) {
         return this._doPost(this.getHOT({accion: 'crea'}), form);
-    }    
+    }
 
 }

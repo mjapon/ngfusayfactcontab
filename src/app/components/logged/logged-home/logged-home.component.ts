@@ -161,4 +161,5 @@ export class LoggedHomeComponent implements OnInit {
     doroute(acc: any) {
         this.router.navigate([acc.route]);
     }
+
 }
