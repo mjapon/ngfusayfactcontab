@@ -169,6 +169,7 @@ import {MarklabelComponent} from './components/shared/marklabel/marklabel.compon
 import {CuentasxcpComponent} from './components/transac/facturas/cuentasxcp/cuentasxcp.component';
 import {GradientBgDirective} from './modules/sharedmed/gradientdiv/gradientbg';
 import {GradientShadowBgDirective} from './modules/sharedmed/gradientdiv/shadowbg';
+import {AnimIcoDirective} from './modules/sharedmed/gradientdiv/animico';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -347,6 +348,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         MarklabelComponent,
         GradientShadowBgDirective,
         GradientBgDirective,
+        AnimIcoDirective,
         // SocketIoModule.forRoot(config)
     ],
     providers: [
