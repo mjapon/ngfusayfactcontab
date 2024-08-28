@@ -91,6 +91,19 @@ export class BaseService {
         );
     }
 
+    protected doDelete(
+        http: HttpClient,
+        endpoint: string,
+        httpOptions: any,
+    ): Observable<any> {
+        return http.delete(endpoint, httpOptions).pipe(
+            map((response: any) => {
+                return response;
+            }),
+            catchError(this.fnProcesaError)
+        );
+    }
+
     protected _doGet(httpOptions) {
         return this.doGet(this.http, this.urlEndPoint, httpOptions);
     }

@@ -122,8 +122,8 @@ export class AsientoService extends BaseService {
 
     genPdfBanlance(items: Array<any>, periodo: string, resumen: any, titulo: string) {
         const urlTomcat = this.ctes.urlTomcat;
-        const uri = `${urlTomcat}/contable/genPdf`;//
-        const body = {'titulo': titulo, 'periodo': periodo, 'items': items, 'resumenItems': resumen};
+        const uri = `${urlTomcat}/contable/genPdf`;
+        const body = {titulo, periodo, items, resumenItems: resumen};
         return this.http.post(uri, body, {
             responseType: 'arraybuffer'
         });

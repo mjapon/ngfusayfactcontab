@@ -157,6 +157,11 @@ import {DomService} from '../../services/dom.service';
                 <div>
                     <ul class="nav nav-pills">
                         <li class="nav-item">
+                            <a class="nav-link hand" (click)="doDelete()">
+                                <i class="fa-solid fa-trash-can"></i>
+                                Eliminar</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link hand" (click)="cerrar()">
                                 <i class="fa-solid fa-xmark"></i>
                                 Cerrar</a>
@@ -234,7 +239,7 @@ export class ResumenrefComponent implements OnInit, OnChanges {
         }
     }
 
-    doEdit(field) {
+    doEdit(field: string) {
         this.fieldEditing = field;
         this.fieldEditingValue = this.referente[field];
         this.domService.setFocusTm(this.fieldEditing);
@@ -300,5 +305,21 @@ export class ResumenrefComponent implements OnInit, OnChanges {
                 this.cancelEditField();
             });
         }
+    }
+
+    doDelete() {
+        this.swalService.fireDialog('¿Seguro que desea eliminar este referente?', 'Eliminar Referente').then(result => {
+            if (result.value) {
+                this.personService.eliminar(this.referente.per_id).subscribe(res => {
+                    console.log('res', res);
+                    if (res && res.result > 0) {
+                        this.swalService.fireToastSuccess('Referente eliminado exitósamente');
+                        this.cerrar();
+                    } else {
+                        this.swalService.fireToastWarn('No se pudo eliminar este referente');
+                    }
+                });
+            }
+        });
     }
 }

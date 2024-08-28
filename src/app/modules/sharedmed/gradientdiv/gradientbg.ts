@@ -19,7 +19,7 @@ export class GradientBgDirective {
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
         this.el.nativeElement.style.background =
-            `radial-gradient(circle at ${x}px ${y}px, red, #0000ff)`;
+            `radial-gradient(circle at ${x}px ${y}px, #9f0158, #000000)`;
     }
 
 }

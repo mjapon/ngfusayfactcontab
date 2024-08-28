@@ -343,7 +343,7 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
         if (filtroupd.length === 0) {
             this.filteredServ = this.allServicios;
         } else {
-            this.filteredServ = this.allServicios.filter(serv => serv.ic_nombre.startsWith(filtroupd));
+            this.filteredServ = this.allServicios.filter(serv => serv.ic_nombre.includes(filtroupd));
         }
     }
 
@@ -409,4 +409,9 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
         this.cancelEmiteFactura();
     }
 
+    clearFilter() {
+        this.filtroserv = '';
+        this.domService.setFocusTm('filtrocreaplan');
+        this.doFilter();
+    }
 }

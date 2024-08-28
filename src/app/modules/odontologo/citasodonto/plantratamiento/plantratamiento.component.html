@@ -68,35 +68,35 @@
                 <h4 class="mt-1 mb-3">Detalles del plan</h4>
                 <div class="d-flex">
                     <div class="btn-group btn-group-sm" role="group">
-                        <button type="button" class="btn btn-outline-info" (click)="cerrarVerDetallesFact()"
+                        <button type="button" class="btn btn-outline-primary" (click)="cerrarVerDetallesFact()"
                                 title="Cerrar detalle del plan">
                             <i class="fa-solid fa-xmark"></i>
                             Cerrar
                         </button>
-                        <button type="button" class="btn btn-outline-info"
+                        <button type="button" class="btn btn-outline-primary"
                                 (click)="imprimirPlan(datosDocPlan.plan.pnt_id)" title="Imprimir el plan">
                             <i class="fa fa-print"></i>
                             Imprimir
                         </button>
                         <button type="button" *ngIf="datosDocPlan.plan.pnt_estado === 1"
-                                class="btn btn-outline-info" (click)="showModalEmiteFactura()"
+                                class="btn btn-outline-primary" (click)="showModalEmiteFactura()"
                                 title="Confirmar plan de tratamiento">
                             <i class="fa fa-check"></i>
                             Confirmar
                         </button>
                         <button type="button" *ngIf="datosDocPlan.plan.pnt_estado === 2"
-                                class="btn btn-outline-info" (click)="finalizarPlan()"
+                                class="btn btn-outline-primary" (click)="finalizarPlan()"
                                 title="Marcar como finalizado este plan de tratamiento">
                             <i class="fa fa-check"></i>
                             Finalizar
                         </button>
-                        <button type="button" class="btn btn-outline-info" (click)="anularPlan()"
+                        <button type="button" class="btn btn-outline-primary" (click)="anularPlan()"
                                 title="Anular este plan de tratamiento"
                                 *ngIf="datosDocPlan.plan.pnt_estado === 1">
                             <i class="fa fa-trash"></i>
                             Anular
                         </button>
-                        <button type="button" class="btn btn-outline-info" (click)="editarPlan()"
+                        <button type="button" class="btn btn-outline-primary" (click)="editarPlan()"
                                 title="Modificar este plan de tratamiento"
                                 *ngIf="datosDocPlan.plan.pnt_estado <= 2">
                             <i class="fa fa-edit"></i>
@@ -310,8 +310,13 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header quitaPaddingMargin p-1">
-                            <input type="text" class="form-control form-control-sm" [(ngModel)]="filtroserv"
-                                   (keyup)="doFilter()" placeholder="Buscar procedimiento a realizar:">
+                            <div class="input-group input-group-sm  mb-3">
+                                <input type="text" class="form-control form-control-sm" [(ngModel)]="filtroserv" id="filtrocreaplan" autocomplete="off"
+                                       (keyup)="doFilter()" placeholder="Buscar procedimiento a realizar:">
+                                <button class="btn btn-outline-secondary" type="button" (click)="clearFilter()" title="Limpiar filtro">
+                                    <i class="fa fa-eraser"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <ul class="list-group list-group-flush scrol-list-dental">
@@ -332,6 +337,9 @@
 
                             </li>
                         </ul>
+                        <div *ngIf="!filteredServ || filteredServ.length===0" class="p-3 d-flex justify-content-center align-items-center text-muted">
+                            <span>No hay registros</span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md border border-primary rounded ms-md-2">

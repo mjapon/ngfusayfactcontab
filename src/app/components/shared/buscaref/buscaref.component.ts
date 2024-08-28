@@ -18,7 +18,7 @@ import {DomService} from '../../../services/dom.service';
                                 [delay]="200"
                                 (keyup.enter)="onEnterRef()"
                                 [forceSelection]="true"
-                                placeholder="Digite los nombres o el número de cédula del referente"
+                                placeholder="Busque el referente por nombres, número de cédula o ruc"
                                 (onSelect)="onRefSelect()">
                     <ng-template let-ref pTemplate="item">
                         <div>

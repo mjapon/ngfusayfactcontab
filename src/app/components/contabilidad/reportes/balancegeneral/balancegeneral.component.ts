@@ -7,34 +7,37 @@ import {SwalService} from '../../../../services/swal.service';
 import {PeriodoContableService} from 'src/app/services/contable/periodocontab.service';
 import {ExcelUtilService} from 'src/app/services/utils/excelutil.service';
 import {PrimeTreeUtil} from 'src/app/services/utils/treeutil.service';
+import {NumberService} from '../../../../services/number.service';
 
 @Component({
     selector: 'app-balancegeneral',
     templateUrl: './balancegeneral.component.html'
 })
 export class BalancegeneralComponent implements OnInit {
+
+    constructor(private asientoService: AsientoService,
+                private loadingUiServ: LoadingUiService,
+                private fechasService: FechasService,
+                private excelUtilService: ExcelUtilService,
+                private periodoContabService: PeriodoContableService,
+                private numberService: NumberService,
+                private primeTreeUtil: PrimeTreeUtil,
+                private swalService: SwalService) {
+    }
     datosbalance: any;
     parents: any;
     form: any;
     periodocontable: any;
-    parentres: any;
     resultadoejercicio = 0.0;
     selectedTreeRow: TreeNode;
     datosbalancetree: TreeNode[];
 
-    fechasLabel = { desde: '', hasta: '' };
+    fechasLabel = {desde: '', hasta: ''};
 
-    constructor(private asientoService: AsientoService,
-        private loadingUiServ: LoadingUiService,
-        private fechasService: FechasService,
-        private excelUtilService: ExcelUtilService,
-        private periodoContabService: PeriodoContableService,
-        private primeTreeUtil: PrimeTreeUtil,
-        private swalService: SwalService) {
-    }
+    titulo = 'BALANCE GENERAL';
 
     ngOnInit(): void {
-        this.form = { desde: null, hasta: null, desdestr: '', hastastr: '' };
+        this.form = {desde: null, hasta: null, desdestr: '', hastastr: ''};
         this.datosbalance = [];
         this.loadPeriodoContable();
 
@@ -121,16 +124,26 @@ export class BalancegeneralComponent implements OnInit {
             this.datosbalancetree.forEach(it => this.loadBalanceItems(it, balanceItems));
         }
 
-        let desde = this.fechasService.formatDate(this.form.desde);
-        let hasta = this.fechasService.formatDate(this.form.hasta);
+        const desde = this.fechasService.formatDate(this.form.desde);
+        const hasta = this.fechasService.formatDate(this.form.hasta);
 
-        let periodo = `${desde} - ${hasta}`;
-        let resumenitem = [];
-        resumenitem.push({ label: 'ACTIVOS:', value: this.parents['1'] });
-        resumenitem.push({ label: 'PASIVOS:', value: this.getabs(this.parents['2']) });
-        resumenitem.push({ label: 'PATRIMONIO:', value: this.getabs(this.parents['3']) });
-        resumenitem.push({ label: 'RESULTADO DEL EJERCICIO:', value: this.getabs(this.resultadoejercicio) });
-        resumenitem.push({ label: 'ACTIVO = PASIVO + PATRIMONIO:', value: `${this.parents['1']} = ${this.getabs(this.parents['2'])} + ${this.getabs(this.parents['3'])} (${this.getabs(this.parents['2']) + this.getabs(this.parents['3'])}) ` });
+        const periodo = `${desde} - ${hasta}`;
+        const resumenitem = [];
+
+        const activoValue = this.numberService.round2(this.parents['1']);
+        const pasivoValue = this.numberService.round2(this.getabs(this.parents['2']));
+        const patrimonioValue = this.numberService.round2(this.getabs(this.parents['3']));
+        const resultadoValue = this.numberService.round2(this.getabs(this.resultadoejercicio));
+        const pasivoPlusPatrimonio = this.numberService.round2(this.getabs(this.parents['2']) + this.getabs(this.parents['3']));
+
+        resumenitem.push({label: 'ACTIVOS:', value: activoValue});
+        resumenitem.push({label: 'PASIVOS:', value: pasivoValue});
+        resumenitem.push({label: 'PATRIMONIO:', value: patrimonioValue});
+        resumenitem.push({label: 'RESULTADO DEL EJERCICIO:', value: resultadoValue});
+        resumenitem.push({
+            label: 'ACTIVO = PASIVO + PATRIMONIO:',
+            value: `${activoValue} = ${pasivoValue} + ${patrimonioValue} (${pasivoPlusPatrimonio})`
+        });
 
         this.asientoService.genPdfBanlance(balanceItems, periodo, resumenitem, this.titulo).subscribe((res: ArrayBuffer) => {
             this.viewBalance(res);
@@ -142,7 +155,7 @@ export class BalancegeneralComponent implements OnInit {
     }
 
     loadBalanceItems(node: any, items: Array<any>) {
-        this.primeTreeUtil.loadBalanceItems(node, items);        
+        this.primeTreeUtil.loadBalanceItems(node, items);
     }
 
     exportExcel() {
@@ -152,15 +165,13 @@ export class BalancegeneralComponent implements OnInit {
             this.datosbalancetree.forEach(it => this.loadBalanceItems(it, balanceItems));
         }
 
-        let desde = this.fechasService.formatDate(this.form.desde);
-        let hasta = this.fechasService.formatDate(this.form.hasta);
+        const desde = this.fechasService.formatDate(this.form.desde);
+        const hasta = this.fechasService.formatDate(this.form.hasta);
 
-        let periodo = `${desde} - ${hasta}`;
+        const periodo = `${desde} - ${hasta}`;
 
         this.asientoService.genExcelBalanceGeneral(balanceItems, periodo, '').subscribe((res: Blob) => {
             this.excelUtilService.downloadExcelFile(res, this.titulo, true);
         });
     }
-
-    titulo = 'BALANCE GENERAL';
 }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {AbonoService} from '../../../../services/abono.service';
 import {CreditoService} from '../../../../services/credito.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
@@ -17,6 +17,8 @@ export class AbonosviewComponent implements OnInit, OnChanges {
     @Input() codCredito: number;
     @Output() evDeudaChange = new EventEmitter<any>();
     @Output() evCerrar = new EventEmitter<any>();
+
+    @ViewChild('abonarDiv') abonarDiv: any;
 
     isShowFactura: boolean;
     isShowFormAbonar: boolean;
@@ -123,6 +125,7 @@ export class AbonosviewComponent implements OnInit, OnChanges {
                 this.formAbono = res.form;
                 this.pagosef = this.formAbono.pagosef;
                 this.ctaCodigoCaja = this.formAbono.formdet.cta_codigo;
+                this.scrollToDivAbonar();
                 this.domService.setFocusTm('montoaboinput', 100);
             }
         });
@@ -221,6 +224,12 @@ export class AbonosviewComponent implements OnInit, OnChanges {
 
     cerrarView() {
         this.evCerrar.emit('');
+    }
+
+    scrollToDivAbonar() {
+        setTimeout(() => {
+            this.abonarDiv.nativeElement.scrollIntoView({behavior: 'smooth'});
+        }, 400);
     }
 
     imprimirAbono(abo: any) {

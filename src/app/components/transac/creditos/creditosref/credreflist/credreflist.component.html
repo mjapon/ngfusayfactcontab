@@ -3,7 +3,7 @@
     <div class="m-2 d-flex justify-content-between">
 
         <span class="fs-5">
-            Cuentas por {{clase === 1 ? 'cobrar' : 'pagar'}}<span class="badge text-bg-primary"
+            Cuentas por {{clase === 1 ? 'cobrar' : 'pagar'}}<span class="ms-2 badge text-bg-primary"
                                                                                   *ngIf="creditosList.length>0">{{ creditosList.length }}</span></span>
 
         <button class="btn btn-outline-primary" (click)="showFormCrea()">

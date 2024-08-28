@@ -51,6 +51,10 @@ export class PersonaService extends BaseService {
         return this.doPost(this.http, this.auxGetEndpointPerid(form.per_id), this.getHOT({}), form);
     }
 
+    eliminar(perId) {
+        return this.doDelete(this.http, this.auxGetEndpointPerid(perId), this.getHOT({}));
+    }
+
     actualizar(perId: number, form: any) {
         return this.doPut(this.http, this.auxGetEndpointPerid(perId), this.getHOT({}), form);
     }
