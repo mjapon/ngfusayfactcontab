@@ -2,8 +2,8 @@
     <div class="card rounded shadow mt-2">
         <div class="card-header d-flex justify-content-between">
 
-            <span class="fs-5">Facturas de {{clase === 1 ? 'venta' : 'compra'}} <span class="badge text-bg-primary"
-                                                           *ngIf="facturasList.length>0">{{ facturasList.length }}</span></span>
+            <span class="fs-5">Facturas de {{clase === 1 ? 'venta' : 'compra'}} <span class="badge text-bg-light"
+                                                           *ngIf="facturasList.length>0">({{ facturasList.length }})</span></span>
 
             <!--<span class="fw-light">Facturas de {{clase === 1 ? 'venta' : 'compra'}}</span>-->
             <button class="ms-md-3 btn btn-outline-primary btn-sm" (click)="showFormCreaFact(7, $event)"
@@ -24,9 +24,17 @@
         <app-loading *ngIf="loadingFacturas"></app-loading>
         <div *ngIf="!loadingFacturas">
             <p-table [value]="facturasList" [paginator]="true" *ngIf="facturasList.length>0"
+                     [(first)]="page"
+                     paginatorPosition="bottom"
                      tableStyleClass="table table-hover table-striped table-bordered fusay-table"
                      [rows]="5">
 
+                <ng-template pTemplate="paginatorleft">
+                    Total de registros: {{ facturasList.length }}
+                </ng-template>
+                <ng-template pTemplate="paginatorright">
+                    Página {{ facturasList.length > 0 ? Math.floor(page / rows) + 1 : 0 }} de {{ Math.ceil(facturasList.length / rows) }}
+                </ng-template>
                 <ng-template pTemplate="header">
                     <tr class="table-light">
                         <th scope="col" style="width: 5%">#</th>

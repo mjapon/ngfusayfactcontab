@@ -10,7 +10,8 @@ import {Table, TableLazyLoadEvent} from 'primeng/table';
 
 @Component({
     selector: 'app-facturaslist',
-    templateUrl: './facturaslist.component.html'
+    templateUrl: './facturaslist.component.html',
+    styleUrls: ['./facturaslist.scss']
 })
 export class FacturaslistComponent implements OnInit {
 
@@ -108,8 +109,10 @@ export class FacturaslistComponent implements OnInit {
                 if (res.grid.total) {
                     this.totalRecord = res.grid.total;
                 }
+
                 if (this.page === 0) {
                     this.totales = res.totales;
+                    this.totalRecord = res.grid.total;
                 }
             }
             this.isLoading = false;
@@ -156,4 +159,6 @@ export class FacturaslistComponent implements OnInit {
             this.updateTable();
         }
     }
+
+    protected readonly Math = Math;
 }

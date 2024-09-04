@@ -24,6 +24,8 @@ export class ArticulosListComponent implements OnInit {
     cols: Array<any>;
     selectedItem: any;
     enableBtns: boolean;
+    page = 0;
+    rows = 12;
 
     itemsCtxMenu: MenuItem[];
     sections: Array<any>;
@@ -163,4 +165,6 @@ export class ArticulosListComponent implements OnInit {
     onDobleClick(rowData) {
         this.viewItem(rowData);
     }
+
+    protected readonly Math = Math;
 }

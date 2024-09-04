@@ -16,8 +16,8 @@ export class CreditoService extends BaseService {
         super('/tasicredito', localStrgServ, http);
     }
 
-    listarCreditos(codper: number, clase: number) {
-        return this._doGet(this.getHOT({accion: 'listarcreds', per: codper, clase}));
+    listarCreditos(codper: number, clase: number, tipopago: number) {
+        return this._doGet(this.getHOT({accion: 'listarcreds', per: codper, clase, tipopago}));
     }
 
     getDatosCredito(codcred: number) {
@@ -36,4 +36,8 @@ export class CreditoService extends BaseService {
         return this._doPost(this.getHOT({accion: 'crea'}), form);
     }
 
+    getTiposPagos() {
+        return [{label: 'Con saldo pendiente', value: 1},
+            {label: 'Créditos cancelados', value: 2}, {label: 'Todos', value: 0}];
+    }
 }

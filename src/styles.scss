@@ -574,7 +574,7 @@ form .form-group:firs|t-child .floating-label-form-group {
 }
 
 .scrol-items-dental {
-  height:300px;
+  height: 300px;
   max-height: 300px;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
@@ -611,19 +611,6 @@ form .form-group:firs|t-child .floating-label-form-group {
 
 /*Nuevos stilos creados para el tema del layout 20/mayo/2024*/
 
-@media (min-width: 992px) {
-  .bd-layout {
-    display: grid;
-    grid-template-areas: "sidebar main";
-    grid-template-columns: 1fr 6fr;
-    //gap: 1rem;
-    position: fixed;
-    top: 3.5rem;
-    height: 100%;
-    width: 100%;
-  }
-}
-
 
 .bd-sidebar {
   grid-area: sidebar;
@@ -635,23 +622,9 @@ form .form-group:firs|t-child .floating-label-form-group {
 }
 
 
-@media (min-width: 992px) {
-  .bd-sidebar {
-    position: sticky;
-    top: 4rem;
-    display: block !important;
-    background: #F8F9FA;
-    height: calc(100vh - 5rem);
-    /*padding-left: .25rem;
-    margin-left: -.25rem;*/
-    overflow-y: auto;
-    //border: 1px solid red;
-  }
-}
-
 @media (max-width: 991px) {
   .bd-master-main {
-    padding-top: 6rem;
+    padding-top: 4rem;
     height: 100%;
     width: 100%;
     overflow-y: auto;
@@ -676,11 +649,22 @@ form .form-group:firs|t-child .floating-label-form-group {
 }
 
 @media (min-width: 992px) {
+  .bd-layout {
+    display: grid;
+    grid-template-areas: "sidebar main";
+    grid-template-columns: 1fr 6fr;
+    position: fixed;
+    margin-top: 60px;
+    height: calc(100vh - 70px);
+  }
+  .bd-sidebar {
+    position: sticky;
+    top: 70px;
+    background: #F8F9FA;
+    overflow-y: auto;
+  }
   .bd-master-main {
-    padding-top: 0.5rem;
-    padding-bottom: 3rem;
-    display: block !important;
-    height: 100%;
+    height: calc(100vh - 70px);
     width: 100%;
     overflow-y: auto;
   }
@@ -688,7 +672,6 @@ form .form-group:firs|t-child .floating-label-form-group {
     display:grid;
     grid-template-areas: "main actions";
     grid-template-columns: 6fr 1fr;
-    gap: 0.5rem;
     height: 100%;
     width: 100%;
   }
@@ -698,8 +681,18 @@ form .form-group:firs|t-child .floating-label-form-group {
   .bd-menu-inline-side{
     display: block;
   }
+  .bd-grid-content {
+    display: block !important;
+    height: calc(100vh - 180px);
+    overflow-y: auto;
+  }
+  .bd-grid-actions {
+    position: sticky;
+    top: 4rem;
+    display: block !important;
+    overflow-y: auto;
+  }
 }
-
 
 .bd-grid-content {
   grid-area: main;
@@ -709,26 +702,6 @@ form .form-group:firs|t-child .floating-label-form-group {
   grid-area: actions;
 }
 
-
-@media (min-width: 992px) {
-  .bd-grid-content {
-    padding-top: 0.5rem;
-    display: block !important;
-    height: calc(100vh);
-    overflow-y: auto;
-  }
-}
-
-@media (min-width: 992px) {
-  .bd-grid-actions {
-    position: sticky;
-    top: 4rem;
-    display: block !important;
-    height: calc(100vh - 5rem);
-    overflow-y: auto;
-  }
-}
-
 .bd-actions {
   position: sticky;
   top: 4rem;
@@ -736,14 +709,6 @@ form .form-group:firs|t-child .floating-label-form-group {
   height: calc(100vh - 5rem);
   overflow-y: auto;
 }
-
-/*
-.bd-navbar {
-  padding: .75rem 0;
-  background-color: transparent;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
-}
-*/
 
 .p-breadcrumb {
   background: #fff;
@@ -761,15 +726,15 @@ form .form-group:firs|t-child .floating-label-form-group {
   flex-wrap: nowrap;
 }
 
-@media (min-width: 1200px) {
-  .bd-title {
-    font-size: 1.8rem;
-    margin: 1rem 0;
-  }
-  .bd-title > i {
-    color: #9D1F63 !important;
-  }
+
+.bd-title {
+  font-size: 1.8rem;
+  margin: 1rem 0;
 }
+.bd-title > i {
+  color: #9D1F63 !important;
+}
+
 
 a {
   color: black;
@@ -791,5 +756,19 @@ a {
   margin-left: 1.5rem;
   font-size: 2.5rem;
   color: #9D1F63;
+}
+
+
+.p-paginator {
+  padding: 0.1rem 0rem;
+  border-radius: 0px;
+}
+
+.emptytablemessagebox {
+  padding: 40px 10px;
+}
+
+.margengridcontent{
+  margin: 0 20px
 }
 

@@ -13,6 +13,10 @@ export class CredreflistComponent implements OnInit, OnChanges {
     credsel: any;
     isShowDetCred = false;
     isShowCreaCred = false;
+    tipospagos = [];
+    tipopago = 1; // 0-todos, 1-con saldo pendiente, 2-pagados en su totalidad
+    rows = 5;
+    page = 0;
 
     // 1- Ventas, 2-Compras
     @Input() clase: number;
@@ -21,6 +25,7 @@ export class CredreflistComponent implements OnInit, OnChanges {
 
 
     constructor(private creditoService: CreditoService) {
+        this.tipospagos = this.creditoService.getTiposPagos();
     }
 
     ngOnInit(): void {
@@ -36,7 +41,7 @@ export class CredreflistComponent implements OnInit, OnChanges {
 
     loadCreditos() {
         this.loadingCreditos = true;
-        this.creditoService.listarCreditos(this.codref, this.clase).subscribe(resc => {
+        this.creditoService.listarCreditos(this.codref, this.clase, this.tipopago).subscribe(resc => {
             this.loadingCreditos = false;
             if (resc.status === 200) {
                 this.creditosList = resc.creds;
@@ -67,4 +72,6 @@ export class CredreflistComponent implements OnInit, OnChanges {
         this.isShowCreaCred = false;
         this.loadCreditos();
     }
+
+    protected readonly Math = Math;
 }

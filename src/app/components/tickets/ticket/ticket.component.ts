@@ -33,6 +33,8 @@ export class TicketComponent implements OnInit {
     form: any;
     isShowDetTk = false;
     tksel: any = {};
+    rows = 12;
+    page = 0;
 
     constructor(private router: Router,
                 private swalService: SwalService,
@@ -178,4 +180,6 @@ export class TicketComponent implements OnInit {
     onRowDblClick(rowData) {
         this.verDetalles(rowData);
     }
+
+    protected readonly Math = Math;
 }

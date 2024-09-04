@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ArticuloService} from '../../../services/articulo.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SwalService} from '../../../services/swal.service';
@@ -13,11 +13,14 @@ import {BaseComponent} from '../../shared/base.component';
     templateUrl: './articulos-view.component.html'
 })
 export class ArticulosViewComponent extends BaseComponent implements OnInit {
+
+    @ViewChild('kardexDiv') kardexDiv: any;
+
     artId: number;
     isShowKardex = false;
     kardex: [];
     datosart: any = {};
-
+    page = 0;
     constructor(private artService: ArticuloService,
                 private router: Router,
                 private swalService: SwalService,
@@ -62,11 +65,20 @@ export class ArticulosViewComponent extends BaseComponent implements OnInit {
             this.isShowKardex = true;
             if (this.isResultOk(res)) {
                 this.kardex = res.items;
+                this.scrollToDivKardex();
             }
         });
+    }
+
+    scrollToDivKardex() {
+        setTimeout(() => {
+            this.kardexDiv.nativeElement.scrollIntoView({behavior: 'smooth'});
+        }, 400);
     }
 
     onDatosArtLoaded($event: any) {
         this.datosart = $event;
     }
+
+    protected readonly Math = Math;
 }

@@ -45,10 +45,20 @@
             <h4 class="ms-3 quitaPaddingMargin fw-bolder text-success"> {{totales.resta}}</h4>
         </div>
 
-        <p-table [value]="grid.data" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
+        <p-table [value]="grid.data" [paginator]="true" [rows]="rows"
+                 paginatorPosition="both"
+                 [(first)]="page"
+                 selectionMode="single" [(selection)]="selectedItem"
+                 tableStyleClass="table table-hover table-striped table-bordered fusay-table"
                  (onRowSelect)="onRowSelect($event)"
                  [resizableColumns]="true"
                  [(contextMenuSelection)]="selectedItem">
+            <ng-template pTemplate="paginatorleft">
+                Total de registros: {{ grid.data.length }}
+            </ng-template>
+            <ng-template pTemplate="paginatorright">
+                Página {{ grid.data.length > 0 ? Math.floor(page / rows) + 1 : 0 }} de {{ Math.ceil(grid.data.length / rows) }}
+            </ng-template>
             <ng-template pTemplate="header">
                 <tr>
                     <th *ngFor="let item of grid.cols" [pSortableColumn]="item.field"

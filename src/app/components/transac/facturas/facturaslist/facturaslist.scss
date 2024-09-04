@@ -1,0 +1,38 @@
+@media (max-width: 991px) {
+  .filafiltros{
+    display:flex;
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 992px) {
+  .filafiltros{
+    display:flex;
+    flex-direction: row;
+    align-items: end;
+  }
+
+  .fechas{
+    width: 25%;
+    padding: 0 3px;
+  }
+
+  .combo{
+    width: 20%;
+    padding: 0 3px;
+  }
+
+  .filtro{
+    width: 43%;
+    padding: 0 3px;
+    display: flex;
+    align-items: end;
+  }
+
+  .botones{
+    width: 12%;
+    padding: 0 0 0 3px;
+  }
+
+}
+

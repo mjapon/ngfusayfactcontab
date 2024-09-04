@@ -1,12 +1,12 @@
 <h1 class="bd-title">
     <i class="fa-solid fa-table-list"></i>
-    {{title}} </h1>
+    {{ title }} </h1>
 
-<div class="row mt-2">
-    <div class="col-md-3">
+<div class="row my-2 d-flex filafiltros">
+    <div class="fechas">
         <app-rangofechas [form]="form" (evFilterSel)="listar()" [showlabels]="false"></app-rangofechas>
     </div>
-    <div class="col-md-3">
+    <div class="p-fluid combo" *ngIf="tracodigo!==7">
         <p-dropdown [options]="transaccs" optionLabel="tra_nombre"
                     filter="false"
                     optionValue="tra_codigo"
@@ -15,7 +15,7 @@
                     (onChange)="listar()"
                     [(ngModel)]="form.tracod"></p-dropdown>
     </div>
-    <div class="col-md-4">
+    <div class="filtro">
         <div class="input-group">
             <input type="text" class="form-control" id="buscaInput" (keyup)="doFilter($event)" [(ngModel)]="filtro"
                    autocomplete="off"
@@ -30,9 +30,8 @@
             </button>
         </div>
     </div>
-    <div class="col-md-2 d-grid">
-
-        <div class="ms-1 btn-group btn-group-sm dropdown" *ngIf="tracodigo!==7">
+    <div class="botones">
+        <div class="btn-group dropdown" *ngIf="tracodigo!==7">
             <button type="button" class="btn btn-outline-primary dropdown-toggle"
                     title="Registrar nueva factura o nota de venta"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -43,110 +42,93 @@
                 <a href="#" class="dropdown-item" (click)="goToFormFact(2, $event)"> Nota de venta </a>
             </div>
         </div>
-
         <button type="button" class="btn btn-outline-primary" (click)="goToForm()" *ngIf="tracodigo===7"
                 title="Registrar nueva factura de compra">
-            <span class="px-4"> Crear <i class="fa-solid fa-plus"></i> </span>
+            <span class="px-2"> Crear <i class="fa-solid fa-plus"></i> </span>
         </button>
     </div>
 </div>
-<div class="mt-4">
-    <!--<div *ngIf="isLoading">
-        <app-loading></app-loading>
-    </div>-->
-    <!--<div *ngIf="!isLoading">-->
-    <div>
-        <span class="fst-italic text-body-secondary">Total de registros {{totalRecord}}</span>
-    </div>
-    <div>
-        <p-table [value]="grid.data" [paginator]="true" [rows]="rows" selectionMode="single" [(selection)]="selectedItem"
-                 (onRowSelect)="onRowSelect($event)"
-                 [totalRecords]="totalRecord"
-                 [lazy]="true"
-                 #transaccTable
-                 [loading]="isLoading"
-                 [resizableColumns]="true"
-                 (onLazyLoad)="doLazyLoad($event)"
-                 tableStyleClass="table table-hover table-striped table-bordered fusay-table"
-                 [(contextMenuSelection)]="selectedItem"
-                 (onRowUnselect)="onUnRowSelect($event)">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>#</th>
-                    <th *ngFor="let item of grid.cols" [pSortableColumn]="item.field" [ngSwitch]="item.field"
-                        [width]="item.width">
-                        <span class="fontsizenr">{{item.label}}</span>
-                        <p-sortIcon [field]="item.field"></p-sortIcon>
-                    </th>
-                    <th>
-
-                    </th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
-                <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="verRow(rowData)">
-                    <td>{{rowIndex+1}}</td>
-                    <td *ngFor="let item of grid.cols">
-                        <span class="fontsizesm">{{rowData[item['field']]}}</span>
-                    </td>
-                    <td>
-                        <!--
-                        <button class="btn btn-sm btn-outline-dark me-3" (click)="anularRow(rowData)"
-                                title="Anular">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        -->
-                        <button class="btn btn-sm btn-outline-dark" (click)="verRow(rowData)" title="Editar">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="footer">
-                <tr>
-                    <th>
-
-                    </th>
-                    <th>
-
-                    </th>
-                    <th>
-
-                    </th>
-                    <th>
-                        <span class="fw-bold">TOTAL:</span>
-                    </th>
-                    <th>
-                        <span> {{totales.efectivo}}</span>
-                    </th>
-                    <th>
-                        <span> {{totales.credito}}</span>
-                    </th>
-                    <th>
-                        <span> {{totales.saldopend}}</span>
-                    </th>
-                    <th>
-                        <span> {{totales.total}}</span>
-                    </th>
-                    <th>
-
-                    </th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="emptymessage" let-columns>
-                <tr>
-                    <td [attr.colspan]="grid.cols.length+1">
-                        <span class="text-muted">No hay registros</span>
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </div>
+<div class="mt-2">
+    <p-table [value]="grid.data" [paginator]="true"
+             paginatorPosition="top"
+             [rows]="rows" selectionMode="single"
+             [(first)]="page"
+             [(selection)]="selectedItem"
+             (onRowSelect)="onRowSelect($event)"
+             [totalRecords]="totalRecord"
+             [lazy]="true"
+             #transaccTable
+             [loading]="isLoading"
+             [resizableColumns]="true"
+             (onLazyLoad)="doLazyLoad($event)"
+             responsiveLayout="scroll"
+             scrollHeight="calc(100vh - 235px)"
+             tableStyleClass="table table-hover table-striped table-bordered fusay-table"
+             [(contextMenuSelection)]="selectedItem"
+             (onRowUnselect)="onUnRowSelect($event)">
+        <ng-template pTemplate="paginatorleft">
+            Total de registros: {{ totalRecord }}
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            Página {{ totalRecord > 0 ? Math.floor(page / rows) + 1 : 0 }} de {{ Math.ceil(totalRecord / rows) }}
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>#</th>
+                <th *ngFor="let item of grid.cols" [pSortableColumn]="item.field" [ngSwitch]="item.field"
+                    [width]="item.width">
+                    <span class="fontsizenr">{{ item.label }}</span>
+                    <p-sortIcon [field]="item.field"></p-sortIcon>
+                </th>
+                <th>
+                    &nbsp;
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="verRow(rowData)">
+                <td>{{ rowIndex + 1 }}</td>
+                <td *ngFor="let item of grid.cols">
+                    <span class="fontsizesm">{{ rowData[item['field']] }}</span>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-outline-dark" (click)="verRow(rowData)" title="Editar">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <tr>
+                <th colspan="4">
+                    <span class="fw-bold">TOTAL:</span>
+                </th>
+                <th>
+                    <span> {{ totales.efectivo }}</span>
+                </th>
+                <th>
+                    <span> {{ totales.credito }}</span>
+                </th>
+                <th>
+                    <span> {{ totales.saldopend }}</span>
+                </th>
+                <th colspan="3">
+                    <span> {{ totales.total }}</span>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td [attr.colspan]="grid.cols.length+2">
+                    <div class="text-muted emptytablemessagebox">No hay registros</div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
 </div>
 
-
 <div *ngIf="isShowDetallesFactura">
-    <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '60vw'}" [baseZIndex]="10000"
+    <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '70vw'}" [baseZIndex]="10000"
               [(visible)]="isShowDetallesFactura">
         <app-facturaview [trncod]="codFacturaSel" (evBtnClosed)="closeDetFact()" (evAnulado)="listar()"
                          (evEditar)="onEditar($event)" [isPermAnul]="true" [isPermEdit]="true"

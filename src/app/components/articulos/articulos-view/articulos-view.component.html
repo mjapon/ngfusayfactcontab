@@ -6,12 +6,21 @@
 
         <app-artview [codart]="artId" (evDatosArtLoaded)="onDatosArtLoaded($event)"></app-artview>
 
-        <div class="mt-2 card border-secondary" *ngIf="isShowKardex">
+        <div class="mt-2 card border-secondary" *ngIf="isShowKardex" #kardexDiv>
             <div class="card-header">
                 Kardex
             </div>
 
-            <p-table [value]="kardex" [paginator]="true" [rows]="10" tableStyleClass="table table-sm table-hover table-striped table-bordered fusay-table">
+            <p-table [value]="kardex" [paginator]="true" [rows]="10"
+                     [(first)]="page"
+                     paginatorPosition="top"
+                     tableStyleClass="table table-sm table-hover table-striped table-bordered fusay-table">
+                <ng-template pTemplate="paginatorleft">
+                    Total de registros: {{ kardex.length }}
+                </ng-template>
+                <ng-template pTemplate="paginatorright">
+                    Página {{ kardex.length > 0 ? Math.floor(page / 10) + 1 : 0 }} de {{ Math.ceil(kardex.length / 10) }}
+                </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
                         <th>

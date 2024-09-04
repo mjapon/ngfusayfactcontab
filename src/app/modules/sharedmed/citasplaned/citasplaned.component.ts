@@ -18,6 +18,8 @@ export class CitasplanedComponent implements OnInit, OnChanges {
     fechasstr: string;
     personsCita: Array<any>;
     personCitaSel: number;
+    rows = 50;
+    page = 0;
 
     @Input() tipocita: number;
     @Output() registraAtencionEv = new EventEmitter<any>();
@@ -124,4 +126,6 @@ export class CitasplanedComponent implements OnInit, OnChanges {
             }
         }
     }
+
+    protected readonly Math = Math;
 }

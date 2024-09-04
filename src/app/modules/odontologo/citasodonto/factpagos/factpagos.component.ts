@@ -20,6 +20,8 @@ export class FactpagosComponent implements OnInit, OnChanges {
     loadingFacturas: boolean;
     tracodigofact = 1;
     totales: any = {};
+    rows = 5;
+    page = 0;
 
     @Input() codpaciente: number;
     @Input() clase: number;
@@ -107,4 +109,6 @@ export class FactpagosComponent implements OnInit, OnChanges {
     onTotalUpdated($event: any) {
 
     }
+
+    protected readonly Math = Math;
 }

@@ -185,6 +185,7 @@ export class ArticulosFormComponent implements OnInit {
                 if (this.artId > 0) {
                     this.artFromDb = res3.datosprod;
                     this.secciones = res3.secciones;
+                    console.log('artFromDb:', this.artFromDb);
                     this.buildForm(this.artFromDb);
                 } else {
                     this.aplicaDental = res3.form.aplicadental;

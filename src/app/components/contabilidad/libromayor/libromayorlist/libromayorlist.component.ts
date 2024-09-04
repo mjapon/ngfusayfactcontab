@@ -20,6 +20,8 @@ export class LibromayorlistComponent implements OnInit {
     isLoadingData: any;
     isShowDetAsi = false;
     asisel: any = {};
+    rows = 25;
+    page = 0;
 
     constructor(private artService: ArticuloService,
                 private fechasService: FechasService,
@@ -84,4 +86,6 @@ export class LibromayorlistComponent implements OnInit {
     hideDetAsi() {
         this.isShowDetAsi = false;
     }
+
+    protected readonly Math = Math;
 }

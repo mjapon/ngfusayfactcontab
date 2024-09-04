@@ -47,8 +47,10 @@
         </div>
     </div>
 
-    <p-table [value]="items" [paginator]="true" [rows]="50" selectionMode="single" [(selection)]="selectedItem"
+    <p-table [value]="items" [paginator]="true" [rows]="rows" selectionMode="single" [(selection)]="selectedItem"
              (onRowSelect)="onRowSelect($event)"
+             paginatorPosition="top"
+             [(first)]="page"
              [responsive]="true"
              [autoLayout]="false"
              [resizableColumns]="true"
@@ -56,6 +58,12 @@
              [(contextMenuSelection)]="selectedItem"
              [contextMenu]="cm"
              (onRowUnselect)="onUnRowSelect($event)">
+        <ng-template pTemplate="paginatorleft">
+            Total de registros: {{ items.length }}
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            Página {{ items.length > 0 ? Math.floor(page / rows) + 1 : 0 }} de {{ Math.ceil(items.length / rows) }}
+        </ng-template>
         <ng-template pTemplate="header">
             <tr>
                 <th *ngFor="let item of cols" [pSortableColumn]="item.field" [ngSwitch]="item.field"

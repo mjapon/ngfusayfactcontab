@@ -7,6 +7,26 @@ import {endOfMonth, startOfMonth, startOfWeek, startOfYear, subMonths} from 'dat
         <div class="d-flex">
             <div>
                 <div class="d-flex" *ngIf="showlabels">
+                    <p class="quitaPaddingMargin">&nbsp;</p>
+                </div>
+                <div class="d-flex">
+                    <button class="btn btn-light dropdown-toggle" style="padding: 5px 3px !important;"
+                            type="button"
+                            id="dropdownMB"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMB">
+                        <a href="#" (click)="doFilterFec(5, $event)" class="dropdown-item"> Hoy </a>
+                        <a href="#" (click)="doFilterFec(1, $event)" class="dropdown-item"> Esta Semana </a>
+                        <a href="#" (click)="doFilterFec(2, $event)" class="dropdown-item"> Este Mes </a>
+                        <a href="#" (click)="doFilterFec(3, $event)" class="dropdown-item"> Mes anterior </a>
+                        <a href="#" (click)="doFilterFec(4, $event)" class="dropdown-item"> Este Año </a>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="d-flex" *ngIf="showlabels">
                     <p class="quitaPaddingMargin fw-light">Desde:</p>
                 </div>
                 <div class="p-fluid">
@@ -31,23 +51,6 @@ import {endOfMonth, startOfMonth, startOfWeek, startOfYear, subMonths} from 'dat
                                 (ngModelChange)="onHastaChange()"
                                 yearRange="2019:2050"
                                 dateFormat="dd/mm/yy"></p-calendar>
-
-
-                    <div class="ms-1 btn-group btn-group-sm dropend">
-                        <button class="btn btn-light dropdown-toggle" style="padding: 5px 1px !important;"
-                                type="button"
-                                id="dropdownMB"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-filter"></i>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMB">
-                            <a href="#" (click)="doFilterFec(5, $event)" class="dropdown-item"> Hoy </a>
-                            <a href="#" (click)="doFilterFec(1, $event)" class="dropdown-item"> Esta Semana </a>
-                            <a href="#" (click)="doFilterFec(2, $event)" class="dropdown-item"> Este Mes </a>
-                            <a href="#" (click)="doFilterFec(3, $event)" class="dropdown-item"> Mes anterior </a>
-                            <a href="#" (click)="doFilterFec(4, $event)" class="dropdown-item"> Este Año </a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

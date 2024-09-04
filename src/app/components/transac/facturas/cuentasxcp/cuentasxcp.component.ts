@@ -28,18 +28,16 @@ export class CuentasxcpComponent implements OnInit {
     rows = 12;
     page = 0;
     tipopago = 1; // 0-todos, 1-con saldo pendiente, 2-pagados en su totalidad
-
-    tipospagos = [{label: 'Con saldo pendiente', value: 1},
-        {label: 'Créditos cancelados', value: 2}, {label: 'Todos', value: 0}];
+    tipospagos = [];
 
     constructor(private creditoService: CreditoService,
                 private fechasservice: FechasService,
-                private router: Router,
                 private domService: DomService,
                 private route: ActivatedRoute) {
         this.route.paramMap.subscribe(params => {
             this.tipo = parseInt(params.get('tipo'), 10);
         });
+        this.tipospagos = this.creditoService.getTiposPagos();
     }
 
     ngOnInit(): void {
@@ -142,4 +140,6 @@ export class CuentasxcpComponent implements OnInit {
             this.listar();
         }
     }
+
+    protected readonly Math = Math;
 }
