@@ -23,6 +23,10 @@ export class AsientoService extends BaseService {
         return this._doGetAction(this.ctes.gdetdoc, {trncod, foredit});
     }
 
+    generarNotaCredito(trncodigo){
+        return this._doPostAction('notacred', {trn_codigo: trncodigo});
+    }
+
     getFormCab(traCod: number) {
         return this._doGetAction(this.ctes.formcab, {tra_cod: traCod});
     }

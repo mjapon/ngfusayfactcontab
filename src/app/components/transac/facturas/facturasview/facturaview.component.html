@@ -8,7 +8,7 @@
                     <span class="fw-normal fontsizenr">Tipo:</span>
                 </div>
                 <div class="col-md">
-                    <span class="fw-bold  fontsizenr">{{doc.tasiento.tra_nombre}}</span>
+                    <span class="fw-bold  fontsizenr">{{ doc.tasiento.tra_nombre }}</span>
                 </div>
             </div>
             <div class="row">
@@ -16,10 +16,13 @@
                     <span class="fw-normal fontsizenr">Número:</span>
                 </div>
                 <div class="col-md">
-                    <span class="fw-bold  fontsizenr">{{doc.tasiento.trn_compro}}</span>
+                    <span class="fw-bold  fontsizenr">{{ doc.tasiento.trn_compro }}</span>
                     <div class="d-flex" *ngIf="isCompele">
                         <span class="badge bg-info">Documento Electrónico</span>
-                        <span class="badge {{getClassBadgeFactele()}} ms-2">{{facteleinfo.tfe_estadosri||'No Enviado'}}</span>
+                        <span class="badge {{getClassBadgeFactele()}} ms-2">{{ facteleinfo.tfe_estadosri || 'No Enviado' }}</span>
+                    </div>
+                    <div class="d-flex mt-1"  *ngIf="datosnotacred.trn_coddestino>0">
+                        <span class="badge text-bg-primary">Se emitió una nota de crédito para esta factura</span>
                     </div>
                 </div>
             </div>
@@ -28,7 +31,7 @@
                     <span class="fw-normal fontsizenr">Fecha:</span>
                 </div>
                 <div class="col-md">
-                    <span class="fw-bold fontsizenr">{{doc.tasiento.trn_fecreg}}</span>
+                    <span class="fw-bold fontsizenr">{{ doc.tasiento.trn_fecreg }}</span>
                 </div>
             </div>
             <div class="row">
@@ -36,7 +39,7 @@
                     <span class="fw-normal fontsizenr">Estado:</span>
                 </div>
                 <div class="col-md">
-                    <span class="fw-bold fontsizenr">{{doc.tasiento.estado}}</span>
+                    <span class="fw-bold fontsizenr">{{ doc.tasiento.estado }}</span>
                 </div>
             </div>
         </div>
@@ -46,7 +49,7 @@
                     <span class="fw-normal fontsizenr">Referente:</span>
                 </div>
                 <div class="col-md">
-                    <span class="fw-bold fontsizenr">{{doc.tasiento.referente}}</span>
+                    <span class="fw-bold fontsizenr">{{ doc.tasiento.referente }}</span>
                 </div>
             </div>
             <div class="row">
@@ -54,7 +57,7 @@
                     <span class="fw-normal fontsizenr">Ci/Ruc:</span>
                 </div>
                 <div class="col-md">
-                    <span class="fw-bold fontsizenr">{{doc.tasiento.per_ciruc}}</span>
+                    <span class="fw-bold fontsizenr">{{ doc.tasiento.per_ciruc }}</span>
                 </div>
             </div>
             <div class="row">
@@ -62,7 +65,7 @@
                     <span class="fw-normal fontsizenr">Telf:</span>
                 </div>
                 <div class="col-md">
-                    <span class="fw-bold fontsizenr">{{doc.tasiento.per_telf}}</span>
+                    <span class="fw-bold fontsizenr">{{ doc.tasiento.per_telf }}</span>
                 </div>
             </div>
             <div class="row">
@@ -70,7 +73,7 @@
                     <span class="fw-normal fontsizenr">Dirección:</span>
                 </div>
                 <div class="col-md">
-                    <span class="fw-bold fontsizenr">{{doc.tasiento.per_direccion}}</span>
+                    <span class="fw-bold fontsizenr">{{ doc.tasiento.per_direccion }}</span>
                 </div>
             </div>
             <div class="row">
@@ -78,7 +81,7 @@
                     <span class="fw-normal fontsizenr">E-mail:</span>
                 </div>
                 <div class="col-md">
-                    <span class="fw-bold fontsizenr">{{doc.tasiento.per_email}}</span>
+                    <span class="fw-bold fontsizenr">{{ doc.tasiento.per_email }}</span>
                 </div>
             </div>
         </div>
@@ -87,9 +90,9 @@
                 <span class="fw-normal fontsizenr">Creado por: </span>
             </div>
             <div>
-                <span class="fw-bold fontsizenr">{{doc.tasiento.us_cuenta}}</span>
+                <span class="fw-bold fontsizenr">{{ doc.tasiento.us_cuenta }}</span>
                 <span class="fw-normal fontsizenr"> el </span>
-                <span class="fw-bold fontsizenr">{{doc.tasiento.trn_fecha}}</span>
+                <span class="fw-bold fontsizenr">{{ doc.tasiento.trn_fecha }}</span>
             </div>
         </div>
     </div>
@@ -105,27 +108,29 @@
                 </div>
                 <p class="text-muted" *ngIf="doc.tasiento.trn_observ.length===0"> No registra observación </p>
                 <p *ngIf="doc.tasiento.trn_observ.length>0" style="white-space: pre-line" class="fontsizenr fw-normal">
-                    {{doc.tasiento.trn_observ}}</p>
+                    {{ doc.tasiento.trn_observ }}</p>
             </div>
             <div class="col-md-4 border-start border-end">
-                <div>
-                    <span class="text-muted">PAGOS:</span>
-                </div>
-                <div class="d-flex flex-column">
-                    <div class="row" *ngFor="let pago of doc.pagos">
-                        <div class="col-md-7">
-                            <span class="fw-bold fontsizenr">{{pago.ic_nombre}} $:</span>
-                        </div>
-                        <div class="col-md-5">
-                            <span class="fw-bold text-success">{{pago.dt_valor|number:'.2'}}</span>
-                        </div>
+                <div *ngIf="doc.tasiento.tra_codigo!==4">
+                    <div>
+                        <span class="text-muted">PAGOS:</span>
                     </div>
-                    <div class="row" *ngIf="doc?.pagosdoc && doc?.pagosdoc.credito>0">
-                        <div class="col-md-7">
-                            <span class="fw-bold fontsizenr">SALDO PENDIENTE$:</span>
+                    <div class="d-flex flex-column">
+                        <div class="row" *ngFor="let pago of doc.pagos">
+                            <div class="col-md-7">
+                                <span class="fw-bold fontsizenr">{{ pago.ic_nombre }} $:</span>
+                            </div>
+                            <div class="col-md-5">
+                                <span class="fw-bold text-success">{{ pago.dt_valor|number:'.2' }}</span>
+                            </div>
                         </div>
-                        <div class="col-md-5">
-                            <span class="fw-bold text-success">{{doc?.pagosdoc.saldopend|number:'.2'}}</span>
+                        <div class="row" *ngIf="doc?.pagosdoc && doc?.pagosdoc.credito>0">
+                            <div class="col-md-7">
+                                <span class="fw-bold fontsizenr">SALDO PENDIENTE$:</span>
+                            </div>
+                            <div class="col-md-5">
+                                <span class="fw-bold text-success">{{ doc?.pagosdoc.saldopend|number:'.2' }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -134,7 +139,8 @@
                 <div class="d-flex flex-column">
                     <div class="row ">
                         <div class="col-md-8"><span class="fw-bold fontsizenr">SUBTOTAL $:</span></div>
-                        <div class="col-md d-flex justify-content-end"><span class="fw-bold fontsizenr"> {{doc.totales.subtotal|number:'.4'}}
+                        <div class="col-md d-flex justify-content-end"><span
+                                class="fw-bold fontsizenr"> {{ doc.totales.subtotal|number:'.4' }}
                             </span>
                         </div>
                     </div>
@@ -143,16 +149,16 @@
                             <span class="fw-bold fontsizenr">DESCUENTO $:</span>
                         </div>
                         <div class="col-md d-flex justify-content-end">
-                            <span class="fw-bold fontsizenr"> {{doc.totales.descuentos|number:'.4'}} </span>
+                            <span class="fw-bold fontsizenr"> {{ doc.totales.descuentos|number:'.4' }} </span>
                         </div>
                     </div>
                     <div class="row ">
                         <div class="col-md-8">
-                            <span class="fw-bold fontsizenr">IVA {{doc.tasiento.trn_impref * 100}}%
-                                de ${{doc.totales.subtotal12}}:</span>
+                            <span class="fw-bold fontsizenr">IVA {{ doc.tasiento.trn_impref * 100 }}%
+                                de ${{ doc.totales.subtotal12 }}:</span>
                         </div>
                         <div class="col-md d-flex justify-content-end">
-                            <span class="fw-bold fontsizenr"> {{doc.totales.iva|number:'.4'}} </span>
+                            <span class="fw-bold fontsizenr"> {{ doc.totales.iva|number:'.4' }} </span>
                         </div>
                     </div>
                     <div class="row">
@@ -160,7 +166,7 @@
                             <span class="fw-bold">TOTAL $:</span>
                         </div>
                         <div class="col-md d-flex justify-content-end">
-                            <span class="fw-bold"> {{doc.totales.total|number:'.2'}} </span>
+                            <span class="fw-bold"> {{ doc.totales.total|number:'.2' }} </span>
                         </div>
                     </div>
                 </div>
@@ -178,37 +184,48 @@
                 -->
 
                 <button class="btn btn-sm btn-outline-primary me-md-1" [disabled]="isLoading" (click)="anular()"
-                    *ngIf="isPermAnul&&!isCompele"><i class="fa fa-trash"></i> Anular
+                        *ngIf="isPermAnul&&!isCompele"><i class="fa fa-trash"></i> Anular
                 </button>
                 <button class="btn btn-sm btn-outline-primary me-md-1" [disabled]="isLoading" (click)="editar()"
-                    *ngIf="isPermAnul&&!isCompele"><i class="fa fa-edit"></i> Editar
+                        *ngIf="isPermAnul&&!isCompele"><i class="fa fa-edit"></i> Editar
                 </button>
 
                 <div class="d-flex" *ngIf="isCompele">
-
                     <button class="btn btn-sm btn-outline-primary me-md-1" [disabled]="isLoading" (click)="enviarSRI()"
-                        *ngIf="isEnableEnviarSRI()">
+                            *ngIf="isEnableEnviarSRI()">
                         <i class="fa-solid fa-paper-plane"></i>
                         Enviar SRI
                     </button>
-                    <button class="btn btn-sm btn-outline-primary me-md-1" [disabled]="isLoading" (click)="autorizarSRI()"
-                        *ngIf="isEnableAutorizarSRI()">
+                    <button class="btn btn-sm btn-outline-primary me-md-1" [disabled]="isLoading"
+                            (click)="autorizarSRI()"
+                            *ngIf="isEnableAutorizarSRI()">
                         <i class="fa-solid fa-paper-plane"></i>
                         Autorizar SRI
                     </button>
-                    <button class="btn btn-sm btn-outline-primary me-md-1" [disabled]="isLoading" (click)="imprimirRIDE()"
-                        *ngIf="isEnableImprimeRIDE()">
+                    <button class="btn btn-sm btn-outline-primary me-md-1" [disabled]="isLoading"
+                            (click)="imprimirRIDE()"
+                            *ngIf="isEnableImprimeRIDE()">
                         <i class="fa-solid fa-barcode me-2"></i>
                         RIDE
                     </button>
-                </div>                
+                    <button class="btn btn-sm btn-outline-primary me-md-1"
+                            *ngIf="isEnableImprimeRIDE() &&
+                            !(datosnotacred.trn_coddestino) &&
+                            doc.tasiento.tra_codigo===1 &&
+                            doc.datosref.per_id!==-1"
+                            [disabled]="isLoading" (click)="notaCredito()">
+                        <i class="fa-solid fa-trash-arrow-up me-2"></i>
+                        Nota de crédito
+                    </button>
+                </div>
             </div>
             <div class="d-flex flex-row-reverse">
                 <button class="btn btn-sm btn-outline-dark " [disabled]="isLoading" (click)="onCloseClick()"><i
                         class="fa-solid fa-xmark"></i> Cerrar
                 </button>
-                <button class="btn btn-sm btn-outline-primary me-2" [disabled]="isLoading" *ngIf="isShowImprimir && !isCompele"
-                    (click)="imprimir()"><i class="fa-solid fa-print"></i> Imprimir
+                <button class="btn btn-sm btn-outline-primary me-2" [disabled]="isLoading"
+                        *ngIf="isShowImprimir && !isCompele"
+                        (click)="imprimir()"><i class="fa-solid fa-print"></i> Imprimir
                 </button>
             </div>
         </div>
@@ -217,7 +234,8 @@
 
 <div *ngIf="isShowChangeSec">
     <p-dialog header="Cambio de sección" [modal]="true" [style]="{width: '70vw'}" [autoZIndex]="true"
-        [(visible)]="isShowChangeSec">
-        <app-changesecdoc [trncod]="trncod" (evDoed)="onChangeSecDoed()" (evHide)="isShowChangeSec=false"></app-changesecdoc>
+              [(visible)]="isShowChangeSec">
+        <app-changesecdoc [trncod]="trncod" (evDoed)="onChangeSecDoed()"
+                          (evHide)="isShowChangeSec=false"></app-changesecdoc>
     </p-dialog>
 </div>

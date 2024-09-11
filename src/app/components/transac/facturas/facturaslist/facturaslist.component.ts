@@ -49,6 +49,9 @@ export class FacturaslistComponent implements OnInit {
         if (this.tipo === 1) {
             this.title = 'Ventas';
         }
+        else if (this.tipo ==3){
+            this.title = 'Notas de Crédito';
+        }
         this.filtro = '';
         this.isLoading = true;
         this.grid = {};

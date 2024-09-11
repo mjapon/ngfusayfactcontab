@@ -18,8 +18,11 @@ export class FacturaslistgenComponent implements OnInit {
             this.tipo = parseInt(params.get('tipo'), 10);
             if (this.tipo === 1) {
                 this.tracodigo = 1;
-            } else {
+            } else if (this.tipo === 2) {
                 this.tracodigo = 7;
+            }
+            else{
+                this.tracodigo = 4;
             }
         });
     }

@@ -18,6 +18,7 @@ export class FacturaviewComponent extends BaseComponent implements OnInit, OnCha
     isShowChangeSec = false;
     isCompele = false;
     facteleinfo: any = {};
+    datosnotacred: any = {};
 
     @Input() trncod: number;
     @Input() isPermEdit = false;
@@ -60,6 +61,9 @@ export class FacturaviewComponent extends BaseComponent implements OnInit, OnCha
                 this.isShowImprimir = this.doc.tasiento.tra_codigo === 1 || this.doc.tasiento.tra_codigo === 2;
                 this.isCompele = this.doc.isCompele || false;
                 this.facteleinfo = this.doc.facteleinfo;
+                if (res.notacred) {
+                    this.datosnotacred = res.notacred;
+                }
             }
         });
     }
@@ -148,6 +152,19 @@ export class FacturaviewComponent extends BaseComponent implements OnInit, OnCha
         return classbadge;
     }
 
-
+    notaCredito() {
+        if (confirm(this.ctes.msgConfirmNotaCred)) {
+            this.showAnim = true;
+            this.tasientoService.generarNotaCredito(this.trncod).subscribe(res => {
+                if (res.trncodgen) {
+                    this.swalService.fireToastSuccess('La nota de crédito fue emitida de forma exitosa');
+                    this.loadDatosFactura();
+                } else {
+                    this.swalService.fireToastError('No se puedo emitir la nota de crédito');
+                }
+                this.showAnim = false;
+            });
+        }
+    }
 }
 
