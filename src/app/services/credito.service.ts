@@ -25,7 +25,35 @@ export class CreditoService extends BaseService {
     }
 
     listarGrid(tipo, desde, hasta, filtro, limit, first, tipopago) {
-        return this._doGet(this.getHOT({accion: 'listargrid', tipo, desde, hasta, filtro, limit, first, tipopago}));
+        const doexp = 0;
+        return this._doGet(this.getHOT({
+            accion: 'listargrid',
+            tipo,
+            desde,
+            hasta,
+            filtro,
+            limit,
+            first,
+            tipopago,
+            doexp
+        }));
+    }
+
+    listarGridForExport(tipo, desde, hasta, filtro, tipopago) {
+        const doexp = 1;
+        const first = 0;
+        const limit = 50;
+        return this._doGet(this.getHOT({
+            accion: 'listargrid',
+            tipo,
+            desde,
+            hasta,
+            filtro,
+            limit,
+            first,
+            tipopago,
+            doexp
+        }));
     }
 
     getFormCrea(clase, ref) {

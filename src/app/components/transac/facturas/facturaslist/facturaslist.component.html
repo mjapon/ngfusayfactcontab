@@ -62,7 +62,7 @@
              [resizableColumns]="true"
              (onLazyLoad)="doLazyLoad($event)"
              responsiveLayout="scroll"
-             scrollHeight="calc(100vh - 235px)"
+             scrollHeight="calc(100vh - 260px)"
              tableStyleClass="table table-hover table-striped table-bordered fusay-table"
              [(contextMenuSelection)]="selectedItem"
              (onRowUnselect)="onUnRowSelect($event)">
@@ -70,7 +70,13 @@
             Total de registros: {{ totalRecord }}
         </ng-template>
         <ng-template pTemplate="paginatorright">
-            Página {{ totalRecord > 0 ? Math.floor(page / rows) + 1 : 0 }} de {{ Math.ceil(totalRecord / rows) }}
+            <app-export-btn [totalRecord]="totalRecord" [isDownloading]="isDownloading" [type]="1"
+                            (onClic)="exportToPdf()"></app-export-btn>
+            <app-export-btn [totalRecord]="totalRecord" [isDownloading]="isDownloading" [type]="2"
+                            (onClic)="exportToExcel()"></app-export-btn>
+            <span>
+                Página {{ totalRecord > 0 ? Math.floor(page / rows) + 1 : 0 }} de {{ Math.ceil(totalRecord / rows) }}
+            </span>
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
@@ -89,7 +95,9 @@
             <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="verRow(rowData)">
                 <td>{{ rowIndex + 1 }}</td>
                 <td *ngFor="let item of grid.cols">
-                    <span class="fontsizesm">{{ rowData[item['field']] }}</span>
+                    <div class="fixcolwid">
+                        <span class="fontsizesm">{{ rowData[item['field']] }}</span>
+                    </div>
                 </td>
                 <td>
                     <button class="btn btn-sm btn-outline-dark" (click)="verRow(rowData)" title="Editar">
@@ -98,6 +106,7 @@
                 </td>
             </tr>
         </ng-template>
+        <!--
         <ng-template pTemplate="footer">
             <tr>
                 <th colspan="4">
@@ -116,7 +125,7 @@
                     <span> {{ totales.total }}</span>
                 </th>
             </tr>
-        </ng-template>
+        </ng-template>-->
         <ng-template pTemplate="emptymessage">
             <tr>
                 <td [attr.colspan]="grid.cols.length+2">
@@ -125,6 +134,27 @@
             </tr>
         </ng-template>
     </p-table>
+
+    <div *ngIf="totalRecord>0">
+        <table class="footertotales">
+            <tr>
+                <td></td>
+                <td *ngFor="let item of grid.cols" [width]="item.width">
+                    <div class="celda-total">
+                        <span *ngIf="item.field==='referente'" class="fw-bolder">TOTALES:</span>
+                        <span *ngIf="item.field==='efectivo'"
+                              class="fw-bold">{{ totales.efectivo }}</span>
+                        <span *ngIf="item.field==='credito'"
+                              class="fw-bold">{{ totales.credito }}</span>
+                        <span *ngIf="item.field==='saldopend'"
+                              class="fw-bold">{{ totales.saldopend }}</span>
+                        <span *ngIf="item.field==='total'"
+                              class="fw-bold">{{ totales.total }}</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 <div *ngIf="isShowDetallesFactura">

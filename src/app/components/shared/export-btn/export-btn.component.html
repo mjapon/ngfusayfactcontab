@@ -1,0 +1,5 @@
+<span *ngIf="totalRecord>0" class="hand mx-2" [title]="title"
+      (click)="doExportAction()">
+    <span *ngIf="!isDownloading" class="textmavil"> <i class="fa-solid fa-file-pdf"></i>{{label}}</span>
+<span *ngIf="isDownloading">Descargando</span>
+</span>

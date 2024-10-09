@@ -4,6 +4,9 @@ import {CreditoService} from '../../../../services/credito.service';
 import {FechasService} from '../../../../services/fechas.service';
 import {DomService} from '../../../../services/dom.service';
 import {TableLazyLoadEvent} from 'primeng/table';
+import {ExcelUtilService} from '../../../../services/utils/excelutil.service';
+import {ExportgridService} from '../../../../services/exportgrid.service';
+import {SwalService} from '../../../../services/swal.service';
 
 @Component({
     selector: 'app-cuentasxcp',
@@ -29,9 +32,14 @@ export class CuentasxcpComponent implements OnInit {
     page = 0;
     tipopago = 1; // 0-todos, 1-con saldo pendiente, 2-pagados en su totalidad
     tipospagos = [];
+    isDownloading = false;
+    protected readonly Math = Math;
 
     constructor(private creditoService: CreditoService,
                 private fechasservice: FechasService,
+                private excelService: ExcelUtilService,
+                private gridService: ExportgridService,
+                private swalService: SwalService,
                 private domService: DomService,
                 private route: ActivatedRoute) {
         this.route.paramMap.subscribe(params => {
@@ -85,18 +93,11 @@ export class CuentasxcpComponent implements OnInit {
         this.listar();
     }
 
+
     listar() {
         this.isLoading = true;
-        let desde = '';
-        let hasta = '';
-        if (this.form.desde) {
-            desde = this.fechasservice.formatDate(this.form.desde);
-        }
-        if (this.form.hasta) {
-            hasta = this.fechasservice.formatDate(this.form.hasta);
-        }
-
-        this.creditoService.listarGrid(this.tipo, desde, hasta, this.filtro, this.rows, this.page, this.tipopago).subscribe(res => {
+        const fechas = this.fechasservice.getDateFilters(this.form);
+        this.creditoService.listarGrid(this.tipo, fechas.desde, fechas.hasta, this.filtro, this.rows, this.page, this.tipopago).subscribe(res => {
             if (res.status === 200) {
                 this.grid = res.grid;
                 if (this.grid.totales) {
@@ -141,5 +142,69 @@ export class CuentasxcpComponent implements OnInit {
         }
     }
 
-    protected readonly Math = Math;
+    getBodyToExport(griddata: any) {
+        const cols = griddata.cols;
+        const totales = {};
+        cols.forEach(col => {
+            let value = '';
+            const field = col.field;
+            if (field === 'referente') {
+                value = 'TOTALES:';
+            } else if (field === 'dt_valor') {
+                value = griddata.totales.credito;
+            } else if (field === 'cre_saldopen') {
+                value = griddata.totales.saldopend;
+            }
+            totales[field] = value;
+        });
+
+        return {
+            title: this.title,
+            columns: cols,
+            data: griddata.data,
+            totals: totales
+        };
+    }
+
+
+    exportDataToPdf(griddata: any, self: any) {
+        self.gridService.exportListPDF(self.getBodyToExport(griddata))
+            .subscribe((res: ArrayBuffer) => {
+                self.gridService.viewPdf(res);
+            });
+    }
+
+    exportDataToExcel(griddata: any, self: any) {
+        self.gridService.exportListExcel(self.getBodyToExport(griddata))
+            .subscribe((res: Blob) => {
+                self.excelService.downloadExcelFile(res, 'listado', true);
+            });
+    }
+
+    loadDataToExport(fhthen: any) {
+        this.isDownloading = false;
+        const mxreport = this.grid.mxrexport || 1000;
+        if (this.totalRecords <= this.grid.mxrexport) {
+            this.isDownloading = true;
+            const fechas = this.fechasservice.getDateFilters(this.form);
+            this.creditoService.listarGridForExport(this.tipo, fechas.desde, fechas.hasta, this.filtro, this.tipopago).subscribe(res => {
+                this.isDownloading = false;
+                if (res.status === 200) {
+                    fhthen(res.grid, this);
+                    this.isDownloading = false;
+                }
+            });
+        } else {
+            this.swalService.fireToastError('Puede descargar un máximo de ' + mxreport +
+                ' filas, favor ingrese mas filtros de búsqueda');
+        }
+    }
+
+    exportToPdf() {
+        this.loadDataToExport(this.exportDataToPdf);
+    }
+
+    exportToExcel() {
+        this.loadDataToExport(this.exportDataToExcel);
+    }
 }

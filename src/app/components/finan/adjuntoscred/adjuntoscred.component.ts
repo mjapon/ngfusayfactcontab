@@ -1,16 +1,16 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
-import { CtesService } from "src/app/services/ctes.service";
-import { FinanCreditosService } from "src/app/services/finan/finacreditos.service";
-import { RxdocsService } from "src/app/services/rxdocs.service";
-import { SwalService } from "src/app/services/swal.service";
-import { BaseComponent } from "../../shared/base.component";
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { CtesService } from 'src/app/services/ctes.service';
+import { FinanCreditosService } from 'src/app/services/finan/finacreditos.service';
+import { RxdocsService } from 'src/app/services/rxdocs.service';
+import { SwalService } from 'src/app/services/swal.service';
+import { BaseComponent } from '../../shared/base.component';
 
 @Component({
     selector: 'app-finadjuntoscred',
     templateUrl: './adjuntoscred.component.html'
 })
 export class FinanAdjuntosCredComponent extends BaseComponent implements OnInit, OnChanges {
-    @Input() cred: number = 0;
+    @Input() cred = 0;
 
     adjuntos: Array<any> = [];
 
@@ -23,9 +23,9 @@ export class FinanAdjuntosCredComponent extends BaseComponent implements OnInit,
     form: any = {};
 
     constructor(private swalService: SwalService,
-        private credService: FinanCreditosService,
-        private ctes: CtesService,
-        private adjService: RxdocsService) {
+                private credService: FinanCreditosService,
+                private ctes: CtesService,
+                private adjService: RxdocsService) {
         super();
     }
 
@@ -45,7 +45,7 @@ export class FinanAdjuntosCredComponent extends BaseComponent implements OnInit,
             if (this.isResultOk(res)) {
                 this.adjuntos = res.adjuntos;
             }
-        })
+        });
     }
 
     showFormCrea() {
@@ -55,7 +55,7 @@ export class FinanAdjuntosCredComponent extends BaseComponent implements OnInit,
                 this.form = res.form;
                 this.isShowCrea = true;
             }
-        })
+        });
     }
 
     cancelar() {
@@ -66,7 +66,7 @@ export class FinanAdjuntosCredComponent extends BaseComponent implements OnInit,
 
     guardar() {
         const msg = '¿Seguro que desea registrar el adjunto?';
-        let filetopost = null;
+        const filetopost = null;
         if (this.datafile && this.base64data) {
             this.form.adj_filename = this.datafile.name;
             this.form.archivo = this.base64data;

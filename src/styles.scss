@@ -30,7 +30,7 @@ ol, ul {
 
 html {
   /*font-size: 14px;*/
-  font-size: 1rem;
+  font-size: 0.92rem;
 }
 
 /*Estilos agregados de la pagin del blog*/
@@ -40,8 +40,6 @@ html {
 }
 
 body {
-  /*color: #212529;
-  font-family: 'Poppins', 'Times New Roman', serif !important;*/
   font-family: 'Roboto', sans-serif;
 
 }
@@ -61,28 +59,9 @@ h6 {
 }
 
 a {
-  /*color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));*/
   text-decoration: none;
 }
 
-/*
-a {
-  color: #212529;
-  transition: all 0.2s;
-}
-
-a:focus, a:hover {
-  color: #0085A1;
-}
-
-form .form-group:firs|t-child .floating-label-form-group {
-  border-top: 1px solid #dee2e6;
-}
-
-.ui-table table {
-  table-layout: auto !important;
-}
-*/
 .required {
   color: #f21d00;
 }
@@ -231,6 +210,13 @@ form .form-group:firs|t-child .floating-label-form-group {
   background-image: linear-gradient(to right, #9D1F63, #D91C5C);
 }
 
+
+.textmavil{
+  color:#334155;
+}
+.textmavil:hover{
+  color: #9D1F63 !important
+}
 
 .animate-charcter {
   text-transform: uppercase;
@@ -656,6 +642,7 @@ form .form-group:firs|t-child .floating-label-form-group {
     position: fixed;
     margin-top: 60px;
     height: calc(100vh - 70px);
+    width: 100%;
   }
   .bd-sidebar {
     position: sticky;
@@ -772,3 +759,25 @@ a {
   margin: 0 20px
 }
 
+.footertotales{
+  width:100%;
+  font-weight: bold;
+}
+.celda-total{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.celda-total-start{
+  width: 100%;
+  display: flex;
+}
+
+.fixcolwid {
+  width: 100%;
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

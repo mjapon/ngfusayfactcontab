@@ -23,7 +23,7 @@ export class AsientoService extends BaseService {
         return this._doGetAction(this.ctes.gdetdoc, {trncod, foredit});
     }
 
-    generarNotaCredito(trncodigo){
+    generarNotaCredito(trncodigo) {
         return this._doPostAction('notacred', {trn_codigo: trncodigo});
     }
 
@@ -36,7 +36,14 @@ export class AsientoService extends BaseService {
     }
 
     listarGridVentas(desde, hasta, filtro, tracod, tipo, limit, first) {
-        return this._doGetAction(this.ctes.gridventas, {desde, hasta, filtro, tracod, tipo, limit, first});
+        const doexp = 0;
+        return this._doGetAction(this.ctes.gridventas, {desde, hasta, filtro, tracod, tipo, limit, first, doexp});
+    }
+
+    listarGridVentasForExport(desde, hasta, filtro, tracod, tipo, limit) {
+        const doexp = 1;
+        const first = 0;
+        return this._doGetAction(this.ctes.gridventas, {desde, hasta, filtro, tracod, tipo, limit, first, doexp});
     }
 
     crearDocumento(form: any) {
@@ -131,14 +138,29 @@ export class AsientoService extends BaseService {
         return this.http.post(uri, body, {
             responseType: 'arraybuffer'
         });
+    }
 
+    exportVentasListPDF(body: any) {
+        const urlTomcat = this.ctes.urlTomcat;
+        const uri = `${urlTomcat}/grid/pdf`;
+        return this.http.post(uri, body, {
+            responseType: 'arraybuffer'
+        });
     }
 
     genExcelBalanceGeneral(items: Array<any>, periodo: string, titulo: string) {
         const urlTomcat = this.ctes.urlTomcat;
         const uri = `${urlTomcat}/contable/genBalanceGeneral`;
-        const body = {'titulo': titulo, 'periodo': periodo, 'items': items};
+        const body = {titulo, periodo, items};
 
+        return this.http.post(uri, body, {
+            responseType: 'blob',
+        });
+    }
+
+    exportVentasList(body: any) {
+        const urlTomcat = this.ctes.urlTomcat;
+        const uri = `${urlTomcat}/grid/excel`;
         return this.http.post(uri, body, {
             responseType: 'blob',
         });

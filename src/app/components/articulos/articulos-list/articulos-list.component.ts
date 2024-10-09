@@ -11,6 +11,8 @@ import {forkJoin} from 'rxjs';
 import {FautService} from '../../../services/faut.service';
 import {ArrayutilService} from '../../../services/arrayutil.service';
 import {CtesService} from '../../../services/ctes.service';
+import {ExcelUtilService} from '../../../services/utils/excelutil.service';
+import {ExportgridService} from '../../../services/exportgrid.service';
 
 @Component({
     selector: 'app-articulos-list',
@@ -20,8 +22,9 @@ import {CtesService} from '../../../services/ctes.service';
 export class ArticulosListComponent implements OnInit {
 
     filtro: string;
-    items: Array<any>;
-    cols: Array<any>;
+    grid: any = {};
+    //items: Array<any>;
+    //cols: Array<any>;
     selectedItem: any;
     enableBtns: boolean;
     page = 0;
@@ -37,6 +40,8 @@ export class ArticulosListComponent implements OnInit {
     totales: any;
 
     isLoading: boolean;
+    isDownloading = false;
+    totalRecord = 0;
 
     constructor(private artsService: ArticuloService,
                 private catsService: CategoriasService,
@@ -45,6 +50,8 @@ export class ArticulosListComponent implements OnInit {
                 private loadinUiServ: LoadingUiService,
                 private seccionService: SeccionService,
                 private arrayService: ArrayutilService,
+                private excelService: ExcelUtilService,
+                private gridService: ExportgridService,
                 private fautService: FautService,
                 private ctes: CtesService,
                 private router: Router) {
@@ -55,8 +62,8 @@ export class ArticulosListComponent implements OnInit {
         this.isLoading = true;
         this.totales = {};
         this.categorias = [];
-        this.items = new Array<any>();
-        this.cols = new Array<any>();
+        // this.items = new Array<any>();
+        // this.cols = new Array<any>();
         this.filtro = '';
         this.itemsCtxMenu = [
             {label: 'Ver detalles', icon: 'fa fa-eye', command: (event) => this.viewItem(this.selectedItem)},
@@ -116,6 +123,67 @@ export class ArticulosListComponent implements OnInit {
         this.router.navigate([this.ctes.mercaderiaView, this.selectedItem.ic_id]);
     }
 
+    getBodyToExport(griddata: any) {
+        const cols = griddata.cols;
+        const totales = {};
+        cols.forEach(col => {
+            let value = '';
+            const field = col.field;
+            if (field === 'ic_nombre') {
+                value = 'TOTALES:';
+            } else if (field === 'preciocompraiva') {
+                value = this.totales.tpciva;
+            } else if (field === 'precioventaiva') {
+                value = this.totales.tpviva;
+            } else if (field === 'ice_stock') {
+                value = this.totales.toti;
+            }
+            totales[field] = value;
+        });
+
+        return {
+            title: 'Listado de artículos/servicios',
+            columns: cols,
+            data: griddata.data,
+            totals: totales
+        };
+    }
+
+    exportDataToPdf(griddata: any, self: any) {
+        self.gridService.exportListPDF(self.getBodyToExport(griddata))
+            .subscribe((res: ArrayBuffer) => {
+                self.gridService.viewPdf(res);
+            });
+    }
+
+    exportDataToExcel(griddata: any, self: any) {
+        self.gridService.exportListExcel(self.getBodyToExport(griddata))
+            .subscribe((res: Blob) => {
+                self.excelService.downloadExcelFile(res, 'listado_productos', true);
+            });
+    }
+
+    loadDataToExport(fhthen: any) {
+        this.isDownloading = false;
+        const mxreport = this.grid.mxrexport || 1000;
+        if (this.totalRecord <= this.grid.mxrexport) {
+            this.isDownloading = true;
+            fhthen(this.grid, this);
+            this.isDownloading = false;
+        } else {
+            this.swalService.fireToastError('Puede descargar un máximo de ' + mxreport +
+                ' filas, favor ingrese mas filtros de búsqueda');
+        }
+    }
+
+    exportToPdf() {
+        this.loadDataToExport(this.exportDataToPdf);
+    }
+
+    exportToExcel() {
+        this.loadDataToExport(this.exportDataToExcel);
+    }
+
     deleteItem(rowItem: any) {
         const nombreProd = rowItem.ic_nombre;
         const msg = '¿Seguro que desea eliminar ' + nombreProd + ' ?';
@@ -142,14 +210,17 @@ export class ArticulosListComponent implements OnInit {
         if (this.selectedCat) {
             codcat = this.selectedCat;
         }
+        this.totalRecord = 0;
         this.artsService.listar(this.filtro, secId, codcat)
             .subscribe(response => {
                 this.loadingArts = false;
                 if (response.status === 200) {
                     const grid = response.data;
+                    this.totalRecord = grid.data.length;
+                    this.grid = grid;
                     this.totales = response.tot;
-                    this.items = grid.data;
-                    this.cols = grid.cols;
+                    //this.items = grid.data;
+                    //this.cols = grid.cols;
                 }
             });
     }

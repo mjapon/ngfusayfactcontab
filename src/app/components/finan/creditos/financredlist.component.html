@@ -1,28 +1,31 @@
 <div>
     <h1 class="bd-title">
         <i class="fa-solid fa-piggy-bank"></i>
-        Caja de Crédito</h1>
+        Caja de crédito</h1>
     <div class="row g-1 my-2">
         <div class="col-md-8">
-            <div>
-                <input [(ngModel)]="filtro" id="filtropag" type="text" class="form-control" autofocus
-                    (keyup)="doFilter()" placeholder="Buscar por número de cédula, nombres o apellidos">
+            <div class="input-group">
+                <input (keyup)="doFilter()" [(ngModel)]="finanCredListFilters.filtro" autofocus class="form-control" id="filtropag"
+                       placeholder="Buscar crédito por número de cédula, nombres o apellidos" type="text">
+                <button (click)="clearFilter()" [disabled]="!finanCredListFilters.filtro" class="btn btn-sm btn-info"
+                        title="Limpiar" type="button"><i class="fa-solid fa-xmark"></i></button>
             </div>
-
         </div>
         <div class="col-md-2 d-flex">
             <div class="ms-3">
-                <p-dropdown [options]="estados" id="estado_id" [(ngModel)]="estadosel"
-                    (onChange)="onestadochange($event)" optionLabel="est_nombre" inputId="estado"></p-dropdown>
+                <p-dropdown (onChange)="onestadochange()" [(ngModel)]="finanCredListFilters.estadosel" [options]="estados"
+                            id="estado_id" inputId="estado" optionLabel="est_nombre"></p-dropdown>
             </div>
-
         </div>
         <div class="col-md-2">
             <div class="d-flex justify-content-end">
-                <button class="ms-2 btn btn-outline-primary" (click)="loadCreditos()">Buscar</button>
-                <button class="ms-2 btn btn-primary" (click)="gotoCrear()">
+                <button (click)="loadCreditos()"
+                        class="ms-2 btn btn-outline-primary" title="Buscar por número de cédula, nombres o apellidos">Buscar
+                </button>
+                <button (click)="gotoCrear()" class="ms-2 btn btn-primary" title="Crear un nuevo crédito">
                     <i class="fas fa-plus-circle"></i>
-                    Nuevo </button>
+                    Nuevo
+                </button>
             </div>
         </div>
     </div>
@@ -32,14 +35,32 @@
     </div>
     <div *ngIf="!isLoading">
 
-        <p-table [value]="gridCreditos.data"
-                 [paginator]="true" [rows]="10" selectionMode="single" [responsive]="true"
-            [resizableColumns]="true">
+        <p-table [(first)]="page"
+                 [paginator]="true" [resizableColumns]="true"
+                 [responsive]="true"
+                 [rows]="rows"
+                 [value]="gridCreditos.data"
+                 paginatorPosition="top"
+                 responsiveLayout="scroll"
+                 scrollHeight="calc(100vh - 265px)"
+                 selectionMode="single">
+            <ng-template pTemplate="paginatorleft">
+                Total de registros: {{ totalRecord }}
+            </ng-template>
+            <ng-template pTemplate="paginatorright">
+                <app-export-btn [totalRecord]="totalRecord" [isDownloading]="isDownloading" [type]="1"
+                                (onClic)="exportToPdf()"></app-export-btn>
+                <app-export-btn [totalRecord]="totalRecord" [isDownloading]="isDownloading" [type]="2"
+                                (onClic)="exportToExcel()"></app-export-btn>
+                <span>
+                Página {{ totalRecord > 0 ? Math.floor(page / rows) + 1 : 0 }} de {{ Math.ceil(totalRecord / rows) }}
+                    </span>
+            </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th *ngFor="let item of gridCreditos.cols" [pSortableColumn]="item.field" [ngSwitch]="item.field"
+                    <th *ngFor="let item of gridCreditos.cols" [ngSwitch]="item.field" [pSortableColumn]="item.field"
                         [width]="item.width">
-                        <span class="fontsizesm">{{item.label}}</span>
+                        <span class="fontsizesm">{{ item.label }}</span>
                         <p-sortIcon [field]="item.field"></p-sortIcon>
                     </th>
                     <th>
@@ -47,22 +68,23 @@
                     </th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-rowData>
-                <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="onrowdblclick(rowData)"
-                    styleClass="p-0" [ngClass]="getStyle(rowData)" (mouseover)="setRowOver(gridCreditos.data.indexOf(rowData))">
+            <ng-template let-rowData pTemplate="body">
+                <tr (dblclick)="onrowdblclick(rowData)" (mouseover)="setRowOver(gridCreditos.data.indexOf(rowData))" [ngClass]="getStyle(rowData)"
+                    [pContextMenuRow]="rowData" [pSelectableRow]="rowData"
+                    styleClass="p-0">
                     <td *ngFor="let item of gridCreditos.cols" [width]="item.width">
-                        <span class="p-column-title">{{item.label}}</span>
-                        <span class="fontsizesm">{{rowData[item.field]}}</span>
+                        <span class="p-column-title">{{ item.label }}</span>
+                        <span class="fontsizesm">{{ rowData[item.field] }}</span>
                     </td>
                     <td>
-                        <button class="btn btn-sm hand"
-                            [ngClass]="gridCreditos.data.indexOf(rowData)===currentRowOver?'btn-primary':'btn-outline-dark'"
-                            (click)="onrowdblclick(rowData)">
+                        <button (click)="onrowdblclick(rowData)"
+                                [ngClass]="gridCreditos.data.indexOf(rowData)===currentRowOver?'btn-primary':'btn-outline-dark'"
+                                class="btn btn-sm hand">
                             <span class="px-2 fa fa-chevron-right"></span></button>
                     </td>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="emptymessage" let-columns>
+            <ng-template let-columns pTemplate="emptymessage">
                 <tr>
                     <td [attr.colspan]="gridCreditos.cols?.length+1">
                         <span class="text-muted">No hay registros</span>
@@ -70,6 +92,21 @@
                 </tr>
             </ng-template>
         </p-table>
+        <div>
+            <table class="footertotales">
+                <tr>
+                    <td *ngFor="let item of gridCreditos.cols" [width]="item.width">
+                        <div class="celda-total">
+                            <span *ngIf="item.field==='cre_id'" class="fw-light">TOTALES:</span>
+                            <span *ngIf="item.field==='cre_monto'"
+                                  class="fw-light d-flex flex-row-reverse">{{ totales.total_monto }}</span>
+                            <span *ngIf="item.field==='cre_saldopend'"
+                                  class="fw-light d-flex flex-row-reverse">{{ totales.total_saldopend }}</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
 
     </div>

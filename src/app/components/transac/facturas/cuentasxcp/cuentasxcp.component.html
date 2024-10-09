@@ -37,7 +37,7 @@
 <div>
     <p-table *ngIf="grid" [value]="grid.data" [paginator]="true" [rows]="12" selectionMode="single"
              [(selection)]="selectedItem"
-             scrollHeight="calc(100vh - 265px)"
+             scrollHeight="calc(100vh - 290px)"
              responsiveLayout="scroll"
              tableStyleClass="table table-hover table-striped table-bordered fusay-table"
              [lazy]="true"
@@ -54,11 +54,19 @@
             Total de registros: {{ totalRecords }}
         </ng-template>
         <ng-template pTemplate="paginatorright">
+
+            <app-export-btn [totalRecord]="totalRecords" [isDownloading]="isDownloading" [type]="1"
+                            (onClic)="exportToPdf()"></app-export-btn>
+            <app-export-btn [totalRecord]="totalRecords" [isDownloading]="isDownloading" [type]="2"
+                            (onClic)="exportToExcel()"></app-export-btn>
+
+            <span>
             Página {{ totalRecords > 0 ? Math.floor(page / rows) + 1 : 0 }} de {{ Math.ceil(totalRecords / rows) }}
+            </span>
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th>#</th>
+                <th [width]="'2%'">#</th>
                 <th *ngFor="let item of grid.cols" [pSortableColumn]="item.field" [ngSwitch]="item.field"
                     [width]="item.width">
                     {{ item.label }}
@@ -70,30 +78,16 @@
         <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
             <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="verRow(rowData)">
                 <td>{{ rowIndex + 1 }}</td>
-                <td *ngFor="let item of grid.cols">
-                    <span class="fontsizesm">{{ rowData[item['field']] }}</span>
+                <td *ngFor="let item of grid.cols" [width]="item.width">
+                    <div class="fixcolwid">
+                        <span class="fontsizesm">{{ rowData[item['field']] }}</span>
+                    </div>
                 </td>
                 <td>
                     <button class="btn btn-sm btn-outline-dark" (click)="verRow(rowData)" title="Editar">
                         <i class="fas fa-eye"></i>
                     </button>
                 </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="footer">
-            <tr *ngIf="grid.cols">
-                <th [attr.colspan]="grid.cols.length-2">
-                    <span class="fw-bold">TOTAL:</span>
-                </th>
-                <th>
-                    <span> {{ totales.credito|number:'.2' }}</span>
-                </th>
-                <th>
-                    <span> {{ totales.saldopend|number:'.2' }}</span>
-                </th>
-                <th>
-
-                </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage" let-columns>
@@ -104,6 +98,30 @@
             </tr>
         </ng-template>
     </p-table>
+
+    <div *ngIf="totalRecords>0">
+        <table class="footertotales">
+            <tr>
+                <td>
+
+                </td>
+                <td *ngFor="let item of grid.cols" [width]="item.width">
+                    <div class="celda-total-start">
+                        <span *ngIf="item.field==='referente'">TOTALES:</span>
+                        <span *ngIf="item.field==='dt_valor'">
+                            {{ totales.credito|number:'.2' }}
+                        </span>
+                        <span *ngIf="item.field==='cre_saldopen'">
+                            {{ totales.saldopend|number:'.2' }}</span>
+                    </div>
+                </td>
+                <td [width]="'11%'">
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
 </div>
 <div *ngIf="isShowDetallesFactura">
     <p-dialog header="Detalles del documento" [modal]="true" [style]="{width: '70vw'}" [baseZIndex]="9"

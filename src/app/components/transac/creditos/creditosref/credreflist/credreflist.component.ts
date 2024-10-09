@@ -23,7 +23,6 @@ export class CredreflistComponent implements OnInit, OnChanges {
     @Input() codref: number;
     @Output() evDeudasChange = new EventEmitter<any>();
 
-
     constructor(private creditoService: CreditoService) {
         this.tipospagos = this.creditoService.getTiposPagos();
     }

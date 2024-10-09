@@ -1,15 +1,14 @@
 <div>
-    <div class="bd-title">
-        <h1>
+
+        <h1 class="bd-title">
             <i class="fa-solid fa-money-check-dollar"></i>
             Detalles del crédito Nro: {{ datoscred.cre_id }}
-        </h1>
-        <h4 class="ms-5">
-            {{ referente.per_nombres }}  {{ referente.per_apellidos }}  - MONTO: {{ datoscred.cre_monto }}
-            - {{ datoscred.est_nombre }}
-        </h4>
-    </div>
 
+            <span class="ms-5">
+                {{ referente.per_nombres }}  {{ referente.per_apellidos }}  - MONTO: {{ datoscred.cre_monto }}
+                - {{ datoscred.est_nombre }}
+            </span>
+        </h1>
     <div *ngIf="isLoading">
         <app-loading></app-loading>
     </div>
@@ -30,7 +29,7 @@
         <div>
             <div class="bd-grid" *ngIf="currentTab===1">
                 <div class="bd-grid-content">
-                    <div class="row">
+                    <div class="row g-0 mx-3">
                         <div class="col-md">
                             <div class="mt-3">
                                 <div class="mt-1">

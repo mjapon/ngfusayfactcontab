@@ -8,7 +8,7 @@
             <div class="bd-grid-content">
 
                 <div class="my-3">
-                    <div class="row">
+                    <div class="row g-0">
                         <div class="col-md">
                             <div class="row">
                                 <div class="col-md">
@@ -79,6 +79,8 @@
 
                     <div class="mt-3">
                         <p-table [value]="gridpagos.tabla"
+                                 responsiveLayout="scroll"
+                                 scrollHeight="calc(100vh - 350px)"
                                  tableStyleClass="table table-hover table-striped table-bordered fusay-table"
                                  [resizableColumns]="true" [(selection)]="selectedCuotas"
                                  [rowSelectable]="isRowSelectable">

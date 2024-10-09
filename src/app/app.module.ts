@@ -170,6 +170,7 @@ import {CuentasxcpComponent} from './components/transac/facturas/cuentasxcp/cuen
 import {GradientBgDirective} from './modules/sharedmed/gradientdiv/gradientbg';
 import {GradientShadowBgDirective} from './modules/sharedmed/gradientdiv/shadowbg';
 import {AnimIcoDirective} from './modules/sharedmed/gradientdiv/animico';
+import {ExportBtnComponent} from './components/shared/export-btn/export-btn.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -299,7 +300,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         FormNewrefBasic,
         PcontableCierreComponent,
         PcontableNewComponent,
-        AsientoCierreViewComponent
+        AsientoCierreViewComponent,
+        ExportBtnComponent
     ],
     imports: [
         CommonModule,
@@ -348,7 +350,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         MarklabelComponent,
         GradientShadowBgDirective,
         GradientBgDirective,
-        AnimIcoDirective,
+        AnimIcoDirective
         // SocketIoModule.forRoot(config)
     ],
     providers: [
