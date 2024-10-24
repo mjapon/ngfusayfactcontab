@@ -20,7 +20,13 @@ export class SeccionService extends BaseService {
         return this._doGetAction(this.ctes.listar);
     }
 
-    listarUserSecs(){
+    addTodos(secciones: Array<any>) {
+        const returnlist = [{sec_id: 0, sec_nombre: 'Todos'}];
+        returnlist.push(...secciones);
+        return returnlist;
+    }
+
+    listarUserSecs() {
         return this._doGetAction('listarusec');
     }
 

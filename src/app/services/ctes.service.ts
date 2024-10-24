@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { environment } from 'src/environments/environment';
+import {environment} from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -111,6 +111,8 @@ export class CtesService {
     protected MotivoConsultaTextArea = 'motivoConsultaTextArea';
     protected MsgConfirmChangeSec = '¿Confirma que desea realizar el cambio de sección?';
     protected MsgConfirmEditReg = '¿Confirma que desea editar este registro?';
+    public MsgConfirmUpdateReg = '¿Confirma que desea actualizar este registro?';
+    public MsgConfirmCreateReg = '¿Confirma que desea crear este registro?';
     protected MsgConfirmNotaCred = '¿Confirma que desea emitir una nota de crédito por la totalidad de esta factura?'
     protected MsgConfirmSave = '¿Confirma que desea registrar la información ingresada?';
     protected MsgDataIncompleteRef = 'Datos incompletos del referente, favor completar';
@@ -142,7 +144,8 @@ export class CtesService {
     protected MsgVerifInfo = 'Verifique la información ingresada';
     protected MsgWishPrint = '¿Desea imprimir?';
     protected NombreInput = 'nombreInput';
-    protected NumbersPattern = '^[0-9]*\\.*[0-9]*$';
+    public NumbersPattern = '^[0-9]*\\.*[0-9]*$';
+    public AlfaNumericPattern = /^[a-zA-Z0-9]+$/
     protected PerCiruc = 'per_ciruc';
     protected PerCirucInput = 'perCirucInput';
     protected PerNombres = 'per_nombres';
@@ -595,8 +598,8 @@ export class CtesService {
         return this.MsgEditingFact;
     }
 
-    get msgTipoArchivoNoAdm(){
-        return this.MsgTipoArchivoNoAdm
+    get msgTipoArchivoNoAdm() {
+        return this.MsgTipoArchivoNoAdm;
     }
 
     get msgEnterCatName() {
@@ -619,11 +622,11 @@ export class CtesService {
         return this.MsgConfirmChangeSec;
     }
 
-    get msgConfirmEditReg(){
+    get msgConfirmEditReg() {
         return this.MsgConfirmEditReg;
     }
 
-    get msgConfirmNotaCred(){
+    get msgConfirmNotaCred() {
         return this.MsgConfirmNotaCred;
     }
 

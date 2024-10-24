@@ -60,6 +60,7 @@ import {HomefacteComponent} from './components/facte/homefacte/homefacte.compone
 import {PcontableCierreComponent} from './components/contabilidad/periodocontable/cierre/pcontablecierre.component';
 import {PcontableNewComponent} from './components/contabilidad/periodocontable/apertura/pcontablenew.component';
 import {CuentasxcpComponent} from './components/transac/facturas/cuentasxcp/cuentasxcp.component';
+import {ParametrosComponent} from './modules/sharedmed/parametros/parametros.component';
 // import {AdminGuard} from './guards/admin/admin.guard';
 
 const aguapmod: CtesAguapService = new CtesAguapService();
@@ -128,6 +129,7 @@ const routes: Routes = [
     {path: finamod.rutaDetCred, component: FinanCredDetComponent},
     {path: finamod.rutaAperturaCta, component: FinanCuentasComponent},
     {path: finamod.rutaMovsCta, component: FinanMovsFormComponent},
+    {path: 'parametros', component: ParametrosComponent},
     {path: '**', component: HomeComponent}];
 
 @NgModule({

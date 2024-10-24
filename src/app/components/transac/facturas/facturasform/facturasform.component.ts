@@ -7,7 +7,7 @@ import {ArticuloService} from '../../../../services/articulo.service';
 import {LoadingUiService} from '../../../../services/loading-ui.service';
 import {ArrayutilService} from '../../../../services/arrayutil.service';
 import {FechasService} from '../../../../services/fechas.service';
-import {Router, withDebugTracing} from '@angular/router';
+import {Router} from '@angular/router';
 import {SeccionService} from '../../../../services/seccion.service';
 import {PersonaService} from '../../../../services/persona.service';
 import {forkJoin, Subscription} from 'rxjs';
@@ -20,7 +20,7 @@ import {CompeleService} from 'src/app/services/compele.service';
 @Component({
     selector: 'app-facturasform',
     templateUrl: './facturasform.component.html',
-    styles: ['.detfact{height: 20rem;  overflow: auto;} .rowfact{height: 4rem}']
+    styleUrl: 'facturasform.component.scss'
 })
 export class FacturasformComponent extends BaseComponent implements OnInit, OnDestroy {
     isLoading: boolean;
@@ -42,6 +42,13 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     formvuelto = {input: 0, vuelto: 0};
 
     formautoref: any = {};
+    totalCantItems = 0;
+    previusIsConsFinal = true;
+    previusReferentForm: any = {};
+    referentForm: any = {};
+
+    // tiposReferentes: SelectItem[];
+    // tiporefsel: number;
 
     @Input() form: any;
     @Input() tracodigo: number;
@@ -49,7 +56,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
 
     @Input() showtitulo = true;
     @Input() showreferente = true;
-    @Input() showdetalles = true;
+    //@Input() showdetalles = true;
     @Input() showtotales = true;
     @Input() showbuttons = true;
 
@@ -69,9 +76,6 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     isShowDetProd = false;
     showCreaNewRef = false;
     isFacteEle = false;
-
-    stateOptions: any[] = [{label: 'Consumidor Final', value: true},
-        {label: 'Con datos', value: false}];
 
     constructor(private asientoService: AsientoService,
                 private numberService: NumberService,
@@ -119,6 +123,21 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
                 }
             }
         });
+    }
+
+    calcularTotalArticulos() {
+        let totalArticulos = 0;
+        if (this.form && this.form.detalles) {
+            this.form.detalles.forEach((row) => {
+                totalArticulos += row.dt_cant;
+            });
+        }
+
+        if (totalArticulos) {
+            this.totalCantItems = totalArticulos;
+        } else {
+            this.totalCantItems = null;
+        }
     }
 
     initTotales() {
@@ -171,6 +190,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         }
         this.evTotalesUpd.emit(this.form);
         this.onVueltoChange();
+        this.calcularTotalArticulos();
     }
 
     getNewEmptyRow(art) {
@@ -397,21 +417,20 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         }
     }
 
-    loadFormReferente() {
+    loadFormReferente(fnthen?: any) {
         this.form.form_persona = {};
         this.isDisabledFormRef = false;
-        this.isConsumidorFinal = false;
+        //this.isConsumidorFinal = false;
         this.personaServ.getForm().subscribe(res => {
             if (this.isResultOk(res)) {
                 this.form.form_persona = res.form;
-                if (!this.isfacturacompra) {
-                    this.domService.setFocusTm(this.ctes.per_ciruc);
+                if (this.form.form_cab.secuencia) {
+                    //  this.domService.setFocusTm(this.ctes.per_ciruc);
                 } else {
-                    if (this.form.form_cab.secuencia) {
-                        this.domService.setFocusTm(this.ctes.per_ciruc);
-                    } else {
-                        this.domService.setFocusTm(this.ctes.fc_secuencia);
-                    }
+                    this.domService.setFocusTm(this.ctes.fc_secuencia);
+                }
+                if (fnthen) {
+                    fnthen();
                 }
             }
         });
@@ -457,8 +476,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
                 this.impuestos = res0.impuestos;
                 this.numberService.setIva(this.impuestos.iva);
                 this.seccionSel = res0.secid;
-                this.isFacteEle = ((res0.sec_tipoamb || 0) > 0 || (res0.alm_tipoamb || 0))
-                    && this.ttransacc.tra_codigo === 1;
+                this.isFacteEle = (res0.facte_tipoamb || 0) > 0 && this.ttransacc.tra_codigo === 1;
             }
 
             if (this.isResultOk(res1)) {
@@ -508,7 +526,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     }
 
     verificaRefRegistrado() {
-        if (this.form.form_persona.per_id === 0) {
+        if (this.referentForm.per_id === 0) {
             this.buscarReferente();
         }
     }
@@ -524,14 +542,14 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     }
 
     buscarReferente() {
-        const per_ciruc = this.form.form_persona.per_ciruc;
+        const per_ciruc = this.referentForm.per_ciruc;
         if (per_ciruc && per_ciruc.trim().length > 3) {
             this.loadingUiService.publishBlockMessage();
             this.personaServ.buscarPorCi(per_ciruc).subscribe(res => {
                 if (this.isResultOk(res)) {
-                    this.form.form_persona = res.persona;
+                    this.referentForm = res.persona;
                     this.domService.setFocusTm(this.ctes.artsAutoCom);
-                    this.swalService.fireToastSuccess(this.ctes.msgRefRegistered);
+                    //this.swalService.fireToastSuccess(this.ctes.msgRefRegistered);
                 } else {
                     this.domService.setFocusTm(this.ctes.perNombresInput);
                 }
@@ -539,10 +557,52 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         }
     }
 
+    /*processTipoRefSelToConsFinal() {
+        console.log('Valor de tipo ref sel:', this.tiporefsel);
+    }*/
+
+    showModalEnterRefData() {
+        if (this.isConsumidorFinal) {
+            this.previusIsConsFinal = true;
+        } else {
+            this.previusIsConsFinal = false;
+            this.previusReferentForm = {...this.form.form_persona};
+        }
+
+        const referentDataSet = !this.isConsumidorFinal &&
+            (this.form.form_persona.per_id > 0 || this.form.form_persona.per_ciruc.trim().length > 0);
+
+        if (!referentDataSet) {
+            this.loadFormReferente(() => {
+                this.showCreaNewRef = true;
+                this.referentForm = {...this.form.form_persona};
+            });
+        } else {
+            this.showCreaNewRef = true;
+            this.referentForm = {...this.form.form_persona};
+        }
+    }
+
+    removeReferent() {
+        const tipoCliente = this.ttransacc.tra_codigo === 7 ? 'proveedor' : 'cliente';
+        if (confirm('¿Seguro que desea eliminar los datos del ' + tipoCliente)) {
+            if (this.isfacturacompra) {
+                this.clearFormPersona();
+            } else {
+                this.setAsConsumidorFinal();
+            }
+        }
+    }
+
+    setAsConsumidorFinal() {
+        this.loadConsumidorFinal();
+        this.domService.setFocusTm(this.ctes.artsAutoCom);
+    }
+
     onConsFinalChange() {
         if (!this.isConsumidorFinal) {
             this.loadFormReferente();
-            //this.showCreaNewRef = true;
+            this.showCreaNewRef = true;
         } else {
             this.loadConsumidorFinal();
             this.domService.setFocusTm(this.ctes.artsAutoCom);
@@ -586,7 +646,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
 
     onDescgenPorcChange() {
         const total = (this.form.totales.subtotal || 0) - (this.form.totales.descuentos || 0) + (this.form.totales.ivasindescg || 0);
-        let porcDescGlobal = Number(this.form.totales.descglobalpin);
+        const porcDescGlobal = Number(this.form.totales.descglobalpin);
         let descglobal = 0.0;
         if (total > 0 && porcDescGlobal >= 0 && porcDescGlobal <= 100) {
             descglobal = total * (porcDescGlobal / 100);
@@ -621,9 +681,9 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     onFilaDescPorcChange(fila: any) {
         const numberdtdecto = Number(fila.dt_dectoporcin);
         if (numberdtdecto >= 0 && numberdtdecto <= 100) {
-            const dt_dectocal = this.numberService.round4((numberdtdecto * fila.dt_precioiva) / 100);
-            if (dt_dectocal) {
-                fila.dt_dectoin = dt_dectocal;
+            const dtDectocal = this.numberService.round4((numberdtdecto * fila.dt_precioiva) / 100);
+            if (dtDectocal) {
+                fila.dt_dectoin = dtDectocal;
             } else {
                 fila.dt_dectoin = 0;
             }
@@ -664,18 +724,12 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         console.log('Seleccionado,', $event, this.artFiltrado);
         this.artsFiltrados = [];
         this.onServSelect($event.value);
-
     }
 
     ngOnDestroy(): void {
         if (this.factMsgSubs) {
             this.factMsgSubs.unsubscribe();
         }
-    }
-
-    toggleConsFinal() {
-        this.isConsumidorFinal = !this.isConsumidorFinal;
-        this.onConsFinalChange();
     }
 
     showDetallesProd(art: any) {
@@ -705,8 +759,9 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     }
 
     onRefSelect() {
+        console.log('On ref select-->');
         if (this.formautoref.referente && this.formautoref.referente.per_ciruc) {
-            this.form.form_persona.per_ciruc = this.formautoref.referente.per_ciruc;
+            this.referentForm.per_ciruc = this.formautoref.referente.per_ciruc;
             this.buscarReferente();
         }
     }
@@ -721,19 +776,30 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         );
     }
 
-    cancelBuscaRef() {
-        console.log('cancelBuscaRef--->');
-    }
-
-    showFormNewRef() {
-        console.log('showFormNewRef---->');
-    }
-
     closeModalRef() {
+        if (this.previusIsConsFinal) {
+            this.setAsConsumidorFinal();
+        } else if (this.previusReferentForm?.per_ciruc) {
+            this.form.form_persona = {...this.previusReferentForm};
+        }
         this.showCreaNewRef = false;
     }
 
     closeOkModalRef() {
+        this.previusReferentForm = {};
+        if (this.referentForm.per_ciruc || this.referentForm.per_id > 0) {
+            this.form.form_persona = {...this.referentForm};
+            this.isConsumidorFinal = false;
+        } else {
+            this.isConsumidorFinal = true;
+        }
+
         this.showCreaNewRef = false;
+        this.domService.setFocusTm(this.ctes.artsAutoCom);
     }
+
+    clearAutoRef() {
+        this.formautoref = {};
+    }
+
 }

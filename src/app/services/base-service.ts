@@ -40,7 +40,7 @@ export class BaseService {
                 // return throwError(e);
             }
             if (e.msg) {
-                swal.fire('',e.msg, error);
+                swal.fire('', e.msg, error);
             } else {
                 swal.fire(msgept, 'Verifique su conexión a internet', error);
             }
@@ -119,4 +119,17 @@ export class BaseService {
     protected _doPost(httpOptions, form) {
         return this.doPost(this.http, this.urlEndPoint, httpOptions, form);
     }
+
+    protected _doPut(httpOptions, form) {
+        return this.doPut(this.http, this.urlEndPoint, httpOptions, form);
+    }
+
+    protected _doPutEntity(entitycod, httpOptions, form) {
+        return this.doPut(this.http, `${this.urlEndPoint}/${entitycod}`, httpOptions, form);
+    }
+
+    protected _doPostEntity(entitycod, httpOptions, form) {
+        return this.doPost(this.http, `${this.urlEndPoint}/${entitycod}`, httpOptions, form);
+    }
+
 }

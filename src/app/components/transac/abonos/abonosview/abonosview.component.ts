@@ -6,6 +6,7 @@ import {DomService} from '../../../../services/dom.service';
 import {SwalService} from '../../../../services/swal.service';
 import {AsientoService} from '../../../../services/asiento.service';
 import {CtesService} from '../../../../services/ctes.service';
+import {RegexUtilService} from '../../../../services/shared/regex-util.service';
 
 @Component({
     selector: 'app-abonosview',
@@ -40,9 +41,12 @@ export class AbonosviewComponent implements OnInit, OnChanges {
     tracodabono = 0;
     isShowAsiento = false;
     pagosef: Array<any> = [];
+    numObsCharacters = 0;
+    maxCharacters = 200;
 
     constructor(private abonoService: AbonoService,
                 private domService: DomService,
+                private regexUtilService: RegexUtilService,
                 private ctes: CtesService,
                 private swalService: SwalService,
                 private loadingService: LoadingUiService,
@@ -131,6 +135,18 @@ export class AbonosviewComponent implements OnInit, OnChanges {
         });
     }
 
+    isValidMonto() {
+        const isValidDecimal = this.regexUtilService.isValidDecimalPattern(this.valorabono.toString() || '');
+        if (isValidDecimal) {
+            return this.valorabono > 0 && this.saldopendiente >= 0;
+        }
+        return isValidDecimal;
+    }
+
+    onObervacionChange() {
+
+    }
+
     onValorAbonoChange($event) {
         let auxsaldopendiente = this.datosCredito.cre_saldopen;
         try {
@@ -138,8 +154,6 @@ export class AbonosviewComponent implements OnInit, OnChanges {
                 const valorAbono = Number(this.valorabono);
                 if (valorAbono && valorAbono >= 0) {
                     auxsaldopendiente = (this.datosCredito.cre_saldopen - valorAbono).toFixed(2);
-                } else {
-                    this.swalService.fireToastError('Valor del abono incorrecto');
                 }
             }
         } catch (e) {
@@ -234,5 +248,12 @@ export class AbonosviewComponent implements OnInit, OnChanges {
 
     imprimirAbono(abo: any) {
         this.asientoService.imprimirAbono(abo.trn_codigo_abo);
+    }
+
+    checkObservMaxLength() {
+        const observ = this.formAbono?.formcab?.trn_observ || '';
+        if (observ.length > this.maxCharacters) {
+            this.formAbono.formcab.trn_observ = observ.substring(0, this.maxCharacters);
+        }
     }
 }

@@ -4,20 +4,7 @@ $primaryColor: #9D1F63;
 $enable-shadows: true;
 $prefix: "mo-";
 
-
-/* Order */
-//@layer reset, primeng;
-
-/* Reset CSS */
-//@layer reset {
-//  button,
-//  input {
-/* CSS to Reset */
-//  }
-//}
-
 @import "../node_modules/bootstrap/scss/bootstrap";
-
 
 ol, ul, dl {
   margin-top: 0;
@@ -29,33 +16,12 @@ ol, ul {
 }
 
 html {
-  /*font-size: 14px;*/
   font-size: 0.92rem;
-}
-
-/*Estilos agregados de la pagin del blog*/
-html {
-  //font-family: 'Poppins', 'Times New Roman', serif !important;
-  /*font-size: 15px;*/
 }
 
 body {
   font-family: 'Roboto', sans-serif;
-
-}
-
-body, html {
-  /*height: 100%;
-  margin: 0;*/
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  /*font-weight: 800;*/
+  //font-family: "Source Sans Pro", Arial, sans-serif
 }
 
 a {
@@ -71,7 +37,7 @@ a {
 }
 
 .fusay-table {
-  font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+  //font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
   font-size: 0.9rem;
   -webkit-font-smoothing: antialiased;
 }
@@ -125,9 +91,13 @@ a {
   border-color: #9D1F63 !important;
 }
 
+.colormavil:hover {
+  color: #FFFFFF !important;
+  background-image: linear-gradient(to right, #9D1F63, #D91C5C);
+}
+
 .navbarmavil {
   background-color: #9D1F63 !important;
-
 }
 
 .bgapp {
@@ -180,7 +150,6 @@ a {
   color: black;
 }
 
-
 .waviy {
   -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0, 0, 0, .2));
   font-size: 60px;
@@ -205,10 +174,7 @@ a {
   }
 }
 
-.colormavil:hover {
-  color: #FFFFFF !important;
-  background-image: linear-gradient(to right, #9D1F63, #D91C5C);
-}
+
 
 
 .textmavil{
@@ -780,4 +746,24 @@ a {
   white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.mavil-table-border tr{
+  border: 1px solid #dee2e6;
+}
+
+.mavil-table-border td, .mavil-table-border th{
+  border-right: 1px solid #dee2e6;
+}
+
+.div-textarea-count{
+  display:flex;
+  flex-direction: row-reverse;
+  color: rgba(33, 37, 41, 0.75) !important;
+}
+
+.div-textarea-count-max{
+  display:flex;
+  flex-direction: row-reverse;
+  color: #27bd10 !important;
 }

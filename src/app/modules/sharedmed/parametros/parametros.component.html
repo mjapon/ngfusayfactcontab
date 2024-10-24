@@ -1,0 +1,309 @@
+<h1 class="bd-title">
+    <i class="fa-solid fa-cogs"></i>
+    Parámetros del sistema
+</h1>
+<div class="d-flex w-100 align-items-end">
+    <div class="w-50">
+        <input type="text" class="form-control" id="filtroInput" name="filtroInput" autocomplete="off"
+               (keyup.enter)="load()"
+               [(ngModel)]="filtro"
+               placeholder="Filtrar por codigo o descripción">
+    </div>
+    <div class="w-50 d-flex">
+
+        <div class="d-flex flex-column ms-2">
+            <span>Sección:</span>
+            <div>
+                <p-dropdown [options]="secciones" [(ngModel)]="selectedSection" (onChange)="load()"
+                            optionLabel="sec_nombre"
+                            optionValue="sec_id">
+                </p-dropdown>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column ms-2">
+            <span>Estado:</span>
+            <div>
+                <p-dropdown [options]="estados" [(ngModel)]="selectedStatus" (onChange)="load()"
+                            optionLabel="label"
+                            optionValue="value">
+                </p-dropdown>
+            </div>
+        </div>
+
+        <div class="d-flex align-items-end">
+            <button class="ms-2 btn btn-outline-primary" (click)="clear()" *ngIf="filtro">
+                Limpiar
+                <i class="fa-solid fa-eraser"></i>
+            </button>
+        </div>
+        <div class="d-flex align-items-end">
+            <button class="ms-2 btn btn-outline-primary" (click)="load()">
+                Buscar
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+        <div class="d-flex align-items-end">
+            <button class="ms-2 btn btn-outline-primary" (click)="showCreate()">
+                Crear
+                <i class="fa-solid fa-circle-plus"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<p-contextMenu #cm [model]="menu"></p-contextMenu>
+
+<div *ngIf="isLoading" class="d-flex flex-column align-items-center justify-content-center p-5 m-5">
+    <i class="fa-solid fa-circle-notch fa-spin" style=" font-size: 3rem;"></i>
+    <span>Espere...</span>
+</div>
+<div class="mt-2" *ngIf="!isLoading">
+    <p-table [value]="paremetersList" [paginator]="true" [rows]="rows" #table
+             [contextMenu]="cm"
+             [(first)]="page"
+             [(contextMenuSelection)]="selectedParam"
+             responsiveLayout="scroll"
+             scrollHeight="calc(100vh - 270px)"
+             tableStyleClass="table table-hover table-striped table-bordered fusay-table"
+             [autoLayout]="false"
+             paginatorPosition="top"
+             [resizableColumns]="true">
+
+        <ng-template pTemplate="paginatorleft">
+            <span class="text-body-secondary">Total de registros: {{ totalRecord }}</span>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            <span>
+                Página {{ totalRecord > 0 ? Math.floor(page / rows) + 1 : 0 }} de {{ Math.ceil(totalRecord / rows) }}
+            </span>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th [pSortableColumn]="'tprm_abrev'">
+                    <span>Código</span>
+                    <p-sortIcon [field]="'tprm_abrev'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'tprm_nombre'">
+                    <span>Descripción</span>
+                    <p-sortIcon [field]="'tprm_nombre'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'tprm_val'">
+                    <span>Valor</span>
+                    <p-sortIcon [field]="'tprm_val'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'estado'">
+                    <span>Estado</span>
+                    <p-sortIcon [field]="'estado'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'fecha'">
+                    <span>Fecha actualización</span>
+                    <p-sortIcon [field]="'fecha'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'user'">
+                    <span>Actualizado por</span>
+                    <p-sortIcon [field]="'user'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'seccion'">
+                    <span>Sección</span>
+                    <p-sortIcon [field]="'seccion'"></p-sortIcon>
+                </th>
+                <th>
+                    Acción
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData>
+            <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData">
+                <td>
+                    <span>{{ rowData['tprm_abrev'] }}</span>
+                </td>
+                <td>
+                    <span>{{ rowData['tprm_nombre'] }}</span>
+                </td>
+                <td>
+                    <span>{{ rowData['tprm_val'] }}</span>
+                </td>
+                <td>
+                    <span>{{ rowData['estado'] }}</span>
+                </td>
+                <td>
+                    <span>{{ rowData['fecha'] }}</span>
+                </td>
+                <td>
+                    <span>{{ rowData['user'] }}</span>
+                </td>
+                <td>
+                    <span>{{ rowData['seccion'] }}</span>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-outline-dark" (click)="showModalToEdit(rowData)" title="Editar">
+                        <i class="fa fa-edit"></i> Editar
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+                <td [attr.colspan]="8">
+                    <span class="text-muted">No hay registros</span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</div>
+
+<div>
+    <p-dialog header="Editar valor de parámetro" modal="true"
+              [(visible)]="isShowModalEdit"
+              [style]="{width:'50vw'}">
+        <div class="border p-2 rounded">
+
+            <div class="d-flex">
+                <span class="w-25">Código</span>
+                <input type="text" class="w-75 form-control" disabled [ngModel]="selectedParam?.tprm_abrev">
+            </div>
+            <div class="d-flex my-2">
+                <div class="w-25">
+                    <span class="required">*</span><span class="mx-1">Descripción</span>
+                </div>
+                <div class="w-75 d-flex flex-column">
+                    <input type="text" class="form-control" [ngClass]="{'is-invalid':!isValid()}" maxlength="80"
+                           #input="ngModel"
+                           [(ngModel)]="selectedParam.tprm_nombre">
+                    <div *ngIf="!isValid() && input.touched">
+                        <small class="text-danger">Valor incorrecto, no puede ingresar carateres especiales</small>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex my-2">
+                <div class="w-25">
+                    <span class="required">*</span><span class="mx-1">Valor</span>
+                </div>
+                <div class="w-75">
+                    <input type="text" class="form-control" maxlength="100"
+                           [(ngModel)]="selectedParam.tprm_val">
+                </div>
+            </div>
+            <div class="d-flex my-2">
+                <div class="w-25">
+                    <span class="required">*</span><span class="mx-1">Estado</span>
+                </div>
+                <div class="w-75 flex flex-wrap gap-3">
+                    <div class="flex align-items-center">
+                        <p-radioButton
+                                name="0"
+                                value="0"
+                                [(ngModel)]="selectedParam.tprm_estado"
+                                inputId="status1"/>
+                        <label class="ml-2">
+                            Activo
+                        </label>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-radioButton
+                                name="1"
+                                value="1"
+                                [(ngModel)]="selectedParam.tprm_estado"
+                                inputId="status2"/>
+                        <label class="ml-2">
+                            Inactivo
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <p-footer>
+            <div class="d-flex flex-row-reverse justify-content-evenly">
+                <button type="button" class="btn btn-outline-secondary" (click)="isShowModalEdit=false">
+                    <i class="fa-solid fa-times-circle"></i>
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-outline-primary" (click)="doUpdate()" [disabled]="!isValid()">
+                    <i class="fa-solid fa-save"></i>
+                    Guardar
+                </button>
+            </div>
+        </p-footer>
+
+    </p-dialog>
+</div>
+
+<div>
+    <p-dialog header="Crear parámetro" modal="true"
+              [(visible)]="isShowModalCreate"
+              [style]="{width:'50vw'}">
+        <div class="border p-2 rounded">
+
+            <div class="d-flex">
+                <div class="w-25">
+                    <span class="required">*</span>
+                    <span class="mx-1">Código</span>
+                </div>
+                <div class="w-75 d-flex flex-column">
+                    <input type="text" class="form-control" #codigoInput="ngModel" maxlength="20" required
+                           [ngClass]="{'is-invalid':!isValidField('codigo',1)}"
+                           [(ngModel)]="newParamForm.codigo">
+                    <div *ngIf="!isValidField('codigo',1) && codigoInput.touched">
+                        <small class="text-danger">Valor incorrecto</small>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex my-2">
+                <div class="w-25">
+                    <span class="required">*</span><span class="mx-1">Descripción</span>
+                </div>
+                <div class="w-75 d-flex flex-column">
+                    <input type="text" class="form-control" [ngClass]="{'is-invalid':!isValidField('descripcion',2)}"
+                           maxlength="80"
+                           required
+                           #descripcionInput="ngModel"
+                           [(ngModel)]="newParamForm.descripcion">
+                    <div *ngIf="!isValidField('descripcion',2) && descripcionInput.touched">
+                        <small class="text-danger">Valor incorrecto</small>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex my-2">
+                <div class="w-25">
+                    <span class="required">*</span><span class="mx-1">Valor</span>
+                </div>
+                <div class="w-75">
+                    <input type="text" required class="form-control" maxlength="150"
+                           [(ngModel)]="newParamForm.valor">
+                </div>
+            </div>
+            <div class="d-flex my-2">
+                <div class="w-25">
+                    <span class="required">*</span><span class="mx-1">Sección</span>
+                </div>
+                <div class="w-75 flex flex-wrap gap-3">
+                    <div class="flex align-items-center">
+                        <p-dropdown [options]="secciones" [(ngModel)]="selectedSectionCreate"
+                                    optionLabel="sec_nombre" [appendTo]="'body'"
+                                    optionValue="sec_id">
+                        </p-dropdown>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <p-footer>
+            <div class="d-flex flex-row-reverse justify-content-evenly">
+                <button type="button" class="btn btn-outline-secondary" (click)="isShowModalCreate=false">
+                    <i class="fa-solid fa-times-circle"></i>
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-outline-primary" (click)="doCreate()"
+                        [disabled]="!isValidFormCreate()">
+                    <i class="fa-solid fa-save"></i>
+                    Guardar
+                </button>
+            </div>
+        </p-footer>
+
+    </p-dialog>
+</div>

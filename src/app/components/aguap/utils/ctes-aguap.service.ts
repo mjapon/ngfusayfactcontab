@@ -15,7 +15,7 @@ export class CtesAguapService extends CtesService {
     private RutaPagoMavil = 'aguap/pagomavil';
     private RutaReporteLecturas = 'aguap/reportes/lecturas';
     private RutaReportePagos = 'aguap/reportes/pagos';
-    private RutaMain = "aguap/main";
+    private RutaMain = 'aguap/main';
     private MdgNum = 'mdg_num';
     private LmdValor = 'lmd_valor';
     private LmdValorant = 'lmd_valorant';

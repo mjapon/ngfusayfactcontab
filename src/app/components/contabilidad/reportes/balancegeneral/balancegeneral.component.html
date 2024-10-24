@@ -43,7 +43,7 @@
         </div>
 
         <p-treeTable [value]="datosbalancetree" [(selection)]="selectedTreeRow" selectionMode="single"
-            (dblclick)="togglexpand($event)">
+            (dblclick)="togglexpand($event)" class="mavil-table-border">
             <ng-template pTemplate="header">
                 <tr>
                     <th scope="col" width="10%">Código</th>
@@ -61,7 +61,7 @@
                         <span [style]="getfuente(rowNode.node)" class="ms-3"> {{rowNode.node.dbdata.ic_code}} </span>
                     </td>
                     <td class="quitaPadding">
-                        <span [style]="getfuente(rowNode.node)"> {{rowNode.node.dbdata.ic_nombre}} </span>
+                        <span [style]="getfuente(rowNode.node)" class="ms-1"> {{rowNode.node.dbdata.ic_nombre}} </span>
                     </td>
                     <td class="quitaPadding d-flex flex-row-reverse">
                         <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>

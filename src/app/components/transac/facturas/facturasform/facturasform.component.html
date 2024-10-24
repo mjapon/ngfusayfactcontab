@@ -1,20 +1,35 @@
 <div *ngIf="isLoading">
     <app-loading></app-loading>
 </div>
-
 <div *ngIf="!isLoading">
-    <div class="mt-3">
-        <p class="alert alert-warning mt-2" *ngIf="isedit && trncodedit>0 && datosdocedit">
-            Editando comprobante Nro {{ datosdocedit?.tasiento?.trn_compro }}
-        </p>
-
+    <div>
         <div class="border rounded p-2 mb-1">
             <div *ngIf="showtitulo">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md d-flex">
                         <h4 class="quitaPaddingMargin fw-bold">{{ ttransacc.tra_nombre }}</h4>
+                        <!--
+                        <div class="btn-group dropdown" *ngIf="tracodigo!==7">
+                            <button type="button" class="btn btn-outline-primary dropdown-toggle"
+                                    title="Cambiar tipo de transacción"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item" (click)="changeTransaccType()">
+                                    Cambiar a <span>{{ttransacc.tra_codigo===1?'Nota de venta':'Factura'}}</span>
+                                </a>
+                            </div>
+                        </div>-->
+                        <div class="ms-2" *ngIf="isFacteEle">
+                            <span class="badge bg-info">Documento Electrónico</span>
+                        </div>
+                        <!--
+                        <div class="ms-2">
+                            <button class="btn btn-sm btn-outline-primary" (click)="changeTransaccType()">Cambiar
+                            </button>
+                        </div>-->
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div class="d-flex flex-row">
                             <div class="d-flex align-items-center">
                                 <span class="fw-bold">Nro: </span>
@@ -22,13 +37,13 @@
                             <div class="ms-2 d-flex">
                                 <div class="d-flex align-items-center"><span> {{ form.form_cab.estabptoemi }}</span>
                                 </div>
-                                <input type="text" class="form-control form-control-sm  ms-2" id="fc_secuencia"
+                                <input type="text" class="form-control ms-2" id="fc_secuencia"
                                        maxlength="15" [(ngModel)]="form.form_cab.secuencia"
-                                       [disabled]="ttransacc.tra_tipdoc===1">
+                                       [disabled]="ttransacc.tra_tipdoc===1 || isedit">
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div class="d-flex flex-row">
                             <div class="d-flex align-items-center">
                                 <span class="fw-bold">Fecha:</span>
@@ -36,168 +51,222 @@
                             <p-calendar [(ngModel)]="form.form_cab.trn_fecregobj" [showIcon]="false"
                                         [disabled]="isFacteEle"
                                         class="ms-2 p-inputtext-sm" [maxDate]="currentdate" inputId="trn_fecregobj"
-                                        [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2100"
                                         dateFormat="dd/mm/yy">
                             </p-calendar>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div *ngIf="showreferente" class="mt-2">
-                <div class="row" *ngIf="ttransacc.tra_tipdoc === 1">
-                    <!--<div class="col-md">
-                        <p-selectButton
-                                [options]="stateOptions"
-                                [(ngModel)]="isConsumidorFinal"
-                                optionLabel="label"
-                                optionValue="value" />
-                    </div>
-
-                    <div class="col-md">
-                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" [checked]="isConsumidorFinal">
-                            <label class="btn btn-outline-success" for="btnradio1" (click)="isConsumidorFinal=true">
-                                <i class="fa-solid fa-check" *ngIf="isConsumidorFinal"></i>
-                                Consumidor Final
-                            </label>
-
-                            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" [checked]="!isConsumidorFinal">
-                            <label class="btn btn-outline-success" for="btnradio2" (click)="isConsumidorFinal=false;showCreaNewRef=true">
-                                <i class="fa-solid fa-check" *ngIf="!isConsumidorFinal"></i>
-                                Con datos</label>
+                    <div class="col-md" *ngIf="isedit && trncodedit>0 && datosdocedit">
+                        <div class="alert alert-warning" role="alert">
+                            Editando comprobante Nro {{ datosdocedit?.tasiento?.trn_compro }}
                         </div>
 
-                    </div>-->
-                    <div class="col-md">
-                        <div class="d-flex flex-row p-field-checkbox">
-                            <p-checkbox id="consfinalinput" binary="true" name="consfinalinput" inputId="binary"
-                                        [(ngModel)]="isConsumidorFinal" (onChange)="onConsFinalChange()"></p-checkbox>
-                            <label class="ms-1 mt-2 hand" (click)="toggleConsFinal()">Consumidor Final</label>
-                        </div>
-                    </div>
-                </div>
+                        <!--
+                        <p-selectButton *ngIf="ttransacc.tra_tipdoc === 1"
+                                        [options]="tiposReferentes"
+                                        [(ngModel)]="tiporefsel"
+                                        optionLabel="label"
+                                        optionValue="value"
+                                        (onChange)="onConsFinalChange()">
 
-                <div *ngIf="!isConsumidorFinal">
-                    <div class="row">
-                        <div class="col-lg-6 col-md my-3">
-                            <app-buscaref [form]="formautoref" (evOnEnterRef)="onEnterRef($event)" [showlugres]="false"
-                                          [stylevalidinvalid]="false" (evOnSelectRef)="onRefSelect()"></app-buscaref>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="mb-3">
-                                <span class="fontsizenr fw-bold">CI/Ruc: </span>
-                                <div class="input-group">
-                                    <input type="text" class="form-control form-control-sm"
-                                           [(ngModel)]="form.form_persona.per_ciruc" (blur)="verificaRefRegistrado()"
-                                           autocomplete="off" id="per_ciruc" (keydown.enter)="buscarReferente()"
-                                           [disabled]="form.form_persona.per_id>0" tabindex="10">
-                                    <button class="btn btn-sm btn-outline-dark" title="Buscar otro referente"
-                                            type="button" *ngIf="form.form_persona.per_id>0"
-                                            (click)="clearFormPersona()">
-                                        <span class="fa-solid fa-xmark"></span>
-                                    </button>
+                            <ng-template let-item>
+                                <span class="fa fa-check"></span>
+                            </ng-template>
+
+                        </p-selectButton>-->
+                        <!--
+                        <div class="row" *ngIf="ttransacc.tra_tipdoc === 1">
+                            <div class="col-md">
+                                <div class="d-flex flex-row p-field-checkbox">
+                                    <p-checkbox id="consfinalinput" binary="true" name="consfinalinput" inputId="binary"
+                                                [(ngModel)]="isConsumidorFinal"
+                                                (onChange)="onConsFinalChange()"></p-checkbox>
+                                    <label class="ms-1 mt-2 hand" (click)="toggleConsFinal()">Consumidor Final</label>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="mb-3">
-                                <span class="fontsizenr fw-bold">Nombres: </span>
-                                <input type="text" class="form-control form-control-sm" id="perNombresInput"
-                                       tabindex="11"
-                                       [(ngModel)]="form.form_persona.per_nombres" [disabled]="isDisabledFormRef"
-                                       maxlength="70">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="mb-3">
-                                <span class="fontsizenr fw-bold">Apellidos: </span>
-                                <input type="text" class="form-control form-control-sm" id="perApellidosInput"
-                                       tabindex="12"
-                                       [(ngModel)]="form.form_persona.per_apellidos" [disabled]="isDisabledFormRef"
-                                       maxlength="60">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="mb-3">
-                                <span class="fontsizenr fw-bold">Dirección: </span>
-                                <input type="text" class="form-control form-control-sm" id="perDireccionInput"
-                                       tabindex="13"
-                                       [(ngModel)]="form.form_persona.per_direccion" [disabled]="isDisabledFormRef"
-                                       maxlength="90">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="mb-3">
-                                <span class="fontsizenr fw-bold">Teléfono: </span>
-                                <input type="text" class="form-control form-control-sm" id="perTelfInput" tabindex="14"
-                                       [(ngModel)]="form.form_persona.per_telf" [disabled]="isDisabledFormRef"
-                                       maxlength="20">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="mb-3">
-                                <span class="fontsizenr fw-bold">Email: </span>
-                                <input type="text" class="form-control form-control-sm" id="perEamilInput" tabindex="15"
-                                       [(ngModel)]="form.form_persona.per_email" [disabled]="isDisabledFormRef"
-                                       maxlength="40">
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div *ngIf="showreferente">
+            <div class="d-md-flex justify-content-start align-items-center alert alert-info" role="alert">
+                <div class="d-flex" *ngIf="isConsumidorFinal">
+                    <span class="fw-lighter">Consumidor Final</span>
+                </div>
+                <div *ngIf="ttransacc.tra_codigo === 7 && !form.form_persona.per_ciruc">
+                    <span class="fw-lighter">Datos del proveedor</span>
+                </div>
+                <div class="d-md-flex" *ngIf="!isConsumidorFinal && form.form_persona.per_ciruc">
+                    <div class="mx-2">
+                        <span class="fw-lighter">Ci/Ruc: </span>
+                        <span class="fw-bold">{{ form.form_persona.per_ciruc }}</span>
+                    </div>
+                    <div class="mx-2">
+                        <span class="fw-lighter">Nombres y Apellidos:</span>
+                        <span class="fw-bold me-1">{{ form.form_persona.per_nombres }}</span>
+                        <span class="fw-bold"
+                              *ngIf="form.form_persona.per_apellidos">{{ form.form_persona.per_apellidos }}</span>
+                    </div>
+                    <div class="mx-2">
+                        <span class="fw-lighter">Dirección: </span>
+                        <span class="fw-bold">{{ form.form_persona.per_direccion }}</span>
+                    </div>
+                    <div class="mx-2">
+                        <span class="fw-lighter">Telf: </span>
+                        <span class="fw-bold">{{ form.form_persona.per_telf }}</span>
+                    </div>
+                    <div class="mx-2">
+                        <span class="fw-lighter">Email: </span>
+                        <span class="fw-bold">{{ form.form_persona.per_email }}</span>
+                    </div>
+                </div>
+                <div class="d-flex ms-3">
+                    <button class="btn btn-sm btn-outline-primary" (click)="showModalEnterRefData()">
+                        <span>
+                            <span *ngIf="isConsumidorFinal">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                                Cambiar</span>
+                            <span *ngIf="!isConsumidorFinal">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                                Editar</span>
+                        </span>
+                    </button>
+                    <button class="btn btn-sm btn-outline-primary ms-1" (click)="removeReferent()"
+                            *ngIf="!isConsumidorFinal && form.form_persona.per_ciruc">
+                        <i class="fa-regular fa-trash-can"></i>
+                        <span>Eliminar</span>
+                    </button>
+                </div>
+            </div>
+            <!--
+            <div class="row" *ngIf="ttransacc.tra_tipdoc === 1">
+                <div class="col-md">
+                    <div class="d-flex flex-row p-field-checkbox">
+                        <p-checkbox id="consfinalinput" binary="true" name="consfinalinput" inputId="binary"
+                                    [(ngModel)]="isConsumidorFinal" (onChange)="onConsFinalChange()"></p-checkbox>
+                        <label class="ms-1 mt-2 hand" (click)="toggleConsFinal()">Consumidor Final</label>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!isConsumidorFinal">
+                <div class="row">
+                    <div class="col-lg-6 col-md my-3">
+                        <app-buscaref [form]="formautoref" (evOnEnterRef)="onEnterRef($event)" [showlugres]="false"
+                                      [stylevalidinvalid]="false" (evOnSelectRef)="onRefSelect()"></app-buscaref>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <span class="fontsizenr fw-bold">CI/Ruc: </span>
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-sm"
+                                       [(ngModel)]="form.form_persona.per_ciruc" (blur)="verificaRefRegistrado()"
+                                       autocomplete="off" id="per_ciruc" (keydown.enter)="buscarReferente()"
+                                       [disabled]="form.form_persona.per_id>0" tabindex="10">
+                                <button class="btn btn-sm btn-outline-dark" title="Buscar otro referente"
+                                        type="button" *ngIf="form.form_persona.per_id>0"
+                                        (click)="clearFormPersona()">
+                                    <span class="fa-solid fa-xmark"></span>
+                                </button>
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <span class="fontsizenr fw-bold">Nombres: </span>
+                            <input type="text" class="form-control form-control-sm" id="perNombresInput"
+                                   tabindex="11"
+                                   [(ngModel)]="form.form_persona.per_nombres" [disabled]="isDisabledFormRef"
+                                   maxlength="70">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <span class="fontsizenr fw-bold">Apellidos: </span>
+                            <input type="text" class="form-control form-control-sm" id="perApellidosInput"
+                                   tabindex="12"
+                                   [(ngModel)]="form.form_persona.per_apellidos" [disabled]="isDisabledFormRef"
+                                   maxlength="60">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <span class="fontsizenr fw-bold">Dirección: </span>
+                            <input type="text" class="form-control form-control-sm" id="perDireccionInput"
+                                   tabindex="13"
+                                   [(ngModel)]="form.form_persona.per_direccion" [disabled]="isDisabledFormRef"
+                                   maxlength="90">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <span class="fontsizenr fw-bold">Teléfono: </span>
+                            <input type="text" class="form-control form-control-sm" id="perTelfInput" tabindex="14"
+                                   [(ngModel)]="form.form_persona.per_telf" [disabled]="isDisabledFormRef"
+                                   maxlength="20">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <span class="fontsizenr fw-bold">Email: </span>
+                            <input type="text" class="form-control form-control-sm" id="perEamilInput" tabindex="15"
+                                   [(ngModel)]="form.form_persona.per_email" [disabled]="isDisabledFormRef"
+                                   maxlength="40">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            -->
+        </div>
+
+
+        <div class="row">
+            <div class="col-md">
+                <div class="p-fluid">
+                    <p-autoComplete [(ngModel)]="artFiltrado" [suggestions]="artsFiltrados" autofocus="true"
+                                    (completeMethod)="buscaServs($event)" optionLabel="'ic_nombre'"
+                                    (keyup.enter)="onEnterFiltroArts($event)"
+                                    emptyMessage="Ninguna coincidencia encontrada"
+                                    (onSelect)="onServFilaSelected($event)"
+                                    inputId="artsAutoCom"
+                                    placeholder="Digite el nombre o el código del producto o servicio">
+                        <ng-template let-art pTemplate="item">
+                            <div>
+                                <div class="fontsizexsm text-muted quitaPaddingMargin">Cod:{{ art.ic_code }}
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div><span>{{ art.ic_nombre }} <span class="ms-3 fontsizenr fw-bold">
+                                                        ${{ art.icdp_precioventa_iva }}</span></span>
+                                    </div>
+                                    <span class="fontsizesm {{art.ice_stock>0?'text-success':'text-warning'}}"
+                                          *ngIf="art.tipic_id==1">#{{ art.ice_stock }}
+                                            </span>
+                                </div>
+                            </div>
+                        </ng-template>
+
+                    </p-autoComplete>
                 </div>
             </div>
         </div>
-
-        <div class="mt-2" *ngIf="showdetalles">
-            <div>
-                <!--<div *ngIf="form.detalles.length===0">
-                    <h5 class="p-1 text-muted"> Agrege productos o servicios</h5>
-                </div>-->
-
-                <div class="row">
-                    <div class="col-md">
-                        <div class="p-fluid">
-                            <p-autoComplete [(ngModel)]="artFiltrado" [suggestions]="artsFiltrados" autofocus="true"
-                                            (completeMethod)="buscaServs($event)" optionLabel="'ic_nombre'"
-                                            (keyup.enter)="onEnterFiltroArts($event)"
-                                            (onSelect)="onServFilaSelected($event)"
-                                            inputId="artsAutoCom"
-                                            placeholder="Digite el nombre o el código del producto o servicio">
-                                <ng-template let-art pTemplate="item">
-                                    <div>
-                                        <div class="fontsizexsm text-muted quitaPaddingMargin">Cod:{{ art.ic_code }}
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <div><span>{{ art.ic_nombre }} <span class="ms-3 fontsizenr fw-bold">
-                                                        ${{ art.icdp_precioventa_iva }}</span></span>
-                                            </div>
-                                            <span class="fontsizesm {{art.ice_stock>0?'text-success':'text-warning'}}"
-                                                  *ngIf="art.tipic_id==1">#{{ art.ice_stock }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </ng-template>
-
-                            </p-autoComplete>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="table-responsive mt-2 rounded border">
-                <table class="table table-bordered table-sm">
-                    <thead class="table-primary">
+        <div class="footer-shadow">
+            <div class="table-responsive mt-2 rounded border " [ngClass]="{'table-container':showreferente}">
+                <table class="table table-bordered table-sm maviltable">
+                    <thead class="table-primary mavilthead">
                     <tr>
                         <th scope="col" style="width: 3%">
                             <span class="fw-normal fontsizenr">#</span>
                         </th>
                         <th scope="col" style="width: 33%">
                                 <span class="fw-normal fontsizenr">
-                                    Producto/Servicio </span>
+                                    Descripción </span>
                         </th>
                         <th scope="col" style="width: 10%">
-                                <span class="fw-normal fontsizenr">
-                                    Cantidad </span>
+                                <span class="fw-normal fontsizenr mavilzindex">
+                                    Cantidad ({{ totalCantItems || 0 }}) </span>
                         </th>
                         <th scope="col" style="width: 10%">
                                 <span class="fw-normal fontsizenr">
@@ -230,8 +299,9 @@
                     <tbody>
                     <tr *ngIf="form.detalles.length===0" class="rowfact">
                         <td colspan="9">
-                            <div class="p-4 text-muted d-flex justify-content-center align-center">
-                                Agrege productos o servicios
+                            <div class="d-flex justify-content-center align-items-center"
+                                 [ngClass]="{'table-empty':showreferente}">
+                                <span class="text-secondary">Agrege productos o servicios</span>
                             </div>
                         </td>
                     </tr>
@@ -270,7 +340,8 @@
                         <td>
                             <div class="d-flex" style="min-width: 70px !important;">
                                 <div>
-                                    <select class="mt-1" [(ngModel)]="fila.dt_dectotipo" (change)="setFocusDesc(fila)">
+                                    <select class="mt-1" [(ngModel)]="fila.dt_dectotipo"
+                                            (change)="setFocusDesc(fila)">
                                         <option value="1">$</option>
                                         <option value="2">%</option>
                                     </select>
@@ -278,7 +349,8 @@
                                 <div *ngIf="fila.dt_dectotipo==='1'">
                                     <input type="text" id="desfil1_{{form.detalles.indexOf(fila)}}"
                                            class="form-control form-control-sm"
-                                           (keyup)="onFilaDescChange(fila)" [ngClass]="{'is-invalid':fila.dt_dectoerr}"
+                                           (keyup)="onFilaDescChange(fila)"
+                                           [ngClass]="{'is-invalid':fila.dt_dectoerr}"
                                            (focusin)="$event.target?.select()" [(ngModel)]="fila.dt_dectoin">
                                 </div>
                                 <div *ngIf="fila.dt_dectotipo==='2'">
@@ -312,147 +384,280 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="border rounded p-2 mt-2" *ngIf="showtotales">
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <span class="fw-light">SUBTOTAL:</span>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control form-control-sm" disabled
-                                   [(ngModel)]="form.totales.subtotal">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6"><span class="fw-light">DESCUENTO:</span>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control form-control-sm" disabled
-                                   [(ngModel)]="form.totales.descuentos">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 d-flex">
-                            <span class="fw-light">DESCUENTO GENERAL: </span>
-                        </div>
-                        <div class="col-md-6 d-flex">
-                            <input *ngIf="form.totales.descglobaltipo==='1'" type="text" id="descglobal1"
-                                   class="form-control form-control-sm" (keyup)="onDescgenChange()"
-                                   [ngClass]="{'is-invalid':form.totales.dt_dectogenerr}"
-                                   (focusin)="$event.target?.select()" [(ngModel)]="form.totales.descglobalin">
-
-                            <input *ngIf="form.totales.descglobaltipo==='2'" type="text" id="descglobal2"
-                                   class="form-control form-control-sm" (keyup)="onDescgenPorcChange()"
-                                   [ngClass]="{'is-invalid':form.totales.dt_dectogenerr}"
-                                   (focusin)="$event.target?.select()" [(ngModel)]="form.totales.descglobalpin">
-                            <select class="ms-1 mt-1" [(ngModel)]="form.totales.descglobaltipo"
-                                    (change)="setFocusDescGlobal()">
-                                <option value="1">$</option>
-                                <option value="2">%</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 "><span class="fw-light">IVA {{ impuestos.iva * 100 }}%
-                                DE {{ form.totales.subtotal12 }}:</span></div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control form-control-sm" disabled
-                                   [(ngModel)]="form.totales.iva">
-                        </div>
-                    </div>
-                    <div class="row  my-2 mx-0 alert alert-success" role="alert">
-                        <div class="col-md-6">
-                            <span class="fw-bold fs-4">TOTAL:</span>
-                        </div>
-                        <div class="col-md-6">
-                            <span class="fw-bold fs-4">{{ form.totales.total | number: '.2' }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div>
-                        <span>PAGOS:</span>
-                    </div>
-                    <div class="row" *ngFor="let pago of form.pagos">
-                        <div class="col-md-7">
-                            <div *ngIf="pago.ic_clasecc!=='E'" class="form form-control">
-                                <span>{{ pago.ic_nombre }}:</span>
+            <div>
+                <div class="p-2" *ngIf="showtotales">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <span class="fw-light">SUBTOTAL:</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control form-control-sm" disabled
+                                           [(ngModel)]="form.totales.subtotal">
+                                </div>
                             </div>
-                            <div *ngIf="pago.ic_clasecc==='E'" class="p-fluid">
-                                <p-dropdown [options]="pagosef" optionLabel="ic_nombre"
-                                            optionValue="ic_id"
-                                            placeholder="Seleccione la caja afectada" [showClear]="false"
-                                            [(ngModel)]="pago.cta_codigo"></p-dropdown>
+                            <div class="row">
+                                <div class="col-md-6"><span class="fw-light">DESCUENTO:</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control form-control-sm" disabled
+                                           [(ngModel)]="form.totales.descuentos">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md">
-                            <input type="number" class="form-control" (focusin)="$event.target.select()"
-                                   [(ngModel)]="pago.dt_valor" (keyup)="calculaPagos(pago)">
-                        </div>
-                    </div>
+                            <div class="row">
+                                <div class="col-md-6 d-flex">
+                                    <span class="fw-light">DESCUENTO GENERAL: </span>
+                                </div>
+                                <div class="col-md-6 d-flex">
+                                    <input *ngIf="form.totales.descglobaltipo==='1'" type="text" id="descglobal1"
+                                           class="form-control form-control-sm" (keyup)="onDescgenChange()"
+                                           [ngClass]="{'is-invalid':form.totales.dt_dectogenerr}"
+                                           (focusin)="$event.target?.select()"
+                                           [(ngModel)]="form.totales.descglobalin">
 
-                    <div class="px-2">
-                        <div class="row alert alert-secondary mt-4" role="alert">
-                            <div class="col-md-3">
-                                <span class="text-muted">CAMBIO:</span>
+                                    <input *ngIf="form.totales.descglobaltipo==='2'" type="text" id="descglobal2"
+                                           class="form-control form-control-sm" (keyup)="onDescgenPorcChange()"
+                                           [ngClass]="{'is-invalid':form.totales.dt_dectogenerr}"
+                                           (focusin)="$event.target?.select()"
+                                           [(ngModel)]="form.totales.descglobalpin">
+                                    <select class="ms-1 mt-1" [(ngModel)]="form.totales.descglobaltipo"
+                                            (change)="setFocusDescGlobal()">
+                                        <option value="1">$</option>
+                                        <option value="2">%</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 ">
+                                        <span class="fw-light">
+                                            IVA {{ impuestos.iva * 100 }}% DE {{ form.totales.subtotal12 }}:
+                                        </span></div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control form-control-sm" disabled
+                                           [(ngModel)]="form.totales.iva">
+                                </div>
                             </div>
 
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" (focusin)="$event.target.select()"
-                                       (keyup)="onVueltoChange()" [(ngModel)]="formvuelto.input">
+                            <div class="row mt-1">
+                                <div class="col-md-6">
+                                    <span class="fw-bold fs-4">TOTAL:</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="fw-bold fs-4">{{ form.totales.total | number: '.2' }}</span>
+                                </div>
                             </div>
-                            <div class="col-md">
-                                <span class="fw-bold fs-4">{{ formvuelto.vuelto | number: '.2' }}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <div>
+                                <span>PAGOS:</span>
+                            </div>
+                            <div class="row" *ngFor="let pago of form.pagos">
+                                <div class="col-md-7">
+                                    <div *ngIf="pago.ic_clasecc!=='E'" class="form form-control">
+                                        <span>{{ pago.ic_nombre }}:</span>
+                                    </div>
+                                    <div *ngIf="pago.ic_clasecc==='E'" class="p-fluid">
+                                        <p-dropdown [options]="pagosef" optionLabel="ic_nombre"
+                                                    optionValue="ic_id"
+                                                    placeholder="Seleccione la caja afectada" [showClear]="false"
+                                                    [(ngModel)]="pago.cta_codigo"></p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-md">
+                                    <input type="number" class="form-control" (focusin)="$event.target.select()"
+                                           [(ngModel)]="pago.dt_valor" (keyup)="calculaPagos(pago)">
+                                </div>
+                            </div>
+
+                            <div class="px-2">
+                                <div class="row mt-4">
+                                    <div class="col-md-3">
+                                        <span class="text-muted">CAMBIO:</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" (focusin)="$event.target.select()"
+                                               (keyup)="onVueltoChange()" [(ngModel)]="formvuelto.input">
+                                    </div>
+                                    <div class="col-md">
+                                        <span class="text-muted fs-5">{{ formvuelto.vuelto | number: '.2' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md d-flex flex-column justify-content-between">
+                            <div>
+                                    <textarea class="form-control" [(ngModel)]="form.form_cab.trn_observ"
+                                              rows="4"
+                                              maxlength="400"
+                                              placeholder="Ingrese una observación" appCharacterCount
+                                              autocomplete="off" id="trn_observ"></textarea>
+                            </div>
+                            <div class="my-1 d-flex align-items-center justify-content-center" *ngIf="showbuttons">
+                                <div class="d-grid col-6 mx-auto">
+                                    <button class="btn btn-outline-dark" (click)="cancelarCreaFactura()"><i
+                                            class="fa-solid fa-xmark"></i> Cancelar
+                                    </button>
+                                </div>
+
+                                <div class="d-grid col-6 mx-auto">
+                                    <button class="ms-3 btn btn-outline-primary" (click)="crearFactura()"
+                                            [disabled]="!form.detalles.length>0">
+                                        <i class="fa-solid fa-floppy-disk"></i>
+                                        Guardar
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="col-md">
-                    <textarea class="form-control" [(ngModel)]="form.form_cab.trn_observ" rows="7"
-                              placeholder="Ingrese una observación"
-                              autocomplete="off" id="trn_observ"></textarea>
                 </div>
             </div>
         </div>
-        <div class="p-2 mt-3" *ngIf="showbuttons">
-            <p class="d-flex justify-content-center">
-                <button class="btn btn-lg btn-outline-dark" (click)="cancelarCreaFactura()"><i
-                        class="fa-solid fa-xmark"></i> Cancelar
-                </button>
-                <button class="ms-3 btn btn-lg btn-outline-primary" (click)="crearFactura()"
-                        *ngIf="form.detalles.length>0">
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    Guardar
-                </button>
-            </p>
+    </div>
+    <!--
+    <div class="border rounded p-2 mt-2" *ngIf="showtotales">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <span class="fw-light">SUBTOTAL:</span>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control form-control-sm" disabled
+                               [(ngModel)]="form.totales.subtotal">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6"><span class="fw-light">DESCUENTO:</span>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control form-control-sm" disabled
+                               [(ngModel)]="form.totales.descuentos">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 d-flex">
+                        <span class="fw-light">DESCUENTO GENERAL: </span>
+                    </div>
+                    <div class="col-md-6 d-flex">
+                        <input *ngIf="form.totales.descglobaltipo==='1'" type="text" id="descglobal1"
+                               class="form-control form-control-sm" (keyup)="onDescgenChange()"
+                               [ngClass]="{'is-invalid':form.totales.dt_dectogenerr}"
+                               (focusin)="$event.target?.select()" [(ngModel)]="form.totales.descglobalin">
+
+                        <input *ngIf="form.totales.descglobaltipo==='2'" type="text" id="descglobal2"
+                               class="form-control form-control-sm" (keyup)="onDescgenPorcChange()"
+                               [ngClass]="{'is-invalid':form.totales.dt_dectogenerr}"
+                               (focusin)="$event.target?.select()" [(ngModel)]="form.totales.descglobalpin">
+                        <select class="ms-1 mt-1" [(ngModel)]="form.totales.descglobaltipo"
+                                (change)="setFocusDescGlobal()">
+                            <option value="1">$</option>
+                            <option value="2">%</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 "><span class="fw-light">IVA {{ impuestos.iva * 100 }}%
+                            DE {{ form.totales.subtotal12 }}:</span></div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control form-control-sm" disabled
+                               [(ngModel)]="form.totales.iva">
+                    </div>
+                </div>
+                <div class="row  my-2 mx-0 alert alert-success" role="alert">
+                    <div class="col-md-6">
+                        <span class="fw-bold fs-4">TOTAL:</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="fw-bold fs-4">{{ form.totales.total | number: '.2' }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <span>PAGOS:</span>
+                </div>
+                <div class="row" *ngFor="let pago of form.pagos">
+                    <div class="col-md-7">
+                        <div *ngIf="pago.ic_clasecc!=='E'" class="form form-control">
+                            <span>{{ pago.ic_nombre }}:</span>
+                        </div>
+                        <div *ngIf="pago.ic_clasecc==='E'" class="p-fluid">
+                            <p-dropdown [options]="pagosef" optionLabel="ic_nombre"
+                                        optionValue="ic_id"
+                                        placeholder="Seleccione la caja afectada" [showClear]="false"
+                                        [(ngModel)]="pago.cta_codigo"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <input type="number" class="form-control" (focusin)="$event.target.select()"
+                               [(ngModel)]="pago.dt_valor" (keyup)="calculaPagos(pago)">
+                    </div>
+                </div>
+
+                <div class="px-2">
+                    <div class="row alert alert-secondary mt-4" role="alert">
+                        <div class="col-md-3">
+                            <span class="text-muted">CAMBIO:</span>
+                        </div>
+
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" (focusin)="$event.target.select()"
+                                   (keyup)="onVueltoChange()" [(ngModel)]="formvuelto.input">
+                        </div>
+                        <div class="col-md">
+                            <span class="fw-bold fs-4">{{ formvuelto.vuelto | number: '.2' }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md">
+                <textarea class="form-control" [(ngModel)]="form.form_cab.trn_observ" rows="7"
+                          placeholder="Ingrese una observación"
+                          autocomplete="off" id="trn_observ"></textarea>
+            </div>
         </div>
     </div>
+    <div class="p-2 mt-3" *ngIf="showbuttons">
+        <p class="d-flex justify-content-center">
+            <button class="btn btn-lg btn-outline-dark" (click)="cancelarCreaFactura()"><i
+                    class="fa-solid fa-xmark"></i> Cancelar
+            </button>
+            <button class="ms-3 btn btn-lg btn-outline-primary" (click)="crearFactura()"
+                    *ngIf="form.detalles.length>0">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Guardar
+            </button>
+        </p>
+    </div>-->
+
 </div>
 
 
 <p-dialog header="Detalles del producto/servicio" [modal]="true" [style]="{width: '75vw'}" [baseZIndex]="10000"
           [(visible)]="isShowDetProd">
     <app-artview [codart]="codartsel" [showPrecioCompra]="false"></app-artview>
-    <div class="mt-3 d-flex flex-row-reverse">
-        <button class="btn btn-outline-secondary" (click)="isShowDetProd=false">
-            <i class="fa fa-times"></i>
-            Cerrar
-        </button>
-
-    </div>
+    <p-footer>
+        <div class="d-flex flex-row-reverse">
+            <button class="btn btn-outline-primary" (click)="isShowDetProd=false">
+                <i class="fa fa-times"></i>
+                Cerrar
+            </button>
+        </div>
+    </p-footer>
 </p-dialog>
 
 <p-dialog [header]="ttransacc.tra_codigo===7?'Datos del proveedor':'Datos del cliente'" [modal]="true"
+          (onHide)="clearAutoRef()"
           [style]="{width:'50vw'}" [(visible)]="showCreaNewRef">
 
-    <div>
+    <div class="my-2">
         <app-buscaref [form]="formautoref" (evOnEnterRef)="onEnterRef($event)"
+                      [autofocus]="true"
                       [showlugres]="true"
                       [stylevalidinvalid]="false"
-                      (evOnSelectRef)="onRefSelect();showCreaNewRef=false;"></app-buscaref>
+                      (evOnSelectRef)="onRefSelect()"></app-buscaref>
         <!--<div style="width: 75%">
 
         </div>
@@ -467,26 +672,26 @@
             </button>
         </div>-->
     </div>
-    <div class="mt-2">
+    <div class="mt-4">
         <div class="row">
             <div class="col-md-2">
-                <span class="fontsizenr fw-bold">CI/Ruc: </span>
+                <span class="required">*</span> <span class="fontsizenr fw-bold">CI/Ruc: </span>
             </div>
             <div class="col-md">
                 <input type="text" class="form-control form-control-sm"
-                       [(ngModel)]="form.form_persona.per_ciruc" (blur)="verificaRefRegistrado()"
+                       [(ngModel)]="referentForm.per_ciruc" (blur)="verificaRefRegistrado()"
                        autocomplete="off" id="per_ciruc" (keydown.enter)="buscarReferente()"
-                       [disabled]="form.form_persona.per_id>0" tabindex="10">
+                       [disabled]="referentForm.per_id>0" tabindex="10">
             </div>
         </div>
         <div class="row">
             <div class="col-md-2">
-                <span class="fontsizenr fw-bold">Nombres: </span>
+                <span class="required">*</span><span class="fontsizenr fw-bold">Nombres: </span>
             </div>
             <div class="col-md">
                 <input type="text" class="form-control form-control-sm" id="perNombresInput"
-                       tabindex="11"
-                       [(ngModel)]="form.form_persona.per_nombres" [disabled]="isDisabledFormRef"
+                       tabindex="11" autocomplete="off"
+                       [(ngModel)]="referentForm.per_nombres" [disabled]="isDisabledFormRef"
                        maxlength="70">
             </div>
         </div>
@@ -496,29 +701,30 @@
             </div>
             <div class="col-md">
                 <input type="text" class="form-control form-control-sm" id="perApellidosInput"
-                       tabindex="12"
-                       [(ngModel)]="form.form_persona.per_apellidos" [disabled]="isDisabledFormRef"
+                       tabindex="12" autocomplete="off"
+                       [(ngModel)]="referentForm.per_apellidos" [disabled]="isDisabledFormRef"
                        maxlength="60">
             </div>
         </div>
         <div class="row">
             <div class="col-md-2">
-                <span class="fontsizenr fw-bold">Dirección: </span>
+                <span class="required">*</span><span class="fontsizenr fw-bold">Dirección: </span>
             </div>
             <div class="col-md">
                 <input type="text" class="form-control form-control-sm" id="perDireccionInput"
-                       tabindex="13"
-                       [(ngModel)]="form.form_persona.per_direccion" [disabled]="isDisabledFormRef"
+                       tabindex="13" autocomplete="off"
+                       [(ngModel)]="referentForm.per_direccion" [disabled]="isDisabledFormRef"
                        maxlength="90">
             </div>
         </div>
         <div class="row">
             <div class="col-md-2">
-                <span class="fontsizenr fw-bold">Teléfono: </span>
+                <span class="required">*</span><span class="fontsizenr fw-bold">Teléfono: </span>
             </div>
             <div class="col-md">
-                <input type="text" class="form-control form-control-sm" id="perTelfInput" tabindex="14"
-                       [(ngModel)]="form.form_persona.per_telf" [disabled]="isDisabledFormRef"
+                <input type="text" class="form-control form-control-sm" autocomplete="off" id="perTelfInput"
+                       tabindex="14"
+                       [(ngModel)]="referentForm.per_telf" [disabled]="isDisabledFormRef"
                        maxlength="20">
             </div>
         </div>
@@ -527,26 +733,30 @@
                 <span class="fontsizenr fw-bold">Email: </span>
             </div>
             <div class="col-md">
-                <input type="text" class="form-control form-control-sm" id="perEamilInput" tabindex="15"
-                       [(ngModel)]="form.form_persona.per_email" [disabled]="isDisabledFormRef"
+                <input type="text" class="form-control form-control-sm" autocomplete="off" id="perEamilInput"
+                       tabindex="15"
+                       [(ngModel)]="referentForm.per_email" [disabled]="isDisabledFormRef"
                        maxlength="40">
             </div>
         </div>
 
     </div>
-    <div class="d-flex justify-content-between">
-        <div>
-            <button class="btn btn-outline-primary" (click)="closeOkModalRef()">
-                <i class="fa-solid fa-check"></i>
-                Aceptar
-            </button>
+    <p-footer>
+        <div class="d-flex justify-content-evenly">
+            <div>
+                <button [disabled]="!referentForm.per_ciruc" class="btn btn-outline-primary"
+                        (click)="closeOkModalRef()">
+                    <i class="fa-solid fa-check"></i>
+                    Aceptar
+                </button>
+            </div>
+            <div>
+                <button class="btn btn-outline-secondary" (click)="closeModalRef()">
+                    <i class="fa-solid fa-xmark"></i>
+                    Cancelar
+                </button>
+            </div>
         </div>
-        <div>
-            <button class="btn btn-outline-secondary" (click)="closeModalRef()">
-                <i class="fa-solid fa-xmark"></i>
-                Cancelar
-            </button>
-        </div>
-    </div>
+    </p-footer>
 
 </p-dialog>

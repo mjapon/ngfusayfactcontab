@@ -1,8 +1,8 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { BaseService } from "../base-service";
-import { CtesService } from "../ctes.service";
-import { LocalStorageService } from "../local-storage.service";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BaseService } from '../base-service';
+import { CtesService } from '../ctes.service';
+import { LocalStorageService } from '../local-storage.service';
 
 @Injectable({
     providedIn: 'root'
@@ -24,7 +24,7 @@ export class FinanMovService extends BaseService {
         return this._doPostAction(this.ctes.crea, form);
     }
 
-    listar(cta, desde, hasta) {
-        return this._doGetAction(this.ctes.listar, { cta, desde, hasta });
+    listar(cta, desde, hasta, limit, page) {
+        return this._doGetAction(this.ctes.listar, { cta, desde, hasta, limit, page });
     }
 }

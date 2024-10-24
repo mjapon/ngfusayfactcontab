@@ -1,5 +1,37 @@
 <div class="page-container">
     <div class="content-wrap">
+        <div class="row" *ngIf="infofactele">
+            <div class="col-md">
+                <!--
+                <div class="alert alert-info alert-dismissible fade show" *ngIf="infofactele.tipoambiente>0"
+                     role="alert">
+                    <i class="fs-3 fa-solid fa-circle-info"></i>
+                    Facturación Electrónica Activa Ambiente:
+                    <span class="badge bg-info" *ngIf="infofactele.tipoambiente===1">Pruebas</span>
+                    <span class="badge bg-success" *ngIf="infofactele.tipoambiente===2">Producción</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                -->
+
+                <div class="alert alert-warning alert-dismissible fade show" role="alert"
+                     *ngIf="infofactele.ndiasxcaducar&&infofactele.ndiasxcaducar>=0 && infofactele.ndiasxcaducar<=7">
+                    <i class="fs-3 fa-solid fa-triangle-exclamation"></i>
+                    Atención: Su firma digital expira el  {{ infofactele.fechacaducidadfirma }}, favor
+                    actualizar de inmediato y contáctese con soporte
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+
+                <div class="alert alert-danger alert-dismissible fade show" role="alert"
+                     *ngIf="infofactele.ndiasxcaducar&&infofactele.ndiasxcaducar<0">
+                    <i class="fs-3 fa-solid fa-triangle-exclamation"></i>
+                    Atención: Su firma digital ha caducado (el dia {{ infofactele.fechacaducidadfirma }}), favor
+                    actualizar de inmediato y contáctese con soporte
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+            </div>
+        </div>
         <div class="row mt-2">
             <div class="col-md">
                 <div class="row quitaPaddingMargin mt-2">
@@ -39,13 +71,14 @@
                                 <button (mouseover)="onAccDirOver(acc)"
                                         (mouseout)="onAccDirOut(acc)"
                                         (click)="doroute(acc)"
-                                        class="btn d-flex menuhome flex-column w-100" [ngClass]="acc.css" [title]="acc.title" appGradientBg>
+                                        class="btn d-flex menuhome flex-column w-100" [ngClass]="acc.css"
+                                        [title]="acc.title" appGradientBg>
                                     <div class="w-100 m-2">
                                         <div class="d-flex justify-content-center">
                                             <span #thespan class="iconhome" [class]="acc.icon"></span>
                                         </div>
                                         <div class="d-flex justify-content-center">
-                                            <span class="texthome">{{acc.label}}</span>
+                                            <span class="texthome">{{ acc.label }}</span>
                                         </div>
                                     </div>
                                 </button>
@@ -70,6 +103,7 @@
                             </ul>
                         </div>
                     </div>
+
                     <div class="col-md">
                         <div *ngIf="!isLoading" class="d-flex justify-content-end align-content-end h-100">
                         <span class="mt-5">

@@ -11,9 +11,11 @@ import {DomService} from '../../../services/dom.service';
             <div class="p-fluid {{form?.referente?.per_id>0?'col-sm-11':'col-sm-12'}}">
                 <p-autoComplete [(ngModel)]="form.referente"
                                 [suggestions]="personFiltered"
+                                [disabled]="disabled"
+                                emptyMessage="Ninguna coincidencia encontrada"
                                 (completeMethod)="findRefs($event)" optionLabel="nomapel"
                                 inputId="refAutoCom"
-                                autofocus="true"
+                                [autofocus]="autofocus"
                                 inputStyleClass="form-control {{stylevalidinvalid?(form.referente?.per_id?'is-valid':'is-invalid'):''}}"
                                 [delay]="200"
                                 (keyup.enter)="onEnterRef()"
@@ -22,10 +24,12 @@ import {DomService} from '../../../services/dom.service';
                                 (onSelect)="onRefSelect()">
                     <ng-template let-ref pTemplate="item">
                         <div>
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex justify-content-between">
                                 <span>{{ref.nomapel}}</span>
-                                <span *ngIf="showlugres">{{ref.lugresidencia}}</span>
-                                <span>{{ref.per_ciruc}}</span>
+                                    <span>{{ref.per_ciruc}}</span>
+                                </div>
+                                <span class="fontsizexsm" *ngIf="showlugres">{{ref.lugresidencia}}</span>
                             </div>
                         </div>
                     </ng-template>
@@ -48,8 +52,10 @@ export class BuscarefComponent extends BaseComponent {
 
     @Input() stylevalidinvalid = true;
     @Input() showlugres = false;
-    lastquery = '';
+    @Input() disabled = false;
+    @Input() autofocus = true;
 
+    lastquery = '';
     personFiltered: Array<any> = [];
 
     constructor(private personService: PersonaService,
@@ -73,7 +79,6 @@ export class BuscarefComponent extends BaseComponent {
         this.domService.setFocusTm(this.ctes.refAutoCom, 100);
         this.evOnClearRef.emit('');
     }
-
 
     onEnterRef() {
         this.evOnEnterRef.emit(this.lastquery);

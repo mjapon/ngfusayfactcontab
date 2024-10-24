@@ -11,7 +11,7 @@ import {NumberService} from '../../../../services/number.service';
 
 @Component({
     selector: 'app-balancegeneral',
-    templateUrl: './balancegeneral.component.html'
+    templateUrl: './balancegeneral.component.html',
 })
 export class BalancegeneralComponent implements OnInit {
 
@@ -90,7 +90,7 @@ export class BalancegeneralComponent implements OnInit {
 
     getestilo(fila: any) {
         const npuntos = fila.dbdata.ic_code.split('.').length;
-        const mg = 50 * (npuntos - 1);
+        const mg = 30 * (npuntos - 1);
         let font = 1000 - (100 * npuntos);
         if (font < 200) {
             font = 200;

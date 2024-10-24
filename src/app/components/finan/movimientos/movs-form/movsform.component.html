@@ -1,56 +1,36 @@
 <h1 class="bd-title">
     <i class="fa-solid fa-money-bill-transfer"></i>
     Movimientos de cuenta</h1>
-
-
+<hr>
 <div *ngIf="isLoading">
     <app-loading></app-loading>
 </div>
 <div *ngIf="!isLoading" class="mt-2">
 
-    <div class="row">
-        <div class="col-md-2">
-            <span>Socio:</span>
-        </div>
-        <div class="col-md d-flex">
-            <div style="width: 100%">
-                <app-buscaref [form]="formautoref" (evOnEnterRef)="onEnterRef($event)" [showlugres]="false"
+    <div class="row mb-3">
+        <div class="col-md d-flex justify-content-start align-items-center">
+            <span class="me-4">Socio:</span>
+            <div class="w-75">
+                <app-buscaref [form]="formautoref" [disabled]="disabledBuscaRef" [autofocus]="false"
+                              (evOnEnterRef)="onEnterRef($event)" [showlugres]="false"
                               [stylevalidinvalid]="false" (evOnSelectRef)="onRefSelect()" (evOnClearRef)="onClearRef()">
                 </app-buscaref>
             </div>
         </div>
-    </div>
-
-    <div class="row" *ngIf="refsel">
-        <div class="col-md-2">
-            <span>Cuenta:</span>
-        </div>
         <div class="col-md">
-            <p-dropdown [options]="cuentasSocio" id="tipt_id" [(ngModel)]="ctasociosel"
-                        (onChange)="ontipocuentasel($event)" filter="false" optionLabel="labelcta" inputId="tipt_id">
-            </p-dropdown>
-
-        </div>
-    </div>
-
-    <!--
-    <div class="row my-2">
-        <div class="col-md-3">
-            <span>Número de cuenta:</span>
-        </div>
-        <div class="col-md d-flex">
-            <div class="input-group mb-3">
-                <input type="text" id="cuen_num" class="form-control" placeholder="Ingrese el numero de cuenta"
-                    (keydown.enter)="buscarPorNumCta()" [(ngModel)]="numCta"
-                    aria-label="Ingrese el numero de cuenta" aria-describedby="btn_find_cta">
-                <button class="btn btn-outline-primary" (click)="buscarPorNumCta()" type="button"
-                    id="btn_find_cta">Buscar</button>
+            <div *ngIf="refsel" class="d-flex justify-content-start align-items-center">
+                <span class="me-3">Cuenta:</span>
+                <div class="w-100">
+                    <p-dropdown [options]="cuentasSocio" id="tipt_id" [(ngModel)]="ctasociosel"
+                                (onChange)="ontipocuentasel($event)" filter="false" optionLabel="labelcta"
+                                inputId="tipt_id">
+                    </p-dropdown>
+                </div>
             </div>
         </div>
     </div>
-    -->
 
-    <div class="mt-2" *ngIf="datoscta.cue_id>0">
+    <div class="mt-1" *ngIf="datoscta.cue_id>0">
         <div class="row">
             <div class="col-md">
                 <div class="border rounded p-3">
@@ -63,9 +43,7 @@
 
                         <div class="row">
                             <div class="col-md"><span>Tipo de cuenta:</span></div>
-                            <div class="col-md"><span class="fw-bold">
-                                            {{ datoscta.tc_nombre }}
-                                        </span></div>
+                            <div class="col-md"><span class="fw-bold">{{ datoscta.tc_nombre }}</span></div>
                         </div>
 
                         <div class="row">
@@ -121,10 +99,18 @@
                         </div>
                         <div class="row">
                             <div class="col-md">
-                                <span>CI:</span>
+                                <span>Número Identificación:</span>
                             </div>
                             <div class="col-md">
                                 <span class="fw-bold"> {{ datoscta.per_ciruc }} </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md">
+                                <span>Nro celular:</span>
+                            </div>
+                            <div class="col-md">
+                                <span class="fw-bold"> {{ datoscta.per_movil }} </span>
                             </div>
                         </div>
                     </div>
@@ -134,7 +120,7 @@
 
         <!--Filtro de fechas para los movimientos-->
 
-        <div class="mt-4 border rounded p-3">
+        <div class="mt-1 border rounded p-3">
             <div class="row">
                 <div class="col-md">
                     <app-rangofechas [form]="formfiltro" (evFilterSel)="loadMovs()" (evDesdeChange)="loadMovs()"
@@ -144,7 +130,7 @@
                     <div class="d-flex">
                         <button class="btn btn-outline-primary me-2" (click)="loadMovs()"> <span
                                 class="fa-solid fa-magnifying-glass"></span></button>
-                        <button class="btn btn-outline-primary" (click)="showModalCrea()"> Crear
+                        <button class="btn btn-outline-primary" id="btnCrear" (click)="showModalCrea()"> Crear
                             <span class="fa-solid fa-plus"></span></button>
                     </div>
                 </div>
@@ -152,8 +138,17 @@
 
             <!--Grid de movimientos-->
             <div class="mt-2">
-                <p-table [value]="movsgrid.data" [paginator]="true" [rows]="12" selectionMode="single"
+                <p-table [value]="movsgrid.data"
+                         [paginator]="true"
+                         [loading]="loadingGrid"
+                         (onLazyLoad)="doLazyLoad($event)"
+                         [totalRecords]="totalRecord"
+                         [lazy]="true"
+                         [rows]="rows"
+                         [(first)]="page"
+                         selectionMode="single"
                          tableStyleClass="table table-hover table-striped table-bordered fusay-table"
+                         scrollHeight="calc(100vh - 550px)"
                          [(selection)]="selectedItem" (onRowSelect)="onRowSelect($event)" [resizableColumns]="true"
                          [(contextMenuSelection)]="selectedItem">
                     <ng-template pTemplate="header">
@@ -211,7 +206,9 @@
                 </div>
                 <div class="col-md">
                     <p-dropdown appendTo="body" [options]="tipostransa" id="tipt_id" [(ngModel)]="tipotransa"
-                                (onChange)="ontipotransaccsel($event)" filter="false" optionLabel="tipt_nombre"
+                                filter="true"
+                                filterBy="tipt_nombre"
+                                (onChange)="ontipotransaccsel($event)" optionLabel="tipt_nombre"
                                 inputId="tipt_id">
                     </p-dropdown>
                 </div>
@@ -221,8 +218,16 @@
                 <div class="col-md-3">
                     <span>Monto:</span>
                 </div>
-                <div class="col-md">
-                    <input type="number" class="form-control" id="mov_total_transa" [(ngModel)]="form.mov_total_transa">
+                <div class="col-md d-flex flex-column">
+                    <input type="text" #montoInput="ngModel" maxlength="10" required
+                           [min]="0" class="form-control" id="mov_total_transa"
+                           [ngClass]="{'is-invalid':montoInput.touched&&!isValid('mov_total_transa',1)}"
+                           [(ngModel)]="form.mov_total_transa">
+                    <div *ngIf="montoInput.touched && !isValid('mov_total_transa',1)">
+                        <small class="text-danger">
+                            Monto incorrecto
+                        </small>
+                    </div>
                 </div>
             </div>
 
@@ -232,6 +237,7 @@
                 </div>
                 <div class="col-md">
                     <textarea class="form-control" [(ngModel)]="form.mov_obs" rows="4" autocomplete="off"
+                              maxlength="100"
                               placeholder="Ingrese una observación sobre esta transacción" id="mov_obs"></textarea>
                 </div>
             </div>
@@ -240,7 +246,7 @@
 
         <div class="my-5 d-flex justify-content-center">
             <button class="btn btn-outline-primary"
-                    [disabled]="form.mov_total_transa<=0 ||tipotransa.tipt_id==0||isSaving" (click)="guardarMov()">
+                    [disabled]="!isValid('mov_total_transa',1) ||tipotransa.tipt_id==0||isSaving" (click)="guardarMov()">
                 <span class="fa-solid fa-floppy-disk"></span>
                 Guardar
             </button>

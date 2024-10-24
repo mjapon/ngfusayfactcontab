@@ -43,6 +43,7 @@ export class LoggedHomeComponent implements OnInit {
     isLoading = false;
     datosempresa: any = {};
     vapp = '';
+    infofactele: any = {};
 
     constructor(private fautService: FautService,
                 private router: Router,
@@ -119,6 +120,10 @@ export class LoggedHomeComponent implements OnInit {
                 this.fautService.publishMessage('loadmenu');
                 this.fautService.publishMessage('loadvapp');
                 this.datosempresa = res.datlogged.datosemp;
+
+                if (res.infofactele) {
+                    this.infofactele = res.infofactele;
+                }
             }
         });
     }
@@ -143,6 +148,7 @@ export class LoggedHomeComponent implements OnInit {
                 this.fautService.updateTokenAndTdvcod(res.token, res.tdv_codigo);
                 this.fautService.publishMessage('updateTtpdvs');
             }
+            this.loadDatosLogged();
         });
     }
 

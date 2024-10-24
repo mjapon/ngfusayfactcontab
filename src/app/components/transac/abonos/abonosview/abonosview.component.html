@@ -10,7 +10,7 @@
                                 <span class="fw-normal fontsizenr">Nro:</span>
                             </div>
                             <div class="col-md">
-                                <span class="fw-bold  fontsizenr">{{datosFactura.tasiento.trn_compro}}</span>
+                                <span class="fw-bold  fontsizenr">{{ datosFactura.tasiento.trn_compro }}</span>
                             </div>
                         </div>
 
@@ -19,7 +19,7 @@
                                 <span class="fw-normal fontsizenr">Tipo:</span>
                             </div>
                             <div class="col-md">
-                                <span class="fw-bold  fontsizenr">{{datosFactura.tasiento.tra_nombre}}</span>
+                                <span class="fw-bold  fontsizenr">{{ datosFactura.tasiento.tra_nombre }}</span>
                             </div>
                         </div>
 
@@ -28,7 +28,7 @@
                                 <span class="fw-normal fontsizenr">Fecha registro:</span>
                             </div>
                             <div class="col-md">
-                                <span class="fw-bold  fontsizenr">{{datosFactura.tasiento.trn_fecha}}</span>
+                                <span class="fw-bold  fontsizenr">{{ datosFactura.tasiento.trn_fecha }}</span>
                             </div>
                         </div>
                         <div class="row">
@@ -36,7 +36,7 @@
                                 <span class="fw-normal fontsizenr">Estado:</span>
                             </div>
                             <div class="col-md">
-                                <span class="fw-bold  fontsizenr">{{datosFactura.tasiento.estado}}</span>
+                                <span class="fw-bold  fontsizenr">{{ datosFactura.tasiento.estado }}</span>
                             </div>
                         </div>
                         <div class="row">
@@ -44,7 +44,7 @@
                                 <span class="fw-normal fontsizenr">Referente:</span>
                             </div>
                             <div class="col-md">
-                                <span class="fw-bold  fontsizenr">{{datosFactura.tasiento.referente}}</span>
+                                <span class="fw-bold  fontsizenr">{{ datosFactura.tasiento.referente }}</span>
                             </div>
                         </div>
                         <div class="row">
@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-md">
                                 <p style="white-space: pre-line"
-                                   class="fontsizenr fw-normal">{{datosFactura.tasiento.trn_observ}}</p>
+                                   class="fontsizenr fw-normal">{{ datosFactura.tasiento.trn_observ }}</p>
                             </div>
                         </div>
                     </div>
@@ -68,19 +68,19 @@
                         <div>
                             <span class="fw-normal">Total crédito:</span>
                             <span *ngIf="isTransaccFact"
-                                  class="ms-3 fw-bold">${{datosFactura.pagosobj.credito|number:'.2'}}</span>
+                                  class="ms-3 fw-bold">${{ datosFactura.pagosobj.credito|number:'.2' }}</span>
                             <span *ngIf="!isTransaccFact"
-                                  class="ms-3 fw-bold">${{datosCredito.dt_valor|number:'.2'}}</span>
+                                  class="ms-3 fw-bold">${{ datosCredito.dt_valor|number:'.2' }}</span>
                         </div>
                         <div>
                             <span class="fw-normal">Total abonos:</span>
-                            <span class="ms-3 fw-bold">${{totalabonos|number:'.2'}}</span>
+                            <span class="ms-3 fw-bold">${{ totalabonos|number:'.2' }}</span>
                         </div>
 
                         <div class="d-flex mt-1">
                             <div class="p-2 border border-2 d-flex flex-row rounded {{datosCredito.cre_saldopen>0?'bg-warning':'bg-success'}}">
                                 <span class="fw-bold {{datosCredito.cre_saldopen>0?'':'text-white'}}"> Saldo Pendiente: </span>
-                                <span class="fw-bolder ms-2 {{datosCredito.cre_saldopen>0?'':'text-white'}}"> ${{datosCredito.cre_saldopen|number:'.2'}} </span>
+                                <span class="fw-bolder ms-2 {{datosCredito.cre_saldopen>0?'':'text-white'}}"> ${{ datosCredito.cre_saldopen|number:'.2' }} </span>
                             </div>
                         </div>
 
@@ -106,7 +106,7 @@
                 <div class="mt-1" *ngIf="isTransaccFact">
                     <app-detfactview [detalles]="datosFactura.detalles"></app-detfactview>
                     <div class="d-flex flex-row-reverse">
-                        <span class="fontsizesm fw-bold">TOTAL: ${{datosFactura.totales.total|number:'.2'}}</span>
+                        <span class="fontsizesm fw-bold">TOTAL: ${{ datosFactura.totales.total|number:'.2' }}</span>
                     </div>
                 </div>
 
@@ -152,9 +152,17 @@
                                     <span class="fw-bold">Monto a abonar: </span>
                                 </div>
                                 <div class="col-md">
-                                    <input type="text" class="form-control" [(ngModel)]="valorabono"
+                                    <input #montoaboinput="ngModel" [min]="0" required type="text"
+                                           class="form-control" maxlength="12"
+                                           [ngClass]="{'is-invalid':!isValidMonto(), 'is-valid':isValidMonto()}"
+                                           [(ngModel)]="valorabono"
                                            (keyup)="onValorAbonoChange($event)" (focusin)="$event.target.select()"
                                            id="montoaboinput">
+                                    <div *ngIf="montoaboinput.touched && !isValidMonto()">
+                                        <small class="text-danger" *ngIf="saldopendiente>=0">Monto incorrecto</small>
+                                        <small class="text-danger" *ngIf="saldopendiente<0">El valor del abono supera
+                                            el saldo pendiente</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -162,13 +170,18 @@
                             <div>
                             <textarea placeholder="Ingrese una observación para este abono" class="form-control"
                                       [(ngModel)]="formAbono.formcab.trn_observ" rows="4"
+                                      (keyup)="checkObservMaxLength()"
                                       autocomplete="off"
-                                      id="abo_trn_observ" maxlength="1000"></textarea>
+                                      id="abo_trn_observ" maxlength="200"></textarea>
+                                <div class="d-flex flex-row-reverse">
+                                    <span class="text-muted">{{ formAbono?.formcab?.trn_observ.length || 0 }}
+                                        /{{ maxCharacters }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center m-2">
-                        <button class="btn btn-outline-primary" (click)="guardarAbono()"><i
+                        <button class="btn btn-outline-primary" [disabled]="!isValidMonto()" (click)="guardarAbono()"><i
                                 class="fa-solid fa-floppy-disk"></i> Guardar
                         </button>
                         <button class="ms-md-3 btn btn-outline-dark" (click)="cancelarGuardaAbono()"><i
@@ -181,25 +194,27 @@
                     <div class="col-md">
                         <div class="table-responsive " *ngIf="abonosList.length>0">
                             <p class="quitaPaddingMargin fw-bold">Abonos realizados <span
-                                    class="badge text-bg-primary">{{abonosList.length}}</span>:</p>
+                                    class="badge text-bg-primary">{{ abonosList.length }}</span>:</p>
                             <table class="table table-sm table-bordered">
                                 <thead>
                                 <tr>
-                                    <th scope="col">
+                                    <th scope="col" style="width:5%">
                                         <span class="fontsizesm">#</span>
                                     </th>
-                                    <th scope="col">
+                                    <th scope="col" style="width:25%">
                                         <span class="fontsizesm">Fecha</span>
                                     </th>
-                                    <th scope="col">
-                                        <span class="fontsizesm">Monto</span>
+                                    <th scope="col" style="width:20%">
+                                        <div class="w-100 d-flex flex-row-reverse px-2">
+                                            <span class="fontsizesm">Monto</span>
+                                        </div>
                                     </th>
-                                    <th scope="col">
+                                    <th scope="col" style="width:40%">
                                         <span class="fontsizesm">
                                             Observación
                                         </span>
                                     </th>
-                                    <th scope="col">
+                                    <th scope="col" style="width:10%">
 
                                     </th>
                                 </tr>
@@ -209,20 +224,22 @@
                                 <tr *ngFor="let abo of abonosList" class="hand">
                                     <td>
                                         <span class="fontsizesm">
-                                        {{abonosList.indexOf(abo) + 1}}
+                                        {{ abonosList.indexOf(abo) + 1 }}
                                         </span>
                                     </td>
                                     <td>
                                         <span class="fontsizesm">
-                                            {{abo.trn_fecha}}</span>
+                                            {{ abo.trn_fecha }}</span>
                                     </td>
                                     <td>
+                                        <div class="w-100 d-flex flex-row-reverse px-2">
                                         <span class="fontsizesm">
-                                            {{abo.dt_valor}}</span>
+                                            {{ abo.dt_valor |number:'.2'}}</span>
+                                        </div>
                                     </td>
                                     <td>
                                         <p class="fontsizesm" style="white-space: pre-line">
-                                            {{abo.trn_observ}}
+                                            {{ abo.trn_observ }}
                                         </p>
                                     </td>
                                     <td class="d-flex justify-content-evenly">
@@ -242,7 +259,9 @@
                                         </div>
                                     </td>
                                     <td class="quitaPaddingMargin p-1">
-                                        <span class="fw-bold">${{totalabonos}}</span>
+                                        <div class="w-100 d-flex flex-row-reverse px-2">
+                                            <span class="fw-bold">${{ totalabonos|number:'.2' }}</span>
+                                        </div>
                                     </td>
                                     <td>
 

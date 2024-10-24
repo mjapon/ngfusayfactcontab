@@ -130,4 +130,11 @@ export class PersonaService extends BaseService {
         ];
     }
 
+    getTiposReferentes(){
+        return [
+            {label: 'Consumidor Final', value: 1},
+            {label: 'Con datos', value: 2}
+        ];
+    }
+
 }

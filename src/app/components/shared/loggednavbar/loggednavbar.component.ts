@@ -101,7 +101,6 @@ export class LoggednavbarComponent implements OnInit {
             this.hideShowSide = false;
         }
         this.evHideMenu.emit(this.hideShowSide);
-        console.log('value', value);
     }
 
     logout() {

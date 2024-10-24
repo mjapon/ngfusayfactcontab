@@ -171,6 +171,12 @@ import {GradientBgDirective} from './modules/sharedmed/gradientdiv/gradientbg';
 import {GradientShadowBgDirective} from './modules/sharedmed/gradientdiv/shadowbg';
 import {AnimIcoDirective} from './modules/sharedmed/gradientdiv/animico';
 import {ExportBtnComponent} from './components/shared/export-btn/export-btn.component';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {CharacterCountDirective} from './modules/sharedmed/textareacount.directive';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
+import {InputGroupModule} from 'primeng/inputgroup';
+import {InputGroupAddonModule} from 'primeng/inputgroupaddon';
+import {ChipsModule} from 'primeng/chips';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -350,7 +356,13 @@ export function HttpLoaderFactory(http: HttpClient) {
         MarklabelComponent,
         GradientShadowBgDirective,
         GradientBgDirective,
-        AnimIcoDirective
+        AnimIcoDirective,
+        InputTextareaModule,
+        CharacterCountDirective,
+        OverlayPanelModule,
+        InputGroupModule,
+        InputGroupAddonModule,
+        ChipsModule,
         // SocketIoModule.forRoot(config)
     ],
     providers: [
@@ -362,6 +374,9 @@ export function HttpLoaderFactory(http: HttpClient) {
             multi: true
         },
         {provide: LOCALE_ID, useValue: 'es'}
+    ],
+    exports: [
+        LoadingComponent
     ],
     bootstrap: [AppComponent]
 })

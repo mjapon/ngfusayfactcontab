@@ -1,8 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {AsientoService} from '../../../../services/asiento.service';
 import {PersonaService} from '../../../../services/persona.service';
-import {DomService} from '../../../../services/dom.service';
-import {SwalService} from '../../../../services/swal.service';
 import {FacturasmsgService} from '../../../../services/facturasmsg.service';
 
 @Component({
@@ -10,6 +8,11 @@ import {FacturasmsgService} from '../../../../services/facturasmsg.service';
     templateUrl: './factpagos.component.html'
 })
 export class FactpagosComponent implements OnInit, OnChanges {
+
+    constructor(private asientoServ: AsientoService,
+                private personaService: PersonaService,
+                private facturaMsgService: FacturasmsgService) {
+    }
     facturasList: Array<any>;
     isShowFormCreaFact: boolean;
     formfact: any;
@@ -25,15 +28,9 @@ export class FactpagosComponent implements OnInit, OnChanges {
 
     @Input() codpaciente: number;
     @Input() clase: number;
-
     @Output() evDeudasChange = new EventEmitter<any>();
 
-    constructor(private asientoServ: AsientoService,
-                private personaService: PersonaService,
-                private domService: DomService,
-                private swalService: SwalService,
-                private facturaMsgService: FacturasmsgService) {
-    }
+    protected readonly Math = Math;
 
     ngOnInit(): void {
         this.facturasList = [];
@@ -109,6 +106,4 @@ export class FactpagosComponent implements OnInit, OnChanges {
     onTotalUpdated($event: any) {
 
     }
-
-    protected readonly Math = Math;
 }

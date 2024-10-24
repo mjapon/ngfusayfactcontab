@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {AsientoService} from '../../../../services/asiento.service';
-import {getDate, startOfMonth} from 'date-fns';
+import {startOfMonth} from 'date-fns';
 import {FechasService} from '../../../../services/fechas.service';
 import {LocalStorageService} from '../../../../services/local-storage.service';
 import {DomService} from '../../../../services/dom.service';
