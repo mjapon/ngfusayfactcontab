@@ -42,7 +42,7 @@
                 <a href="#" class="dropdown-item" (click)="goToFormFact(2, $event)"> Nota de venta </a>
             </div>
         </div>
-        <button type="button" class="btn btn-outline-primary" (click)="goToForm()" *ngIf="tracodigo===7"
+        <button type="button" class="btn btn-outline-primary" (click)="goToForm()" *ngIf="tracodigo===7 || tracodigo===14"
                 title="Registrar nueva factura de compra">
             <span class="px-2"> Crear <i class="fa-solid fa-plus"></i> </span>
         </button>

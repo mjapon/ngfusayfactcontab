@@ -58,7 +58,8 @@ export class FacturaviewComponent extends BaseComponent implements OnInit, OnCha
             if (this.isResultOk(res)) {
                 this.doc = res.doc;
                 this.evFacturaLoaded.emit(this.doc);
-                this.isShowImprimir = this.doc.tasiento.tra_codigo === 1 || this.doc.tasiento.tra_codigo === 2;
+                const traCodigoDoc = this.doc.tasiento.tra_codigo;
+                this.isShowImprimir = traCodigoDoc === 1 || traCodigoDoc === 2 || traCodigoDoc === 14;
                 this.isCompele = this.doc.isCompele || false;
                 this.facteleinfo = this.doc.facteleinfo;
                 if (res.notacred) {

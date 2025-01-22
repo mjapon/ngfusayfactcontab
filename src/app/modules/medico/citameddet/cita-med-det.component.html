@@ -183,6 +183,7 @@
                     </div>
                     <div>
                         <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_motivo"
+                                  maxlength="1500"  appCharacterCount
                                   id="motivoConsultaTextArea">
                         </textarea>
                     </div>
@@ -192,7 +193,7 @@
                         <span class="required">*</span><span>Enfermedad actual:</span>
                     </div>
                     <div>
-                        <textarea class="form-control" rows="5"
+                        <textarea class="form-control" rows="5" maxlength="1500"  appCharacterCount
                                   [(ngModel)]="form.datosconsulta.cosm_enfermactual">
                         </textarea>
                     </div>
@@ -238,9 +239,10 @@
                     <span>Diagnóstico Alternativo:</span>
                 </div>
                 <div class="mt-1">
-                                        <textarea class="form-control"
-                                                  [(ngModel)]="form.datosconsulta.cosm_diagnosticoal">
-                                        </textarea>
+                        <textarea class="form-control"
+                                  maxlength="2000"  appCharacterCount
+                                  [(ngModel)]="form.datosconsulta.cosm_diagnosticoal">
+                        </textarea>
                 </div>
 
                 <div>
@@ -248,7 +250,7 @@
                         <span class="required">*</span><span>Tratamiento:</span>
                     </div>
                     <div class="mt-1">
-                            <textarea class="form-control"
+                            <textarea class="form-control" maxlength="2000"  appCharacterCount
                                       [(ngModel)]="form.datosconsulta.cosm_tratamiento">
                             </textarea>
                     </div>
@@ -259,7 +261,7 @@
                         <span class="required">*</span><span>Receta:</span>
                     </div>
                     <div class="mt-1">
-                            <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_receta"
+                            <textarea class="form-control" [(ngModel)]="form.datosconsulta.cosm_receta" maxlength="2000"  appCharacterCount
                                       rows="8">
                             </textarea>
                     </div>
@@ -270,7 +272,7 @@
                         <span class="required">*</span><span>Indicaciones de la receta:</span>
                     </div>
                     <div class="mt-1">
-                            <textarea class="form-control"
+                            <textarea class="form-control" maxlength="2000"  appCharacterCount
                                       [(ngModel)]="form.datosconsulta.cosm_indicsreceta" rows="8">
                             </textarea>
                     </div>
@@ -281,7 +283,7 @@
                         <span>Recomendaciones:</span>
                     </div>
                     <div class="mt-1">
-                            <textarea class="form-control"
+                            <textarea class="form-control" maxlength="2000"  appCharacterCount
                                       [(ngModel)]="form.datosconsulta.cosm_recomendaciones">
                             </textarea>
                     </div>
@@ -298,12 +300,12 @@
                                     <div class="col">
                                         <div *ngIf="it.cmtv_tinput===1">
                                             <input type="text" class="form-control" [disabled]="saved"
-                                                   [(ngModel)]="it.valorreg"
+                                                   [(ngModel)]="it.valorreg" maxlength="500"
                                                    id="inrevxsis_{{form.revxsistemas.indexOf(it)}}">
                                         </div>
                                         <div *ngIf="it.cmtv_tinput===2">
                                                     <textarea class="form-control" [(ngModel)]="it.valorreg"
-                                                              [disabled]="saved"
+                                                              [disabled]="saved" maxlength="500" appCharacterCount
                                                               id="inrevxsis_{{form.revxsistemas.indexOf(it)}}">
                                                     </textarea>
                                         </div>
@@ -318,12 +320,12 @@
                                     <div class="col">
                                         <div *ngIf="it.cmtv_tinput===1">
                                             <input type="text" class="form-control" [disabled]="saved"
-                                                   [(ngModel)]="it.valorreg"
+                                                   [(ngModel)]="it.valorreg" [maxlength]="500"
                                                    id="inrevxsis_{{form.revxsistemas.indexOf(it)}}">
                                         </div>
                                         <div *ngIf="it.cmtv_tinput===2">
                                                     <textarea class="form-control" [(ngModel)]="it.valorreg"
-                                                              [disabled]="saved"
+                                                              [disabled]="saved" maxlength="500" appCharacterCount
                                                               id="inrevxsis_{{form.revxsistemas.indexOf(it)}}">
                                                     </textarea>
                                         </div>
@@ -343,12 +345,14 @@
                                     <div class="col-md">
                                         <div *ngIf="it.cmtv_tinput===1">
                                             <input type="text" class="form-control" [disabled]="saved"
+                                                   maxlength="30"
                                                    [(ngModel)]="it.valorreg"
                                                    id="inexamfis_{{form.examsfisicos.indexOf(it)}}"
                                                    (focusout)="calcularIMC(it)">
                                         </div>
                                         <div *ngIf="it.cmtv_tinput===2">
                                         <textarea class="form-control" [(ngModel)]="it.valorreg" [disabled]="saved"
+                                                  maxlength="500" appCharacterCount
                                                   id="inexamfis_{{form.examsfisicos.indexOf(it)}}">
                                         </textarea>
                                         </div>
@@ -375,12 +379,14 @@
                                     <div class="col-md">
                                         <div *ngIf="it.cmtv_tinput===1">
                                             <input type="text" class="form-control"
+                                                   maxlength="30"
                                                    [(ngModel)]="it.valorreg" [disabled]="saved"
                                                    id="inexamfis_{{form.examsfisicos.indexOf(it)}}"
                                                    (focusout)="calcularIMC(it)">
                                         </div>
                                         <div *ngIf="it.cmtv_tinput===2">
                                                     <textarea class="form-control" [(ngModel)]="it.valorreg"
+                                                              maxlength="500" appCharacterCount
                                                               [disabled]="saved"
                                                               id="inexamfis_{{form.examsfisicos.indexOf(it)}}">
                                                     </textarea>
@@ -418,6 +424,11 @@
                     <button class="btn btn-outline-primary ms-1" title="Anular" *ngIf="!editing"
                             (click)="anular()">
                         Eliminar <i class="fa-regular fa-trash-can"></i>
+                    </button>
+
+                    <button class="btn btn-outline-primary ms-1" title="Anular" *ngIf="!editing"
+                            (click)="auximprime(1, $event)">
+                        Imprimir <i class="fas fa-print"></i>
                     </button>
 
                     <button class="btn btn-outline-primary ms-1" title="Actualizar" *ngIf="editing"

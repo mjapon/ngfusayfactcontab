@@ -463,7 +463,7 @@ export class OdontogramaComponent implements OnInit, OnDestroy, OnChanges {
                         this.dienteSelected = this.dentadura[nextCuadr][0];
                         this.updateStatebuttons();
                     } else {
-                        alert('Llegasta al final');
+                        alert('Llegaste al final');
                     }
                 }
             }

@@ -30,6 +30,7 @@ import {DomService} from '../../services/dom.service';
                                 <div class="mt-2 d-flex flex-column"><span>Receta:</span>
                                     <div class="p-fluid">
                                         <textarea class="form-control" [(ngModel)]="form.rec_receta"
+                                                  maxlength="2000" appCharacterCount
                                                   rows="8" id="recetaTA">
                                         </textarea>
                                     </div>
@@ -37,6 +38,7 @@ import {DomService} from '../../services/dom.service';
                                 <div class="mt-2 d-flex flex-column"><span>Indicaciones:</span>
                                     <div class="p-fluid">
                                         <textarea class="form-control" [(ngModel)]="form.rec_indicaciones"
+                                                  maxlength="2000" appCharacterCount
                                                   rows="8">
                                         </textarea>
                                     </div>
@@ -44,6 +46,7 @@ import {DomService} from '../../services/dom.service';
                                 <div class="mt-2 d-flex flex-column"><span>Recomendaciones:</span>
                                     <div class="p-fluid">
                                         <textarea class="form-control" [(ngModel)]="form.rec_recomdciones"
+                                                  maxlength="2000" appCharacterCount
                                                   rows="3">
                                         </textarea>
                                     </div>

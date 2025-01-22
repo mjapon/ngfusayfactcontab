@@ -278,7 +278,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         } else {
             const newrow = this.getNewEmptyRow($event);
             this.checkInventarios(newrow);
-            this.form.detalles.push(newrow);
+            this.form.detalles.unshift(newrow);
         }
         this.totalizar();
         this.artFiltrado = null;

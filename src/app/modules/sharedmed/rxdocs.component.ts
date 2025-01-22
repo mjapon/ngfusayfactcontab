@@ -17,7 +17,7 @@ import {CtesService} from '../../services/ctes.service';
                         <div class="card border-primary">
                             <div class="card-header">
                                 <span class="fw-bold">
-                                    {{form.rxd_id > 0 ? 'Editar documento' : 'Crear documento'}}
+                                    {{ form.rxd_id > 0 ? 'Editar documento' : 'Crear documento' }}
                                 </span>
                             </div>
                             <div class="card-body">
@@ -65,20 +65,26 @@ import {CtesService} from '../../services/ctes.service';
                             <div class="col mb-2" *ngFor="let doc of docs">
                                 <div class="card h-100">
                                     <div class="card-body text-center">
+                                        <img *ngIf="doc.fa_icon==='fa-file-image'"
+                                             class="img-fluid imagen-examen-medico"
+                                             (click)="showImageZoom(doc)"
+                                             src="{{getDocUrl(doc)}}"
+                                             alt="Imagen archivo">
                                         <div>
-                                            <div [title]="doc.rxd_nombre" (click)="descargar(doc)" class="hand">
+                                            <div *ngIf="doc.fa_icon!=='fa-file-image'" [title]="doc.rxd_nombre"
+                                                 (click)="descargar(doc)" class="hand">
                                                 <i class="far fa-3x" [ngClass]="doc.fa_icon"></i>
                                             </div>
                                             <div class="mt-2 d-flex flex-column justify-content-center">
-                                                <h5 class="card-title">{{doc.rxd_nombre}}</h5>
-                                                <small class="text-muted">{{doc.rxd_filename}}</small>
+                                                <h5 class="card-title">{{ doc.rxd_nombre }}</h5>
+                                                <small class="text-muted">{{ doc.rxd_filename }}</small>
                                             </div>
-                                            <p class="card-text mt-1">{{doc.rxd_nota}}</p>
+                                            <p class="card-text mt-1">{{ doc.rxd_nota }}</p>
                                         </div>
                                         <div>
                                             <div class="mt-2 d-flex justify-content-between">
                                                 <p>
-                                                    <small class="text-muted">{{doc.rxd_fechacrea}}</small>
+                                                    <small class="text-muted">{{ doc.rxd_fechacrea }}</small>
                                                 </p>
                                                 <div>
                                                     <div class="d-flex justify-content-end">
@@ -126,7 +132,22 @@ import {CtesService} from '../../services/ctes.service';
                         </div>
                     </div>
                 </div>
+
             </div>
+
+            <p-dialog
+                    (onHide)="onHideImageViewer()"
+                    [(visible)]="displayZoomImage"
+                    [contentStyle]="{ overflow: 'auto' }"
+                    [focusOnShow]="false"
+                    [modal]="true"
+                    [style]="{ width: '70vw', height:'80vh' }"
+                    header="Detalles">
+                <div>
+                    <app-imageviewer #imgViewer [(display)]="displayZoomImage" [images]="urlImages"
+                                     [index]="currentImageIndex"></app-imageviewer>
+                </div>
+            </p-dialog>
         </div>
     `
 })
@@ -134,11 +155,15 @@ export class RxdocsComponent implements OnInit, OnChanges {
     @Input() codPaciente: number;
     @Input() tipo: number;
     docs: Array<any>;
+    docImages: Array<any>;
     form: any;
     showForm: boolean;
     datafile: any;
     filepreview: any;
     base64data: any = null;
+    displayZoomImage = false;
+    urlImages: Array<string> = [];
+    currentImageIndex = 0;
 
     constructor(private rxDocsServ: RxdocsService,
                 private domService: DomService,
@@ -160,6 +185,25 @@ export class RxdocsComponent implements OnInit, OnChanges {
         if (codcurrentvalue !== null) {
             this.loadDocs();
         }
+    }
+
+    isImage(doc) {
+        return doc.fa_icon === 'fa-file-image';
+    }
+
+    getDocUrl(doc) {
+        return this.rxDocsServ.getRxDocUrl(doc);
+    }
+
+    loadImageInfoForPreview() {
+        this.docImages = this.docs.filter(docit => this.isImage(docit));
+        this.urlImages = this.docImages.map(docit => this.getDocUrl(docit));
+    }
+
+    showImageZoom(doc: any) {
+        this.currentImageIndex = this.docImages.indexOf(doc);
+        console.log('docimages', this.docImages, 'currentIndex', this.currentImageIndex, doc);
+        this.displayZoomImage = true;
     }
 
     guardar() {
@@ -227,6 +271,7 @@ export class RxdocsComponent implements OnInit, OnChanges {
             this.rxDocsServ.listar(this.codPaciente, this.tipo).subscribe(res => {
                 if (res.status === 200) {
                     this.docs = res.docs;
+                    this.loadImageInfoForPreview();
                 }
             });
         }
@@ -275,6 +320,14 @@ export class RxdocsComponent implements OnInit, OnChanges {
         }
     }
 
+    removeFileExtension(fileName: string): string {
+        const lastDotIndex = fileName.lastIndexOf('.');
+        if (lastDotIndex === -1) {
+            return fileName;
+        } // No extension found
+        return fileName.substring(0, lastDotIndex);
+    }
+
     onFileChange(fileInput: any) {
         this.datafile = fileInput.target.files[0];
         if (this.datafile) {
@@ -283,6 +336,8 @@ export class RxdocsComponent implements OnInit, OnChanges {
                 this.clearFile();
                 this.swalService.fireError('El tamaño del archivo es muy grande, elija otro (Tamaño máximo 10MB)');
             } else {
+                console.log('Nombre del archivo,', this.datafile.name, this.datafile);
+                this.form.rxd_nombre = this.removeFileExtension(this.datafile.name);
                 this.preview();
             }
         }
@@ -292,4 +347,7 @@ export class RxdocsComponent implements OnInit, OnChanges {
         this.citasMedicasServ.imprimirRecBlank();
     }
 
+    onHideImageViewer() {
+        console.log('on hide image viewer--->');
+    }
 }

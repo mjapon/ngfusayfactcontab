@@ -20,9 +20,10 @@ export class FacturaslistgenComponent implements OnInit {
                 this.tracodigo = 1;
             } else if (this.tipo === 2) {
                 this.tracodigo = 7;
-            }
-            else{
+            } else if (this.tipo === 3) {
                 this.tracodigo = 4;
+            } else {
+                this.tracodigo = 14;
             }
         });
     }

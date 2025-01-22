@@ -168,6 +168,7 @@ export class CtesService {
     protected True = 'true';
     protected Updatecode = 'updatecode';
     protected UrlTomcat = environment.tomcat;
+    protected UrlFilesAttach = environment.baseUrlDwfile;
     protected Verifcodbar = 'verifcodbar';
 
     get _blank() {
@@ -801,6 +802,10 @@ export class CtesService {
 
     get urlTomcat() {
         return this.UrlTomcat;
+    }
+
+    get urlDownloadFiles() {
+        return this.UrlFilesAttach;
     }
 
     get verifcodbar() {

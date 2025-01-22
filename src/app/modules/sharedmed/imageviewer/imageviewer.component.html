@@ -1,0 +1,56 @@
+<div *ngIf="display" class="img-container">
+
+  <div class="app-galleria-item-container">
+    <div class="app-galleria-btn-flex">
+      <button (click)="prevImage($event)" *ngIf="index>0" [disabled]="index === 0"
+              class="app-galleria-item-prev app-galleria-item-nav"
+              type="button">
+        <span class="pi pi-chevron-left"></span>
+      </button>
+    </div>
+    <div id="contenedor">
+      <img #imgElement id="miImagen" [ngStyle]="style" [src]="images[index]" (mousedown)="onMouseDown($event)" alt="Image not found..."/>
+    </div>
+    <div class="app-galleria-btn-flex">
+      <div class="app-galleria-btn-close">
+        <button (click)="close()" class="app-galleria-close" type="button"><span class="pi pi-times"
+                                                                                 style="font-size: 20px"></span>
+        </button>
+      </div>
+      <button (click)="nextImage($event)" *ngIf="index<images.length-1" [disabled]="index>=(images.length-1)"
+              class="app-galleria-item-next app-galleria-item-nav" type="button"><span
+        class="pi pi-chevron-right"></span>
+      </button>
+    </div>
+  </div>
+
+
+  <div class="btn-container">
+    <button (click)="rotateCounterClockwise()" class="btn btn-sm white"
+            type="button">
+      <span> Rotar </span>
+      <span class="fa fa-rotate-left"></span>
+    </button>
+    <button (click)="rotateClockwise()" class="btn btn-sm white"
+            type="button">
+      <span>Rotar </span>
+      <span class="fa fa-rotate-right"></span>
+    </button>
+
+    <button (click)="zoomOut()" class="btn btn-sm white"
+            type="button">
+      <span> Zoom </span>
+      <span class="fa fa-minus-circle"></span>
+    </button>
+    <button (click)="zoomIn()" class="btn btn-sm white"
+            type="button">
+      <span> Zoom </span>
+      <span class="fa fa-plus-circle"></span>
+    </button>
+    <button (click)="reset()" class="btn btn-sm white"
+            type="button">
+      <span> Resetear </span>
+      <span class="fa fa-refresh"></span>
+    </button>
+  </div>
+</div>

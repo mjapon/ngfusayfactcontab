@@ -29,7 +29,7 @@ import {DomService} from '../../services/dom.service';
                                 <span>Motivo:</span>
                             </div>
                             <div class="col-12">
-                        <textarea class="form-control" id="newMotivoAten"
+                        <textarea class="form-control" id="newMotivoAten" appCharacterCount
                                   [(ngModel)]="form.ate_diagnostico" maxlength="2000">
                         </textarea>
                             </div>
@@ -39,7 +39,7 @@ import {DomService} from '../../services/dom.service';
                                 <span>Procedimiento realizado:</span>
                             </div>
                             <div class="col-12">
-                        <textarea class="form-control"
+                        <textarea class="form-control" appCharacterCount
                                   [(ngModel)]="form.ate_procedimiento" maxlength="2000">
                         </textarea>
                             </div>
