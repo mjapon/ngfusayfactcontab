@@ -8,6 +8,8 @@ import {DomService} from '../../../services/dom.service';
 import {MenuItem} from 'primeng/api';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {LocalStorageService} from '../../../services/local-storage.service';
+import {CitasodontmsgService} from '../../../services/citasodontmsg.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-mvcalendar',
@@ -81,6 +83,8 @@ export class MvcalendarComponent implements OnInit, OnChanges {
                 private personaService: PersonaService,
                 private lclStrgService: LocalStorageService,
                 private tcitaService: TcitaService,
+                private router: Router,
+                private citasOdontMsgService: CitasodontmsgService,
                 private loadinUiServ: LoadingUiService,
                 private domService: DomService) {
 
@@ -824,5 +828,14 @@ export class MvcalendarComponent implements OnInit, OnChanges {
                 this.form.paciente = this.pacForCalendar;
             }
         });
+    }
+
+    gotoFicha() {
+        if (this.datosCita.pac_id > 0) {
+            this.citasOdontMsgService.publishMessage({
+                tipo: 1, paciente: {per_id: this.datosCita.pac_id}
+            });
+            this.router.navigate(['odonto']);
+        }
     }
 }

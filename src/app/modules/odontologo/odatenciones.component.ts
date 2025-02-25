@@ -6,13 +6,32 @@ import {DomService} from '../../services/dom.service';
 
 @Component({
     selector: 'app-odatenciones',
+    styles: [`
+        .texto {
+            white-space: pre-wrap;
+        }
+        .col-5 {
+            width: 5%;
+        }
+        .col-15 {
+            width: 15%;
+        }
+        .col-30 {
+            width: 30%;
+        }
+        .col-40 {
+            width: 40%;
+        }
+        .col-auto {
+            width: auto;}
+    `],
     template: `
         <div>
             <div *ngIf="codPaciente>0" class="mt-3">
                 <div class="d-flex" *ngIf="!showform">
                     <h5 *ngIf="anteriones.length>0" class="me-5"><i class="fa fa-history"></i>
                         Atenciones Realizadas <span
-                                class="badge badge-pill badge-primary">{{anteriones.length}}</span>
+                                class="badge badge-pill badge-primary">{{ anteriones.length }}</span>
                     </h5>
                     <button *ngIf="!showform" class="btn btn-outline-primary" (click)="showFormCrear()"> Crear <i
                             class="fa-solid fa-plus"></i></button>
@@ -45,7 +64,8 @@ import {DomService} from '../../services/dom.service';
                             </div>
                         </div>
                         <div class="mt-3 d-flex justify-content-center">
-                            <button class="btn btn-outline-primary" (click)="guardar()"><i class="fa-solid fa-floppy-disk"></i>
+                            <button class="btn btn-outline-primary" (click)="guardar()"><i
+                                    class="fa-solid fa-floppy-disk"></i>
                                 Guardar
                             </button>
                             <button class="ms-3 btn btn-outline-dark" (click)="cancelar()"><i
@@ -56,32 +76,36 @@ import {DomService} from '../../services/dom.service';
                     </div>
                 </div>
 
-                <div class="border mt-4">
-                    <table class="table table-hover" *ngIf="anteriones.length>0">
+                <div class="mt-4 border shadow shadow-sm">
+                    <table class="table table-hover table-striped" *ngIf="anteriones.length>0">
                         <thead>
                         <tr>
-                            <th scope="col" class="quitaPaddingTB">Nro</th>
-                            <th scope="col" class="quitaPaddingTB">Día</th>
-                            <th scope="col" class="quitaPaddingTB">Motivo</th>
-                            <th scope="col" class="quitaPaddingTB">Procedimientos</th>
-                            <th scope="col" class="quitaPaddingTB">
+                            <th scope="col" class="col-5 quitaPaddingTB">Nro</th>
+                            <th scope="col" class="col-15 quitaPaddingTB">Día</th>
+                            <th scope="col" class="col-30 quitaPaddingTB">Motivo</th>
+                            <th scope="col" class="col-40 quitaPaddingTB">Procedimientos</th>
+                            <th scope="col" class="col-auto quitaPaddingTB">
 
                             </th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr *ngFor="let row of anteriones">
-                            <td width="5%">
-                                {{row.ate_nro}}
+                            <td>
+                                {{ row.ate_nro }}
                             </td>
-                            <td width="15%">
-                                {{row.ate_fechacrea}}
+                            <td>
+                                {{ row.ate_fechacrea }}
                             </td>
-                            <td width="30%">
-                                {{row.ate_diagnostico}}
+                            <td>
+                                <div class="texto">
+                                    {{ row.ate_diagnostico }}
+                                </div>
                             </td>
-                            <td width="40%">
-                                {{row.ate_procedimiento}}
+                            <td>
+                                <div class="texto">
+                                    {{ row.ate_procedimiento }}
+                                </div>
                             </td>
                             <td>
                                 <button class="btn btn-sm btn-outline-primary" title="Anular"><i

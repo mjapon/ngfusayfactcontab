@@ -3,6 +3,8 @@ import {PersonaService} from '../../../services/persona.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
 import {Router} from '@angular/router';
 import {DomService} from '../../../services/dom.service';
+import {CitasodontmsgService} from '../../../services/citasodontmsg.service';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-citasodonto',
@@ -18,15 +20,25 @@ export class CitasodontoComponent implements OnInit {
     datosPacienteFull: any;
     tipoOdontogramaSel: number;
     isShowCalendar = false;
+    odontMsgSubs: Subscription;
 
     constructor(private personaService: PersonaService,
-                private domService:DomService,
+                private domService: DomService,
+                private citasOdontMsgService: CitasodontmsgService,
                 private loadUiService: LoadingUiService) {
     }
 
     ngOnInit(): void {
         this.clearAll();
-        this.domService.setFocusTm('buscaPacNomCiInput',500);
+        this.domService.setFocusTm('buscaPacNomCiInput', 500);
+
+        this.odontMsgSubs = this.citasOdontMsgService.message.subscribe(msg => {
+            if (msg && msg.tipo === 1) {
+                this.onSelPaciente(msg.paciente);
+                this.realoadDatosPaciente();
+            }
+        });
+
     }
 
     selectSupTab(tab: number, event: Event) {
