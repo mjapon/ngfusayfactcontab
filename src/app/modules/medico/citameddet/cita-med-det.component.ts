@@ -1,11 +1,12 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {CitasMedicasService} from '../../../services/citas-medicas.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
-import {Subscription} from 'rxjs';
+import {forkJoin, Subscription} from 'rxjs';
 import {ConsMedicaMsgService} from '../../../services/cons-medica-msg.service';
 import {SwalService} from '../../../services/swal.service';
 import {CtesService} from '../../../services/ctes.service';
 import {ArrayutilService} from '../../../services/arrayutil.service';
+import {PersonaService} from '../../../services/persona.service';
 
 @Component({
     selector: 'app-citameddet',
@@ -25,16 +26,19 @@ export class CitaMedDetComponent implements OnInit, OnDestroy {
     // Para edicion de historia
     ciedataArray: Array<any>;
     selectedDiags: any[];
+    selectedMeds: any[];
     form: any;
     editing = false;
     datosAlertaPresion: any;
     datosAlertaImc: any;
+    medicos: Array<any>;
 
     constructor(private citasMedicasServ: CitasMedicasService,
                 private loadingUiService: LoadingUiService,
                 private arrayUtil: ArrayutilService,
                 private ctes: CtesService,
                 private swalService: SwalService,
+                private personaService: PersonaService,
                 private cosmedicamsgService: ConsMedicaMsgService) {
 
     }
@@ -69,8 +73,27 @@ export class CitaMedDetComponent implements OnInit, OnDestroy {
         this.datosAlertaPresion = {};
         this.datosAlertaImc = {};
         this.initForm();
-        this.auxLoadCiedata();
-        this.editing = true;
+        this.medicos = [];
+        this.loadingUiService.publishBlockMessage();
+        forkJoin({
+            data1: this.citasMedicasServ.getCie10Data(),
+            data2: this.personaService.listarMedicos(1),
+            data3: this.citasMedicasServ.getForm()
+        }).subscribe({
+            next: (result) => {
+                if (result.data1.status === 200) {
+                    this.ciedataArray = result.data1.cie10data;
+                }
+                if (result.data2.status === 200) {
+                    this.medicos = result.data2.medicos;
+                }
+                if (result.data3) {
+                    this.processFormConsulta(result.data3);
+                }
+                this.loadingUiService.publishUnblockMessage();
+                this.editing = true;
+            }
+        });
     }
 
     calcularIMC(it: any) {
@@ -94,6 +117,7 @@ export class CitaMedDetComponent implements OnInit, OnDestroy {
                     formToPost[prop] = this.form[prop];
                 }
                 formToPost.datosconsulta.diagnosticos = this.selectedDiags;
+                formToPost.datosconsulta.medicos = this.selectedMeds;
 
                 this.loadingUiService.publishBlockMessage();
                 console.log('form topost', formToPost);
@@ -109,18 +133,9 @@ export class CitaMedDetComponent implements OnInit, OnDestroy {
         });
     }
 
-    // Logica para editar
-    auxLoadCiedata() {
-        this.citasMedicasServ.getCie10Data().subscribe(rescie => {
-            if (rescie.status === 200) {
-                this.ciedataArray = rescie.cie10data;
-                this.loadFormConsulta();
-            }
-        });
-    }
-
     initForm() {
         this.selectedDiags = [null];
+        this.selectedMeds = [null];
         this.form = {
             paciente: {
                 per_id: this.historiaSel.paciente.per_id,
@@ -148,39 +163,39 @@ export class CitaMedDetComponent implements OnInit, OnDestroy {
         };
     }
 
-    loadFormConsulta() {
-        this.loadingUiService.publishBlockMessage();
-        this.citasMedicasServ.getForm().subscribe(res => {
-            if (res.status === 200) {
-                this.form = res.form;
-                this.form.paciente.per_id = this.historiaSel.paciente.per_id;
-                this.citasMedicasServ.getDatosHistoriaByCod(this.rowHistoriaSel.cosm_id).subscribe(resHis => {
-                    if (resHis.status === 200) {
-                        this.form.examsfisicos = resHis.datoshistoria.examsfisicos;
-                        this.form.revxsistemas = resHis.datoshistoria.revxsistemas;
-                        this.form.datosconsulta = resHis.datoshistoria.datosconsulta;
-                        const cosm_diagnosticos = resHis.datoshistoria.datosconsulta.cosm_diagnosticos;
-                        console.log('Diagnositocos:', this.form);
-                        console.log(cosm_diagnosticos);
-                        this.selectedDiags = [];
-                        if (cosm_diagnosticos) {
-                            const diagsNumberArray = cosm_diagnosticos.split(',');
-                            for (const codDiag of diagsNumberArray) {
-                                const ciedDiag = this.arrayUtil.getFirstResult(
-                                    this.ciedataArray, el => {
-                                        return parseInt(el.cie_id, 10) === parseInt(codDiag, 10);
-                                    }
-                                );
-                                if (ciedDiag) {
-                                    this.selectedDiags.push(ciedDiag);
+    processFormConsulta(res) {
+        if (res.status === 200) {
+            this.form = res.form;
+            this.form.paciente.per_id = this.historiaSel.paciente.per_id;
+            this.citasMedicasServ.getDatosHistoriaByCod(this.rowHistoriaSel.cosm_id).subscribe(resHis => {
+                if (resHis.status === 200) {
+                    this.form.examsfisicos = resHis.datoshistoria.examsfisicos;
+                    this.form.revxsistemas = resHis.datoshistoria.revxsistemas;
+                    this.form.datosconsulta = resHis.datoshistoria.datosconsulta;
+                    const cosm_diagnosticos = resHis.datoshistoria.datosconsulta.cosm_diagnosticos;
+                    this.selectedDiags = [];
+                    if (cosm_diagnosticos) {
+                        const diagsNumberArray = cosm_diagnosticos.split(',');
+                        for (const codDiag of diagsNumberArray) {
+                            const ciedDiag = this.arrayUtil.getFirstResult(
+                                this.ciedataArray, el => {
+                                    return parseInt(el.cie_id, 10) === parseInt(codDiag, 10);
                                 }
+                            );
+                            if (ciedDiag) {
+                                this.selectedDiags.push(ciedDiag);
                             }
                         }
-                        this.selectedDiags.push(null);
                     }
-                });
-            }
-        });
+
+                    const meds = resHis.datoshistoria.medicos || [];
+                    this.selectedMeds = [];
+                    meds.forEach(medit => this.selectedMeds.push(medit.med_id));
+                    this.selectedDiags.push(null);
+                    this.selectedMeds.push(null);
+                }
+            });
+        }
     }
 
 
@@ -259,8 +274,20 @@ export class CitaMedDetComponent implements OnInit, OnDestroy {
         }
     }
 
+    addMedico() {
+        if (this.selectedMeds[this.selectedMeds.length - 1] != null) {
+            this.selectedMeds.push(null);
+        } else {
+            this.swalService.fireToastWarn('Debe especificar el médico para agregar otros');
+        }
+    }
+
     removeDiagnostico(diag: any) {
         this.arrayUtil.removeElement(this.selectedDiags, diag);
+    }
+
+    removeMedico(med: any) {
+        this.arrayUtil.removeElement(this.selectedMeds, med);
     }
 
     hasExamsFisico() {
@@ -274,5 +301,35 @@ export class CitaMedDetComponent implements OnInit, OnDestroy {
 
     cancelar() {
         this.editing = false;
+    }
+
+    onMedicoChange() {
+        if (this.selectedMeds.length > 1) {
+            const lastMed = this.selectedMeds[this.selectedMeds.length - 1];
+            const alreadySelected = this.selectedMeds.slice(0, this.selectedMeds.length - 1).includes(lastMed);
+            if (alreadySelected) {
+                const medico = this.arrayUtil.getFirstResult(this.medicos, it => it.med_id === lastMed);
+                this.swalService.fireInfo('El médico(a) ' + (medico ? medico.nomapel : '') + ' ya fue seleccionado(a), escoja otro(a)');
+                this.arrayUtil.removeElement(this.selectedMeds, lastMed);
+                setTimeout(() => {
+                    this.selectedMeds.push(null);
+                }, 500);
+            }
+        }
+    }
+
+    onDiagnosticoChange() {
+        if (this.selectedDiags.length > 1) {
+            const lastDiag = this.selectedDiags[this.selectedDiags.length - 1];
+            const alreadySelected = this.selectedDiags.slice(0, this.selectedDiags.length - 1).includes(lastDiag);
+            if (alreadySelected) {
+                const diag = this.arrayUtil.getFirstResult(this.ciedataArray, it => it.cie_key === lastDiag.cie_key);
+                this.swalService.fireInfo('El diagnóstico ' + (diag ? diag.cie_key : '') + ' ya fue seleccionado, escoja otro');
+                this.arrayUtil.removeElement(this.selectedDiags, lastDiag);
+                setTimeout(() => {
+                    this.selectedDiags.push(null);
+                }, 500);
+            }
+        }
     }
 }

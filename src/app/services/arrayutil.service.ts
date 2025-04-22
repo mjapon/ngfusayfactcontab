@@ -48,6 +48,18 @@ export class ArrayutilService {
         return contains;
     }
 
+    containsProperty(arreglo: Array<any>, value, property) {
+        let contains = false;
+        if (arreglo) {
+            arreglo.forEach(item => {
+                if (item[property] === value) {
+                    contains = true;
+                }
+            });
+        }
+        return contains;
+    }
+
     /**
      * Se usa en transacciones que involucran cuentas contables
      * @param thearray El array que tiene todas la cuentas

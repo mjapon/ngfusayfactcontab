@@ -6,7 +6,7 @@ import {SwalService} from '../../../services/swal.service';
 import {ArrayutilService} from '../../../services/arrayutil.service';
 import {DomService} from '../../../services/dom.service';
 import {LoadingUiService} from '../../../services/loading-ui.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {ConsMedicaMsgService} from '../../../services/cons-medica-msg.service';
 import {LocalStorageService} from '../../../services/local-storage.service';
@@ -37,6 +37,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     datosAlertaImc: any;
     datosAlertaPresion: any;
     selectedDiags: any[];
+    selectedMeds: any[];
     tipoHistoria: number;
     editando: boolean;
     codHistoriaEdit: number;
@@ -45,6 +46,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     antecedentes = [];
     hasAntencentes = false;
     editAntper = false;
+    medicos: Array<any>;
 
     @ViewChild('mainDiv') mainDiv: any;
     @ViewChild('diagnosticoDiv') diagnosticoDiv: any;
@@ -53,6 +55,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     subsCitasPlaned: Subscription;
     showCalendar: boolean;
     lastCita: any;
+
 
     constructor(private citasMedicasServ: CitasMedicasService,
                 private lclStrgServ: LocalStorageService,
@@ -98,6 +101,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 }
             }
         });
+        this.loadMedicos();
     }
 
     clearAll() {
@@ -114,12 +118,14 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         this.codConsultaGen = null;
         this.showAnim = false;
         this.selectedDiags = [null];
+        this.selectedMeds = [null];
         this.editando = false;
         this.lastCita = {};
     }
 
     initForm() {
         this.selectedDiags = [null];
+        this.selectedMeds = [null];
         this.form = {
             paciente: {
                 per_id: 0,
@@ -213,6 +219,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                             this.form.datosconsulta = resHis.datoshistoria.datosconsulta;
                             const cosm_diagnosticos = resHis.datoshistoria.datosconsulta.cosm_diagnosticos;
                             this.selectedDiags = [];
+                            this.selectedMeds  = [];
                             if (cosm_diagnosticos) {
                                 const diagsNumberArray = cosm_diagnosticos.split(',');
                                 for (const codDiag of diagsNumberArray) {
@@ -302,8 +309,20 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
         }
     }
 
+    addMedico() {
+        if (this.selectedMeds[this.selectedMeds.length - 1] != null) {
+            this.selectedMeds.push(null);
+        } else {
+            this.swalService.fireToastWarn('Debe especificar el médico para agregar otros');
+        }
+    }
+
     removeDiagnostico(diag: any) {
         this.arrayUtil.removeElement(this.selectedDiags, diag);
+    }
+
+    removeMedico(med: any) {
+        this.arrayUtil.removeElement(this.selectedMeds, med);
     }
 
     selectHistoriaForEdit(datosHistoria: any) {
@@ -322,6 +341,15 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     }
 
     guardarDiagnostico() {
+        // Validamos que se ingres el galeno
+        if (!this.selectedMeds || this.selectedMeds.length===0) {
+            this.swalService.fireError('Debe ingresar el profesional a cargo');
+            return;
+        }
+        else if (!this.form.datosconsulta.cosm_motivo){
+            this.swalService.fireError('Debe ingresar el motivo de la consulta');
+            return;
+        }
         this.registrarCita();
     }
 
@@ -366,6 +394,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 formToPost.datosconsulta.cosm_fechaproxcita = fechaProxCita;
                 formToPost.datosconsulta.cosm_tipo = this.tipoHistoria;
                 formToPost.datosconsulta.diagnosticos = this.selectedDiags;
+                formToPost.datosconsulta.medicos = this.selectedMeds;
 
                 this.loadingUiService.publishBlockMessage();
                 if (this.editando) {
@@ -559,7 +588,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 per_id: $event.pac_id
             };
             this.cerrarHistoriaAnt();
-            this.cosMsgService.publishMessage({tipo: 1, msg: datoshistoria});
+            this.cosMsgService.publishMessage({tipo: this.tipoHistoria, msg: datoshistoria});
         } else {
             this.swalService.fireWarning('Esta cita no tiene registrado un paciente, no se puede ver la ficha clinica');
         }
@@ -593,5 +622,44 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
     clearInfoPacLocStorage() {
         this.lclStrgServ.removeItem('PAC_FOR_CAL');
         console.log('Limpiado paciente local storage');
+    }
+
+    onMedicoChange($event: any) {
+        if (this.selectedMeds.length > 1) {
+            const lastMed = this.selectedMeds[this.selectedMeds.length - 1];
+            const alreadySelected = this.selectedMeds.slice(0, this.selectedMeds.length - 1).includes(lastMed);
+            if (alreadySelected) {
+                const medico = this.arrayUtil.getFirstResult(this.medicos, it => it.med_id === lastMed);
+                this.swalService.fireInfo('El médico(a) ' + (medico ? medico.nomapel : '') + ' ya fue seleccionado(a), escoja otro(a)');
+                this.arrayUtil.removeElement(this.selectedMeds, lastMed);
+                setTimeout(() => {
+                    this.selectedMeds.push(null);
+                }, 500);
+            }
+        }
+    }
+
+    loadMedicos() {
+        this.medicos = [];
+        this.personaService.listarMedicos(1).subscribe(res => {
+            if (res.status === 200) {
+                this.medicos = res.medicos;
+            }
+        });
+    }
+
+    onDiagnosticoChange() {
+        if (this.selectedDiags.length > 1) {
+            const lastDiag = this.selectedDiags[this.selectedDiags.length - 1];
+            const alreadySelected = this.selectedDiags.slice(0, this.selectedDiags.length - 1).includes(lastDiag);
+            if (alreadySelected) {
+                const diag = this.arrayUtil.getFirstResult(this.ciedataArray, it => it.cie_key === lastDiag.cie_key);
+                this.swalService.fireInfo('El diagnóstico ' + (diag ? diag.cie_key : '') + ' ya fue seleccionado, escoja otro');
+                this.arrayUtil.removeElement(this.selectedDiags, lastDiag);
+                setTimeout(() => {
+                    this.selectedDiags.push(null);
+                }, 500);
+            }
+        }
     }
 }

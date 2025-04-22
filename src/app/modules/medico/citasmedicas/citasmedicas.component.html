@@ -569,6 +569,44 @@
                             <div *ngIf="selectedTab===4">
                                 <div #diagnosticoDiv id="diagnosticoDiv">
                                     <div>
+                                        <div>
+                                            <span class="text-rojo">*</span>
+                                            <span>Profesional a cargo:</span>
+                                        </div>
+                                        <div>
+                                            <div class="d-flex w-100"
+                                                *ngFor="let smed of selectedMeds; let i=index">
+                                                <div style="width: 90%">
+                                                        <p-dropdown [options]="medicos"
+                                                                    [disabled]="saved||i<selectedMeds.length-1"
+                                                                    [showClear]="true"
+                                                                    [style]="{width:'100%', overflow:'visible'}"
+                                                                    styleClass="p-fluid"
+                                                                    appendTo="body"
+                                                                    placeholder="Seleccione el/la profesional a cargo"
+                                                                    filter="true"
+                                                                    (onChange)="onMedicoChange($event)"
+                                                                    optionLabel="nomapel"
+                                                                    optionValue="med_id"
+                                                                    [(ngModel)]="selectedMeds[i]"></p-dropdown>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <button class="btn btn-sm btn-outline-primary py-2"
+                                                            (click)="addMedico()" [disabled]="saved"
+                                                            *ngIf="i===selectedMeds.length-1 && smed"
+                                                            title="Agregar otro médico"><span
+                                                            class="fa-solid fa-plus"></span></button>
+                                                    <button class="btn btn-sm btn-outline-dark py-2"
+                                                            (click)="removeMedico(smed)"
+                                                            *ngIf="i>0" [disabled]="saved"
+                                                            title="Quitar este médico"><span
+                                                            class="fa fa-minus-circle"></span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3">
                                         <span class="required">*</span><span>Diagnóstico:</span>
                                     </div>
                                     <div class="mt-1">
@@ -583,8 +621,9 @@
                                                             [showClear]="true"
                                                             appendTo="body"
                                                             [style]="{width:'100%', overflow:'visible'}"
-                                                            [disabled]="saved"
+                                                            [disabled]="saved||i<selectedDiags.length-1"
                                                             filter="true"
+                                                            (onChange)="onDiagnosticoChange()"
                                                             optionLabel="ciekeyval"
                                                             styleClass="p-fluid"
                                                             inputId="diagnostico_id_{{i}}"></p-dropdown>
@@ -604,7 +643,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="mt-2">
+                                    <div class="mt-3">
                                         <span>Diagnóstico Alternativo:</span>
                                     </div>
                                     <div class="mt-1">

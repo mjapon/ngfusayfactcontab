@@ -34,6 +34,11 @@ export class OdatencionesService extends BaseService {
         return this._doPost(httpOptions, form);
     }
 
+    actualizar(form: any) {
+        const httpOptions = this.getHOT({accion: 'update'});
+        return this._doPost(httpOptions, form);
+    }
+
     anular(ateId: number) {
         const httpOptions = this.getHOT({accion: 'anular'});
         return this._doPost(httpOptions, {ate_id: ateId});

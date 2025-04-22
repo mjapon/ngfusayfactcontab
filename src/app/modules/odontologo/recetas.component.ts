@@ -4,6 +4,7 @@ import {LoadingUiService} from '../../services/loading-ui.service';
 import {PersonaService} from '../../services/persona.service';
 import {SwalService} from '../../services/swal.service';
 import {DomService} from '../../services/dom.service';
+import { CitasMedicasService } from 'src/app/services/citas-medicas.service';
 
 @Component({
     selector: 'app-recetas',
@@ -51,6 +52,24 @@ import {DomService} from '../../services/dom.service';
                                         </textarea>
                                     </div>
                                 </div>
+
+                                <div class="mt-2 d-flex flex-column"><span>Diagnóstico:</span>
+                                    <div class="p-fluid">
+                                        <p-dropdown [options]="ciedataArray"
+                                        [(ngModel)]="form.rec_diagnostico"
+                                        [virtualScroll]="true"
+                                        [virtualScrollItemSize]="50"
+                                        appendTo="body"
+                                        placeholder="Seleccione o busque la enfermedad diagnosticada"
+                                        [showClear]="true"
+                                        [style]="{width:'100%', overflow:'visible'}"
+                                        filter="true"
+                                        optionLabel="ciekeyval"
+                                        optionValue="cie_id"
+                                        styleClass="p-fluid"></p-dropdown>
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="card-footer">
                                 <div class="d-flex justify-content-around">
@@ -134,10 +153,12 @@ export class RecetasComponent implements OnInit, OnChanges {
     form: any;
     medicos: Array<any>;
     showForm: boolean;
+    ciedataArray: Array<any>;
 
     constructor(private recetaServ: RecetaService,
                 private personServ: PersonaService,
                 private domService: DomService,
+                private citasMedicasServ: CitasMedicasService,
                 private swalServ: SwalService,
                 private loadingServ: LoadingUiService) {
 
@@ -147,6 +168,7 @@ export class RecetasComponent implements OnInit, OnChanges {
         this.recetas = [];
         this.medicos = [];
         this.form = {};
+        this.auxLoadCiedata();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -155,6 +177,14 @@ export class RecetasComponent implements OnInit, OnChanges {
         if (codcurrentvalue !== null) {
             this.loadRecetas();
         }
+    }
+
+    auxLoadCiedata() {
+        this.citasMedicasServ.getCie10Data().subscribe(rescie => {
+            if (rescie.status === 200) {
+                this.ciedataArray = rescie.cie10data;
+            }
+        });
     }
 
     loadRecetas() {

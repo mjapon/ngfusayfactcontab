@@ -10,6 +10,7 @@ import {LoadingUiService} from '../../../services/loading-ui.service';
 import {LocalStorageService} from '../../../services/local-storage.service';
 import {CitasodontmsgService} from '../../../services/citasodontmsg.service';
 import {Router} from '@angular/router';
+import {ConsMedicaMsgService} from '../../../services/cons-medica-msg.service';
 
 @Component({
     selector: 'app-mvcalendar',
@@ -75,6 +76,8 @@ export class MvcalendarComponent implements OnInit, OnChanges {
     @Output() evCreated = new EventEmitter<any>();
     @Output() evCancelar = new EventEmitter<any>();
     @Output() evListado = new EventEmitter<any>();
+
+    @Output() evGotoDetallesCita = new EventEmitter<any>();
     isShowFormCreaRef = false;
     codreferenteform = 0;
 
@@ -84,6 +87,7 @@ export class MvcalendarComponent implements OnInit, OnChanges {
                 private lclStrgService: LocalStorageService,
                 private tcitaService: TcitaService,
                 private router: Router,
+                private cosMsgService: ConsMedicaMsgService,
                 private citasOdontMsgService: CitasodontmsgService,
                 private loadinUiServ: LoadingUiService,
                 private domService: DomService) {
@@ -832,10 +836,17 @@ export class MvcalendarComponent implements OnInit, OnChanges {
 
     gotoFicha() {
         if (this.datosCita.pac_id > 0) {
-            this.citasOdontMsgService.publishMessage({
-                tipo: 1, paciente: {per_id: this.datosCita.pac_id}
-            });
-            this.router.navigate(['odonto']);
+            if (this.tipoCita === 2) {
+                this.citasOdontMsgService.publishMessage({
+                    tipo: 1, paciente: {per_id: this.datosCita.pac_id}
+                });
+                this.router.navigate(['odonto']);
+            } else {
+                console.log('tipo cita navega historia clinica--->');
+                this.cosMsgService.publishMessage({tipo: 1, msg: {per_id: this.datosCita.pac_id}});
+                // this.router.navigate(['historiaclinica', '1']);
+            }
+
         }
     }
 }

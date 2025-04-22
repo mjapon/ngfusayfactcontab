@@ -21,35 +21,40 @@ import {TcitaService} from '../../../services/tcita.service';
                 <div class="d-flex w-100">
                     <div class="colcal" style="background-color:{{datosCita.ct_color}}"></div>
                     <div class="ms-3 d-flex flex-column w-100">
-                        <div> {{datosCita.ct_titulo}} </div>
+                        <div> {{ datosCita.ct_titulo }}</div>
                         <div class="d-flex ">
                             <div>
-                                {{datosCita.ct_fecha}}
+                                {{ datosCita.ct_fecha }}
                             </div>
                             <div class="ms-5">
-                                {{datosCita.ct_hora_str}} - {{datosCita.ct_hora_fin_str}}
+                                {{ datosCita.ct_hora_str }} - {{ datosCita.ct_hora_fin_str }}
                             </div>
                         </div>
                     </div>
                 </div>
                 <p class="mt-2">
-                    {{datosCita.ct_obs}}
+                    {{ datosCita.ct_obs }}
                 </p>
 
                 <div class="row">
                     <div>Paciente:</div>
-                    <div>{{datosCita.paciente}}</div>
+                    <div>{{ datosCita.paciente }}</div>
                 </div>
 
                 <div class="row">
                     <div>Atiende:</div>
-                    <div>{{datosCita.medico}}</div>
+                    <div>{{ datosCita.medico }}</div>
                 </div>
             </div>
 
             <div class="d-flex flex-row-reverse mt-4">
-                <button class="btn btn-sm btn-outline-primary" (click)="registraAtencion()">
-                    <i class="fa-solid fa-teeth-open me-1"></i> Ficha Médica
+                <button class="btn btn-sm btn-outline-primary" *ngIf="tipocita===2"
+                        (click)="registraAtencionOdontologica()">
+                    <i class="fa-solid fa-teeth-open me-1"></i> Ficha Odontológica
+                </button>
+                <button class="btn btn-sm btn-outline-primary" *ngIf="tipocita===1"
+                        (click)="registraAtencionMedica()">
+                    <i class="fa-solid fa-stethoscope me-1"></i> Ficha Médica
                 </button>
             </div>
         </div>
@@ -60,6 +65,7 @@ export class DetallescitacalComponent implements OnInit {
     @Input() codcita: number;
     @Output() cerrarModalEv = new EventEmitter<any>();
     @Output() registraAtencionEv = new EventEmitter<any>();
+    @Input() tipocita: number;
     showAnim: boolean;
     datosCita: any;
 
@@ -80,7 +86,11 @@ export class DetallescitacalComponent implements OnInit {
         });
     }
 
-    registraAtencion() {
+    registraAtencionOdontologica() {
+        this.registraAtencionEv.emit(this.datosCita);
+    }
+
+    registraAtencionMedica() {
         this.registraAtencionEv.emit(this.datosCita);
     }
 }

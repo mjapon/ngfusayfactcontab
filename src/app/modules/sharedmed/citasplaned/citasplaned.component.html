@@ -100,6 +100,7 @@
     <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="100"
               [(visible)]="showModalDet" [autoZIndex]="false">
         <app-detcitacal [codcita]="rowHistoriaSel.ct_id"
+                        [tipocita]="tipocita"
                         (cerrarModalEv)="onCerrarModalCitaCal($event)"
                         (registraAtencionEv)="onRegistraAtencionEv($event)"></app-detcitacal>
     </p-dialog>

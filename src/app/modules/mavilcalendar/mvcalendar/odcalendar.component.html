@@ -347,8 +347,11 @@
             <div class="d-flex justify-content-around">
                 <button class="btn btn-outline-dark" (click)="anularEv()"><i class="fa fa-trash"></i> Anular
                 </button>
-                <button class="btn btn-outline-primary" *ngIf="datosCita.pac_id && datosCita.pac_id>0" (click)="gotoFicha()">
-                    <i class="fa-solid fa-teeth-open me-1"></i>Ficha Médica
+                <button class="btn btn-outline-primary" *ngIf="datosCita.pac_id && datosCita.pac_id>0 && tipoCita===2" (click)="gotoFicha()">
+                    <i class="fa-solid fa-teeth-open me-1"></i>Ficha Odontológica
+                </button>
+                <button class="btn btn-outline-primary" *ngIf="datosCita.pac_id && datosCita.pac_id>0 && tipoCita===1" (click)="gotoFicha()">
+                    <i class="fa-solid fa-stethoscope me-1"></i>Ficha Médica
                 </button>
                 <button class="btn btn-outline-dark" (click)="editarEv()"><i class="fa fa-edit"></i> Editar
                 </button>
