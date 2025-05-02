@@ -21,7 +21,8 @@
         <div class="p-3" *ngIf="!isLoading">
             <div class="row" *ngIf="billeteras.length>0">
                 <div class="col-md-3 quitaPaddingMargin" *ngFor="let bill of billeteras">
-                    <div appShadowBg class="pt-3 pb-1 ps-3 pe-3 me-4 mb-2 hand d-flex flex-column border rounded {{formfiltros.cuentabill==bill.ic_id?'bg-warning-subtle bg-gradient border-warning shadow':'shadow-sm'}}" >
+                    <div appShadowBg
+                         class="pt-3 pb-1 ps-3 pe-3 me-4 mb-2 hand d-flex flex-column border rounded {{formfiltros.cuentabill==bill.ic_id?'bg-warning-subtle bg-gradient border-warning shadow':'shadow-sm'}}">
                         <div (click)="showMovsBill(bill)">
                             <span class="fontsizenr">{{ bill.bil_code }}</span>
                             <h6 class="quitaPaddingMargin fw-bold">{{ bill.bil_nombre }}</h6>
@@ -323,8 +324,39 @@
         <p-dialog header="Detalles de la transacción" [style]="{width: '60vw'}" [autoZIndex]="false"
                   [modal]="true"
                   [(visible)]="isShowDetalleMov">
-            <app-ingegrview [codmov]="codmovsel" (evCerrarBtn)="closeModalDet($event)"
+            <app-ingegrview [codmov]="codmovsel" (evCerrarBtn)="closeModalDet($event)" (evDoEdit)="showModalEditMov()"
                             (evAnula)="onAnulaView($event)" (evConfirma)="onConfirmaView($event)"></app-ingegrview>
+        </p-dialog>
+    </div>
+
+
+    <div *ngIf="isShowEditIngrGasto">
+        <p-dialog header="Editar transacción" [style]="{width: '60vw'}" [autoZIndex]="false"
+                  [modal]="true"
+                  [(visible)]="isShowEditIngrGasto">
+            <div>
+                <div class="row border rounded" style="height: 65vh !important; overflow-y:auto !important;">
+                    <app-ingegrformedit #ingegrformedit [tiporouting]="0" [codmov]="codmovsel"
+                                        [titulo]="'Editar'"
+                                        (guardarEv)="onUpdatedMov()"
+                                        (cancelarEv)="hideEditMov()"></app-ingegrformedit>
+                </div>
+                <div class="row">
+                    <div class="col-md">
+                        <div class="mt-2 d-flex flex-row-reverse">
+                            <button class="btn btn-outline-primary ms-1" (click)="hideEditMov()"><i
+                                    class="fa-solid fa-xmark"></i>
+                                Cancelar
+                            </button>
+                            <button class="btn btn-outline-primary ms-1" [disabled]="isLoading"
+                                    (click)="ingegrformedit.guardar()" title="Guardar">
+                                <i class="fa fa-save"></i>
+                                Actualizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </p-dialog>
     </div>
 

@@ -26,7 +26,7 @@
         </div>
 
         <div *ngIf="tipoFiltro>0" class="ms-3">
-            <span class="fontsizesm">Filtro aplicado: {{fechasstr}}</span>
+            <span class="fontsizesm">Filtro aplicado: {{ fechasstr }}</span>
             <button class="btn btn-sm btn-outline-dark ms-2" title="Limpiar filtro"
                     (click)="clearFiltro()">
                 <i class="fa-solid fa-xmark"></i>
@@ -49,13 +49,11 @@
     </button>
 </div>
 
-<p-table [value]="items" [paginator]="true" [rows]="rows" selectionMode="single" [(selection)]="selectedItem"
-         (onRowSelect)="onRowSelect($event)"
-         paginatorPosition="top"
-         [autoLayout]="true"
-         [resizableColumns]="true"
-         [(contextMenuSelection)]="selectedItem"
-         (onRowUnselect)="onUnRowSelect($event)">
+<p-table [value]="items"
+         [tableStyle]="{ 'min-width': '50rem' }"
+         [paginator]="true"
+         [rows]="rows"
+         paginatorPosition="top">
     <ng-template pTemplate="paginatorleft">
         Total de registros: {{ items.length }}
     </ng-template>
@@ -64,25 +62,54 @@
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
-            <th *ngFor="let item of cols" [pSortableColumn]="item.field" [ngSwitch]="item.field">
-                {{item.label}}
-                <p-sortIcon [field]="item.field"></p-sortIcon>
+            <th style="width: 10%">
+                Día
             </th>
-            <th>
+            <th style="width: 10%">
+                Hora
+            </th>
+            <th style="width: 25%">
+                Paciente
+            </th>
+            <th style="width: 25%">
+                Motivo
+            </th>
+            <th style="width: 15%">
+                Celular
+            </th>
+            <th style="width: 10%">
                 Acción
             </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
-        <tr [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="onrowclic(rowData)">
-            <td *ngFor="let item of cols">
-                {{rowData[item['field']]}}
+        <tr class="hand" [pSelectableRow]="rowData" [pContextMenuRow]="rowData" (dblclick)="onrowclic(rowData)">
+            <td>
+                {{ rowData.ct_fecha }}
             </td>
             <td>
-                <button class="btn btn-sm btn-outline-dark" (click)="verCita(rowData)" title="Ver Detalles"
-                        style="margin-right: 10px">
-                    <i class="fa fa-eye"></i>
-                </button>
+                {{ rowData.hora }}
+            </td>
+            <td>
+                <div class="texto">
+                    {{ rowData.paciente }}
+                </div>
+            </td>
+            <td>
+                <div class="texto">
+                    {{ rowData.ct_titulo }}
+                </div>
+            </td>
+            <td>
+                {{ rowData.per_movil }}
+            </td>
+            <td>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-primary" (click)="verCita(rowData)"
+                            title="Ver Detalles">
+                        <i class="fa fa-eye"></i>
+                    </button>
+                </div>
             </td>
         </tr>
     </ng-template>

@@ -120,10 +120,16 @@ export class LoggedHomeComponent implements OnInit {
                 this.fautService.publishMessage('loadmenu');
                 this.fautService.publishMessage('loadvapp');
                 this.datosempresa = res.datlogged.datosemp;
-
+                this.fautService.calendarType = res.datlogged.sec_calendar || 0;
+                this.fautService.countLoaded++;
                 if (res.infofactele) {
                     this.infofactele = res.infofactele;
                 }
+                /*console.log(this.fautService.countLoaded, this.fautService.calendarType);
+                if (this.fautService.countLoaded === 1 && this.fautService.calendarType > 0) {
+                    console.log('Navegando hacia agenda');
+                    this.router.navigate(['agenda', '1']);
+                }*/
             }
         });
     }

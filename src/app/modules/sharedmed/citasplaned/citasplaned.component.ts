@@ -7,6 +7,7 @@ import {TcitaService} from '../../../services/tcita.service';
 
 @Component({
     selector: 'app-citasplaned',
+    styleUrl: 'citasplaned.component.scss',
     templateUrl: './citasplaned.component.html'
 })
 export class CitasplanedComponent implements OnInit, OnChanges {
@@ -32,8 +33,6 @@ export class CitasplanedComponent implements OnInit, OnChanges {
 
     constructor(private loadingUiService: LoadingUiService,
                 private citasMedicasService: CitasMedicasService,
-                private cosmedicamsgService: ConsMedicaMsgService,
-                private personaService: PersonaService,
                 private tcitaService: TcitaService) {
     }
 
@@ -60,14 +59,6 @@ export class CitasplanedComponent implements OnInit, OnChanges {
             this.items = res.grid.data;
             this.fechasstr = res.fechas;
         });
-    }
-
-    onRowSelect($event: any) {
-
-    }
-
-    onUnRowSelect($event: any) {
-
     }
 
     verCita(item: any) {

@@ -1,223 +1,25 @@
 <h1 class="bd-title">
     <i class="fa-solid fa-file-circle-plus"></i>
     Crear {{titulo}}</h1>
-
-<div *ngIf="isLoading">
-    <app-loading></app-loading>
-</div>
-<div *ngIf="!isLoading">
-
+<div>
     <div class="bd-grid">
         <div class="bd-grid-content">
-            <div class="margengridcontent">
-                <div class="row quitaPaddingMargin">
-                    <div class="col-md-6 quitaPaddingMargin">
-                        <div class="row mt-2">
-                            <div class="col-md-4">
-                                <span class="fw-normal"> Número: </span>
-                            </div>
-                            <div class="col-md">
-                                <input type="text" class="form-control" disabled
-                                       [(ngModel)]="form.bmo_numero">
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-md-4">
-                                <span class="fw-normal"> Fecha transacción: </span>
-                            </div>
-                            <div class="col-md">
-                                <p-calendar id="vt_fecha"
-                                            [(ngModel)]="form.bmo_fechatransaccobj"
-                                            showIcon="true"
-                                            inputId="bmo_fechatransacc"
-                                            [monthNavigator]="true" [yearNavigator]="true"
-                                            [maxDate]="currentDate"
-                                            yearRange="2020:2100"
-                                            dateFormat="dd/mm/yy">
-                                </p-calendar>
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-md-4">
-                                <span class="fw-normal"> Monto Total: </span>
-                            </div>
-                            <div class="col-md">
-                                <input type="text" class="form-control" id="bmo_monto"
-                                       (focusin)="$event.target.select();" (keyup.enter)="onMontoEnter()"
-                                       [(ngModel)]="form.bmo_monto">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-md d-flex flex-column">
-                                    <span class="fw-normal" *ngIf="tiporouting<3">
-                                        Tipo {{titulo}}:
-                                    </span>
-                        <span class="fw-normal" *ngIf="tiporouting===3">
-                                        <i class="fa fa-wallet"></i> Origen:
-                                    </span>
-                        <div *ngIf="tiporouting<3">
-                            <div class="d-flex flex-column"
-                                 *ngFor="let fcuenta of form.cuentas; let i=index">
-                                <div class="d-flex flex-row">
-                                    <div>
-                                        <p-dropdown [options]="cuentasformov" optionLabel="codnombre"
-                                                    id="tipoInput_{{i}}"
-                                                    inputId="tipoInput_{{i}}"
-                                                    filter="true"
-                                                    optionValue="ic_id"
-                                                    placeholder="Seleccione el tipo de {{titulo}}"
-                                                    (onChange)="ontiposel(fcuenta, $event)"
-                                                    [showClear]="false"
-                                                    [(ngModel)]="fcuenta.cta_codigo"></p-dropdown>
-                                    </div>
-                                    <div>
-                                        <input type="text" class="ms-1 form-control" id="tipo_valor_{{i}}"
-                                               [(ngModel)]="fcuenta.dt_valor"
-                                               [disabled]="fcuenta.cta_codigo===0"
-                                               (focusin)="$event.target.select();">
-                                    </div>
-                                    <div>
-                                        <div class="ms-1 btn-group" role="group">
-                                            <button class="btn btn-outline-primary"
-                                                    *ngIf="i>0"
-                                                    title="Quitar esta fila"
-                                                    (click)="removeCuenta(fcuenta)">
-                                                <i class="fa-solid fa-minus"></i>
-                                            </button>
-                                            <button class="btn btn-outline-primary"
-                                                    *ngIf="i===form.cuentas.length-1"
-                                                    title="Agregar otro ingreso" (click)="addcuentas()">
-                                                <i class="fa-solid fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div *ngIf="tiporouting===3">
-                            <div class="d-flex flex-column"
-                                 *ngFor="let fbill of form.cuentas; let i=index">
-                                <div class="d-flex flex-row">
-                                    <div>
-                                        <p-dropdown [options]="cuentasformov" optionLabel="bilnomcodsald"
-                                                    optionValue="ic_id"
-                                                    placeholder="Seleccione la billetera afectada"
-                                                    filter="true"
-                                                    (onChange)="ontiposel(fbill, $event)"
-                                                    [showClear]="false"
-                                                    [(ngModel)]="fbill.cta_codigo"></p-dropdown>
-                                    </div>
-                                    <div>
-                                        <input type="text" class="ms-1 form-control" id="tipo_valor_{{i}}"
-                                               (focusin)="$event.target.select();"
-                                               [(ngModel)]="fbill.dt_valor"
-                                               [disabled]="fbill.cta_codigo===0">
-                                    </div>
-                                    <div>
-                                        <div class="ms-1 btn-group" role="group">
-                                            <button class="btn btn-outline-primary"
-                                                    (click)="removeCuenta(fbill)"
-                                                    *ngIf="i>0"
-                                                    title="Quitar billetera afectada">
-                                                <i class="fa-solid fa-minus"></i>
-                                            </button>
-                                            <button class="btn btn-outline-primary"
-                                                    *ngIf="i==form.billeteras.length-1"
-                                                    title="Agregar otra billetera"
-                                                    (click)="addcuentas()">
-                                                <i class="fa-solid fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md">
-                        <div class="d-flex flex-column">
-                                        <span class="fw-normal" *ngIf="tiporouting<3">
-                                            <i class="fa fa-wallet"></i> Billetera Afectada:
-                                        </span>
-                            <span class="fw-normal" *ngIf="tiporouting===3">
-                                            <i class="fa fa-wallet"></i> Destino:
-                                        </span>
-                            <div class="d-flex flex-column"
-                                 *ngFor="let fbill of form.billeteras; let i=index">
-                                <div class="d-flex flex-row">
-                                    <div>
-                                        <p-dropdown [options]="billeteras" optionLabel="bilnomcodsald"
-                                                    optionValue="ic_id"
-                                                    placeholder="Seleccione la billetera afectada"
-                                                    filter="true"
-                                                    (onChange)="onbillsel(fbill, $event)"
-                                                    [showClear]="false"
-                                                    [(ngModel)]="fbill.cta_codigo"></p-dropdown>
-                                    </div>
-                                    <div>
-                                        <input type="text" class="ms-1 form-control" id="bill_valor_{{i}}"
-                                               (focusin)="$event.target.select();"
-                                               [(ngModel)]="fbill.dt_valor"
-                                               [disabled]="fbill.cta_codigo===0">
-                                    </div>
-                                    <div>
-                                        <div class="ms-1 btn-group" role="group">
-                                            <button class="btn btn-outline-primary"
-                                                    *ngIf="i>0"
-                                                    (click)="removeBilletera(fbill)"
-                                                    title="Quitar billetera afectada">
-                                                <i class="fa-solid fa-minus"></i>
-                                            </button>
-                                            <button class="btn btn-outline-primary"
-                                                    *ngIf="i==form.billeteras.length-1"
-                                                    title="Agregar otra billetera"
-                                                    (click)="addbilleteras()">
-                                                <i class="fa-solid fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md ">
-                        <div class="mt-3 d-flex flex-column"><span> <i class="fa-solid fa-paperclip"></i> Adjunto:</span>
-                            <input type="file" id="archivoinput"
-                                   accept="image/*,application/pdf, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                                   class="form-control"
-                                   (change)="onFileChange($event)"/>
-                        </div>
-                        <div class="mt-3">
-                            <label for="obsInput">
-                                <i class="fa-solid fa-sticky-note"></i>
-                                Observación</label>
-                            <textarea class="form-control" id="obsInput" maxlength="800" name="tk_obs"
-                                      [(ngModel)]="form.bmo_obs" rows="5"></textarea>
-                        </div>
-                    </div>
-                    <div class="ms-1 mt-1 col-md-4 quitaPaddingMargin" *ngIf="filepreview && adjisimage">
-                        <img [src]="filepreview" class="img-responsive" *ngIf="filepreview" width="260px"
-                             height="270px"/>
-                    </div>
-                </div>
+            <div class="mx-3">
+                <app-ingegrformedit #ingegrformedit [tiporouting]="tiporouting"
+                                    [titulo]="titulo"
+                                    (guardarEv)="gotolist()"
+                                    (cancelarEv)="cancelar()"></app-ingegrformedit>
             </div>
-
         </div>
         <div class="bd-grid-actions">
 
             <div class="d-grid mt-4 gap-2">
                 <button type="button" class="btn btn-lg btn-outline-primary"
-                        (click)="guardar()">
+                        (click)="ingegrformedit.guardar()" [disabled]="ingegrformedit.isLoading">
                     <i class="fa-solid fa-floppy-disk"></i><span class="ms-2">Guardar</span>
                 </button>
                 <button type="button" class="btn btn-lg btn-outline-dark"
-                        (click)="cancelar()">
+                        (click)="ingegrformedit.cancelar()">
                     <i class="fa-solid fa-xmark"></i> <span class="ms-2">Cancelar</span>
                 </button>
             </div>

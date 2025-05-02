@@ -46,6 +46,7 @@ export class IngegrComponent implements OnInit {
     page = 0;
     totalRecord: number;
     selectedbill: any = {};
+    isShowEditIngrGasto = false;
 
     constructor(private billeteraService: BilleteraService,
                 private billmovService: BilleteramovService,
@@ -222,7 +223,7 @@ export class IngegrComponent implements OnInit {
 
     loadMovimientos() {
         this.isLoadingMovs = true;
-        this.dataTable.reset();
+        this.dataTable?.reset();
     }
 
     updateTable() {
@@ -359,5 +360,20 @@ export class IngegrComponent implements OnInit {
     doLazyLoad($event: TableLazyLoadEvent) {
         this.page = $event.first;
         this.updateTable();
+    }
+
+    hideEditMov() {
+        this.isShowEditIngrGasto = false;
+    }
+
+    showModalEditMov() {
+        this.isShowDetalleMov = false;
+        this.isShowEditIngrGasto = true;
+    }
+
+    onUpdatedMov() {
+        this.loadMovimientos();
+        this.hideEditMov();
+        this.loadBilleteras();
     }
 }

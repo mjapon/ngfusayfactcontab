@@ -321,7 +321,7 @@ import {CtesService} from '../../services/ctes.service';
                         </div>
                         <div class="row dato-fila">
                             <div class="col-12">
-                                <span>Teléfono Convencial:</span>
+                                <span>Teléfono Convencional:</span>
                             </div>
                             <div class="col-12">
                                 <input type="text" class="form-control"

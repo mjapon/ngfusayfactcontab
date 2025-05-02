@@ -1,0 +1,31 @@
+.columnacita {
+  overflow: hidden; /* Oculta el texto que se salga del contenedor */
+  white-space: nowrap; /* Impide que el texto se divida en varias líneas */
+  text-overflow: ellipsis; /* Muestra los tres puntos (...) al final */
+}
+.dia{
+  width: 5vw;
+}
+.hora{
+  width: 5vw;
+}
+.paciente{
+  width: 5vw;
+}
+.motivo{
+  width: 5vw;
+}
+.celular{
+  width: 5vw;
+}
+
+
+.texto {
+  white-space: pre-wrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 2.8em; /* Fallback for browsers that don't support -webkit-line-clamp */
+}

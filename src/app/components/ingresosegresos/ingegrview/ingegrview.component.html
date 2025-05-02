@@ -95,8 +95,8 @@
             </div>
             <div class="px-3">
                 <div class="row">
-                    <div class="col-md"><span class="fw-bold">Crédito:</span></div>
-                    <div class="col-md"><span class="fw-bold">Débito:</span></div>
+                    <div class="col-md"><span class="fw-bold">Origen:</span></div>
+                    <div class="col-md"><span class="fw-bold">Destino:</span></div>
                 </div>
                 <div class="row g-3">
                     <div class="col-md">
@@ -104,12 +104,12 @@
                             <table class="table table-sm table-bordered">
                                 <thead>
                                 <tr>
-                                    <th scope="col">Cuenta</th>
+                                    <th scope="col">Concepto</th>
                                     <th scope="col">Monto</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr *ngFor="let fila of filasdebe">
+                                <tr *ngFor="let fila of filashaber">
                                     <td>
                                         <span class="text-muted fontsizenr"> {{ fila.ic_nombre }} </span>
                                     </td>
@@ -127,12 +127,12 @@
                             <table class="table table-sm table-bordered">
                                 <thead>
                                 <tr>
-                                    <th scope="col">Cuenta</th>
+                                    <th scope="col">Concepto</th>
                                     <th scope="col">Monto</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr *ngFor="let fila of filashaber">
+                                <tr *ngFor="let fila of filasdebe">
                                     <td>
                                         <span class="text-muted fontsizenr"> {{ fila.ic_nombre }} </span>
                                     </td>
@@ -155,13 +155,19 @@
                             class="fa-solid fa-xmark"></i>
                         Cerrar
                     </button>
-                    <button class="btn btn-outline-primary ms-1" (click)="onConfirmarBtn()"
-                            *ngIf="datosmov.bmo_estado===0">
-                        <i class="fa fa-check"></i>
-                        Confirmar
+                    <button class="btn btn-outline-primary ms-1" (click)="doEdit()"
+                            *ngIf="datosmov.bmo_estado===0 && !datosmov.trn_mayorizado">
+                        <i class="fa fa-edit"></i>
+                        Editar
                     </button>
+                    <!--
+                    <button class="btn btn-outline-primary ms-1" (click)="doReverso()"
+                            *ngIf="datosmov.bmo_estado===1">
+                        <i class="fa fa-edit"></i>
+                        Reversar
+                    </button>-->
                     <button class="btn btn-outline-primary" (click)="onAnularBtn()"
-                            *ngIf="datosmov.bmo_estado===0">
+                            *ngIf="datosmov.bmo_estado===0 && !datosmov.trn_mayorizado">
                         <i class="fa fa-trash"></i>
                         Anular
                     </button>
@@ -169,4 +175,5 @@
             </div>
         </div>
     </div>
+
 </div>

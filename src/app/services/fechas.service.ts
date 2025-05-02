@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {
+    compareAsc,
     format,
     getDate,
     getDay,
@@ -11,7 +12,7 @@ import {
     isSameWeek,
     isSameYear,
     isToday,
-    parse
+    parse, startOfDay
 } from 'date-fns';
 import {es} from 'date-fns/locale';
 import {TranslateService} from '@ngx-translate/core';
@@ -138,6 +139,20 @@ export class FechasService {
     loadDayNamesShort() {
         this.promiseDateShort = this.translateService.get('primeng.dayNamesShort').toPromise();
     }
+
+    isGreaterOrEqualToCurrentDate(date: Date): boolean {
+        // Normalizamos la fecha dada al inicio del día.
+        const soloFecha1 = startOfDay(date);
+
+        // Normalizamos la fecha actual al inicio del día.
+        const soloFechaActual = startOfDay(new Date());
+
+        // Usamos compareAsc para verificar si es mayor o igual.
+        const comparacion = compareAsc(soloFecha1, soloFechaActual);
+
+        return comparacion === 1 || comparacion === 0;
+    }
+
 
     loadMontNames() {
         this.promiseMontNames = this.translateService.get('primeng.monthNames').toPromise();

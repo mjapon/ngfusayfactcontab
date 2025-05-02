@@ -36,25 +36,34 @@ import {TcitaService} from '../../../services/tcita.service';
                     {{ datosCita.ct_obs }}
                 </p>
 
-                <div class="row">
-                    <div>Paciente:</div>
-                    <div>{{ datosCita.paciente }}</div>
+                <div class="row mb-2">
+                    <div class="fw-light">Paciente:</div>
+                    <div class="fw-bold">{{ datosCita.paciente }}</div>
                 </div>
 
                 <div class="row">
-                    <div>Atiende:</div>
-                    <div>{{ datosCita.medico }}</div>
+                    <div class="fw-light">Atiende:</div>
+                    <div class="fw-bold">{{ datosCita.medico }}</div>
                 </div>
+
             </div>
 
-            <div class="d-flex flex-row-reverse mt-4">
-                <button class="btn btn-sm btn-outline-primary" *ngIf="tipocita===2"
-                        (click)="registraAtencionOdontologica()">
+            <div class="d-flex justify-content-between mt-4">
+                <button class="btn btn-outline-primary" *ngIf="tipocita===2"
+                        (click)="registraAtencionOdontologica()"
+                        title="Navegar hacia la ficha odontológica del paciente">
                     <i class="fa-solid fa-teeth-open me-1"></i> Ficha Odontológica
                 </button>
-                <button class="btn btn-sm btn-outline-primary" *ngIf="tipocita===1"
+                <button class="btn btn-outline-primary" *ngIf="tipocita===1"
+                        title="Navegar hacia la ficha médica del paciente"
                         (click)="registraAtencionMedica()">
                     <i class="fa-solid fa-stethoscope me-1"></i> Ficha Médica
+                </button>
+
+                <button class="btn btn-outline-secondary"
+                        title="Cerrar"
+                        (click)="closeModalDetEv()"><i class="fa-solid fa-xmark"></i>
+                    Cerrar
                 </button>
             </div>
         </div>
@@ -87,10 +96,16 @@ export class DetallescitacalComponent implements OnInit {
     }
 
     registraAtencionOdontologica() {
+        this.datosCita.tipo_rounting_cita = this.tipocita;
         this.registraAtencionEv.emit(this.datosCita);
     }
 
     registraAtencionMedica() {
+        this.datosCita.tipo_rounting_cita = this.tipocita;
         this.registraAtencionEv.emit(this.datosCita);
+    }
+
+    closeModalDetEv() {
+        this.cerrarModalEv.emit(true);
     }
 }

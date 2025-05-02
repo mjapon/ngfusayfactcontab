@@ -65,7 +65,8 @@ import { CitasMedicasService } from 'src/app/services/citas-medicas.service';
 
                 <!-- Table section -->
                 <div class="mt-4 border shadow shadow-sm">
-                    <p-table [value]="anteriones" [tableStyle]="{ 'min-width': '50rem' }"
+                    <p-table [value]="anteriones"
+                             [tableStyle]="{ 'min-width': '50rem' }"
                              [paginator]="true"
                              [rows]="5"
                              *ngIf="anteriones.length>0">
@@ -115,22 +116,22 @@ import { CitasMedicasService } from 'src/app/services/citas-medicas.service';
 
             <!-- Create new record dialog -->
             <p-dialog
-                header="Registrar nueva atención"
-                [(visible)]="showform"
-                [modal]="true"
-                [style]="{width: '50vw'}"
-                [draggable]="false"
-                [resizable]="false">
+                    header="Registrar nueva atención"
+                    [(visible)]="showform"
+                    [modal]="true"
+                    [style]="{width: '50vw'}"
+                    [draggable]="false"
+                    [resizable]="false">
                 <div class="p-1">
                     <div class="row dato-fila">
                         <div class="col-12">
                             <div class="detail-label">Motivo:</div>
                             <textarea
-                                class="form-control edit-textarea"
-                                id="newMotivoAten"
-                                appCharacterCount
-                                [(ngModel)]="form.ate_diagnostico"
-                                maxlength="2000">
+                                    class="form-control edit-textarea"
+                                    id="newMotivoAten"
+                                    appCharacterCount
+                                    [(ngModel)]="form.ate_diagnostico"
+                                    maxlength="2000">
                             </textarea>
                         </div>
                     </div>
@@ -138,10 +139,10 @@ import { CitasMedicasService } from 'src/app/services/citas-medicas.service';
                         <div class="col-12">
                             <div class="detail-label">Procedimiento realizado:</div>
                             <textarea
-                                class="form-control edit-textarea"
-                                appCharacterCount
-                                [(ngModel)]="form.ate_procedimiento"
-                                maxlength="2000">
+                                    class="form-control edit-textarea"
+                                    appCharacterCount
+                                    [(ngModel)]="form.ate_procedimiento"
+                                    maxlength="2000">
                             </textarea>
                         </div>
                     </div>
@@ -181,28 +182,29 @@ import { CitasMedicasService } from 'src/app/services/citas-medicas.service';
 
             <!-- Add the dialog component -->
             <p-dialog
-                header="Detalles de la atención"
-                [(visible)]="displayModal"
-                [modal]="true"
-                [style]="{width: '50vw'}"
-                [draggable]="false"
-                [resizable]="false">
+                    header="Detalles de la atención"
+                    [(visible)]="displayModal"
+                    [modal]="true"
+                    [style]="{width: '50vw'}"
+                    [draggable]="false"
+                    [resizable]="false">
                 <div *ngIf="selectedAtencion">
                     <div class="detail-row">
                         <div class="detail-label">Fecha:</div>
-                        <div>{{selectedAtencion.ate_fechacrea}}</div>
+                        <div>{{ selectedAtencion.ate_fechacrea }}</div>
                     </div>
                     <div class="detail-row">
                         <div class="detail-label">Motivo:</div>
-                        <div class="texto-completo">{{selectedAtencion.ate_diagnostico}}</div>
+                        <div class="texto-completo">{{ selectedAtencion.ate_diagnostico }}</div>
                     </div>
                     <div class="detail-row">
                         <div class="detail-label">Procedimiento:</div>
-                        <div class="texto-completo">{{selectedAtencion.ate_procedimiento}}</div>
+                        <div class="texto-completo">{{ selectedAtencion.ate_procedimiento }}</div>
                     </div>
                     <div class="detail-row" *ngIf="selectedAtencion.cta_id">
                         <div class="detail-label">Diagnóstico:</div>
-                        <div class="texto-completo">{{selectedAtencion.cie_key}}-{{selectedAtencion.cie_valor}}</div>
+                        <div class="texto-completo">{{ selectedAtencion.cie_key }}-{{ selectedAtencion.cie_valor }}
+                        </div>
                     </div>
                 </div>
                 <ng-template pTemplate="footer">
@@ -214,33 +216,33 @@ import { CitasMedicasService } from 'src/app/services/citas-medicas.service';
 
             <!-- Add the edit dialog -->
             <p-dialog
-                header="Editar Atención"
-                [(visible)]="displayEditModal"
-                [modal]="true"
-                [style]="{width: '50vw'}"
-                [draggable]="false"
-                [resizable]="false">
+                    header="Editar Atención"
+                    [(visible)]="displayEditModal"
+                    [modal]="true"
+                    [style]="{width: '50vw'}"
+                    [draggable]="false"
+                    [resizable]="false">
                 <div *ngIf="editingAtencion">
                     <div class="detail-row">
                         <div class="detail-label">Fecha:</div>
-                        <div>{{editingAtencion.ate_fechacrea}}</div>
+                        <div>{{ editingAtencion.ate_fechacrea }}</div>
                     </div>
                     <div class="detail-row">
                         <div class="detail-label">Motivo:</div>
                         <textarea
-                            class="form-control edit-textarea"
-                            [(ngModel)]="editingAtencion.ate_diagnostico"
-                            appCharacterCount
-                            maxlength="2000">
+                                class="form-control edit-textarea"
+                                [(ngModel)]="editingAtencion.ate_diagnostico"
+                                appCharacterCount
+                                maxlength="2000">
                         </textarea>
                     </div>
                     <div class="detail-row">
                         <div class="detail-label">Procedimiento:</div>
                         <textarea
-                            class="form-control edit-textarea"
-                            [(ngModel)]="editingAtencion.ate_procedimiento"
-                            appCharacterCount
-                            maxlength="2000">
+                                class="form-control edit-textarea"
+                                [(ngModel)]="editingAtencion.ate_procedimiento"
+                                appCharacterCount
+                                maxlength="2000">
                         </textarea>
                     </div>
                 </div>

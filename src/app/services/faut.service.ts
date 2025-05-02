@@ -12,6 +12,8 @@ import {jwtDecode} from 'jwt-decode';
 export class FautService extends BaseService {
     private bssource = new BehaviorSubject('empty');
     public source = this.bssource.asObservable();
+    public calendarType = 0;
+    public countLoaded = 0;
 
     constructor(protected http: HttpClient,
                 protected localStorageService: LocalStorageService,
@@ -75,7 +77,7 @@ export class FautService extends BaseService {
     }
 
     getVersionApp() {
-        return this.localStorageService.getItem('versionApp');
+        return this.localStorageService.getItem('versionApp') || '0.0';
     }
 
     setVersionApp(version) {

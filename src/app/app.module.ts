@@ -178,6 +178,7 @@ import {InputGroupModule} from 'primeng/inputgroup';
 import {InputGroupAddonModule} from 'primeng/inputgroupaddon';
 import {ChipsModule} from 'primeng/chips';
 import {ImageviewerComponent} from './modules/sharedmed/imageviewer/imageviewer.component';
+import {IngegrformEditComponent} from './components/ingresosegresos/ingegrformedit/ingegrformedit.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -309,7 +310,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         PcontableNewComponent,
         AsientoCierreViewComponent,
         ExportBtnComponent,
-        ImageviewerComponent
+        ImageviewerComponent,
+        IngegrformEditComponent
     ],
     imports: [
         CommonModule,

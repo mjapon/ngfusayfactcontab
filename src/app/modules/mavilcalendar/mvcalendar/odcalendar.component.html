@@ -165,14 +165,11 @@
             <div class="col-md-4">
                 <p-calendar [(ngModel)]="form.ct_fechaobj"
                             [appendTo]="detdialog"
-                            [monthNavigator]="true"
                             [showIcon]="true"
-                            [yearNavigator]="true"
                             [firstDayOfWeek]="1"
                             [minDate]="currentDate"
                             dateFormat="dd/mm/yy" id="ct_fecha"
-                            inputId="ct_fecha"
-                            yearRange="1900:2100"></p-calendar>
+                            inputId="ct_fecha"></p-calendar>
             </div>
             <div class="col-md-1">
                 <div class="btn-group">
@@ -332,30 +329,42 @@
                 {{ datosCita.ct_obs }}
             </p>
 
-            <div class="row">
-                <div>Paciente:</div>
-                <div>{{ datosCita.paciente }}</div>
+            <div class="row mb-2">
+                <div class="fw-light">Paciente:</div>
+                <div class="fw-bold">{{ datosCita.paciente }}</div>
             </div>
 
             <div class="row">
-                <div>Atiende:</div>
-                <div>{{ datosCita.medico }}</div>
+                <div class="fw-light">Atiende:</div>
+                <div class="fw-bold">{{ datosCita.medico }}</div>
             </div>
         </div>
 
         <ng-template pTemplate="footer">
-            <div class="d-flex justify-content-around">
-                <button class="btn btn-outline-dark" (click)="anularEv()"><i class="fa fa-trash"></i> Anular
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-outline-primary"
+                        title="Ir a la ficha odontológica del paciente"
+                        *ngIf="datosCita.pac_id && datosCita.pac_id>0 && tipoCita===2" (click)="gotoFicha()">
+                    <i class="fa-solid fa-teeth-open"></i>Ficha Odontológica
                 </button>
-                <button class="btn btn-outline-primary" *ngIf="datosCita.pac_id && datosCita.pac_id>0 && tipoCita===2" (click)="gotoFicha()">
-                    <i class="fa-solid fa-teeth-open me-1"></i>Ficha Odontológica
+                <button class="btn btn-outline-primary"
+                        title="Ir a la ficha médica del paciente"
+                        *ngIf="datosCita.pac_id && datosCita.pac_id>0 && tipoCita===1" (click)="gotoFicha()">
+                    <i class="fa-solid fa-stethoscope"></i>Ficha Médica
                 </button>
-                <button class="btn btn-outline-primary" *ngIf="datosCita.pac_id && datosCita.pac_id>0 && tipoCita===1" (click)="gotoFicha()">
-                    <i class="fa-solid fa-stethoscope me-1"></i>Ficha Médica
+                <button class="btn btn-outline-secondary"
+                        title="Canclear esta cita"
+                        *ngIf="canCitaEdit()"
+                        (click)="anularEv()"><i class="fa fa-trash"></i> Anular
                 </button>
-                <button class="btn btn-outline-dark" (click)="editarEv()"><i class="fa fa-edit"></i> Editar
+                <button class="btn btn-outline-secondary"
+                        *ngIf="canCitaEdit()"
+                        title="Editar los datos de esta cita"
+                        (click)="editarEv()"><i class="fa fa-edit"></i> Editar
                 </button>
-                <button class="btn btn-outline-dark" (click)="closeModalDetEv()"><i class="fa-solid fa-xmark"></i>
+                <button class="btn btn-outline-secondary"
+                        title="Cerrar"
+                        (click)="closeModalDetEv()"><i class="fa-solid fa-xmark"></i>
                     Cerrar
                 </button>
             </div>

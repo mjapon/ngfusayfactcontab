@@ -22,6 +22,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     menuApp: MenuItem[];
     home: MenuItem | undefined;
     sidebar = true;
+    versionApp = '0.0.0';
 
     constructor(private router: Router,
                 private fautService: FautService,
@@ -101,12 +102,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             window.scrollTo(0, 0);
         });
         this.loadmenu();
-        /*this.navigateMenuApp = [{
-            icon: 'fa-solid fa-house',
-            route: '/'
-        },{label:'asdfa',
-            icon: 'fa-solid fa-house',
-            route: '/'}];*/
+        this.versionApp = this.fautService.getVersionApp() || '1.0';
     }
 
     loadmenu() {

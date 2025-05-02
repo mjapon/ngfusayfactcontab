@@ -81,7 +81,7 @@ export class MvcalendarComponent implements OnInit, OnChanges {
     isShowFormCreaRef = false;
     codreferenteform = 0;
 
-    constructor(private fechasService: FechasService,
+    constructor(public fechasService: FechasService,
                 private swalService: SwalService,
                 private personaService: PersonaService,
                 private lclStrgService: LocalStorageService,
@@ -219,6 +219,12 @@ export class MvcalendarComponent implements OnInit, OnChanges {
     gethoraStr(fila) {
         const hora = this.getHoraNumber(fila);
         return this.fechasService.getHoraStrFromNumber(hora);
+    }
+
+    canCitaEdit() {
+        return this.fechasService.isGreaterOrEqualToCurrentDate(
+            this.fechasService.parseString(this.datosCita.ct_fecha)
+        );
     }
 
     getNextDate(date: Date) {
@@ -837,16 +843,21 @@ export class MvcalendarComponent implements OnInit, OnChanges {
     gotoFicha() {
         if (this.datosCita.pac_id > 0) {
             if (this.tipoCita === 2) {
-                this.citasOdontMsgService.publishMessage({
-                    tipo: 1, paciente: {per_id: this.datosCita.pac_id}
+                this.router.navigate(['odonto']).then(() => {
+                    setTimeout(() => {
+                        const paciente = {tipo: 1, paciente: {per_id: this.datosCita.pac_id}};
+                        this.citasOdontMsgService.publishMessage(paciente);
+                    }, 500);
                 });
-                this.router.navigate(['odonto']);
             } else {
-                console.log('tipo cita navega historia clinica--->');
-                this.cosMsgService.publishMessage({tipo: 1, msg: {per_id: this.datosCita.pac_id}});
-                // this.router.navigate(['historiaclinica', '1']);
+                this.router.navigate(['historiaclinica', '1']).then(() => {
+                    setTimeout(() => {
+                        const paciente = {tipo: 1, msg: {per_id: this.datosCita.pac_id}};
+                        this.cosMsgService.publishMessage(paciente);
+                    }, 500);
+                });
             }
-
         }
+
     }
 }

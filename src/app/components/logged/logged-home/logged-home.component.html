@@ -2,17 +2,6 @@
     <div class="content-wrap">
         <div class="row" *ngIf="infofactele">
             <div class="col-md">
-                <!--
-                <div class="alert alert-info alert-dismissible fade show" *ngIf="infofactele.tipoambiente>0"
-                     role="alert">
-                    <i class="fs-3 fa-solid fa-circle-info"></i>
-                    Facturación Electrónica Activa Ambiente:
-                    <span class="badge bg-info" *ngIf="infofactele.tipoambiente===1">Pruebas</span>
-                    <span class="badge bg-success" *ngIf="infofactele.tipoambiente===2">Producción</span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                -->
-
                 <div class="alert alert-warning alert-dismissible fade show" role="alert"
                      *ngIf="infofactele.ndiasxcaducar&&infofactele.ndiasxcaducar>=0 && infofactele.ndiasxcaducar<=7">
                     <i class="fs-3 fa-solid fa-triangle-exclamation"></i>
@@ -87,6 +76,16 @@
                     </div>
                 </div>
 
+                <div class="alert alert-info alert-dismissible fade show"
+                     *ngIf="infofactele&&infofactele.tipoambiente>0"
+                     role="alert">
+                    <i class="fs-3 fa-solid fa-circle-info"></i>
+                    Facturación Electrónica Activa Ambiente:
+                    <span class="badge bg-info" *ngIf="infofactele.tipoambiente===1">Pruebas</span>
+                    <span class="badge bg-success" *ngIf="infofactele.tipoambiente===2">Producción</span>
+                    <span class="ms-3">Fecha de caducidad de la firma digital: {{ infofactele.fechacaducidadfirma }}</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
 
                 <div class="row mt-4">
                     <div class="col-md-4" *ngIf="secciones&&secciones.length>1">
@@ -104,12 +103,13 @@
                         </div>
                     </div>
 
-                    <div class="col-md">
+                    <div class="col-md ">
                         <div *ngIf="!isLoading" class="d-flex justify-content-end align-content-end h-100">
-                        <span class="mt-5">
+                            <span class="mt-5">
                             Registrado a nombre de: {{ datosempresa?.emp_razonsocial }}
                         </span>
                         </div>
+
                     </div>
                     <div class="col-md mt-lg-auto">
                         <div class="d-flex flex-column">

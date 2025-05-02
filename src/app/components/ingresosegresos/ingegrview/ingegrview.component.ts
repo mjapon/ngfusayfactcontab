@@ -14,6 +14,8 @@ export class IngegrviewComponent implements OnInit, OnChanges {
     @Output() evCerrarBtn = new EventEmitter<any>();
     @Output() evConfirma = new EventEmitter<any>();
     @Output() evAnula = new EventEmitter<any>();
+    @Output() evDoEdit = new EventEmitter<any>();
+
 
     isLoading = true;
     adjisimage = false;
@@ -51,6 +53,8 @@ export class IngegrviewComponent implements OnInit, OnChanges {
                 this.datosmov = res.datosmov.datosmov;
                 this.datosasiento = res.datosmov.asiento;
                 this.computeDatosAsiento();
+                console.log('datos mov:', this.datosmov);
+                console.log('datos asiento:', this.datosasiento);
                 const mimeType = this.datosmov.rxd_ext;
                 if (mimeType) {
                     const regimg = /image/;
@@ -90,7 +94,11 @@ export class IngegrviewComponent implements OnInit, OnChanges {
         }
     }
 
-    onConfirmarBtn() {
+    doEdit() {
+        this.evDoEdit.emit(true);
+    }
+
+    /*onConfirmarBtn() {
         if (this.datosmov.bmo_estado === 0) {
             this.swalService.fireDialog('¿Confirmar este registro?', '').then(confirm => {
                     if (confirm.value) {
@@ -107,10 +115,14 @@ export class IngegrviewComponent implements OnInit, OnChanges {
         } else {
             this.swalService.fireToastError('No es posible');
         }
-    }
+    }*/
 
     showAdjunto() {
         const url = this.rxDocsServ.getDownloadUrlNode(this.datosmov);
         window.open(url, '_blank', 'toolbar=yes,scrollb ars=yes,resizable=yes,top=50,left=100,width=800,height=600');
+    }
+
+    doReverso() {
+        console.log('Do reverso');
     }
 }

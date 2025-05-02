@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {SwalService} from '../../services/swal.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ConsMedicaMsgService} from '../../services/cons-medica-msg.service';
+import {CitasodontmsgService} from '../../services/citasodontmsg.service';
+import {FautService} from '../../services/faut.service';
 
 
 @Component({
@@ -25,7 +27,10 @@ export class AgendaComponent implements OnInit {
     isShowLista: boolean;
 
     constructor(private route: ActivatedRoute,
-                private swalService: SwalService) {
+                private router: Router,
+                private cosMsgService: ConsMedicaMsgService,
+                private msgOdontService: CitasodontmsgService,
+                private fautService: FautService) {
         this.route.paramMap.subscribe(params => {
             this.tipoCita = parseInt(params.get('tipo'), 10);
         });
@@ -33,6 +38,11 @@ export class AgendaComponent implements OnInit {
 
     ngOnInit(): void {
         this.isShowLista = true;
+        setTimeout(() => {
+            if (this.fautService.calendarType) {
+                this.tipoCita = this.fautService.calendarType;
+            }
+        }, 500);
     }
 
     showListado($event) {
@@ -40,8 +50,33 @@ export class AgendaComponent implements OnInit {
         this.isShowLista = true;
     }
 
+    transformPacToPerson(event: any) {
+        return {msg: {per_id: event.pac_id, per_ciruc: event.ciruc_pac}, tipo: 1};
+    }
+
+    transformPacToPersonOdonto(event: any) {
+        return {paciente: {per_id: event.pac_id, per_ciruc: event.ciruc_pac}, tipo: 1};
+    }
+
     doRegAtencion($event: any) {
-        this.swalService.fireToastInfo('No implementado');
+        const tipo_rounting_cita = $event.tipo_rounting_cita;
+        if (tipo_rounting_cita === 2) {
+            // Go to ficha adontologica
+            this.router.navigate(['odonto']).then(() => {
+                setTimeout(() => {
+                    const paciente = this.transformPacToPersonOdonto($event);
+                    this.msgOdontService.publishMessage(paciente);
+                }, 500);
+            });
+        } else if (tipo_rounting_cita === 1) {
+            // go to ficha medica
+            this.router.navigate(['historiaclinica', '1']).then(() => {
+                setTimeout(() => {
+                    const paciente = this.transformPacToPerson($event);
+                    this.cosMsgService.publishMessage(paciente);
+                }, 500);
+            });
+        }
     }
 
     gotoCalendar($event: any) {
