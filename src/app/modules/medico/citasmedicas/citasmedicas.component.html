@@ -21,6 +21,10 @@
                    (click)="selectSupTab(3, $event)">Citas
                     planificadas</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" [ngClass]="{'active':4===selectedSupTab}"
+                   (click)="selectSupTab(4, $event)">Estadísticas</a>
+            </li>
         </ul>
 
         <div id="RegistrarHistoria" *ngIf="selectedSupTab===1">
@@ -30,6 +34,10 @@
 
         <div id="AtencionesHechas" *ngIf="selectedSupTab===2">
             <app-citashechas [tipocita]="tipoHistoria"></app-citashechas>
+        </div>
+
+        <div id="Estadisticas" *ngIf="selectedSupTab===4">
+            <app-estadisticasmed></app-estadisticasmed>
         </div>
 
         <div id="CitasPlanificadas" *ngIf="selectedSupTab===3">
@@ -42,6 +50,7 @@
                 <app-mvcalendar [tipoCita]="1" [showListado]="true"
                                 (evListado)="showListado($event)"></app-mvcalendar>
             </div>
+            <button (click)="loadEstadisticas()">Estadisticas</button>
         </div>
 
     </div>

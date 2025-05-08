@@ -415,9 +415,9 @@
                                            (focusin)="$event.target.select()" [(ngModel)]="fila.dt_dectoin">
                                 </td>
                                 <td>
-                                    <select class="form-control form-control-sm" [(ngModel)]="fila.icdp_grabaiva"
+                                    <select class="form-control form-control-sm" [(ngModel)]="fila.dai_impg"
                                             (ngModelChange)="onFilaIvaChange(fila)">
-                                        <option *ngFor="let iv of ivas" [ngValue]="iv.value">{{ iv.label }}</option>
+                                        <option *ngFor="let iv of ivas" [ngValue]="iv.imp_valor">{{ iv.imp_name }}</option>
                                     </select>
                                 <td>
                                     <span class="fontsizesm fw-bold">${{ fila.total | number: '.2' }}</span>

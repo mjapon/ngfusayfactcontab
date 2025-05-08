@@ -56,7 +56,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
 
     @Input() showtitulo = true;
     @Input() showreferente = true;
-    //@Input() showdetalles = true;
+    // @Input() showdetalles = true;
     @Input() showtotales = true;
     @Input() showbuttons = true;
 
@@ -107,7 +107,8 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         this.form.totales.descglobalpin = 0;
         this.currentdate = new Date();
         this.seccionSel = 1;
-        this.ivas = this.numberService.getIvasArray();
+        // this.ivas = this.numberService.getIvasArray();
+        this.ivas = [];
         this.showFormCreaFact();
         this.isConsumidorFinal = false;
         this.isDisabledFormRef = false;
@@ -200,16 +201,19 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     }
 
     checkInventarios(fila): boolean {
-        /*let continuar = true;
+        /*
+        let continuar = true;
         if (this.ttransacc.tra_tipdoc === 1) {
             if (fila.tipic_id === 1) {
                 if (fila.dt_cant > fila.ice_stock) {
                     continuar = false;
-                    this.swalService.fireToastWarn(`No hay unidades disponibles para ${fila.ic_nombre}, el total disponible actual es de: ${fila.ice_stock}`);
+                    this.swalService.fireToastWarn(`No hay unidades disponibles para ${fila.ic_nombre}, el total
+                    disponible actual es de: ${fila.ice_stock}`);
                 }
             }
         }
-        return continuar;*/
+        return continuar;
+        */
         return true;
     }
 
@@ -375,9 +379,11 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         if (!dtPrecio) {
             dtPrecio = 0.0;
         }
+        fila.icdp_grabaiva = fila.dai_impg !== 0;
+
         if (fila.icdp_grabaiva) {
             if (!this.isfacturacompra) {
-                dtPrecio = this.numberService.quitarIva(dtPrecio);
+                dtPrecio = this.numberService.quitarIva(dtPrecio, fila.dai_impg);
             }
         }
         fila.dt_precio = dtPrecio;
@@ -391,7 +397,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         }
         if (fila.icdp_grabaiva) {
             if (!this.isfacturacompra) {
-                dtPrecio = this.numberService.quitarIva(dtPrecio);
+                dtPrecio = this.numberService.quitarIva(dtPrecio, fila.dai_impg);
             }
         }
         fila.dt_precio = dtPrecio;
@@ -420,7 +426,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     loadFormReferente(fnthen?: any) {
         this.form.form_persona = {};
         this.isDisabledFormRef = false;
-        //this.isConsumidorFinal = false;
+        // this.isConsumidorFinal = false;
         this.personaServ.getForm().subscribe(res => {
             if (this.isResultOk(res)) {
                 this.form.form_persona = res.form;
@@ -474,7 +480,8 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
                 this.pagosef = res0.pagosef;
                 this.formdet = res0.formdet;
                 this.impuestos = res0.impuestos;
-                this.numberService.setIva(this.impuestos.iva);
+                this.ivas = this.impuestos.ivas;
+                console.log('Valor de ivas:', this.ivas);
                 this.seccionSel = res0.secid;
                 this.isFacteEle = (res0.facte_tipoamb || 0) > 0 && this.ttransacc.tra_codigo === 1;
             }
@@ -549,7 +556,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
                 if (this.isResultOk(res)) {
                     this.referentForm = res.persona;
                     this.domService.setFocusTm(this.ctes.artsAutoCom);
-                    //this.swalService.fireToastSuccess(this.ctes.msgRefRegistered);
+                    // this.swalService.fireToastSuccess(this.ctes.msgRefRegistered);
                 } else {
                     this.domService.setFocusTm(this.ctes.perNombresInput);
                 }
@@ -597,16 +604,6 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     setAsConsumidorFinal() {
         this.loadConsumidorFinal();
         this.domService.setFocusTm(this.ctes.artsAutoCom);
-    }
-
-    onConsFinalChange() {
-        if (!this.isConsumidorFinal) {
-            this.loadFormReferente();
-            this.showCreaNewRef = true;
-        } else {
-            this.loadConsumidorFinal();
-            this.domService.setFocusTm(this.ctes.artsAutoCom);
-        }
     }
 
     clearFormPersona() {
@@ -708,7 +705,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         let dtDectoAjuste = dtDecto;
         if (fila.icdp_grabaiva) {
             if (!this.isfacturacompra) {
-                dtDectoAjuste = this.numberService.quitarIva(dtDecto);
+                dtDectoAjuste = this.numberService.quitarIva(dtDecto, fila.dai_impg);
             }
         }
         // fila.dt_decto = (dtDectoAjuste * fila.dt_cant);

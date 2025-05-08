@@ -9,14 +9,18 @@ import {Component, Input} from '@angular/core';
                 <tr>
                     <th scope="col"><span class="fontsizesm">Código</span></th>
                     <th scope="col"><span class="fontsizesm">Producto/Servicio <span
-                            class="badge badge-pill badge-primary"> {{detalles.length}} </span> </span></th>
+                            class="badge text-bg-primary"> {{ detalles.length }} </span> </span></th>
                     <th scope="col"><span class="fontsizesm">Cant.</span></th>
                     <th scope="col">
                         <div class="d-flex flex-row-reverse">
                             <span class="fontsizesm">Precio U.</span>
                         </div>
                     </th>
-                    <th scope="col"><span class="fontsizesm">Iva</span></th>
+                    <th scope="col">
+                        <div class="d-flex flex-row-reverse">
+                            <span class="fontsizesm">Iva</span>
+                        </div>
+                    </th>
                     <th scope="col">
                         <div class="d-flex flex-row-reverse">
                             <span class="fontsizesm">Desc.</span>
@@ -33,30 +37,32 @@ import {Component, Input} from '@angular/core';
                 <tbody>
                 <tr *ngFor="let fila of detalles" class="hand">
                     <td>
-                        <span class="fw-normal fontsizesm">{{fila.ic_code}}</span>
+                        <span class="fw-normal fontsizesm">{{ fila.ic_code }}</span>
                     </td>
                     <td>
-                        <span class="fw-bold fontsizesm">{{fila.ic_nombre}}</span>
+                        <span class="fw-bold fontsizesm">{{ fila.ic_nombre }}</span>
                     </td>
                     <td>
-                        <span class="fontsizesm">{{fila.dt_cant}}</span>
-                    </td>
-                    <td>
-                        <div class="d-flex flex-row-reverse">
-                            <span class="fontsizesm">{{fila.dt_precio}}</span>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="fontsizesm">{{fila.dai_impg > 0 ? 'S' : 'N'}}</span>
+                        <span class="fontsizesm">{{ fila.dt_cant }}</span>
                     </td>
                     <td>
                         <div class="d-flex flex-row-reverse">
-                            <span class="fontsizesm">{{fila.dt_decto}}</span>
+                            <span class="fontsizesm">{{ fila.dt_precio }}</span>
                         </div>
                     </td>
                     <td>
                         <div class="d-flex flex-row-reverse">
-                            <span class="fontsizesm fw-bold">{{fila.dt_valor|number:'.2'}}</span>
+                            <span class="fontsizesm">{{ fila.dai_impg * 100 }}%</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex flex-row-reverse">
+                            <span class="fontsizesm">{{ fila.dt_decto }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex flex-row-reverse">
+                            <span class="fontsizesm fw-bold">{{ fila.dt_valor|number:'.2' }}</span>
                         </div>
                     </td>
                 </tr>

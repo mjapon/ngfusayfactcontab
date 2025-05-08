@@ -179,6 +179,9 @@ import {InputGroupAddonModule} from 'primeng/inputgroupaddon';
 import {ChipsModule} from 'primeng/chips';
 import {ImageviewerComponent} from './modules/sharedmed/imageviewer/imageviewer.component';
 import {IngegrformEditComponent} from './components/ingresosegresos/ingegrformedit/ingegrformedit.component';
+import {EstadisticasmedComponent} from './modules/medico/estadisticasmed/estadisticasmed.component';
+import {KnobModule} from 'primeng/knob';
+import {EstmedcardComponent} from './modules/medico/estmedcard/estmedcard.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -311,7 +314,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         AsientoCierreViewComponent,
         ExportBtnComponent,
         ImageviewerComponent,
-        IngegrformEditComponent
+        IngegrformEditComponent,
+        EstadisticasmedComponent
     ],
     imports: [
         CommonModule,
@@ -367,6 +371,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         InputGroupModule,
         InputGroupAddonModule,
         ChipsModule,
+        KnobModule,
+        EstmedcardComponent,
         // SocketIoModule.forRoot(config)
     ],
     providers: [

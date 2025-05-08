@@ -129,13 +129,13 @@ export class ArticuloService extends BaseService {
 
         let ivaval = 0.0;
         let precio = icdpPrecio;
+        formdet.dai_impg = datosart.icdp_grabaiva ? datosart.valor_iva : 0.0;
         if (datosart.icdp_grabaiva) {
-            ivaval = this.numberService.getValorIva(icdpPrecio);
+            ivaval = this.numberService.getValorIva(icdpPrecio, formdet.dai_impg);
             if (!isfacturacompra) {
                 precio = datosart.icdp_precioventa_iva;
             }
         }
-
         formdet.icdp_grabaiva = datosart.icdp_grabaiva;
         formdet.art_codigo = datosart.ic_id;
         formdet.ic_nombre = datosart.ic_nombre;
@@ -151,7 +151,6 @@ export class ArticuloService extends BaseService {
         formdet.dt_decto = 0.0;
         formdet.cta_codigo = datosart.cta_codigo;
         formdet.dt_debito = datosart.mcd_signo;
-        formdet.dai_impg = datosart.icdp_grabaiva ? this.numberService.getIva() : 0.0;
         formdet.subtotal = formdet.dt_cant * formdet.dt_precio;
         formdet.subtforiva = formdet.subtotal - formdet.dt_decto;
         formdet.ivaval = ivaval;
@@ -166,11 +165,11 @@ export class ArticuloService extends BaseService {
         ];
     }
 
-    getIvas() {
+    /*getIvas() {
         return [
             {label: 'Si', value: true},
             {label: 'No', value: false}
         ];
-    }
+    }*/
 
 }

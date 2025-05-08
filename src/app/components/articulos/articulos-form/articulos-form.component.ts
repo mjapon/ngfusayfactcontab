@@ -77,7 +77,7 @@ export class ArticulosFormComponent implements OnInit {
         this.isModalCatVisible = false;
         this.artFromDb = {};
         this.tiposArt = this.artService.getTiposArt();
-        this.ivas = this.artService.getIvas();
+        this.ivas = [];
         this.artCodAutomatic = false;
         this.isShowAsistPre = false;
         this.activeTabIndex = 0;
@@ -208,6 +208,7 @@ export class ArticulosFormComponent implements OnInit {
 
             if (res4.status === 200) {
                 this.impuestos = res4.impuestos;
+                this.ivas = res4.impuestos.ivas;
             }
             this.isLoading = false;
         });
@@ -256,6 +257,7 @@ export class ArticulosFormComponent implements OnInit {
             ic_code: {value: form.ic_code, required: true},
             icdp_fechacaducidad: {value: artFeccaduParsed},
             icdp_grabaiva: {value: form.icdp_grabaiva, required: true},
+            icdp_tipoiva: {value: form.icdp_tipoiva, required: true},
             ic_nombre: {value: form.ic_nombre, required: true},
             ic_nota: {value: form.ic_nota},
             icdp_precioventa: {value: form.icdp_precioventa, required: true},
@@ -300,7 +302,6 @@ export class ArticulosFormComponent implements OnInit {
 
     buildDefForm() {
         const tipoSel = this.tiposArt[0].value;
-        const ivaSel = this.ivas[1].value;
 
         const globalAsistPorcIncrem = this.localStrgServ.getItem(this.ctes.globalAsistPorcIncrePrecioCompra);
         let asistPrePorc = 0.0;
@@ -311,7 +312,8 @@ export class ArticulosFormComponent implements OnInit {
         this.artForm = {
             ic_code: {value: '', required: true},
             icdp_fechacaducidad: {value: null},
-            icdp_grabaiva: {value: ivaSel, required: true},
+            icdp_grabaiva: {value: false, required: true},
+            icdp_tipoiva: {value: 4, required: true},
             ic_nombre: {value: '', required: true},
             ic_nota: {value: ''},
             icdp_precioventa: {value: 0.0, required: true},
@@ -395,6 +397,7 @@ export class ArticulosFormComponent implements OnInit {
         this.swalService.fireDialog(this.ctes.msgConfirmSave).then(confirm => {
             if (confirm.value) {
                 const formtoPost = this.getFormToPost();
+                console.log('Form to post', formtoPost, this.artForm);
                 this.loadingService.publishBlockMessage();
                 this.artService.guardarArticulo(formtoPost).subscribe(res => {
                     if (res.status === 200) {
@@ -512,11 +515,16 @@ export class ArticulosFormComponent implements OnInit {
         this.localStrgServ.setItem(this.ctes.globalAsistPorcIncrePrecioCompra, porcenIncr.toString());
     }
 
+    getIvaValue(tipoIvaCod) {
+        const tipoIva = this.arrayUtil.getFirstResult(this.ivas, (iva) => iva.imp_id === tipoIvaCod);
+        return tipoIva ? tipoIva.imp_valor : 0;
+    }
+
     getPrecioConIva(precio: number) {
         let precioConIva = 0.0;
         if (precio) {
             if (this.artForm.icdp_grabaiva.value) {
-                precioConIva = Number(precio) * Number(1.0 + this.impuestos.iva);
+                precioConIva = Number(precio) * Number(1.0 + this.getIvaValue(this.artForm.icdp_tipoiva.value));
             } else {
                 precioConIva = Number(precio);
             }
@@ -534,6 +542,7 @@ export class ArticulosFormComponent implements OnInit {
     }
 
     onTipoIvaChange() {
+        this.artForm.icdp_grabaiva.value = this.artForm.icdp_tipoiva.value !== 4;
         this.calculaPrecioCompraConIva();
         this.calculaPrecioVenta();
     }

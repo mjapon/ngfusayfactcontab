@@ -49,10 +49,10 @@ import {ArticulostockService} from '../../../services/articulostock.service';
                     </div>
                     <div class="row border-bottom">
                         <div class="col-md-2">
-                            <span class="fw-normal">Graba Iva:</span>
+                            <span class="fw-normal">Iva:</span>
                         </div>
                         <div class="col-md">
-                            <span class="fw-bold">{{artFromDb.icdp_grabaiva ? 'Si' : 'No'}}</span>
+                            <span class="fw-bold">{{artFromDb.valor_iva*100}}%</span>
                         </div>
                     </div>
                     <div class="row border-bottom">

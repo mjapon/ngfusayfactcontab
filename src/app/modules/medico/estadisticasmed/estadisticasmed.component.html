@@ -1,0 +1,98 @@
+<div class="border rounded">
+    <app-loading *ngIf="isLoading">
+
+    </app-loading>
+
+    <div *ngIf="!isLoading">
+        <div class="row m-2">
+            <div class="col-md">
+                <app-rangofechas #apprangofechasComponent [form]="filters" (evFilterSel)="loadData()"
+                                 [showlabels]="false"></app-rangofechas>
+            </div>
+            <div class="col-md d-flex flex-row-reverse">
+                <button class="btn btn-outline-primary" (click)="loadData()"><i
+                        class="fa-solid fa-magnifying-glass"></i>
+                    Buscar
+                </button>
+            </div>
+        </div>
+        <div class="my-3 border-top">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">Num. Cédula</th>
+                    <th scope="col">Médico</th>
+                    <th scope="col">Total Atenciones conjuntas</th>
+                    <th scope="col">Total Atenciones unitarias</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let row of estadisticas">
+                    <td>{{ row.per_ciruc }}</td>
+                    <td>{{ row.nomapel }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary"
+                                *ngIf="row.nconjuntas>0"
+                                (click)="loadDetallesAndShowModal(row, 1)">
+                            {{ row.nconjuntas }}
+                        </button>
+                        <span *ngIf="row.nconjuntas===0">{{ row.nconjuntas }}</span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary"
+                                *ngIf="row.nunitarias>0"
+                                (click)="loadDetallesAndShowModal(row, 2)">
+                            {{ row.nunitarias }}
+                        </button>
+                        <span *ngIf="row.nunitarias===0">{{ row.nunitarias }}</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<p-dialog
+        (onHide)="onHideDetalles()"
+        [(visible)]="isShowDetalles"
+        [contentStyle]="{ overflow: 'auto' }"
+        [focusOnShow]="false"
+        [modal]="true"
+        [style]="{ width: '60vw', height:'80vh' }"
+        header="Detalles de atenciones">
+    <div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">Fecha de atención</th>
+                <th scope="col">Motivo</th>
+                <th scope="col">Paciente</th>
+                <th scope="col">Número de cédula</th>
+                <th scope="col">Atendido por</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let pac of detalles">
+                <td>{{ pac.cosm_fechacrea }}</td>
+                <td>{{ pac.cosm_motivo }}</td>
+                <td>{{ pac.paciente }}</td>
+                <td>{{ pac.per_ciruc }}</td>
+                <td>{{ pac.medicos }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-md">
+            <div class="mt-2 d-flex flex-row-reverse">
+                <button class="btn btn-outline-dark ms-1" (click)="cerrarDetalles()"><i
+                        class="fa-solid fa-xmark"></i>
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+</p-dialog>

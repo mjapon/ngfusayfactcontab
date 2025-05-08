@@ -90,6 +90,11 @@ export class CitasMedicasService extends BaseService {
         return this._doGetAction('proxcitas', {tipofecha, tipocita});
     }
 
+    getEstadisticas(desde: string, hasta: string) {
+        return this._doPostAction('estadisticas', {desde, hasta});
+    }
+
+
     calcularIMC(it: any, examsfisicos: any, resultIMC, fnthen) {
         let datosAlertaImc: any = {};
         let datosAlertaPresion: any = {};
@@ -149,4 +154,7 @@ export class CitasMedicasService extends BaseService {
         }
     }
 
+    getDetallesEstadisticas(consultas: Array<any>) {
+        return this._doPostAction('detcitaslista', {consultas});
+    }
 }

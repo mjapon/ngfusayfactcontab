@@ -6,6 +6,7 @@ package-lock.json
 yarn.lock
 .idea/
 .idea/*
+.idea/*.*
 /.browserslistrc
 /yarn-error.log
 src/.DS_Store

@@ -1,28 +1,23 @@
-import { Injectable } from '@angular/core';
-import { LoggedHomeComponent } from '../components/logged/logged-home/logged-home.component';
+import {Injectable} from '@angular/core';
+import {LoggedHomeComponent} from '../components/logged/logged-home/logged-home.component';
 
 @Injectable({
     providedIn: 'root'
 })
 export class NumberService {
 
-    private iva: number;
-    private ivaplus: number;
+    // private iva: number;
+    // private ivaplus: number;
     private readonly defndigits: number;
 
     constructor() {
-        this.iva = null;
-        this.ivaplus = null;
+        // this.iva = null;
+        // this.ivaplus = null;
         this.defndigits = 6;
     }
 
-    setIva(iva: number) {
-        this.iva = iva;
-        this.ivaplus = 1.0 + this.iva;
-    }
-
-    getIva(): number {
-        return this.iva;
+    getIvaPlus(valorIva: number) {
+        return 1.0 + valorIva;
     }
 
     round(valor: number, digits: number): number {
@@ -42,13 +37,13 @@ export class NumberService {
         return this.round(valor, this.defndigits);
     }
 
-    quitarIva(valor: number): number {
-        const siniva = Number(valor) / this.ivaplus;
+    quitarIva(valor: number, valorIva: number): number {
+        const siniva = Number(valor) / this.getIvaPlus(valorIva);
         return this.round(siniva, this.defndigits);
     }
 
-    ponerIva(valor: number): number {
-        const coniva = Number(valor) * this.ivaplus;
+    ponerIva(valor: number, valorIva: number): number {
+        const coniva = Number(valor) * this.getIvaPlus(valorIva);
         return this.round(coniva, this.defndigits);
     }
 
@@ -56,8 +51,8 @@ export class NumberService {
      * Retorna el valor del porcentaje aplicado al monto especificado
      * @param valor: El monto del que se desea onbtener el valor del iva
      */
-    getValorIva(valor: number): number {
-        const valoriva = Number(valor) * this.iva;
+    getValorIva(valor: number, valorIva: number): number {
+        const valoriva = Number(valor) * valorIva;
         return this.round6(valoriva);
     }
 
@@ -75,11 +70,9 @@ export class NumberService {
             subtotal = fila.dt_cant * fila.dt_precio;
             subtforiva = subtotal - dtDectoCant - dtDectoGen;
             subtforivadescg = subtotal - dtDectoCant;
-            fila.dai_impg = 0.0;
             if (fila.icdp_grabaiva) {
-                ivaval = this.getValorIva(subtforiva);
-                ivavaldescg = this.getValorIva(subtforivadescg);
-                fila.dai_impg = this.getIva();
+                ivaval = this.getValorIva(subtforiva, fila.dai_impg);
+                ivavaldescg = this.getValorIva(subtforivadescg, fila.dai_impg);
             }
             total = this.round6(subtotal - dtDectoCant - dtDectoGen + ivaval);
             fila.subtotal = this.round6(subtotal);
@@ -94,8 +87,8 @@ export class NumberService {
         return fila;
     }
 
-    setDectoGenInDetails(descglobal, totales, detalles) {        
-        const total = (totales.subtotal||0) - (totales.descuentos||0) + (totales.ivasindescg||0);        
+    setDectoGenInDetails(descglobal, totales, detalles) {
+        const total = (totales.subtotal || 0) - (totales.descuentos || 0) + (totales.ivasindescg || 0);
         if (descglobal > total) {
             descglobal = 0;
         }
@@ -156,9 +149,9 @@ export class NumberService {
         return totales;
     }
 
-    getIvasArray() {
-        return [{ label: 'Si', value: true }, { label: 'No', value: false }];
-    }
+    /*getIvasArray() {
+        return [{label: 'Si', value: true}, {label: 'No', value: false}];
+    }*/
 
     checkPagosPrevios(docpagos, totales, formaspago) {
         const filtered = docpagos.filter(row => (row.ic_clasecc === 'XC' || row.ic_clasecc === 'XP'));

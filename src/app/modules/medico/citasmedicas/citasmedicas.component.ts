@@ -219,7 +219,7 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                             this.form.datosconsulta = resHis.datoshistoria.datosconsulta;
                             const cosm_diagnosticos = resHis.datoshistoria.datosconsulta.cosm_diagnosticos;
                             this.selectedDiags = [];
-                            this.selectedMeds  = [];
+                            this.selectedMeds = [];
                             if (cosm_diagnosticos) {
                                 const diagsNumberArray = cosm_diagnosticos.split(',');
                                 for (const codDiag of diagsNumberArray) {
@@ -342,11 +342,10 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
 
     guardarDiagnostico() {
         // Validamos que se ingres el galeno
-        if (!this.selectedMeds || this.selectedMeds.length===0) {
+        if (!this.selectedMeds || this.selectedMeds.length === 0) {
             this.swalService.fireError('Debe ingresar el profesional a cargo');
             return;
-        }
-        else if (!this.form.datosconsulta.cosm_motivo){
+        } else if (!this.form.datosconsulta.cosm_motivo) {
             this.swalService.fireError('Debe ingresar el motivo de la consulta');
             return;
         }
@@ -661,5 +660,14 @@ export class CitasmedicasComponent implements OnInit, OnDestroy {
                 }, 500);
             }
         }
+    }
+
+    loadEstadisticas() {
+        console.log('Loas estadisticas-->');
+        const desde = '01/01/2025';
+        const hasta = this.fechasService.formatDate(new Date());
+        this.citasMedicasServ.getEstadisticas(desde, hasta).subscribe(res => {
+            console.log('Respuiesta es:', res);
+        });
     }
 }

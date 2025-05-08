@@ -55,11 +55,16 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
 
     ngOnInit(): void {
         this.clearAll();
-        this.ivas = this.numberService.getIvasArray();
+        this.ivas = [];
         this.artService.buscaAllServDentalles().subscribe(res => {
             if (res.status === 200) {
                 this.allServicios = res.items;
                 this.filteredServ = res.items;
+            }
+        });
+        this.artService.getImpuestos().subscribe(resImp => {
+            if (resImp.impuestos) {
+                this.ivas = resImp.impuestos.ivas;
             }
         });
     }
@@ -109,7 +114,6 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
             this.formpago = res.formpago;
             this.domService.setFocusTm('pnt_nombre');
             this.impuestos = res.formcab.impuestos;
-            this.numberService.setIva(this.impuestos.iva);
             if (this.medicos && this.medicos.length > 0) {
                 console.log('medicos', this.medicos);
                 this.formplan.med_id = this.medicos[0].per_id;
@@ -353,7 +357,7 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
             dtPrecio = 0.0;
         }
         if (fila.icdp_grabaiva) {
-            dtPrecio = this.numberService.quitarIva(dtPrecio);
+            dtPrecio = this.numberService.quitarIva(dtPrecio, fila.dai_impg);
         }
         fila.dt_precio = dtPrecio;
 
@@ -383,8 +387,9 @@ export class PlantratamientoComponent extends BaseComponent implements OnInit, O
         if (!dtPrecio) {
             dtPrecio = 0.0;
         }
+        fila.icdp_grabaiva = fila.dai_impg !== 0;
         if (fila.icdp_grabaiva) {
-            dtPrecio = this.numberService.quitarIva(dtPrecio);
+            dtPrecio = this.numberService.quitarIva(dtPrecio, fila.dai_impg);
         }
         fila.dt_precio = dtPrecio;
         this.recalcTotalFila(fila);

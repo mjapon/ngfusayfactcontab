@@ -32,13 +32,13 @@
                                         </div>
                                         <div class="col-md">
                                             <div class="mb-3">
-                                                <label>Graba Iva:</label>
+                                                <label>Iva:</label>
                                                 <br>
                                                 <p-selectButton [options]="ivas"
-                                                                [(ngModel)]="artForm.icdp_grabaiva.value"
+                                                                [(ngModel)]="artForm.icdp_tipoiva.value"
                                                                 (onChange)="onTipoIvaChange()"
-                                                                optionLabel="label"
-                                                                optionValue="value"></p-selectButton>
+                                                                optionLabel="imp_name"
+                                                                optionValue="imp_id"></p-selectButton>
                                             </div>
                                         </div>
                                     </div>
