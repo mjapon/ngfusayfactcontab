@@ -152,7 +152,7 @@
                             <span class="fw-bold fontsizenr"> {{ doc.totales.descuentos|number:'.4' }} </span>
                         </div>
                     </div>
-                    <div class="row ">
+                    <div class="row " *ngIf="doc.tasiento.trn_impref===0.12">
                         <div class="col-md-8">
                             <span class="fw-bold fontsizenr">IVA {{ doc.tasiento.trn_impref * 100 }}%
                                 de ${{ doc.totales.subtotal12 }}:</span>
@@ -161,6 +161,27 @@
                             <span class="fw-bold fontsizenr"> {{ doc.totales.iva|number:'.4' }} </span>
                         </div>
                     </div>
+
+                    <div class="row " *ngIf="doc.totales.iva15 && doc.totales.iva15>0">
+                        <div class="col-md-8">
+                            <span class="fw-bold fontsizenr">IVA 15%
+                                de ${{ doc.totales.subtotal15 }}:</span>
+                        </div>
+                        <div class="col-md d-flex justify-content-end">
+                            <span class="fw-bold fontsizenr"> {{ doc.totales.iva15|number:'.4' }} </span>
+                        </div>
+                    </div>
+
+                    <div class="row " *ngIf="doc.totales.iva5 && doc.totales.iva5>0">
+                        <div class="col-md-8">
+                            <span class="fw-bold fontsizenr">IVA 5%
+                                de ${{ doc.totales.subtotal5 }}:</span>
+                        </div>
+                        <div class="col-md d-flex justify-content-end">
+                            <span class="fw-bold fontsizenr"> {{ doc.totales.iva5|number:'.4' }} </span>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-8">
                             <span class="fw-bold">TOTAL $:</span>

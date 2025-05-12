@@ -154,6 +154,15 @@ export class ArticuloService extends BaseService {
         formdet.subtotal = formdet.dt_cant * formdet.dt_precio;
         formdet.subtforiva = formdet.subtotal - formdet.dt_decto;
         formdet.ivaval = ivaval;
+        if (ivaval > 0.0) {
+            if (formdet.dai_impg === this.numberService.VALOR_IVA_5) {
+                formdet.ivaval5 = ivaval;
+                formdet.subtforiva5 = formdet.subtforiva;
+            } else {
+                formdet.ivaval15 = ivaval;
+                formdet.subtforiva15 = formdet.subtforiva;
+            }
+        }
         formdet.total = formdet.subtotal + ivaval;
         formdet.dt_valor = formdet.subtforiva;
     }

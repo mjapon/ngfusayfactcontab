@@ -283,7 +283,7 @@ export class ArticulosFormComponent implements OnInit {
             });
         });
 
-        this.artForm.icdp_preciocompra_iva.disabled = true;
+        this.artForm.icdp_preciocompra_iva.disabled = false;
         this.artForm.asist_pre_util.disabled = true;
         this.artForm.asist_pre_prevsug.disabled = true;
 
@@ -331,7 +331,7 @@ export class ArticulosFormComponent implements OnInit {
             seccionesf: {value: []}
         };
 
-        this.artForm.icdp_preciocompra_iva.disabled = true;
+        this.artForm.icdp_preciocompra_iva.disabled = false;
         this.artForm.asist_pre_util.disabled = true;
         this.artForm.asist_pre_prevsug.disabled = true;
     }
@@ -490,6 +490,11 @@ export class ArticulosFormComponent implements OnInit {
         this.artForm.icdp_preciocompra_iva.value = precioConIva.toString();
     }
 
+    calculaPrecioCompraSinIva() {
+        const precioSinIva = this.getPrecioSinIva(this.artForm.icdp_preciocompra_iva.value);
+        this.artForm.icdp_preciocompra.value = precioSinIva.toString();
+    }
+
     onKeyupPrecioCompra() {
         this.calculaPrecioCompraConIva();
         this.calculaPrecioVenta();
@@ -530,6 +535,18 @@ export class ArticulosFormComponent implements OnInit {
             }
         }
         return precioConIva.toFixed(2);
+    }
+
+    getPrecioSinIva(precio: number) {
+        let precioSinIva = 0.0;
+        if (precio) {
+            if (this.artForm.icdp_grabaiva.value) {
+                precioSinIva = Number(precio) / Number(1.0 + this.getIvaValue(this.artForm.icdp_tipoiva.value));
+            } else {
+                precioSinIva = Number(precio);
+            }
+        }
+        return precioSinIva.toFixed(6);
     }
 
     onTipoArtChange() {

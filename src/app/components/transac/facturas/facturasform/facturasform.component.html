@@ -285,11 +285,29 @@
                         <div class="col-md-4">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <span class="fw-light">SUBTOTAL:</span>
+                                    <span class="fw-light">SUBTOTAL {{ impuestos.iva * 100 }}%:</span>
                                 </div>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control form-control-sm" disabled
-                                           [(ngModel)]="form.totales.subtotal">
+                                           [(ngModel)]="form.totales.subtotal15">
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="form.totales.subtotal0 && form.totales.subtotal0>0">
+                                <div class="col-md-6">
+                                    <span class="fw-light">SUBTOTAL 0%:</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control form-control-sm" disabled
+                                           [(ngModel)]="form.totales.subtotal0">
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="form.totales.subtotal5 && form.totales.subtotal5>0">
+                                <div class="col-md-6">
+                                    <span class="fw-light">SUBTOTAL 5%:</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control form-control-sm" disabled
+                                           [(ngModel)]="form.totales.subtotal5">
                                 </div>
                             </div>
                             <div class="row">
@@ -326,11 +344,20 @@
                             <div class="row">
                                 <div class="col-md-6 ">
                                         <span class="fw-light">
-                                            IVA {{ impuestos.iva * 100 }}% DE {{ form.totales.subtotal12 }}:
+                                            IVA {{ impuestos.iva * 100 }}% DE {{ form.totales.subtotal15 }}:
                                         </span></div>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control form-control-sm" disabled
-                                           [(ngModel)]="form.totales.iva">
+                                           [(ngModel)]="form.totales.iva15">
+                                </div>
+                            </div><div class="row" *ngIf="form.totales.subtotal5 && form.totales.subtotal5>0">
+                                <div class="col-md-6 ">
+                                        <span class="fw-light">
+                                            IVA 5% DE {{ form.totales.subtotal5 }}:
+                                        </span></div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control form-control-sm" disabled
+                                           [(ngModel)]="form.totales.iva5">
                                 </div>
                             </div>
 

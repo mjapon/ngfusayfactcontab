@@ -47,16 +47,12 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     previusReferentForm: any = {};
     referentForm: any = {};
 
-    // tiposReferentes: SelectItem[];
-    // tiporefsel: number;
-
     @Input() form: any;
     @Input() tracodigo: number;
     @Input() isedit = false;
 
     @Input() showtitulo = true;
     @Input() showreferente = true;
-    // @Input() showdetalles = true;
     @Input() showtotales = true;
     @Input() showbuttons = true;
 
@@ -107,7 +103,6 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         this.form.totales.descglobalpin = 0;
         this.currentdate = new Date();
         this.seccionSel = 1;
-        // this.ivas = this.numberService.getIvasArray();
         this.ivas = [];
         this.showFormCreaFact();
         this.isConsumidorFinal = false;
@@ -144,6 +139,8 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     initTotales() {
         this.form.totales = {
             subtotal: 0.0,
+            subtotal5: 0.0,
+            subtotal15: 0.0,
             descuentos: 0.0,
             descglobal: 0.0,
             descglobalin: '0',
@@ -151,6 +148,8 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
             descglobalpin: '0',
             subtforiva: 0.0,
             iva: 0.0,
+            iva5: 0.0,
+            iva15: 0.0,
             total: 0.0
         };
     }
@@ -426,7 +425,6 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     loadFormReferente(fnthen?: any) {
         this.form.form_persona = {};
         this.isDisabledFormRef = false;
-        // this.isConsumidorFinal = false;
         this.personaServ.getForm().subscribe(res => {
             if (this.isResultOk(res)) {
                 this.form.form_persona = res.form;
@@ -481,7 +479,6 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
                 this.formdet = res0.formdet;
                 this.impuestos = res0.impuestos;
                 this.ivas = this.impuestos.ivas;
-                console.log('Valor de ivas:', this.ivas);
                 this.seccionSel = res0.secid;
                 this.isFacteEle = (res0.facte_tipoamb || 0) > 0 && this.ttransacc.tra_codigo === 1;
             }
@@ -563,10 +560,6 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
             });
         }
     }
-
-    /*processTipoRefSelToConsFinal() {
-        console.log('Valor de tipo ref sel:', this.tiporefsel);
-    }*/
 
     showModalEnterRefData() {
         if (this.isConsumidorFinal) {
@@ -718,7 +711,6 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     }
 
     onServFilaSelected($event: any) {
-        console.log('Seleccionado,', $event, this.artFiltrado);
         this.artsFiltrados = [];
         this.onServSelect($event.value);
     }
@@ -756,7 +748,6 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     }
 
     onRefSelect() {
-        console.log('On ref select-->');
         if (this.formautoref.referente && this.formautoref.referente.per_ciruc) {
             this.referentForm.per_ciruc = this.formautoref.referente.per_ciruc;
             this.buscarReferente();

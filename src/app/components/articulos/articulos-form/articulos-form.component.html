@@ -121,6 +121,8 @@
                                                        aria-describedby="emailHelp"
                                                        placeholder="Precio de compra con iva"
                                                        name="icdp_preciocompra_iva"
+                                                       (focusin)="marcarTexto($event)"
+                                                       (keyup)="calculaPrecioCompraSinIva()"
                                                        [disabled]="artForm.icdp_preciocompra_iva.disabled"
                                                        [(ngModel)]="artForm.icdp_preciocompra_iva.value">
                                             </div>

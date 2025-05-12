@@ -9,6 +9,7 @@ export class NumberService {
     // private iva: number;
     // private ivaplus: number;
     private readonly defndigits: number;
+    public readonly VALOR_IVA_5 = 0.05;
 
     constructor() {
         // this.iva = null;
@@ -58,7 +59,11 @@ export class NumberService {
 
     recalcTotalFila(fila) {
         let subtotal = 0.0;
+        let subtforiva5 = 0.0;
+        let subtforiva15 = 0.0;
         let ivaval = 0.0;
+        let ivaval5 = 0.0;
+        let ivaval15 = 0.0;
         let ivavaldescg = 0.0;
         let total = 0.0;
         let subtforiva = 0.0;
@@ -72,12 +77,23 @@ export class NumberService {
             subtforivadescg = subtotal - dtDectoCant;
             if (fila.icdp_grabaiva) {
                 ivaval = this.getValorIva(subtforiva, fila.dai_impg);
+                if (fila.dai_impg === this.VALOR_IVA_5) {
+                    ivaval5 = ivaval;
+                    subtforiva5 = subtforiva;
+                } else {
+                    ivaval15 = ivaval;
+                    subtforiva15 = subtforiva;
+                }
                 ivavaldescg = this.getValorIva(subtforivadescg, fila.dai_impg);
             }
             total = this.round6(subtotal - dtDectoCant - dtDectoGen + ivaval);
             fila.subtotal = this.round6(subtotal);
+            fila.subtforiva5 = this.round6(subtforiva5);
+            fila.subtforiva15 = this.round6(subtforiva15);
             fila.subtforiva = this.round6(subtforiva);
             fila.ivaval = this.round6(ivaval);
+            fila.ivaval5 = this.round6(ivaval5);
+            fila.ivaval15 = this.round6(ivaval15);
             fila.ivavaldescg = this.round6(ivavaldescg);
             fila.total = this.round4(total);
         } catch (e) {
@@ -105,8 +121,12 @@ export class NumberService {
 
     totalizar(detalles: Array<any>) {
         let subtotal12 = 0.0000;
+        let subtotal15 = 0.0000;
+        let subtotal5 = 0.0000;
         let subtotal0 = 0.0000;
         let ivaval = 0.0000;
+        let ivaval15 = 0.0000;
+        let ivaval5 = 0.0000;
         let ivavaldescg = 0.0000;
         let descuentos = 0.0000;
         let descglobal = 0.0000;
@@ -119,11 +139,19 @@ export class NumberService {
             try {
                 if (fila.dai_impg > 0) {
                     subtotal12 += fila.subtforiva;
+                    if (fila.dai_impg === this.VALOR_IVA_5){
+                        subtotal5 += fila.subtforiva5;
+                    }
+                    else{
+                        subtotal15 += fila.subtforiva15;
+                    }
                 } else {
                     subtotal0 += fila.subtotal;
                 }
                 subtotal += fila.subtotal;
                 ivaval += fila.ivaval;
+                ivaval5 += fila.ivaval5;
+                ivaval15 += fila.ivaval15;
                 ivavaldescg += fila.ivavaldescg;
                 total += fila.total;
                 descuentos += (fila.dt_decto * fila.dt_cant);
@@ -139,7 +167,11 @@ export class NumberService {
             subtotal: this.round4(subtotal),
             subtotal12: this.round4(subtotal12),
             subtotal0: this.round4(subtotal0),
+            subtotal5: this.round4(subtotal5),
+            subtotal15: this.round4(subtotal15),
             iva: this.round4(ivaval),
+            iva5: this.round4(ivaval5),
+            iva15: this.round4(ivaval15),
             ivasindescg: this.round4(ivavaldescg),
             descuentos: this.round4(descuentos),
             total: this.round2(total),
