@@ -26,8 +26,8 @@ import {TtpdvService} from '../../../services/ttpdv.service';
         }
 
         .footerd {
-            position: absolute;
-            bottom: 0;
+            /*position: absolute;
+            bottom: 0;*/
             width: 100%;
             height: 3rem;
         }`]
@@ -70,6 +70,8 @@ export class LoggedHomeComponent implements OnInit {
                 }
             } else if (msg === 'updateSeccion') {
                 this.seccion = this.fautService.getSeccionInfoSaved();
+            } else if (msg === 'changeSecFromNav') {
+                this.loadDatosLogged();
             }
         });
 
@@ -113,7 +115,7 @@ export class LoggedHomeComponent implements OnInit {
             this.isLoading = false;
             if (res.status === 200) {
                 this.fechaactualstr = res.datlogged.fecha;
-                this.accesosdir = res.datlogged.accesosdir;//TODO: Esto se debe quitar
+                this.accesosdir = res.datlogged.accesosdir; // TODO: Esto se debe quitar
                 this.fautService.setMenuApp(res.datlogged.menu);
                 this.fautService.setVersionApp(res.datlogged.vapp);
                 this.fautService.setEmpCodigoFromRest(res.datlogged.emp);
@@ -125,11 +127,7 @@ export class LoggedHomeComponent implements OnInit {
                 if (res.infofactele) {
                     this.infofactele = res.infofactele;
                 }
-                /*console.log(this.fautService.countLoaded, this.fautService.calendarType);
-                if (this.fautService.countLoaded === 1 && this.fautService.calendarType > 0) {
-                    console.log('Navegando hacia agenda');
-                    this.router.navigate(['agenda', '1']);
-                }*/
+                this.fautService.publishMessage('updateCalendar');
             }
         });
     }

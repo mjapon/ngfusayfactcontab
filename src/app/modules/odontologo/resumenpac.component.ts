@@ -94,6 +94,8 @@ export class ResumenPacienteComponent implements OnInit {
     selectMasterTab(tab: number, event: Event) {
         if (tab === 4) {
             this.lclStrgServ.setItem('PAC_FOR_CAL', JSON.stringify(this.paciente));
+        } else {
+            this.lclStrgServ.removeItem('PAC_FOR_CAL');
         }
         this.selectedMasterTab = tab;
         event.preventDefault();

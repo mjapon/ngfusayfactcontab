@@ -670,6 +670,10 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         }
     }
 
+    onCloseModalNewEv(){
+        this.closeModalNewEv();
+    }
+
     closeModalNewEv() {
         this.pixelsselected = [];
         this.clicfinish = false;

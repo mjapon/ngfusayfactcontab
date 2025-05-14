@@ -1,8 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FautService} from '../../../services/faut.service';
-import {NavigationEnd, NavigationStart, Router, RouterEvent} from '@angular/router';
+import {Router} from '@angular/router';
 import {MenuItem} from 'primeng/api';
-import {filter} from 'rxjs/operators';
 import {TtpdvService} from '../../../services/ttpdv.service';
 import {SwalService} from '../../../services/swal.service';
 import {SeccionService} from '../../../services/seccion.service';
@@ -25,6 +24,7 @@ export class LoggednavbarComponent implements OnInit {
     currTdvcod = 1;
 
     hideShowSide = true;
+    isShowCalendar = false;
 
     @Output() evHideMenu = new EventEmitter();
 
@@ -88,9 +88,8 @@ export class LoggednavbarComponent implements OnInit {
                 this.loadSeciones();
             } else if (msg === 'updateTtpdvs') {
                 this.loadTtpdvs();
-            }
-
-            if (this.isLogged) {
+            } else if (msg === 'updateCalendar') {
+                this.processShowCalendar();
             }
         });
         this.isLogged = this.fautService.isAuthenticated();
@@ -100,13 +99,23 @@ export class LoggednavbarComponent implements OnInit {
         if (value === '1') {
             this.hideShowSide = false;
         }
+        // this.processShowCalendar();
         this.evHideMenu.emit(this.hideShowSide);
+    }
+
+    processShowCalendar() {
+        this.isShowCalendar = (this.fautService.calendarType || 0) > 0;
     }
 
     logout() {
         this.fautService.clearInfoAuthenticated();
         this.fautService.publishMessage('logout');
         this.router.navigate(['/']);
+    }
+
+    gotoAgenda() {
+        this.localStorage.removeItem('PAC_FOR_CAL');
+        this.router.navigate(['agenda', this.fautService.calendarType || 0]);
     }
 
     goHome() {
@@ -132,6 +141,7 @@ export class LoggednavbarComponent implements OnInit {
                 this.fautService.setTtpdvs(res.ttpdvs);
                 this.fautService.updateTokenAndTdvcod(res.token, res.tdv_codigo);
                 this.fautService.publishMessage('updateTtpdvs');
+                this.fautService.publishMessage('changeSecFromNav');
             }
         });
     }

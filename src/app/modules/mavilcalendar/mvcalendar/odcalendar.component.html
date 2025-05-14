@@ -149,7 +149,7 @@
     </div>
 
     <p-dialog [header]="titEvNewEdCita" [modal]="true" [style]="{width: '60vw'}"
-              [(visible)]="showModalCrea" #detdialog id="detdialog"
+              [(visible)]="showModalCrea" #detdialog id="detdialog" (onHide)="onCloseModalNewEv()"
               (onShow)="onModalNewEvShow($event)">
         <div class="row">
             <div class="col-md-3"><span>Título:</span></div>
@@ -345,12 +345,12 @@
                 <button class="btn btn-outline-primary"
                         title="Ir a la ficha odontológica del paciente"
                         *ngIf="datosCita.pac_id && datosCita.pac_id>0 && tipoCita===2" (click)="gotoFicha()">
-                    <i class="fa-solid fa-teeth-open"></i>Ficha Odontológica
+                    <i class="fa-solid fa-teeth-open"></i> <span class="ms-1">Ficha Odontológica</span>
                 </button>
                 <button class="btn btn-outline-primary"
                         title="Ir a la ficha médica del paciente"
                         *ngIf="datosCita.pac_id && datosCita.pac_id>0 && tipoCita===1" (click)="gotoFicha()">
-                    <i class="fa-solid fa-stethoscope"></i>Ficha Médica
+                    <i class="fa-solid fa-stethoscope"></i> <span class="ms-1">Ficha Médica</span>
                 </button>
                 <button class="btn btn-outline-secondary"
                         title="Canclear esta cita"

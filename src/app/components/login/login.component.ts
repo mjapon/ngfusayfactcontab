@@ -97,12 +97,12 @@ export class LoginComponent implements OnInit {
                             this.fautService.publishMessage('updateTtpdvs');
                         }
                     });
-                    this.userTokenService.getMenu(res.userinfo.us_id).subscribe(resMenu => {
+                    /*this.userTokenService.getMenu(res.userinfo.us_id).subscribe(resMenu => {
                         if (resMenu.status === 200) {
                             this.fautService.setMenuApp(resMenu.menu);
                             this.fautService.publishMessage('loadmenu');
                         }
-                    });
+                    });*/
                 } else {
                     this.swalService.fireWarning('Usuario o clave incorrectos');
                 }

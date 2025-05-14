@@ -22,6 +22,9 @@
         <button class="btn btn-sm btn-outline-primary ms-2" (click)="goHome()" title="Ir al inicio">
             <span class="fa fa-home"></span>
         </button>
+        <button class="btn btn-sm btn-outline-primary ms-2" *ngIf="isShowCalendar" (click)="gotoAgenda()" title="Revisar agenda">
+            <span class="fa fa-calendar"></span>
+        </button>
         <div class="w-100 d-flex flex-row-reverse">
             <div class="d-none d-md-none d-lg-inline-block d-xl-inline-block" id="navbarSupportedContent">
                 <ul class="navbar-nav d-flex flex-row ">

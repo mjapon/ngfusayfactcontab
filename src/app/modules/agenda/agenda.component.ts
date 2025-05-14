@@ -43,11 +43,15 @@ export class AgendaComponent implements OnInit {
                 this.tipoCita = this.fautService.calendarType;
             }
         }, 500);
+        if (this.fautService.getSavedCalendarViewType() === '1') {
+            this.isShowLista = false;
+        }
     }
 
     showListado($event) {
         this.tipoCita = $event;
         this.isShowLista = true;
+        this.fautService.saveCalendarViewType(0);
     }
 
     transformPacToPerson(event: any) {
@@ -82,5 +86,6 @@ export class AgendaComponent implements OnInit {
     gotoCalendar($event: any) {
         this.tipoCita = $event;
         this.isShowLista = false;
+        this.fautService.saveCalendarViewType(1);
     }
 }

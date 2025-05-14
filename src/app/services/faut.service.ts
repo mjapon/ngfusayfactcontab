@@ -52,6 +52,14 @@ export class FautService extends BaseService {
         this.localStorageService.setItem('tdvcodigo', tdvcodigo);
     }
 
+    saveCalendarViewType(calendarViewType: number) {
+        this.localStorageService.setItem('calView', calendarViewType.toString());
+    }
+
+    getSavedCalendarViewType() {
+        return this.localStorageService.getItem('calView') || 0;
+    }
+
     isTdvCodSaved() {
         const tdvcod = this.localStorageService.getItem('tdvcodigo');
         return tdvcod !== null;
