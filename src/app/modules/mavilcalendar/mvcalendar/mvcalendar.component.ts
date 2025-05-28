@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {addDays, addMonths, addWeeks, getMonth, getYear, startOfWeek} from 'date-fns';
+import {addMonths, getMonth, getYear} from 'date-fns';
 import {FechasService} from '../../../services/fechas.service';
 import {SwalService} from '../../../services/swal.service';
 import {TcitaService} from '../../../services/tcita.service';
@@ -27,22 +27,8 @@ export class MvcalendarComponent implements OnInit, OnChanges {
 
     @ViewChild('calendarWeekView') calendarWeekView: WeekViewComponent;
 
-    calHoraIni: number;
-    calHoraFin: number;
-    intervalo: number;
-    parteshora: number;
-    citas: any;
-    citasmatrix: any;
-    filas: number;
-    columnas: number;
-    anchocelda = 135;
-    altocelda = 18;
-    heightWeekCeld = 50;
-    dias: Array<any>;
     selectedDate: Date;
     selectedDiaCalMes: any;
-    fechasPromise: Promise<any>;
-    pixelsselected: Array<any>;
 
     horasList: Array<any>;
     hours: Array<any> = [];
@@ -50,16 +36,6 @@ export class MvcalendarComponent implements OnInit, OnChanges {
     colores: Array<any>;
     form: any;
 
-    clicstart = false;
-    clicfinish = false;
-
-    xini = 0;
-    yini = 0;
-    bloque = 1;
-    cssform: any;
-
-    anchoCeldaHora: number;
-    altoCeltaDia: number;
     textoNewEv: string;
     mesArray: Array<any>;
     diasSemana: Array<any>;
@@ -78,8 +54,8 @@ export class MvcalendarComponent implements OnInit, OnChanges {
     currentDate: Date;
     defEvColor: string;
     titEvNewEdCita: string;
-
     pacForCalendar: any;
+
     @Output() evCreated = new EventEmitter<any>();
     @Output() evCancelar = new EventEmitter<any>();
     @Output() evListado = new EventEmitter<any>();
@@ -115,30 +91,16 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         this.defEvColor = '#039BE5';
         this.colores = [];
         this.colorsMI = [];
-        this.pixelsselected = [];
-        this.cssform = {};
         this.textoNewEv = '';
         this.selectedDate = new Date();
         this.currentMonthDate = this.selectedDate;
         this.diasSemana = this.fechasService.getDiasSemana();
         this.pacsFiltered = [];
         this.currentDate = new Date();
-        this.calHoraIni = 8.0;
-        this.calHoraFin = 19.0;
-        this.anchoCeldaHora = 70;
-        this.altoCeltaDia = 50;
-        this.intervalo = 0.25; // 15minutos
-        this.parteshora = 1 / this.intervalo;
-        this.columnas = 7;
 
-        this.loadinUiServ.publishBlockMessage();
-        this.tcitaService.getDatosTipoCita(this.tipoCita).subscribe(res => {
-            if (res.status === 200) {
-                this.auxLoadDatosTipCita(res.dtipcita);
-                this.loadPersonsCita();
-                this.initListasForm();
-            }
-        });
+        this.auxLoadDatosTipCita();
+        this.loadPersonsCita();
+        this.initListasForm();
     }
 
     initListasForm() {
@@ -148,7 +110,6 @@ export class MvcalendarComponent implements OnInit, OnChanges {
                 this.colores = res.colores;
                 this.hours = res.hours;
                 this.rangeHours = res.rangeh;
-                console.log('valor de rangeHours', this.rangeHours);
             }
         });
     }
@@ -187,22 +148,9 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         const anio = getYear(this.currentMonthDate);
         this.fechasService.getMesString(getMonth(this.currentMonthDate) + 1).then(res => {
             this.mesDateString = `${res} de ${anio}`;
-            console.log('messtring:', this.mesString);
         });
     }
 
-    toggleWeek(cant: number) {
-        const newweekdate = addWeeks(this.selectedDate, cant);
-        const samemonth = this.auxIsSameMonth(newweekdate);
-        if (!samemonth) {
-            this.currentMonthDate = newweekdate;
-            this.loadMesArray();
-        }
-        const daycal = this.auxFindDateInMonthArray(newweekdate);
-        if (daycal) {
-            this.setCalendarDate(daycal);
-        }
-    }
 
     loadMesArray(dateSel?: Date) {
         this.currentMonthNumber = this.fechasService.getMonth(this.currentMonthDate);
@@ -216,6 +164,7 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         const lastweek = this.mesArray[this.mesArray.length - 1];
         const desdestr = this.fechasService.formatDate(firstweek[0].fecha);
         const hastastr = this.fechasService.formatDate(lastweek[lastweek.length - 1].fecha);
+
         this.tcitaService.contar(desdestr, hastastr, this.tipoCita).subscribe(resc => {
             this.mesArray.forEach(row => {
                 const filtered = row.filter(dc => dc.selected);
@@ -234,283 +183,11 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         });
     }
 
-    getHoraNumber(fila) {
-        let index = this.citasmatrix.indexOf(fila);
-        if (typeof fila === 'number') {
-            index = fila - 1;
-        }
-        return this.calHoraIni + (index * this.intervalo);
-    }
-
-    gethoraStr(fila) {
-        const hora = this.getHoraNumber(fila);
-        return this.fechasService.getHoraStrFromNumber(hora);
-    }
 
     canCitaEdit() {
         return this.fechasService.isGreaterOrEqualToCurrentDate(
             this.fechasService.parseString(this.datosCita.ct_fecha)
         );
-    }
-
-    getNextDate(date: Date) {
-        return addDays(date, 1);
-    }
-
-    updateEstiloDia() {
-        this.dias.forEach(d => {
-            let estilo = [];
-            if (this.fechasService.isSameDate(this.selectedDate, d.fecha)) {
-                estilo = ['smDiaCalSel'];
-            }
-            d.css = estilo;
-        });
-        if (this.selectedDiaCalMes) {
-            this.selectedDiaCalMes.css = ['smDiaCalSel'];
-        }
-    }
-
-    loadDias() {
-        this.dias = [];
-        let iterdate = addDays(startOfWeek(addDays(this.selectedDate, -1)), 1);
-        this.fechasPromise = new Promise((resolve) => {
-            for (let i = 0; i < 7; i++) {
-                const resfecha = this.fechasService.getDayString(iterdate);
-                resfecha.then((res) => {
-                    let estilo = [];
-                    if (this.fechasService.isSameDate(this.selectedDate, res.fecha)) {
-                        estilo = ['smDiaCalSel'];
-                    }
-                    this.dias.push({
-                        fecha: res.fecha,
-                        diastr: res.diastr,
-                        diames: res.diames,
-                        css: estilo
-                    });
-                    if (i === 6) {
-                        resolve(true);
-                    }
-                });
-                iterdate = this.getNextDate(iterdate);
-            }
-        });
-
-        this.fechasPromise.then(res => {
-            this.buildEmptyPixelsArray();
-            this.loadCitas();
-        });
-    }
-
-    addCol(fila) {
-        const resto = this.citasmatrix.indexOf(fila) % this.parteshora;
-        return resto === 0;
-    }
-
-    getDia(x: number) {
-        return this.dias[x];
-    }
-
-    getNewPixelEmpty(x, y) {
-        const cssclass = ['limitedia'];
-        if (y % this.parteshora === 0) {
-            cssclass.push('limitehora');
-        }
-        return {
-            id: x + ',' + y,
-            x,
-            y,
-            status: 0,
-            cssclass,
-            startcss: cssclass,
-            lock: 0,
-            comprado: 0,
-            dia: this.getDia(x - 1),
-            hora: this.getHoraNumber(y)
-        };
-    }
-
-    getancho(pixel) {
-        return this.anchocelda;
-    }
-
-    getalto(pixel) {
-        const pxY = pixel.px_row;
-        const pxYend = pixel.px_row_end;
-        const numpxborde = Math.abs(pxY - pxYend) + 1;
-        return numpxborde * this.altocelda;
-    }
-
-    getPixelFromCita(tcita: any) {
-        const hora = tcita.ct_hora;
-        const horaFin = tcita.ct_hora_fin;
-        const cFecha = tcita.ct_fecha;
-        const cFechaDate = this.fechasService.parseString(cFecha);
-
-        const horaStr = this.fechasService.getHoraStrFromNumber(hora);
-        const horaFinStr = this.fechasService.getHoraStrFromNumber(horaFin);
-        const paciente = `${tcita.per_nombres} ${tcita.per_apellidos}`;
-        const textoCita = `${paciente} - ${tcita.ct_titulo} - ${tcita.ct_obs}`;
-        const horaCita = `${horaStr} - ${horaFinStr}`;
-
-        let pxRow = 0;
-        let pxRowEnd = 0;
-
-        let pxCol = 0;
-        let pxColEnd = 0;
-
-        this.citasmatrix.forEach(row => {
-            row.forEach(col => {
-                if ((col.hora === hora) || (col.hora === horaFin)) {
-                    if (col.hora === hora) {
-                        pxRow = col.y;
-                    }
-                    if (col.hora === horaFin) {
-                        pxRowEnd = col.y - 1;
-                    }
-                }
-                if (this.fechasService.isSameDate(col.dia.fecha, cFechaDate)) {
-                    pxCol = col.x;
-                    pxColEnd = col.x;
-                }
-            });
-        });
-
-        return {
-            px_row: pxRow,
-            px_row_end: pxRowEnd,
-            px_col: pxCol,
-            px_col_end: pxColEnd,
-            px_color: tcita.ct_color,
-            px_texto: textoCita,
-            px_hora: horaCita
-        };
-    }
-
-    getcss(pixel: any) {
-        const pxY = pixel.px_row < pixel.px_row_end ? pixel.px_row : pixel.px_row_end;
-        const pxX = pixel.px_col;
-        const left = this.anchoCeldaHora + ((pxX - 1) * this.anchocelda);
-        const top = this.heightWeekCeld + ((pxY - 1) * this.altocelda);
-        const topPx = `${top}px`;
-        const leftPx = `${left}px`;
-        const anxhopx = this.getancho(pixel) - 5;
-        const altopx = this.getalto(pixel);
-        const opacidad = pixel.px_estado === 0 ? '0.4' : '1';
-        const border = pixel.px_estado === 0 ? '0px solid black' : '0px solid orange';
-
-        const cssg = {
-            position: 'absolute',
-            left: leftPx,
-            top: topPx,
-            width: `${anxhopx}px`,
-            'min-width': `${anxhopx}px`,
-            height: `${altopx}px`,
-            'background-color': pixel.px_color,
-            border,
-            opacity: opacidad
-        };
-        try {
-            const fila = this.citasmatrix[pixel.px_row - 1];
-            const col = fila[pxX - 1];
-            const fila2 = this.citasmatrix[pixel.px_row_end - 1];
-            const col2 = fila2[pxX - 1];
-            const hora = col.hora;
-            const horaFin = col2.hora + this.intervalo;
-            const horaStr = this.fechasService.getHoraStrFromNumber(hora);
-            const horaFinStr = this.fechasService.getHoraStrFromNumber(horaFin);
-            this.textoNewEv = `${horaStr} -${horaFinStr}`;
-        } catch (err) {
-            this.textoNewEv = 'err';
-        }
-        return cssg;
-    }
-
-    computeCssForm() {
-        const pixel = {
-            px_row: this.form.yini,
-            px_row_end: this.form.yfin,
-            px_col: this.form.xini,
-            px_col_end: this.form.xfin
-        };
-        this.cssform = this.getcss(pixel);
-    }
-
-    getCssForm(cita: any) {
-        const pixel = this.getPixelFromCita(cita);
-        return {css: this.getcss(pixel), texto: pixel.px_texto, hora: pixel.px_hora};
-    }
-
-    buildEmptyPixelsArray() {
-        this.citasmatrix = [];
-        for (let i = 1; i <= this.filas + 1; i++) {
-            const pixelr = [];
-            for (let j = 1; j <= this.columnas; j++) {
-                pixelr.push(this.getNewPixelEmpty(j, i));
-            }
-            this.citasmatrix.push(pixelr);
-        }
-    }
-
-    getCeldasMenores(pxref) {
-        const xref = pxref.x;
-        const yref = pxref.y;
-
-        // Solo pude seleccionar las celdas en la direccion y
-        this.pixelsselected = [];
-        if (this.xini === xref) {
-            let ystart = this.yini;
-            let yend = yref;
-            if (yref < this.yini) {
-                ystart = yref;
-                yend = this.yini;
-            }
-
-            this.form.xfin = pxref.x;
-            this.form.yfin = pxref.y;
-
-            this.citasmatrix.forEach(row => {
-                row.forEach(pxit => {
-                    pxit.cssclass = [...pxit.startcss];
-                    if ((pxit.y >= ystart && pxit.y <= yend) && (pxit.x === this.xini)) {
-                        this.pixelsselected.push(pxit);
-                    } else {
-                        if (pxit.lock > 0) {
-                            pxit.lock = 0;
-                        }
-                    }
-                });
-            });
-        }
-
-        let hascomprado = false;
-        this.pixelsselected.forEach(pxSelIt => {
-            pxSelIt.cssclass.push('marcado');
-            if (pxSelIt.comprado === 1) {
-                hascomprado = true;
-            }
-        });
-        if (hascomprado) {
-            this.pixelsselected.forEach(pxSelIt => {
-                pxSelIt.cssclass.push('marcadoerror');
-            });
-        }
-    }
-
-    mousedown($event: MouseEvent, px: any) {
-        this.clicstart = true;
-        this.clicfinish = false;
-        this.pixelsselected = [];
-        this.xini = px.x;
-        this.yini = px.y;
-        this.form.xini = this.xini;
-        this.form.yini = this.yini;
-        this.form.pxini = px;
-    }
-
-    onMouseOver($event: MouseEvent, px: any) {
-        if (this.clicstart) {
-            this.getCeldasMenores(px);
-        }
     }
 
     onNewEvent(newEvent: NewMavilEvent) {
@@ -526,14 +203,6 @@ export class MvcalendarComponent implements OnInit, OnChanges {
             this.swalService.fireWarning('No es posible crear un evento antes de la fecha actual');
             this.calendarWeekView.loadCitas();
         }
-
-    }
-
-    initFormEv() {
-        this._auxIniFormEv();
-        this.form.ct_fechaobj = this.form.pxfin.dia.fecha;
-        this.form.ct_hora = this.form.pxini.hora;
-        this.form.ct_hora_fin = (this.form.pxfin.hora + this.intervalo);
     }
 
     initFormEditEv() {
@@ -591,36 +260,6 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         this.showModalCrea = true;
     }
 
-    mouseup($event: MouseEvent, px: any) {
-        if (this.clicstart) {
-            this.clicfinish = true;
-            this.clicstart = false;
-            this.xini = 0;
-            this.yini = 0;
-            this.form.xfin = px.x;
-            this.form.yfin = px.y;
-            let haserror = false;
-            this.citasmatrix.forEach(row => {
-                row.forEach(pxit => {
-                    if (pxit.cssclass.includes('marcado')) {
-                        pxit.lock = this.bloque;
-                    } else if (pxit.cssclass.includes('marcadoerror')) {
-                        pxit.lock = 0;
-                        pxit.cssclass = '';
-                        haserror = true;
-                    }
-                });
-            });
-            this.bloque = this.bloque + 1;
-            this.computeCssForm();
-            if (!haserror) {
-                this.form.pxfin = px;
-                this.initFormEv();
-                this.showModalCrea = true;
-            }
-        }
-    }
-
     changeSelectedDate(date: Date, sameMonth: boolean) {
         this.selectedDate = date;
         this.currentMonthDate = this.selectedDate;
@@ -631,10 +270,6 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         this.fechasService.getMesString(getMonth(this.selectedDate) + 1).then(res => {
             this.mesDateString = `${res} de ${anio}`;
         });
-    }
-
-    mustLoadNewWeek(date: Date) {
-        return !this.fechasService.dateInSameWeek(date, this.selectedDate);
     }
 
     auxFindDateInMonthArray(date: Date) {
@@ -652,26 +287,10 @@ export class MvcalendarComponent implements OnInit, OnChanges {
 
     setCalendarDate(dayCal: any) {
         this.selectedDiaCalMes = dayCal;
-        const loadWeek = this.mustLoadNewWeek(dayCal.fecha);
         this.clearCssMonthCalc();
         dayCal.css = 'smDiaCalSel';
         this.changeSelectedDate(dayCal.fecha, dayCal.sm);
-        if (loadWeek) {
-            this.loadDias();
-        } else {
-            this.updateEstiloDia();
-        }
-
-
         this.calendarWeekView.setDate(dayCal.fecha);
-    }
-
-    clearCitasMatrix() {
-        this.citasmatrix.forEach(row => {
-            row.forEach(pxit => {
-                pxit.cssclass = [...pxit.startcss];
-            });
-        });
     }
 
     clearCssMonthCalc() {
@@ -679,9 +298,6 @@ export class MvcalendarComponent implements OnInit, OnChanges {
             row.forEach(dc => {
                 dc.css = '';
             });
-        });
-        this.dias.forEach(d => {
-            d.css = '';
         });
     }
 
@@ -695,52 +311,28 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         return sameMonth;
     }
 
+    fechaActual() {
+        return this.fechasService.getDateStringFull(new Date());
+    }
+
     hoy() {
         this.selectedDiaCalMes = null;
         const fechaActual = this.fechasService.getCurrentDate();
-        const loadWeek = this.mustLoadNewWeek(fechaActual);
         const sameMonth = this.auxIsSameMonth(fechaActual);
         if (sameMonth) {
             this.clearCssMonthCalc();
         }
         this.changeSelectedDate(fechaActual, sameMonth);
-        if (loadWeek) {
-            this.loadDias();
-        } else {
-            this.updateEstiloDia();
-        }
-
         this.calendarWeekView.setDate(new Date());
     }
-
-    /*hoyplusdays(ndays) {
-        const fechaActual = this.fechasService.getCurrentDate();
-        const fechaIter = this.fechasService.sumarDias(fechaActual, ndays);
-        const loadWeek = this.mustLoadNewWeek(fechaIter);
-        const sameMonth = this.auxIsSameMonth(fechaIter);
-        if (sameMonth) {
-            this.clearCssMonthCalc();
-        }
-        this.changeSelectedDate(fechaIter, sameMonth);
-        if (loadWeek) {
-            this.loadDias();
-        } else {
-            this.updateEstiloDia();
-        }
-    }*/
 
     onCloseModalNewEv() {
         this.closeModalNewEv();
     }
 
     closeModalNewEv() {
-        this.pixelsselected = [];
-        this.clicfinish = false;
-        this.clicstart = false;
-        this.cssform = {};
         this.form = {};
         this.showModalCrea = false;
-        this.clearCitasMatrix();
         this.calendarWeekView.loadCitas();
     }
 
@@ -760,10 +352,16 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         }
 
         this.form.ct_fecha = this.fechasService.formatDate(this.form.ct_fechaobj);
+        if (this.form.ct_hora === 0 || this.form.ct_hora_fin === 0) {
+            this.swalService.fireWarning('Debe ingresar la fecha y hora de la cita');
+            this.closeModalNewEv();
+            return;
+        }
+
         this.tcitaService.guardar(this.form).subscribe(res => {
             if (res.status === 200) {
                 this.swalService.fireToastSuccess(res.msg);
-                this.loadCitas();
+                this.calendarWeekView.loadCitas();
                 this.closeModalNewEv();
                 this.clearPacForCalendar();
                 this.evCreated.emit(this.form);
@@ -783,31 +381,7 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         this.domService.setFocusTm('inputCtTitulo', 100);
     }
 
-    loadCitas() {
-        const first = this.citasmatrix[0];
-        const firstcol = first[0];
-        const endcol = first[first.length - 1];
-        this.loadinUiServ.publishBlockMessage();
-        this.tcitaService.listar(this.fechasService.formatDate(firstcol.dia.fecha),
-            this.fechasService.formatDate(endcol.dia.fecha), this.tipoCita).subscribe(res => {
-            if (res.status === 200) {
-                this.citas = res.citas;
-                this.citas.forEach(it => {
-                    const rescsstxt = this.getCssForm(it);
-                    it.css = rescsstxt.css;
-                    it.texto = rescsstxt.texto;
-                    it.hora = rescsstxt.hora;
-                });
-                /*if (this.selectedDiaCalMes) {
-                    this.loadMesArray(this.selectedDiaCalMes.fecha);
-                } else {
-                    this.loadMesArray();
-                }*/
-            }
-        });
-    }
-
-    onEventClic(tcita) {
+    onEventClic(tcita: any) {
         this.loadinUiServ.publishBlockMessage();
         this.tcitaService.getDatosCita(tcita.ct_id).subscribe(res => {
             if (res.status === 200) {
@@ -829,7 +403,6 @@ export class MvcalendarComponent implements OnInit, OnChanges {
                     this.tcitaService.anular(this.datosCita.ct_id).subscribe(res => {
                         if (res.status === 200) {
                             this.swalService.fireToastSuccess(res.msg);
-                            this.loadCitas();
                             this.calendarWeekView.loadCitas();
                         }
                         this.showModalDetalles = false;
@@ -867,31 +440,19 @@ export class MvcalendarComponent implements OnInit, OnChanges {
         this.evListado.emit(this.tipoCita);
     }
 
-    auxLoadDatosTipCita(dtipcita) {
-        this.calHoraIni = dtipcita.tipc_calini;
-        this.calHoraFin = dtipcita.tipc_calfin;
-        this.filas = (this.calHoraFin - this.calHoraIni) * this.parteshora;
+    auxLoadDatosTipCita() {
         this.changeSelectedDate(this.fechasService.getCurrentDate(), true);
-        this.loadDias();
         this.loadMesArray();
         this.loadMedicos();
     }
 
     onPersonCitaChange($event: any) {
-        if (this.personCitaSel) {
-            if (this.personCitaSel !== this.tipoCita) {
-                this.tipoCita = this.personCitaSel;
-                this.calendarWeekView.tipoCita = this.tipoCita;
-                this.calendarWeekView.loadCitas();
-
-                this.tcitaService.getDatosTipoCita(this.tipoCita).subscribe(res => {
-                    if (res.status === 200) {
-                        this.auxLoadDatosTipCita(res.dtipcita);
-                        this.loadCitas();
-                        this.initListasForm();
-                    }
-                });
-            }
+        if (this.personCitaSel && this.personCitaSel !== this.tipoCita) {
+            this.tipoCita = this.personCitaSel;
+            this.calendarWeekView.tipoCita = this.tipoCita;
+            this.auxLoadDatosTipCita();
+            this.calendarWeekView.loadWorkingHours();
+            this.initListasForm();
         }
     }
 
@@ -932,5 +493,9 @@ export class MvcalendarComponent implements OnInit, OnChanges {
             }
         }
 
+    }
+
+    toggleWeek(amount: number) {
+        this.calendarWeekView.toggleWeek(amount);
     }
 }

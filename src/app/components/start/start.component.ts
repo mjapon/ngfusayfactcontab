@@ -5,13 +5,8 @@ import {Component} from '@angular/core';
     templateUrl: './start.component.html'
 })
 export class StartComponent {
-    isShowCalcu = false;
 
     constructor() {
-    }
-
-    toggleShowCalcu() {
-        this.isShowCalcu = !this.isShowCalcu;
     }
 
 }

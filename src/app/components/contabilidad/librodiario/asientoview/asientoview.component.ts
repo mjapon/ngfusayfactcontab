@@ -87,7 +87,6 @@ export class AsientoviewComponent implements OnInit, OnChanges {
 
     onChangeSecHide() {
         this.isShowChangeSec = false;
-        console.log('onChangeSecHide-->', this.isShowChangeSec);    
     }
 
     doCloneAction() {

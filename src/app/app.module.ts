@@ -108,20 +108,10 @@ import {CredreflistComponent} from './components/transac/creditos/creditosref/cr
 import {CredrefformComponent} from './components/transac/creditos/creditosref/credrefform/credrefform.component';
 import {TicketviewComponent} from './components/tickets/ticketview/ticketview.component';
 import {DetfactviewComponent} from './components/transac/facturas/facturasview/detfactview.component';
-import {AguaHomeComponent} from './components/aguap/home/agua-home.component';
-import {ContraguaformComponent} from './components/aguap/contraguaform/contraguaform.component';
 import {StepsModule} from 'primeng/steps';
-import {DatosmedidorComponent} from './components/aguap/utils/datosmedidor.component';
-import {TblmedidoresComponent} from './components/aguap/utils/tblmedidores.component';
-import {BasicdatosrefComponent} from './components/aguap/utils/basicdatosref.component';
 import es from '@angular/common/locales/es';
 import {BuscarefComponent} from './components/shared/buscaref/buscaref.component';
-import {BuscamedidorComponent} from './components/aguap/utils/buscamedidor.component';
-import {BtntipobusaguaComponent} from './components/aguap/utils/btntipobusagua.component';
-import {AgplistadoComponent} from './components/aguap/utils/agplistado.component';
-import {AgplistadohomeComponent} from './components/aguap/utils/agplistadohome.component';
 import {ChangesecdocComponent} from './components/transac/changesecdoc.component';
-import {RepagomavilComponent} from './components/aguap/utils/repagomavil.component';
 import {MavilgridComponent} from './components/shared/mavilgrid.component';
 // import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
 // import {environment} from 'src/environments/environment';
@@ -130,20 +120,8 @@ import {ReportesComponent} from './components/reportes/reportes.component';
 import {CalcupreciomavilComponent} from './components/shared/calcupreciomavil/calcupreciomavil.component';
 import {OdontogramaviewComponent} from './modules/odontologo/odontograma/odontogramaview.component';
 import {OdongramahistlistComponent} from './modules/odontologo/odontograma/odongramahistlist.component';
-import {RblistComponent} from './components/transac/rubros/list/rblist.component';
 import {CierrecajaComponent} from './components/transac/cajas/cierrecaja.component';
 import {TickethistpacComponent} from './components/tickets/ticket/tickethistpac.component';
-import {BasepreciosComponent} from './components/shared/baseprecios.component';
-import {AgpReporteLecturasComponent} from './components/aguap/reportes/lecturasagua.component';
-import {CrealectomedComponent} from './components/aguap/lectomed/crealectomed.component';
-import {AgpReportePagosComponent} from './components/aguap/reportes/pagosagua.component';
-import {AguaMainComponent} from './components/aguap/main/agua-main.component';
-import {DatosmedidorserverComponent} from './components/aguap/datosmedidorserver.component';
-import {AguadashComponent} from './components/aguap/aguadash.component';
-import {LecturasmedComponent} from './components/aguap/lecturasmed.component';
-import {CrealectomedsmComponent} from './components/aguap/lectomed/crealectomedsm.component';
-import {FacturaguaComponent} from './components/aguap/facturagua/facturagua.component';
-import {AdelantosComponent} from './components/aguap/adelantos/adelantos.component';
 import {FinanCredListComponent} from './components/finan/creditos/financredlist.component';
 import {FinanCredFormComponent} from './components/finan/creditos-form/financredform.component';
 import {FinanCredDetComponent} from './components/finan/creditos-det/financreddet.component';
@@ -183,7 +161,7 @@ import {EstadisticasmedComponent} from './modules/medico/estadisticasmed/estadis
 import {KnobModule} from 'primeng/knob';
 import {EstmedcardComponent} from './modules/medico/estmedcard/estmedcard.component';
 import {WeekViewComponent} from './modules/mavilcalendar/week-view/week-view.component';
-
+import {BsTooltipDirective} from './directivas/bs-tooltip.directive';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -268,38 +246,16 @@ export function HttpLoaderFactory(http: HttpClient) {
         CredreflistComponent,
         CredrefformComponent,
         TicketviewComponent,
-        AguaHomeComponent,
-        ContraguaformComponent,
-        DatosmedidorComponent,
-        TblmedidoresComponent,
-        BasicdatosrefComponent,
         BuscarefComponent,
-        BuscamedidorComponent,
-        BtntipobusaguaComponent,
-        AgplistadoComponent,
-        AgplistadohomeComponent,
         ChangesecdocComponent,
-        RepagomavilComponent,
         MavilgridComponent,
         ArtviewComponent,
         ReportesComponent,
         CalcupreciomavilComponent,
         OdontogramaviewComponent,
         OdongramahistlistComponent,
-        RblistComponent,
         CierrecajaComponent,
         TickethistpacComponent,
-        BasepreciosComponent,
-        AgpReporteLecturasComponent,
-        CrealectomedComponent,
-        AgpReportePagosComponent,
-        AguaMainComponent,
-        DatosmedidorserverComponent,
-        AguadashComponent,
-        LecturasmedComponent,
-        CrealectomedsmComponent,
-        FacturaguaComponent,
-        AdelantosComponent,
         FinanCredListComponent,
         FinanCredFormComponent,
         FinanCredDetComponent,
@@ -318,7 +274,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         ImageviewerComponent,
         IngegrformEditComponent,
         EstadisticasmedComponent,
-        WeekViewComponent,
+        WeekViewComponent
     ],
     imports: [
         CommonModule,
@@ -376,6 +332,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         ChipsModule,
         KnobModule,
         EstmedcardComponent,
+        BsTooltipDirective,
         // SocketIoModule.forRoot(config)
     ],
     providers: [

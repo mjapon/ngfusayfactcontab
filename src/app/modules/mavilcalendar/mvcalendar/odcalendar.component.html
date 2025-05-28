@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-2">
             <div class="mb-3">
-                <div>
+                <div class="d-flex justify-content-between">
                     <p class="tituloAgenda">Agenda</p>
                 </div>
             </div>
@@ -36,22 +36,6 @@
             </div>
 
             <div class="mt-3 d-flex flex-column quitaPaddingMargin">
-                <div class="text-center">
-                    <div class="btn-group btn-group-sm" role="group">
-                        <button class="btn btn-sm btn-outline-dark" title="Ir a la fecha actual" (click)="hoy()">
-                            Hoy
-                        </button>
-                        <!--<button class="btn btn-sm btn-outline-dark" title="7 dias posteriores a la fecha actual"
-                                (click)="hoyplusdays(7)">+7
-                        </button>
-                        <button class="btn btn-sm btn-outline-dark"
-                                title="15 dias posteriores a la fecha actual" (click)="hoyplusdays(15)">+15
-                        </button>
-                        <button class="btn btn-sm btn-outline-dark"
-                                title="30 dias posteriores a la fecha actual" (click)="hoyplusdays(30)">+30
-                        </button>-->
-                    </div>
-                </div>
                 <div *ngIf="showCancelar" class="text-center mt-3">
                     <button class="btn btn-sm btn-outline-primary" (click)="raiseCancelClic()"
                             title="Cancelar la creación de la cita"><i
@@ -77,7 +61,29 @@
         </div>
         <div class="col-md-10">
             <div class="d-flex justify-content-between mb-1">
-                <h4 class="quitaPaddingMargin fw-light">{{ mesDateString }}</h4>
+                <div class="d-flex title-header">
+                    <h4 class="fw-light">{{ mesDateString }}</h4>
+
+                    <div class="ms-4">
+                        <button class="btn btn-sm btn-hoy" (click)="toggleWeek(-1)"
+                                appBsTooltip="Semana anterior" title="Semana anterior" tooltipPlacement="top">
+                            <span class="fa fa-angle-left"></span>
+                        </button>
+                        <button class="btn btn-sm btn-hoy" (click)="toggleWeek(1)"
+                                appBsTooltip="Próxima semana" title="Próxima semana" tooltipPlacement="top">
+                            <span class="fa fa-angle-right"></span>
+                        </button>
+                    </div>
+
+                    <div class="ms-3">
+                        <button class="btn btn-sm btn-hoy" (click)="hoy()"
+                                [title]="fechaActual()"
+                                [appBsTooltip]="fechaActual()" tooltipPlacement="top">
+                            Hoy
+                        </button>
+                    </div>
+
+                </div>
                 <div>
                     <button *ngIf="showListado" class="btn btn-sm btn-outline-primary me-2"
                             title="Rertorna a vista de listado de citas"
@@ -95,64 +101,7 @@
                 <app-week-view #calendarWeekView [selectedDate]="selectedDate" [tipoCita]="tipoCita"
                                (newMonthSelected)="onNewMonthSelected($event)"
                                (showNewEvent)="onNewEvent($event)"
-                               (showDatosCita)="onEventClic($event)"
-                ></app-week-view>
-            </div>
-
-            <div class="mt-3">
-                <div class="calbody">
-                    <table class="cuadricula" id="tablacuadricula">
-                        <thead>
-                        <tr>
-                            <th scope="col" class="hand celdacal celdadiahora noselect">
-                                <div class="d-flex justify-content-around">
-                                    <div class="hand p-2" (click)="toggleWeek(-1)"
-                                         title="Semana anterior">
-                                        <span class="fa fa-angle-left"></span>
-                                    </div>
-                                    <div class="hand p-2" (click)="toggleWeek(1)" title="Próxima semana">
-                                        <span class="fa fa-angle-right"></span>
-                                    </div>
-                                </div>
-                            </th>
-                            <th scope="col" *ngFor="let dia of dias;" class="hand celdacal celdadia limitehora">
-                                <div class="d-flex flex-column noselect ">
-                                    <div class="d-flex justify-content-center" [title]="dia.fecha"><span
-                                            class="fw-light">{{ dia.diastr|uppercase }}</span></div>
-                                    <div class="d-flex justify-content-center" [title]="dia.fecha"><span
-                                            class="ps-2 pe-2" [ngClass]="dia.css">{{ dia.diames }}</span>
-                                    </div>
-                                </div>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <div *ngFor="let item of citas;" class="hand noselect border rounded evento"
-                             (click)="onEventClic(item)"
-                             [title]="item.texto" [style]="item.css">
-                            <div> {{ item.texto }}</div>
-                            <div> {{ item.hora }}</div>
-                        </div>
-
-                        <div [style]="cssform" class="nuevoev noselect" *ngIf="clicfinish">
-                            <span class="textoEv text-muted"> {{ textoNewEv }} </span>
-                        </div>
-                        <tr *ngFor="let pxrow of citasmatrix ? citasmatrix.slice(0,citasmatrix.length-1):[];">
-                            <td class="hand celdacal celdahora noselect limitedia" *ngIf="addCol(pxrow)" rowspan="4">
-                                <div class="d-flex align-items-start w-100 h-100 noselect">
-                                    <span>{{ gethoraStr(pxrow) }} </span>
-                                </div>
-                            </td>
-                            <td *ngFor="let px of pxrow;" class="hand celdacal celda noselect"
-                                (mouseover)="onMouseOver($event,px)"
-                                [ngClass]="px.cssclass" (mousedown)="mousedown($event, px)"
-                                (mouseup)="mouseup($event, px)"
-                                id="px{{px.x+'-'+px.y}}">
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                               (showDatosCita)="onEventClic($event)"></app-week-view>
             </div>
         </div>
     </div>
@@ -178,7 +127,6 @@
                             [showIcon]="true"
                             [firstDayOfWeek]="1"
                             [minDate]="currentDate"
-                            #editDate
                             dateFormat="dd/mm/yy" id="ct_fecha"
                             inputId="ct_fecha"></p-calendar>
             </div>
@@ -268,14 +216,12 @@
                     </div>
                 </div>
             </div>
-
             <div *ngIf="isShowFormCreaRef" class="border mt-1 mb-2 pb-1">
                 <app-datosref [codPaciente]="codreferenteform" [datosmedicos]="false"
                               (pacienteSaved)="onReferenteCreado($event)"
                               (creacionCancelada)="onCancelaCreacionRef($event)">
                 </app-datosref>
             </div>
-
             <div class="row mt-2">
                 <div class="col-md-3">
                     <span class="text-rojo">*</span>
@@ -304,7 +250,6 @@
                 <div class="col-md-9">{{ datosCita.medico }}</div>
             </div>
         </div>
-
         <div class="row mt-2">
             <div class="col-md-3"><span>Detalle:</span></div>
             <div class="col-md-9">
@@ -312,7 +257,6 @@
             </textarea>
             </div>
         </div>
-
         <ng-template pTemplate="footer">
             <div class="d-flex justify-content-around">
                 <button class="btn btn-outline-primary" (click)="guardarEv()"><i class="fa-solid fa-floppy-disk"></i>
@@ -323,15 +267,12 @@
                 </button>
             </div>
         </ng-template>
-
     </p-dialog>
-
 
     <p-dialog header="Detalles de la cita" [modal]="true" [style]="{width: '40vw'}" [baseZIndex]="10007"
               [autoZIndex]="true"
               [focusOnShow]="false"
               [(visible)]="showModalDetalles" id="datosCitaDialog">
-
         <div class="ms-5 me-5">
             <div class="d-flex w-100">
                 <div class="btncolor" [style.background-color]="datosCita.ct_color"></div>
@@ -350,12 +291,10 @@
             <p class="mt-2">
                 {{ datosCita.ct_obs }}
             </p>
-
             <div class="row mb-2">
                 <div class="fw-light">Paciente:</div>
                 <div class="fw-bold">{{ datosCita.paciente }}</div>
             </div>
-
             <div class="row">
                 <div class="fw-light">Atiende:</div>
                 <div class="fw-bold">{{ datosCita.medico }}</div>
@@ -391,6 +330,5 @@
                 </button>
             </div>
         </ng-template>
-
     </p-dialog>
 </div>

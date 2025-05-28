@@ -59,29 +59,38 @@
         [contentStyle]="{ overflow: 'auto' }"
         [focusOnShow]="false"
         [modal]="true"
-        [style]="{ width: '60vw', height:'80vh' }"
+        [style]="{ width: '60vw' }"
         header="Detalles de atenciones">
-    <div>
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th scope="col">Fecha de atención</th>
-                <th scope="col">Motivo</th>
-                <th scope="col">Paciente</th>
-                <th scope="col">Número de cédula</th>
-                <th scope="col">Atendido por</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let pac of detalles">
-                <td>{{ pac.cosm_fechacrea }}</td>
-                <td>{{ pac.cosm_motivo }}</td>
-                <td>{{ pac.paciente }}</td>
-                <td>{{ pac.per_ciruc }}</td>
-                <td>{{ pac.medicos }}</td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="est-table">
+        <p-table [value]="detalles" [paginator]="true" [rows]="rows"
+                 responsiveLayout="scroll"
+                 tableStyleClass="table table-hover table-striped table-bordered fusay-table">
+
+            <ng-template pTemplate="paginatorleft">
+                Total de registros: {{ detalles.length }}
+            </ng-template>
+            <ng-template pTemplate="paginatorright" let-state>
+                <span>Página {{state.page+1}} de {{ Math.ceil(state.totalRecords / state.rows) }}</span>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr class="table-light">
+                    <th scope="col">Fecha de atención</th>
+                    <th scope="col">Motivo</th>
+                    <th scope="col">Paciente</th>
+                    <th scope="col">Número de cédula</th>
+                    <th scope="col">Atendido por</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-pac let-rowIndex="rowIndex">
+                <tr>
+                    <td>{{ pac.cosm_fechacrea }}</td>
+                    <td>{{ pac.cosm_motivo }}</td>
+                    <td>{{ pac.paciente }}</td>
+                    <td>{{ pac.per_ciruc }}</td>
+                    <td>{{ pac.medicos }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
     </div>
 
     <div class="row">

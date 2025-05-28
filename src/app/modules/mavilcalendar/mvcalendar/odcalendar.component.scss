@@ -1,315 +1,204 @@
+
+.btn-hoy {
+  background-color: white;
+  color: #333333;
+  border: 1px solid #d0d0d0;
+  border-radius: 20px;
+  padding: 3px 0;
+  /*font-size: 14px;*/
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  outline: none;
+  min-width: 60px;
+  text-align: center;
+}
+
+.weeknavigation {
+  display: flex;
+  flex-direction: row;
+}
+
+$ancho-columna-hora: 60px;
+
+.title-header {
+  margin-left: $ancho-columna-hora;
+}
+
+.btn-hoy:hover {
+  border-color: #9D1F63 !important;
+  background-color: #9D1F63;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
 .btn-reset {
-    /* Elimina todos los estilos predeterminados del navegador */
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+  /* Elimina todos los estilos predeterminados del navegador */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 
-    /* Reset de dimensiones */
-    margin: 0;
-    padding: 5px;
-    border: none;
-    width: 100%;
-    height: 100%;
+  /* Reset de dimensiones */
+  margin: 0;
+  padding: 5px;
+  border: none;
+  width: 100%;
+  height: 100%;
 
-    /* Reset de fuente y texto */
-    font-family: inherit;
-    font-size: 11px;
-    font-weight: 500;
-    text-align: inherit;
-    text-decoration: none;
-    text-transform: none;
-    letter-spacing: normal;
+  /* Reset de fuente y texto */
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: inherit;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: normal;
 
-    /* Reset de colores */
-    background: transparent;
-    color: inherit;
+  /* Reset de colores */
+  background: transparent;
+  color: inherit;
 
-    /* Reset de cursor y comportamiento */
-    cursor: pointer;
-    overflow: visible;
+  /* Reset de cursor y comportamiento */
+  cursor: pointer;
+  overflow: visible;
 
-    /* Elimina el contorno al hacer focus */
-    outline: none;
+  /* Elimina el contorno al hacer focus */
+  outline: none;
 
-    /* Elimina box-shadow */
-    box-shadow: none;
+  /* Elimina box-shadow */
+  box-shadow: none;
 
-    /* Reset de bordes redondeados */
-    border-radius: 0;
+  /* Reset de bordes redondeados */
+  border-radius: 0;
 
-    /* Elimina transiciones */
-    transition: none;
+  /* Elimina transiciones */
+  transition: none;
 }
 
 /* Asegurarse de que el botón no tenga estilos especiales en diferentes estados */
 .btn-reset:hover,
 .btn-reset:focus,
 .btn-reset:active {
-    border-radius: 50%;
-    background: #2f84d8;
-    outline: none;
-    box-shadow: none;
-    color: inherit;
-    text-decoration: none;
+  border-radius: 50%;
+  background: #2f84d8;
+  outline: none;
+  box-shadow: none;
+  text-decoration: none;
 }
 
 /* Eliminar el contorno punteado en Firefox */
 .btn-reset::-moz-focus-inner {
-    border: 0;
-    padding: 0;
-}
-
-.calbody {
-    /*width: 1020px !important;
-    min-width: 1020px !important;
-    height: 500px !important;*/
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-}
-
-.head {
-    position: relative !important;
-}
-
-.cuadricula {
-    position: relative !important;
-}
-
-.celdacal {
-    /*border: 0px solid rgba(207, 6, 105, 0.34);*/
-    margin: 0 !important;
-    padding: 0 !important;
-    background-color: white;
-}
-
-.celdadia {
-    width: 135px !important;
-    min-width: 135px !important;
-    height: 50px !important;
-    font-size: 16px;
-    font-weight: bold;
-    border-right:1px solid #dde3ea;
-}
-
-.celdadiahora {
-    width: 70px !important;
-    min-width: 70px !important;
-    height: 50px !important;
-    border-right:1px solid #dde3ea;
-}
-
-.celdahora {
-    width: 70px !important;
-    min-width: 70px !important;
-    height: 18px !important;
-    font-size: 12px;
-    border-top:1px solid #dde3ea;
-}
-
-.celda {
-    width: 135px !important;
-    min-width: 135px !important;
-    height: 18px !important;
-}
-
-.celda:hover {
-    border: 1px solid #dde3ea;
-    background-color: #dde3ea;
-}
-
-.limitehora {
-    border-bottom: 1px solid #dde3ea !important;
-}
-
-.limitedia {
-    border-right: 1px solid #dde3ea !important;
-}
-
-.bordertop {
-    border-top: 1px solid #AFA4A8 !important;
-}
-
-.borderleft {
-    border-left: 1px solid #AFA4A8 !important;
-}
-
-.marcado {
-    border: 0 solid #9D1F63 !important;
-    background-color: #9D1F63 !important;
-}
-
-.marcadoerror {
-    border: 1px solid #000000 !important;
-    background-color: #ff3013 !important;
-}
-
-.nuevoev {
-    border: 1px solid #ffc70f !important;
-    background-color: #20caff !important;
-}
-
-.textoEv {
-    font-size: 10px;
-}
-
-.textoCitaCred {
-    font-size: 12px;
-    color: red;
-    overflow-wrap: break-word;
-    /*line-height: normal !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    font-weight: 500;
-    font-family: "Google Sans Text", "Google Sans", Helvetica, Arial, sans-serif;*/
-}
-
-.evento {
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 2px;
-    box-shadow: 1px 1px 3px #666;
+  border: 0;
+  padding: 0;
 }
 
 .tituloAgenda {
-    padding: 0;
-    margin: 0;
-    font-size: 24px;
-}
-
-.diaSelected {
-    font-size: 26px;
-    font-weight: bold;
+  padding: 0;
+  margin: 0;
+  font-size: 24px;
 }
 
 .smDiaCal {
-    font-size: 10px;
-    width: 50px;
-    height: 50px;
-    margin: 1px 1px !important;
+  font-size: 10px;
+  width: 50px;
+  height: 50px;
+  margin: 1px 1px !important;
 }
 
 .smDiaCF {
-    /*color: #9D1F63;*/
-    border-bottom: 1px solid #6ebdff;
+  border-bottom: 1px solid #6ebdff;
 }
 
 .smDiaCalSel {
-    border-radius: 50%;
-    background-color: #6ebdff;
-    color: white !important;
+  border-radius: 50%;
+  background-color: #6ebdff;
+  color: white !important;
 }
 
 .smDiaCalHoy {
-    border-radius: 50%;
-    background-color: #0B57D0;
-    color: white !important;
-}
-
-.smDiaCalLey {
-    font-size: 13px;
-    width: 80px;
-    height: 15px;
-    margin: 10px 0 !important;
+  border-radius: 50%;
+  background-color: #0B57D0;
+  color: white !important;
 }
 
 .leymes {
-    font-size: 13px;
-    margin: 5px 0 !important;
+  font-size: 13px;
+  margin: 5px 0 !important;
 }
 
 .btncolor {
-    width: 17px;
-    height: 17px;
-    margin: 3px;
-    border: none;
-    outline: none;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 17px;
+  height: 17px;
+  margin: 3px;
+  border: none;
+  outline: none;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btncolor:hover {
-    width: 18px;
-    height: 18px;
+  width: 18px;
+  height: 18px;
 }
 
 .mpbtncol {
-    margin: 0 !important;
-    padding: 5px !important;
+  margin: 0 !important;
+  padding: 5px !important;
 }
 
 .filacolores {
-    height: 25px;
+  height: 25px;
 }
 
-.menucolor{
-    width: 120px !important;
-    min-width: 120px !important;
+.menucolor {
+  width: 120px !important;
+  min-width: 120px !important;
 }
 
-.micol {
-    padding: 5px !important;
-    height: 30px;
-    width: 100%;
-}
-
-
-
-/*Agregadas el 15 de Mayo 2025*/
-/* Aplicar solo a la clase .custom-table */
 .custom-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    background: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: none;
 }
 
 .custom-table th,
 .custom-table td {
-    margin: 0;
-    padding: 0;
-    border: none;
-    text-align: center;
-    background: none;
-    font-weight: normal;
-}
-
-.inside{
-    width:100%;
-    height: 100%;
-    display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
+  margin: 0;
+  padding: 0;
+  border: none;
+  text-align: center;
+  background: none;
+  font-weight: normal;
 }
 
 .custom-table td:hover {
-    background: #cccccc;
+  background: #cccccc;
 }
 
 .custom-table caption {
-    font-size: inherit;
-    text-align: left;
-    padding: 0;
-    margin: 0;
-    background: none;
+  font-size: inherit;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  background: none;
 }
 
 .custom-table tr {
-    border: none;
+  border: none;
 }
 
 .custom-table ul,
 .custom-table ol {
-    padding: 0;
-    margin: 0;
-    list-style: none;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
-
-
 

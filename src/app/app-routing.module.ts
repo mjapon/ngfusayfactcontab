@@ -37,18 +37,8 @@ import {FacturaslistgenComponent} from './components/transac/facturas/facturasli
 import {IngegrComponent} from './components/ingresosegresos/ingegr/ingegr.component';
 import {IngegrformComponent} from './components/ingresosegresos/ingegrform/ingegrform.component';
 import {UtilidadesComponent} from './components/transac/facturas/utilidades/utilidades.component';
-import {AguaHomeComponent} from './components/aguap/home/agua-home.component';
-import {ContraguaformComponent} from './components/aguap/contraguaform/contraguaform.component';
-import {CtesAguapService} from './components/aguap/utils/ctes-aguap.service';
-import {AgplistadohomeComponent} from './components/aguap/utils/agplistadohome.component';
-import {RepagomavilComponent} from './components/aguap/utils/repagomavil.component';
 import {ReportesComponent} from './components/reportes/reportes.component';
-import {RblistComponent} from './components/transac/rubros/list/rblist.component';
 import {CierrecajaComponent} from './components/transac/cajas/cierrecaja.component';
-import {BasepreciosComponent} from './components/shared/baseprecios.component';
-import {AgpReporteLecturasComponent} from './components/aguap/reportes/lecturasagua.component';
-import {AgpReportePagosComponent} from './components/aguap/reportes/pagosagua.component';
-import {AguaMainComponent} from './components/aguap/main/agua-main.component';
 import {CtesFinanService} from './components/finan/ctesfina.service';
 import {FinanCredListComponent} from './components/finan/creditos/financredlist.component';
 import {FinanCredFormComponent} from './components/finan/creditos-form/financredform.component';
@@ -63,7 +53,6 @@ import {CuentasxcpComponent} from './components/transac/facturas/cuentasxcp/cuen
 import {ParametrosComponent} from './modules/sharedmed/parametros/parametros.component';
 // import {AdminGuard} from './guards/admin/admin.guard';
 
-const aguapmod: CtesAguapService = new CtesAguapService();
 const finamod: CtesFinanService = new CtesFinanService();
 
 const routes: Routes = [
@@ -86,7 +75,6 @@ const routes: Routes = [
         /*data: {perml: ['PRODS_DET_VIEW']}*/
     },
     {path: 'categorias', component: CategoriasComponent},
-    {path: 'preciosmavil', component: BasepreciosComponent},
     {path: 'loginfacte', component: LoginfacteComponent},
     {path: 'homefacte', component: HomefacteComponent},
     {path: 'tickets', component: TicketComponent},
@@ -115,15 +103,7 @@ const routes: Routes = [
     {path: 'contabilidad/periodo/apertura', component: PcontableNewComponent},
     {path: 'utilventas', component: UtilidadesComponent},
     {path: 'reportes', component: ReportesComponent},
-    {path: 'rubros', component: RblistComponent},
     {path: 'cierrecaja', component: CierrecajaComponent},
-    {path: aguapmod.rutaHome, component: AguaHomeComponent},
-    {path: aguapmod.rutaMain, component: AguaMainComponent},
-    {path: aguapmod.rutaContraForm, component: ContraguaformComponent},
-    {path: aguapmod.rutaListados, component: AgplistadohomeComponent},
-    {path: aguapmod.rutaPagoMavil, component: RepagomavilComponent},
-    {path: aguapmod.rutaReporteLecturas, component: AgpReporteLecturasComponent},
-    {path: aguapmod.rutaReportePagos, component: AgpReportePagosComponent},
     {path: finamod.rutaHome, component: FinanCredListComponent},
     {path: finamod.rutaCreaCred, component: FinanCredFormComponent},
     {path: finamod.rutaDetCred, component: FinanCredDetComponent},

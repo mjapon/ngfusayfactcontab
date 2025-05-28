@@ -197,12 +197,10 @@ export class WeekViewComponent implements OnInit {
     loadCitas() {
         this.citas = [];
         this.removeAllCitasChildren();
-        // this.loadinUiServ.publishBlockMessage();
         const startDate = this.dias[0].fecha;
         const endDate = this.dias[this.dias.length - 1].fecha;
         this.tcitaService.listar(this.fechasService.formatDate(startDate),
             this.fechasService.formatDate(endDate), this.tipoCita).subscribe(res => {
-            // this.loadinUiServ.publishUnblockMessage();
             if (res.status === 200) {
                 this.citas = res.citas;
                 this.citas.forEach(cita => {
@@ -212,7 +210,6 @@ export class WeekViewComponent implements OnInit {
         });
     }
 
-    // Handle mouseup anywhere in the document to finish creating event
     @HostListener('document:mouseup')
     onMouseUp(): void {
         if (this.isCreatingEvent) {
@@ -225,7 +222,6 @@ export class WeekViewComponent implements OnInit {
     onMouseDown(event: MouseEvent) {
         const target = event.target as HTMLElement;
         if (!this.isCreatingEvent && target.classList.contains('time-slot')) {
-            console.log('Creado-->');
             this.startY = event.clientY;
             this.startHeight = this.minHeight;
             this.startCreateEvent(target, event);
@@ -271,7 +267,6 @@ export class WeekViewComponent implements OnInit {
         return sameMonth;
     }
 
-
     toggleWeek(cant: number) {
         const newweekdate = addWeeks(this.selectedDate, cant);
         const samemonth = this.auxIsSameMonth(newweekdate);
@@ -286,9 +281,7 @@ export class WeekViewComponent implements OnInit {
         event.preventDefault();
         this.isCreatingEvent = true;
         this.startElement = cell;
-
         const {day, hour, minute, date} = this.getCellInfo(cell);
-
         this.currentEvent = {
             day,
             startHour: hour,
@@ -298,7 +291,6 @@ export class WeekViewComponent implements OnInit {
             element: null,
             date
         };
-
         // Create event element
         const eventElement = this.renderer.createElement('div');
         this.renderer.addClass(eventElement, 'calendar-event');
@@ -318,7 +310,6 @@ export class WeekViewComponent implements OnInit {
         const timeText = this.formatEventTime(this.currentEvent);
         this.renderer.appendChild(timeElement, this.renderer.createText(timeText));
 
-
         const titleTimeElemente = this.renderer.createElement('div');
         this.renderer.addClass(titleTimeElemente, 'calendar-event-time-title');
         this.renderer.addClass(titleTimeElemente, 'calendar-event-flow');
@@ -327,10 +318,6 @@ export class WeekViewComponent implements OnInit {
         this.renderer.appendChild(titleTimeElemente, timeElement);
 
         this.renderer.appendChild(eventElement, titleTimeElemente);
-        /*this.renderer.listen(eventElement, 'mouseenter', () => {
-            console.log('mouse enter-->');
-        });*/
-        // Add to DOM
         this.renderer.appendChild(this.calendarGrid.nativeElement, eventElement);
         this.currentEvent.element = eventElement;
     }
@@ -386,7 +373,6 @@ export class WeekViewComponent implements OnInit {
             element: null,
             date: eventDate
         };
-
     }
 
     getEventDurationInMinutes(event: any) {

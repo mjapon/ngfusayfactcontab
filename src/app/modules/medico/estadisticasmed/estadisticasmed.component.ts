@@ -16,6 +16,7 @@ export class EstadisticasmedComponent implements OnInit, AfterViewInit {
     detalles = [];
     isLoading = false;
     isShowDetalles = false;
+    rows = 20;
 
     constructor(private citasMedicasServ: CitasMedicasService,
                 private fechasService: FechasService) {
@@ -76,4 +77,6 @@ export class EstadisticasmedComponent implements OnInit, AfterViewInit {
     cerrarDetalles() {
         this.isShowDetalles = false;
     }
+
+    protected readonly Math = Math;
 }

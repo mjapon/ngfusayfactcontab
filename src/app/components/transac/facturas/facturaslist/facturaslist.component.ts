@@ -6,7 +6,6 @@ import {FechasService} from '../../../../services/fechas.service';
 import {LocalStorageService} from '../../../../services/local-storage.service';
 import {DomService} from '../../../../services/dom.service';
 import {Table, TableLazyLoadEvent} from 'primeng/table';
-import {ExcelUtilService} from '../../../../services/utils/excelutil.service';
 import {SwalService} from '../../../../services/swal.service';
 
 
@@ -22,7 +21,6 @@ export class FacturaslistComponent implements OnInit {
                 private localStgServ: LocalStorageService,
                 private swalService: SwalService,
                 private domService: DomService,
-                private excelService: ExcelUtilService,
                 private fechasservice: FechasService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
@@ -78,7 +76,6 @@ export class FacturaslistComponent implements OnInit {
         });
     }
 
-
     ondesdechange() {
 
     }
@@ -127,12 +124,10 @@ export class FacturaslistComponent implements OnInit {
                 if (res.grid.total) {
                     this.totalRecord = res.grid.total;
                 }
-
                 if (this.page === 0) {
                     this.totales = res.totales;
                     this.totalRecord = res.grid.total;
                 }
-                console.log('Valor de grid es:', this.grid);
             }
             this.isLoading = false;
         });
@@ -179,38 +174,6 @@ export class FacturaslistComponent implements OnInit {
         this.loadDataToExport(this.exportDataToExcel);
     }
 
-    viewPdf(res) {
-        this.asientoService.viewBlob(res, 'application/pdf');
-    }
-
-    getBodyToExport(griddata: any) {
-        const cols = griddata.cols;
-        const totales = {};
-        cols.forEach(col => {
-            let value = '';
-            const field = col.field;
-            if (field === 'referente') {
-                value = 'TOTALES:';
-            } else if (field === 'efectivo') {
-                value = griddata.sumatorias.efectivo;
-            } else if (field === 'credito') {
-                value = griddata.sumatorias.credito;
-            } else if (field === 'saldopend') {
-                value = griddata.sumatorias.saldopend;
-            } else if (field === 'total') {
-                value = griddata.sumatorias.total;
-            }
-            totales[field] = value;
-        });
-
-        return {
-            title: 'Listado de ventas',
-            columns: cols,
-            data: griddata.data,
-            totals: totales
-        };
-    }
-
     exportDataToPdf(griddata: any, self: any) {
         self.asientoService.exportVentasListPDF(self.getBodyToExport(griddata))
             .subscribe((res: ArrayBuffer) => {
@@ -240,7 +203,6 @@ export class FacturaslistComponent implements OnInit {
     }
 
     onEditar($event: any) {
-        console.log('on editar, ', $event, this.rowDataSel);
         this.closeDetFact();
         this.localStgServ.setItem('trncoded', $event);
         this.router.navigate(['trndocform', this.rowDataSel.tra_codigo, 'e']);

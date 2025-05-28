@@ -113,6 +113,11 @@ export class FechasService {
         return age;
     }
 
+    getFullDayStringOfCurrentDate() {
+        const currentDate = new Date();
+        const diames = format(currentDate, 'd', {locale: es});
+    }
+
     getDayString(date: Date): Promise<any> {
         const diasemana = getDay(date);
         const diames = format(date, 'd', {locale: es});
@@ -291,5 +296,14 @@ export class FechasService {
             hasta = this.formatDate(form.hasta);
         }
         return {desde, hasta};
+    }
+
+    getDateStringFull(fecha: Date) {
+        const fechaFormateada = format(fecha, 'EEEE, d \'de\' MMMM \'de\' yyyy', {
+            locale: es
+        });
+
+        return fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1);
+
     }
 }
