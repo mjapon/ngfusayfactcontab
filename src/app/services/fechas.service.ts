@@ -9,10 +9,13 @@ import {
     getYear,
     isAfter,
     isEqual,
+    isSameDay,
     isSameWeek,
     isSameYear,
     isToday,
-    parse, startOfDay
+    isWithinInterval,
+    parse,
+    startOfDay
 } from 'date-fns';
 import {es} from 'date-fns/locale';
 import {TranslateService} from '@ngx-translate/core';
@@ -25,8 +28,6 @@ import startOfISOWeek from 'date-fns/startOfISOWeek';
 import startOfMonth from 'date-fns/startOfMonth';
 import eachWeekOfInterval from 'date-fns/eachWeekOfInterval';
 import {CtesService} from './ctes.service';
-import {differenceInDays} from 'date-fns/esm';
-import {end} from '@popperjs/core';
 
 type Options = {
     year: number,
@@ -87,6 +88,10 @@ export class FechasService {
 
     formatDateDb(dateObj): string {
         return format(dateObj, this.ctes.fmtfechaDb);
+    }
+
+    dateIsBetween(date: Date, start: Date, end: Date) {
+        return isWithinInterval(date, {start, end});
     }
 
     parseString(dateString): Date {
@@ -153,6 +158,10 @@ export class FechasService {
         return comparacion === 1 || comparacion === 0;
     }
 
+    isGreaterOrEqual(dateA: Date, dateB: Date) {
+        const comparacion = compareAsc(dateA, dateB);
+        return comparacion === 1 || comparacion === 0;
+    }
 
     loadMontNames() {
         this.promiseMontNames = this.translateService.get('primeng.monthNames').toPromise();
@@ -191,6 +200,7 @@ export class FechasService {
 
                 if (slctdDate && isEqual(slctdDate, tday)) {
                     dcal.selected = true;
+                    dcal.css = 'smDiaCalSel';
                 }
                 return dcal;
             });
@@ -247,6 +257,10 @@ export class FechasService {
 
     isSameDate(dateA: Date, dateB: Date) {
         return isEqual(dateA, dateB);
+    }
+
+    isSameDay(dateA: Date, dateB: Date) {
+        return isSameDay(dateA, dateB);
     }
 
     isSameMonth(dateA: Date, dateB: Date) {

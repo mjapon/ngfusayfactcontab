@@ -1,0 +1,51 @@
+<div class="contenedor-carriles">
+    <div class="header">
+        <div class="time-header">
+            <div class="d-flex justify-content-around">
+                <div class="hand p-2" (click)="toggleWeek(-1)"
+                     title="Semana anterior">
+                    <span class="fa fa-angle-left"></span>
+                </div>
+                <div class="hand p-2" (click)="toggleWeek(1)" title="Próxima semana">
+                    <span class="fa fa-angle-right"></span>
+                </div>
+            </div>
+        </div>
+        <div class="days-header">
+            <div class="day-header" *ngFor="let day of dias; let i = index">
+                <div class="day-name">{{ day.diastr|uppercase }}</div>
+                <div class="day-number" [ngClass]="day.css">{{ day.diames }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="time-column">
+            <div class="hour-cell" *ngFor="let hour of rangeHours.hours">
+                <span class="hour-label">{{ hour.label }}</span>
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <!-- Hour grid lines -->
+            <div class="hour-grid">
+                <div class="hour-line" *ngFor="let hour of rangeHours.hours"></div>
+            </div>
+
+            <!-- Day columns -->
+            <div #calendarGrid class="calendar-grid">
+                <div class="day-column" *ngFor="let day of dias; let dayIndex = index">
+                    <!-- Each day has slots for the entire day -->
+                    <ng-container class="hour-slot" *ngFor="let hour of rangeHours.hours; let hourIndex = index">
+                        <div class="time-slot" *ngFor="let minute of [0,15,30,45]"
+                             [attr.data-day]="dayIndex"
+                             [attr.data-hour]="hour.value"
+                             [attr.data-date]="day.fecha"
+                             [attr.data-minute]="minute">
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

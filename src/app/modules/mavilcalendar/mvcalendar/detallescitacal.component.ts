@@ -4,7 +4,7 @@ import {TcitaService} from '../../../services/tcita.service';
 @Component({
     selector: 'app-detcitacal',
     styles: [`
-        .colcal {
+        .btncolor {
             width: 16px;
             height: 16px;
             -moz-border-radius: 50%;
@@ -19,7 +19,7 @@ import {TcitaService} from '../../../services/tcita.service';
         <div *ngIf="!showAnim">
             <div class="ms-5 me-5">
                 <div class="d-flex w-100">
-                    <div class="colcal" style="background-color:{{datosCita.ct_color}}"></div>
+                    <div class="btncolor" style="background-color:{{datosCita.ct_color}}"></div>
                     <div class="ms-3 d-flex flex-column w-100">
                         <div> {{ datosCita.ct_titulo }}</div>
                         <div class="d-flex ">

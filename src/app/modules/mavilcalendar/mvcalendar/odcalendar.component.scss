@@ -1,7 +1,69 @@
+.btn-reset {
+    /* Elimina todos los estilos predeterminados del navegador */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    /* Reset de dimensiones */
+    margin: 0;
+    padding: 5px;
+    border: none;
+    width: 100%;
+    height: 100%;
+
+    /* Reset de fuente y texto */
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    text-align: inherit;
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: normal;
+
+    /* Reset de colores */
+    background: transparent;
+    color: inherit;
+
+    /* Reset de cursor y comportamiento */
+    cursor: pointer;
+    overflow: visible;
+
+    /* Elimina el contorno al hacer focus */
+    outline: none;
+
+    /* Elimina box-shadow */
+    box-shadow: none;
+
+    /* Reset de bordes redondeados */
+    border-radius: 0;
+
+    /* Elimina transiciones */
+    transition: none;
+}
+
+/* Asegurarse de que el botón no tenga estilos especiales en diferentes estados */
+.btn-reset:hover,
+.btn-reset:focus,
+.btn-reset:active {
+    border-radius: 50%;
+    background: #2f84d8;
+    outline: none;
+    box-shadow: none;
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Eliminar el contorno punteado en Firefox */
+.btn-reset::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
 .calbody {
-    width: 1020px !important;
+    /*width: 1020px !important;
     min-width: 1020px !important;
-    /*height: 500px !important;*/
+    height: 500px !important;*/
+    width: 100%;
     height: 100%;
     overflow: auto;
 }
@@ -15,7 +77,7 @@
 }
 
 .celdacal {
-    border: 1px solid rgba(218, 204, 211, 0.34);
+    /*border: 0px solid rgba(207, 6, 105, 0.34);*/
     margin: 0 !important;
     padding: 0 !important;
     background-color: white;
@@ -27,12 +89,14 @@
     height: 50px !important;
     font-size: 16px;
     font-weight: bold;
+    border-right:1px solid #dde3ea;
 }
 
 .celdadiahora {
     width: 70px !important;
     min-width: 70px !important;
     height: 50px !important;
+    border-right:1px solid #dde3ea;
 }
 
 .celdahora {
@@ -40,6 +104,7 @@
     min-width: 70px !important;
     height: 18px !important;
     font-size: 12px;
+    border-top:1px solid #dde3ea;
 }
 
 .celda {
@@ -49,16 +114,16 @@
 }
 
 .celda:hover {
-    border: 1px solid #57a5ff;
-    background-color: #57a5ff;
+    border: 1px solid #dde3ea;
+    background-color: #dde3ea;
 }
 
 .limitehora {
-    border-bottom: 1px solid #AFA4A8 !important;
+    border-bottom: 1px solid #dde3ea !important;
 }
 
 .limitedia {
-    border-right: 1px solid #AFA4A8 !important;
+    border-right: 1px solid #dde3ea !important;
 }
 
 .bordertop {
@@ -70,8 +135,8 @@
 }
 
 .marcado {
-    border: 0 solid #ff3d19 !important;
-    background-color: #14ff8b !important;
+    border: 0 solid #9D1F63 !important;
+    background-color: #9D1F63 !important;
 }
 
 .marcadoerror {
@@ -89,19 +154,20 @@
 }
 
 .textoCitaCred {
-    font-size: 10px;
-    color: white;
-    width: 100%;
-    height: 100%;
-    line-height: normal !important;
+    font-size: 12px;
+    color: red;
+    overflow-wrap: break-word;
+    /*line-height: normal !important;
     padding: 0 !important;
     margin: 0 !important;
-    overflow-wrap: break-word;
+    font-weight: 500;
+    font-family: "Google Sans Text", "Google Sans", Helvetica, Arial, sans-serif;*/
 }
 
-.cuadroEv {
+.evento {
     overflow-x: auto;
     overflow-y: hidden;
+    padding: 2px;
     box-shadow: 1px 1px 3px #666;
 }
 
@@ -117,14 +183,15 @@
 }
 
 .smDiaCal {
-    font-size: 13px;
-    width: 80px;
-    height: 19px;
+    font-size: 10px;
+    width: 50px;
+    height: 50px;
     margin: 1px 1px !important;
 }
 
 .smDiaCF {
-    border-bottom: 1px solid #ff5205;
+    /*color: #9D1F63;*/
+    border-bottom: 1px solid #6ebdff;
 }
 
 .smDiaCalSel {
@@ -135,7 +202,7 @@
 
 .smDiaCalHoy {
     border-radius: 50%;
-    background-color: #196cff;
+    background-color: #0B57D0;
     color: white !important;
 }
 
@@ -151,12 +218,23 @@
     margin: 5px 0 !important;
 }
 
-.colcal {
-    width: 16px;
-    height: 16px;
+.btncolor {
+    width: 17px;
+    height: 17px;
+    margin: 3px;
+    border: none;
+    outline: none;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btncolor:hover {
+    width: 18px;
+    height: 18px;
 }
 
 .mpbtncol {
@@ -164,11 +242,74 @@
     padding: 5px !important;
 }
 
-.zisemencol {
-    width: 80px !important;
-    min-width: 80px !important;
+.filacolores {
+    height: 25px;
+}
+
+.menucolor{
+    width: 120px !important;
+    min-width: 120px !important;
 }
 
 .micol {
-    padding: 4px !important;
+    padding: 5px !important;
+    height: 30px;
+    width: 100%;
 }
+
+
+
+/*Agregadas el 15 de Mayo 2025*/
+/* Aplicar solo a la clase .custom-table */
+.custom-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: none;
+}
+
+.custom-table th,
+.custom-table td {
+    margin: 0;
+    padding: 0;
+    border: none;
+    text-align: center;
+    background: none;
+    font-weight: normal;
+}
+
+.inside{
+    width:100%;
+    height: 100%;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+}
+
+.custom-table td:hover {
+    background: #cccccc;
+}
+
+.custom-table caption {
+    font-size: inherit;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    background: none;
+}
+
+.custom-table tr {
+    border: none;
+}
+
+.custom-table ul,
+.custom-table ol {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+
+

@@ -1,0 +1,250 @@
+$borde-calendar: #dde3ea;
+$alto-fila-calendar: 72px;
+$ancho-columna-hora: 60px;
+$alto-cabecera-dia: 50px;
+/*Desde aqui los cambios*/
+
+.carril-hora {
+  min-width: $ancho-columna-hora;
+  width: $ancho-columna-hora;
+  border-right: 1px solid $borde-calendar;
+  background-color: white;
+}
+
+.carril-dia {
+  position: relative;
+  width: 100%;
+  min-width: $ancho-columna-hora;
+  border: 1px solid $borde-calendar;
+  background-color: cornflowerblue;
+}
+
+.celda-hora-dia {
+  height: $alto-fila-calendar;
+  border-bottom: 1px solid $borde-calendar;
+}
+
+.cabecera-dia {
+  height: $alto-cabecera-dia;
+  border-bottom: 1px solid $borde-calendar;
+}
+
+.contenedor-carriles {
+  display: flex;
+  flex-direction: column;
+  border: 0px solid #e0e0e0;
+  font-family: Roboto, Arial, sans-serif;
+  background-color: #fff;
+}
+
+
+.calendar-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e0e0e0;
+  /*font-family: Roboto, Arial, sans-serif;*/
+  background-color: #fff;
+}
+
+.header {
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.time-header {
+  width: $ancho-columna-hora;
+  border-right: 1px solid #e0e0e0;
+}
+
+.days-header {
+  display: flex;
+  flex: 1;
+}
+
+.day-header {
+  flex: 1;
+  text-align: center;
+  padding: 1px 0;
+  border-right: 1px solid #e0e0e0;
+}
+
+.day-name {
+  font-size: 12px;
+  color: #70757a;
+}
+
+.day-number {
+  font-size: 20px;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1px auto;
+  font-weight: 500;
+}
+
+/* Highlight current day */
+.current-day {
+  background-color: #1a73e8;
+  color: white;
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+}
+
+.time-column {
+  width: 60px;
+  flex-shrink: 0;
+  border-right: 1px solid #e0e0e0;
+  z-index: 1;
+}
+
+.hour-cell {
+  height: 60px;
+  padding: 0 8px;
+  text-align: right;
+  font-size: 10px;
+  color: #70757a;
+  position: relative;
+  top: 0;
+  /*border-bottom: 1px solid #e0e0e0;*/
+}
+
+.hour-label{
+  position: absolute;
+  color: #484c50;
+  top:-5px;
+  right:15px;
+}
+
+.hour-cell::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20%; /* mitad del ancho */
+  height: 1px; /* grosor del borde */
+  background-color: #e0e0e0; /* color del borde */
+}
+
+.grid-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.hour-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.hour-line {
+  height: 60px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.calendar-grid {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.day-column {
+  flex: 1;
+  border-right: 1px solid #e0e0e0;
+  position: relative;
+}
+
+.time-slot {
+  height: 15px;
+  cursor: pointer;
+}
+
+.hour-slot {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.events-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  pointer-events: none; /* Allow clicks to pass through to time slots */
+}
+
+.calendar-event {
+  position: absolute;
+  background-color: #ff4444;
+  color: white;
+  border-radius: 4px;
+  overflow: hidden;
+  /*user-select: none;*/
+  cursor: pointer;
+  justify-content: space-between;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.2s;
+  pointer-events: auto;
+}
+
+
+.calendar-event:hover {
+  box-shadow: 1px 2px 3px #9D1F63;
+}
+
+.calendar-event.resizing {
+  box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+  cursor: ns-resize;
+}
+
+.calendar-event.creating {
+  opacity: 0.8;
+}
+
+.calendar-event-title {
+  font-size: 12px;
+  font-weight: bolder;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 1px 3px 0 3px;
+}
+
+.calendar-event-time {
+  font-size: 12px;
+  padding: 0 3px 1px 3px;
+}
+
+.calendar-event-flow{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.calendar-event-resize{
+  font-size: 4px;
+  background-color: red;
+  cursor: ns-resize;
+  transition: background-color 0.3s;
+}
+
+.calendar-event-resize:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+

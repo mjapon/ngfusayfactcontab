@@ -182,6 +182,8 @@ import {IngegrformEditComponent} from './components/ingresosegresos/ingegrformed
 import {EstadisticasmedComponent} from './modules/medico/estadisticasmed/estadisticasmed.component';
 import {KnobModule} from 'primeng/knob';
 import {EstmedcardComponent} from './modules/medico/estmedcard/estmedcard.component';
+import {WeekViewComponent} from './modules/mavilcalendar/week-view/week-view.component';
+
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -315,7 +317,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         ExportBtnComponent,
         ImageviewerComponent,
         IngegrformEditComponent,
-        EstadisticasmedComponent
+        EstadisticasmedComponent,
+        WeekViewComponent,
     ],
     imports: [
         CommonModule,

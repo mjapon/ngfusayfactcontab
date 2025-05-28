@@ -19,6 +19,10 @@ export class TcitaService extends BaseService {
         return this._doGet(this.getHOT({accion: 'form', tipocita}));
     }
 
+    getWorkingHours(tipocita) {
+        return this._doGet(this.getHOT({accion: 'workhours', tipocita}));
+    }
+
     listar(desde: string, hasta: string, tipo: number) {
         return this._doGet(this.getHOT({accion: 'lstw', desde, hasta, tipo}));
     }
