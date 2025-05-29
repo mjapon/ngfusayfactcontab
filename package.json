@@ -40,7 +40,7 @@
     "primeicons": "latest",
     "primeng": "^17.17",
     "rxjs": "~6.5.5",
-    "sweetalert2": "^8.13.2",
+    "sweetalert2": "latest",
     "tslib": "^2.0.0",
     "zone.js": "~0.14.0"
   },

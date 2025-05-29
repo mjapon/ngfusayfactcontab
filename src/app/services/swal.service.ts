@@ -16,8 +16,8 @@ export class SwalService {
     constructor(private messageService: MessageService) {
     }
 
-    showMsg(msg: string, type: any, title: string = this.defmsg) {
-        swal.fire(title, msg, type);
+    showMsg(msg: string, icon: any, title: string = this.defmsg) {
+        swal.fire(title, msg, icon);
     }
 
     fireInfo(msg: string, title: string = this.defmsg) {
@@ -40,7 +40,7 @@ export class SwalService {
         return swal.fire({
             title: ptitle,
             text: msg,
-            type: 'warning',
+            icon: 'warning',
             showConfirmButton: true,
             showCancelButton: true
         });
