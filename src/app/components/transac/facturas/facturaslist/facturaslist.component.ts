@@ -7,6 +7,7 @@ import {LocalStorageService} from '../../../../services/local-storage.service';
 import {DomService} from '../../../../services/dom.service';
 import {Table, TableLazyLoadEvent} from 'primeng/table';
 import {SwalService} from '../../../../services/swal.service';
+import {ExcelUtilService} from '../../../../services/utils/excelutil.service';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class FacturaslistComponent implements OnInit {
                 private localStgServ: LocalStorageService,
                 private swalService: SwalService,
                 private domService: DomService,
+                private excelService: ExcelUtilService,
                 private fechasservice: FechasService) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
@@ -172,6 +174,38 @@ export class FacturaslistComponent implements OnInit {
 
     exportToExcel() {
         this.loadDataToExport(this.exportDataToExcel);
+    }
+
+    viewPdf(res) {
+        this.asientoService.viewBlob(res, 'application/pdf');
+    }
+
+    getBodyToExport(griddata: any) {
+        const cols = griddata.cols;
+        const totales = {};
+        cols.forEach(col => {
+            let value = '';
+            const field = col.field;
+            if (field === 'referente') {
+                value = 'TOTALES:';
+            } else if (field === 'efectivo') {
+                value = griddata.sumatorias.efectivo;
+            } else if (field === 'credito') {
+                value = griddata.sumatorias.credito;
+            } else if (field === 'saldopend') {
+                value = griddata.sumatorias.saldopend;
+            } else if (field === 'total') {
+                value = griddata.sumatorias.total;
+            }
+            totales[field] = value;
+        });
+
+        return {
+            title: 'Listado de ventas',
+            columns: cols,
+            data: griddata.data,
+            totals: totales
+        };
     }
 
     exportDataToPdf(griddata: any, self: any) {
