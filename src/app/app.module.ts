@@ -162,6 +162,7 @@ import {KnobModule} from 'primeng/knob';
 import {EstmedcardComponent} from './modules/medico/estmedcard/estmedcard.component';
 import {WeekViewComponent} from './modules/mavilcalendar/week-view/week-view.component';
 import {BsTooltipDirective} from './directivas/bs-tooltip.directive';
+import {AccountsPayableListComponent} from './components/transac/creditos/accounts-payable-list/accounts-payable-list.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -274,7 +275,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         ImageviewerComponent,
         IngegrformEditComponent,
         EstadisticasmedComponent,
-        WeekViewComponent
+        WeekViewComponent,
+        AccountsPayableListComponent
     ],
     imports: [
         CommonModule,

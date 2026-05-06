@@ -24,7 +24,7 @@ export class CreditoService extends BaseService {
         return this._doGet(this.getHOT({accion: 'gdet', codcred}));
     }
 
-    listarGrid(tipo, desde, hasta, filtro, limit, first, tipopago) {
+    listarGrid(tipo: number, desde: string, hasta: string, filtro: string, limit: number, first: number, tipopago: number) {
         const doexp = 0;
         return this._doGet(this.getHOT({
             accion: 'listargrid',
@@ -39,7 +39,33 @@ export class CreditoService extends BaseService {
         }));
     }
 
-    listarGridForExport(tipo, desde, hasta, filtro, tipopago) {
+    listarGridCxpProvs(desde: string, hasta: string, prov: any, limit: number, first: number) {
+        const doexp = 0;
+        return this._doGet(this.getHOT({
+            accion: 'report_cxp_provs',
+            desde,
+            hasta,
+            prov,
+            limit,
+            first,
+            doexp
+        }));
+    }
+
+    listarGridCxpProvsForExport(desde: string, hasta: string, prov: any, limit: number, first: number) {
+        const doexp = 1;
+        return this._doGet(this.getHOT({
+            accion: 'report_cxp_provs',
+            desde,
+            hasta,
+            prov,
+            limit,
+            first,
+            doexp
+        }));
+    }
+
+    listarGridForExport(tipo: number, desde: string, hasta: string, filtro: string, tipopago: number) {
         const doexp = 1;
         const first = 0;
         const limit = 50;
@@ -56,7 +82,7 @@ export class CreditoService extends BaseService {
         }));
     }
 
-    getFormCrea(clase, ref) {
+    getFormCrea(clase: number, ref: number) {
         return this._doGet(this.getHOT({accion: 'gformcrea', clase, ref}));
     }
 

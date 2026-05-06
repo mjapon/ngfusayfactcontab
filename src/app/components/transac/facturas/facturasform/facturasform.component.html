@@ -223,7 +223,7 @@
                         </td>
                         <td>
                             <div style="min-width: 70px !important;">
-                                <input type="text" class="form-control form-control-sm"
+                                <input type="text" class="form-control form-control-sm" [disabled]="ttransacc.tra_edcomp===1"
                                        (keyup)="onFilaPrecioChange(fila)" [(ngModel)]="fila.dt_precioiva">
                             </div>
                         </td>

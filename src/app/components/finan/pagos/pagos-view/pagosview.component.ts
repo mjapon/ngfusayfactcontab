@@ -289,6 +289,12 @@ export class FinanPagosViewComponent extends BaseComponent implements OnInit, On
         this.isModalAnulaVisible = true;
     }
 
+    reversarPago(pago) {
+        this.pagoAnulSel = pago;
+        this.formanul.obs = '';
+        this.isModalAnulaVisible = true;
+    }
+
     onFileChange(fileInput: any) {
         this.datafile = fileInput.target.files[0];
         this.adjisimage = false;

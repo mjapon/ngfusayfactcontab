@@ -1,0 +1,100 @@
+<div class="margengridcontent animacion-entrada">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="bd-title mb-0">
+                <i class="pi pi-wallet me-2"></i>Cuentas por pagar
+            </h2>
+            <p class="text-muted small">Gestión y seguimiento de obligaciones financieras con proveedores</p>
+        </div>
+    </div>
+
+    <div class="bg-white p-4 rounded-4 shadow-sm border mb-4">
+        <div class="row align-items-end g-3">
+            <div class="col-lg-5">
+                <app-rangofechas [form]="form" (evFilterSel)="loadData()"></app-rangofechas>
+            </div>
+            <div class="col-lg-5">
+                <label class="small text-muted mb-1 d-block">Proveedor</label>
+                <div class="p-fluid">
+                    <p-dropdown [options]="proveedores" [(ngModel)]="selectedProveedor" optionLabel="per_nombres"
+                        [filter]="true" filterBy="per_nombres" [showClear]="true" placeholder="Todos los proveedores"
+                        styleClass="p-inputtext-sm" (onChange)="loadData()">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="col-lg-2 d-flex justify-content-end gap-2">
+                <button pButton pRipple type="button" icon="pi pi-filter-slash"
+                    class="p-button-outlined p-button-secondary p-button-sm" (click)="clearFilter()"
+                    pTooltip="Limpiar Filtros">
+                </button>
+                <button pButton pRipple type="button" icon="pi pi-refresh"
+                    class="p-button-outlined p-button-info p-button-sm" (click)="loadData()" pTooltip="Refrescar Datos">
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <p-table #gridTable [value]="gridData.data" [columns]="gridData.cols" responsiveLayout="scroll"
+            scrollHeight="calc(100vh - 260px)"
+            tableStyleClass="table table-hover table-striped table-bordered fusay-table" [paginator]="true"
+            [rows]="rows" [totalRecords]="totalRecords" [lazy]="true" (onLazyLoad)="doLazyLoad($event)"
+            paginatorPosition="top"
+            [loading]="isLoading">
+
+            <ng-template pTemplate="paginatorleft">
+            Total de registros: {{ totalRecords }}
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+
+            <app-export-btn [totalRecord]="totalRecords" [isDownloading]="isDownloading" [type]="1"
+                            (onClic)="exportToPdf()"></app-export-btn>
+            <app-export-btn [totalRecord]="totalRecords" [isDownloading]="isDownloading" [type]="2"
+                            (onClic)="exportToExcel()"></app-export-btn>
+
+            <span>
+            Página {{ totalRecords > 0 ? Math.floor(page / rows) + 1 : 0 }} de {{ Math.ceil(totalRecords / rows) }}
+            </span>
+        </ng-template>
+
+            <ng-template pTemplate="header" let-columns>
+                <tr class="bg-light">
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="py-3 px-4">
+                        {{col.label}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                    <!--<th class="py-3 px-4 text-center">Acciones</th>-->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr class="hand" (dblclick)="onRowDblClick(rowData)">
+                    <td *ngFor="let col of columns" class="py-3 px-4">
+                        <span class="p-column-title fw-bold">{{col.header}}</span>
+                        <ng-container [ngSwitch]="col.field">
+                            <span *ngSwitchCase="'total_precioventa'" class="fw-bold">{{rowData[col.field] |
+                                currency}}</span>
+                            <span *ngSwitchCase="'total_preciocompra'" class="fw-bold">{{rowData[col.field] |
+                                currency}}</span>
+                            <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                        </ng-container>
+                    </td>
+                    <!--<td class="text-center">
+                        <button pButton pRipple type="button" icon="pi pi-eye"
+                            class="p-button-rounded p-button-text p-button-sm me-1" pTooltip="Ver Detalles"></button>
+                    </td>-->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td [attr.colspan]="gridData.cols.length + 1" class="text-center py-5">
+                        <div class="p-3 opacity-50">
+                            <i class="pi pi-folder-open fs-1 mb-2"></i>
+                            <p>No se encontraron cuentas por pagar.</p>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

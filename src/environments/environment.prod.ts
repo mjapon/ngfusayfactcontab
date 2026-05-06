@@ -1,8 +1,8 @@
 export const environment = {
-    production: true,
-    baseUrlEndPoint: 'https://mavil.site/api',
-    baseUrlDwfile: 'https://mavil.site/getrxdoc',
-    baseUrlDwfileNode: 'https://mavil.site/getrxdocnode',
-    tomcat: 'https://mavil.site/tomcat/reports',
-    socket: 'https://mavil.site'
+    production: true,   
+    baseUrlEndPoint: 'https://www.mavil.site/api',
+    baseUrlDwfile: 'https://www.mavil.site/getrxdoc',
+    baseUrlDwfileNode: 'https://www.mavil.site/getrxdocnode',
+    tomcat: 'https://www.mavil.site/tomcat/reports',
+    socket: 'https://www.mavil.site'
 };

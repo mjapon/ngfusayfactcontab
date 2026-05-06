@@ -51,7 +51,8 @@ import {PcontableCierreComponent} from './components/contabilidad/periodocontabl
 import {PcontableNewComponent} from './components/contabilidad/periodocontable/apertura/pcontablenew.component';
 import {CuentasxcpComponent} from './components/transac/facturas/cuentasxcp/cuentasxcp.component';
 import {ParametrosComponent} from './modules/sharedmed/parametros/parametros.component';
-// import {AdminGuard} from './guards/admin/admin.guard';
+import {authGuard} from './guards/auth.guard';
+import {AccountsPayableListComponent} from './components/transac/creditos/accounts-payable-list/accounts-payable-list.component';
 
 const finamod: CtesFinanService = new CtesFinanService();
 
@@ -61,38 +62,96 @@ const routes: Routes = [
     {path: 'lghome', component: LoggedHomeComponent},
     {
         path: 'mercaderia',
-        component: ArticulosListComponent
-        /*canActivate: [AdminGuard]*/
+        component: ArticulosListComponent,
+        canActivate: [authGuard],
+        data: {perml: ["PRODS_LISTAR"]}
     },
     {
         path: 'mercaderiaForm/:art_id',
         component: ArticulosFormComponent,
-        /*canActivate: [AdminGuard]*/
+        canActivate: [authGuard],
+        data: {perml: ["PRODS_LISTAR"]}
     },
     {
         path: 'mercaderiaView/:art_id',
         component: ArticulosViewComponent,
-        /*data: {perml: ['PRODS_DET_VIEW']}*/
+        canActivate: [authGuard],
+        data: {perml: ["PRODS_LISTAR"]}
     },
     {path: 'categorias', component: CategoriasComponent},
     {path: 'loginfacte', component: LoginfacteComponent},
     {path: 'homefacte', component: HomefacteComponent},
-    {path: 'tickets', component: TicketComponent},
-    {path: 'ticket/form', component: TicketformComponent},
+    {
+        path: 'tickets',
+        component: TicketComponent,
+        canActivate: [authGuard],
+        data: {perml: ["TK_LISTAR"]}
+
+    },
+    {
+        path: 'ticket/form',
+        component: TicketformComponent,
+        canActivate: [authGuard],
+        data: {perml: ["TK_LISTAR"]}
+    },
     {path: 'vtickets', component: IngegrComponent},
     {path: 'vtickets/form/:tipo', component: IngegrformComponent},
-    {path: 'historiaclinica/:tipo', component: CitasmedicasComponent},
-    {path: 'odonto', component: CitasodontoComponent},
+    {
+        path: 'historiaclinica/:tipo',
+        component: CitasmedicasComponent,
+        canActivate: [authGuard],
+        data: {perml: ["HIST_LISTAR"]}
+    },
+    {
+        path: 'odonto',
+        component: CitasodontoComponent,
+        canActivate: [authGuard],
+        data: {perml: ["HISTO_LISTAR"]}
+    },
     {path: 'roles', component: RoleslistComponent},
     {path: 'roles/form/:rl_id', component: RolesformComponent},
-    {path: 'usuarios', component: UserlistComponent},
-    {path: 'usuarios/form/:us_id', component: UserformComponent},
-    {path: 'agenda/:tipo', component: AgendaComponent},
-    {path: 'trndocs/:tipo', component: FacturaslistgenComponent},
-    {path: 'cuentasxcp/:tipo', component: CuentasxcpComponent},
-    {path: 'trndocform/:tracodigo/:acc', component: NewfacturaformComponent},
-    {path: 'referentes', component: ReferenteslistComponent},
-    {path: 'referentes/:codref', component: ReferenteviewComponent},
+    {
+        path: 'usuarios',
+        component: UserlistComponent,
+        canActivate: [authGuard],
+        data: {perml: ["US_LISTAR"]}
+    },
+    {
+        path: 'usuarios/form/:us_id',
+        component: UserformComponent,
+        canActivate: [authGuard],
+        data: {perml: ["US_LISTAR"]}
+    },
+    {
+        path: 'agenda/:tipo',
+        component: AgendaComponent,
+        canActivate: [authGuard],
+        data: {perml: ["AGN_LISTAR"]}
+    },
+    {
+        path: 'trndocs/:tipo',
+        component: FacturaslistgenComponent
+    },
+    {
+        path: 'cuentasxcp/:tipo',
+        component: CuentasxcpComponent
+    },
+    {
+        path: 'trndocform/:tracodigo/:acc',
+        component: NewfacturaformComponent
+    },
+    {
+        path: 'referentes',
+        component: ReferenteslistComponent,
+        canActivate: [authGuard],
+        data: {perml: ["REF_LISTAR"]}
+    },
+    {
+        path: 'referentes/:codref',
+        component: ReferenteviewComponent,
+        canActivate: [authGuard],
+        data: {perml: ["REF_LISTAR"]}
+    },
     {path: 'plancuentas', component: PlanctaslistComponent},
     {path: 'librodiario', component: LibrodiariolistComponent},
     {path: 'newasiento/:cod', component: LibrodiarioformComponent},
@@ -102,14 +161,38 @@ const routes: Routes = [
     {path: 'contabilidad/periodo/cierre', component: PcontableCierreComponent},
     {path: 'contabilidad/periodo/apertura', component: PcontableNewComponent},
     {path: 'utilventas', component: UtilidadesComponent},
-    {path: 'reportes', component: ReportesComponent},
+    {
+        path: 'reportes',
+        component: ReportesComponent,
+        canActivate: [authGuard],
+        data: {perml: ["REP_ADM"]}
+    },
     {path: 'cierrecaja', component: CierrecajaComponent},
-    {path: finamod.rutaHome, component: FinanCredListComponent},
-    {path: finamod.rutaCreaCred, component: FinanCredFormComponent},
-    {path: finamod.rutaDetCred, component: FinanCredDetComponent},
-    {path: finamod.rutaAperturaCta, component: FinanCuentasComponent},
-    {path: finamod.rutaMovsCta, component: FinanMovsFormComponent},
-    {path: 'parametros', component: ParametrosComponent},
+    {path: finamod.rutaHome, component: FinanCredListComponent,
+        canActivate: [authGuard],
+        data: {perml: ["FIN_CRED_LIST"]}
+    },
+    {path: finamod.rutaCreaCred, component: FinanCredFormComponent,
+        canActivate: [authGuard],
+        data: {perml: ["FIN_CRED_LIST"]}
+    },
+    {path: finamod.rutaDetCred, component: FinanCredDetComponent,
+        canActivate: [authGuard],
+        data: {perml: ["FIN_CRED_LIST"]}
+    },
+    {path: finamod.rutaAperturaCta, component: FinanCuentasComponent,
+        canActivate: [authGuard],
+        data: {perml: ["FIN_CRED_LIST"]}
+    },
+    {path: finamod.rutaMovsCta, component: FinanMovsFormComponent,
+        canActivate: [authGuard],
+        data: {perml: ["FIN_CRED_LIST"]}
+    },
+    {path: 'parametros', component: ParametrosComponent,
+        canActivate: [authGuard],
+        data: {perml: ["APP_CONFIG"]}
+    },
+    {path: 'cuentas-por-pagar', component: AccountsPayableListComponent},
     {path: '**', component: HomeComponent}];
 
 @NgModule({
