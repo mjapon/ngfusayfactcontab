@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    baseUrlEndPoint: 'http://127.0.0.1:6543/api',
+    baseUrlEndPoint: '/api',
     baseUrlDwfile: 'http://127.0.0.1:6543/getrxdoc',
     baseUrlDwfileNode: 'http://127.0.0.1:3010',
     tomcat: 'http://localhost:8080/reports',

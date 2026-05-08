@@ -86,6 +86,7 @@
               "buildTarget": "sysprint:build:production"
             },
             "development": {
+              "proxyConfig": "proxy.conf.json",
               "buildTarget": "sysprint:build:development"
             }
           },
