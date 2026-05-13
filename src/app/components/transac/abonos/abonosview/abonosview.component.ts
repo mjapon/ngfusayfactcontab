@@ -1,12 +1,12 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {AbonoService} from '../../../../services/abono.service';
-import {CreditoService} from '../../../../services/credito.service';
-import {LoadingUiService} from '../../../../services/loading-ui.service';
-import {DomService} from '../../../../services/dom.service';
-import {SwalService} from '../../../../services/swal.service';
-import {AsientoService} from '../../../../services/asiento.service';
-import {CtesService} from '../../../../services/ctes.service';
-import {RegexUtilService} from '../../../../services/shared/regex-util.service';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AbonoService } from '../../../../services/abono.service';
+import { CreditoService } from '../../../../services/credito.service';
+import { LoadingUiService } from '../../../../services/loading-ui.service';
+import { DomService } from '../../../../services/dom.service';
+import { SwalService } from '../../../../services/swal.service';
+import { AsientoService } from '../../../../services/asiento.service';
+import { CtesService } from '../../../../services/ctes.service';
+import { RegexUtilService } from '../../../../services/shared/regex-util.service';
 
 @Component({
     selector: 'app-abonosview',
@@ -16,8 +16,10 @@ export class AbonosviewComponent implements OnInit, OnChanges {
 
     @Input() codFactura: number;
     @Input() codCredito: number;
+    @Input() showDetalles: boolean = true;
     @Output() evDeudaChange = new EventEmitter<any>();
     @Output() evCerrar = new EventEmitter<any>();
+    @Output() evShowDetalles = new EventEmitter<any>();
 
     @ViewChild('abonarDiv') abonarDiv: any;
 
@@ -45,13 +47,13 @@ export class AbonosviewComponent implements OnInit, OnChanges {
     maxCharacters = 200;
 
     constructor(private abonoService: AbonoService,
-                private domService: DomService,
-                private regexUtilService: RegexUtilService,
-                private ctes: CtesService,
-                private swalService: SwalService,
-                private loadingService: LoadingUiService,
-                private asientoService: AsientoService,
-                private creditoService: CreditoService) {
+        private domService: DomService,
+        private regexUtilService: RegexUtilService,
+        private ctes: CtesService,
+        private swalService: SwalService,
+        private loadingService: LoadingUiService,
+        private asientoService: AsientoService,
+        private creditoService: CreditoService) {
     }
 
     ngOnInit(): void {
@@ -193,14 +195,17 @@ export class AbonosviewComponent implements OnInit, OnChanges {
     }
 
     showFactura() {
-        const tracod = this.datosFactura.tasiento.tra_codigo;
-        const isfactura = tracod === 1 || tracod === 2 || tracod === 7;
+        if (this.showDetalles) {
+            const tracod = this.datosFactura.tasiento.tra_codigo;
+            const isfactura = tracod === 1 || tracod === 2 || tracod === 7;
 
-        if (isfactura) {
-            this.isShowFactura = true;
-        } else {
-            this.isShowAsiento = true;
+            if (isfactura) {
+                this.isShowFactura = true;
+            } else {
+                this.isShowAsiento = true;
+            }
         }
+        this.evShowDetalles.emit(true);
     }
 
     anularAbono(abono) {
@@ -242,7 +247,7 @@ export class AbonosviewComponent implements OnInit, OnChanges {
 
     scrollToDivAbonar() {
         setTimeout(() => {
-            this.abonarDiv.nativeElement.scrollIntoView({behavior: 'smooth'});
+            this.abonarDiv.nativeElement.scrollIntoView({ behavior: 'smooth' });
         }, 400);
     }
 

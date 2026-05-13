@@ -49,10 +49,10 @@ import {LoginfacteComponent} from './components/facte/loginfacte/loginfacte.comp
 import {HomefacteComponent} from './components/facte/homefacte/homefacte.component';
 import {PcontableCierreComponent} from './components/contabilidad/periodocontable/cierre/pcontablecierre.component';
 import {PcontableNewComponent} from './components/contabilidad/periodocontable/apertura/pcontablenew.component';
-import {CuentasxcpComponent} from './components/transac/facturas/cuentasxcp/cuentasxcp.component';
 import {ParametrosComponent} from './modules/sharedmed/parametros/parametros.component';
 import {authGuard} from './guards/auth.guard';
-import {AccountsPayableListComponent} from './components/transac/creditos/accounts-payable-list/accounts-payable-list.component';
+import {AccountsPayableListComponent} from './components/transac/creditos/provs/accounts-payable-list/accounts-payable-list.component';
+import { AuxcuentasxcpComponent } from './components/transac/facturas/cuentasxcp/auxcuentasxcp.component';
 
 const finamod: CtesFinanService = new CtesFinanService();
 
@@ -134,7 +134,7 @@ const routes: Routes = [
     },
     {
         path: 'cuentasxcp/:tipo',
-        component: CuentasxcpComponent
+        component: AuxcuentasxcpComponent
     },
     {
         path: 'trndocform/:tracodigo/:acc',

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CreditoService} from '../../../../services/credito.service';
 import {FechasService} from '../../../../services/fechas.service';
@@ -14,7 +14,7 @@ import {SwalService} from '../../../../services/swal.service';
     styleUrls: ['./cuentaxcp.component.scss']
 })
 export class CuentasxcpComponent implements OnInit {
-    tipo: number;
+    @Input() tipo: number;
     title: any;
     filtro: string;
     isLoading: boolean;
@@ -42,9 +42,7 @@ export class CuentasxcpComponent implements OnInit {
                 private swalService: SwalService,
                 private domService: DomService,
                 private route: ActivatedRoute) {
-        this.route.paramMap.subscribe(params => {
-            this.tipo = parseInt(params.get('tipo'), 10);
-        });
+        
         this.tipospagos = this.creditoService.getTiposPagos();
     }
 

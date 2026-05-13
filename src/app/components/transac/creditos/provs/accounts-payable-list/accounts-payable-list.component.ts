@@ -1,13 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
-import {BaseComponent} from '../../../shared/base.component';
-import {SwalService} from '../../../../services/swal.service';
-import {DomService} from '../../../../services/dom.service';
-import {PersonaService} from '../../../../services/persona.service';
-import {CreditoService} from '../../../../services/credito.service';
-import {FechasService} from '../../../../services/fechas.service';
-import {ExportgridService} from '../../../../services/exportgrid.service';
-import {ExcelUtilService} from '../../../../services/utils/excelutil.service';
+import {BaseComponent} from '../../../../shared/base.component';
+import {SwalService} from '../../../../../services/swal.service';
+import {DomService} from '../../../../../services/dom.service';
+import {PersonaService} from '../../../../../services/persona.service';
+import {CreditoService} from '../../../../../services/credito.service';
+import {FechasService} from '../../../../../services/fechas.service';
+import {ExportgridService} from '../../../../../services/exportgrid.service';
+import {ExcelUtilService} from '../../../../../services/utils/excelutil.service';
 import {Table, TableLazyLoadEvent} from 'primeng/table';
 
 @Component({
@@ -26,6 +26,7 @@ export class AccountsPayableListComponent extends BaseComponent implements OnIni
 
     proveedores: any[] = [];
     selectedProveedor: any = null;
+    selectedRows: Set<any> = new Set();
 
     gridData: any = {
         cols: [],
@@ -39,6 +40,8 @@ export class AccountsPayableListComponent extends BaseComponent implements OnIni
     totalRecords = 0;
     isLoading = false;
     isDownloading = false;
+    activeTabIndex = 0;
+    tipoCuentasPorPagar = 2;
 
     protected readonly Math = Math;
 
@@ -48,6 +51,7 @@ export class AccountsPayableListComponent extends BaseComponent implements OnIni
                 private personaService: PersonaService,
                 private creditoService: CreditoService,
                 private fechasService: FechasService,
+                private SwalService: SwalService,
                 private exportgridService: ExportgridService,
                 private excelService: ExcelUtilService) {
         super();
@@ -63,6 +67,11 @@ export class AccountsPayableListComponent extends BaseComponent implements OnIni
         this.personaService.listarProveedores().subscribe(res => {
             if (res.status === 200) {
                 this.proveedores = res.items;
+                //A la fila en this.proveedores tal que per_id sea -2 le cambiamos per_nombres por 'TODOS
+                const todosIndex = this.proveedores.findIndex((prov: any) => prov.per_id === -2);
+                if (todosIndex !== -1) {
+                    this.proveedores[todosIndex].per_nombres = 'TODOS';
+                }
             }
         });
     }
@@ -165,7 +174,29 @@ export class AccountsPayableListComponent extends BaseComponent implements OnIni
     }
 
     gotoCreate() {
-        console.log('Navegar a creación');
+        const items = this.selectedRows.size > 0 ? Array.from(this.selectedRows) : [];
+        this.swalService.fireDialog('¿Confirma que desea crear cuentas por pagar para los proveedores listados?', '').then(confirm => {
+            if (confirm.value) {
+                let from = '';
+                let to = '';
+                if (this.form.desde) {
+                    from = this.fechasService.formatDate(this.form.desde);
+                }
+                if (this.form.hasta) {
+                    to = this.fechasService.formatDate(this.form.hasta);
+                }                
+                const formdata = {from, to, items};
+                this.creditoService.crearCuentasPorPagarProvs(formdata).subscribe(res => {
+                    if (res.status === 200) {
+                        this.swalService.fireToastSuccess(res.msg);
+                        this.loadData();
+                    }else { 
+                        this.swalService.fireToastError(res.msg);
+                    }
+                });
+            }
+        });
+        
     }
 
     applyFilter() {
@@ -180,6 +211,34 @@ export class AccountsPayableListComponent extends BaseComponent implements OnIni
             this.form.hasta = new Date();
         }
         this.loadData();
+    }
+
+    toggleRowSelection(row: any) {
+        if (this.selectedRows.has(row)) {
+            this.selectedRows.delete(row);
+        } else {
+            this.selectedRows.add(row);
+        }
+    }
+
+    toggleSelectAll() {
+        if (this.isAllSelected()) {
+            this.selectedRows.clear();
+        } else {
+            this.gridData.data.forEach((row: any) => this.selectedRows.add(row));
+        }
+    }
+
+    isAllSelected(): boolean {
+        return this.gridData.data.length > 0 && this.selectedRows.size === this.gridData.data.length;
+    }
+
+    isRowSelected(row: any): boolean {
+        return this.selectedRows.has(row);
+    }
+
+    onRowDblClick(rowData: any) {
+        // Implementar lógica de doble click
     }
 
     exportToPdf() {

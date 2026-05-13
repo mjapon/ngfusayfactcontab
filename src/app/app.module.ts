@@ -145,6 +145,7 @@ import {ListadorefsComponent} from './components/referentes/listadorefs/listador
 import {AccordionModule} from 'primeng/accordion';
 import {MarklabelComponent} from './components/shared/marklabel/marklabel.component';
 import {CuentasxcpComponent} from './components/transac/facturas/cuentasxcp/cuentasxcp.component';
+import {AuxcuentasxcpComponent} from './components/transac/facturas/cuentasxcp/auxcuentasxcp.component';
 import {GradientBgDirective} from './modules/sharedmed/gradientdiv/gradientbg';
 import {GradientShadowBgDirective} from './modules/sharedmed/gradientdiv/shadowbg';
 import {AnimIcoDirective} from './modules/sharedmed/gradientdiv/animico';
@@ -162,7 +163,8 @@ import {KnobModule} from 'primeng/knob';
 import {EstmedcardComponent} from './modules/medico/estmedcard/estmedcard.component';
 import {WeekViewComponent} from './modules/mavilcalendar/week-view/week-view.component';
 import {BsTooltipDirective} from './directivas/bs-tooltip.directive';
-import {AccountsPayableListComponent} from './components/transac/creditos/accounts-payable-list/accounts-payable-list.component';
+import {AccountsPayableListComponent} from './components/transac/creditos/provs/accounts-payable-list/accounts-payable-list.component';
+import { SupplirAccountsPayableListComponent } from './components/transac/creditos/provs/supplir-accounts-payable-list/supplir-accounts-payable-list.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -239,6 +241,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         CategoriasComponent,
         FacturaslistgenComponent,
         CuentasxcpComponent,
+        AuxcuentasxcpComponent,
         IngegrComponent,
         IngegrformComponent,
         AsientoviewComponent,
@@ -276,7 +279,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         IngegrformEditComponent,
         EstadisticasmedComponent,
         WeekViewComponent,
-        AccountsPayableListComponent
+        AccountsPayableListComponent,
+        SupplirAccountsPayableListComponent
     ],
     imports: [
         CommonModule,
