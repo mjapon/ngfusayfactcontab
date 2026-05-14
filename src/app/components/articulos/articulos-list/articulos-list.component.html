@@ -3,44 +3,64 @@
     Productos y servicios </h1>
 
 <div class="row">
-    <div class="col-md-6">
-        <div class="input-group">
-            <input type="text" class="form-control" id="buscaInput" (keyup)="doFilter($event)" [(ngModel)]="filtro"
-                   placeholder="Buscar artículo por codigo de barra o por nombre">
-            <button class="btn btn-outline-primary" type="button" id="buttonSearh" (click)="listar()"
-                    title="Buscar producto o servicio">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </div>
+    <div class="col-md-4 d-flex align-items-end">        
+        <input type="text" class="form-control" id="buscaInput" (keyup)="doFilter($event)" [(ngModel)]="filtro"
+                   placeholder="Buscar artículo por codigo de barra o por nombre"/>
     </div>
     <div class="col">
-        <p-dropdown [options]="sections" optionLabel="sec_nombre" [(ngModel)]="selectedSection"
+        <span class="text-body-secondary m-0">Sección:</span>
+        <p-dropdown [options]="sections" optionLabel="sec_nombre" [(ngModel)]="selectedSection" styleClass="w-100"
                     (onChange)="listar()"></p-dropdown>
     </div>
     <div class="col">
+        <label class="text-body-secondary m-0">Categoría:</label>
         <p-dropdown [options]="categorias" id="catic_id"
                     [(ngModel)]="selectedCat"
                     filter="true"
+                    [showClear]="true"
                     optionLabel="catic_nombre"
                     optionValue="catic_id"
+                    placeholder="Todas las categorías"
                     (onChange)="listar()"
+                    styleClass="w-100"
                     inputId="catic_id"></p-dropdown>
     </div>
-    <div class="col d-flex justify-content-end">
-        <div class="btn-group" role="group" aria-label="Default button group">
-            <button type="button" class="btn btn-outline-primary" (click)="goToForm()"
-                    title="Registrar un nuevo producto o servicio">
-                Crear <i class="fa-solid fa-plus"></i>
+    <div class="col">
+        <label class="text-body-secondary m-0">Proveedor:</label>
+        <p-dropdown [options]="proveedores" id="proveedor_id"
+                    [(ngModel)]="selectedProveedor"
+                    filter="true"
+                    optionLabel="per_nombres"
+                    [showClear]="true"
+                    placeholder="Todos los proveedores"
+                    (onChange)="listar()"
+                    styleClass="w-100"
+                    inputId="proveedor_id"></p-dropdown>
+    </div>
+    <div class="col d-flex align-items-end justify-content-center">                
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-primary" (click)="limpiarFiltros()"                    
+                    title="Limpiar filtros" [disabled]="!hasFilters()">
+                    <i class="fa-solid fa-filter-circle-xmark"></i>
             </button>
-        </div>
+                <button type="button" class="btn btn-outline-primary" (click)="listar()"
+                        title="Buscar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+            </button>         
+            <button type="button" class="btn btn-outline-primary" (click)="goToForm()"
+                        title="Crear nuevo producto o servicio">
+                        <i class="fa-solid fa-circle-plus"></i>
+            </button>
+        </div>        
     </div>
 </div>
+
 <div class="mt-2">
     <p-table [value]="grid.data" [paginator]="true" [rows]="rows" selectionMode="single" [(selection)]="selectedItem"
              [(contextMenuSelection)]="selectedItem"
              responsiveLayout="scroll"
-             scrollHeight="calc(100vh - 235px)"
-             paginatorPosition="top"
+             scrollHeight="calc(100vh - 240px)"
+             paginatorPosition="top"             
              [resizableColumns]="true"
              (onRowSelect)="onRowSelect($event)"
              (onRowUnselect)="onUnRowSelect($event)"
@@ -75,7 +95,7 @@
                 </td>
                 <td class="fstbpadtit">
                     <button (click)="viewItem(rowData)" class="btn btn-outline-primary btn-sm"
-                            title="Ver detalles del producto o servicio"><i class="fa fa-eye"></i></button>
+                            title="Ver detalles"><i class="fa-solid fa-circle-info"></i></button>
                 </td>
             </tr>
         </ng-template>

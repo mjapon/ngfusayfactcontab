@@ -69,13 +69,14 @@ export class ArticuloService extends BaseService {
         return this.doPost(this.http, endpoint, httpOptions, {});
     }
 
-    listar(pfiltro: string, secId: number, codcat: number): Observable<any> {
+    listar(pfiltro: string, secId: number, codcat: number, provId: number = 0): Observable<any> {
         const endopoint = this.urlEndPoint;
         const httpOptions = this.getHOT({
             accion: this.ctes.listar,
             filtro: pfiltro,
             sec_id: secId,
-            codcat
+            codcat,
+            prov: provId
         });
         return this.http.get(endopoint, httpOptions).pipe(
             map((response: any) => {

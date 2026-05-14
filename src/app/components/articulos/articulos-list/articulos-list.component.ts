@@ -13,6 +13,7 @@ import {ArrayutilService} from '../../../services/arrayutil.service';
 import {CtesService} from '../../../services/ctes.service';
 import {ExcelUtilService} from '../../../services/utils/excelutil.service';
 import {ExportgridService} from '../../../services/exportgrid.service';
+import {PersonaService} from '../../../services/persona.service';
 
 @Component({
     selector: 'app-articulos-list',
@@ -21,33 +22,37 @@ import {ExportgridService} from '../../../services/exportgrid.service';
 })
 export class ArticulosListComponent implements OnInit {
 
-    filtro: string;
+    filtro: string = '';
     grid: any = {};
-    //items: Array<any>;
-    //cols: Array<any>;
     selectedItem: any;
-    enableBtns: boolean;
+    enableBtns = false;
     page = 0;
     rows = 12;
-
-    itemsCtxMenu: MenuItem[];
-    sections: Array<any>;
+    sections: Array<any> = [];
     selectedSection: any;
     previustimer: any = 0;
-    loadingArts: boolean;
-    selectedCat = 0;
-    categorias: Array<any>;
+    loadingArts: boolean = false;
+    selectedCat: any = null;
+    categorias: Array<any> = [];
     totales: any;
 
-    isLoading: boolean;
+    isLoading: boolean = false;
     isDownloading = false;
     totalRecord = 0;
+    proveedores: Array<any> = [];
+    selectedProveedor: any = null;
+    itemsCtxMenu: MenuItem[] = [
+            {label: 'Ver detalles', icon: 'fa fa-eye', command: (event) => this.viewItem(this.selectedItem)},
+            {label: 'Editar', icon: 'fa fa-pencil', command: (event) => this.editItem(this.selectedItem)},
+            {label: 'Eliminar', icon: 'fa fa-trash', command: (event) => this.deleteItem(this.selectedItem)}
+        ];
 
     constructor(private artsService: ArticuloService,
                 private catsService: CategoriasService,
                 private domService: DomService,
                 private swalService: SwalService,
                 private loadinUiServ: LoadingUiService,
+                private personaService: PersonaService,
                 private seccionService: SeccionService,
                 private arrayService: ArrayutilService,
                 private excelService: ExcelUtilService,
@@ -62,17 +67,11 @@ export class ArticulosListComponent implements OnInit {
         this.isLoading = true;
         this.totales = {};
         this.categorias = [];
-        // this.items = new Array<any>();
-        // this.cols = new Array<any>();
-        this.filtro = '';
-        this.itemsCtxMenu = [
-            {label: 'Ver detalles', icon: 'fa fa-eye', command: (event) => this.viewItem(this.selectedItem)},
-            {label: 'Editar', icon: 'fa fa-pencil', command: (event) => this.editItem(this.selectedItem)},
-            {label: 'Eliminar', icon: 'fa fa-trash', command: (event) => this.deleteItem(this.selectedItem)}
-        ];
+        this.filtro = '';        
         const seccionObs = this.seccionService.listarUserSecs();
         const catsObs = this.catsService.listar();
-        forkJoin([seccionObs, catsObs]).subscribe(res => {
+        const proveedoresObs = this.personaService.listarProveedores();
+        forkJoin([seccionObs, catsObs, proveedoresObs]).subscribe(res => {
             if (res[0].status === 200) {
                 this.sections = res[0].items;
                 this.selectedSection = this.sections[0];
@@ -90,6 +89,9 @@ export class ArticulosListComponent implements OnInit {
             }
             if (res[1].status === 200) {
                 this.categorias = res[1].items;
+            }
+            if (res[2].status === 200) {
+                this.proveedores = res[2].items;
             }
             this.listar();
             this.isLoading = false;
@@ -210,8 +212,12 @@ export class ArticulosListComponent implements OnInit {
         if (this.selectedCat) {
             codcat = this.selectedCat;
         }
+        let provId = 0;
+        if (this.selectedProveedor) {
+            provId = this.selectedProveedor.per_id;
+        }
         this.totalRecord = 0;
-        this.artsService.listar(this.filtro, secId, codcat)
+        this.artsService.listar(this.filtro, secId, codcat, provId)
             .subscribe(response => {
                 this.loadingArts = false;
                 if (response.status === 200) {
@@ -235,6 +241,17 @@ export class ArticulosListComponent implements OnInit {
 
     onDobleClick(rowData) {
         this.viewItem(rowData);
+    }
+
+    hasFilters(): boolean {
+        return this.filtro !== '' || this.selectedCat !== null || this.selectedProveedor !== null;
+    }
+
+    limpiarFiltros() {
+        this.filtro = '';
+        this.selectedCat = null;
+        this.selectedProveedor = null;
+        this.listar();
     }
 
     protected readonly Math = Math;
