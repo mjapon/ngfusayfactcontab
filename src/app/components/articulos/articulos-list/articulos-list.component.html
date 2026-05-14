@@ -1,19 +1,22 @@
 <h1 class="bd-title">
     <i class="fa-solid fa-boxes-stacked"></i>
-    Productos y servicios </h1>
+    Productos y servicios
+</h1>
 
-<div class="row">
-    <div class="col-md-4 d-flex align-items-end">        
+<!-- SECCIÓN DE FILTROS -->
+<div class="row g-3 mb-3">
+    <div class="col-12 col-md-3">
+        <label class="form-label text-body-secondary">Búsqueda:</label>
         <input type="text" class="form-control" id="buscaInput" (keyup)="doFilter($event)" [(ngModel)]="filtro"
-                   placeholder="Buscar artículo por codigo de barra o por nombre"/>
+               placeholder="Código de barra o nombre"/>
     </div>
-    <div class="col">
-        <span class="text-body-secondary m-0">Sección:</span>
+    <div class="col-12 col-md-3">
+        <label class="form-label text-body-secondary">Sección:</label>
         <p-dropdown [options]="sections" optionLabel="sec_nombre" [(ngModel)]="selectedSection" styleClass="w-100"
                     (onChange)="listar()"></p-dropdown>
     </div>
-    <div class="col">
-        <label class="text-body-secondary m-0">Categoría:</label>
+    <div class="col-12 col-md-3">
+        <label class="form-label text-body-secondary">Categoría:</label>
         <p-dropdown [options]="categorias" id="catic_id"
                     [(ngModel)]="selectedCat"
                     filter="true"
@@ -25,8 +28,8 @@
                     styleClass="w-100"
                     inputId="catic_id"></p-dropdown>
     </div>
-    <div class="col">
-        <label class="text-body-secondary m-0">Proveedor:</label>
+    <div class="col-12 col-md-3">
+        <label class="form-label text-body-secondary">Proveedor:</label>
         <p-dropdown [options]="proveedores" id="proveedor_id"
                     [(ngModel)]="selectedProveedor"
                     filter="true"
@@ -37,21 +40,21 @@
                     styleClass="w-100"
                     inputId="proveedor_id"></p-dropdown>
     </div>
-    <div class="col d-flex align-items-end justify-content-center">                
-        <div class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-primary" (click)="limpiarFiltros()"                    
-                    title="Limpiar filtros" [disabled]="!hasFilters()">
-                    <i class="fa-solid fa-filter-circle-xmark"></i>
-            </button>
-                <button type="button" class="btn btn-outline-primary" (click)="listar()"
-                        title="Buscar">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-            </button>         
-            <button type="button" class="btn btn-outline-primary" (click)="goToForm()"
-                        title="Crear nuevo producto o servicio">
-                        <i class="fa-solid fa-circle-plus"></i>
-            </button>
-        </div>        
+</div>
+
+<!-- SECCIÓN DE ACCIONES -->
+<div class="row mb-3">
+    <div class="col-12 d-flex justify-content-start gap-2">
+        <button type="button" class="btn btn-outline-danger" (click)="limpiarFiltros()"                    
+                title="Limpiar filtros" [disabled]="!hasFilters()">
+                <i class="fa-solid fa-filter-circle-xmark"></i>
+                Limpiar filtros
+        </button>
+        <button type="button" class="btn btn-primary" (click)="goToForm()"
+                title="Crear nuevo producto o servicio">
+                <i class="fa-solid fa-circle-plus"></i>
+                Crear nuevo
+        </button>
     </div>
 </div>
 
@@ -59,7 +62,7 @@
     <p-table [value]="grid.data" [paginator]="true" [rows]="rows" selectionMode="single" [(selection)]="selectedItem"
              [(contextMenuSelection)]="selectedItem"
              responsiveLayout="scroll"
-             scrollHeight="calc(100vh - 240px)"
+             scrollHeight="calc(100vh - 305px)"
              paginatorPosition="top"             
              [resizableColumns]="true"
              (onRowSelect)="onRowSelect($event)"
