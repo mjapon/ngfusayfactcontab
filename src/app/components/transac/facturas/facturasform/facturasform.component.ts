@@ -55,6 +55,7 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
     @Input() showreferente = true;
     @Input() showtotales = true;
     @Input() showbuttons = true;
+    @Input() showpagos = true;
 
     @Output() evTotalesUpd = new EventEmitter<any>();
     @Output() evGuardarOk = new EventEmitter<any>();

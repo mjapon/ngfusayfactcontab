@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {BaseService} from './base-service';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
+import { DomService } from './dom.service';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +10,8 @@ import {LocalStorageService} from './local-storage.service';
 export class AbonoService extends BaseService {
     constructor(
         protected http: HttpClient,
-        protected localStrgServ: LocalStorageService
+        protected localStrgServ: LocalStorageService,
+        protected domService: DomService,
     ) {
         super('/tasiabono', localStrgServ, http);
     }
@@ -30,4 +32,17 @@ export class AbonoService extends BaseService {
         const form = {codabo, obs};
         return this._doPost(this.getHOT({accion: 'anular'}), form);
     }
+
+    buildDetallesAbono(codprov:number, creditos:string, montoAbonar:number){
+        return {
+            'codprov':codprov,
+            'creditos': creditos,
+            'montoabonar': montoAbonar
+        }
+    }
+
+    abonarCreditosProvs(formdata: any){
+        return this._doPostAction('abonar_creditos_prov', formdata);
+    }
+
 }

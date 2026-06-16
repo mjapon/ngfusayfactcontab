@@ -113,7 +113,7 @@ export class CtesService {
     protected MsgConfirmEditReg = '¿Confirma que desea editar este registro?';
     public MsgConfirmUpdateReg = '¿Confirma que desea actualizar este registro?';
     public MsgConfirmCreateReg = '¿Confirma que desea crear este registro?';
-    protected MsgConfirmNotaCred = '¿Confirma que desea emitir una nota de crédito por la totalidad de esta factura?'
+    protected MsgConfirmNotaCred = '¿Confirma que desea emitir una nota de crédito por la totalidad de esta factura?';
     protected MsgConfirmSave = '¿Confirma que desea registrar la información ingresada?';
     protected MsgDataIncompleteRef = 'Datos incompletos del referente, favor completar';
     protected MsgDatosIncorr = 'Datos Incorrectos';
@@ -141,6 +141,7 @@ export class CtesService {
     protected MsgSureWishEditRecord = '¿Seguro que desea editar este registro?';
     protected MsgSureWishRemoveCat = '¿Seguro que desea anular esta categoría?';
     protected MsgSureWishRemveItemFact = '¿Seguro que desea quitar este item de la factura?';
+    protected MsgConfirmCreateAboFromVenta = '¿Confirma que desea realizar abonos a los proveedores con las ventas seleccionadas?';
     protected MsgVerifInfo = 'Verifique la información ingresada';
     protected MsgWishPrint = '¿Desea imprimir?';
     protected NombreInput = 'nombreInput';
@@ -170,6 +171,8 @@ export class CtesService {
     protected UrlTomcat = environment.tomcat;
     protected UrlFilesAttach = environment.baseUrlDwfile;
     protected Verifcodbar = 'verifcodbar';
+
+    public TRACODCOMRA = 7;
 
     get _blank() {
         return this.Blank;
@@ -810,6 +813,10 @@ export class CtesService {
 
     get verifcodbar() {
         return this.Verifcodbar;
+    }
+
+    get msgConfirmCreateAboFromVenta() {
+        return this.MsgConfirmCreateAboFromVenta;
     }
 
 

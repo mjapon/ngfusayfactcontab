@@ -1,14 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
 import {BaseComponent} from '../../../../shared/base.component';
 import {SwalService} from '../../../../../services/swal.service';
-import {DomService} from '../../../../../services/dom.service';
 import {PersonaService} from '../../../../../services/persona.service';
 import {CreditoService} from '../../../../../services/credito.service';
 import {FechasService} from '../../../../../services/fechas.service';
-import {ExportgridService} from '../../../../../services/exportgrid.service';
-import {ExcelUtilService} from '../../../../../services/utils/excelutil.service';
-import {Table, TableLazyLoadEvent} from 'primeng/table';
+import {Table} from 'primeng/table';
+import {AbonoService} from 'src/app/services/abono.service';
+import {CtesService} from '../../../../../services/ctes.service';
+import {NumberService} from '../../../../../services/number.service';
 
 @Component({
     selector: 'app-accounts-payable-list',
@@ -33,41 +32,37 @@ export class AccountsPayableListComponent extends BaseComponent implements OnIni
         data: []
     };
 
-    filterText = '';    
+    filterText = '';
 
     rows = 15;
-    page = 0;    
+    page = 0;
     totalRecords = 0;
     isLoading = false;
     isDownloading = false;
-    activeTabIndex = 0;
-    tipoCuentasPorPagar = 2;
 
     protected readonly Math = Math;
 
-    constructor(private router: Router,
-                private swalService: SwalService,
-                private domService: DomService,
+    constructor(private swalService: SwalService,
+                private ctes: CtesService,
+                private numberService: NumberService,
                 private personaService: PersonaService,
                 private creditoService: CreditoService,
                 private fechasService: FechasService,
-                private SwalService: SwalService,
-                private exportgridService: ExportgridService,
-                private excelService: ExcelUtilService) {
+                private abonosService: AbonoService) {
         super();
     }
 
     ngOnInit(): void {
         this.isLoading = true;
-        this.loadProveedores();
-        this.loadData();        
+        const newLocal = this;
+        newLocal.loadProveedores();
+        this.loadData();
     }
 
     loadProveedores() {
         this.personaService.listarProveedores().subscribe(res => {
             if (res.status === 200) {
                 this.proveedores = res.items;
-                //A la fila en this.proveedores tal que per_id sea -2 le cambiamos per_nombres por 'TODOS
                 const todosIndex = this.proveedores.findIndex((prov: any) => prov.per_id === -2);
                 if (todosIndex !== -1) {
                     this.proveedores[todosIndex].per_nombres = 'TODOS';
@@ -78,10 +73,12 @@ export class AccountsPayableListComponent extends BaseComponent implements OnIni
 
     loadData() {
         this.isLoading = true;
-        this.dataTable?.reset();
+        // this.dataTable?.reset();
+        this.updateTable();
     }
 
     updateTable() {
+        this.selectedRows = new Set();
         this.isLoading = true;
         let desde = '';
         let hasta = '';
@@ -97,19 +94,10 @@ export class AccountsPayableListComponent extends BaseComponent implements OnIni
         this.creditoService.listarGridCxpProvs(desde, hasta, provId, this.rows, this.page).subscribe(res => {
             if (res.status === 200) {
                 this.gridData = res.report;
-                if (res.report.total) {
-                    this.totalRecords = res.report.total;
-                }
+                this.totalRecords = this.gridData.data.length;
             }
             this.isLoading = false;
         });
-    }
-
-    doLazyLoad($event: TableLazyLoadEvent) {
-        if (this.form && $event.first !== undefined) {
-            this.page = $event.first;
-            this.updateTable();
-        }
     }
 
     getBodyToExport(griddata: any) {
@@ -132,6 +120,7 @@ export class AccountsPayableListComponent extends BaseComponent implements OnIni
         };
     }
 
+    /*
     exportDataToPdf(griddata: any, self: any) {
         self.exportgridService.exportListPDF(self.getBodyToExport(griddata))
             .subscribe((res: ArrayBuffer) => {
@@ -160,7 +149,7 @@ export class AccountsPayableListComponent extends BaseComponent implements OnIni
                 hasta = this.fechasService.formatDate(this.form.hasta);
             }
             const provId = this.selectedProveedor ? this.selectedProveedor.per_id : 0;
-            
+
             this.creditoService.listarGridCxpProvsForExport(desde, hasta, provId, this.rows, this.page).subscribe(res => {
                 this.isDownloading = false;
                 if (res.status === 200) {
@@ -171,11 +160,11 @@ export class AccountsPayableListComponent extends BaseComponent implements OnIni
             this.swalService.fireToastError('Puede descargar un máximo de ' + mxreport +
                 ' filas, favor ingrese mas filtros de búsqueda');
         }
-    }
+    }*/
 
     gotoCreate() {
         const items = this.selectedRows.size > 0 ? Array.from(this.selectedRows) : [];
-        this.swalService.fireDialog('¿Confirma que desea crear cuentas por pagar para los proveedores listados?', '').then(confirm => {
+        this.swalService.fireDialog(this.ctes.msgConfirmCreateAboFromVenta, '').then(confirm => {
             if (confirm.value) {
                 let from = '';
                 let to = '';
@@ -184,24 +173,20 @@ export class AccountsPayableListComponent extends BaseComponent implements OnIni
                 }
                 if (this.form.hasta) {
                     to = this.fechasService.formatDate(this.form.hasta);
-                }                
+                }
                 const formdata = {from, to, items};
-                this.creditoService.crearCuentasPorPagarProvs(formdata).subscribe(res => {
+                this.abonosService.abonarCreditosProvs(formdata).subscribe(res => {
                     if (res.status === 200) {
                         this.swalService.fireToastSuccess(res.msg);
                         this.loadData();
-                    }else { 
+                    } else {
                         this.swalService.fireToastError(res.msg);
                     }
                 });
             }
         });
-        
     }
 
-    applyFilter() {
-        console.log('Filtrando por:', this.filterText);
-    }
 
     clearFilter() {
         this.filterText = '';
@@ -214,6 +199,10 @@ export class AccountsPayableListComponent extends BaseComponent implements OnIni
     }
 
     toggleRowSelection(row: any) {
+        if (!this.canSelectRow(row)) {
+            return;
+        }
+
         if (this.selectedRows.has(row)) {
             this.selectedRows.delete(row);
         } else {
@@ -222,30 +211,57 @@ export class AccountsPayableListComponent extends BaseComponent implements OnIni
     }
 
     toggleSelectAll() {
+        const selectableRows = this.getSelectableRows();
+
         if (this.isAllSelected()) {
-            this.selectedRows.clear();
+            selectableRows.forEach((row: any) => this.selectedRows.delete(row));
         } else {
-            this.gridData.data.forEach((row: any) => this.selectedRows.add(row));
+            selectableRows.forEach((row: any) => this.selectedRows.add(row));
         }
     }
 
     isAllSelected(): boolean {
-        return this.gridData.data.length > 0 && this.selectedRows.size === this.gridData.data.length;
+        const selectableRows = this.getSelectableRows();
+
+        return selectableRows.length > 0 && selectableRows.every((row: any) => this.selectedRows.has(row));
+    }
+
+    hasSelectableRows(): boolean {
+        return this.getSelectableRows().length > 0;
     }
 
     isRowSelected(row: any): boolean {
         return this.selectedRows.has(row);
     }
 
-    onRowDblClick(rowData: any) {
-        // Implementar lógica de doble click
+    canSelectRow(row: any): boolean {
+        return Number(row?.saldopend) > 0;
     }
 
+    private getSelectableRows(): any[] {
+        if (!this.gridData?.data || !Array.isArray(this.gridData.data)) {
+            return [];
+        }
+
+        return this.gridData.data.filter((row: any) => this.canSelectRow(row));
+    }
+
+    getTotalTotVentasPcByProv(prov: any): number {
+        if (!this.gridData?.data || !Array.isArray(this.gridData.data)) {
+            return 0;
+        }
+        const total = this.gridData.data
+            .filter((row: any) => row.prov === prov)
+            .reduce((total: number, row: any) => total + (Number(row.totventaspc) || 0), 0);
+        return this.numberService.round2(total);
+    }
+
+    /*
     exportToPdf() {
         this.loadDataToExport(this.exportDataToPdf);
     }
 
     exportToExcel() {
         this.loadDataToExport(this.exportDataToExcel);
-    }
+    }*/
 }

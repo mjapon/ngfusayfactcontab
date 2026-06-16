@@ -2,8 +2,6 @@ import {Injectable} from '@angular/core';
 import {BaseService} from './base-service';
 import {HttpClient} from '@angular/common/http';
 import {LocalStorageService} from './local-storage.service';
-import {FautService} from './faut.service';
-import {CtesService} from './ctes.service';
 
 @Injectable({
     providedIn: 'root'
@@ -22,15 +20,6 @@ export class CreditoService extends BaseService {
 
     getDatosCredito(codcred: number) {
         return this._doGet(this.getHOT({accion: 'gdet', codcred}));
-    }
-    
-    findCreditosProvs(tipopago:number, prov:any, limit: number, first: number){
-        const doexp = 0;
-        return this._doGet(this.getHOT({accion: 'gridprov', tipopago, prov, limit, first, doexp}));
-    }
-
-    findDetailCreditoProv(credprov:number){
-        return this._doGet(this.getHOT({accion: 'detailscredprov', credprov}));
     }
 
     listarGrid(tipo: number, desde: string, hasta: string, filtro: string, limit: number, first: number, tipopago: number) {
@@ -102,11 +91,6 @@ export class CreditoService extends BaseService {
     getTiposPagos() {
         return [{label: 'Con saldo pendiente', value: 1},
             {label: 'Créditos cancelados', value: 2}, {label: 'Todos', value: 0}];
-    }
-
-    crearCuentasPorPagarProvs(formdata: any){
-        return this._doPostAction('crea_deudas_provs', formdata);
-
     }
 
 }

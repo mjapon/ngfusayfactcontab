@@ -1,0 +1,13 @@
+<div class="py-3">
+    <h4 class="quitaPaddingMargin fw-bold">REGISTRO DE COMPRAS DE MERCADERIA</h4>
+</div>
+<div>
+    <app-facturasform [tracodigo]="tracodigo" [form]="form"
+                      [showtitulo]="false" [showreferente]="false"
+                      [showpagos]="false"
+                      [showbuttons]="false"
+                      (evCancela)="oncancelar()"
+                      (evGuardarOk)="onguardar()">
+    </app-facturasform>
+
+</div>

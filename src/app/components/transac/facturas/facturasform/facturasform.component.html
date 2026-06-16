@@ -3,8 +3,8 @@
 </div>
 <div *ngIf="!isLoading">
     <div>
-        <div class="border rounded p-2 mb-1">
-            <div *ngIf="showtitulo">
+        <div class="border rounded p-2 mb-1" *ngIf="showtitulo">
+            <div>
                 <div class="row">
                     <div class="col-md d-flex">
                         <h4 class="quitaPaddingMargin fw-bold">{{ ttransacc.tra_nombre }}</h4>
@@ -371,6 +371,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
+                        <div *ngIf="showpagos">
                             <div>
                                 <span>PAGOS:</span>
                             </div>
@@ -406,6 +407,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         </div>
                         <div class="col-md d-flex flex-column justify-content-between">
                             <div>

@@ -163,8 +163,12 @@ import {KnobModule} from 'primeng/knob';
 import {EstmedcardComponent} from './modules/medico/estmedcard/estmedcard.component';
 import {WeekViewComponent} from './modules/mavilcalendar/week-view/week-view.component';
 import {BsTooltipDirective} from './directivas/bs-tooltip.directive';
-import {AccountsPayableListComponent} from './components/transac/creditos/provs/accounts-payable-list/accounts-payable-list.component';
-import { SupplirAccountsPayableListComponent } from './components/transac/creditos/provs/supplir-accounts-payable-list/supplir-accounts-payable-list.component';
+import {
+    AccountsPayableListComponent
+} from './components/transac/creditos/provs/accounts-payable-list/accounts-payable-list.component';
+import {
+    SupplierPurchaseEntryComponent
+} from './components/transac/compras/supplier-purchase-entry/supplier-purchase-entry.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -280,7 +284,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         EstadisticasmedComponent,
         WeekViewComponent,
         AccountsPayableListComponent,
-        SupplirAccountsPayableListComponent
+        SupplierPurchaseEntryComponent
     ],
     imports: [
         CommonModule,
@@ -352,7 +356,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         {provide: LOCALE_ID, useValue: 'es'}
     ],
     exports: [
-        LoadingComponent
+        LoadingComponent,
+        FacturasformComponent
     ],
     bootstrap: [AppComponent]
 })

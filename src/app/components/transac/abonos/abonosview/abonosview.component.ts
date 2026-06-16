@@ -208,7 +208,7 @@ export class AbonosviewComponent implements OnInit, OnChanges {
         this.evShowDetalles.emit(true);
     }
 
-    anularAbono(abono) {
+    anularAbono(abono:any) {
         const msg = '¿Confirma que desea anular este abono?';
         if (confirm(msg)) {
             this.abonoService.anularAbono(abono.abo_codigo, '').subscribe(res => {

@@ -1,190 +1,194 @@
 <div class="margengridcontent animacion-entrada">
-  <div class="d-flex justify-content-between align-items-center">
-    <div>
-      <h2 class="bd-title mb-0">
-        <i class="pi pi-wallet me-2"></i>Gestión de Cuentas por pagar
-      </h2>
-      <p class="text-muted small">
-        Gestión y seguimiento de obligaciones financieras con proveedores
-      </p>
-    </div>
-  </div>
-
-  <p-tabView [(activeIndex)]="activeTabIndex">
-    <p-tabPanel header="Ventas pendientes por gestionar">
-      <div>
-        <div class="bg-white p-4 rounded-4 shadow-sm border mb-4">
-          <div class="row align-items-end g-3">
-            <div class="col-lg-5">
-              <app-rangofechas
-                [form]="form"
-                (evFilterSel)="loadData()"
-              ></app-rangofechas>
-            </div>
-            <div class="col-lg-5">
-              <label class="small text-muted mb-1 d-block">Proveedor</label>
-              <div class="p-fluid">
-                <p-dropdown
-                  [options]="proveedores"
-                  [(ngModel)]="selectedProveedor"
-                  optionLabel="per_nombres"
-                  [filter]="true"
-                  filterBy="per_nombres"
-                  [showClear]="true"
-                  placeholder="Todos los proveedores"
-                  styleClass="p-inputtext-sm"
-                  (onChange)="loadData()"
-                >
-                </p-dropdown>
-              </div>
-            </div>
-            <div class="col-lg-2 d-flex justify-content-end gap-2">
-              <button
-                pButton
-                pRipple
-                type="button"
-                icon="pi pi-filter-slash"
-                class="p-button-outlined p-button-secondary p-button-sm"
-                (click)="clearFilter()"
-                pTooltip="Limpiar Filtros"
-              ></button>
-              <button
-                pButton
-                pRipple
-                type="button"
-                icon="pi pi-refresh"
-                class="p-button-outlined p-button-info p-button-sm"
-                (click)="loadData()"
-                pTooltip="Refrescar Datos"
-              ></button>
-
-              <button
-                pButton
-                pRipple
-                type="button"
-                icon="pi pi-plus"
-                class="p-button-outlined p-button-info p-button-sm"
-                [disabled]="!selectedRows || selectedRows.size === 0"
-                (click)="gotoCreate()"
-                pTooltip="Crear cuentas por pagar"
-              ></button>
-            </div>
-          </div>
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="bd-title mb-0">
+                <i class="pi pi-wallet me-2"></i>Gestión de cuentas por pagar mediante ventas realizadas
+            </h2>
+            <p class="text-muted small">
+                Gestión y seguimiento de obligaciones financieras con proveedores
+            </p>
         </div>
+    </div>
+    <div>
+        <div class="bg-white p-4 rounded-4 shadow-sm border mb-4">
+            <div class="row align-items-end g-3">
+                <div class="col-lg-5">
+                    <app-rangofechas
+                            [form]="form"
+                            (evFilterSel)="loadData()"
+                    ></app-rangofechas>
+                </div>
+                <div class="col-lg-5">
+                    <label class="small text-muted mb-1 d-block">Proveedor</label>
+                    <div class="p-fluid">
+                        <p-dropdown
+                                [options]="proveedores"
+                                [(ngModel)]="selectedProveedor"
+                                optionLabel="per_nombres"
+                                [filter]="true"
+                                filterBy="per_nombres"
+                                [showClear]="true"
+                                placeholder="Todos los proveedores"
+                                styleClass="p-inputtext-sm"
+                                (onChange)="loadData()"
+                        >
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-lg-2 d-flex justify-content-end gap-2">
+                    <button
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-filter-slash"
+                            class="p-button-outlined p-button-secondary p-button-sm"
+                            (click)="clearFilter()"
+                            pTooltip="Limpiar Filtros"
+                    ></button>
+                    <button
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-refresh"
+                            class="p-button-outlined p-button-info p-button-sm"
+                            (click)="loadData()"
+                            pTooltip="Refrescar Datos"
+                    ></button>
 
-        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-          <p-table
-            #gridTable
-            [value]="gridData.data"
-            [columns]="gridData.cols"
-            responsiveLayout="scroll"
-            scrollHeight="calc(100vh - 260px)"
-            tableStyleClass="table table-hover table-striped table-bordered fusay-table"
-            [paginator]="true"
-            [rows]="rows"
-            [totalRecords]="totalRecords"
-            [lazy]="true"
-            (onLazyLoad)="doLazyLoad($event)"
-            paginatorPosition="top"
-            [loading]="isLoading">
+                    <button
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-plus"
+                            class="p-button-outlined p-button-info p-button-sm"
+                            [disabled]="!selectedRows || selectedRows.size === 0"
+                            (click)="gotoCreate()"
+                            pTooltip="Realizar abonos a proveedores seleccionados"
+                    ></button>
+                </div>
+            </div>
+        </div>
+        <!---Inicio--->
+        <p-table #gridTable
+                 [value]="gridData.data"
+                 [scrollable]="true"
+                 responsiveLayout="scroll"
+                 scrollHeight="calc(100vh - 320px)"
+                 tableStyleClass="table table-hover table-striped table-bordered fusay-table"
+                 dataKey="codprov"
+                 rowGroupMode="subheader"
+                 groupRowsBy="prov"
+                 sortField="prov"
+                 [paginator]="true"
+                 [rows]="rows"
+                 [totalRecords]="totalRecords"
+                 [lazy]="false"
+                 paginatorPosition="top"
+                 [sortOrder]="1">
+            <ng-template pTemplate="header" #header>
+                <tr>
+                    <th class="py-3 px-4 text-center" style="width: 50px">
+                        <input
+                                type="checkbox"
+                                [checked]="isAllSelected()"
+                                (change)="toggleSelectAll()"
+                                [disabled]="!hasSelectableRows()"
+                                class="form-check-input"
+                                pTooltip="Seleccionar/Deseleccionar todos"
+                        />
+                    </th>
+                    <th>Cod Barra</th>
+                    <th>Artículo</th>
+                    <th>Stock Actual</th>
+                    <th>Num Ventas</th>
+                    <th>Tot Ventas (PC) <br/>Abono</th>
+                    <th>Deuda a cancelar</th>
+                </tr>
+            </ng-template>
+
             <ng-template pTemplate="paginatorleft">
-              Total de registros: {{ totalRecords }}
+                Total de registros: {{ totalRecords }}
             </ng-template>
             <ng-template pTemplate="paginatorright">
-              <app-export-btn *ngIf="gridData.data && gridData.data.length>0"
-                [totalRecord]="totalRecords"
-                [isDownloading]="isDownloading"
-                [type]="1"
-                (onClic)="exportToPdf()"
-              ></app-export-btn>
-              <app-export-btn *ngIf="gridData.data && gridData.data.length>0"
-                [totalRecord]="totalRecords"
-                [isDownloading]="isDownloading"
-                [type]="2"
-                (onClic)="exportToExcel()"
-              ></app-export-btn>
-
               <span>
                 Página
-                {{ totalRecords > 0 ? Math.floor(page / rows) + 1 : 0 }} de
-                {{ Math.ceil(totalRecords / rows) }}
+                  {{ totalRecords > 0 ? Math.floor(page / rows) + 1 : 0 }} de
+                  {{ Math.ceil(totalRecords / rows) }}
               </span>
             </ng-template>
 
-            <ng-template pTemplate="header" let-columns>
-              <tr class="bg-light">
-                <th class="py-3 px-4 text-center" style="width: 50px">
-                  <input
-                    type="checkbox"
-                    [checked]="isAllSelected()"
-                    (change)="toggleSelectAll()"
-                    class="form-check-input"
-                    pTooltip="Seleccionar/Deseleccionar todos"
-                  />
-                </th>
-                <th
-                  *ngFor="let col of columns"
-                  [pSortableColumn]="col.field"
-                  class="py-3 px-4"
-                >
-                  {{ col.label }}
-                  <p-sortIcon [field]="col.field"></p-sortIcon>
-                </th>
-                <!--<th class="py-3 px-4 text-center">Acciones</th>-->
-              </tr>
+            <ng-template pTemplate="groupheader" let-item>
+                <tr pRowGroupHeader>
+                    <td colspan="7">
+                        <div class="d-flex flex-column justify-content-between">
+          <span>
+              Proveedor: {{ item.prov }}
+          </span>
+                            <span class="fw-bold">Saldo Pendiente: {{ item.saldopendtotal }}</span>
+                        </div>
+                    </td>
+                </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns">
-              <tr
-                class="hand"
-                (dblclick)="onRowDblClick(rowData)"
-                [style.background-color]="
-                  isRowSelected(rowData) ? '#e8f4f8' : ''
-                "
-              >
-                <td class="py-3 px-4 text-center" style="width: 50px">
-                  <input
-                    type="checkbox"
-                    [checked]="isRowSelected(rowData)"
-                    (change)="toggleRowSelection(rowData)"
-                    class="form-check-input"
-                  />
-                </td>
-                <td *ngFor="let col of columns" class="py-3 px-4">
-                  <span class="p-column-title fw-bold">{{ col.header }}</span>
-                  <ng-container [ngSwitch]="col.field">
-                    <span *ngSwitchCase="'total_precioventa'" class="fw-bold">{{
-                      rowData[col.field] | currency
-                    }}</span>
-                    <span
-                      *ngSwitchCase="'total_preciocompra'"
-                      class="fw-bold"
-                      >{{ rowData[col.field] | currency }}</span>
-                    <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
-                  </ng-container>
-                </td>
-              </tr>
+            <ng-template pTemplate="groupfooter" let-item>
+                <tr>
+                    <td colspan="7">
+                        <div class="d-flex flex-row-reverse">
+                            <span class="font-bold">Total Ventas (PC): {{ getTotalTotVentasPcByProv(item.prov) }}</span>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+                <tr>
+                    <td class="py-3 px-4 text-center" style="width: 50px">
+                        <input
+                                type="checkbox"
+                                [checked]="isRowSelected(item)"
+                                (change)="toggleRowSelection(item)"
+                                [disabled]="!canSelectRow(item)"
+                                class="form-check-input"
+                        />
+                    </td>
+                    <td>
+                        <span>{{ item.codbarra }}</span>
+                    </td>
+                    <td>
+                        <span>{{ item.articulo }}</span>
+                    </td>
+                    <td>
+                        <span>{{ item.stock }}</span>
+                    </td>
+                    <td>
+                        <span>{{ item.nventas }}</span>
+                    </td>
+                    <td>
+                        <span>{{ item.totventaspc }}</span>
+                    </td>
+                    <td>
+                        <p-dropdown
+                                [options]="item.creditos_combo"
+                                [(ngModel)]="item.credito_sel"
+                                optionLabel="label"
+                                optionValue="value"
+                                placeholder="Elija deuda a cancelar con esta venta"
+                                styleClass="p-inputtext-sm">
+                        </p-dropdown>
+                    </td>
+                </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">
-              <tr>
-                <td
-                  [attr.colspan]="gridData.cols.length + 2"
-                  class="text-center py-5"
-                >
-                  <div class="p-3 opacity-50">
-                    <i class="pi pi-folder-open fs-1 mb-2"></i>
-                    <p>No se encontraron ventas pendientes por gestionar.</p>
-                  </div>
-                </td>
-              </tr>
+                <tr>
+                    <td
+                            [attr.colspan]="7"
+                            class="text-center py-5">
+                        <div class="p-3 opacity-50">
+                            <i class="pi pi-folder-open fs-1 mb-2"></i>
+                            <p>No se encontraron ventas pendientes por gestionar.</p>
+                        </div>
+                    </td>
+                </tr>
             </ng-template>
-          </p-table>
-        </div>
-      </div>
-    </p-tabPanel>
-    <p-tabPanel header="Cuentas por pagar">
-      <div>
-        <app-supplir-accounts-payable-list></app-supplir-accounts-payable-list>        
-      </div>
-    </p-tabPanel>
-  </p-tabView>
+        </p-table>
+        <!---Fin--->
+    </div>
 </div>
