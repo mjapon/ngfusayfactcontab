@@ -1,0 +1,100 @@
+<div class="row align-items-end">
+    <div class="col-md-12">
+        <h1 class="bd-title">
+            <i class="fa fa-building"></i>
+            Gestión de empresas de facturación electrónica MAVIL
+        </h1>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-6">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Buscar por nombre comercial..." [(ngModel)]="filtroNombre" (keyup.enter)="filtrar()">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" (click)="filtrar()">
+                    <i class="fa fa-search"></i> Buscar
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 text-right d-flex justify-content-end">
+        <button class="btn btn-outline-primary" (click)="refrescar()">
+            <i class="fa fa-sync"></i> Refrescar
+        </button>
+    </div>
+</div>
+
+<div class="mt-3">
+    <p-table [value]="empresasFiltradas" [paginator]="true" [rows]="10"
+             tableStyleClass="table table-hover table-striped table-bordered fusay-table"
+             [autoLayout]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let col of cols">
+                    {{ col.header }}
+                </th>
+                <th>Acción</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData>
+            <tr>
+                <td>{{ rowData.emp_nombrecomercial }}</td>
+                <td>
+                    <span *ngIf="rowData.alm_tipoamb == 1" class="badge text-bg-warning">Pruebas</span>
+                    <span *ngIf="rowData.alm_tipoamb == 2" class="badge text-bg-primary">Producción</span>
+                </td>
+                <td>
+                    <span [ngClass]="{'text-danger fw-bold': rowData.estado_firma === 'Caducado', 'text-warning fw-bold': rowData.estado_firma === 'Próximo a caducar', 'text-success': rowData.estado_firma === 'Vigente'}">
+                        {{ rowData.estado_firma }}
+                    </span>
+                    <br>
+                    <small class="text-muted" *ngIf="rowData.ndias_caducidad !== undefined && rowData.ndias_caducidad !== null">
+                        {{rowData.estado_firma === 'Caducado'? 'Caducó el ' + rowData.expiry_date + ' ( Hace ' + math.abs(rowData.ndias_caducidad) + ' días)' : 'Caduca el ' + rowData.expiry_date + ' (' + rowData.ndias_caducidad + ' días restantes)'}}
+                    </small>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-outline-danger" (click)="abrirModalActualizar(rowData)">
+                        <i class="fa fa-upload"></i> Actualizar Firma
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No se encontraron registros.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog header="Actualizar Firma Digital" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <div class="container-fluid" *ngIf="empresaSeleccionada">
+        <p class="mb-3">
+            <strong>Empresa:</strong> {{ empresaSeleccionada.emp_nombrecomercial }}
+        </p>
+
+        <div class="mb-3">
+            <label class="form-label">Archivo de firma digital (.p12) <span class="text-danger">*</span></label>
+            <input #fileInput type="file" class="form-control" accept=".p12" (change)="onFileChange($event)">
+            <small class="form-text text-muted">Tamaño máximo permitido: 1MB.</small>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Clave de firma digital <span class="text-danger">*</span></label>
+            <input type="password" class="form-control" [(ngModel)]="claveFirma" maxlength="50" placeholder="Ingrese la clave">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Confirmar clave <span class="text-danger">*</span></label>
+            <input type="password" class="form-control" [(ngModel)]="confirmacionClave" maxlength="50" placeholder="Confirme la clave">
+            <div *ngIf="confirmacionClave && claveFirma !== confirmacionClave" class="text-danger mt-1">
+                <small>Las claves no coinciden.</small>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="btn btn-outline-secondary" (click)="cancelar()">Cancelar</button>
+        <button class="btn btn-primary ms-2" [disabled]="!isFormValido" (click)="guardarFirma()">Aceptar</button>
+    </ng-template>
+</p-dialog>

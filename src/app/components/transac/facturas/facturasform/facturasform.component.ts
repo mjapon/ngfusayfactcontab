@@ -17,6 +17,22 @@ import {CtesService} from '../../../../services/ctes.service';
 import {BaseComponent} from '../../../shared/base.component';
 import {CompeleService} from 'src/app/services/compele.service';
 
+export enum StockValidationMode {
+    NoValidation = 0,
+    Warning = 1,
+    Block = 2
+}
+
+export enum DocumentType {
+    Sale = 1,
+    Purchase = 2
+}
+
+export enum ItemType {
+    Product = 1,
+    Service = 2
+}
+
 @Component({
     selector: 'app-facturasform',
     templateUrl: './facturasform.component.html',
@@ -200,21 +216,32 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
         return formDetalles;
     }
 
-    checkInventarios(fila): boolean {
-        /*
-        let continuar = true;
-        if (this.ttransacc.tra_tipdoc === 1) {
-            if (fila.tipic_id === 1) {
-                if (fila.dt_cant > fila.ice_stock) {
-                    continuar = false;
-                    this.swalService.fireToastWarn(`No hay unidades disponibles para ${fila.ic_nombre}, el total
-                    disponible actual es de: ${fila.ice_stock}`);
-                }
-            }
+    checkInventarios(fila: any): boolean {
+        const tipoValidaStock = this.ttransacc.tra_dupite || StockValidationMode.NoValidation;
+
+        if (tipoValidaStock === StockValidationMode.NoValidation) {
+            return true;
         }
-        return continuar;
-        */
-        return true;
+        if (this.ttransacc.tra_tipdoc !== DocumentType.Sale) {
+            return true;
+        }
+        if (fila.tipic_id !== ItemType.Product) {
+            return true;
+        }
+        if (fila.dt_cant <= fila.ice_stock) {
+            return true;
+        }
+
+        const message = `No hay unidades disponibles para ${fila.ic_nombre}, el total disponible actual es de: ${fila.ice_stock}`;
+        const isWarningOnly = tipoValidaStock === StockValidationMode.Warning;
+
+        if (isWarningOnly) {
+            this.swalService.fireToastWarn(message);
+            return true;
+        } else {
+            this.swalService.fireToastError(message);
+            return false;
+        }
     }
 
     recalcTotalFila(fila) {
@@ -281,8 +308,9 @@ export class FacturasformComponent extends BaseComponent implements OnInit, OnDe
             this.recalcTotalFila(prevserv);
         } else {
             const newrow = this.getNewEmptyRow($event);
-            this.checkInventarios(newrow);
-            this.form.detalles.unshift(newrow);
+            if (this.checkInventarios(newrow)) {
+                this.form.detalles.unshift(newrow);
+            }
         }
         this.totalizar();
         this.artFiltrado = null;

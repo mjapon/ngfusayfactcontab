@@ -51,11 +51,11 @@ import {PcontableCierreComponent} from './components/contabilidad/periodocontabl
 import {PcontableNewComponent} from './components/contabilidad/periodocontable/apertura/pcontablenew.component';
 import {ParametrosComponent} from './modules/sharedmed/parametros/parametros.component';
 import {authGuard} from './guards/auth.guard';
-import {AccountsPayableListComponent} from './components/transac/creditos/provs/accounts-payable-list/accounts-payable-list.component';
-import { AuxcuentasxcpComponent } from './components/transac/facturas/cuentasxcp/auxcuentasxcp.component';
 import {
-    SupplierPurchaseEntryComponent
-} from './components/transac/compras/supplier-purchase-entry/supplier-purchase-entry.component';
+    AccountsPayableListComponent
+} from './components/transac/creditos/provs/accounts-payable-list/accounts-payable-list.component';
+import {AuxcuentasxcpComponent} from './components/transac/facturas/cuentasxcp/auxcuentasxcp.component';
+import {EmpresasfacturacionComponent} from './components/facte/empresasfacturacion/empresasfacturacion.component';
 
 const finamod: CtesFinanService = new CtesFinanService();
 
@@ -171,35 +171,47 @@ const routes: Routes = [
         data: {perml: ['REP_ADM']}
     },
     {path: 'cierrecaja', component: CierrecajaComponent},
-    {path: finamod.rutaHome, component: FinanCredListComponent,
+    {
+        path: finamod.rutaHome, component: FinanCredListComponent,
         canActivate: [authGuard],
         data: {perml: ['FIN_CRED_LIST']}
     },
-    {path: finamod.rutaCreaCred, component: FinanCredFormComponent,
+    {
+        path: finamod.rutaCreaCred, component: FinanCredFormComponent,
         canActivate: [authGuard],
         data: {perml: ['FIN_CRED_LIST']}
     },
-    {path: finamod.rutaDetCred, component: FinanCredDetComponent,
+    {
+        path: finamod.rutaDetCred, component: FinanCredDetComponent,
         canActivate: [authGuard],
         data: {perml: ['FIN_CRED_LIST']}
     },
-    {path: finamod.rutaAperturaCta, component: FinanCuentasComponent,
+    {
+        path: finamod.rutaAperturaCta, component: FinanCuentasComponent,
         canActivate: [authGuard],
         data: {perml: ['FIN_CRED_LIST']}
     },
-    {path: finamod.rutaMovsCta, component: FinanMovsFormComponent,
+    {
+        path: finamod.rutaMovsCta, component: FinanMovsFormComponent,
         canActivate: [authGuard],
         data: {perml: ['FIN_CRED_LIST']}
     },
-    {path: 'parametros', component: ParametrosComponent,
+    {
+        path: 'parametros', component: ParametrosComponent,
         canActivate: [authGuard],
         data: {perml: ['APP_CONFIG']}
     },
-    {path: 'cuentas-por-pagar', component: AccountsPayableListComponent,
+    {
+        path: 'cuentas-por-pagar', component: AccountsPayableListComponent,
         canActivate: [authGuard],
         data: {perml: ['PAGO_PROVS']}
     },
-    /*{path: 'ingreso-compras', component: SupplierPurchaseEntryComponent},*/
+    {
+        path: 'empresasfacturacion',
+        component: EmpresasfacturacionComponent,
+        canActivate: [authGuard],
+        data: {perml: ['FACTELEMAVIL']}
+    },
     {path: '**', component: HomeComponent}];
 
 @NgModule({

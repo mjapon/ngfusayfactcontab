@@ -169,6 +169,7 @@ import {
 import {
     SupplierPurchaseEntryComponent
 } from './components/transac/compras/supplier-purchase-entry/supplier-purchase-entry.component';
+import { EmpresasfacturacionComponent } from './components/facte/empresasfacturacion/empresasfacturacion.component';
 
 
 registerLocaleData(localeEs, 'es-EC');
@@ -284,7 +285,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         EstadisticasmedComponent,
         WeekViewComponent,
         AccountsPayableListComponent,
-        SupplierPurchaseEntryComponent
+        SupplierPurchaseEntryComponent,
+        EmpresasfacturacionComponent
     ],
     imports: [
         CommonModule,

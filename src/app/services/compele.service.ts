@@ -39,4 +39,16 @@ export class CompeleService extends BaseService {
         }, 20000);
     }
 
+    getEmpsInfo() {
+        return this._doPostAction('empsinfo', {});
+    }
+
+    updateDigitalSign(emp_codigo: number, p12_file_base64: string, pass_digital_sign: string) {
+        return this._doPostAction('update_digital_sign', {
+            emp_codigo,
+            p12_file_base64,
+            pass_digital_sign
+        });
+    }
+
 }
